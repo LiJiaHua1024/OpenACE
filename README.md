@@ -57,6 +57,10 @@ openace-tool export <project-id> svp out.svp
 OPENACE_CI_SYNTH_FIXTURE=1 openace-tool render-vocal <project-id> <track-id>
 ```
 
+## Arrangement editing
+
+The arrangement canvas draws real decoded waveform peaks for audio clips rather than placeholder stripes. Audio clips drag independently, contiguous vocal-note groups drag as musical phrases, and both movement paths persist through the same clip-aware playback/export pipeline.
+
 ## Piano-roll editing
 
 The canvas piano roll supports brush/select/erase tools, marquee multi-select, multi-note move/resize with interval-preserving pitch deltas, copy/paste/duplicate, quantize, a right-click edit menu, and a bottom velocity lane whose values round-trip through MIDI/VPR export.

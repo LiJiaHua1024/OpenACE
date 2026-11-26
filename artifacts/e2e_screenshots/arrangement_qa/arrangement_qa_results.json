@@ -1,0 +1,212 @@
+{
+  "waveform_real_varying_peaks": {
+    "ok": true,
+    "details": {
+      "stats": {
+        "columns": 490,
+        "span_min": 2,
+        "span_max": 8,
+        "unique_spans": [
+          2,
+          4,
+          6,
+          7,
+          8
+        ],
+        "bucket_averages": [
+          4.9,
+          2.0,
+          2.0,
+          2.0,
+          3.6,
+          8.0,
+          6.45,
+          6.8,
+          8.0,
+          4.95,
+          2.0,
+          2.0,
+          2.0
+        ],
+        "bucket_range": 6.0
+      },
+      "screenshot": "01_true_waveform.png",
+      "crop": "evidence_true_waveform_crop.png"
+    },
+    "time": 1795694087.2934532
+  },
+  "audio_clip_drag_later_persists": {
+    "ok": true,
+    "details": {
+      "start_after_later_drag": 960,
+      "expected": 960,
+      "screenshot": "02_clip_moved_later.png"
+    },
+    "time": 1795694101.7003474
+  },
+  "playback_clip_positioning_semantics": {
+    "ok": false,
+    "details": {
+      "future_clip_start": {
+        "when": 0,
+        "offset": 0,
+        "duration": null,
+        "bufferDuration": 2.4999773242630385
+      },
+      "inside_clip_start": {
+        "when": 0,
+        "offset": 0.5,
+        "duration": null,
+        "bufferDuration": 2.4999773242630385
+      },
+      "future_delay_expected": "when≈1s, offset=0",
+      "inside_expected": "when≈0, offset≈0.5s",
+      "future_ok": false,
+      "inside_ok": true,
+      "screenshot": "03_playback_start_instrumentation.png"
+    },
+    "time": 1795694106.2954764
+  },
+  "master_export_clip_start_offset": {
+    "ok": true,
+    "details": {
+      "first_0_95s_max": 0.0,
+      "after_1_05s_max": 0.6286649703979492,
+      "duration": 3.5,
+      "export": "clip_offset_master.wav"
+    },
+    "time": 1795694108.2553685
+  },
+  "audio_clip_drag_earlier_restores": {
+    "ok": true,
+    "details": {
+      "start_after_earlier_drag": 0,
+      "expected": 0,
+      "screenshot": "04_clip_restored_earlier.png"
+    },
+    "time": 1795694109.4542642
+  },
+  "vocal_phrase_drag_moves_only_group": {
+    "ok": true,
+    "details": {
+      "group_deltas": [
+        480,
+        480,
+        480
+      ],
+      "far_note_delta": 0,
+      "initial": [
+        [
+          120,
+          60
+        ],
+        [
+          720,
+          64
+        ],
+        [
+          1920,
+          68
+        ],
+        [
+          9600,
+          72
+        ]
+      ],
+      "after": [
+        [
+          600,
+          60
+        ],
+        [
+          1200,
+          64
+        ],
+        [
+          2400,
+          68
+        ],
+        [
+          9600,
+          72
+        ]
+      ],
+      "screenshot": "05_vocal_phrase_moved_later.png"
+    },
+    "time": 1795694130.8093581
+  },
+  "vocal_phrase_inverse_drag_restores": {
+    "ok": true,
+    "details": {
+      "restored": true,
+      "initial": [
+        [
+          120,
+          60
+        ],
+        [
+          720,
+          64
+        ],
+        [
+          1920,
+          68
+        ],
+        [
+          9600,
+          72
+        ]
+      ],
+      "final": [
+        [
+          120,
+          60
+        ],
+        [
+          720,
+          64
+        ],
+        [
+          1920,
+          68
+        ],
+        [
+          9600,
+          72
+        ]
+      ],
+      "screenshot": "06_vocal_phrase_restored.png"
+    },
+    "time": 1795694131.9584703
+  },
+  "alt_drag_repaint_still_works": {
+    "ok": true,
+    "details": {
+      "start_end": [
+        0.38,
+        1.32
+      ],
+      "yellow_held": {
+        "pixels": 1063,
+        "ratio": 0.01127875392581275
+      },
+      "yellow_release": {
+        "pixels": 1063,
+        "ratio": 0.01127875392581275
+      },
+      "screenshots": [
+        "07_alt_drag_repaint_held.png",
+        "08_alt_drag_repaint_release.png"
+      ]
+    },
+    "time": 1795694159.028786
+  },
+  "no_browser_console_errors": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795694159.0293293
+  }
+}

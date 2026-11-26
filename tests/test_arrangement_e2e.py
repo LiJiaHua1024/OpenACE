@@ -1,0 +1,129 @@
+import os
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+import httpx
+import numpy as np
+import pytest
+import soundfile as sf
+
+from openace.core.models import AudioClip, Project, Track, TrackType
+from openace.core.project_store import ProjectStore
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+def wait_health(base: str):
+    deadline = time.time() + 10
+    while time.time() < deadline:
+        try:
+            if httpx.get(f"{base}/api/health", timeout=0.5).status_code == 200:
+                return
+        except Exception:
+            time.sleep(0.1)
+    raise RuntimeError("server did not start")
+
+
+@pytest.mark.skipif(not (ROOT / "frontend/dist/index.html").exists(), reason="frontend production build required")
+def test_arrangement_decodes_waveform_and_drags_audio_clip_independently(tmp_path):
+    playwright = pytest.importorskip("playwright.sync_api")
+    chrome = Path(os.environ.get("OPENACE_CHROME", "/home/ubuntu/.local/bin/google-chrome"))
+    if not chrome.exists():
+        pytest.skip("system Chrome not available")
+
+    data = tmp_path / "data"
+    render_dir = data / "renders" / "fixture_project"
+    render_dir.mkdir(parents=True)
+    sr = 48000
+    t = np.arange(sr * 2) / sr
+    # Test-only fixture audio: deliberately asymmetric so decoded peaks differ across time.
+    audio = np.column_stack([
+        np.sin(2 * np.pi * 220 * t) * np.linspace(0.05, 0.9, len(t)),
+        np.sin(2 * np.pi * 220 * t) * np.linspace(0.05, 0.9, len(t)),
+    ]).astype(np.float32)
+    wav = render_dir / "clip.wav"
+    sf.write(wav, audio, sr)
+
+    project = Project(title="Arrangement E2E")
+    project.add_track(Track(name="Lead Vocal"))
+    bgm = project.add_track(Track(name="BGM", type=TrackType.ACCOMPANIMENT, color="#2fb996"))
+    bgm.clips.append(AudioClip(path=str(wav), start_ticks=0, duration_ticks=1920, label="fixture"))
+    store = ProjectStore(data / "projects")
+    store.save(project)
+
+    env = os.environ.copy()
+    env["OPENACE_DATA_DIR"] = str(data)
+    env["OPENACE_PORT"] = "8798"
+    server = subprocess.Popen(
+        [sys.executable, "-m", "openace.server.app"], cwd=ROOT, env=env,
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+    base = "http://127.0.0.1:8798"
+    try:
+        wait_health(base)
+        with playwright.sync_playwright() as p:
+            browser = p.chromium.launch(headless=True, executable_path=str(chrome), args=["--no-sandbox"])
+            page = browser.new_page(viewport={"width": 1400, "height": 900})
+            errors = []
+            page.on("console", lambda message: errors.append(message.text) if message.type == "error" else None)
+            page.goto(base, wait_until="networkidle")
+            page.wait_for_timeout(1400)
+            box = page.locator(".arrangement-view canvas").bounding_box()
+            assert box
+            waveform_pixels = page.evaluate(
+                """() => {
+                  const canvas = document.querySelector('.arrangement-view canvas')
+                  const ctx = canvas.getContext('2d')
+                  const data = ctx.getImageData(75, 68, 420, 15).data
+                  let count = 0
+                  for (let i = 0; i < data.length; i += 4) {
+                    if (data[i] < 160 && data[i + 1] > 145 && data[i + 2] > 105) count++
+                  }
+                  return count
+                }"""
+            )
+            assert waveform_pixels > 80  # decoded waveform strokes inside the clip interior
+
+            # BGM is the second row; dragging 100px at 112px/beat snaps to +480 ticks.
+            page.mouse.move(box["x"] + 220, box["y"] + 75)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 320, box["y"] + 75, steps=5)
+            page.mouse.up()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert saved["tracks"][1]["clips"][0]["start_ticks"] == 480
+
+            page.evaluate(
+                """() => {
+                  window.__openaceStarts = []
+                  const original = AudioBufferSourceNode.prototype.start
+                  AudioBufferSourceNode.prototype.start = function(when = 0, offset = 0, duration) {
+                    window.__openaceStarts.push({ when, offset, now: this.context.currentTime })
+                    return original.call(this, when, offset, duration)
+                  }
+                }"""
+            )
+            page.locator('.play-button').click()
+            page.wait_for_timeout(350)
+            page.locator('.play-button').click()
+            starts = page.evaluate("() => window.__openaceStarts")
+            assert starts and abs((starts[0]["when"] - starts[0]["now"]) - 0.5) < 0.2
+            assert starts[0]["offset"] == 0
+
+            page.mouse.move(box["x"] + 320, box["y"] + 75)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 220, box["y"] + 75, steps=5)
+            page.mouse.up()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert saved["tracks"][1]["clips"][0]["start_ticks"] == 0
+            assert errors == []
+            browser.close()
+    finally:
+        server.terminate()
+        try:
+            server.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            server.kill()

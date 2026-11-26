@@ -1,0 +1,41 @@
+{
+  "waveform_stats": {
+    "columns": 490,
+    "span_min": 2,
+    "span_max": 8,
+    "unique_spans": [
+      2,
+      4,
+      6,
+      7,
+      8
+    ],
+    "bucket_range": 6.0
+  },
+  "waveform_ok": true,
+  "clip_start_after_later": 480,
+  "clip_drag_later_ok": true,
+  "future": {
+    "when": 0.511609977324263,
+    "offset": 0,
+    "duration": null,
+    "now": 0.011609977324263039,
+    "bufferDuration": 2.4999773242630385
+  },
+  "future_delay": 0.5,
+  "future_ok": true,
+  "inside": {
+    "when": 0.034829931972789115,
+    "offset": 0.5,
+    "duration": null,
+    "now": 0.034829931972789115,
+    "bufferDuration": 2.4999773242630385
+  },
+  "inside_delay": 0.0,
+  "inside_ok": true,
+  "clip_start_restored": 0,
+  "clip_drag_earlier_ok": true,
+  "console_errors": [],
+  "network_failures": [],
+  "passed": true
+}

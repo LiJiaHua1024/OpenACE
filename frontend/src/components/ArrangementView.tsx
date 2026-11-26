@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { renderFileUrl } from '../api'
 import type { Project, TimelineState, Track } from '../types'
 
 const LABEL_WIDTH = 64
@@ -21,9 +22,12 @@ interface Props {
 }
 
 interface DragState {
+  kind: 'clip' | 'notes'
   trackId: string
   startX: number
-  originalOffset: number
+  clipId?: string
+  originalStart: number
+  noteOriginals?: Record<string, number>
 }
 
 export default function ArrangementView(props: Props) {
@@ -32,10 +36,52 @@ export default function ArrangementView(props: Props) {
   const pxPerBeat = props.timeline.pxPerBeat
   const dragRef = useRef<DragState | null>(null)
   const repaintDragRef = useRef<{ anchorTicks: number; currentTicks: number } | null>(null)
+  const [waveforms, setWaveforms] = useState<Record<string, Float32Array>>({})
+  const waveformCache = useRef(new Map<string, Promise<Float32Array>>())
+  const audioContextRef = useRef<AudioContext | null>(null)
   const ppq = props.project.ppq
 
   const xForTick = (ticks: number) => LABEL_WIDTH + ((ticks - scrollTicks) / ppq) * pxPerBeat
   const tickForX = (x: number) => Math.max(0, Math.round(scrollTicks + ((x - LABEL_WIDTH) / pxPerBeat) * ppq))
+
+  useEffect(() => {
+    let cancelled = false
+    const paths = Array.from(new Set(props.project.tracks.flatMap(track => track.clips.map(clip => clip.path))))
+    for (const path of paths) {
+      if (!path || waveforms[path]) continue
+      if (!waveformCache.current.has(path)) {
+        waveformCache.current.set(path, (async () => {
+          const url = renderFileUrl(path)
+          if (!url) throw new Error('no render URL')
+          const response = await fetch(url)
+          if (!response.ok) throw new Error(`waveform fetch failed: ${response.status}`)
+          audioContextRef.current ||= new AudioContext()
+          const buffer = await audioContextRef.current.decodeAudioData(await response.arrayBuffer())
+          const bins = 1024
+          const peaks = new Float32Array(bins)
+          for (let channel = 0; channel < buffer.numberOfChannels; channel++) {
+            const data = buffer.getChannelData(channel)
+            for (let bin = 0; bin < bins; bin++) {
+              const start = Math.floor((bin / bins) * data.length)
+              const end = Math.max(start + 1, Math.floor(((bin + 1) / bins) * data.length))
+              let peak = 0
+              for (let i = start; i < end; i += Math.max(1, Math.floor((end - start) / 24))) {
+                peak = Math.max(peak, Math.abs(data[i]))
+              }
+              peaks[bin] = Math.max(peaks[bin], peak)
+            }
+          }
+          return peaks
+        })())
+      }
+      waveformCache.current.get(path)!
+        .then(peaks => {
+          if (!cancelled) setWaveforms(current => current[path] ? current : { ...current, [path]: peaks })
+        })
+        .catch(() => {})
+    }
+    return () => { cancelled = true }
+  }, [props.project, waveforms])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -106,11 +152,20 @@ export default function ArrangementView(props: Props) {
           ctx.beginPath(); ctx.roundRect(x, y + 6, w, ROW_HEIGHT - 12, 4); ctx.fill()
           ctx.strokeStyle = '#55e7c5'; ctx.stroke()
           ctx.fillStyle = '#eafff8'; ctx.font = '9px Inter'; if (w > 40) ctx.fillText(clip.label || 'audio', x + 5, y + 21)
-          // Minimal waveform-like occupancy stripes computed from clip identity, not audio pretense.
-          ctx.strokeStyle = '#ffffff26'
-          for (let wx = x + 5; wx < x + w - 5; wx += 7) {
-            const amp = 3 + ((wx * 17) % 9)
-            ctx.beginPath(); ctx.moveTo(wx, y + ROW_HEIGHT / 2 - amp); ctx.lineTo(wx, y + ROW_HEIGHT / 2 + amp); ctx.stroke()
+          const peaks = waveforms[clip.path]
+          if (peaks) {
+            ctx.strokeStyle = '#eafff866'
+            ctx.lineWidth = 1
+            const center = y + ROW_HEIGHT / 2 + 2
+            const usable = Math.max(1, w - 10)
+            for (let px = 0; px < usable; px++) {
+              const index = Math.min(peaks.length - 1, Math.floor((px / usable) * peaks.length))
+              const amp = Math.max(0.8, peaks[index] * (ROW_HEIGHT - 15) * 0.48)
+              const wx = x + 5 + px
+              ctx.beginPath(); ctx.moveTo(wx, center - amp); ctx.lineTo(wx, center + amp); ctx.stroke()
+            }
+          } else if (w > 74) {
+            ctx.fillStyle = '#b9fff088'; ctx.font = '8px Inter'; ctx.fillText('analyzing waveform…', x + 6, y + ROW_HEIGHT - 9)
           }
         }
       })
@@ -141,7 +196,7 @@ export default function ArrangementView(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(parent)
     return () => observer.disconnect()
-  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, scrollTicks, pxPerBeat, ppq])
+  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, waveforms, scrollTicks, pxPerBeat, ppq])
 
   function pointer(event: React.PointerEvent) {
     const rect = canvasRef.current!.getBoundingClientRect()
@@ -153,11 +208,37 @@ export default function ArrangementView(props: Props) {
     return index >= 0 ? props.project.tracks[index] : undefined
   }
 
-  function contentRange(track: Track) {
-    let start = Infinity, end = -Infinity
-    for (const note of track.notes) { start = Math.min(start, note.start_ticks); end = Math.max(end, note.start_ticks + note.duration_ticks) }
-    for (const clip of track.clips) { start = Math.min(start, clip.start_ticks); end = Math.max(end, clip.start_ticks + (clip.duration_ticks || ppq * 8)) }
-    return Number.isFinite(start) ? { start, end } : null
+  function noteGroups(track: Track) {
+    const groups: { start: number; end: number; noteIds: string[] }[] = []
+    const sorted = [...track.notes].sort((a, b) => a.start_ticks - b.start_ticks)
+    for (const note of sorted) {
+      const end = note.start_ticks + note.duration_ticks
+      const last = groups[groups.length - 1]
+      if (last && note.start_ticks - last.end <= ppq * 2) {
+        last.end = end
+        last.noteIds.push(note.id)
+      } else {
+        groups.push({ start: note.start_ticks, end, noteIds: [note.id] })
+      }
+    }
+    return groups
+  }
+
+  function clipAt(track: Track, x: number) {
+    return track.clips.find(clip => {
+      const duration = clip.duration_ticks || ppq * 8
+      const x1 = xForTick(clip.start_ticks)
+      const x2 = x1 + Math.max(14, (duration / ppq) * pxPerBeat)
+      return x >= x1 && x <= x2
+    })
+  }
+
+  function noteGroupAt(track: Track, x: number) {
+    return noteGroups(track).find(group => {
+      const x1 = xForTick(group.start)
+      const x2 = xForTick(group.end)
+      return x >= x1 && x <= x2
+    })
   }
 
   function onPointerDown(event: React.PointerEvent) {
@@ -177,12 +258,19 @@ export default function ArrangementView(props: Props) {
     if (!track) return
     props.onSelect(track.id)
     if (pos.x < LABEL_WIDTH) return
-    const range = contentRange(track)
-    if (!range) return
-    const x1 = xForTick(range.start), x2 = xForTick(range.end)
-    if (pos.x >= x1 && pos.x <= x2) {
+    const clip = clipAt(track, pos.x)
+    if (clip) {
       props.beginTransaction()
-      dragRef.current = { trackId: track.id, startX: pos.x, originalOffset: 0 }
+      dragRef.current = { kind: 'clip', trackId: track.id, startX: pos.x, clipId: clip.id, originalStart: clip.start_ticks }
+      canvasRef.current?.setPointerCapture(event.pointerId)
+      return
+    }
+    const group = noteGroupAt(track, pos.x)
+    if (group) {
+      props.beginTransaction()
+      const noteOriginals: Record<string, number> = {}
+      for (const note of track.notes) if (group.noteIds.includes(note.id)) noteOriginals[note.id] = note.start_ticks
+      dragRef.current = { kind: 'notes', trackId: track.id, startX: pos.x, originalStart: group.start, noteOriginals }
       canvasRef.current?.setPointerCapture(event.pointerId)
     }
   }
@@ -203,16 +291,20 @@ export default function ArrangementView(props: Props) {
     const drag = dragRef.current
     if (!drag) return
     const deltaTicks = Math.round(((pos.x - drag.startX) / pxPerBeat) * ppq / (ppq / 4)) * (ppq / 4)
-    if (deltaTicks === drag.originalOffset) return
-    const change = deltaTicks - drag.originalOffset
-    drag.originalOffset = deltaTicks
     props.updateProject(project => {
       const track = project.tracks.find(t => t.id === drag.trackId)
       if (!track) return
-      const minimum = Math.min(0, ...track.notes.map(n => n.start_ticks), ...track.clips.map(c => c.start_ticks))
-      const safeChange = Math.max(change, -minimum)
-      for (const note of track.notes) note.start_ticks = Math.max(0, note.start_ticks + safeChange)
-      for (const clip of track.clips) clip.start_ticks = Math.max(0, clip.start_ticks + safeChange)
+      if (drag.kind === 'clip') {
+        const clip = track.clips.find(item => item.id === drag.clipId)
+        if (clip) clip.start_ticks = Math.max(0, drag.originalStart + deltaTicks)
+      } else if (drag.noteOriginals) {
+        const minStart = Math.min(...Object.values(drag.noteOriginals))
+        const allowedDelta = Math.max(deltaTicks, -minStart)
+        for (const note of track.notes) {
+          const original = drag.noteOriginals[note.id]
+          if (original !== undefined) note.start_ticks = original + allowedDelta
+        }
+      }
     }, true)
   }
 

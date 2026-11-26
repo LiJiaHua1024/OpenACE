@@ -162,3 +162,22 @@ Automated regression added: `tests/test_piano_roll_e2e.py` launches an isolated 
 Current full-suite result after this iteration: **20 tests passed**; frontend production build passed; backend compile passed.
 
 Independent adversarial QA then verified the feature in visible Chrome at exact 1400×900 with a 1272×837 responsive glance (`artifacts/e2e_screenshots/piano_depth_qa/`). It confirmed marquee visuals, clipboard/duplicate persistence, undo/redo, multi-select movement, velocity persistence, context-menu operations, repaint overlay behavior, toolbar fit, and zero console/network failures. QA exposed one real defect: negative horizontal multi-note movement was swallowed because the grid-snapping helper clamped negative deltas to zero. This was fixed by separating absolute-position snapping (`snap`) from signed gesture snapping (`snapDelta`), and the automated Chrome regression now explicitly verifies that moving two selected notes later/up then earlier/down restores their exact start ticks and pitches. A final independent targeted real-Chrome recheck (`artifacts/e2e_screenshots/piano_depth_qa/final_recheck/`) confirmed exact restoration `(840,61)/(1440,63) → (360,60)/(960,62)` with no console or network failures.
+
+## Iteration 3 — arrangement waveform truth and independent clip movement
+
+Branch focus: remove fake waveform visualization and make arrangement editing semantics match playback/export.
+
+Implemented and verified:
+
+- Audio clips now decode their real render files in the browser and draw measured waveform peaks; placeholder occupancy stripes were removed.
+- Audio clips drag independently rather than moving the entire track.
+- Contiguous vocal notes drag as grouped musical phrases while preserving relative spacing.
+- Signed drag deltas work in both directions and clamp only at the timeline boundary.
+- Playback/master export already consume `clip.start_ticks`, so arrangement clip movement is reflected in the actual audio path rather than being a visual-only operation.
+- New isolated-server real-Chrome regression `tests/test_arrangement_e2e.py` generates asymmetric test-only fixture audio, verifies decoded waveform pixels inside the clip interior, and verifies clip dragging `0 → 480 → 0` ticks with backend persistence and no browser console errors.
+
+Independent arrangement QA initially exposed a real live-playback scheduling defect: a clip moved later in the timeline rendered/exported correctly but started immediately in WebAudio playback. `App.tsx` now schedules future clips with an AudioContext delay while positive seeks still start immediately at the correct intra-clip offset. The regression test instruments `AudioBufferSourceNode.start` and verifies a 480-tick clip delay schedules `when-now≈0.5s` with `offset=0`.
+
+Final independent real-Chrome recheck passed: decoded varying waveform remained visible; clip drag persisted `0→480→0`; future playback measured `when-now=0.500s`, `offset=0`; positive seek measured `offset=0.5`; contiguous vocal phrase movement remained exact; repaint Alt-drag remained intact; zero console/network failures. Focused evidence is indexed in `artifacts/e2e_screenshots/arrangement_qa/`.
+
+Validation after the fix: frontend production build passed; Python compile passed; full automated suite reached 21 passed.

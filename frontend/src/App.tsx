@@ -227,7 +227,11 @@ export default function App() {
         source.connect(gain).connect(pan).connect(ctx.destination)
         const sourceStartSeconds = item.sourceStartTicks / project.ppq * 60 / project.bpm
         const localOffset = offsetSeconds - sourceStartSeconds
-        if (localOffset < item.buffer.duration) source.start(0, Math.max(0, Math.min(Math.max(0, item.buffer.duration - 0.03), localOffset)))
+        if (localOffset >= 0 && localOffset < item.buffer.duration) {
+          source.start(ctx.currentTime, Math.min(Math.max(0, item.buffer.duration - 0.03), localOffset))
+        } else if (localOffset < 0) {
+          source.start(ctx.currentTime - localOffset, 0)
+        }
         return [source]
       })
     }
