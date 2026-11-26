@@ -22,13 +22,14 @@ interface Props {
 }
 
 interface DragState {
-  kind: 'clip' | 'notes' | 'trim-left' | 'trim-right'
+  kind: 'clip' | 'notes' | 'trim-left' | 'trim-right' | 'fade-in' | 'fade-out'
   trackId: string
   startX: number
   clipId?: string
   originalStart: number
   originalDuration?: number
   originalOffset?: number
+  originalFade?: number
   noteOriginals?: Record<string, number>
 }
 
@@ -177,13 +178,33 @@ export default function ArrangementView(props: Props) {
             for (let px = 0; px < usable; px++) {
               const ratio = startRatio + (px / usable) * (endRatio - startRatio)
               const index = Math.min(waveform.peaks.length - 1, Math.floor(ratio * waveform.peaks.length))
-              const amp = Math.max(0.8, waveform.peaks[index] * (ROW_HEIGHT - 15) * 0.48)
+              const clipTickPosition = (px / usable) * duration
+              const fadeIn = Math.max(0, clip.fade_in_ticks || 0)
+              const fadeOut = Math.max(0, clip.fade_out_ticks || 0)
+              const fadeGain = Math.min(
+                fadeIn ? Math.max(0, Math.min(1, clipTickPosition / fadeIn)) : 1,
+                fadeOut ? Math.max(0, Math.min(1, (duration - clipTickPosition) / fadeOut)) : 1,
+              )
+              const amp = Math.max(0.35, waveform.peaks[index] * (ROW_HEIGHT - 15) * 0.48 * fadeGain)
               const wx = x + 5 + px
               ctx.beginPath(); ctx.moveTo(wx, center - amp); ctx.lineTo(wx, center + amp); ctx.stroke()
             }
           } else if (w > 74) {
             ctx.fillStyle = '#b9fff088'; ctx.font = '8px Inter'; ctx.fillText('analyzing waveform…', x + 6, y + ROW_HEIGHT - 9)
           }
+          const fadeInWidth = Math.min(w / 2, ((clip.fade_in_ticks || 0) / ppq) * pxPerBeat)
+          const fadeOutWidth = Math.min(w / 2, ((clip.fade_out_ticks || 0) / ppq) * pxPerBeat)
+          ctx.strokeStyle = '#ffffffb8'
+          ctx.lineWidth = 1
+          if (fadeInWidth > 1) {
+            ctx.beginPath(); ctx.moveTo(x + 1, y + ROW_HEIGHT - 7); ctx.lineTo(x + fadeInWidth, y + 7); ctx.stroke()
+          }
+          if (fadeOutWidth > 1) {
+            ctx.beginPath(); ctx.moveTo(x + w - fadeOutWidth, y + 7); ctx.lineTo(x + w - 1, y + ROW_HEIGHT - 7); ctx.stroke()
+          }
+          ctx.fillStyle = '#ffffffd8'
+          ctx.fillRect(x + Math.max(1, fadeInWidth) - 2, y + 5, 4, 6)
+          ctx.fillRect(x + w - Math.max(1, fadeOutWidth) - 2, y + 5, 4, 6)
         }
       })
       if (props.repaintRange.end > props.repaintRange.start) {
@@ -254,6 +275,25 @@ export default function ArrangementView(props: Props) {
     })
   }
 
+  function clipFadeAt(track: Track, x: number, y: number) {
+    const trackIndex = props.project.tracks.findIndex(item => item.id === track.id)
+    const rowY = RULER_HEIGHT + trackIndex * ROW_HEIGHT
+    if (y < rowY + 6 || y > rowY + 14) return null
+    for (const clip of track.clips) {
+      const duration = clipDuration(clip)
+      const x1 = xForTick(clip.start_ticks)
+      const width = Math.max(14, (duration / ppq) * pxPerBeat)
+      const x2 = x1 + width
+      const fadeInEnd = x1 + Math.min(width / 2, ((clip.fade_in_ticks || 0) / ppq) * pxPerBeat)
+      const fadeOutStart = x2 - Math.min(width / 2, ((clip.fade_out_ticks || 0) / ppq) * pxPerBeat)
+      if ((clip.fade_in_ticks || 0) > 0 && Math.abs(x - fadeInEnd) <= 8) return { clip, edge: 'in' as const }
+      if ((clip.fade_out_ticks || 0) > 0 && Math.abs(x - fadeOutStart) <= 8) return { clip, edge: 'out' as const }
+      if (Math.abs(x - x1) <= 8) return { clip, edge: 'in' as const }
+      if (Math.abs(x - x2) <= 8) return { clip, edge: 'out' as const }
+    }
+    return null
+  }
+
   function clipEdgeAt(track: Track, x: number) {
     for (const clip of track.clips) {
       const duration = clipDuration(clip)
@@ -290,6 +330,21 @@ export default function ArrangementView(props: Props) {
     if (!track) return
     props.onSelect(track.id)
     if (pos.x < LABEL_WIDTH) return
+    const fadeHit = clipFadeAt(track, pos.x, pos.y)
+    if (fadeHit) {
+      props.beginTransaction()
+      dragRef.current = {
+        kind: fadeHit.edge === 'in' ? 'fade-in' : 'fade-out',
+        trackId: track.id,
+        startX: pos.x,
+        clipId: fadeHit.clip.id,
+        originalStart: fadeHit.clip.start_ticks,
+        originalDuration: clipDuration(fadeHit.clip),
+        originalFade: fadeHit.edge === 'in' ? (fadeHit.clip.fade_in_ticks || 0) : (fadeHit.clip.fade_out_ticks || 0),
+      }
+      canvasRef.current?.setPointerCapture(event.pointerId)
+      return
+    }
     const edgeHit = clipEdgeAt(track, pos.x)
     if (edgeHit) {
       props.beginTransaction()
@@ -350,6 +405,14 @@ export default function ArrangementView(props: Props) {
       if (drag.kind === 'clip') {
         const clip = track.clips.find(item => item.id === drag.clipId)
         if (clip) clip.start_ticks = Math.max(0, drag.originalStart + deltaTicks)
+      } else if (drag.kind === 'fade-in' || drag.kind === 'fade-out') {
+        const clip = track.clips.find(item => item.id === drag.clipId)
+        if (!clip || drag.originalDuration === undefined || drag.originalFade === undefined) return
+        const maxFade = Math.max(0, Math.floor(drag.originalDuration / 2))
+        const signedDelta = drag.kind === 'fade-in' ? deltaTicks : -deltaTicks
+        const fade = Math.max(0, Math.min(maxFade, drag.originalFade + signedDelta))
+        if (drag.kind === 'fade-in') clip.fade_in_ticks = fade
+        else clip.fade_out_ticks = fade
       } else if (drag.kind === 'trim-left' || drag.kind === 'trim-right') {
         const clip = track.clips.find(item => item.id === drag.clipId)
         if (!clip || drag.originalDuration === undefined || drag.originalOffset === undefined) return
@@ -363,7 +426,7 @@ export default function ArrangementView(props: Props) {
           clip.duration_ticks = drag.originalDuration - appliedDelta
         } else {
           const waveform = waveforms[clip.path]
-          const sourceEndTicks = waveform ? Math.floor(waveform.durationSeconds * project.bpm * ppq / 60) : Infinity
+          const sourceEndTicks = waveform ? Math.round(waveform.durationSeconds * project.bpm * ppq / 60) : Infinity
           const maxDuration = Math.max(minimum, sourceEndTicks - drag.originalOffset)
           clip.duration_ticks = Math.max(minimum, Math.min(maxDuration, drag.originalDuration + deltaTicks))
         }
@@ -406,11 +469,22 @@ export default function ArrangementView(props: Props) {
         start_ticks: splitTicks,
         duration_ticks: end - splitTicks,
         offset_ticks: (clip.offset_ticks || 0) + firstDuration,
+        fade_in_ticks: 0,
       }
       clip.duration_ticks = firstDuration
+      clip.fade_out_ticks = 0
       track.clips.splice(index + 1, 0, second)
     }, false)
     setMenu(null)
+  }
+
+
+  function updateClipGain(menuItem: { trackId: string; clipId: string }, gainDb: number) {
+    props.updateProject(project => {
+      const track = project.tracks.find(item => item.id === menuItem.trackId)
+      const clip = track?.clips.find(item => item.id === menuItem.clipId)
+      if (clip) clip.gain_db = Math.max(-24, Math.min(12, gainDb))
+    }, false)
   }
 
   function onContextMenu(event: React.MouseEvent) {
@@ -438,6 +512,31 @@ export default function ArrangementView(props: Props) {
       {menu && (
         <div className="piano-context-menu arrangement-context-menu" style={{ left: menu.x, top: menu.y }} onClick={event => event.stopPropagation()}>
           <button onClick={() => splitClip(menu)}>Split at cursor</button>
+          {(() => {
+            const track = props.project.tracks.find(item => item.id === menu.trackId)
+            const clip = track?.clips.find(item => item.id === menu.clipId)
+            if (!clip) return null
+            return (
+              <label className="clip-gain-control">Clip gain
+                <span>
+                  <input
+                    key={`${clip.id}:${clip.gain_db || 0}`}
+                    type="number"
+                    min="-24"
+                    max="12"
+                    step="0.5"
+                    defaultValue={clip.gain_db || 0}
+                    onChange={event => {
+                      const raw = event.target.value
+                      if (raw === '' || raw === '-' || raw === '.' || raw === '-.') return
+                      updateClipGain(menu, Number(raw))
+                    }}
+                  />
+                  dB
+                </span>
+              </label>
+            )
+          })()}
         </div>
       )}
     </div>

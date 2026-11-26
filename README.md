@@ -59,6 +59,8 @@ OPENACE_CI_SYNTH_FIXTURE=1 openace-tool render-vocal <project-id> <track-id>
 
 ## Arrangement editing
 
+Audio clips are true timeline slices (`start/offset/duration`) with decoded waveforms, edge trimming, split-at-cursor, linear fade-in/out handles, and clip gain. Fade handles are dragged from the top corners; fades reshape the displayed waveform, schedule WebAudio gain ramps during monitor playback, and are rendered into master WAV exports. Overlapping faded clips therefore crossfade naturally, although automatic crossfade creation is not yet implemented.
+
 The arrangement canvas draws real decoded waveform peaks for audio clips rather than placeholder stripes. Audio clips drag independently, trim from either edge while preserving source offsets, and split at the cursor through the context menu. Waveforms remap to the trimmed source segment, contiguous vocal-note groups drag as musical phrases, and all clip timing paths persist through the same playback/export pipeline.
 
 ## Expression automation

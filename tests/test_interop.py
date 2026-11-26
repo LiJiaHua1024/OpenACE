@@ -113,3 +113,29 @@ def test_master_export_honors_clip_source_offset_and_duration(tmp_path):
     first_half = rendered[: int(sr * 0.45)]
     assert np.sqrt(np.mean(first_half ** 2)) > 0.05
     assert len(rendered) <= int(sr * 0.55)
+
+
+def test_master_export_applies_clip_fade_in_and_fade_out(tmp_path):
+    from openace.core.audio import read_audio, write_wav
+    from openace.core.models import AudioClip, Project, Track, TrackType
+    from openace.exporters.master import export_master_wav
+
+    sr = 48000
+    audio = np.ones((sr, 2), dtype=np.float32) * 0.5
+    source = tmp_path / "constant.wav"
+    write_wav(source, audio, sr, normalize=False)
+    project = Project(title="clip fades", bpm=120)
+    track = project.add_track(Track(name="BGM", type=TrackType.ACCOMPANIMENT))
+    track.volume = 1.0
+    track.clips.append(AudioClip(path=str(source), start_ticks=0, duration_ticks=960, fade_in_ticks=240, fade_out_ticks=240))
+    output = tmp_path / "master.wav"
+    export_master_wav(project, output, sample_rate=sr)
+    rendered, _ = read_audio(output)
+    mono = rendered.mean(axis=1)
+    peak = float(np.max(np.abs(mono)))
+    assert peak > 0.05
+    assert abs(mono[0]) < peak * 0.08
+    assert 0.35 * peak < mono[int(sr * 0.125)] < 0.65 * peak
+    assert mono[int(sr * 0.25)] > 0.85 * peak
+    assert 0.35 * peak < mono[int(sr * 0.875)] < 0.65 * peak
+    assert abs(mono[-1]) < peak * 0.08

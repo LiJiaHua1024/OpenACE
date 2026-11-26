@@ -1,0 +1,244 @@
+{
+  "initial_fixture_clip": {
+    "ok": true,
+    "details": {
+      "clip": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0
+      },
+      "geometry": {
+        "canvas": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 132
+        },
+        "x1": 64.0,
+        "x2": 624.0,
+        "width": 560.0,
+        "topY": 68,
+        "bodyY": 80,
+        "lowY": 85
+      }
+    },
+    "time": 1795701207.9528663
+  },
+  "drag_fade_in_out_persist": {
+    "ok": true,
+    "details": {
+      "after_fade_in": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 240,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0
+      },
+      "after_fade_out": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 240,
+        "fade_out_ticks": 240,
+        "gain_db": 0.0
+      },
+      "cursors": {
+        "top_corner": "ew-resize",
+        "body": "grab",
+        "lower_right_edge": "ew-resize"
+      }
+    },
+    "time": 1795701210.4274101
+  },
+  "visual_fade_handle_hit_zone": {
+    "ok": false,
+    "details": {
+      "before": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 240,
+        "fade_out_ticks": 240,
+        "gain_db": 0.0
+      },
+      "after_visual_handle_drag": {
+        "start_ticks": 120,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 240,
+        "fade_out_ticks": 240,
+        "gain_db": 0.0
+      },
+      "after_undo": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 240,
+        "fade_out_ticks": 240,
+        "gain_db": 0.0
+      },
+      "interpretation": "FAIL means dragging the visible handle end moves the clip instead of the fade"
+    },
+    "time": 1795701212.0047882
+  },
+  "ordinary_body_drag_zone": {
+    "ok": true,
+    "details": {
+      "moved": {
+        "start_ticks": 120,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 240,
+        "fade_out_ticks": 240,
+        "gain_db": 0.0
+      },
+      "restored": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 240,
+        "fade_out_ticks": 240,
+        "gain_db": 0.0
+      }
+    },
+    "time": 1795701213.4980495
+  },
+  "lower_edge_trim_zone": {
+    "ok": false,
+    "details": {
+      "trimmed": {
+        "start_ticks": 0,
+        "duration_ticks": 2280,
+        "offset_ticks": 0,
+        "fade_in_ticks": 240,
+        "fade_out_ticks": 240,
+        "gain_db": 0.0
+      },
+      "restored": {
+        "start_ticks": 0,
+        "duration_ticks": 2399,
+        "offset_ticks": 0,
+        "fade_in_ticks": 240,
+        "fade_out_ticks": 240,
+        "gain_db": 0.0
+      }
+    },
+    "time": 1795701215.0492728
+  },
+  "split_faded_clip_redistributes_outer_fades": {
+    "ok": true,
+    "details": {
+      "clips": [
+        {
+          "start_ticks": 0,
+          "duration_ticks": 1200,
+          "offset_ticks": 0,
+          "fade_in_ticks": 240,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0
+        },
+        {
+          "start_ticks": 1200,
+          "duration_ticks": 1199,
+          "offset_ticks": 1200,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 240,
+          "gain_db": 0.0
+        }
+      ],
+      "interpretation": "outer-fade redistribution correct; second duration is 1199 only because pre-split duration had already become 2399 in trim restoration"
+    },
+    "time": 1795701216.1955714
+  },
+  "playback_no_deadlock_and_param_ramps": {
+    "ok": true,
+    "details": {
+      "position": "00:01.12",
+      "playing_class": "play-button playing",
+      "param_events": [
+        {
+          "kind": "setValue",
+          "value": 0.8,
+          "time": 0.011609977324263039
+        },
+        {
+          "kind": "setValue",
+          "value": 0,
+          "time": 0.011609977324263039
+        },
+        {
+          "kind": "linearRamp",
+          "value": 0.8,
+          "time": 0.26160997732426305
+        },
+        {
+          "kind": "setValue",
+          "value": 0.8,
+          "time": 1.261609977324263
+        },
+        {
+          "kind": "setValue",
+          "value": 0.8,
+          "time": 2.2605683106575967
+        },
+        {
+          "kind": "linearRamp",
+          "value": 0.0001,
+          "time": 2.5105683106575967
+        }
+      ],
+      "ramp_count": 2
+    },
+    "time": 1795701217.879815
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "errors": []
+    },
+    "time": 1795701217.8798606
+  },
+  "fixture_project_restored": {
+    "ok": true,
+    "details": {
+      "clips": [
+        {
+          "id": "clip_1f33ada107b7",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_e3f52a65d029/job_90fbd5a85479/accompaniment.wav",
+          "start_ticks": 0,
+          "duration_ticks": 2400,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Repaint"
+        }
+      ]
+    },
+    "time": 1795701217.8940399
+  },
+  "passed": false,
+  "browser_decode_duration_evidence": {
+    "ok": true,
+    "details": {
+      "backend_wav_seconds": 2.5,
+      "webaudio_decoded_seconds": 2.4999773242630385,
+      "webaudio_length": 110249,
+      "webaudio_sample_rate": 44100,
+      "effect": "floor(sourceEndTicks) becomes 2399, so full outward right-trim restoration lands one tick short"
+    },
+    "time": 1795701335.7879367
+  },
+  "gain_db_ui_coverage": {
+    "ok": false,
+    "details": {
+      "status": "untested",
+      "reason": "no visible clip-gain control exists in the current UI; visible-browser QA scope did not provide a user-accessible gain surface"
+    },
+    "time": 1795701335.7879379
+  }
+}

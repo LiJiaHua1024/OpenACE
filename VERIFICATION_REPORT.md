@@ -253,3 +253,18 @@ Browser QA evidence:
 
 - Real-Chrome QA (`artifacts/e2e_screenshots/pitch_handles_qa/`) verified toolbar/`P` activation, exact signed handle persistence, crossing drags with sorted output, Alt-click deletion, disk persistence, undo/redo, green segment rendering, and zero console/network failures.
 - QA found no blocking defect. It flagged cramped default-row handles and missing numeric precision feedback; follow-up polish enlarged handles slightly, renamed the toolbar control to `∿ Pitch`, and added a live `offset ms · ±cents` readout while dragging.
+
+## Iteration 10 — arrangement clip fades and clip gain
+
+Implemented and verified:
+
+- `AudioClip` now persists `fade_in_ticks`/`fade_out_ticks`; arrangement top-corner handles drag linear fades, waveform peaks are attenuated by the fade envelope, and split redistributes fades so internal cut edges do not acquire unintended fades.
+- WebAudio playback schedules real `AudioParam` gain ramps for clip fades; `gain_db` is now also honored in monitor playback instead of remaining dead model data.
+- Master WAV export applies the same linear fade envelopes to source slices and honors `gain_db` in clip mixing.
+- `tests/test_interop.py` verifies exported fade-in/fade-out shape; `tests/test_arrangement_e2e.py` drags both fade handles in real Chrome, verifies persistence, observes at least two audio-param ramp calls during playback, and verifies split fade redistribution.
+
+Browser QA evidence:
+
+- Real-Chrome QA (`artifacts/e2e_screenshots/arrangement_fades_qa/`) verified fade persistence/direction, waveform attenuation, body/trim/fade zone separation, split redistribution, and real AudioParam ramps. It exposed two defects: visible inner fade endpoints were not hit-testable, and outward trim could restore `2399` rather than `2400` ticks due floored decode duration.
+- Fixes made endpoint dragging authoritative, enlarged handles, rounded decoded source-end ticks, and exposed numeric clip gain in the clip context menu. Focused recheck (`artifacts/e2e_screenshots/arrangement_fades_fix_qa/`) verified endpoint dragging without clip movement, exact `2400`-tick restoration, and stepped gain persistence; it exposed direct `-6` typing coercion.
+- The gain input is now uncontrolled while typing and commits only complete numeric input, preserving negative signs. The arrangement regression covers endpoint dragging and `-6 dB` persistence.

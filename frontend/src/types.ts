@@ -36,6 +36,19 @@ export interface VocalAutomation {
   energy: EnvelopePoint[]
 }
 
+
+export interface AudioClip {
+  id: string
+  path: string
+  start_ticks: number
+  duration_ticks?: number | null
+  offset_ticks?: number
+  fade_in_ticks?: number
+  fade_out_ticks?: number
+  gain_db?: number
+  label?: string
+}
+
 export interface Track {
   id: string
   name: string
@@ -45,7 +58,7 @@ export interface Track {
   reference_voice_path?: string | null
   language: string
   notes: Note[]
-  clips: any[]
+  clips: AudioClip[]
   automation: VocalAutomation
   breaths: any[]
   mute: boolean

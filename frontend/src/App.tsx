@@ -201,8 +201,11 @@ export default function App() {
           startTicks: clip.start_ticks || 0,
           offsetTicks: clip.offset_ticks || 0,
           durationTicks: clip.duration_ticks || null,
+          fadeInTicks: clip.fade_in_ticks || 0,
+          fadeOutTicks: clip.fade_out_ticks || 0,
+          gainDb: clip.gain_db || 0,
         }))
-        if (track.render_path && !clipPaths.has(track.render_path)) sources.push({ path: track.render_path, startTicks: 0, offsetTicks: 0, durationTicks: null })
+        if (track.render_path && !clipPaths.has(track.render_path)) sources.push({ path: track.render_path, startTicks: 0, offsetTicks: 0, durationTicks: null, fadeInTicks: 0, fadeOutTicks: 0, gainDb: 0 })
         return { ...track, playbackSources: sources }
       })
       .filter(track => !track.mute && track.playbackSources.length)
@@ -219,7 +222,7 @@ export default function App() {
         try {
           const response = await fetch(url)
           const buffer = await ctx.decodeAudioData(await response.arrayBuffer())
-          return { track, buffer, sourceStartTicks: sourceSpec.startTicks, sourceOffsetTicks: sourceSpec.offsetTicks, sourceDurationTicks: sourceSpec.durationTicks }
+          return { track, buffer, sourceStartTicks: sourceSpec.startTicks, sourceOffsetTicks: sourceSpec.offsetTicks, sourceDurationTicks: sourceSpec.durationTicks, fadeInTicks: sourceSpec.fadeInTicks, fadeOutTicks: sourceSpec.fadeOutTicks, gainDb: sourceSpec.gainDb }
         } catch { return null }
       })))
       if (playback.current.ctx !== ctx) { playback.current.starting = false; return }
@@ -228,7 +231,9 @@ export default function App() {
         const source = ctx.createBufferSource()
         source.buffer = item.buffer
         const gain = ctx.createGain()
-        gain.gain.value = item.track.volume
+        const clipGain = Math.pow(10, (item.gainDb || 0) / 20)
+        const baseGain = item.track.volume * clipGain
+        gain.gain.value = baseGain
         const pan = ctx.createStereoPanner()
         pan.pan.value = item.track.pan
         source.connect(gain).connect(pan).connect(ctx.destination)
@@ -238,6 +243,27 @@ export default function App() {
           ? item.sourceDurationTicks / project.ppq * 60 / project.bpm
           : Math.max(0, item.buffer.duration - sourceOffsetSeconds)
         const localOffset = offsetSeconds - sourceStartSeconds
+        const clipStartClock = ctx.currentTime - localOffset
+        const fadeInSeconds = (item.fadeInTicks || 0) / project.ppq * 60 / project.bpm
+        const fadeOutSeconds = (item.fadeOutTicks || 0) / project.ppq * 60 / project.bpm
+        const positionNow = Math.max(0, localOffset)
+        const fadeGainAt = (position: number) => Math.min(
+          fadeInSeconds ? Math.max(0, Math.min(1, position / fadeInSeconds)) : 1,
+          fadeOutSeconds ? Math.max(0, Math.min(1, (clipDurationSeconds - position) / fadeOutSeconds)) : 1,
+        )
+        gain.gain.setValueAtTime(baseGain * fadeGainAt(positionNow), Math.max(ctx.currentTime, clipStartClock))
+        if (fadeInSeconds > 0.001) {
+          const fadeInEnd = clipStartClock + fadeInSeconds
+          if (fadeInEnd > ctx.currentTime) gain.gain.linearRampToValueAtTime(baseGain, fadeInEnd)
+        }
+        if (fadeOutSeconds > 0.001) {
+          const fadeOutStart = clipStartClock + clipDurationSeconds - fadeOutSeconds
+          const clipEnd = clipStartClock + clipDurationSeconds
+          if (clipEnd > ctx.currentTime) {
+            if (fadeOutStart > ctx.currentTime) gain.gain.setValueAtTime(baseGain, fadeOutStart)
+            gain.gain.linearRampToValueAtTime(0.0001, clipEnd)
+          }
+        }
         if (localOffset >= 0 && localOffset < clipDurationSeconds) {
           const audioOffset = sourceOffsetSeconds + localOffset
           const remaining = Math.max(0.01, clipDurationSeconds - localOffset)

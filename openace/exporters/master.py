@@ -14,6 +14,21 @@ def _resolve(path_value: str) -> Path:
     return path if path.is_absolute() else Path.cwd() / path
 
 
+
+def _apply_clip_fades(data: np.ndarray, project: Project, clip: AudioClip, sample_rate: int) -> np.ndarray:
+    """Apply linear clip edge fades in the exported source slice."""
+    if not len(data):
+        return data
+    processed = np.array(data, dtype=np.float32, copy=True)
+    half = len(processed) // 2
+    fade_in = min(half, int(round(project.ticks_to_seconds(max(0, clip.fade_in_ticks)) * sample_rate)))
+    fade_out = min(half, int(round(project.ticks_to_seconds(max(0, clip.fade_out_ticks)) * sample_rate)))
+    if fade_in > 1:
+        processed[:fade_in] *= np.linspace(0.0, 1.0, fade_in, dtype=np.float32)[:, None]
+    if fade_out > 1:
+        processed[-fade_out:] *= np.linspace(1.0, 0.0, fade_out, dtype=np.float32)[:, None]
+    return processed
+
 def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48000) -> Path:
     buffers: List[Tuple[np.ndarray, int]] = []
     for track in project.tracks:
@@ -45,11 +60,14 @@ def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48
             data = data[max(0, source_start):max(0, source_end)]
             if not len(data):
                 continue
+            if clip is not None:
+                data = _apply_clip_fades(data, project, clip, sample_rate)
             timeline_offset = int(round(project.ticks_to_seconds(start_ticks) * sample_rate))
             if timeline_offset:
                 padding = np.zeros((timeline_offset, data.shape[1]), dtype=data.dtype)
                 data = np.concatenate([padding, data], axis=0)
-            buffers.append((data * track.volume, sr))
+            clip_gain = 10.0 ** ((getattr(clip, "gain_db", 0.0) if clip is not None else 0.0) / 20.0)
+            buffers.append((data * track.volume * clip_gain, sr))
     mixed = mix_tracks(buffers, sample_rate=sample_rate)
     write_wav(output_path, mixed, sample_rate, normalize=True)
     return output_path

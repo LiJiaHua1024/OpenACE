@@ -24,7 +24,7 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 
 | Capability | ACE Studio reference | Status | Evidence and remaining gap |
 |---|---|---:|---|
-| Multi-track arrangement | Track rows, clips, zoom/seek, drag | **Partial** | Canvas rows, note/clip rendering, shared zoom/scroll, seek, mute/solo/volume/pan, independent audio-clip dragging, edge trimming with source-offset preservation, right-click split-at-cursor, grouped-note dragging, and real decoded waveform peaks remapped to trimmed segments. No fade/crossfade editing yet. |
+| Multi-track arrangement | Track rows, clips, zoom/seek, drag | **Partial** | Canvas rows, note/clip rendering, shared zoom/scroll, seek, mute/solo/volume/pan, independent audio-clip dragging, edge trimming with source-offset preservation, right-click split-at-cursor, grouped-note dragging, and real decoded waveform peaks remapped to trimmed segments. Linear fade-in/out endpoints, clip gain, playback gain ramps, and export fades are implemented; automatic crossfade creation remains absent. |
 | Piano roll | Dense high-frame-rate professional editor | **Partial** | Canvas brush/select/erase, drag, resize, lyric editing, marquee multi-select, multi-note move/resize, copy/paste/duplicate, quantize, velocity lane, context menu, zoom/grid/playhead. Remaining: cross-track clipboard, sustained 60FPS profiling. Vibrato and per-note pitch handles now have visual/editor controls and are written into SoulX F0/diagnostic target curves. |
 | Timeline synchronization | Arrangement, piano roll and automation share viewport | **Done** | Shared controlled timeline implemented and screenshot-verified. |
 | Lyrics and phonemes | Fast lyric editing and visible phoneme decomposition | **Partial** | Double-click lyric editor, strict generated phoneme lane, vowel/consonant timing. No manual phoneme override or draggable boundaries. |
@@ -74,8 +74,8 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 ## Highest-priority gaps for the next iteration
 
 1. **Real GPU truth**: run `scripts/verify_local_gpu.py` on a 12GB NVIDIA machine; fix real SoulX/ACE-Step integration defects from actual logs and listening tests.
-2. **Engine conditioning depth**: translate air/falsetto/tension/energy/breath/vibrato into meaningful SoulX/SVC controls rather than editor-only persistence; Dynamic now has honest post-render gain semantics.
+2. **Engine conditioning depth**: translate air/falsetto/tension/energy/breath into meaningful SoulX/SVC controls rather than editor-only persistence; vibrato is F0-consumed and Dynamic now has honest post-render gain semantics.
 3. **Piano-roll professional depth**: cross-track clipboard and performance profiling under large projects; advanced vibrato and per-note pitch-handle editing are now implemented and engine-consumed.
-4. **Arrangement clip depth**: fades/crossfades and richer clip context operations; independent dragging, trim, split, and real waveform analysis are now implemented.
+4. **Arrangement clip depth**: automatic crossfade creation and richer clip context operations; independent dragging, trim, split, fades, clip gain, and real waveform analysis are now implemented.
 5. **Commercial host validation**: open `.ustx`, `.svp`, `.vpr` in the real target applications and repair exact schemas.
 6. **Automatic job requeue/recovery policy** and language coverage (validated Cantonese/Japanese frontends).
