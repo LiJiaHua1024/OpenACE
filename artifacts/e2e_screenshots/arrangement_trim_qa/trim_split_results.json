@@ -1,0 +1,362 @@
+{
+  "initial_waveform_and_trim_affordance": {
+    "ok": true,
+    "details": {
+      "initial_tuple": [
+        [
+          0,
+          0,
+          2400
+        ]
+      ],
+      "cursor_center": "grab",
+      "cursor_left": "ew-resize",
+      "cursor_right": "ew-resize",
+      "handle_pixels": {
+        "count": 38,
+        "total": 48
+      },
+      "waveform": {
+        "columns": 544,
+        "mean": 4.6,
+        "first_mean": 4.18,
+        "second_mean": 5.03,
+        "min": 2,
+        "max": 9,
+        "unique": [
+          2,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "screenshot": "01_initial_waveform_and_trim_handles.png",
+      "crop": "evidence_initial_waveform_crop.png"
+    },
+    "time": 1795695733.5298579
+  },
+  "right_edge_trim_persists": {
+    "ok": true,
+    "details": {
+      "after_right": [
+        [
+          0,
+          0,
+          1440
+        ]
+      ],
+      "expected": [
+        [
+          0,
+          0,
+          1440
+        ]
+      ],
+      "waveform_after_right": {
+        "columns": 320,
+        "mean": 4.69,
+        "first_mean": 4.39,
+        "second_mean": 4.99,
+        "min": 2,
+        "max": 9,
+        "unique": [
+          2,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "held_screenshot": "02_right_trim_held.png",
+      "screenshot": "03_after_right_trim.png"
+    },
+    "time": 1795695735.487297
+  },
+  "left_edge_trim_persists_and_waveform_remaps": {
+    "ok": true,
+    "details": {
+      "after_left": [
+        [
+          480,
+          480,
+          960
+        ]
+      ],
+      "expected": [
+        [
+          480,
+          480,
+          960
+        ]
+      ],
+      "waveform_after_left": {
+        "columns": 208,
+        "mean": 4.67,
+        "first_mean": 2.8,
+        "second_mean": 6.54,
+        "min": 2,
+        "max": 8,
+        "unique": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "honest_waveform_expectation": "quiet source half first, loud source half second",
+      "wave_remap_ok": true,
+      "held_screenshot": "04_left_trim_held.png",
+      "screenshot": "05_after_left_trim_waveform_remapped.png",
+      "crop": "evidence_after_left_trim_crop.png"
+    },
+    "time": 1795695737.0766802
+  },
+  "context_menu_split_positions_waveform": {
+    "ok": true,
+    "details": {
+      "menu_visible": true,
+      "menu_text": "Split at cursor",
+      "after_split": [
+        [
+          480,
+          480,
+          480
+        ],
+        [
+          960,
+          960,
+          480
+        ]
+      ],
+      "expected": [
+        [
+          480,
+          480,
+          480
+        ],
+        [
+          960,
+          960,
+          480
+        ]
+      ],
+      "overlaps": [],
+      "first_waveform": {
+        "columns": 96,
+        "mean": 2.88,
+        "first_mean": 3.75,
+        "second_mean": 2.0,
+        "min": 2,
+        "max": 7,
+        "unique": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "second_waveform": {
+        "columns": 96,
+        "mean": 7.19,
+        "first_mean": 7.06,
+        "second_mean": 7.31,
+        "min": 2,
+        "max": 9,
+        "unique": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "wave_split_ok": true,
+      "menu_screenshot": "06_split_context_menu.png",
+      "screenshot": "07_after_split.png",
+      "crop": "evidence_after_split_crop.png"
+    },
+    "time": 1795695739.2665582
+  },
+  "undo_redo_around_split": {
+    "ok": true,
+    "details": {
+      "after_undo": [
+        [
+          480,
+          480,
+          960
+        ]
+      ],
+      "expected_undo": [
+        [
+          480,
+          480,
+          960
+        ]
+      ],
+      "after_redo": [
+        [
+          480,
+          480,
+          480
+        ],
+        [
+          960,
+          960,
+          480
+        ]
+      ],
+      "expected_redo": [
+        [
+          480,
+          480,
+          480
+        ],
+        [
+          960,
+          960,
+          480
+        ]
+      ],
+      "screenshot": "08_after_undo_redo_split.png"
+    },
+    "time": 1795695741.0272477
+  },
+  "playback_split_source_offsets_durations": {
+    "ok": true,
+    "details": {
+      "zero_starts": [
+        {
+          "when": 0.4845266439909297,
+          "offset": 0.5,
+          "duration": 0.5,
+          "now": 0.011609977324263039,
+          "bufferDuration": 2.4999773242630385
+        },
+        {
+          "when": 0.9845266439909297,
+          "offset": 1,
+          "duration": 0.5,
+          "now": 0.011609977324263039,
+          "bufferDuration": 2.4999773242630385
+        }
+      ],
+      "seek_starts": [
+        {
+          "when": 0.011609977324263039,
+          "offset": 0.75,
+          "duration": 0.25,
+          "now": 0.011609977324263039,
+          "bufferDuration": 2.4999773242630385
+        },
+        {
+          "when": 0.26160997732426305,
+          "offset": 1,
+          "duration": 0.5,
+          "now": 0.011609977324263039,
+          "bufferDuration": 2.4999773242630385
+        }
+      ],
+      "zero_ok": true,
+      "seek_ok": true,
+      "expected_zero": "delay/offset/duration (.5,.5,.5) then (1,1,.5)",
+      "expected_seek": "first now offset .75 duration .25; second delay .25 offset 1 duration .5",
+      "screenshot": "09_split_playback_instrumentation.png"
+    },
+    "time": 1795695744.2100544
+  },
+  "master_export_trimmed_split_source_slicing": {
+    "ok": true,
+    "details": {
+      "muted_for_export": true,
+      "metrics": {
+        "duration": 1.5,
+        "pre_0_45_max": 0.0,
+        "quiet_0_55_0_95_max": 0.20104169845581055,
+        "loud_1_05_1_45_max": 0.666253924369812,
+        "post_1_55_max": 0.0
+      },
+      "export": "trimmed_split_master.wav"
+    },
+    "time": 1795695746.1650164
+  },
+  "cleanup_and_console_network_health": {
+    "ok": true,
+    "details": {
+      "restore_status": 200,
+      "final_clip_tuples": [
+        [
+          0,
+          0,
+          2400
+        ]
+      ],
+      "vocal_unmuted": true,
+      "console_error_count": 0,
+      "network_failure_count": 0,
+      "screenshot": "10_restored_after_cleanup.png",
+      "errors": {
+        "console_errors": [],
+        "network_failures": []
+      }
+    },
+    "time": 1795695747.0637774
+  },
+  "passed": true,
+  "outward_edge_extension": {
+    "ok": true,
+    "details": {
+      "right_inward": [
+        [
+          0,
+          0,
+          1440
+        ]
+      ],
+      "right_outward": [
+        [
+          0,
+          0,
+          1920
+        ]
+      ],
+      "left_inward": [
+        [
+          480,
+          480,
+          1440
+        ]
+      ],
+      "left_outward": [
+        [
+          0,
+          0,
+          1920
+        ]
+      ],
+      "passed": true,
+      "restore_status": 200,
+      "restored": [
+        [
+          0,
+          0,
+          2400
+        ]
+      ]
+    },
+    "time": 1795695617.5651863
+  }
+}

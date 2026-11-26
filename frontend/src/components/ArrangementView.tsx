@@ -22,12 +22,19 @@ interface Props {
 }
 
 interface DragState {
-  kind: 'clip' | 'notes'
+  kind: 'clip' | 'notes' | 'trim-left' | 'trim-right'
   trackId: string
   startX: number
   clipId?: string
   originalStart: number
+  originalDuration?: number
+  originalOffset?: number
   noteOriginals?: Record<string, number>
+}
+
+interface WaveformData {
+  peaks: Float32Array
+  durationSeconds: number
 }
 
 export default function ArrangementView(props: Props) {
@@ -36,8 +43,9 @@ export default function ArrangementView(props: Props) {
   const pxPerBeat = props.timeline.pxPerBeat
   const dragRef = useRef<DragState | null>(null)
   const repaintDragRef = useRef<{ anchorTicks: number; currentTicks: number } | null>(null)
-  const [waveforms, setWaveforms] = useState<Record<string, Float32Array>>({})
-  const waveformCache = useRef(new Map<string, Promise<Float32Array>>())
+  const [waveforms, setWaveforms] = useState<Record<string, WaveformData>>({})
+  const [menu, setMenu] = useState<{ x: number; y: number; trackId: string; clipId: string; ticks: number } | null>(null)
+  const waveformCache = useRef(new Map<string, Promise<WaveformData>>())
   const audioContextRef = useRef<AudioContext | null>(null)
   const ppq = props.project.ppq
 
@@ -71,7 +79,7 @@ export default function ArrangementView(props: Props) {
               peaks[bin] = Math.max(peaks[bin], peak)
             }
           }
-          return peaks
+          return { peaks, durationSeconds: buffer.duration }
         })())
       }
       waveformCache.current.get(path)!
@@ -151,16 +159,25 @@ export default function ArrangementView(props: Props) {
           ctx.fillStyle = '#25b995aa'
           ctx.beginPath(); ctx.roundRect(x, y + 6, w, ROW_HEIGHT - 12, 4); ctx.fill()
           ctx.strokeStyle = '#55e7c5'; ctx.stroke()
+          ctx.fillStyle = '#eafff86e'
+          ctx.fillRect(x + 1, y + 8, 2, ROW_HEIGHT - 16)
+          ctx.fillRect(x + w - 3, y + 8, 2, ROW_HEIGHT - 16)
           ctx.fillStyle = '#eafff8'; ctx.font = '9px Inter'; if (w > 40) ctx.fillText(clip.label || 'audio', x + 5, y + 21)
-          const peaks = waveforms[clip.path]
-          if (peaks) {
+          const waveform = waveforms[clip.path]
+          if (waveform) {
             ctx.strokeStyle = '#eafff866'
             ctx.lineWidth = 1
             const center = y + ROW_HEIGHT / 2 + 2
             const usable = Math.max(1, w - 10)
+            const secondsPerTick = 60 / (props.project.bpm * ppq)
+            const sourceOffset = (clip.offset_ticks || 0) * secondsPerTick
+            const visibleDuration = duration * secondsPerTick
+            const startRatio = Math.max(0, Math.min(1, sourceOffset / Math.max(0.001, waveform.durationSeconds)))
+            const endRatio = Math.max(startRatio, Math.min(1, (sourceOffset + visibleDuration) / Math.max(0.001, waveform.durationSeconds)))
             for (let px = 0; px < usable; px++) {
-              const index = Math.min(peaks.length - 1, Math.floor((px / usable) * peaks.length))
-              const amp = Math.max(0.8, peaks[index] * (ROW_HEIGHT - 15) * 0.48)
+              const ratio = startRatio + (px / usable) * (endRatio - startRatio)
+              const index = Math.min(waveform.peaks.length - 1, Math.floor(ratio * waveform.peaks.length))
+              const amp = Math.max(0.8, waveform.peaks[index] * (ROW_HEIGHT - 15) * 0.48)
               const wx = x + 5 + px
               ctx.beginPath(); ctx.moveTo(wx, center - amp); ctx.lineTo(wx, center + amp); ctx.stroke()
             }
@@ -224,13 +241,28 @@ export default function ArrangementView(props: Props) {
     return groups
   }
 
+  function clipDuration(clip: any) {
+    return clip.duration_ticks || ppq * 8
+  }
+
   function clipAt(track: Track, x: number) {
     return track.clips.find(clip => {
-      const duration = clip.duration_ticks || ppq * 8
+      const duration = clipDuration(clip)
       const x1 = xForTick(clip.start_ticks)
       const x2 = x1 + Math.max(14, (duration / ppq) * pxPerBeat)
       return x >= x1 && x <= x2
     })
+  }
+
+  function clipEdgeAt(track: Track, x: number) {
+    for (const clip of track.clips) {
+      const duration = clipDuration(clip)
+      const x1 = xForTick(clip.start_ticks)
+      const x2 = x1 + Math.max(14, (duration / ppq) * pxPerBeat)
+      if (Math.abs(x - x1) <= 6) return { clip, edge: 'left' as const }
+      if (Math.abs(x - x2) <= 6) return { clip, edge: 'right' as const }
+    }
+    return null
   }
 
   function noteGroupAt(track: Track, x: number) {
@@ -258,6 +290,21 @@ export default function ArrangementView(props: Props) {
     if (!track) return
     props.onSelect(track.id)
     if (pos.x < LABEL_WIDTH) return
+    const edgeHit = clipEdgeAt(track, pos.x)
+    if (edgeHit) {
+      props.beginTransaction()
+      dragRef.current = {
+        kind: edgeHit.edge === 'left' ? 'trim-left' : 'trim-right',
+        trackId: track.id,
+        startX: pos.x,
+        clipId: edgeHit.clip.id,
+        originalStart: edgeHit.clip.start_ticks,
+        originalDuration: clipDuration(edgeHit.clip),
+        originalOffset: edgeHit.clip.offset_ticks || 0,
+      }
+      canvasRef.current?.setPointerCapture(event.pointerId)
+      return
+    }
     const clip = clipAt(track, pos.x)
     if (clip) {
       props.beginTransaction()
@@ -289,7 +336,13 @@ export default function ArrangementView(props: Props) {
       return
     }
     const drag = dragRef.current
-    if (!drag) return
+    if (!drag) {
+      const hoverTrack = trackAt(pos.y)
+      const edge = hoverTrack && pos.x >= LABEL_WIDTH ? clipEdgeAt(hoverTrack, pos.x) : null
+      const hoverClip = hoverTrack && pos.x >= LABEL_WIDTH ? clipAt(hoverTrack, pos.x) : null
+      if (canvasRef.current) canvasRef.current.style.cursor = edge ? 'ew-resize' : hoverClip ? 'grab' : 'default'
+      return
+    }
     const deltaTicks = Math.round(((pos.x - drag.startX) / pxPerBeat) * ppq / (ppq / 4)) * (ppq / 4)
     props.updateProject(project => {
       const track = project.tracks.find(t => t.id === drag.trackId)
@@ -297,6 +350,23 @@ export default function ArrangementView(props: Props) {
       if (drag.kind === 'clip') {
         const clip = track.clips.find(item => item.id === drag.clipId)
         if (clip) clip.start_ticks = Math.max(0, drag.originalStart + deltaTicks)
+      } else if (drag.kind === 'trim-left' || drag.kind === 'trim-right') {
+        const clip = track.clips.find(item => item.id === drag.clipId)
+        if (!clip || drag.originalDuration === undefined || drag.originalOffset === undefined) return
+        const minimum = ppq / 4
+        if (drag.kind === 'trim-left') {
+          const maxDelta = drag.originalDuration - minimum
+          const minDelta = -Math.min(drag.originalStart, drag.originalOffset)
+          const appliedDelta = Math.max(minDelta, Math.min(maxDelta, deltaTicks))
+          clip.start_ticks = drag.originalStart + appliedDelta
+          clip.offset_ticks = Math.max(0, drag.originalOffset + appliedDelta)
+          clip.duration_ticks = drag.originalDuration - appliedDelta
+        } else {
+          const waveform = waveforms[clip.path]
+          const sourceEndTicks = waveform ? Math.floor(waveform.durationSeconds * project.bpm * ppq / 60) : Infinity
+          const maxDuration = Math.max(minimum, sourceEndTicks - drag.originalOffset)
+          clip.duration_ticks = Math.max(minimum, Math.min(maxDuration, drag.originalDuration + deltaTicks))
+        }
       } else if (drag.noteOriginals) {
         const minStart = Math.min(...Object.values(drag.noteOriginals))
         const allowedDelta = Math.max(deltaTicks, -minStart)
@@ -317,6 +387,43 @@ export default function ArrangementView(props: Props) {
     canvasRef.current?.releasePointerCapture(event.pointerId)
   }
 
+
+  function splitClip(menuItem: { trackId: string; clipId: string; ticks: number }) {
+    props.updateProject(project => {
+      const track = project.tracks.find(item => item.id === menuItem.trackId)
+      if (!track) return
+      const index = track.clips.findIndex(item => item.id === menuItem.clipId)
+      if (index < 0) return
+      const clip = track.clips[index]
+      const splitTicks = Math.round(menuItem.ticks / (ppq / 4)) * (ppq / 4)
+      const duration = clipDuration(clip)
+      const end = clip.start_ticks + duration
+      if (splitTicks <= clip.start_ticks + ppq / 8 || splitTicks >= end - ppq / 8) return
+      const firstDuration = splitTicks - clip.start_ticks
+      const second = {
+        ...clip,
+        id: `clip_${crypto.randomUUID().slice(0, 12)}`,
+        start_ticks: splitTicks,
+        duration_ticks: end - splitTicks,
+        offset_ticks: (clip.offset_ticks || 0) + firstDuration,
+      }
+      clip.duration_ticks = firstDuration
+      track.clips.splice(index + 1, 0, second)
+    }, false)
+    setMenu(null)
+  }
+
+  function onContextMenu(event: React.MouseEvent) {
+    event.preventDefault()
+    const rect = canvasRef.current!.getBoundingClientRect()
+    const pos = { x: event.clientX - rect.left, y: event.clientY - rect.top }
+    const track = trackAt(pos.y)
+    if (!track || pos.x < LABEL_WIDTH) return
+    const clip = clipAt(track, pos.x)
+    if (!clip) { setMenu(null); return }
+    setMenu({ x: pos.x, y: pos.y, trackId: track.id, clipId: clip.id, ticks: tickForX(pos.x) })
+  }
+
   function onWheel(event: React.WheelEvent) {
     if (event.ctrlKey || event.metaKey) {
       props.onTimelineChange({ ...props.timeline, pxPerBeat: Math.max(32, Math.min(360, pxPerBeat * (event.deltaY > 0 ? .9 : 1.1))) })
@@ -326,8 +433,13 @@ export default function ArrangementView(props: Props) {
   }
 
   return (
-    <div className="arrangement-view">
-      <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onWheel={onWheel} />
+    <div className="arrangement-view" onClick={() => setMenu(null)}>
+      <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onWheel={onWheel} onContextMenu={onContextMenu} />
+      {menu && (
+        <div className="piano-context-menu arrangement-context-menu" style={{ left: menu.x, top: menu.y }} onClick={event => event.stopPropagation()}>
+          <button onClick={() => splitClip(menu)}>Split at cursor</button>
+        </div>
+      )}
     </div>
   )
 }

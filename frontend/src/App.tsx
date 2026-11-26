@@ -27,7 +27,7 @@ export default function App() {
   const projectRef = useRef<Project | null>(null)
   const transactionBase = useRef<Project | null>(null)
   const saveTimer = useRef<number | null>(null)
-  const playback = useRef<{ startMs: number; startTicks: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext }>({ startMs: 0, startTicks: 0, raf: 0, sources: [] })
+  const playback = useRef<{ startMs: number; startTicks: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext; starting?: boolean }>({ startMs: 0, startTicks: 0, raf: 0, sources: [], starting: false })
 
   const setProjectRef = useCallback((value: Project | null) => {
     projectRef.current = value
@@ -191,11 +191,18 @@ export default function App() {
       cancelAnimationFrame(playback.current.raf)
       return
     }
+    if (playback.current.starting) return
+    playback.current.starting = true
     const rendered = project.tracks
       .map(track => {
         const clipPaths = new Set((track.clips || []).map(clip => clip.path))
-        const sources = (track.clips || []).map(clip => ({ path: clip.path, startTicks: clip.start_ticks || 0 }))
-        if (track.render_path && !clipPaths.has(track.render_path)) sources.push({ path: track.render_path, startTicks: 0 })
+        const sources = (track.clips || []).map(clip => ({
+          path: clip.path,
+          startTicks: clip.start_ticks || 0,
+          offsetTicks: clip.offset_ticks || 0,
+          durationTicks: clip.duration_ticks || null,
+        }))
+        if (track.render_path && !clipPaths.has(track.render_path)) sources.push({ path: track.render_path, startTicks: 0, offsetTicks: 0, durationTicks: null })
         return { ...track, playbackSources: sources }
       })
       .filter(track => !track.mute && track.playbackSources.length)
@@ -212,10 +219,10 @@ export default function App() {
         try {
           const response = await fetch(url)
           const buffer = await ctx.decodeAudioData(await response.arrayBuffer())
-          return { track, buffer, sourceStartTicks: sourceSpec.startTicks }
+          return { track, buffer, sourceStartTicks: sourceSpec.startTicks, sourceOffsetTicks: sourceSpec.offsetTicks, sourceDurationTicks: sourceSpec.durationTicks }
         } catch { return null }
       })))
-      if (playback.current.ctx !== ctx) return
+      if (playback.current.ctx !== ctx) { playback.current.starting = false; return }
       playback.current.sources = tracksAndBuffers.flatMap(item => {
         if (!item) return []
         const source = ctx.createBufferSource()
@@ -226,11 +233,17 @@ export default function App() {
         pan.pan.value = item.track.pan
         source.connect(gain).connect(pan).connect(ctx.destination)
         const sourceStartSeconds = item.sourceStartTicks / project.ppq * 60 / project.bpm
+        const sourceOffsetSeconds = item.sourceOffsetTicks / project.ppq * 60 / project.bpm
+        const clipDurationSeconds = item.sourceDurationTicks
+          ? item.sourceDurationTicks / project.ppq * 60 / project.bpm
+          : Math.max(0, item.buffer.duration - sourceOffsetSeconds)
         const localOffset = offsetSeconds - sourceStartSeconds
-        if (localOffset >= 0 && localOffset < item.buffer.duration) {
-          source.start(ctx.currentTime, Math.min(Math.max(0, item.buffer.duration - 0.03), localOffset))
+        if (localOffset >= 0 && localOffset < clipDurationSeconds) {
+          const audioOffset = sourceOffsetSeconds + localOffset
+          const remaining = Math.max(0.01, clipDurationSeconds - localOffset)
+          source.start(ctx.currentTime, Math.min(Math.max(0, item.buffer.duration - 0.03), audioOffset), remaining)
         } else if (localOffset < 0) {
-          source.start(ctx.currentTime - localOffset, 0)
+          source.start(ctx.currentTime - localOffset, sourceOffsetSeconds, Math.max(0.01, clipDurationSeconds))
         }
         return [source]
       })
@@ -244,6 +257,7 @@ export default function App() {
       playback.current.raf = requestAnimationFrame(step)
     }
     playback.current.raf = requestAnimationFrame(step)
+    playback.current.starting = false
     setPlaying(true)
   }, [project, playing, playheadTicks, stopPlaybackAudio])
 

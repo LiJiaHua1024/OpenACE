@@ -3,6 +3,7 @@ import zipfile
 from pathlib import Path
 
 import mido
+import numpy as np
 import yaml
 
 from openace.core.models import Note, Project, Track
@@ -85,3 +86,30 @@ def test_mp4_lyric_video_is_timed_and_matches_audio_duration(tmp_path):
         text=True,
     )
     assert abs(float(probe.stdout.strip()) - 1.0) < 0.15
+
+
+def test_master_export_honors_clip_source_offset_and_duration(tmp_path):
+    from openace.core.audio import read_audio, write_wav
+    from openace.core.models import AudioClip, Project, Track, TrackType
+    from openace.exporters.master import export_master_wav
+
+    sr = 48000
+    t = np.arange(sr * 2) / sr
+    audio = np.zeros((sr * 2, 2), dtype=np.float32)
+    tone = np.sin(2 * np.pi * 440 * t[sr:])
+    audio[sr:, 0] = tone
+    audio[sr:, 1] = tone
+    source = tmp_path / "source.wav"
+    write_wav(source, audio, sr, normalize=False)
+
+    project = Project(title="clip offset", bpm=120)
+    track = project.add_track(Track(name="BGM", type=TrackType.ACCOMPANIMENT))
+    track.volume = 1.0
+    track.clips.append(AudioClip(path=str(source), start_ticks=0, duration_ticks=480, offset_ticks=960))
+    output = tmp_path / "master.wav"
+    export_master_wav(project, output, sample_rate=sr)
+    rendered, rendered_sr = read_audio(output)
+    assert rendered_sr == sr
+    first_half = rendered[: int(sr * 0.45)]
+    assert np.sqrt(np.mean(first_half ** 2)) > 0.05
+    assert len(rendered) <= int(sr * 0.55)

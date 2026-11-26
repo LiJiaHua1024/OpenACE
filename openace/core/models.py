@@ -115,6 +115,7 @@ class AudioClip(BaseModel):
     path: str
     start_ticks: int = 0
     duration_ticks: Optional[int] = None
+    offset_ticks: int = 0
     gain_db: float = 0.0
     label: str = ""
 

@@ -98,9 +98,10 @@ def test_arrangement_decodes_waveform_and_drags_audio_clip_independently(tmp_pat
             page.evaluate(
                 """() => {
                   window.__openaceStarts = []
-                  const original = AudioBufferSourceNode.prototype.start
+                  window.__openaceOriginalStart ||= AudioBufferSourceNode.prototype.start
+                  const original = window.__openaceOriginalStart
                   AudioBufferSourceNode.prototype.start = function(when = 0, offset = 0, duration) {
-                    window.__openaceStarts.push({ when, offset, now: this.context.currentTime })
+                    window.__openaceStarts.push({ when, offset, duration, now: this.context.currentTime })
                     return original.call(this, when, offset, duration)
                   }
                 }"""
@@ -119,6 +120,61 @@ def test_arrangement_decodes_waveform_and_drags_audio_clip_independently(tmp_pat
             page.wait_for_timeout(650)
             saved = httpx.get(f"{base}/api/projects/{project.id}").json()
             assert saved["tracks"][1]["clips"][0]["start_ticks"] == 0
+
+            # Trim the right edge inward by one beat, then the left edge inward by one beat.
+            page.mouse.move(box["x"] + 512, box["y"] + 75)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 400, box["y"] + 75, steps=4)
+            page.mouse.up()
+            page.wait_for_timeout(500)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert saved["tracks"][1]["clips"][0]["duration_ticks"] == 1440
+
+            page.mouse.move(box["x"] + 64, box["y"] + 75)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 176, box["y"] + 75, steps=4)
+            page.mouse.up()
+            page.wait_for_timeout(500)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            clip = saved["tracks"][1]["clips"][0]
+            assert (clip["start_ticks"], clip["offset_ticks"], clip["duration_ticks"]) == (480, 480, 960)
+
+            # Splitting at the center preserves source-time continuity across the two clips.
+            page.mouse.click(box["x"] + 288, box["y"] + 75, button="right")
+            page.locator(".arrangement-context-menu button", has_text="Split at cursor").click()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            clips = saved["tracks"][1]["clips"]
+            assert len(clips) == 2
+            assert [(c["start_ticks"], c["offset_ticks"], c["duration_ticks"]) for c in clips] == [
+                (480, 480, 480),
+                (960, 960, 480),
+            ]
+
+            page.locator('button[title="Stop"]').click()
+            page.wait_for_timeout(100)
+            page.evaluate(
+                """() => {
+                  window.__openaceStarts = []
+                  window.__openaceOriginalStart ||= AudioBufferSourceNode.prototype.start
+                  const original = window.__openaceOriginalStart
+                  AudioBufferSourceNode.prototype.start = function(when = 0, offset = 0, duration) {
+                    window.__openaceStarts.push({ when, offset, duration, now: this.context.currentTime })
+                    return original.call(this, when, offset, duration)
+                  }
+                }"""
+            )
+            page.locator('.play-button').click()
+            page.wait_for_timeout(300)
+            page.locator('.play-button').click()
+            starts = page.evaluate("() => window.__openaceStarts")
+            assert len(starts) == 2
+            assert abs((starts[0]["when"] - starts[0]["now"]) - 0.5) < 0.2
+            assert abs(starts[0]["offset"] - 0.5) < 0.03
+            assert abs(starts[0]["duration"] - 0.5) < 0.03
+            assert abs((starts[1]["when"] - starts[1]["now"]) - 1.0) < 0.2
+            assert abs(starts[1]["offset"] - 1.0) < 0.03
+            assert abs(starts[1]["duration"] - 0.5) < 0.03
             assert errors == []
             browser.close()
     finally:

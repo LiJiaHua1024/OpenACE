@@ -24,7 +24,7 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 
 | Capability | ACE Studio reference | Status | Evidence and remaining gap |
 |---|---|---:|---|
-| Multi-track arrangement | Track rows, clips, zoom/seek, drag | **Partial** | Canvas rows, note/clip rendering, shared zoom/scroll, seek, mute/solo/volume/pan, independent audio-clip dragging, grouped-note dragging, and real decoded waveform peaks. No clip split/trim/fade/context menu yet. |
+| Multi-track arrangement | Track rows, clips, zoom/seek, drag | **Partial** | Canvas rows, note/clip rendering, shared zoom/scroll, seek, mute/solo/volume/pan, independent audio-clip dragging, edge trimming with source-offset preservation, right-click split-at-cursor, grouped-note dragging, and real decoded waveform peaks remapped to trimmed segments. No fade/crossfade editing yet. |
 | Piano roll | Dense high-frame-rate professional editor | **Partial** | Canvas brush/select/erase, drag, resize, lyric editing, marquee multi-select, multi-note move/resize, copy/paste/duplicate, quantize, velocity lane, context menu, zoom/grid/playhead. Remaining: cross-track clipboard, per-note pitch handles, advanced vibrato editing, sustained 60FPS profiling. |
 | Timeline synchronization | Arrangement, piano roll and automation share viewport | **Done** | Shared controlled timeline implemented and screenshot-verified. |
 | Lyrics and phonemes | Fast lyric editing and visible phoneme decomposition | **Partial** | Double-click lyric editor, strict generated phoneme lane, vowel/consonant timing. No manual phoneme override or draggable boundaries. |
@@ -68,14 +68,14 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 |---|---:|---|
 | Shared zoom/scroll | **Done** | Ctrl+wheel zoom and horizontal/vertical scroll synchronized; passive-listener console errors removed. |
 | Project switching/creation | **Partial** | Selector, New Project, import-created project refresh. No delete/duplicate/recent-files UI. |
-| Context menus | **Partial** | Piano-roll note context menu implements copy/paste/duplicate/quantize/delete; arrangement/clip context menus remain missing. |
-| Advanced clip editing | **Gap** | No trim/split/fade/crossfade. |
+| Context menus | **Partial** | Piano-roll note context menu implements copy/paste/duplicate/quantize/delete; arrangement clips expose split-at-cursor. Track/clip menus still need richer operations. |
+| Advanced clip editing | **Partial** | Independent move, edge trim/re-extension, source offsets, and split-at-cursor implemented. Fade/crossfade editing remains missing. |
 
 ## Highest-priority gaps for the next iteration
 
 1. **Real GPU truth**: run `scripts/verify_local_gpu.py` on a 12GB NVIDIA machine; fix real SoulX/ACE-Step integration defects from actual logs and listening tests.
 2. **Engine conditioning depth**: translate dynamic/air/falsetto/tension/energy/breath/vibrato into meaningful SoulX/SVC controls rather than editor-only persistence.
 3. **Piano-roll professional depth**: per-note pitch handles, advanced vibrato editing, cross-track clipboard, performance profiling under large projects.
-4. **Arrangement clip depth**: clip trim/split/fades/context menu; independent dragging and real waveform analysis are now implemented.
+4. **Arrangement clip depth**: fades/crossfades and richer clip context operations; independent dragging, trim, split, and real waveform analysis are now implemented.
 5. **Commercial host validation**: open `.ustx`, `.svp`, `.vpr` in the real target applications and repair exact schemas.
 6. **Job durability/recovery** and language coverage (validated Cantonese/Japanese frontends).

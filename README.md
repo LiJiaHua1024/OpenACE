@@ -59,7 +59,7 @@ OPENACE_CI_SYNTH_FIXTURE=1 openace-tool render-vocal <project-id> <track-id>
 
 ## Arrangement editing
 
-The arrangement canvas draws real decoded waveform peaks for audio clips rather than placeholder stripes. Audio clips drag independently, contiguous vocal-note groups drag as musical phrases, and both movement paths persist through the same clip-aware playback/export pipeline.
+The arrangement canvas draws real decoded waveform peaks for audio clips rather than placeholder stripes. Audio clips drag independently, trim from either edge while preserving source offsets, and split at the cursor through the context menu. Waveforms remap to the trimmed source segment, contiguous vocal-note groups drag as musical phrases, and all clip timing paths persist through the same playback/export pipeline.
 
 ## Piano-roll editing
 
