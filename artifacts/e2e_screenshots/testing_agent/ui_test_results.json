@@ -1,0 +1,307 @@
+{
+  "new_project": {
+    "ok": true,
+    "details": {
+      "project_id": "project_4e0849cd4355",
+      "tracks": 1,
+      "notes": 0,
+      "layout": {
+        "ww": 1272,
+        "wh": 837,
+        "transportOverflow": [
+          {
+            "cls": "import-midi",
+            "text": "Import audio",
+            "x": 1235.15625,
+            "right": 1294.0703125,
+            "w": 58.9140625
+          }
+        ],
+        "bodyScrollX": false,
+        "bodyW": 1272,
+        "rightPanel": {
+          "x": 950,
+          "w": 322
+        }
+      },
+      "screenshot": "01_new_project_layout.png"
+    },
+    "time": 1795688834.285771
+  },
+  "notes_drag_lyrics_phonemes_zoom": {
+    "ok": true,
+    "details": {
+      "note_count": 3,
+      "drag": {
+        "before": [
+          1440,
+          67
+        ],
+        "after": [
+          1920,
+          68
+        ]
+      },
+      "lyrics": [
+        "你好",
+        "好",
+        "唱"
+      ],
+      "phoneme_counts": [
+        4,
+        2,
+        2
+      ],
+      "phoneme_symbols": [
+        "nxiau",
+        "xau",
+        "ʈʂʰaŋ"
+      ],
+      "zoom_before": "112",
+      "zoom_after": "149",
+      "screenshots": [
+        "02_notes_drawn.png",
+        "03_lyrics_phonemes.png",
+        "04_zoom_synchronized.png"
+      ]
+    },
+    "time": 1795688852.4683263
+  },
+  "automation_pitch_air_tension": {
+    "ok": true,
+    "details": {
+      "counts": {
+        "pitch_cents": 21,
+        "air": 21,
+        "tension": 21
+      },
+      "sample_values": {
+        "pitch_cents": [
+          {
+            "ticks": 132,
+            "value": -2.5799793601651184,
+            "curve": "linear"
+          },
+          {
+            "ticks": 167,
+            "value": 7.051901592599759,
+            "curve": "linear"
+          },
+          {
+            "ticks": 203,
+            "value": 16.683887524993548,
+            "curve": "linear"
+          }
+        ],
+        "air": [
+          {
+            "ticks": 132,
+            "value": 0.5135135135135135,
+            "curve": "linear"
+          },
+          {
+            "ticks": 167,
+            "value": 0.563963744017455,
+            "curve": "linear"
+          },
+          {
+            "ticks": 203,
+            "value": 0.614414524387669,
+            "curve": "linear"
+          }
+        ],
+        "tension": [
+          {
+            "ticks": 132,
+            "value": 0.5135135135135135,
+            "curve": "linear"
+          },
+          {
+            "ticks": 167,
+            "value": 0.563963744017455,
+            "curve": "linear"
+          },
+          {
+            "ticks": 203,
+            "value": 0.614414524387669,
+            "curve": "linear"
+          }
+        ]
+      },
+      "screenshots": [
+        "05_automation_pitch.png",
+        "06_automation_air.png",
+        "07_automation_tension.png"
+      ]
+    },
+    "time": 1795688870.8449824
+  },
+  "upload_reference_and_render_vocal": {
+    "ok": true,
+    "details": {
+      "uploaded_reference": "/home/ubuntu/repos/OpenACE/data/uploads/vocal.wav",
+      "render_visible_completed": true,
+      "job": {
+        "id": "job_5ee1913439f9",
+        "project_id": "project_4e0849cd4355",
+        "track_id": "track_1b92aa0dce23",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4e0849cd4355/job_5ee1913439f9/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4e0849cd4355/job_5ee1913439f9/diagnostic.png",
+        "created_at": 1795688885.4191053,
+        "finished_at": 1795688888.71111,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      },
+      "track_render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4e0849cd4355/job_5ee1913439f9/vocal.wav",
+      "screenshots": [
+        "08_uploaded_reference_and_source.png",
+        "09_vocal_render_completed.png"
+      ]
+    },
+    "time": 1795688889.7667038
+  },
+  "vocal2bgm_repaint_svc": {
+    "ok": true,
+    "details": {
+      "visible": {
+        "vocal2bgm": true,
+        "repaint": true,
+        "svc": true
+      },
+      "jobs": {
+        "vocal2bgm": {
+          "id": "job_bcee55b954e9",
+          "project_id": "project_4e0849cd4355",
+          "track_id": null,
+          "mode": "vocal2bgm",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4e0849cd4355/job_bcee55b954e9/accompaniment.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4e0849cd4355/job_bcee55b954e9/diagnostic.png",
+          "created_at": 1795688900.2704208,
+          "finished_at": 1795688900.8516688,
+          "error": null,
+          "engine": "explicit CI music fixture",
+          "fixture": true
+        },
+        "repaint": {
+          "id": "job_684c99a10847",
+          "project_id": "project_4e0849cd4355",
+          "track_id": null,
+          "mode": "repaint",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4e0849cd4355/job_684c99a10847/accompaniment.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4e0849cd4355/job_684c99a10847/diagnostic.png",
+          "created_at": 1795688901.751987,
+          "finished_at": 1795688902.2391808,
+          "error": null,
+          "engine": "explicit CI music fixture",
+          "fixture": true
+        },
+        "svc": {
+          "id": "job_d36947b0a57c",
+          "project_id": "project_4e0849cd4355",
+          "track_id": null,
+          "mode": "svc",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4e0849cd4355/job_d36947b0a57c/svc.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4e0849cd4355/job_d36947b0a57c/diagnostic.png",
+          "created_at": 1795688902.8663628,
+          "finished_at": 1795688903.4398687,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true
+        }
+      },
+      "accompaniment_clips": 2,
+      "repaint_ui": "numeric Start/End only; no waveform box selection",
+      "screenshots": [
+        "10_repaint_numeric_fields_gap.png",
+        "11_vocal2bgm_completed.png",
+        "12_bgm_repaint_svc_completed.png"
+      ]
+    },
+    "time": 1795688904.5534418
+  },
+  "playback_project_selector_exports": {
+    "ok": true,
+    "details": {
+      "playback_before": "1.1.1\n00:00.00",
+      "playback_during": "1.3.4\n00:01.39",
+      "play_icon": "❚❚",
+      "selector": {
+        "other": "project_4f7c10a9a777",
+        "away": "project_4f7c10a9a777",
+        "back": "project_4e0849cd4355",
+        "option_count": 14
+      },
+      "downloads": {
+        "wav": {
+          "ok": true,
+          "suggested": "严苛验收_UI闭环.wav",
+          "bytes": 900044
+        },
+        "mp4": {
+          "ok": true,
+          "suggested": "严苛验收_UI闭环.mp4",
+          "bytes": 69784
+        },
+        "mid": {
+          "ok": true,
+          "suggested": "严苛验收_UI闭环.mid",
+          "bytes": 119
+        },
+        "lrc": {
+          "ok": true,
+          "suggested": "严苛验收_UI闭环.lrc",
+          "bytes": 119
+        },
+        "ustx": {
+          "ok": true,
+          "suggested": "严苛验收_UI闭环.ustx",
+          "bytes": 1892
+        },
+        "svp": {
+          "ok": true,
+          "suggested": "严苛验收_UI闭环.svp",
+          "bytes": 5029
+        },
+        "vpr": {
+          "ok": true,
+          "suggested": "严苛验收_UI闭环.vpr",
+          "bytes": 753
+        }
+      },
+      "screenshots": [
+        "13_playback_moving.png",
+        "14_export_panel.png",
+        "15_exports_attempted.png"
+      ]
+    },
+    "time": 1795688929.8690722
+  },
+  "mcp_edit_sse_visibility": {
+    "ok": false,
+    "details": {
+      "mcp_call_ok": true,
+      "mcp_error": "",
+      "backend_before_count": 3,
+      "backend_after_count": 4,
+      "ui_before": "vocal · zh · 3 notes\nM\nS",
+      "ui_after": "vocal · zh · 3 notes\nM\nS",
+      "sse_updated": false,
+      "screenshot": "16_mcp_edit_sse_stale_ui.png"
+    },
+    "time": 1795688961.90825
+  }
+}
