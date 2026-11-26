@@ -280,3 +280,7 @@ The Air automation lane now affects rendered vocals as explicitly labeled post-r
 ## Iteration 13 — manual phoneme override and sequence-correct timing
 
 Manual note phonemes can now be edited from the piano-roll context menu as space-separated symbols, timed by the backend, validated against empty/placeholder/no-vowel input, and reset to automatic lyric-derived phonemes. Phoneme timing is now sequence-correct: only pre-vowel consonants receive negative beat-preonset offsets, while post-vowel consonants remain after the beat-anchored vowel. Real-browser regression covers override persistence/reset and English coda placement; backend callers pass exact project-tempo note durations.
+
+## Iteration 14 — cross-track clipboard regression proof
+
+Real-browser regression now proves note clipboard state survives switching to a newly created vocal track and pastes the copied note into that track. This closes the cross-track clipboard gap; large-project sustained-performance profiling remains open.

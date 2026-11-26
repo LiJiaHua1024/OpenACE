@@ -206,6 +206,20 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
             project = httpx.get(f"{base}/api/projects/{project_id}").json()
             first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
             assert len(first["pitch_curve"]) == 1
+
+            # Clipboard persists across vocal-track switches inside the shared editor.
+            page.locator('button[title="Select/move (V)"]').click()
+            page.mouse.click(box["x"] + 170, box["y"] + 315)
+            page.keyboard.press("Control+c")
+            page.locator('button', has_text="+ Vocal").click()
+            page.wait_for_timeout(350)
+            page.locator('.track-card').last.click()
+            page.keyboard.press("Control+v")
+            page.wait_for_timeout(750)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            assert len(project["tracks"]) == 2
+            assert len(project["tracks"][1]["notes"]) == 1
+            assert project["tracks"][1]["notes"][0]["pitch"] == 60
             assert errors == []
             browser.close()
     finally:
