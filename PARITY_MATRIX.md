@@ -68,8 +68,8 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 |---|---:|---|
 | Shared zoom/scroll | **Done** | Ctrl+wheel zoom and horizontal/vertical scroll synchronized; passive-listener console errors removed. |
 | Project switching/creation | **Partial** | Selector, New Project, import-created project refresh. No delete/duplicate/recent-files UI. |
-| Context menus | **Partial** | Piano-roll note context menu implements copy/paste/duplicate/quantize/delete; arrangement/clip context menus remain missing. |
-| Advanced clip editing | **Gap** | No trim/split/fade/crossfade. |
+| Context menus | **Partial** | Piano-roll note context menu implements copy/paste/duplicate/quantize/delete; arrangement clips expose split-at-cursor. Track/clip menus still need richer operations. |
+| Advanced clip editing | **Partial** | Independent move, edge trim/re-extension, source offsets, and split-at-cursor implemented. Fade/crossfade editing remains missing. |
 
 ## Highest-priority gaps for the next iteration
 
