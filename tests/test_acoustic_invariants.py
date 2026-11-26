@@ -82,3 +82,13 @@ def test_soulx_adapter_uses_module_preprocess_entrypoint():
     source = Path("openace/engines/soulx.py").read_text()
     assert '"-m",\n            "preprocess.pipeline"' in source
     assert '"preprocess/pipeline.py"' not in source
+
+
+def test_manual_placeholder_la_phoneme_is_rejected():
+    from openace.core.models import Phoneme
+    from openace.core.phonemes import ensure_note_phonemes
+
+    note = Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你")
+    note.phonemes = [Phoneme(symbol="la", start_ms=0, duration_ms=100, is_vowel=True)]
+    with pytest.raises(PhonemeError, match="placeholder"):
+        ensure_note_phonemes(note, "zh")

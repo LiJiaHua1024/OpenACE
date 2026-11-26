@@ -267,6 +267,7 @@ def ensure_note_phonemes(note: Note, language: str) -> List[Phoneme]:
     if note.phonemes:
         if not any(p.is_vowel for p in note.phonemes):
             raise PhonemeError(f"note '{note.lyric}' has no vowel phoneme")
+        validate_phoneme_inventory(note.phonemes)
         return note.phonemes
     tokens = phonemes_for_text(note.lyric, language)
     consonants = [t for t in tokens if not t.is_vowel]
@@ -287,6 +288,7 @@ def ensure_note_phonemes(note: Note, language: str) -> List[Phoneme]:
     for index, token in enumerate(vowels):
         phonemes.append(Phoneme(symbol=token.symbol, start_ms=index * each, duration_ms=each, is_vowel=True))
     note.phonemes = phonemes
+    validate_phoneme_inventory(note.phonemes)
     return phonemes
 
 

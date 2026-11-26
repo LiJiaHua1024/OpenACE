@@ -221,3 +221,7 @@ Validation after iteration 5: frontend production build passed; Python compile p
 ## Iteration 6 — durable render-job recovery
 
 `RenderService` now atomically persists job records in `data/renders/jobs.json` on every state publication. A restarted service reloads completed/failed history and converts previously queued/running jobs into explicit failures with `backend restarted before job completion`, avoiding silent loss or misleading perpetual-running state. Regression coverage constructs a running job, recreates the service, and verifies the recovered failed state.
+
+## Iteration 7 — phoneme placeholder validation enforcement
+
+Manual and generated phoneme inventories now both pass through `validate_phoneme_inventory`; a manually supplied literal placeholder `la` is rejected instead of slipping through editing/persistence. Regression coverage verifies `ensure_note_phonemes` raises `PhonemeError` for that forbidden placeholder.
