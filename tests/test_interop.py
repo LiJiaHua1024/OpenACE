@@ -16,7 +16,7 @@ from openace.importers.midi import import_midi
 def sample_project():
     project = Project(title="Interop Test", bpm=120)
     track = Track(name="Lead")
-    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你", velocity=37))
     track.add_note(Note(start_ticks=480, duration_ticks=480, pitch=62, lyric="好"))
     project.add_track(track)
     return project
@@ -27,7 +27,7 @@ def test_midi_roundtrip_preserves_notes_and_lyrics(tmp_path):
     path = export_midi(project, tmp_path / "song.mid")
     imported = import_midi(path)
     notes = imported.tracks[0].notes
-    assert [(n.start_ticks, n.duration_ticks, n.pitch) for n in notes] == [(0, 480, 60), (480, 480, 62)]
+    assert [(n.start_ticks, n.duration_ticks, n.pitch, n.velocity) for n in notes] == [(0, 480, 60, 37), (480, 480, 62, 90)]
     assert "".join(n.lyric for n in notes) == "你好"
 
 

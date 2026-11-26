@@ -25,7 +25,7 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 | Capability | ACE Studio reference | Status | Evidence and remaining gap |
 |---|---|---:|---|
 | Multi-track arrangement | Track rows, clips, zoom/seek, drag | **Partial** | Canvas rows, note/clip rendering, shared zoom/scroll, content dragging, seek, mute/solo/volume/pan. No clip split/trim/fade/independent clip editing. |
-| Piano roll | Dense high-frame-rate professional editor | **Partial** | Canvas brush/select/erase, drag, resize, lyric editing, velocity, zoom, grid, playhead. Missing marquee/multi-select/copy-paste/context menu/velocity lane/quantization UI. |
+| Piano roll | Dense high-frame-rate professional editor | **Partial** | Canvas brush/select/erase, drag, resize, lyric editing, marquee multi-select, multi-note move/resize, copy/paste/duplicate, quantize, velocity lane, context menu, zoom/grid/playhead. Remaining: cross-track clipboard, per-note pitch handles, advanced vibrato editing, sustained 60FPS profiling. |
 | Timeline synchronization | Arrangement, piano roll and automation share viewport | **Done** | Shared controlled timeline implemented and screenshot-verified. |
 | Lyrics and phonemes | Fast lyric editing and visible phoneme decomposition | **Partial** | Double-click lyric editor, strict generated phoneme lane, vowel/consonant timing. No manual phoneme override or draggable boundaries. |
 | Pitch automation | Draw pitch deviation and affect synthesis | **Partial** | Pitch lane edits persist and are written into SoulX target F0 metadata. Per-note vibrato/handle editing still shallow. |
@@ -33,7 +33,7 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 | Breath lane | Insert/edit breaths | **Partial** | Auto add-all and click add exist; no edge dragging/model consumption. |
 | WebAudio playback | Transport plays rendered vocal/accompaniment | **Partial** | Decoded playback with volume/pan/mute/solo and moving playhead; now schedules all clips as well as latest render. No sample-accurate crossfade/live caching. |
 | Undo/redo | Reliable DAW history | **Partial** | Project snapshots and transactions work for common editing. Needs coalescing and edge-case hardening. |
-| Keyboard shortcuts | DAW-grade editing speed | **Partial** | Space, delete, Ctrl/Cmd+Z/Y implemented. Missing copy/paste/tool hotkeys. |
+| Keyboard shortcuts | DAW-grade editing speed | **Partial** | Space, delete, Ctrl/Cmd+Z/Y, Ctrl+A/C/V/D and V/B/E/Q tool/edit hotkeys implemented. Additional ACE-specific hotkey mapping can be deepened. |
 | Professional dark UI | ACE/Ableton-like density and polish | **Partial** | Dark multi-pane workstation, responsive transport fixes, project selector, no dead primary controls. Still below commercial visual depth. |
 
 ## P2 — audio/project production workflows
@@ -68,14 +68,14 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 |---|---:|---|
 | Shared zoom/scroll | **Done** | Ctrl+wheel zoom and horizontal/vertical scroll synchronized; passive-listener console errors removed. |
 | Project switching/creation | **Partial** | Selector, New Project, import-created project refresh. No delete/duplicate/recent-files UI. |
-| Context menus | **Gap** | No right-click operations. |
+| Context menus | **Partial** | Piano-roll note context menu implements copy/paste/duplicate/quantize/delete; arrangement/clip context menus remain missing. |
 | Advanced clip editing | **Gap** | No trim/split/fade/crossfade. |
 
 ## Highest-priority gaps for the next iteration
 
 1. **Real GPU truth**: run `scripts/verify_local_gpu.py` on a 12GB NVIDIA machine; fix real SoulX/ACE-Step integration defects from actual logs and listening tests.
 2. **Engine conditioning depth**: translate dynamic/air/falsetto/tension/energy/breath/vibrato into meaningful SoulX/SVC controls rather than editor-only persistence.
-3. **Piano-roll professional depth**: marquee/multi-select/copy-paste/velocity lane/context menu/per-note pitch handles/quantize.
+3. **Piano-roll professional depth**: per-note pitch handles, advanced vibrato editing, cross-track clipboard, performance profiling under large projects.
 4. **Arrangement clip depth**: independent clip drag/trim/split/fades and visible waveform analysis.
 5. **Commercial host validation**: open `.ustx`, `.svp`, `.vpr` in the real target applications and repair exact schemas.
 6. **Job durability/recovery** and language coverage (validated Cantonese/Japanese frontends).
