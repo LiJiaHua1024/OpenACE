@@ -1,2 +1,82 @@
 # OpenACE
-Local-first open-source virtual singer studio inspired by ACE Studio, with MCP-native agent control.
+
+OpenACE is a local-first, open-source virtual singer workstation built to replicate the daily-production workflow of ACE Studio while remaining free of bundled commercial vocals, proprietary model weights, and cloud API-key requirements.
+
+## Architecture
+
+- **Web workstation**: React + Canvas arrangement view, piano-roll editor, lyric editing, vocal automation lanes, track mixer, render jobs, acoustic diagnostics, and export center.
+- **Local API**: FastAPI project store, atomic editing endpoints, SSE synchronization, render orchestration, uploads, and format export.
+- **Vocal core**: production adapter for [SoulX-Singer](https://github.com/Soul-AILab/SoulX-Singer) (Apache 2.0) score/melody SVS and SoulX-Singer-SVC.
+- **Music/edit core**: production adapter for [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5) (MIT), including ACE-Step `complete` Vocal2BGM and explicit interval repaint.
+- **Agent surface**: `openace-tool` atomic CLI, `openace-mcp` MCP server (`stdio` and `streamable-http`), and `skills/openace/SKILL.md`.
+- **Interop**: MIDI+LRC, OpenUtau `.ustx`, Synthesizer V `.svp`, VOCALOID `.vpr`, mastered `.wav`, and lyric `.mp4` export paths.
+
+## Acoustic invariants
+
+OpenACE treats the following as hard defects and covers them with tests:
+
+1. no per-note octave folding or clamping during transposition;
+2. no 0Hz/unvoiced-frame pollution in F0 smoothing; isolated octave artifacts are corrected without suppressing real melodic leaps;
+3. note vowel onset is the absolute beat anchor, with consonant pre-onset constrained to the 40–90 ms performance zone;
+4. unknown lyrics are explicit errors and are never silently replaced by “啦/la”.
+
+Production rendering never synthesizes fake sine-wave vocals. The harmonic/noise fixture implementation is isolated in `openace/engines/fixture.py`, is refused unless `OPENACE_CI_SYNTH_FIXTURE=1`, and exists only for CPU CI/UI orchestration tests.
+
+## Quick start (CPU sandbox / development)
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -e '.[dev]'
+cd frontend && npm install && npm run build && cd ..
+OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/openace-server
+```
+
+Open <http://127.0.0.1:8787>.
+
+## Real GPU installation
+
+On a local NVIDIA machine with about 12 GB VRAM:
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -e '.[gpu]'
+python scripts/verify_local_gpu.py --hf-endpoint https://hf-mirror.com  # optional mirror
+.venv/bin/openace-server
+```
+
+`verify_local_gpu.py` clones the upstream engines, downloads public weights without API keys, runs real SoulX-Singer and ACE-Step inference in separate subprocesses, and writes `artifacts/local_gpu/report.json`. Model subprocesses are serialized by `VRAMManager`; the two large model families are never intentionally resident together.
+
+## CLI examples
+
+```bash
+openace-tool create-project --title demo
+openace-tool add-track <project-id> --name Lead --language zh
+openace-tool add-note <project-id> <track-id> --start 0 --duration 480 --pitch 60 --lyric 你
+openace-tool validate <project-id>
+openace-tool export <project-id> svp out.svp
+OPENACE_CI_SYNTH_FIXTURE=1 openace-tool render-vocal <project-id> <track-id>
+```
+
+## Repaint region selection
+
+In the arrangement canvas, hold **Alt** and drag across the timeline to draw the yellow repaint region. The same region is reflected in the Vocal2BGM/Repaint panel as numeric seconds and is passed to the ACE-Step repaint job.
+
+## MCP
+
+```bash
+openace-mcp --transport stdio
+openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
+```
+
+The MCP tools mirror the atomic CLI: create projects/tracks/notes, transpose with interval conservation, render, repaint, convert voices, and export project formats. No hosted model or vendor API key is involved.
+
+## Repository layout
+
+- `openace/core` — project model, timing, phonemes, pitch/F0 invariants, loudness, diagnostics
+- `openace/engines` — SoulX-Singer, ACE-Step, VRAM scheduling, model bootstrap, explicit CI fixture
+- `openace/server` — FastAPI app, render jobs, SSE
+- `openace/exporters` / `openace/importers` — DAW/project/audio interoperability
+- `frontend` — professional dark workstation UI
+- `scripts` — one-command model bootstrap and real GPU verification
+- `PARITY_MATRIX.md` — living ACE Studio parity audit
+- `VERIFICATION_REPORT.md` — current verification evidence and limitations
