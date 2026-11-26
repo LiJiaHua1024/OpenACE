@@ -1,0 +1,210 @@
+{
+  "version": 153,
+  "time": {
+    "meter": [
+      {
+        "index": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ],
+    "tempo": [
+      {
+        "position": 0,
+        "bpm": 120.0
+      }
+    ]
+  },
+  "library": [],
+  "tracks": [
+    {
+      "name": "Lead Vocal",
+      "dispColor": "7367ff",
+      "dispOrder": 0,
+      "renderEnabled": true,
+      "mixer": {
+        "gainDecibel": -1.938200260161128,
+        "pan": 0.0,
+        "mute": false,
+        "solo": false,
+        "display": true
+      },
+      "mainGroup": {
+        "name": "Lead Vocal",
+        "notes": [
+          {
+            "musicalType": "singing",
+            "onset": 176400000,
+            "duration": 882000000,
+            "lyrics": "你好",
+            "phonemes": "n x i au",
+            "accent": "",
+            "pitch": 60,
+            "detune": 0,
+            "instantMode": true,
+            "attributes": {
+              "evenSyllableDuration": false,
+              "tF0Left": 0.04,
+              "tF0Right": 0.04,
+              "dF0Left": 0.0,
+              "dF0Right": 0.0,
+              "dF0Vbr": 0.0,
+              "fF0Vbr": 5.5,
+              "tF0VbrStart": 0.55
+            },
+            "systemAttributes": {},
+            "pitchTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "timbreTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "expressionTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            }
+          },
+          {
+            "musicalType": "singing",
+            "onset": 1058400000,
+            "duration": 882000000,
+            "lyrics": "好",
+            "phonemes": "x au",
+            "accent": "",
+            "pitch": 64,
+            "detune": 0,
+            "instantMode": true,
+            "attributes": {
+              "evenSyllableDuration": false,
+              "tF0Left": 0.04,
+              "tF0Right": 0.04,
+              "dF0Left": 0.0,
+              "dF0Right": 0.0,
+              "dF0Vbr": 0.0,
+              "fF0Vbr": 5.5,
+              "tF0VbrStart": 0.55
+            },
+            "systemAttributes": {},
+            "pitchTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "timbreTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "expressionTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            }
+          },
+          {
+            "musicalType": "singing",
+            "onset": 2822400000,
+            "duration": 882000000,
+            "lyrics": "唱",
+            "phonemes": "ʈʂʰ aŋ",
+            "accent": "",
+            "pitch": 68,
+            "detune": 0,
+            "instantMode": true,
+            "attributes": {
+              "evenSyllableDuration": false,
+              "tF0Left": 0.04,
+              "tF0Right": 0.04,
+              "dF0Left": 0.0,
+              "dF0Right": 0.0,
+              "dF0Vbr": 0.0,
+              "fF0Vbr": 5.5,
+              "tF0VbrStart": 0.55
+            },
+            "systemAttributes": {},
+            "pitchTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "timbreTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "expressionTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            }
+          }
+        ],
+        "parameters": {
+          "pitchDelta": {
+            "mode": "linear",
+            "points": []
+          },
+          "vibratoEnv": {
+            "mode": "linear",
+            "points": []
+          },
+          "loudness": {
+            "mode": "linear",
+            "points": []
+          },
+          "tension": {
+            "mode": "linear",
+            "points": []
+          },
+          "breathiness": {
+            "mode": "linear",
+            "points": []
+          },
+          "voicing": {
+            "mode": "linear",
+            "points": []
+          },
+          "gender": {
+            "mode": "linear",
+            "points": []
+          }
+        },
+        "voice": {
+          "version": "1",
+          "language": "zh",
+          "phoneset": "xsampa",
+          "name": "zero-shot-reference"
+        }
+      },
+      "mainRef": {
+        "isInstrumental": false
+      },
+      "groups": []
+    },
+    {
+      "name": "ACE-Step BGM",
+      "dispColor": "2fb996",
+      "dispOrder": 1,
+      "renderEnabled": true,
+      "mixer": {
+        "gainDecibel": -1.938200260161128,
+        "pan": 0.0,
+        "mute": false,
+        "solo": false,
+        "display": true
+      },
+      "mainGroup": {
+        "name": "ACE-Step BGM",
+        "notes": [],
+        "parameters": {}
+      },
+      "mainRef": {
+        "isInstrumental": true
+      },
+      "groups": []
+    }
+  ],
+  "renderConfig": {
+    "sampleRate": 48000,
+    "bitDepth": 24,
+    "numChannels": 2,
+    "aspirationFormat": "wav",
+    "exportMixDown": true
+  }
+}

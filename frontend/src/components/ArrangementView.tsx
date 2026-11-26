@@ -114,6 +114,23 @@ export default function ArrangementView(props: Props) {
           }
         }
       })
+      if (props.repaintRange.end > props.repaintRange.start) {
+        const startTicks = props.repaintRange.start * props.project.bpm * ppq / 60
+        const endTicks = props.repaintRange.end * props.project.bpm * ppq / 60
+        const sx = xForTick(startTicks)
+        const ex = xForTick(endTicks)
+        if (ex >= LABEL_WIDTH && sx < width) {
+          ctx.fillStyle = '#f4b94224'
+          ctx.fillRect(sx, RULER_HEIGHT, ex - sx, height - RULER_HEIGHT)
+          ctx.strokeStyle = '#f4b942'
+          ctx.lineWidth = 1.5
+          ctx.strokeRect(sx, RULER_HEIGHT, ex - sx, height - RULER_HEIGHT)
+          ctx.fillStyle = '#ffd27a'
+          ctx.font = '10px Inter'
+          ctx.fillText('repaint region', Math.max(LABEL_WIDTH + 5, sx + 5), RULER_HEIGHT + 13)
+        }
+      }
+
       const px = xForTick(props.playheadTicks)
       if (px >= LABEL_WIDTH && px < width) {
         ctx.strokeStyle = '#ff4f78'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, height); ctx.stroke()
@@ -124,7 +141,7 @@ export default function ArrangementView(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(parent)
     return () => observer.disconnect()
-  }, [props.project, props.selectedTrackId, props.playheadTicks, scrollTicks, pxPerBeat, ppq])
+  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, scrollTicks, pxPerBeat, ppq])
 
   function pointer(event: React.PointerEvent) {
     const rect = canvasRef.current!.getBoundingClientRect()

@@ -1,0 +1,117 @@
+name: Final QA 验收
+ustx_version: '0.9'
+resolution: 480
+key: 0
+time_signatures:
+- bar_position: 0
+  beat_per_bar: 4
+  beat_unit: 4
+tempos:
+- position: 0
+  bpm: 120.0
+expressions: {}
+tracks:
+- track_name: Lead Vocal
+  track_color: 7367ff
+  singer: zero-shot-reference
+  phonemizer: Default
+  mute: false
+  solo: false
+  volume: 0.8
+  pan: 0.0
+- track_name: ACE-Step BGM
+  track_color: 2fb996
+  singer: ''
+  phonemizer: Default
+  mute: false
+  solo: false
+  volume: 0.8
+  pan: 0.0
+voice_parts:
+- name: Lead Vocal
+  track_no: 0
+  position: 0
+  notes:
+  - position: 120
+    duration: 600
+    tone: 60
+    lyric: 你好
+    pitch:
+      data: []
+      snap_first: true
+    vibrato:
+      length: 0
+      period: 175
+      depth: 0
+      in: 10
+      out: 10
+      shift: 0
+      drift: 0
+      vol_link: 0
+    phoneme_overrides:
+    - index: 0
+      phoneme: n
+      offset: -52.5
+    - index: 1
+      phoneme: x
+      offset: -26.25
+    - index: 2
+      phoneme: i
+      offset: 0.0
+    - index: 3
+      phoneme: au
+      offset: 75.0
+  - position: 720
+    duration: 600
+    tone: 64
+    lyric: 好
+    pitch:
+      data: []
+      snap_first: true
+    vibrato:
+      length: 0
+      period: 175
+      depth: 0
+      in: 10
+      out: 10
+      shift: 0
+      drift: 0
+      vol_link: 0
+    phoneme_overrides:
+    - index: 0
+      phoneme: x
+      offset: -45.0
+    - index: 1
+      phoneme: au
+      offset: 0.0
+  - position: 1920
+    duration: 600
+    tone: 68
+    lyric: 唱
+    pitch:
+      data: []
+      snap_first: true
+    vibrato:
+      length: 0
+      period: 175
+      depth: 0
+      in: 10
+      out: 10
+      shift: 0
+      drift: 0
+      vol_link: 0
+    phoneme_overrides:
+    - index: 0
+      phoneme: ʈʂʰ
+      offset: -45.0
+    - index: 1
+      phoneme: aŋ
+      offset: 0.0
+  curves:
+  - abbr: dyn
+    x: []
+    y: []
+  - abbr: pitd
+    x: []
+    y: []
+wave_parts: []

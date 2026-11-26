@@ -106,8 +106,8 @@ export default function RenderPanel(props: Props) {
         <button disabled={!sourceAudio || busy === 'bgm'} className="wide-action" onClick={() => run('bgm', () => api.vocal2bgm(props.project.id, sourceAudio, caption))}>Vocal2BGM</button>
         <p className="hint">Alt-drag on the arrangement timeline to draw the repaint region.</p>
         <div className="repaint-grid">
-          <label>Start<input type="number" min="0" step="0.1" value={repaintStart} onChange={e => props.onRepaintRange({ start: Number(e.target.value), end: repaintEnd })} /></label>
-          <label>End<input type="number" min="0" step="0.1" value={repaintEnd} onChange={e => props.onRepaintRange({ start: repaintStart, end: Number(e.target.value) })} /></label>
+          <label>Start<input type="number" min="0" step="0.1" value={Number(repaintStart.toFixed(2))} onChange={e => props.onRepaintRange({ start: Number(e.target.value), end: repaintEnd })} /></label>
+          <label>End<input type="number" min="0" step="0.1" value={Number(repaintEnd.toFixed(2))} onChange={e => props.onRepaintRange({ start: repaintStart, end: Number(e.target.value) })} /></label>
         </div>
         <button disabled={!sourceAudio || busy === 'repaint'} className="wide-action secondary" onClick={() => run('repaint', () => api.repaint(props.project.id, sourceAudio, repaintStart, repaintEnd, caption))}>Repaint selection</button>
         <button disabled={!sourceAudio || !props.track?.reference_voice_path || busy === 'svc'} className="wide-action secondary" onClick={() => run('svc', () => api.svc(props.project.id, sourceAudio, props.track!.reference_voice_path!))}>SVC voice conversion</button>

@@ -123,3 +123,20 @@ This script intentionally removes `OPENACE_CI_SYNTH_FIXTURE` from child environm
 - `.ustx`/`.svp`/`.vpr` files have structural tests but have not been opened in their licensed target applications.
 - Automation lanes other than Pitch are not yet engine-conditioned.
 - MP4 is synchronized lyric video, not polished commercial karaoke motion graphics.
+
+
+## Final independent regression QA after defect fixes
+
+A second persistent testing-agent run re-tested the production UI in real Chrome/Playwright at exactly 1272×837. Results are stored in `artifacts/e2e_screenshots/final_qa/`; recording: `/home/ubuntu/screencasts/rec-627854b9-e979-4b13-af47-06fbc93aab5c/rec-627854b9-e979-4b13-af47-06fbc93aab5c-edited.mp4`.
+
+Passed in that run:
+
+- transport fit at 1272×837, favicon/network/console health;
+- piano-roll creation, Mandarin lyrics/phonemes, pitch/air/tension automation;
+- transpose +1/-1 visible and correct;
+- fixture vocal render, Vocal2BGM, repaint replacement (one accompaniment clip), playback URLs;
+- all seven export formats;
+- fresh MP4 duration within frame quantization and correctly timed Chinese ASS subtitles after installing host CJK font;
+- MCP `add_note` live-updated the open browser from 3 to 4 notes through SSE.
+
+That run exposed one remaining visualization bug: Alt-drag updated numeric repaint times but the yellow region was not drawn. This has now been fixed and specifically re-verified: the arrangement canvas contains 946 yellow-range pixels after Alt-drag, numeric fields display editor-friendly rounded values (`1.63`, `2.48`), and no console errors occurred (`artifacts/e2e_screenshots/17_repaint_range_visible_fixed.png`).
