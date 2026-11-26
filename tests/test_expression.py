@@ -47,3 +47,30 @@ def test_dynamic_envelope_prevents_output_clipping():
     rendered, applied = apply_dynamic_envelope(audio, 48000, project, track)
     assert applied
     assert np.max(np.abs(rendered)) <= 0.980001
+
+
+def test_air_envelope_emphasizes_existing_high_frequency_content():
+    from openace.core.expression import apply_air_envelope
+    from openace.core.models import EnvelopePoint, Project, Track
+
+    sr = 48000
+    t = np.arange(sr) / sr
+    audio = (0.08 * np.sin(2 * np.pi * 5000 * t))[:, None].astype(np.float32)
+    project = Project(title="air", bpm=120)
+    track = Track(name="Lead")
+    track.automation.air = [EnvelopePoint(ticks=0, value=0.5), EnvelopePoint(ticks=960, value=1.0)]
+    processed, applied = apply_air_envelope(audio, sr, project, track)
+    assert applied
+    first = processed[: sr // 4, 0]
+    last = processed[-sr // 4 :, 0]
+    assert np.sqrt(np.mean(last ** 2)) > np.sqrt(np.mean(first ** 2)) * 1.5
+
+
+def test_air_envelope_is_transparent_when_empty():
+    from openace.core.expression import apply_air_envelope
+    from openace.core.models import Project, Track
+
+    audio = np.ones((128, 2), dtype=np.float32) * 0.1
+    processed, applied = apply_air_envelope(audio, 48000, Project(), Track(name="Lead"))
+    assert not applied
+    assert np.array_equal(processed, audio)

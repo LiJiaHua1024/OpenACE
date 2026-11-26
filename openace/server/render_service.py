@@ -11,7 +11,7 @@ import soundfile as sf
 
 from openace.core.audio import read_audio
 from openace.core.diagnostics import extract_f0, write_diagnostic
-from openace.core.expression import apply_dynamic_envelope
+from openace.core.expression import apply_air_envelope, apply_dynamic_envelope
 from openace.core.models import AudioClip, Project, RenderJob, RenderJobStatus, RenderMode, Track, TrackType
 from openace.core.project_store import ProjectStore
 from openace.engines.acestep import ACEStepEngine
@@ -108,9 +108,11 @@ class RenderService:
             await asyncio.to_thread(self.vocal_engine.render_score, project, track, wav)
             audio, sr = await asyncio.to_thread(read_audio, wav)
             audio, dynamic_applied = apply_dynamic_envelope(audio, sr, project, track)
-            if dynamic_applied:
+            audio, air_applied = apply_air_envelope(audio, sr, project, track)
+            applied_lanes = [name for name, applied in (("Dynamic", dynamic_applied), ("Air", air_applied)) if applied]
+            if applied_lanes:
                 await asyncio.to_thread(sf.write, str(wav), audio, sr, subtype="PCM_24")
-                job.message = "rendered vocal with Dynamic post-processing"
+                job.message = f"rendered vocal with {'/'.join(applied_lanes)} post-processing"
             try:
                 actual_f0 = await asyncio.to_thread(extract_f0, wav)
             except RuntimeError:
@@ -118,6 +120,8 @@ class RenderService:
             provenance = "OPENACE_CI_SYNTH_FIXTURE=1 — ORCHESTRATION TEST AUDIO, NOT MODEL OUTPUT" if self.fixture_mode else self.vocal_engine_name
             if dynamic_applied:
                 provenance += " + Dynamic lane gain post-processing (not neural conditioning)"
+            if air_applied:
+                provenance += " + Air lane high-frequency DSP (not neural conditioning)"
             await asyncio.to_thread(write_diagnostic, diagnostic, project, track.sorted_notes(), audio, sr, actual_f0, provenance, track.automation.pitch_cents)
             track.render_path = str(wav)
             track.render_revision += 1
@@ -127,7 +131,7 @@ class RenderService:
             job.diagnostic_path = str(diagnostic)
             job.status = RenderJobStatus.COMPLETED
             job.progress = 1.0
-            job.message = "completed with Dynamic post-processing" if dynamic_applied else "completed"
+            job.message = f"completed with {'/'.join(applied_lanes)} post-processing" if applied_lanes else "completed"
             job.finished_at = time.time()
         except Exception as exc:
             job.status = RenderJobStatus.FAILED

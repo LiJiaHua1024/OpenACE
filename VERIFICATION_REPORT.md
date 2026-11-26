@@ -272,3 +272,7 @@ Browser QA evidence:
 ## Iteration 11 — diagnostic target pitch consistency
 
 The diagnostic target-F0 curve now includes the track-level pitch automation envelope in addition to per-note pitch handles and vibrato, matching the SoulX metadata path. Regression coverage verifies the automated target differs by the expected interpolated cents at intermediate frames.
+
+## Iteration 12 — Air lane high-frequency DSP
+
+The Air automation lane now affects rendered vocals as explicitly labeled post-render DSP rather than remaining editor-only data. The implementation extracts the 3 kHz+ residue already present in the rendered vocal and reinforces or attenuates it according to the lane; it does not inject synthetic noise or pretend SoulX has neural Air conditioning. Unit coverage verifies high-frequency content increases across a rising Air envelope and empty lanes remain transparent; fixture-render integration verifies the lane reaches the job pipeline and final provenance message.

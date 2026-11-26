@@ -65,7 +65,7 @@ The arrangement canvas draws real decoded waveform peaks for audio clips rather 
 
 ## Expression automation
 
-Pitch deviation is written into SoulX target F0 metadata. SoulX-Singer does not expose a direct neural Dynamic control, so OpenACE applies the Dynamic lane as honest post-render gain automation: neutral `0.5`, ±6 dB range, sample-interpolated gain, clipping protection, and explicit diagnostic/job provenance. Air, falsetto, tension, and energy lanes remain persistent editor data until a truthful engine or DSP mapping exists.
+Pitch deviation is written into SoulX target F0 metadata. SoulX-Singer does not expose a direct neural Dynamic control, so OpenACE applies the Dynamic lane as honest post-render gain automation: neutral `0.5`, ±6 dB range, sample-interpolated gain, clipping protection, and explicit diagnostic/job provenance. Air is also applied as honest post-render DSP: it reinforces or attenuates the 3 kHz+ residue already present in the rendered vocal, with no injected synthetic noise and explicit non-neural provenance. Falsetto, tension, and energy lanes remain persistent editor data until a truthful engine or DSP mapping exists.
 
 ## Piano-roll editing
 

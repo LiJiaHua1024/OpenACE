@@ -57,3 +57,40 @@ def apply_dynamic_envelope(audio: np.ndarray, sample_rate: int, project: Project
     if peak > 0.98:
         processed *= 0.98 / peak
     return processed, True
+
+
+def apply_air_envelope(audio: np.ndarray, sample_rate: int, project: Project, track: Track) -> tuple[np.ndarray, bool]:
+    """Apply Air as time-varying high-frequency emphasis derived from the rendered vocal.
+
+    This is transparently a post-render DSP approximation, not neural conditioning:
+    a 3 kHz high-frequency residue extracted from the actual vocal is reinforced or
+    attenuated according to the lane. No synthetic noise is injected.
+    """
+    points = list(track.automation.air)
+    if not points or not len(audio):
+        return audio, False
+    from scipy import signal
+
+    if audio.ndim == 1:
+        audio = audio[:, None]
+    mono_reference = np.mean(audio, axis=1)
+    sos = signal.butter(2, min(3000.0, sample_rate * 0.45), btype="lowpass", fs=sample_rate, output="sos")
+    low = signal.sosfiltfilt(sos, mono_reference)
+    residue = (mono_reference - low)[:, None]
+    seconds_per_tick = 60.0 / project.bpm / project.ppq
+    ordered = sorted(points, key=lambda point: point.ticks)
+    point_ticks = np.asarray([point.ticks for point in ordered], dtype=np.float64)
+    point_values = np.clip(np.asarray([point.value for point in ordered], dtype=np.float64), 0.0, 1.0)
+    processed = np.array(audio, dtype=np.float32, copy=True)
+    chunk_size = 262144
+    for start in range(0, len(processed), chunk_size):
+        end = min(len(processed), start + chunk_size)
+        sample_ticks = (start + np.arange(end - start, dtype=np.float64)) / sample_rate / seconds_per_tick
+        values = np.interp(sample_ticks, point_ticks, point_values, left=point_values[0], right=point_values[-1])
+        bipolar = (values - _NEUTRAL) * 2.0
+        amounts = np.where(bipolar >= 0.0, bipolar * 1.8, bipolar * 0.8)
+        processed[start:end] += residue[start:end] * amounts[:, None].astype(np.float32)
+    peak = float(np.max(np.abs(processed))) if processed.size else 0.0
+    if peak > 0.98:
+        processed *= 0.98 / peak
+    return processed, True

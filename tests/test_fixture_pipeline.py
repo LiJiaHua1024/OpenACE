@@ -85,3 +85,19 @@ def test_render_jobs_persist_and_interrupted_jobs_recover(tmp_path, monkeypatch)
     assert job.id in recovered.jobs
     assert recovered.jobs[job.id].status == RenderJobStatus.FAILED
     assert "backend restarted" in recovered.jobs[job.id].error
+
+
+def test_air_automation_postprocesses_fixture_render(monkeypatch, tmp_path):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("fixture")
+    track = project.add_track(Track(name="Lead"))
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    track.automation.air = [EnvelopePoint(ticks=0, value=1.0)]
+    store.save(project)
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(project.id, RenderMode.SVS_SCORE, track.id)
+    result = asyncio.run(service.run_vocal_render(job.id))
+    assert result.status == "completed"
+    assert result.message == "completed with Air post-processing"
+    assert Path(result.output_path).exists()
