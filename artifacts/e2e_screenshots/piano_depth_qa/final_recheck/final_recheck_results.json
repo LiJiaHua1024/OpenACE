@@ -1,0 +1,50 @@
+{
+  "project_id": "project_93a92fbd3ebf",
+  "selection": "2 selected",
+  "initial": [
+    [
+      360,
+      360,
+      60
+    ],
+    [
+      960,
+      360,
+      62
+    ]
+  ],
+  "after_later_up": [
+    [
+      840,
+      360,
+      61
+    ],
+    [
+      1440,
+      360,
+      63
+    ]
+  ],
+  "after_earlier_down": [
+    [
+      360,
+      360,
+      60
+    ],
+    [
+      960,
+      360,
+      62
+    ]
+  ],
+  "forward_ok": true,
+  "exact_restoration": true,
+  "note_count": 2,
+  "console_errors": [],
+  "network_failures": [],
+  "viewport": {
+    "w": 1272,
+    "h": 837
+  },
+  "passed": true
+}

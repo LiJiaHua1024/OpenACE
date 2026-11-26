@@ -18,7 +18,7 @@ export default function App() {
   const [playheadTicks, setPlayheadTicks] = useState(0)
   const [playing, setPlaying] = useState(false)
   const [timeline, setTimeline] = useState<TimelineState>({ scrollTicks: 0, pxPerBeat: 112 })
-  const [repaintRange, setRepaintRange] = useState({ start: 0, end: 8 })
+  const [repaintRange, setRepaintRange] = useState({ start: 0, end: 0 })
   const [jobs, setJobs] = useState<RenderJob[]>([])
   const [projectList, setProjectList] = useState<{ id: string; title: string }[]>([])
   const [past, setPast] = useState<Project[]>([])

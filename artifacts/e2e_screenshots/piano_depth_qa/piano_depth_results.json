@@ -1,0 +1,460 @@
+{
+  "viewport_1400_toolbar_fit": {
+    "ok": true,
+    "details": {
+      "viewport": {
+        "w": 1400,
+        "h": 900,
+        "dpr": 1
+      },
+      "toolbar": {
+        "viewport": {
+          "w": 1400,
+          "h": 900
+        },
+        "bar": {
+          "left": 236,
+          "right": 1078,
+          "width": 842,
+          "scrollWidth": 842,
+          "clientWidth": 842
+        },
+        "items": [
+          {
+            "cls": "tool-group",
+            "text": "➤ ✎ ⌫",
+            "left": 246,
+            "right": 347,
+            "top": 196.5,
+            "bottom": 221.5,
+            "sh": 25,
+            "ch": 25,
+            "sw": 101,
+            "cw": 101
+          },
+          {
+            "cls": "",
+            "text": "Grid 1/4 1/8 1/16 1/32",
+            "left": 354,
+            "right": 425.859375,
+            "top": 200,
+            "bottom": 218,
+            "sh": 18,
+            "ch": 18,
+            "sw": 72,
+            "cw": 72
+          },
+          {
+            "cls": "",
+            "text": "Zoom",
+            "left": 432.859375,
+            "right": 538.609375,
+            "top": 198,
+            "bottom": 220,
+            "sh": 22,
+            "ch": 22,
+            "sw": 106,
+            "cw": 106
+          },
+          {
+            "cls": "",
+            "text": "Row",
+            "left": 545.609375,
+            "right": 643.9375,
+            "top": 198,
+            "bottom": 220,
+            "sh": 22,
+            "ch": 22,
+            "sw": 98,
+            "cw": 98
+          },
+          {
+            "cls": "tool-group edit-actions",
+            "text": "Copy Paste Dup Quant",
+            "left": 654.9375,
+            "right": 835.296875,
+            "top": 196.5,
+            "bottom": 221.5,
+            "sh": 25,
+            "ch": 25,
+            "sw": 180,
+            "cw": 180
+          },
+          {
+            "cls": "selection-count",
+            "text": "",
+            "left": 842.296875,
+            "right": 904.296875,
+            "top": 209,
+            "bottom": 209,
+            "sh": 0,
+            "ch": 0,
+            "sw": 62,
+            "cw": 62
+          },
+          {
+            "cls": "editor-hint",
+            "text": "V/B/E · Ctrl+C/V/D",
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0,
+            "sh": 0,
+            "ch": 0,
+            "sw": 0,
+            "cw": 0
+          }
+        ],
+        "overflowItems": []
+      },
+      "screenshot": "01_1400x900_new_project_toolbar.png"
+    },
+    "time": 1795692639.797224
+  },
+  "arrangement_default_no_repaint_overlay": {
+    "ok": true,
+    "details": {
+      "yellow": {
+        "pixels": 0,
+        "ratio": 0.0
+      },
+      "screenshot": "02_arrangement_default_no_overlay.png",
+      "arrangement_box": {
+        "x": 236,
+        "y": 58,
+        "width": 842,
+        "height": 132
+      }
+    },
+    "time": 1795692639.9211202
+  },
+  "draw_notes": {
+    "ok": true,
+    "details": {
+      "count": 3,
+      "notes": [
+        [
+          360,
+          360,
+          60
+        ],
+        [
+          960,
+          360,
+          62
+        ],
+        [
+          1440,
+          360,
+          64
+        ]
+      ],
+      "screenshot": "03_notes_drawn.png"
+    },
+    "time": 1795692653.181396
+  },
+  "marquee_selects_multiple": {
+    "ok": true,
+    "details": {
+      "selection_text": "2 selected",
+      "marquee_pixels": 1263,
+      "screenshots": [
+        "04_marquee_select_held.png",
+        "05_marquee_selection_result.png"
+      ]
+    },
+    "time": 1795692654.0809193
+  },
+  "copy_paste_playhead_and_undo_redo": {
+    "ok": true,
+    "details": {
+      "count_after_paste": 5,
+      "paste_starts": [
+        2520,
+        3120
+      ],
+      "undo_count": 3,
+      "redo_count": 5,
+      "screenshot": "06_pasted_at_playhead.png"
+    },
+    "time": 1795692656.6734061
+  },
+  "multiselect_move_preserves_spacing": {
+    "ok": true,
+    "details": {
+      "before": [
+        [
+          2520,
+          60
+        ],
+        [
+          3120,
+          62
+        ]
+      ],
+      "after": [
+        [
+          3000,
+          61
+        ],
+        [
+          3600,
+          63
+        ]
+      ],
+      "deltas_before": [
+        600,
+        2
+      ],
+      "deltas_after": [
+        600,
+        2
+      ],
+      "screenshot": "07_multiselect_move_later.png"
+    },
+    "time": 1795692657.7213619
+  },
+  "multiselect_move_back_earlier": {
+    "ok": false,
+    "details": {
+      "after_positive": [
+        [
+          3000,
+          61
+        ],
+        [
+          3600,
+          63
+        ]
+      ],
+      "after_backward_drag": [
+        [
+          3000,
+          60
+        ],
+        [
+          3600,
+          62
+        ]
+      ],
+      "screenshot": "08_multiselect_move_back_earlier.png"
+    },
+    "time": 1795692658.7436507
+  },
+  "ctrl_d_duplicates": {
+    "ok": true,
+    "details": {
+      "count_after_duplicate": 7,
+      "screenshot": "08b_ctrl_d_duplicate.png"
+    },
+    "time": 1795692659.7447245
+  },
+  "velocity_lane_bars_and_persistent_drag": {
+    "ok": true,
+    "details": {
+      "barstats": {
+        "blue": 10575,
+        "orange": 0,
+        "laneTop": 423,
+        "canvasHeight": 477
+      },
+      "before_velocity": 90,
+      "after_velocity": 3,
+      "zoom": 91.0,
+      "screenshots": [
+        "09_velocity_drag_held.png",
+        "10_velocity_lane_after_drag.png"
+      ]
+    },
+    "time": 1795692674.4985964
+  },
+  "context_menu_appears": {
+    "ok": true,
+    "details": {
+      "menu_count": 1,
+      "menu_text": "Copy\nPaste at playhead\nDuplicate\nQuantize\nDelete",
+      "screenshot": "11_context_menu.png"
+    },
+    "time": 1795692674.9181564
+  },
+  "context_copy_paste_usable": {
+    "ok": true,
+    "details": {
+      "count": 8,
+      "target_tick": 2400,
+      "matching_notes": 1
+    },
+    "time": 1795692676.4908414
+  },
+  "context_duplicate_usable": {
+    "ok": true,
+    "details": {
+      "count": 9,
+      "duplicate_starts": [
+        2760
+      ]
+    },
+    "time": 1795692677.6267405
+  },
+  "context_quantize_usable": {
+    "ok": true,
+    "details": {
+      "off_grid_start": 2797,
+      "after_quantize_start": 2760,
+      "screenshot": "12_context_quantize.png"
+    },
+    "time": 1795692679.664429
+  },
+  "context_delete_and_undo_redo": {
+    "ok": true,
+    "details": {
+      "after_delete": 8,
+      "after_undo": 9,
+      "after_redo": 8,
+      "screenshot": "13_context_delete.png"
+    },
+    "time": 1795692682.5825713
+  },
+  "alt_drag_visible_yellow_repaint": {
+    "ok": true,
+    "details": {
+      "start_end": [
+        0.47,
+        1.63
+      ],
+      "yellow_held": {
+        "pixels": 1069,
+        "ratio": 0.009618153026704096
+      },
+      "yellow_release": {
+        "pixels": 1069,
+        "ratio": 0.009618153026704096
+      },
+      "screenshots": [
+        "14_alt_drag_yellow_repaint_held.png",
+        "15_alt_drag_yellow_repaint_release.png"
+      ]
+    },
+    "time": 1795692683.743421
+  },
+  "viewport_1272_glance_toolbar": {
+    "ok": true,
+    "details": {
+      "viewport": {
+        "w": 1272,
+        "h": 837,
+        "dpr": 1
+      },
+      "toolbar": {
+        "viewport": {
+          "w": 1272,
+          "h": 837
+        },
+        "bar": {
+          "left": 236,
+          "right": 950,
+          "width": 714,
+          "scrollWidth": 714,
+          "clientWidth": 714
+        },
+        "items": [
+          {
+            "cls": "tool-group",
+            "text": "➤ ✎ ⌫",
+            "left": 246,
+            "right": 347,
+            "top": 196.5,
+            "bottom": 221.5,
+            "sh": 25,
+            "ch": 25,
+            "sw": 101,
+            "cw": 101
+          },
+          {
+            "cls": "",
+            "text": "Grid 1/4 1/8 1/16 1/32",
+            "left": 354,
+            "right": 425.859375,
+            "top": 200,
+            "bottom": 218,
+            "sh": 18,
+            "ch": 18,
+            "sw": 72,
+            "cw": 72
+          },
+          {
+            "cls": "",
+            "text": "Zoom",
+            "left": 432.859375,
+            "right": 538.609375,
+            "top": 198,
+            "bottom": 220,
+            "sh": 22,
+            "ch": 22,
+            "sw": 106,
+            "cw": 106
+          },
+          {
+            "cls": "",
+            "text": "Row",
+            "left": 545.609375,
+            "right": 643.9375,
+            "top": 198,
+            "bottom": 220,
+            "sh": 22,
+            "ch": 22,
+            "sw": 98,
+            "cw": 98
+          },
+          {
+            "cls": "tool-group edit-actions",
+            "text": "Copy Paste Dup Quant",
+            "left": 654.9375,
+            "right": 835.296875,
+            "top": 196.5,
+            "bottom": 221.5,
+            "sh": 25,
+            "ch": 25,
+            "sw": 180,
+            "cw": 180
+          },
+          {
+            "cls": "selection-count",
+            "text": "",
+            "left": 842.296875,
+            "right": 904.296875,
+            "top": 209,
+            "bottom": 209,
+            "sh": 0,
+            "ch": 0,
+            "sw": 62,
+            "cw": 62
+          },
+          {
+            "cls": "editor-hint",
+            "text": "V/B/E · Ctrl+C/V/D",
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0,
+            "sh": 0,
+            "ch": 0,
+            "sw": 0,
+            "cw": 0
+          }
+        ],
+        "overflowItems": []
+      },
+      "screenshot": "16_1272x837_glance.png"
+    },
+    "time": 1795692696.2078228
+  },
+  "no_browser_console_errors": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795692696.2090704
+  }
+}

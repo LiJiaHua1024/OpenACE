@@ -3,6 +3,7 @@ import type { Note, Project, TimelineState, Track } from '../types'
 
 const KEY_WIDTH = 64
 const RULER_HEIGHT = 30
+const VELOCITY_HEIGHT = 54
 const MIN_PITCH = 24
 const MAX_PITCH = 96
 
@@ -13,14 +14,21 @@ interface ViewState {
   topPitch: number
 }
 
+interface NoteSnapshot {
+  start: number
+  duration: number
+  pitch: number
+}
+
 interface DragState {
-  mode: 'move' | 'resize' | 'create' | null
+  mode: 'move' | 'resize' | 'create' | 'marquee' | 'velocity' | null
   noteId?: string
   startX: number
   startY: number
   originalStart: number
   originalDuration: number
   originalPitch: number
+  originals: Record<string, NoteSnapshot>
 }
 
 interface Props {
@@ -39,6 +47,10 @@ function snap(ticks: number, step: number) {
   return Math.max(0, Math.round(ticks / step) * step)
 }
 
+function snapDelta(ticks: number, step: number) {
+  return Math.round(ticks / step) * step
+}
+
 function blackKey(pitch: number) {
   return [1, 3, 6, 8, 10].includes(pitch % 12)
 }
@@ -48,63 +60,88 @@ function noteName(pitch: number) {
   return `${names[pitch % 12]}${Math.floor(pitch / 12) - 1}`
 }
 
+function cloneNote(note: Note): Note {
+  return JSON.parse(JSON.stringify(note))
+}
+
 export default function PianoRoll(props: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [tool, setTool] = useState<Tool>('pencil')
   const [gridDivision, setGridDivision] = useState(4)
   const [view, setView] = useState<ViewState>({ rowHeight: 15, topPitch: 79 })
-  const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null)
+  const [selectedNoteIds, setSelectedNoteIds] = useState<string[]>([])
   const [editing, setEditing] = useState<{ note: Note; x: number; y: number; value: string } | null>(null)
+  const [marquee, setMarquee] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null)
+  const [menu, setMenu] = useState<{ x: number; y: number } | null>(null)
   const dragRef = useRef<DragState | null>(null)
+  const clipboardRef = useRef<Note[]>([])
+  const [clipboardCount, setClipboardCount] = useState(0)
   const ppq = props.project.ppq
+  const selectedSet = new Set(selectedNoteIds)
 
-  const xForTick = useCallback((ticks: number, width = 1200) => KEY_WIDTH + ((ticks - props.timeline.scrollTicks) / ppq) * props.timeline.pxPerBeat, [view, ppq])
-  const tickForX = useCallback((x: number) => Math.max(0, props.timeline.scrollTicks + ((x - KEY_WIDTH) / props.timeline.pxPerBeat) * ppq), [view, ppq])
+  const xForTick = useCallback((ticks: number) => KEY_WIDTH + ((ticks - props.timeline.scrollTicks) / ppq) * props.timeline.pxPerBeat, [props.timeline.scrollTicks, props.timeline.pxPerBeat, ppq])
+  const tickForX = useCallback((x: number) => Math.max(0, props.timeline.scrollTicks + ((x - KEY_WIDTH) / props.timeline.pxPerBeat) * ppq), [props.timeline.scrollTicks, props.timeline.pxPerBeat, ppq])
   const yForPitch = useCallback((pitch: number) => RULER_HEIGHT + (view.topPitch - pitch) * view.rowHeight, [view])
   const pitchForY = useCallback((y: number) => Math.round(view.topPitch - (y - RULER_HEIGHT) / view.rowHeight), [view])
 
+  const laneTop = useCallback(() => {
+    const rect = canvasRef.current?.getBoundingClientRect()
+    return Math.max(RULER_HEIGHT + 20, (rect?.height || 360) - VELOCITY_HEIGHT)
+  }, [])
+
+  const noteRect = useCallback((note: Note) => {
+    const x = xForTick(note.start_ticks)
+    const w = Math.max(5, (note.duration_ticks / ppq) * props.timeline.pxPerBeat)
+    const y = yForPitch(note.pitch)
+    return { x, y, w, h: view.rowHeight }
+  }, [xForTick, yForPitch, ppq, props.timeline.pxPerBeat, view.rowHeight])
+
   const hitNote = useCallback((x: number, y: number) => {
-    if (!props.track) return null
+    if (!props.track || y >= laneTop()) return null
     for (let i = props.track.notes.length - 1; i >= 0; i--) {
       const note = props.track.notes[i]
-      const nx = xForTick(note.start_ticks)
-      const nw = Math.max(5, (note.duration_ticks / ppq) * props.timeline.pxPerBeat)
-      const ny = yForPitch(note.pitch)
-      if (x >= nx && x <= nx + nw && y >= ny && y <= ny + view.rowHeight) return note
+      const rect = noteRect(note)
+      if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h) return note
     }
     return null
-  }, [props.track, xForTick, yForPitch, ppq, view])
+  }, [props.track, noteRect, laneTop])
+
+  const hitVelocityNote = useCallback((x: number, y: number) => {
+    if (!props.track || y < laneTop()) return null
+    for (let i = props.track.notes.length - 1; i >= 0; i--) {
+      const note = props.track.notes[i]
+      const rect = noteRect(note)
+      if (x >= rect.x && x <= rect.x + rect.w) return note
+    }
+    return null
+  }, [props.track, noteRect, laneTop])
 
   useEffect(() => {
     const canvas = canvasRef.current
     const wrap = wrapRef.current
     if (!canvas || !wrap) return
-    const resize = () => {
+    const draw = () => {
       const rect = wrap.getBoundingClientRect()
       const dpr = window.devicePixelRatio || 1
       canvas.width = Math.max(1, Math.floor(rect.width * dpr))
       canvas.height = Math.max(1, Math.floor(rect.height * dpr))
       canvas.style.width = `${rect.width}px`
       canvas.style.height = `${rect.height}px`
-      draw()
-    }
-    const draw = () => {
       const ctx = canvas.getContext('2d')
       if (!ctx) return
-      const dpr = window.devicePixelRatio || 1
       ctx.save()
       ctx.scale(dpr, dpr)
       const width = canvas.width / dpr
       const height = canvas.height / dpr
+      const velocityTop = Math.max(RULER_HEIGHT + 20, height - VELOCITY_HEIGHT)
       ctx.clearRect(0, 0, width, height)
       ctx.fillStyle = '#101119'
       ctx.fillRect(0, 0, width, height)
 
-      // Pitch rows.
       for (let pitch = MIN_PITCH; pitch <= MAX_PITCH; pitch++) {
         const y = yForPitch(pitch)
-        if (y < RULER_HEIGHT - view.rowHeight || y > height) continue
+        if (y < RULER_HEIGHT - view.rowHeight || y > velocityTop) continue
         ctx.fillStyle = blackKey(pitch) ? '#131522' : '#181b29'
         ctx.fillRect(KEY_WIDTH, y, width - KEY_WIDTH, view.rowHeight)
         ctx.strokeStyle = pitch % 12 === 0 ? '#363b55' : '#242839'
@@ -119,7 +156,6 @@ export default function PianoRoll(props: Props) {
         ctx.fillRect(32, y, 30, view.rowHeight)
       }
 
-      // Time grid.
       const beatTicks = ppq
       const barTicks = ppq * props.project.time_signature.numerator
       const startTick = Math.floor(props.timeline.scrollTicks / (ppq / 4)) * (ppq / 4)
@@ -132,7 +168,7 @@ export default function PianoRoll(props: Props) {
         ctx.lineWidth = isBar ? 1.4 : 1
         ctx.beginPath()
         ctx.moveTo(x, RULER_HEIGHT)
-        ctx.lineTo(x, height)
+        ctx.lineTo(x, velocityTop)
         ctx.stroke()
         if (isBar) {
           ctx.fillStyle = '#9aa5c5'
@@ -154,24 +190,40 @@ export default function PianoRoll(props: Props) {
         ctx.fillText(String(Math.floor(tick / barTicks) + 1), x + 5, 19)
       }
 
-      // Notes.
+      ctx.fillStyle = '#0c0f18'
+      ctx.fillRect(0, velocityTop, width, VELOCITY_HEIGHT)
+      ctx.fillStyle = '#111626'
+      ctx.fillRect(KEY_WIDTH, velocityTop, width - KEY_WIDTH, VELOCITY_HEIGHT)
+      ctx.strokeStyle = '#3a4159'
+      ctx.beginPath()
+      ctx.moveTo(0, velocityTop + 0.5)
+      ctx.lineTo(width, velocityTop + 0.5)
+      ctx.stroke()
+      ctx.fillStyle = '#7883a4'
+      ctx.font = '9px Inter, sans-serif'
+      ctx.fillText('VEL', 22, velocityTop + 15)
+
       if (props.track) {
         for (const note of props.track.notes) {
           const x = xForTick(note.start_ticks)
           const w = Math.max(5, (note.duration_ticks / ppq) * props.timeline.pxPerBeat)
           const y = yForPitch(note.pitch)
-          if (x + w < KEY_WIDTH || x > width || y > height || y + view.rowHeight < RULER_HEIGHT) continue
-          const selected = note.id === selectedNoteId
+          if (x + w < KEY_WIDTH || x > width || y > velocityTop || y + view.rowHeight < RULER_HEIGHT) continue
+          const selected = selectedSet.has(note.id)
           const grad = ctx.createLinearGradient(x, y, x, y + view.rowHeight)
-          grad.addColorStop(0, selected ? '#9f8cff' : props.track.color)
-          grad.addColorStop(1, selected ? '#5d48c8' : '#342e78')
+          grad.addColorStop(0, selected ? '#b5a8ff' : props.track.color)
+          grad.addColorStop(1, selected ? '#684fff' : '#342e78')
           ctx.fillStyle = grad
           ctx.beginPath()
           ctx.roundRect(x + 0.5, y + 1, w - 1, Math.max(4, view.rowHeight - 2), 3)
           ctx.fill()
           ctx.strokeStyle = selected ? '#ffffff' : '#786cff'
-          ctx.lineWidth = selected ? 1.4 : 0.8
+          ctx.lineWidth = selected ? 1.5 : 0.8
           ctx.stroke()
+          if (selected) {
+            ctx.fillStyle = '#ffffff'
+            ctx.fillRect(x + w - 3, y + 2, 2, view.rowHeight - 4)
+          }
           if (w > 24) {
             ctx.fillStyle = '#f7f8ff'
             ctx.font = `${Math.min(12, Math.max(9, view.rowHeight - 3))}px Inter, sans-serif`
@@ -182,10 +234,35 @@ export default function PianoRoll(props: Props) {
             ctx.font = '9px Inter, sans-serif'
             ctx.fillText(note.phonemes.map(p => p.symbol).join(' '), x + 5, y + view.rowHeight + 9)
           }
+
+          const laneBottom = height - 5
+          const maxBar = VELOCITY_HEIGHT - 15
+          const barHeight = Math.max(2, (note.velocity / 127) * maxBar)
+          const bx = x + 2
+          const bw = Math.max(2, w - 4)
+          ctx.fillStyle = selected ? '#ffcc66' : '#6f7cff88'
+          ctx.fillRect(bx, laneBottom - barHeight, bw, barHeight)
+          if (selected && w > 20) {
+            ctx.fillStyle = '#ffe0a0'
+            ctx.font = '8px Inter, sans-serif'
+            ctx.fillText(String(note.velocity), bx + 2, laneBottom - barHeight - 2)
+          }
         }
       }
 
-      // Playhead.
+      if (marquee) {
+        const x = Math.min(marquee.x1, marquee.x2)
+        const y = Math.min(marquee.y1, marquee.y2)
+        const w = Math.abs(marquee.x2 - marquee.x1)
+        const h = Math.abs(marquee.y2 - marquee.y1)
+        ctx.fillStyle = '#6f8dff22'
+        ctx.fillRect(x, y, w, h)
+        ctx.strokeStyle = '#91a8ff'
+        ctx.setLineDash([4, 3])
+        ctx.strokeRect(x, y, w, h)
+        ctx.setLineDash([])
+      }
+
       const px = xForTick(props.playheadTicks)
       if (px >= KEY_WIDTH && px <= width) {
         ctx.strokeStyle = '#ff4f78'
@@ -204,11 +281,11 @@ export default function PianoRoll(props: Props) {
       }
       ctx.restore()
     }
-    resize()
-    const observer = new ResizeObserver(resize)
+    draw()
+    const observer = new ResizeObserver(draw)
     observer.observe(wrap)
     return () => observer.disconnect()
-  }, [props.project, props.track, props.playheadTicks, view, selectedNoteId, xForTick, yForPitch, ppq])
+  }, [props.project, props.track, props.playheadTicks, props.timeline, view, selectedNoteIds, marquee, xForTick, yForPitch, ppq])
 
   function mutateTrack(mutator: (track: Track) => void, transient = true) {
     if (!props.track) return
@@ -219,13 +296,32 @@ export default function PianoRoll(props: Props) {
     }, transient)
   }
 
-  function pointerPos(event: React.PointerEvent) {
+  function pointerPos(event: React.PointerEvent | React.MouseEvent) {
     const rect = canvasRef.current!.getBoundingClientRect()
     return { x: event.clientX - rect.left, y: event.clientY - rect.top }
   }
 
+  function snapshotsFor(ids: string[]): Record<string, NoteSnapshot> {
+    const result: Record<string, NoteSnapshot> = {}
+    for (const note of props.track?.notes || []) {
+      if (ids.includes(note.id)) result[note.id] = { start: note.start_ticks, duration: note.duration_ticks, pitch: note.pitch }
+    }
+    return result
+  }
+
+  function selectOnly(noteId: string) {
+    setSelectedNoteIds([noteId])
+  }
+
+  function velocityFromY(y: number) {
+    const top = laneTop() + 5
+    const bottom = laneTop() + VELOCITY_HEIGHT - 7
+    return Math.max(1, Math.min(127, Math.round(((bottom - y) / Math.max(1, bottom - top)) * 127)))
+  }
+
   function onPointerDown(event: React.PointerEvent) {
     if (!props.track || event.button === 2) return
+    setMenu(null)
     const { x, y } = pointerPos(event)
     canvasRef.current?.setPointerCapture(event.pointerId)
     if (y < RULER_HEIGHT) {
@@ -233,14 +329,38 @@ export default function PianoRoll(props: Props) {
       return
     }
     if (x < KEY_WIDTH) return
-    const hit = hitNote(x, y)
-    props.beginTransaction()
-    if (tool === 'erase') {
-      if (hit) mutateTrack(track => { track.notes = track.notes.filter(n => n.id !== hit.id) }, true)
-      props.endTransaction()
+
+    if (y >= laneTop()) {
+      const hit = hitVelocityNote(x, y)
+      if (hit) {
+        if (!selectedSet.has(hit.id)) selectOnly(hit.id)
+        props.beginTransaction()
+        dragRef.current = {
+          mode: 'velocity', noteId: hit.id, startX: x, startY: y,
+          originalStart: hit.start_ticks, originalDuration: hit.duration_ticks, originalPitch: hit.pitch,
+          originals: snapshotsFor([hit.id]),
+        }
+        mutateTrack(track => {
+          const note = track.notes.find(n => n.id === hit.id)
+          if (note) note.velocity = velocityFromY(y)
+        }, true)
+      }
       return
     }
+
+    const hit = hitNote(x, y)
+    if (tool === 'erase') {
+      if (hit) {
+        props.beginTransaction()
+        mutateTrack(track => { track.notes = track.notes.filter(n => !selectedSet.has(n.id) && n.id !== hit.id) }, true)
+        setSelectedNoteIds([])
+        props.endTransaction()
+      }
+      return
+    }
+
     if (tool === 'pencil' && !hit) {
+      props.beginTransaction()
       const step = ppq / gridDivision
       const start = snap(tickForX(x), step)
       const pitch = Math.max(MIN_PITCH, Math.min(MAX_PITCH, pitchForY(y)))
@@ -261,15 +381,29 @@ export default function PianoRoll(props: Props) {
         })
         track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
       }, true)
-      setSelectedNoteId(id)
-      dragRef.current = { mode: 'resize', noteId: id, startX: x, startY: y, originalStart: start, originalDuration: duration, originalPitch: pitch }
+      selectOnly(id)
+      dragRef.current = {
+        mode: 'resize', noteId: id, startX: x, startY: y,
+        originalStart: start, originalDuration: duration, originalPitch: pitch,
+        originals: { [id]: { start, duration, pitch } },
+      }
       return
     }
+
     if (hit) {
-      setSelectedNoteId(hit.id)
+      let nextSelection = selectedNoteIds
+      if (event.shiftKey) {
+        nextSelection = selectedSet.has(hit.id) ? selectedNoteIds.filter(id => id !== hit.id) : [...selectedNoteIds, hit.id]
+        setSelectedNoteIds(nextSelection)
+        if (selectedSet.has(hit.id)) return
+      } else if (!selectedSet.has(hit.id)) {
+        nextSelection = [hit.id]
+        setSelectedNoteIds(nextSelection)
+      }
       const nx = xForTick(hit.start_ticks)
       const nw = Math.max(5, (hit.duration_ticks / ppq) * props.timeline.pxPerBeat)
       const resize = x > nx + nw - 7
+      props.beginTransaction()
       dragRef.current = {
         mode: resize ? 'resize' : 'move',
         noteId: hit.id,
@@ -278,49 +412,88 @@ export default function PianoRoll(props: Props) {
         originalStart: hit.start_ticks,
         originalDuration: hit.duration_ticks,
         originalPitch: hit.pitch,
+        originals: snapshotsFor(nextSelection.length ? nextSelection : [hit.id]),
       }
-    } else {
-      props.endTransaction()
+    } else if (tool === 'select') {
+      if (!event.shiftKey) setSelectedNoteIds([])
+      dragRef.current = {
+        mode: 'marquee', startX: x, startY: y, originalStart: 0, originalDuration: 0, originalPitch: 0, originals: {},
+      }
+      setMarquee({ x1: x, y1: y, x2: x, y2: y })
     }
   }
 
   function onPointerMove(event: React.PointerEvent) {
     const drag = dragRef.current
-    if (!drag?.noteId || !props.track) return
+    if (!drag || !props.track) return
     const { x, y } = pointerPos(event)
     const step = ppq / gridDivision
-    const deltaTicks = Math.round(((x - drag.startX) / props.timeline.pxPerBeat) * ppq)
+
+    if (drag.mode === 'marquee') {
+      setMarquee(current => current ? { ...current, x2: x, y2: y } : current)
+      const x1 = Math.min(drag.startX, x), x2 = Math.max(drag.startX, x)
+      const y1 = Math.min(drag.startY, y), y2 = Math.max(drag.startY, y)
+      const hits = props.track.notes.filter(note => {
+        const rect = noteRect(note)
+        return rect.x < x2 && rect.x + rect.w > x1 && rect.y < y2 && rect.y + rect.h > y1
+      }).map(note => note.id)
+      setSelectedNoteIds(event.shiftKey ? Array.from(new Set([...selectedNoteIds, ...hits])) : hits)
+      return
+    }
+
+    if (drag.mode === 'velocity' && drag.noteId) {
+      const velocity = velocityFromY(y)
+      mutateTrack(track => {
+        const note = track.notes.find(n => n.id === drag.noteId)
+        if (note) note.velocity = velocity
+      }, true)
+      return
+    }
+
+    const deltaTicks = snapDelta(Math.round(((x - drag.startX) / props.timeline.pxPerBeat) * ppq), step)
     const deltaPitch = Math.round((drag.startY - y) / view.rowHeight)
     mutateTrack(track => {
-      const note = track.notes.find(n => n.id === drag.noteId)
-      if (!note) return
+      const originals = drag.originals
+      const ids = Object.keys(originals)
+      if (!ids.length) return
       if (drag.mode === 'resize') {
-        note.duration_ticks = Math.max(step, snap(drag.originalDuration + deltaTicks, step))
+        const maxShrink = Math.min(...ids.map(id => originals[id].duration - step))
+        const allowedDelta = Math.max(deltaTicks, -maxShrink)
+        for (const id of ids) {
+          const note = track.notes.find(n => n.id === id)
+          if (note) note.duration_ticks = Math.max(step, originals[id].duration + allowedDelta)
+        }
       } else if (drag.mode === 'move') {
-        note.start_ticks = Math.max(0, snap(drag.originalStart + deltaTicks, step))
-        note.pitch = Math.max(MIN_PITCH, Math.min(MAX_PITCH, drag.originalPitch + deltaPitch))
+        const minStart = Math.min(...ids.map(id => originals[id].start))
+        const allowedTickDelta = Math.max(deltaTicks, -minStart)
+        const minPitch = Math.min(...ids.map(id => originals[id].pitch))
+        const maxPitch = Math.max(...ids.map(id => originals[id].pitch))
+        const allowedPitchDelta = Math.max(MIN_PITCH - minPitch, Math.min(MAX_PITCH - maxPitch, deltaPitch))
+        for (const id of ids) {
+          const note = track.notes.find(n => n.id === id)
+          if (note) {
+            note.start_ticks = originals[id].start + allowedTickDelta
+            note.pitch = originals[id].pitch + allowedPitchDelta
+          }
+        }
       }
       track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
     }, true)
   }
 
   function onPointerUp(event: React.PointerEvent) {
-    if (dragRef.current) {
-      dragRef.current = null
-      props.endTransaction()
-    }
+    const hadDrag = dragRef.current
+    if (hadDrag && hadDrag.mode !== 'marquee') props.endTransaction()
+    dragRef.current = null
+    setMarquee(null)
     canvasRef.current?.releasePointerCapture(event.pointerId)
   }
 
   function onDoubleClick(event: React.MouseEvent) {
     if (!props.track) return
-    const rect = canvasRef.current!.getBoundingClientRect()
-    const x = event.clientX - rect.left
-    const y = event.clientY - rect.top
+    const { x, y } = pointerPos(event)
     const hit = hitNote(x, y)
-    if (hit) {
-      setEditing({ note: hit, x, y, value: hit.lyric })
-    }
+    if (hit) setEditing({ note: hit, x, y, value: hit.lyric })
   }
 
   function commitLyric() {
@@ -339,6 +512,72 @@ export default function PianoRoll(props: Props) {
     setEditing(null)
   }
 
+  function selectedNotes(): Note[] {
+    if (!props.track) return []
+    return props.track.notes.filter(note => selectedSet.has(note.id)).sort((a, b) => a.start_ticks - b.start_ticks)
+  }
+
+  function copySelection() {
+    clipboardRef.current = selectedNotes().map(cloneNote)
+    setClipboardCount(clipboardRef.current.length)
+  }
+
+  function pasteClipboard(targetStart?: number) {
+    const clipboard = clipboardRef.current
+    if (!clipboard.length || !props.track) return
+    props.beginTransaction()
+    const step = ppq / gridDivision
+    const minStart = Math.min(...clipboard.map(note => note.start_ticks))
+    const anchor = targetStart ?? snap(props.playheadTicks, step)
+    const delta = Math.max(anchor - minStart, -minStart)
+    const newIds: string[] = []
+    mutateTrack(track => {
+      for (const source of clipboard) {
+        const note = cloneNote(source)
+        note.id = `note_${crypto.randomUUID().slice(0, 12)}`
+        note.start_ticks = source.start_ticks + delta
+        newIds.push(note.id)
+        track.notes.push(note)
+      }
+      track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+    }, true)
+    setSelectedNoteIds(newIds)
+    props.endTransaction()
+  }
+
+  function duplicateSelection() {
+    const notes = selectedNotes()
+    if (!notes.length) return
+    clipboardRef.current = notes.map(cloneNote)
+    setClipboardCount(clipboardRef.current.length)
+    const end = Math.max(...notes.map(note => note.start_ticks + note.duration_ticks))
+    pasteClipboard(end)
+  }
+
+  function deleteSelection() {
+    if (!selectedNoteIds.length) return
+    props.beginTransaction()
+    mutateTrack(track => { track.notes = track.notes.filter(note => !selectedSet.has(note.id)) }, true)
+    setSelectedNoteIds([])
+    props.endTransaction()
+  }
+
+  function quantizeSelection() {
+    if (!props.track) return
+    const ids = selectedNoteIds.length ? selectedNoteIds : props.track.notes.map(note => note.id)
+    const step = ppq / gridDivision
+    props.beginTransaction()
+    mutateTrack(track => {
+      for (const note of track.notes) {
+        if (!ids.includes(note.id)) continue
+        note.start_ticks = snap(note.start_ticks, step)
+        note.duration_ticks = Math.max(step, snap(note.duration_ticks, step))
+      }
+      track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+    }, true)
+    props.endTransaction()
+  }
+
   function onWheel(event: React.WheelEvent) {
     if (event.ctrlKey || event.metaKey) {
       const factor = event.deltaY > 0 ? 0.9 : 1.1
@@ -353,13 +592,51 @@ export default function PianoRoll(props: Props) {
     }
   }
 
-  function onKeyDown(event: React.KeyboardEvent) {
-    if ((event.key === 'Delete' || event.key === 'Backspace') && selectedNoteId) {
-      props.beginTransaction()
-      mutateTrack(track => { track.notes = track.notes.filter(n => n.id !== selectedNoteId) }, true)
-      props.endTransaction()
-      setSelectedNoteId(null)
+  function handleEditorKey(event: KeyboardEvent) {
+    if ((event.target as HTMLElement).tagName === 'INPUT') return
+    const key = event.key.toLowerCase()
+    if ((event.ctrlKey || event.metaKey) && key === 'a') {
+      event.preventDefault()
+      setSelectedNoteIds(props.track?.notes.map(note => note.id) || [])
+      return
     }
+    if ((event.ctrlKey || event.metaKey) && key === 'c') {
+      event.preventDefault(); copySelection(); return
+    }
+    if ((event.ctrlKey || event.metaKey) && key === 'v') {
+      event.preventDefault(); pasteClipboard(); return
+    }
+    if ((event.ctrlKey || event.metaKey) && key === 'd') {
+      event.preventDefault(); duplicateSelection(); return
+    }
+    if (!event.ctrlKey && !event.metaKey && !event.altKey) {
+      if (key === 'v') setTool('select')
+      if (key === 'b') setTool('pencil')
+      if (key === 'e') setTool('erase')
+      if (key === 'q') quantizeSelection()
+    }
+    if ((event.key === 'Delete' || event.key === 'Backspace') && selectedNoteIds.length) deleteSelection()
+  }
+
+  useEffect(() => {
+    function listener(event: KeyboardEvent) {
+      handleEditorKey(event)
+    }
+    window.addEventListener('keydown', listener)
+    return () => window.removeEventListener('keydown', listener)
+  })
+
+  function onContextMenu(event: React.MouseEvent) {
+    event.preventDefault()
+    const { x, y } = pointerPos(event)
+    const hit = hitNote(x, y)
+    if (hit && !selectedSet.has(hit.id)) selectOnly(hit.id)
+    setMenu({ x, y })
+  }
+
+  function menuAction(action: () => void) {
+    action()
+    setMenu(null)
   }
 
   return (
@@ -377,9 +654,16 @@ export default function PianoRoll(props: Props) {
         </label>
         <label>Zoom<input type="range" min="32" max="360" value={props.timeline.pxPerBeat} onChange={e => props.onTimelineChange({ ...props.timeline, pxPerBeat: Number(e.target.value) })} /></label>
         <label>Row<input type="range" min="8" max="28" value={view.rowHeight} onChange={e => setView(v => ({ ...v, rowHeight: Number(e.target.value) }))} /></label>
-        <div className="editor-hint">Ctrl+wheel zoom · Shift+wheel pitch scroll · Double-click lyric</div>
+        <div className="tool-group edit-actions">
+          <button className="tool" onClick={copySelection} disabled={!selectedNoteIds.length} title="Copy (Ctrl+C)">Copy</button>
+          <button className="tool" onClick={() => pasteClipboard()} disabled={!clipboardCount} title="Paste at playhead (Ctrl+V)">Paste</button>
+          <button className="tool" onClick={duplicateSelection} disabled={!selectedNoteIds.length} title="Duplicate (Ctrl+D)">Dup</button>
+          <button className="tool" onClick={quantizeSelection} title="Quantize selection/all (Q)">Quant</button>
+        </div>
+        <div className="selection-count">{selectedNoteIds.length ? `${selectedNoteIds.length} selected` : ''}</div>
+        <div className="editor-hint">V/B/E · Ctrl+C/V/D</div>
       </div>
-      <div className="piano-roll-wrap" ref={wrapRef} tabIndex={0} onKeyDown={onKeyDown}>
+      <div className="piano-roll-wrap" ref={wrapRef} tabIndex={0}>
         <canvas
           ref={canvasRef}
           className="piano-roll-canvas"
@@ -388,8 +672,17 @@ export default function PianoRoll(props: Props) {
           onPointerUp={onPointerUp}
           onDoubleClick={onDoubleClick}
           onWheel={onWheel}
-          onContextMenu={e => e.preventDefault()}
+          onContextMenu={onContextMenu}
         />
+        {menu && (
+          <div className="piano-context-menu" style={{ left: menu.x, top: menu.y }}>
+            <button disabled={!selectedNoteIds.length} onClick={() => menuAction(copySelection)}>Copy</button>
+            <button disabled={!clipboardCount} onClick={() => menuAction(() => pasteClipboard())}>Paste at playhead</button>
+            <button disabled={!selectedNoteIds.length} onClick={() => menuAction(duplicateSelection)}>Duplicate</button>
+            <button disabled={!selectedNoteIds.length} onClick={() => menuAction(quantizeSelection)}>Quantize</button>
+            <button disabled={!selectedNoteIds.length} className="danger" onClick={() => menuAction(deleteSelection)}>Delete</button>
+          </div>
+        )}
         {editing && (
           <input
             className="lyric-editor"
