@@ -239,3 +239,17 @@ Browser QA evidence:
 
 - Initial real-Chrome QA (`artifacts/e2e_screenshots/vibrato_qa/`) verified exact UI/backend persistence (`start_ratio=0.6`, `depth_cents=80`, `frequency_hz=6.2`, `phase=1.43`), one-step undo/redo, note-body indication, and zero console/network failures. It exposed a low-note context-menu popover overflow into the automation lane.
 - The overflow was fixed by clamping editor placement inside the piano-roll wrap. Focused revalidation (`artifacts/e2e_screenshots/vibrato_qa_clamp/`) measured the low-note popup fully inside the wrap with bottom `623` vs wrap bottom `643`, controls still usable, toolbar placement correct, and zero console/network failures.
+
+## Iteration 9 — per-note pitch handles and continuous F0 interpolation
+
+Implemented and verified:
+
+- Added the piano-roll `∿` pitch-handle tool (`P`). Clicking a note creates a handle, dragging moves it, and Alt+click deletes it. Handles and linear pitch segments are drawn directly on note bodies.
+- Replaced exact-frame-only `note.pitch_curve` consumption with continuous linear interpolation shared by the SoulX metadata builder and diagnostic target-F0 curve.
+- `tests/test_acoustic_invariants.py` proves a `0→100¢` pitch-handle ramp is interpolated into both SoulX target F0 and diagnostic target F0 at intermediate frames.
+- `tests/test_piano_roll_e2e.py` creates two handles in real Chrome, verifies positive/negative cent persistence, drags an existing handle lower, Alt-click deletes it, and verifies backend state.
+
+Browser QA evidence:
+
+- Real-Chrome QA (`artifacts/e2e_screenshots/pitch_handles_qa/`) verified toolbar/`P` activation, exact signed handle persistence, crossing drags with sorted output, Alt-click deletion, disk persistence, undo/redo, green segment rendering, and zero console/network failures.
+- QA found no blocking defect. It flagged cramped default-row handles and missing numeric precision feedback; follow-up polish enlarged handles slightly, renamed the toolbar control to `∿ Pitch`, and added a live `offset ms · ±cents` readout while dragging.

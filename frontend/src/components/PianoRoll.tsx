@@ -7,7 +7,7 @@ const VELOCITY_HEIGHT = 54
 const MIN_PITCH = 24
 const MAX_PITCH = 96
 
-type Tool = 'select' | 'pencil' | 'erase'
+type Tool = 'select' | 'pencil' | 'erase' | 'pitch'
 
 interface ViewState {
   rowHeight: number
@@ -76,8 +76,10 @@ export default function PianoRoll(props: Props) {
   const [menu, setMenu] = useState<{ x: number; y: number } | null>(null)
   const [vibratoEditor, setVibratoEditor] = useState<{ noteId: string; x: number; y: number } | null>(null)
   const dragRef = useRef<DragState | null>(null)
+  const pitchDragRef = useRef<{ noteId: string; pointIndex: number } | null>(null)
   const clipboardRef = useRef<Note[]>([])
   const [clipboardCount, setClipboardCount] = useState(0)
+  const [pitchReadout, setPitchReadout] = useState<string | null>(null)
   const ppq = props.project.ppq
   const selectedSet = new Set(selectedNoteIds)
 
@@ -251,6 +253,31 @@ export default function PianoRoll(props: Props) {
             ctx.fillText(note.phonemes.map(p => p.symbol).join(' '), x + 5, y + view.rowHeight + 9)
           }
 
+          if (note.pitch_curve.length) {
+            const durationMs = Math.max(1, noteDurationMs(note))
+            const ordered = [...note.pitch_curve].sort((a, b) => a.offset_ms - b.offset_ms)
+            const linePoints = [
+              { offset_ms: 0, cents: ordered[0].cents },
+              ...ordered,
+              { offset_ms: durationMs, cents: ordered[ordered.length - 1].cents },
+            ]
+            ctx.strokeStyle = selected ? '#b8ffdfff' : '#68dfb5cc'
+            ctx.lineWidth = selected ? 1.6 : 1.1
+            ctx.beginPath()
+            linePoints.forEach((point, index) => {
+              const pos = pitchPointPosition(note, point)
+              if (index === 0) ctx.moveTo(pos.x, pos.y); else ctx.lineTo(pos.x, pos.y)
+            })
+            ctx.stroke()
+            for (const point of ordered) {
+              const pos = pitchPointPosition(note, point)
+              ctx.fillStyle = selected ? '#effff8' : '#68dfb5'
+              ctx.beginPath()
+              ctx.arc(pos.x, pos.y, selected ? 3.2 : 2.6, 0, Math.PI * 2)
+              ctx.fill()
+            }
+          }
+
           const laneBottom = height - 5
           const maxBar = VELOCITY_HEIGHT - 15
           const barHeight = Math.max(2, (note.velocity / 127) * maxBar)
@@ -335,6 +362,43 @@ export default function PianoRoll(props: Props) {
     return Math.max(1, Math.min(127, Math.round(((bottom - y) / Math.max(1, bottom - top)) * 127)))
   }
 
+  function noteDurationMs(note: Note) {
+    return note.duration_ticks * 60000 / props.project.bpm / ppq
+  }
+
+  function pitchPointPosition(note: Note, point: { offset_ms: number; cents: number }) {
+    const rect = noteRect(note)
+    const durationMs = Math.max(1, noteDurationMs(note))
+    const x = rect.x + 2 + Math.max(0, Math.min(1, point.offset_ms / durationMs)) * Math.max(1, rect.w - 4)
+    const center = rect.y + rect.h / 2
+    const half = Math.max(3, rect.h / 2 - 2)
+    const y = center - Math.max(-120, Math.min(120, point.cents)) / 100 * half
+    return { x, y }
+  }
+
+  function pitchPointAt(note: Note, x: number, y: number) {
+    const rect = noteRect(note)
+    const durationMs = Math.max(1, noteDurationMs(note))
+    const ratio = Math.max(0, Math.min(1, (x - rect.x - 2) / Math.max(1, rect.w - 4)))
+    const center = rect.y + rect.h / 2
+    const half = Math.max(3, rect.h / 2 - 2)
+    const cents = Math.max(-120, Math.min(120, ((center - y) / half) * 100))
+    return { offset_ms: Math.round(ratio * durationMs), cents: Math.round(cents) }
+  }
+
+  function hitPitchPoint(x: number, y: number) {
+    if (!props.track || y >= laneTop()) return null
+    let best: { note: Note; pointIndex: number; distance: number } | null = null
+    for (const note of props.track.notes) {
+      note.pitch_curve.forEach((point, pointIndex) => {
+        const pos = pitchPointPosition(note, point)
+        const distance = Math.hypot(pos.x - x, pos.y - y)
+        if (distance < 9 && (!best || distance < best.distance)) best = { note, pointIndex, distance }
+      })
+    }
+    return best
+  }
+
   function onPointerDown(event: React.PointerEvent) {
     if (!props.track || event.button === 2) return
     setMenu(null)
@@ -360,6 +424,41 @@ export default function PianoRoll(props: Props) {
           const note = track.notes.find(n => n.id === hit.id)
           if (note) note.velocity = velocityFromY(y)
         }, true)
+      }
+      return
+    }
+
+    if (tool === 'pitch') {
+      const hitPoint = hitPitchPoint(x, y)
+      if (hitPoint && event.altKey) {
+        props.beginTransaction()
+        mutateTrack(track => {
+          const note = track.notes.find(item => item.id === hitPoint.note.id)
+          if (note) note.pitch_curve.splice(hitPoint.pointIndex, 1)
+        }, true)
+        props.endTransaction()
+        return
+      }
+      if (hitPoint) {
+        selectOnly(hitPoint.note.id)
+        props.beginTransaction()
+        pitchDragRef.current = { noteId: hitPoint.note.id, pointIndex: hitPoint.pointIndex }
+        return
+      }
+      const hit = hitNote(x, y)
+      if (hit) {
+        selectOnly(hit.id)
+        const point = pitchPointAt(hit, x, y)
+        props.beginTransaction()
+        let pointIndex = 0
+        mutateTrack(track => {
+          const note = track.notes.find(item => item.id === hit.id)
+          if (note) {
+            note.pitch_curve.push(point)
+            pointIndex = note.pitch_curve.length - 1
+          }
+        }, true)
+        pitchDragRef.current = { noteId: hit.id, pointIndex }
       }
       return
     }
@@ -441,10 +540,27 @@ export default function PianoRoll(props: Props) {
 
   function onPointerMove(event: React.PointerEvent) {
     const drag = dragRef.current
-    if (!drag || !props.track) return
+    if (!props.track) return
     const { x, y } = pointerPos(event)
     const step = ppq / gridDivision
 
+    const pitchDrag = pitchDragRef.current
+    if (pitchDrag) {
+      const sourceNote = props.track.notes.find(item => item.id === pitchDrag.noteId)
+      if (sourceNote) {
+        const point = pitchPointAt(sourceNote, x, y)
+        setPitchReadout(`${point.offset_ms} ms · ${point.cents > 0 ? '+' : ''}${point.cents}¢`)
+      }
+      mutateTrack(track => {
+        const note = track.notes.find(item => item.id === pitchDrag.noteId)
+        if (note?.pitch_curve[pitchDrag.pointIndex]) {
+          note.pitch_curve[pitchDrag.pointIndex] = pitchPointAt(note, x, y)
+        }
+      }, true)
+      return
+    }
+
+    if (!drag) return
     if (drag.mode === 'marquee') {
       setMarquee(current => current ? { ...current, x2: x, y2: y } : current)
       const x1 = Math.min(drag.startX, x), x2 = Math.max(drag.startX, x)
@@ -498,6 +614,16 @@ export default function PianoRoll(props: Props) {
   }
 
   function onPointerUp(event: React.PointerEvent) {
+    const pitchDrag = pitchDragRef.current
+    if (pitchDrag) {
+      mutateTrack(track => {
+        const note = track.notes.find(item => item.id === pitchDrag.noteId)
+        if (note) note.pitch_curve.sort((a, b) => a.offset_ms - b.offset_ms)
+      }, true)
+      props.endTransaction()
+      pitchDragRef.current = null
+      window.setTimeout(() => setPitchReadout(null), 1600)
+    }
     const hadDrag = dragRef.current
     if (hadDrag && hadDrag.mode !== 'marquee') props.endTransaction()
     dragRef.current = null
@@ -670,6 +796,7 @@ export default function PianoRoll(props: Props) {
       if (key === 'v') setTool('select')
       if (key === 'b') setTool('pencil')
       if (key === 'e') setTool('erase')
+      if (key === 'p') setTool('pitch')
       if (key === 'q') quantizeSelection()
     }
     if ((event.key === 'Delete' || event.key === 'Backspace') && selectedNoteIds.length) deleteSelection()
@@ -703,6 +830,7 @@ export default function PianoRoll(props: Props) {
           <button className={tool === 'select' ? 'tool active' : 'tool'} onClick={() => setTool('select')} title="Select/move (V)">➤</button>
           <button className={tool === 'pencil' ? 'tool active' : 'tool'} onClick={() => setTool('pencil')} title="Note brush (B)">✎</button>
           <button className={tool === 'erase' ? 'tool active' : 'tool'} onClick={() => setTool('erase')} title="Eraser (E)">⌫</button>
+          <button className={tool === 'pitch' ? 'tool active' : 'tool'} onClick={() => setTool('pitch')} title="Per-note pitch handles (P); Alt+click deletes a handle">∿ Pitch</button>
         </div>
         <label>Grid
           <select value={gridDivision} onChange={e => setGridDivision(Number(e.target.value))}>
@@ -719,7 +847,8 @@ export default function PianoRoll(props: Props) {
           <button className="tool" onClick={() => openVibratoEditor()} disabled={selectedNoteIds.length !== 1} title="Edit vibrato for selected note">Vibrato</button>
         </div>
         <div className="selection-count">{selectedNoteIds.length ? `${selectedNoteIds.length} selected` : ''}</div>
-        <div className="editor-hint">V/B/E · Ctrl+C/V/D</div>
+        <div className="pitch-readout">{pitchReadout || ''}</div>
+        <div className="editor-hint">V/B/E/P · Ctrl+C/V/D</div>
       </div>
       <div className="piano-roll-wrap" ref={wrapRef} tabIndex={0}>
         <canvas

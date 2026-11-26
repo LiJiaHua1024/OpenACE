@@ -118,6 +118,35 @@ def correct_octave_errors(f0_hz: Iterable[float], median_window: int = 7, thresh
     return out
 
 
+
+def interpolated_pitch_cents(points: Sequence, offset_ms: float) -> float:
+    """Linearly interpolate a per-note pitch-handle curve in cents."""
+    if not points:
+        return 0.0
+    ordered = sorted(points, key=lambda point: point.offset_ms)
+    if offset_ms <= ordered[0].offset_ms:
+        return float(ordered[0].cents)
+    if offset_ms >= ordered[-1].offset_ms:
+        return float(ordered[-1].cents)
+    for left, right in zip(ordered, ordered[1:]):
+        if left.offset_ms <= offset_ms <= right.offset_ms:
+            span = max(1e-9, right.offset_ms - left.offset_ms)
+            ratio = (offset_ms - left.offset_ms) / span
+            return float(left.cents + (right.cents - left.cents) * ratio)
+    return 0.0
+
+
+def note_expression_cents(note: Note, offset_ms: float, duration_ms: float) -> float:
+    """Return deterministic per-note vibrato plus interpolated pitch-handle cents."""
+    cents = interpolated_pitch_cents(note.pitch_curve, offset_ms)
+    if note.vibrato and duration_ms > 0:
+        ratio = offset_ms / duration_ms
+        if ratio >= note.vibrato.start_ratio:
+            cents += note.vibrato.depth_cents * np.sin(
+                2.0 * np.pi * note.vibrato.frequency_hz * offset_ms / 1000.0 + note.vibrato.phase
+            )
+    return float(cents)
+
 def pitch_curve_for_notes(ppq: int, bpm: float, notes: Sequence[Note], frame_ms: float = 10.0) -> Tuple[np.ndarray, np.ndarray]:
     """Build target time/F0 curve in seconds/Hz, with NaN in rests."""
     if not notes:
@@ -130,5 +159,10 @@ def pitch_curve_for_notes(ppq: int, bpm: float, notes: Sequence[Note], frame_ms:
     for note in notes:
         start = int(np.floor(note.start_ticks * seconds_per_tick * 1000.0 / frame_ms))
         end = int(np.ceil(note.end_ticks * seconds_per_tick * 1000.0 / frame_ms))
-        f0[start:min(end, frames)] = midi_to_hz(note.pitch)
+        duration_ms = note.duration_ticks * seconds_per_tick * 1000.0
+        base = midi_to_hz(note.pitch)
+        for frame in range(start, min(end, frames)):
+            offset_ms = frame * frame_ms - note.start_ticks * seconds_per_tick * 1000.0
+            cents = note_expression_cents(note, offset_ms, duration_ms)
+            f0[frame] = base * (2.0 ** (cents / 1200.0))
     return times, f0

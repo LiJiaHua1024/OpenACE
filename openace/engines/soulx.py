@@ -14,7 +14,7 @@ from pypinyin import Style, lazy_pinyin
 
 from openace.core.models import Note, Project, Track
 from openace.core.phonemes import PhonemeError, ensure_note_phonemes
-from openace.core.pitch import midi_to_hz
+from openace.core.pitch import midi_to_hz, note_expression_cents
 from openace.core.timing import validate_absolute_beat_anchor
 
 from .base import EngineUnavailable
@@ -117,17 +117,7 @@ def _f0_for_notes(project: Project, notes: Sequence[Note], end_ms: int, pitch_au
         base = midi_to_hz(note.pitch)
         for frame in range(max(0, start), min(frames, max(start + 1, end))):
             t_ms = frame * HOP_MS - note.start_ticks * sec_per_tick * 1000.0
-            cents = 0.0
-            if note.vibrato:
-                ratio = (frame * HOP_MS) / max(1.0, (note.duration_ticks * sec_per_tick * 1000.0))
-                if ratio >= note.vibrato.start_ratio:
-                    cents += note.vibrato.depth_cents * np.sin(
-                        2.0 * np.pi * note.vibrato.frequency_hz * t_ms / 1000.0 + note.vibrato.phase
-                    )
-            for point in note.pitch_curve:
-                # Points outside a note are ignored; exact curve rendering belongs to the UI lane.
-                if abs(point.offset_ms - t_ms) <= HOP_MS / 2:
-                    cents += point.cents
+            cents = note_expression_cents(note, t_ms, note.duration_ticks * sec_per_tick * 1000.0)
             if pitch_automation is not None:
                 cents += _envelope_cents(pitch_automation, note.start_ticks + t_ms / 1000.0 / sec_per_tick)
             f0[frame] = base * (2.0 ** (cents / 1200.0))

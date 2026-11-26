@@ -106,3 +106,21 @@ def test_note_vibrato_is_written_into_soulx_f0_metadata_curve():
     vibrato = _f0_for_notes(project, [vibrating], 1000)
     assert max(abs(a - b) for a, b in zip(base, vibrato)) > 1.0
     assert len({round(x / base[0], 4) for x in vibrato[:45]}) > 4
+
+
+def test_note_pitch_handles_are_interpolated_into_soulx_and_diagnostic_f0():
+    from openace.core.models import PitchPoint
+    from openace.core.pitch import pitch_curve_for_notes
+    from openace.engines.soulx import _f0_for_notes
+
+    project = Project(title="pitch-handles")
+    plain = Note(start_ticks=0, duration_ticks=960, pitch=60, lyric="你")
+    bent = Note(start_ticks=0, duration_ticks=960, pitch=60, lyric="你")
+    bent.pitch_curve = [PitchPoint(offset_ms=0, cents=0), PitchPoint(offset_ms=500, cents=100)]
+    base = _f0_for_notes(project, [plain], 1000)
+    rendered = _f0_for_notes(project, [bent], 1000)
+    assert rendered[12] / base[12] == pytest.approx(2 ** (48 / 1200), rel=0.002)
+
+    _, diagnostic_f0 = pitch_curve_for_notes(project.ppq, project.bpm, [bent], frame_ms=10.0)
+    base_hz = 261.6255653005986
+    assert diagnostic_f0[25] / base_hz == pytest.approx(2 ** (50 / 1200), rel=0.002)

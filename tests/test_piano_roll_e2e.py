@@ -136,6 +136,51 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
             project = httpx.get(f"{base}/api/projects/{project_id}").json()
             first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
             assert first["vibrato"] is None
+
+            # Per-note pitch handles are created and dragged directly on the note body.
+            page.locator('button[title^="Per-note pitch handles"]').click()
+            page.mouse.move(box["x"] + 170, box["y"] + 322)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 170, box["y"] + 313, steps=3)
+            page.mouse.up()
+            page.mouse.move(box["x"] + 190, box["y"] + 322)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 190, box["y"] + 330, steps=3)
+            page.mouse.up()
+            page.wait_for_timeout(700)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert len(first["pitch_curve"]) == 2
+            assert max(point["cents"] for point in first["pitch_curve"]) > 80
+            assert min(point["cents"] for point in first["pitch_curve"]) < -40
+
+            point = sorted(first["pitch_curve"], key=lambda item: item["offset_ms"])[0]
+            duration_ms = first["duration_ticks"] * 60000 / project["bpm"] / project["ppq"]
+            note_x = 64 + (first["start_ticks"] / project["ppq"]) * 112
+            note_w = (first["duration_ticks"] / project["ppq"]) * 112
+            note_y = 30 + (79 - first["pitch"]) * 15
+            handle_x = box["x"] + note_x + 2 + (point["offset_ms"] / duration_ms) * max(1, note_w - 4)
+            handle_y = box["y"] + note_y + 7.5 - point["cents"] / 100 * max(3, 7.5 - 2)
+            before_cents = point["cents"]
+            page.mouse.move(handle_x, handle_y)
+            page.mouse.down()
+            page.mouse.move(handle_x, handle_y + 3, steps=3)
+            page.mouse.up()
+            page.wait_for_timeout(700)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            moved = min(first["pitch_curve"], key=lambda item: abs(item["offset_ms"] - point["offset_ms"]))
+            assert moved["cents"] < before_cents
+
+            page.keyboard.down("Alt")
+            page.mouse.move(handle_x, handle_y + 3)
+            page.mouse.down()
+            page.mouse.up()
+            page.keyboard.up("Alt")
+            page.wait_for_timeout(700)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert len(first["pitch_curve"]) == 1
             assert errors == []
             browser.close()
     finally:

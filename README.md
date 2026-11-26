@@ -69,6 +69,8 @@ Pitch deviation is written into SoulX target F0 metadata. SoulX-Singer does not 
 
 Selected notes expose a professional vibrato editor (enable, start ratio, depth cents, rate Hz, phase) through the toolbar or context menu. Vibrato is drawn directly on note bodies as a parameter-driven sine indication and is consumed by the SoulX F0 metadata builder rather than being editor-only data.
 
+The `∿` pitch-handle tool creates draggable per-note pitch points directly on note bodies. Handles are linearly interpolated (not sampled only at exact frames), affect the SoulX target F0 metadata, and appear in diagnostic target curves; Alt+click deletes a handle.
+
 The canvas piano roll supports brush/select/erase tools, marquee multi-select, multi-note move/resize with interval-preserving pitch deltas, copy/paste/duplicate, quantize, a right-click edit menu, and a bottom velocity lane whose values round-trip through MIDI/VPR export.
 
 ## Repaint region selection
