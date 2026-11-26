@@ -73,6 +73,8 @@ Selected notes expose a professional vibrato editor (enable, start ratio, depth 
 
 The `∿` pitch-handle tool creates draggable per-note pitch points directly on note bodies. Handles are linearly interpolated (not sampled only at exact frames), affect the SoulX target F0 metadata, and appear in diagnostic target curves; Alt+click deletes a handle.
 
+The note context menu also exposes manual phoneme overrides: enter space-separated symbols, OpenACE times pre-vowel consonants before the beat and post-vowel consonants in sequence, validates against placeholder/empty/no-vowel input, and can reset to automatic lyric-derived phonemes.
+
 The canvas piano roll supports brush/select/erase tools, marquee multi-select, multi-note move/resize with interval-preserving pitch deltas, copy/paste/duplicate, quantize, a right-click edit menu, and a bottom velocity lane whose values round-trip through MIDI/VPR export.
 
 ## Repaint region selection

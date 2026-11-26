@@ -16,7 +16,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from openace.core.models import Note, Project, RenderMode, Track, TrackType
-from openace.core.phonemes import PhonemeError, ensure_note_phonemes
+from openace.core.phonemes import PhonemeError, ensure_note_phonemes, timed_phonemes, tokens_from_symbols
 from openace.core.project_store import ProjectStore
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_lyrics_video, export_master_wav
@@ -65,6 +65,12 @@ class CreateTrackRequest(BaseModel):
     color: str = "#7c5cff"
 
 
+class PhonemeTimingRequest(BaseModel):
+    symbols: List[str]
+    duration_ms: float
+
+
+
 class NoteRequest(BaseModel):
     start_ticks: int
     duration_ticks: int
@@ -94,7 +100,7 @@ def validate_project_editing_invariants(project: Project) -> None:
         for track in project.vocal_tracks():
             for note in track.notes:
                 if note.lyric.strip():
-                    ensure_note_phonemes(note, track.language)
+                    ensure_note_phonemes(note, track.language, project.ticks_to_seconds(note.duration_ticks) * 1000.0)
             validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm)
     except (PhonemeError, ValueError) as exc:
         raise HTTPException(422, str(exc)) from exc
@@ -232,6 +238,15 @@ def delete_note(project_id: str, track_id: str, note_id: str):
     store.save(project)
     publish_project(project)
     return {"ok": True}
+
+
+@app.post("/api/phonemes/time")
+def time_manual_phonemes(request: PhonemeTimingRequest):
+    try:
+        tokens = tokens_from_symbols(request.symbols)
+        return [item.model_dump(mode="json") for item in timed_phonemes(tokens, request.duration_ms)]
+    except PhonemeError as exc:
+        raise HTTPException(422, str(exc)) from exc
 
 
 @app.post("/api/projects/{project_id}/render/vocal")

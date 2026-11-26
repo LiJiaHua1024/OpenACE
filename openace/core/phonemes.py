@@ -258,11 +258,60 @@ def phonemes_for_text(text: str, language: str) -> List[PhonemeToken]:
     raise PhonemeError(f"unsupported lyric language: {language}")
 
 
-def ensure_note_phonemes(note: Note, language: str) -> List[Phoneme]:
+def tokens_from_symbols(symbols: List[str]) -> List[PhonemeToken]:
+    """Build validated manual phoneme tokens from user-supplied symbols."""
+    cleaned = [symbol.strip() for symbol in symbols if symbol.strip()]
+    if not cleaned:
+        raise PhonemeError("manual phoneme override is empty")
+    if any(symbol.lower() == "la" for symbol in cleaned):
+        raise PhonemeError("placeholder phoneme 'la' is forbidden")
+    tokens = [PhonemeToken(symbol=symbol, is_vowel=_is_vowel(symbol)) for symbol in cleaned]
+    if not any(token.is_vowel for token in tokens):
+        raise PhonemeError("manual phoneme override has no vowel phoneme")
+    return tokens
+
+
+def timed_phonemes(tokens: List[PhonemeToken], duration_ms: float) -> List[Phoneme]:
+    """Place a phoneme sequence relative to a beat-anchored first vowel.
+
+    Only pre-vowel consonants receive negative onset times. Post-vowel consonants
+    remain after the vowel instead of being incorrectly pulled before the beat.
+    """
+    vowel_indexes = [index for index, token in enumerate(tokens) if token.is_vowel]
+    if not vowel_indexes:
+        raise PhonemeError("lyric contains no vowel phoneme")
+    first_vowel = vowel_indexes[0]
+    pre_tokens = tokens[:first_vowel]
+    post_tokens = tokens[first_vowel:]
+    pre_ms = min(90.0, max(40.0, 45.0 + 7.5 * max(0, len(pre_tokens) - 1))) if pre_tokens else 0.0
+    step = pre_ms / max(1, len(pre_tokens))
+    phonemes: List[Phoneme] = []
+    cursor = -pre_ms
+    for token in pre_tokens:
+        phonemes.append(Phoneme(symbol=token.symbol, start_ms=cursor, duration_ms=step, is_vowel=False))
+        cursor += step
+
+    duration_ms = max(120.0, duration_ms)
+    post_consonants = [token for token in post_tokens if not token.is_vowel]
+    post_vowels = [token for token in post_tokens if token.is_vowel]
+    coda_each = min(70.0, max(35.0, duration_ms * 0.08))
+    coda_total = coda_each * len(post_consonants)
+    vowel_total = max(80.0, duration_ms - coda_total)
+    vowel_each = vowel_total / len(post_vowels)
+    cursor = 0.0
+    for token in post_tokens:
+        length = vowel_each if token.is_vowel else coda_each
+        phonemes.append(Phoneme(symbol=token.symbol, start_ms=cursor, duration_ms=length, is_vowel=token.is_vowel))
+        cursor += length
+    validate_phoneme_inventory(phonemes)
+    return phonemes
+
+
+def ensure_note_phonemes(note: Note, language: str, duration_ms: float | None = None) -> List[Phoneme]:
     """Populate or validate strict phonemes for a note.
 
-    Note onset is defined as the vowel onset. Consonants therefore receive negative
-    start offsets (typically -40..-90 ms) rather than pushing the vowel late.
+    Note onset is defined as the first vowel onset. Pre-vowel consonants receive
+    negative offsets while post-vowel consonants remain in sequence after the vowel.
     """
     if note.phonemes:
         if not any(p.is_vowel for p in note.phonemes):
@@ -270,26 +319,12 @@ def ensure_note_phonemes(note: Note, language: str) -> List[Phoneme]:
         validate_phoneme_inventory(note.phonemes)
         return note.phonemes
     tokens = phonemes_for_text(note.lyric, language)
-    consonants = [t for t in tokens if not t.is_vowel]
-    vowels = [t for t in tokens if t.is_vowel]
-    if not vowels:
-        raise PhonemeError(f"lyric '{note.lyric}' contains no vowel phoneme")
-    # Consonants are pre-onset, clamped to the ACE-like 40-90ms articulation zone.
-    pre_ms = min(90.0, max(40.0, 45.0 + 7.5 * max(0, len(consonants) - 1)))
-    step = pre_ms / max(1, len(consonants))
-    phonemes: List[Phoneme] = []
-    cursor = -pre_ms
-    for token in consonants:
-        phonemes.append(Phoneme(symbol=token.symbol, start_ms=cursor, duration_ms=step, is_vowel=False))
-        cursor += step
-    # Vowels start exactly at zero: the beat anchor is the vowel, not the consonant.
-    vowel_duration = max(80.0, note.duration_ticks / 4.0)
-    each = vowel_duration / len(vowels)
-    for index, token in enumerate(vowels):
-        phonemes.append(Phoneme(symbol=token.symbol, start_ms=index * each, duration_ms=each, is_vowel=True))
-    note.phonemes = phonemes
-    validate_phoneme_inventory(note.phonemes)
-    return phonemes
+    if duration_ms is None:
+        # Nominal 120 BPM fallback for CLI/model-unit use; server/render callers pass
+        # the exact project-tempo duration whenever available.
+        duration_ms = note.duration_ticks * 60000.0 / (120.0 * 480.0)
+    note.phonemes = timed_phonemes(tokens, duration_ms)
+    return note.phonemes
 
 
 def validate_phoneme_inventory(phonemes) -> None:

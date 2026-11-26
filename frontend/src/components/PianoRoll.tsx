@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { api } from '../api'
 import type { Note, Project, TimelineState, Track } from '../types'
 
 const KEY_WIDTH = 64
@@ -75,6 +76,7 @@ export default function PianoRoll(props: Props) {
   const [marquee, setMarquee] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null)
   const [menu, setMenu] = useState<{ x: number; y: number } | null>(null)
   const [vibratoEditor, setVibratoEditor] = useState<{ noteId: string; x: number; y: number } | null>(null)
+  const [phonemeEditor, setPhonemeEditor] = useState<{ noteId: string; x: number; y: number; value: string; error?: string } | null>(null)
   const dragRef = useRef<DragState | null>(null)
   const pitchDragRef = useRef<{ noteId: string; pointIndex: number } | null>(null)
   const clipboardRef = useRef<Note[]>([])
@@ -775,6 +777,47 @@ export default function PianoRoll(props: Props) {
     }, true)
   }
 
+  function openPhonemeEditor(x = 100, y = 92) {
+    if (selectedNoteIds.length !== 1 || !props.track) return
+    const note = props.track.notes.find(item => item.id === selectedNoteIds[0])
+    if (!note) return
+    setPhonemeEditor({
+      noteId: note.id,
+      x: Math.max(8, Math.min(x, (wrapRef.current?.clientWidth || 900) - 270)),
+      y: Math.max(34, Math.min(y, (wrapRef.current?.clientHeight || 420) - 170)),
+      value: note.phonemes.map(item => item.symbol).join(' '),
+    })
+    setMenu(null)
+  }
+
+  async function applyPhonemeOverride() {
+    if (!phonemeEditor || !props.track) return
+    const note = props.track.notes.find(item => item.id === phonemeEditor.noteId)
+    if (!note) return
+    const symbols = phonemeEditor.value.split(/\s+/).filter(Boolean)
+    try {
+      const durationMs = noteDurationMs(note)
+      const timed = await api.timePhonemes(symbols, durationMs)
+      props.updateProject(project => {
+        const target = project.tracks.find(item => item.id === props.track?.id)?.notes.find(item => item.id === note.id)
+        if (target) target.phonemes = timed
+      }, false)
+      setPhonemeEditor(null)
+    } catch (error) {
+      setPhonemeEditor(current => current ? { ...current, error: error instanceof Error ? error.message : String(error) } : current)
+    }
+  }
+
+  function resetPhonemes() {
+    if (!phonemeEditor || !props.track) return
+    const noteId = phonemeEditor.noteId
+    props.updateProject(project => {
+      const target = project.tracks.find(item => item.id === props.track?.id)?.notes.find(item => item.id === noteId)
+      if (target) target.phonemes = []
+    }, false)
+    setPhonemeEditor(null)
+  }
+
   function handleEditorKey(event: KeyboardEvent) {
     if ((event.target as HTMLElement).tagName === 'INPUT') return
     const key = event.key.toLowerCase()
@@ -868,6 +911,7 @@ export default function PianoRoll(props: Props) {
             <button disabled={!selectedNoteIds.length} onClick={() => menuAction(duplicateSelection)}>Duplicate</button>
             <button disabled={!selectedNoteIds.length} onClick={() => menuAction(quantizeSelection)}>Quantize</button>
             <button disabled={selectedNoteIds.length !== 1} onClick={() => openVibratoEditor(menu.x + 8, menu.y + 8)}>Vibrato…</button>
+            <button disabled={selectedNoteIds.length !== 1} onClick={() => openPhonemeEditor(menu.x + 8, menu.y + 8)}>Phonemes…</button>
             <button disabled={!selectedNoteIds.length} className="danger" onClick={() => menuAction(deleteSelection)}>Delete</button>
           </div>
         )}
@@ -881,6 +925,23 @@ export default function PianoRoll(props: Props) {
             onBlur={commitLyric}
             onKeyDown={e => { if (e.key === 'Enter') commitLyric(); if (e.key === 'Escape') setEditing(null) }}
           />
+        )}
+        {phonemeEditor && (
+          <div className="phoneme-editor" style={{ left: phonemeEditor.x, top: phonemeEditor.y }}>
+            <div className="vibrato-header"><strong>Manual phonemes</strong><button onClick={() => setPhonemeEditor(null)}>×</button></div>
+            <input
+              autoFocus
+              value={phonemeEditor.value}
+              placeholder="space-separated IPA/phoneme symbols"
+              onChange={event => setPhonemeEditor({ ...phonemeEditor, value: event.target.value, error: undefined })}
+              onKeyDown={event => { if (event.key === 'Enter') applyPhonemeOverride() }}
+            />
+            {phonemeEditor.error && <div className="phoneme-error">{phonemeEditor.error}</div>}
+            <div className="phoneme-actions">
+              <button onClick={applyPhonemeOverride}>Apply</button>
+              <button onClick={resetPhonemes}>Reset auto</button>
+            </div>
+          </div>
         )}
         {vibratoEditor && props.track && (() => {
           const note = props.track.notes.find(item => item.id === vibratoEditor.noteId)

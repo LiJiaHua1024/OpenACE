@@ -129,7 +129,7 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
     if not notes:
         raise ValueError("cannot render an empty vocal track")
     for note in notes:
-        ensure_note_phonemes(note, track.language)
+        ensure_note_phonemes(note, track.language, project.ticks_to_seconds(note.duration_ticks) * 1000.0)
     validate_absolute_beat_anchor(notes, project.ppq, project.bpm)
     phoneset = set(json.loads(phoneset_path.read_text(encoding="utf-8")))
 

@@ -27,6 +27,7 @@ export const api = {
   vocal2bgm: (projectId: string, sourceAudio: string, caption: string) => request<RenderJob>(`/api/projects/${projectId}/render/vocal2bgm`, json({ method: 'POST', body: JSON.stringify({ source_audio: sourceAudio, caption }) })),
   repaint: (projectId: string, sourceAudio: string, startS: number, endS: number, caption: string) => request<RenderJob>(`/api/projects/${projectId}/render/repaint`, json({ method: 'POST', body: JSON.stringify({ source_audio: sourceAudio, start_s: startS, end_s: endS, caption }) })),
   svc: (projectId: string, sourceAudio: string, referenceVoice: string) => request<RenderJob>(`/api/projects/${projectId}/render/svc`, json({ method: 'POST', body: JSON.stringify({ source_audio: sourceAudio, reference_voice: referenceVoice }) })),
+  timePhonemes: (symbols: string[], durationMs: number) => request<any[]>('/api/phonemes/time', json({ method: 'POST', body: JSON.stringify({ symbols, duration_ms: durationMs }) })),
   jobs: () => request<RenderJob[]>('/api/jobs'),
   exportUrl: (projectId: string, fmt: string) => `/api/projects/${projectId}/export/${fmt}`,
 }

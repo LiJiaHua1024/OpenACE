@@ -136,3 +136,14 @@ def test_diagnostic_target_f0_includes_track_pitch_automation():
     _, plain = pitch_curve_for_notes(project.ppq, project.bpm, [note], frame_ms=10.0)
     _, automated = pitch_curve_for_notes(project.ppq, project.bpm, [note], frame_ms=10.0, pitch_automation=automation)
     assert automated[50] / plain[50] == pytest.approx(2 ** (50 / 1200), rel=0.002)
+
+
+def test_post_vowel_consonants_remain_after_beat_anchored_vowel():
+    note = Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="sing")
+    phonemes = ensure_note_phonemes(note, "en", duration_ms=500.0)
+    symbols = [p.symbol for p in phonemes]
+    assert symbols == ["s", "ɪ", "ŋ"]
+    assert phonemes[0].start_ms < 0
+    assert phonemes[1].start_ms == 0
+    assert phonemes[2].start_ms > 0
+    assert phonemes[2].start_ms + phonemes[2].duration_ms <= 500.1

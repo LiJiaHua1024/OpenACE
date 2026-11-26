@@ -137,6 +137,31 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
             first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
             assert first["vibrato"] is None
 
+            # Manual phoneme override is timed by the backend and round-trips into the note.
+            httpx.patch(
+                f"{base}/api/projects/{project_id}/tracks/{project['tracks'][0]['id']}/notes/{first['id']}",
+                json={"lyric": "你"},
+            )
+            page.wait_for_timeout(450)
+            page.mouse.click(box["x"] + 170, box["y"] + 315, button="right")
+            page.locator(".piano-context-menu button", has_text="Phonemes").click()
+            assert page.locator(".phoneme-editor").count() == 1
+            page.locator(".phoneme-editor input").first.fill("m i")
+            page.locator(".phoneme-actions button", has_text="Apply").click()
+            page.wait_for_timeout(750)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert [item["symbol"] for item in first["phonemes"]] == ["m", "i"]
+            assert first["phonemes"][0]["start_ms"] < 0
+            assert first["phonemes"][1]["start_ms"] == 0
+            page.mouse.click(box["x"] + 170, box["y"] + 315, button="right")
+            page.locator(".piano-context-menu button", has_text="Phonemes").click()
+            page.locator(".phoneme-actions button", has_text="Reset auto").click()
+            page.wait_for_timeout(750)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert first["phonemes"][0]["symbol"] == "n"
+
             # Per-note pitch handles are created and dragged directly on the note body.
             page.locator('button[title^="Per-note pitch handles"]').click()
             page.mouse.move(box["x"] + 170, box["y"] + 322)

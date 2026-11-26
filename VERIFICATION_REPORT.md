@@ -276,3 +276,7 @@ The diagnostic target-F0 curve now includes the track-level pitch automation env
 ## Iteration 12 — Air lane high-frequency DSP
 
 The Air automation lane now affects rendered vocals as explicitly labeled post-render DSP rather than remaining editor-only data. The implementation extracts the 3 kHz+ residue already present in the rendered vocal and reinforces or attenuates it according to the lane; it does not inject synthetic noise or pretend SoulX has neural Air conditioning. Unit coverage verifies high-frequency content increases across a rising Air envelope and empty lanes remain transparent; fixture-render integration verifies the lane reaches the job pipeline and final provenance message.
+
+## Iteration 13 — manual phoneme override and sequence-correct timing
+
+Manual note phonemes can now be edited from the piano-roll context menu as space-separated symbols, timed by the backend, validated against empty/placeholder/no-vowel input, and reset to automatic lyric-derived phonemes. Phoneme timing is now sequence-correct: only pre-vowel consonants receive negative beat-preonset offsets, while post-vowel consonants remain after the beat-anchored vowel. Real-browser regression covers override persistence/reset and English coda placement; backend callers pass exact project-tempo note durations.

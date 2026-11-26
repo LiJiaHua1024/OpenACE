@@ -69,7 +69,7 @@ def add_note(project_id: str, track_id: str, start_ticks: int, duration_ticks: i
     project = store.get(project_id)
     track = project.track(track_id)
     note = track.add_note(Note(start_ticks=start_ticks, duration_ticks=duration_ticks, pitch=pitch, lyric=lyric, velocity=velocity))
-    ensure_note_phonemes(note, track.language)
+    ensure_note_phonemes(note, track.language, project.ticks_to_seconds(note.duration_ticks) * 1000.0)
     validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm)
     store.save(project)
     notify_web(project)

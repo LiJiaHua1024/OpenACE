@@ -275,3 +275,8 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .clip-gain-control { display: flex; flex-direction: column; gap: 4px; padding: 7px 9px; color: #aeb7d4; font-size: 10px; }
 .clip-gain-control span { display: flex; align-items: center; gap: 4px; }
 .clip-gain-control input { width: 58px; background: #0f1320; color: #e8eeff; border: 1px solid #47506f; border-radius: 4px; padding: 3px 4px; font-size: 10px; }
+.phoneme-editor { position: absolute; z-index: 37; width: 252px; padding: 10px; background: #171b29f7; border: 1px solid #59617f; border-radius: 10px; box-shadow: 0 14px 40px #000c; color: #dfe6f8; font-size: 11px; }
+.phoneme-editor input { width: 100%; box-sizing: border-box; background: #0f1320; color: #eef3ff; border: 1px solid #47506f; border-radius: 5px; padding: 7px; }
+.phoneme-error { color: #ff8ba0; margin-top: 6px; line-height: 1.3; }
+.phoneme-actions { display: flex; gap: 7px; margin-top: 8px; }
+.phoneme-actions button { background: #29314d; color: #e8eeff; border: 1px solid #47506f; border-radius: 5px; padding: 5px 9px; cursor: pointer; }
