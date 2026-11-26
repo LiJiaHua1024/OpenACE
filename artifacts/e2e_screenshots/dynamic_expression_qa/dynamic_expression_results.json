@@ -1,0 +1,155 @@
+{
+  "two_note_vocal_drawn": {
+    "ok": true,
+    "details": {
+      "project_id": "project_f05abda7620e",
+      "notes": [
+        [
+          0,
+          480,
+          60
+        ],
+        [
+          480,
+          480,
+          60
+        ]
+      ],
+      "expected": [
+        [
+          0,
+          480,
+          60
+        ],
+        [
+          480,
+          480,
+          60
+        ]
+      ],
+      "screenshot": "02_two_notes_drawn.png"
+    },
+    "time": 1795696885.511243
+  },
+  "dynamic_neutral_line_centered": {
+    "ok": true,
+    "details": {
+      "scan": {
+        "height": 153,
+        "expected": 79.5,
+        "top": [
+          {
+            "y": 79,
+            "count": 284
+          },
+          {
+            "y": 61,
+            "count": 7
+          },
+          {
+            "y": 66,
+            "count": 5
+          },
+          {
+            "y": 64,
+            "count": 3
+          },
+          {
+            "y": 65,
+            "count": 3
+          }
+        ]
+      },
+      "screenshot": "03_dynamic_neutral_before_draw.png"
+    },
+    "time": 1795696885.613478
+  },
+  "dynamic_rising_curve_drawn": {
+    "ok": true,
+    "details": {
+      "dynamic_points": [
+        [
+          0,
+          0.0
+        ],
+        [
+          960,
+          1.0
+        ]
+      ],
+      "screenshot": "05_dynamic_curve_drawn.png",
+      "held": "04_dynamic_line_drag_held.png"
+    },
+    "time": 1795696887.2482426
+  },
+  "fixture_vocal_render_completes": {
+    "ok": true,
+    "details": {
+      "job": {
+        "id": "job_6b6fb5b50ca1",
+        "project_id": "project_f05abda7620e",
+        "track_id": "track_d49c775d3d5f",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_f05abda7620e/job_6b6fb5b50ca1/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_f05abda7620e/job_6b6fb5b50ca1/diagnostic.png",
+        "created_at": 1795696887.2821317,
+        "finished_at": 1795696890.2327642,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      },
+      "job_card_text": "svs_score · CI FIXTURE\ncompleted\ncompleted",
+      "screenshot": "06_render_job_card.png"
+    },
+    "time": 1795696890.8892474
+  },
+  "job_labels_dynamic_postprocessing": {
+    "ok": false,
+    "details": {
+      "job_message": "completed",
+      "job_engine": "explicit CI synthesis fixture",
+      "job_card_text": "svs_score · CI FIXTURE\ncompleted\ncompleted",
+      "required": "visible or machine-readable job provenance should retain Dynamic post-processing label"
+    },
+    "time": 1795696890.889599
+  },
+  "dynamic_postprocessing_audio_effect": {
+    "ok": true,
+    "details": {
+      "metrics": {
+        "sample_rate": 24000,
+        "duration": 1.5,
+        "first_note_rms": 0.1705637956698674,
+        "second_note_rms": 0.3403195124908262,
+        "ratio": 1.9952623073042262,
+        "peak": 0.7263474464416504
+      },
+      "wav": "dynamic_rendered_vocal.wav",
+      "analysis_image": "evidence_dynamic_audio_analysis.png",
+      "expected": "second note RMS >1.4× first and peak <=1.0"
+    },
+    "time": 1795696891.5864713
+  },
+  "playback_still_works": {
+    "ok": true,
+    "details": {
+      "before": "1.1.1\n00:00.00",
+      "during": "1.3.1\n00:01.08",
+      "class": "play-button playing",
+      "screenshot": "07_playback_after_dynamic_render.png"
+    },
+    "time": 1795696893.3689954
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795696893.3696656
+  },
+  "passed": false
+}

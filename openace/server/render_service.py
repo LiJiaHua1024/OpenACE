@@ -10,6 +10,7 @@ import soundfile as sf
 
 from openace.core.audio import read_audio
 from openace.core.diagnostics import extract_f0, write_diagnostic
+from openace.core.expression import apply_dynamic_envelope
 from openace.core.models import AudioClip, Project, RenderJob, RenderJobStatus, RenderMode, Track, TrackType
 from openace.core.project_store import ProjectStore
 from openace.engines.acestep import ACEStepEngine
@@ -76,11 +77,17 @@ class RenderService:
             diagnostic = outdir / "diagnostic.png"
             await asyncio.to_thread(self.vocal_engine.render_score, project, track, wav)
             audio, sr = await asyncio.to_thread(read_audio, wav)
+            audio, dynamic_applied = apply_dynamic_envelope(audio, sr, project, track)
+            if dynamic_applied:
+                await asyncio.to_thread(sf.write, str(wav), audio, sr, subtype="PCM_24")
+                job.message = "rendered vocal with Dynamic post-processing"
             try:
                 actual_f0 = await asyncio.to_thread(extract_f0, wav)
             except RuntimeError:
                 actual_f0 = None
             provenance = "OPENACE_CI_SYNTH_FIXTURE=1 — ORCHESTRATION TEST AUDIO, NOT MODEL OUTPUT" if self.fixture_mode else self.vocal_engine_name
+            if dynamic_applied:
+                provenance += " + Dynamic lane gain post-processing (not neural conditioning)"
             await asyncio.to_thread(write_diagnostic, diagnostic, project, track.sorted_notes(), audio, sr, actual_f0, provenance)
             track.render_path = str(wav)
             track.render_revision += 1
@@ -90,7 +97,7 @@ class RenderService:
             job.diagnostic_path = str(diagnostic)
             job.status = RenderJobStatus.COMPLETED
             job.progress = 1.0
-            job.message = "completed"
+            job.message = "completed with Dynamic post-processing" if dynamic_applied else "completed"
             job.finished_at = time.time()
         except Exception as exc:
             job.status = RenderJobStatus.FAILED

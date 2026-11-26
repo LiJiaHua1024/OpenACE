@@ -29,7 +29,7 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 | Timeline synchronization | Arrangement, piano roll and automation share viewport | **Done** | Shared controlled timeline implemented and screenshot-verified. |
 | Lyrics and phonemes | Fast lyric editing and visible phoneme decomposition | **Partial** | Double-click lyric editor, strict generated phoneme lane, vowel/consonant timing. No manual phoneme override or draggable boundaries. |
 | Pitch automation | Draw pitch deviation and affect synthesis | **Partial** | Pitch lane edits persist and are written into SoulX target F0 metadata. Per-note vibrato/handle editing still shallow. |
-| Air/Falsetto/Tension/Energy/Dynamics | Draw complete expression curves | **Partial** | Lanes edit/persist. Only Pitch is engine-conditioned so far; remaining curves are not yet consumed by SoulX. |
+| Air/Falsetto/Tension/Energy/Dynamics | Draw complete expression curves | **Partial** | Lanes edit/persist. Pitch is engine-conditioned in SoulX F0; Dynamic is honestly applied as ±6dB post-render gain automation with clipping protection because SoulX exposes no neural dynamic control. Air/falsetto/tension/energy remain editor-only. |
 | Breath lane | Insert/edit breaths | **Partial** | Auto add-all and click add exist; no edge dragging/model consumption. |
 | WebAudio playback | Transport plays rendered vocal/accompaniment | **Partial** | Decoded playback with volume/pan/mute/solo and moving playhead; now schedules all clips as well as latest render. No sample-accurate crossfade/live caching. |
 | Undo/redo | Reliable DAW history | **Partial** | Project snapshots and transactions work for common editing. Needs coalescing and edge-case hardening. |
@@ -74,7 +74,7 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 ## Highest-priority gaps for the next iteration
 
 1. **Real GPU truth**: run `scripts/verify_local_gpu.py` on a 12GB NVIDIA machine; fix real SoulX/ACE-Step integration defects from actual logs and listening tests.
-2. **Engine conditioning depth**: translate dynamic/air/falsetto/tension/energy/breath/vibrato into meaningful SoulX/SVC controls rather than editor-only persistence.
+2. **Engine conditioning depth**: translate air/falsetto/tension/energy/breath/vibrato into meaningful SoulX/SVC controls rather than editor-only persistence; Dynamic now has honest post-render gain semantics.
 3. **Piano-roll professional depth**: per-note pitch handles, advanced vibrato editing, cross-track clipboard, performance profiling under large projects.
 4. **Arrangement clip depth**: fades/crossfades and richer clip context operations; independent dragging, trim, split, and real waveform analysis are now implemented.
 5. **Commercial host validation**: open `.ustx`, `.svp`, `.vpr` in the real target applications and repair exact schemas.

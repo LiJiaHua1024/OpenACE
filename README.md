@@ -61,6 +61,10 @@ OPENACE_CI_SYNTH_FIXTURE=1 openace-tool render-vocal <project-id> <track-id>
 
 The arrangement canvas draws real decoded waveform peaks for audio clips rather than placeholder stripes. Audio clips drag independently, trim from either edge while preserving source offsets, and split at the cursor through the context menu. Waveforms remap to the trimmed source segment, contiguous vocal-note groups drag as musical phrases, and all clip timing paths persist through the same playback/export pipeline.
 
+## Expression automation
+
+Pitch deviation is written into SoulX target F0 metadata. SoulX-Singer does not expose a direct neural Dynamic control, so OpenACE applies the Dynamic lane as honest post-render gain automation: neutral `0.5`, ±6 dB range, sample-interpolated gain, clipping protection, and explicit diagnostic/job provenance. Air, falsetto, tension, and energy lanes remain persistent editor data until a truthful engine or DSP mapping exists.
+
 ## Piano-roll editing
 
 The canvas piano roll supports brush/select/erase tools, marquee multi-select, multi-note move/resize with interval-preserving pitch deltas, copy/paste/duplicate, quantize, a right-click edit menu, and a bottom velocity lane whose values round-trip through MIDI/VPR export.

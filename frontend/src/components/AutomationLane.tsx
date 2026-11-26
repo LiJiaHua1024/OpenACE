@@ -130,7 +130,7 @@ export default function AutomationLane(props: Props) {
         const label = lane === 'pitch_cents' ? 'Pitch deviation (cents)' : lane[0].toUpperCase() + lane.slice(1)
         ctx.fillStyle = '#aeb7d4'; ctx.font = '11px Inter'; ctx.fillText(label, 10, 18)
         const points = pointsFor(props.track, lane)
-        const neutral = lane === 'pitch_cents' ? height / 2 : height * 0.58
+        const neutral = lane === 'pitch_cents' ? height / 2 : height - 18 - 0.5 * (height - 42)
         ctx.strokeStyle = '#6d748c'; ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.moveTo(KEY_WIDTH, neutral); ctx.lineTo(width, neutral); ctx.stroke(); ctx.setLineDash([])
         if (!points.length) {
           ctx.fillStyle = '#65708e'; ctx.font = '12px Inter'; ctx.fillText('AUTO', KEY_WIDTH + 18, neutral - 10)

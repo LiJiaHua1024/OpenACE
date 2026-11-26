@@ -199,3 +199,20 @@ Implemented and verified:
 
 Independent visible-Chrome QA passed: trim cursor/handles, waveform remapping (quiet/loud spans match source regions), split menu, contiguous clips, undo/redo, outward re-extension, positive seek, master export placement, and zero console/network errors. Evidence is indexed in `artifacts/e2e_screenshots/arrangement_trim_qa/`.
 Validation after iteration 4: frontend production build passed; Python compile passed; full automated suite reached 22 passed.
+
+
+## Iteration 5 — truthful Dynamic expression post-processing
+
+Branch focus: make the Dynamic lane affect rendered audio without falsely claiming unsupported neural conditioning.
+
+Implemented and verified:
+
+- `openace/core/expression.py` interpolates Dynamic automation in project time and applies it as post-render gain: neutral `0.5`, ±6 dB range, vectorized sample-rate interpolation, and uniform peak protection above `0.98`.
+- Vocal render output is rewritten after processing; diagnostics and completed jobs explicitly label `Dynamic lane gain post-processing (not neural conditioning)`.
+- Empty lanes remain transparent AI/auto mode.
+- The normalized automation lane neutral guide now represents value `0.5` instead of an arbitrary visual position.
+- Unit tests verify interpolation, relative gain, transparent empty lanes, and clipping protection.
+- Explicit fixture integration proves a rendered two-note vocal becomes measurably louder across a rising curve and that job provenance remains visible.
+
+Independent visible-Chrome QA drew exact endpoints `(0,0.0)` and `(960,1.0)`, rendered fixture audio, and measured first/second note RMS `0.17056 → 0.34032` (`2.00×`) with peak `0.726`, no clipping, working playback, and zero console/network errors. QA initially exposed that the final job message dropped the Dynamic provenance; this was fixed and covered by regression assertion. Evidence is indexed in `artifacts/e2e_screenshots/dynamic_expression_qa/`.
+Validation after iteration 5: frontend production build passed; Python compile passed; full automated suite reached 26 passed.
