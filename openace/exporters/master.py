@@ -6,7 +6,7 @@ from typing import List, Tuple
 import numpy as np
 
 from openace.core.audio import export_video_with_lyrics, mix_tracks, read_audio, resample_linear, write_wav
-from openace.core.models import Project
+from openace.core.models import AudioClip, Project
 
 
 def _resolve(path_value: str) -> Path:
@@ -20,13 +20,13 @@ def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48
         if track.mute:
             continue
         clip_paths = {str(_resolve(clip.path)) for clip in track.clips}
-        sources: List[Tuple[Path, int]] = []
+        sources: List[Tuple[Path, AudioClip | None]] = []
         if track.render_path:
             render_path = _resolve(track.render_path)
             if str(render_path) not in clip_paths:
-                sources.append((render_path, 0))
-        sources.extend((_resolve(clip.path), clip.start_ticks) for clip in track.clips)
-        for path, start_ticks in sources:
+                sources.append((render_path, None))
+        sources.extend((_resolve(clip.path), clip) for clip in track.clips)
+        for path, clip in sources:
             if not path.exists():
                 continue
             data, sr = read_audio(path)
@@ -35,9 +35,19 @@ def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48
                 sr = sample_rate
             if data.ndim == 1:
                 data = data[:, None]
-            offset = int(round(project.ticks_to_seconds(start_ticks) * sample_rate))
-            if offset:
-                padding = np.zeros((offset, data.shape[1]), dtype=data.dtype)
+            start_ticks = getattr(clip, "start_ticks", 0) if clip is not None else 0
+            source_offset_ticks = getattr(clip, "offset_ticks", 0) if clip is not None else 0
+            duration_ticks = getattr(clip, "duration_ticks", None) if clip is not None else None
+            source_start = int(round(project.ticks_to_seconds(source_offset_ticks) * sample_rate))
+            source_end = len(data)
+            if duration_ticks is not None:
+                source_end = min(source_end, source_start + int(round(project.ticks_to_seconds(duration_ticks) * sample_rate)))
+            data = data[max(0, source_start):max(0, source_end)]
+            if not len(data):
+                continue
+            timeline_offset = int(round(project.ticks_to_seconds(start_ticks) * sample_rate))
+            if timeline_offset:
+                padding = np.zeros((timeline_offset, data.shape[1]), dtype=data.dtype)
                 data = np.concatenate([padding, data], axis=0)
             buffers.append((data * track.volume, sr))
     mixed = mix_tracks(buffers, sample_rate=sample_rate)

@@ -181,3 +181,21 @@ Independent arrangement QA initially exposed a real live-playback scheduling def
 Final independent real-Chrome recheck passed: decoded varying waveform remained visible; clip drag persisted `0→480→0`; future playback measured `when-now=0.500s`, `offset=0`; positive seek measured `offset=0.5`; contiguous vocal phrase movement remained exact; repaint Alt-drag remained intact; zero console/network failures. Focused evidence is indexed in `artifacts/e2e_screenshots/arrangement_qa/`.
 
 Validation after the fix: frontend production build passed; Python compile passed; full automated suite reached 21 passed.
+
+## Iteration 4 — arrangement trim/split with source-time correctness
+
+Branch focus: turn arrangement clips from movable render-file references into editable timeline segments.
+
+Implemented and verified:
+
+- `AudioClip.offset_ticks` now represents the source-file insertion point; `duration_ticks` is the visible timeline segment length.
+- Left/right edge dragging trims or re-extends clips within source bounds. Left trims move `start_ticks`, `offset_ticks`, and `duration_ticks` together so source-time continuity is preserved.
+- Right-click `Split at cursor` creates contiguous non-overlapping clips whose offsets remain sample-accurate in tick time.
+- WebAudio playback honors timeline delay, source offset, and segment duration. A rapid duplicate-start race is guarded while buffers decode.
+- Master WAV export slices the same source offset/duration rather than always rendering the entire file.
+- Waveform rendering remaps to the visible segment rather than compressing the whole source into every trimmed clip.
+- `tests/test_arrangement_e2e.py` verifies trim `(480,480,960)`, split into `(480,480,480)+(960,960,480)`, and playback delay/offset/duration `(0.5,0.5,0.5)` plus `(1.0,1.0,0.5)`.
+- `tests/test_interop.py::test_master_export_honors_clip_source_offset_and_duration` verifies backend export slicing.
+
+Independent visible-Chrome QA passed: trim cursor/handles, waveform remapping (quiet/loud spans match source regions), split menu, contiguous clips, undo/redo, outward re-extension, positive seek, master export placement, and zero console/network errors. Evidence is indexed in `artifacts/e2e_screenshots/arrangement_trim_qa/`.
+Validation after iteration 4: frontend production build passed; Python compile passed; full automated suite reached 22 passed.

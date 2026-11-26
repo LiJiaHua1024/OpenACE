@@ -1,0 +1,405 @@
+{
+  "id": "project_e3f52a65d029",
+  "schema_version": 1,
+  "title": "Final QA 验收",
+  "ppq": 480,
+  "bpm": 120.0,
+  "tempo_map": [
+    {
+      "ticks": 0,
+      "bpm": 120.0
+    }
+  ],
+  "time_signature": {
+    "numerator": 4,
+    "denominator": 4
+  },
+  "tracks": [
+    {
+      "id": "track_37c409658c8c",
+      "name": "Lead Vocal",
+      "type": "vocal",
+      "color": "#7367ff",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/uploads/vocal.wav",
+      "language": "zh",
+      "notes": [
+        {
+          "id": "note_0b2daa7f-222",
+          "start_ticks": 120,
+          "duration_ticks": 600,
+          "pitch": 60,
+          "lyric": "你好",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "n",
+              "start_ms": -52.5,
+              "duration_ms": 26.25,
+              "is_vowel": false,
+              "locked": false
+            },
+            {
+              "symbol": "x",
+              "start_ms": -26.25,
+              "duration_ms": 26.25,
+              "is_vowel": false,
+              "locked": false
+            },
+            {
+              "symbol": "i",
+              "start_ms": 0.0,
+              "duration_ms": 75.0,
+              "is_vowel": true,
+              "locked": false
+            },
+            {
+              "symbol": "au",
+              "start_ms": 75.0,
+              "duration_ms": 75.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        },
+        {
+          "id": "note_9e23b0cc-752",
+          "start_ticks": 720,
+          "duration_ticks": 600,
+          "pitch": 64,
+          "lyric": "好",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "x",
+              "start_ms": -45.0,
+              "duration_ms": 45.0,
+              "is_vowel": false,
+              "locked": false
+            },
+            {
+              "symbol": "au",
+              "start_ms": 0.0,
+              "duration_ms": 150.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        },
+        {
+          "id": "note_972e0d42-e6c",
+          "start_ticks": 1920,
+          "duration_ticks": 600,
+          "pitch": 68,
+          "lyric": "唱",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "ʈʂʰ",
+              "start_ms": -45.0,
+              "duration_ms": 45.0,
+              "is_vowel": false,
+              "locked": false
+            },
+            {
+              "symbol": "aŋ",
+              "start_ms": 0.0,
+              "duration_ms": 150.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        },
+        {
+          "id": "note_20fcd28b9095",
+          "start_ticks": 9600,
+          "duration_ticks": 480,
+          "pitch": 72,
+          "lyric": "好",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "x",
+              "start_ms": -45.0,
+              "duration_ms": 45.0,
+              "is_vowel": false,
+              "locked": false
+            },
+            {
+              "symbol": "au",
+              "start_ms": 0.0,
+              "duration_ms": 120.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        }
+      ],
+      "clips": [],
+      "automation": {
+        "pitch_cents": [
+          {
+            "ticks": 176,
+            "value": -2.5799793601651184,
+            "curve": "linear"
+          },
+          {
+            "ticks": 240,
+            "value": 8.169934640522875,
+            "curve": "linear"
+          },
+          {
+            "ticks": 304,
+            "value": 18.91984864121087,
+            "curve": "linear"
+          },
+          {
+            "ticks": 369,
+            "value": 29.669762641898867,
+            "curve": "linear"
+          },
+          {
+            "ticks": 433,
+            "value": 40.41967664258686,
+            "curve": "linear"
+          },
+          {
+            "ticks": 497,
+            "value": 21.929824561403507,
+            "curve": "linear"
+          },
+          {
+            "ticks": 561,
+            "value": 3.4399724802201583,
+            "curve": "linear"
+          },
+          {
+            "ticks": 626,
+            "value": -15.049879600963193,
+            "curve": "linear"
+          },
+          {
+            "ticks": 690,
+            "value": -33.539731682146545,
+            "curve": "linear"
+          },
+          {
+            "ticks": 765,
+            "value": -18.05985552115583,
+            "curve": "linear"
+          },
+          {
+            "ticks": 840,
+            "value": -2.5799793601651184,
+            "curve": "linear"
+          },
+          {
+            "ticks": 915,
+            "value": 12.899896800825594,
+            "curve": "linear"
+          },
+          {
+            "ticks": 990,
+            "value": 28.379772961816307,
+            "curve": "linear"
+          }
+        ],
+        "dynamic": [],
+        "air": [
+          {
+            "ticks": 176,
+            "value": 0.5135135135135135,
+            "curve": "linear"
+          },
+          {
+            "ticks": 240,
+            "value": 0.5698198198198198,
+            "curve": "linear"
+          },
+          {
+            "ticks": 304,
+            "value": 0.6261261261261262,
+            "curve": "linear"
+          },
+          {
+            "ticks": 369,
+            "value": 0.6824324324324325,
+            "curve": "linear"
+          },
+          {
+            "ticks": 433,
+            "value": 0.7387387387387387,
+            "curve": "linear"
+          },
+          {
+            "ticks": 497,
+            "value": 0.6418918918918919,
+            "curve": "linear"
+          },
+          {
+            "ticks": 561,
+            "value": 0.545045045045045,
+            "curve": "linear"
+          },
+          {
+            "ticks": 626,
+            "value": 0.44819819819819817,
+            "curve": "linear"
+          },
+          {
+            "ticks": 690,
+            "value": 0.35135135135135137,
+            "curve": "linear"
+          },
+          {
+            "ticks": 765,
+            "value": 0.43243243243243246,
+            "curve": "linear"
+          },
+          {
+            "ticks": 840,
+            "value": 0.5135135135135135,
+            "curve": "linear"
+          },
+          {
+            "ticks": 915,
+            "value": 0.5945945945945946,
+            "curve": "linear"
+          },
+          {
+            "ticks": 990,
+            "value": 0.6756756756756757,
+            "curve": "linear"
+          }
+        ],
+        "falsetto": [],
+        "tension": [
+          {
+            "ticks": 176,
+            "value": 0.5135135135135135,
+            "curve": "linear"
+          },
+          {
+            "ticks": 240,
+            "value": 0.5698198198198198,
+            "curve": "linear"
+          },
+          {
+            "ticks": 304,
+            "value": 0.6261261261261262,
+            "curve": "linear"
+          },
+          {
+            "ticks": 369,
+            "value": 0.6824324324324325,
+            "curve": "linear"
+          },
+          {
+            "ticks": 433,
+            "value": 0.7387387387387387,
+            "curve": "linear"
+          },
+          {
+            "ticks": 497,
+            "value": 0.6418918918918919,
+            "curve": "linear"
+          },
+          {
+            "ticks": 561,
+            "value": 0.545045045045045,
+            "curve": "linear"
+          },
+          {
+            "ticks": 626,
+            "value": 0.44819819819819817,
+            "curve": "linear"
+          },
+          {
+            "ticks": 690,
+            "value": 0.35135135135135137,
+            "curve": "linear"
+          },
+          {
+            "ticks": 765,
+            "value": 0.43243243243243246,
+            "curve": "linear"
+          },
+          {
+            "ticks": 840,
+            "value": 0.5135135135135135,
+            "curve": "linear"
+          },
+          {
+            "ticks": 915,
+            "value": 0.5945945945945946,
+            "curve": "linear"
+          },
+          {
+            "ticks": 990,
+            "value": 0.6756756756756757,
+            "curve": "linear"
+          }
+        ],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_e3f52a65d029/job_374a4ae84514/vocal.wav",
+      "render_revision": 1
+    },
+    {
+      "id": "track_eed2614c9c67",
+      "name": "ACE-Step BGM",
+      "type": "accompaniment",
+      "color": "#2fb996",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [
+        {
+          "id": "clip_1f33ada107b7",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_e3f52a65d029/job_90fbd5a85479/accompaniment.wav",
+          "start_ticks": 0,
+          "duration_ticks": 2400,
+          "offset_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Repaint"
+        }
+      ],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_e3f52a65d029/job_90fbd5a85479/accompaniment.wav",
+      "render_revision": 2
+    }
+  ],
+  "created_at": 1795690634.4995687,
+  "updated_at": 1795695616.7597947,
+  "metadata": {}
+}
