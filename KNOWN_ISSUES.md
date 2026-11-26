@@ -8,7 +8,7 @@
 ## Current product gaps after the independent browser QA fix round
 
 - Pitch automation affects SoulX target F0 and Dynamic automation is applied as explicitly labeled post-render gain; air/falsetto/tension/energy lanes still persist without affecting sound.
-- Piano roll now has marquee/multi-select/copy-paste/duplicate/quantize/context menu/velocity lane, but still lacks per-note pitch handles, advanced vibrato editing, cross-track clipboard, and large-project performance proof.
+- Piano roll now has marquee/multi-select/copy-paste/duplicate/quantize/context menu/velocity lane and per-note vibrato editing, but still lacks per-note pitch handles, cross-track clipboard, and large-project performance proof.
 - Arrangement now uses decoded waveform peaks and supports independent audio-clip/grouped-note dragging, edge trim, and split-at-cursor, but still lacks clip fades/crossfades and richer context operations.
 - Repaint region selection is implemented via Alt-drag plus numeric seconds; the underlying ACE-Step repaint output has not been validated on GPU.
 - MP4 export now burns timed ASS subtitles and matches audio duration, but it is not polished karaoke highlighting. On Linux hosts without CJK fonts, Chinese glyphs may render as tofu even though project/export text is valid UTF-8.

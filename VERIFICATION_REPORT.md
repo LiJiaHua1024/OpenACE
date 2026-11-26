@@ -225,3 +225,17 @@ Validation after iteration 5: frontend production build passed; Python compile p
 ## Iteration 7 — phoneme placeholder validation enforcement
 
 Manual and generated phoneme inventories now both pass through `validate_phoneme_inventory`; a manually supplied literal placeholder `la` is rejected instead of slipping through editing/persistence. Regression coverage verifies `ensure_note_phonemes` raises `PhonemeError` for that forbidden placeholder.
+
+## Iteration 8 — per-note vibrato editing consumed by SoulX F0
+
+Implemented and verified:
+
+- Piano-roll note bodies draw a parameter-driven vibrato indication when `note.vibrato` exists.
+- Toolbar/context-menu vibrato editor supports enable/disable, start ratio, depth cents, rate Hz, and phase. Changes are transactional, so one undo restores the prior state.
+- `tests/test_acoustic_invariants.py` now proves vibrato changes SoulX target F0 metadata rather than remaining editor-only data.
+- `tests/test_piano_roll_e2e.py` opens the real context menu in Chrome, enables vibrato, edits depth to `80¢`, verifies backend persistence, and verifies Ctrl+Z removes it as one transaction.
+
+Browser QA evidence:
+
+- Initial real-Chrome QA (`artifacts/e2e_screenshots/vibrato_qa/`) verified exact UI/backend persistence (`start_ratio=0.6`, `depth_cents=80`, `frequency_hz=6.2`, `phase=1.43`), one-step undo/redo, note-body indication, and zero console/network failures. It exposed a low-note context-menu popover overflow into the automation lane.
+- The overflow was fixed by clamping editor placement inside the piano-roll wrap. Focused revalidation (`artifacts/e2e_screenshots/vibrato_qa_clamp/`) measured the low-note popup fully inside the wrap with bottom `623` vs wrap bottom `643`, controls still usable, toolbar placement correct, and zero console/network failures.

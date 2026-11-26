@@ -1,0 +1,163 @@
+{
+  "project_note_and_tool_state": {
+    "ok": true,
+    "details": {
+      "project_id": "project_54aed0a27055",
+      "notes": [
+        [
+          0,
+          960,
+          60
+        ]
+      ],
+      "toolbar_disabled_before_note": true,
+      "toolbar_disabled_after_selection": false,
+      "screenshot": "01_note_drawn_vibrato_tool_enabled.png"
+    },
+    "time": 1795699167.016774
+  },
+  "context_menu_editor_open_and_disabled_state": {
+    "ok": true,
+    "details": {
+      "menu_text": "Copy\nPaste at playhead\nDuplicate\nQuantize\nVibrato…\nDelete",
+      "menu_vibrato_disabled": false,
+      "editor_count": 1,
+      "range_disabled_before_enable": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "layout": {
+        "editor": {
+          "x": 394,
+          "y": 559,
+          "width": 218,
+          "height": 253,
+          "bottom": 812,
+          "right": 612
+        },
+        "wrap": {
+          "bottom": 643,
+          "right": 950
+        },
+        "automationTop": 643,
+        "extendsBeyondWrap": true,
+        "overlapAutomation": true,
+        "withinViewport": true
+      },
+      "screenshot": "03_vibrato_editor_context_low_note.png",
+      "context_menu_screenshot": "02_context_menu.png"
+    },
+    "time": 1795699167.932564
+  },
+  "vibrato_controls_adjust": {
+    "ok": true,
+    "details": {
+      "range_disabled_after_enable": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "ui_values": [
+        0.6,
+        80,
+        6.2,
+        1.43
+      ],
+      "labels": [
+        "Enabled",
+        "Start 60%",
+        "Depth 80¢",
+        "Rate 6.2Hz",
+        "Phase 1.43"
+      ],
+      "screenshot": "04_vibrato_editor_adjusted.png"
+    },
+    "time": 1795699169.4012165
+  },
+  "close_persist_and_canvas_indication": {
+    "ok": true,
+    "details": {
+      "persisted": {
+        "start_ratio": 0.6,
+        "depth_cents": 80.0,
+        "frequency_hz": 6.2,
+        "phase": 1.43
+      },
+      "ui_values": [
+        0.6,
+        80,
+        6.2,
+        1.43
+      ],
+      "persist_match": true,
+      "sine_pixels": {
+        "pixels": 26,
+        "columns": 26
+      },
+      "screenshot": "05_vibrato_indication_after_close.png"
+    },
+    "time": 1795699170.535121
+  },
+  "one_step_undo_redo": {
+    "ok": true,
+    "details": {
+      "after_undo": null,
+      "after_redo": {
+        "start_ratio": 0.6,
+        "depth_cents": 80.0,
+        "frequency_hz": 6.2,
+        "phase": 1.43
+      },
+      "expected": {
+        "start_ratio": 0.6,
+        "depth_cents": 80.0,
+        "frequency_hz": 6.2,
+        "phase": 1.43
+      },
+      "undo_screenshot": "06_after_undo_no_vibrato.png",
+      "redo_screenshot": "07_after_redo_vibrato_restored.png"
+    },
+    "time": 1795699172.3327985
+  },
+  "toolbar_editor_open_layout_close": {
+    "ok": true,
+    "details": {
+      "toolbar_open": true,
+      "layout": {
+        "bottom": 562,
+        "right": 544,
+        "wrapBottom": 643,
+        "wrapRight": 950,
+        "withinWrap": true,
+        "withinViewport": true
+      },
+      "screenshot": "08_vibrato_editor_toolbar_open.png"
+    },
+    "time": 1795699173.1164372
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795699173.1169446
+  },
+  "passed": false,
+  "adversarial_popover_layout": {
+    "ok": false,
+    "details": {
+      "finding": "context-menu vibrato editor is not repositioned/clamped for low notes",
+      "editor_bottom": 812,
+      "piano_wrap_bottom": 643,
+      "overflow_px": 169,
+      "overlap_automation": true,
+      "within_viewport": true,
+      "screenshot": "03_vibrato_editor_context_low_note.png"
+    },
+    "time": 1795699248.8822896
+  }
+}

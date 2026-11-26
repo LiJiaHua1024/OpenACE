@@ -115,6 +115,27 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
 
             page.mouse.click(box["x"] + 170, box["y"] + 315, button="right")
             assert page.locator(".piano-context-menu").count() == 1
+            page.locator(".piano-context-menu button", has_text="Vibrato").click()
+            assert page.locator(".vibrato-editor").count() == 1
+            page.locator(".vibrato-enable input").check()
+            page.locator(".vibrato-editor input[type='range']").nth(1).evaluate(
+                """(el) => {
+                  Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, '80')
+                  el.dispatchEvent(new Event('input', { bubbles: true }))
+                  el.dispatchEvent(new Event('change', { bubbles: true }))
+                }"""
+            )
+            page.locator(".vibrato-header button").click()
+            page.wait_for_timeout(700)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert first["vibrato"]["depth_cents"] == 80
+            assert first["vibrato"]["frequency_hz"] == 5.2
+            page.keyboard.press("Control+z")
+            page.wait_for_timeout(700)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert first["vibrato"] is None
             assert errors == []
             browser.close()
     finally:

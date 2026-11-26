@@ -1,0 +1,60 @@
+{
+  "context_editor_inside_wrap_and_controls_usable": {
+    "ok": true,
+    "details": {
+      "editor": {
+        "x": 374,
+        "y": 370,
+        "width": 218,
+        "height": 253
+      },
+      "wrap": {
+        "x": 236,
+        "y": 229,
+        "width": 714,
+        "height": 414
+      },
+      "inside": true,
+      "slider_disabled": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "depth_interaction": [
+        60.0,
+        60.0,
+        120.0,
+        80.0
+      ]
+    },
+    "time": 1795699570.3374045
+  },
+  "toolbar_editor_placement_normal": {
+    "ok": true,
+    "details": {
+      "editor": {
+        "x": 326,
+        "y": 309,
+        "width": 218,
+        "height": 253
+      },
+      "wrap": {
+        "x": 236,
+        "y": 229,
+        "width": 714,
+        "height": 414
+      },
+      "inside": true
+    },
+    "time": 1795699570.7607522
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "errors": []
+    },
+    "time": 1795699570.7964053
+  },
+  "passed": true
+}

@@ -259,3 +259,15 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 @media (max-width: 1500px) {
   .editor-hint { display: none; }
 }
+
+.vibrato-editor {
+  position: absolute; z-index: 36; width: 218px; padding: 10px;
+  background: #171b29f7; border: 1px solid #59617f; border-radius: 10px;
+  box-shadow: 0 14px 40px #000c; color: #dfe6f8; font-size: 11px;
+}
+.vibrato-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.vibrato-header button { border: 0; background: transparent; color: #aeb7d4; font-size: 16px; cursor: pointer; }
+.vibrato-editor label { display: flex; flex-direction: column; gap: 3px; margin: 7px 0; color: #aeb7d4; }
+.vibrato-editor label.vibrato-enable { flex-direction: row; align-items: center; color: #eef3ff; }
+.vibrato-editor input[type="range"] { width: 100%; accent-color: #8f7cff; }
+.vibrato-editor input[type="checkbox"] { accent-color: #8f7cff; }

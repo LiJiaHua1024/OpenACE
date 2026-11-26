@@ -74,6 +74,7 @@ export default function PianoRoll(props: Props) {
   const [editing, setEditing] = useState<{ note: Note; x: number; y: number; value: string } | null>(null)
   const [marquee, setMarquee] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null)
   const [menu, setMenu] = useState<{ x: number; y: number } | null>(null)
+  const [vibratoEditor, setVibratoEditor] = useState<{ noteId: string; x: number; y: number } | null>(null)
   const dragRef = useRef<DragState | null>(null)
   const clipboardRef = useRef<Note[]>([])
   const [clipboardCount, setClipboardCount] = useState(0)
@@ -223,6 +224,21 @@ export default function PianoRoll(props: Props) {
           if (selected) {
             ctx.fillStyle = '#ffffff'
             ctx.fillRect(x + w - 3, y + 2, 2, view.rowHeight - 4)
+          }
+          if (note.vibrato && w > 34) {
+            const startX = x + Math.max(0, Math.min(0.95, note.vibrato.start_ratio)) * w
+            const seconds = note.duration_ticks * 60 / props.project.bpm / ppq
+            const amplitude = Math.max(1.2, Math.min(view.rowHeight * 0.24, note.vibrato.depth_cents / 100 * view.rowHeight * 0.28))
+            ctx.strokeStyle = selected ? '#fff7a8' : '#ffd76dcc'
+            ctx.lineWidth = 1
+            ctx.beginPath()
+            for (let sx = startX; sx <= x + w - 3; sx += 3) {
+              const elapsed = ((sx - x) / Math.max(1, w)) * seconds
+              const phase = 2 * Math.PI * note.vibrato.frequency_hz * elapsed + note.vibrato.phase
+              const sy = y + view.rowHeight * 0.67 + Math.sin(phase) * amplitude
+              if (sx === startX) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy)
+            }
+            ctx.stroke()
           }
           if (w > 24) {
             ctx.fillStyle = '#f7f8ff'
@@ -592,6 +608,47 @@ export default function PianoRoll(props: Props) {
     }
   }
 
+
+  function openVibratoEditor(x = 90, y = 80) {
+    if (selectedNoteIds.length !== 1) return
+    const rect = wrapRef.current?.getBoundingClientRect()
+    const width = rect?.width || 900
+    const height = rect?.height || 420
+    const editorWidth = 228
+    const editorHeight = 265
+    props.beginTransaction()
+    setVibratoEditor({
+      noteId: selectedNoteIds[0],
+      x: Math.max(8, Math.min(x, width - editorWidth - 8)),
+      y: Math.max(34, Math.min(y, height - editorHeight - 8)),
+    })
+    setMenu(null)
+  }
+
+  function closeVibratoEditor() {
+    setVibratoEditor(null)
+    props.endTransaction()
+  }
+
+  function updateVibrato(noteId: string, patch: Partial<NonNullable<Note['vibrato']>> | null) {
+    mutateTrack(track => {
+      const note = track.notes.find(item => item.id === noteId)
+      if (!note) return
+      if (patch === null) {
+        note.vibrato = null
+      } else {
+        note.vibrato = {
+          start_ratio: 0.35,
+          depth_cents: 35,
+          frequency_hz: 5.2,
+          phase: 0,
+          ...(note.vibrato || {}),
+          ...patch,
+        }
+      }
+    }, true)
+  }
+
   function handleEditorKey(event: KeyboardEvent) {
     if ((event.target as HTMLElement).tagName === 'INPUT') return
     const key = event.key.toLowerCase()
@@ -659,6 +716,7 @@ export default function PianoRoll(props: Props) {
           <button className="tool" onClick={() => pasteClipboard()} disabled={!clipboardCount} title="Paste at playhead (Ctrl+V)">Paste</button>
           <button className="tool" onClick={duplicateSelection} disabled={!selectedNoteIds.length} title="Duplicate (Ctrl+D)">Dup</button>
           <button className="tool" onClick={quantizeSelection} title="Quantize selection/all (Q)">Quant</button>
+          <button className="tool" onClick={() => openVibratoEditor()} disabled={selectedNoteIds.length !== 1} title="Edit vibrato for selected note">Vibrato</button>
         </div>
         <div className="selection-count">{selectedNoteIds.length ? `${selectedNoteIds.length} selected` : ''}</div>
         <div className="editor-hint">V/B/E · Ctrl+C/V/D</div>
@@ -680,6 +738,7 @@ export default function PianoRoll(props: Props) {
             <button disabled={!clipboardCount} onClick={() => menuAction(() => pasteClipboard())}>Paste at playhead</button>
             <button disabled={!selectedNoteIds.length} onClick={() => menuAction(duplicateSelection)}>Duplicate</button>
             <button disabled={!selectedNoteIds.length} onClick={() => menuAction(quantizeSelection)}>Quantize</button>
+            <button disabled={selectedNoteIds.length !== 1} onClick={() => openVibratoEditor(menu.x + 8, menu.y + 8)}>Vibrato…</button>
             <button disabled={!selectedNoteIds.length} className="danger" onClick={() => menuAction(deleteSelection)}>Delete</button>
           </div>
         )}
@@ -694,6 +753,35 @@ export default function PianoRoll(props: Props) {
             onKeyDown={e => { if (e.key === 'Enter') commitLyric(); if (e.key === 'Escape') setEditing(null) }}
           />
         )}
+        {vibratoEditor && props.track && (() => {
+          const note = props.track.notes.find(item => item.id === vibratoEditor.noteId)
+          if (!note) return null
+          const vibrato = note.vibrato || { start_ratio: 0.35, depth_cents: 35, frequency_hz: 5.2, phase: 0 }
+          return (
+            <div className="vibrato-editor" style={{ left: vibratoEditor.x, top: vibratoEditor.y }}>
+              <div className="vibrato-header">
+                <strong>Vibrato</strong>
+                <button onClick={closeVibratoEditor}>×</button>
+              </div>
+              <label className="vibrato-enable">
+                <input type="checkbox" checked={!!note.vibrato} onChange={event => updateVibrato(note.id, event.target.checked ? {} : null)} />
+                Enabled
+              </label>
+              <label>Start {(vibrato.start_ratio * 100).toFixed(0)}%
+                <input type="range" min="0" max="0.85" step="0.01" value={vibrato.start_ratio} disabled={!note.vibrato} onChange={event => updateVibrato(note.id, { start_ratio: Number(event.target.value) })} />
+              </label>
+              <label>Depth {vibrato.depth_cents.toFixed(0)}¢
+                <input type="range" min="0" max="120" step="1" value={vibrato.depth_cents} disabled={!note.vibrato} onChange={event => updateVibrato(note.id, { depth_cents: Number(event.target.value) })} />
+              </label>
+              <label>Rate {vibrato.frequency_hz.toFixed(1)}Hz
+                <input type="range" min="2.5" max="8" step="0.1" value={vibrato.frequency_hz} disabled={!note.vibrato} onChange={event => updateVibrato(note.id, { frequency_hz: Number(event.target.value) })} />
+              </label>
+              <label>Phase {vibrato.phase.toFixed(2)}
+                <input type="range" min="0" max={Math.PI * 2} step="0.01" value={vibrato.phase} disabled={!note.vibrato} onChange={event => updateVibrato(note.id, { phase: Number(event.target.value) })} />
+              </label>
+            </div>
+          )
+        })()}
       </div>
     </div>
   )

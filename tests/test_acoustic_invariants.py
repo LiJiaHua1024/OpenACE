@@ -92,3 +92,17 @@ def test_manual_placeholder_la_phoneme_is_rejected():
     note.phonemes = [Phoneme(symbol="la", start_ms=0, duration_ms=100, is_vowel=True)]
     with pytest.raises(PhonemeError, match="placeholder"):
         ensure_note_phonemes(note, "zh")
+
+
+def test_note_vibrato_is_written_into_soulx_f0_metadata_curve():
+    from openace.engines.soulx import _f0_for_notes
+
+    project = Project(title="vibrato")
+    plain = Note(start_ticks=0, duration_ticks=960, pitch=60, lyric="你")
+    vibrating = Note(start_ticks=0, duration_ticks=960, pitch=60, lyric="你")
+    from openace.core.models import Vibrato
+    vibrating.vibrato = Vibrato(start_ratio=0.0, depth_cents=40.0, frequency_hz=5.0, phase=0.0)
+    base = _f0_for_notes(project, [plain], 1000)
+    vibrato = _f0_for_notes(project, [vibrating], 1000)
+    assert max(abs(a - b) for a, b in zip(base, vibrato)) > 1.0
+    assert len({round(x / base[0], 4) for x in vibrato[:45]}) > 4
