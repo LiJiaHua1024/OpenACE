@@ -81,6 +81,7 @@ def write_diagnostic(
     sample_rate: int = 48000,
     actual_f0_hz: Optional[Tuple[np.ndarray, np.ndarray]] = None,
     provenance: str = "OpenACE render",
+    pitch_automation=None,
 ) -> Path:
     """Write the acoustic X-ray diagnostic PNG required by every render."""
     import matplotlib
@@ -89,7 +90,7 @@ def write_diagnostic(
     import matplotlib.pyplot as plt
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    times, target_f0 = pitch_curve_for_notes(project.ppq, project.bpm, notes)
+    times, target_f0 = pitch_curve_for_notes(project.ppq, project.bpm, notes, pitch_automation=pitch_automation)
     fig, axes = plt.subplots(3, 1, figsize=(14, 10), constrained_layout=True)
     fig.patch.set_facecolor("#111217")
     for ax in axes:

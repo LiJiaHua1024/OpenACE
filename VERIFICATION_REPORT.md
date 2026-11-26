@@ -268,3 +268,7 @@ Browser QA evidence:
 - Real-Chrome QA (`artifacts/e2e_screenshots/arrangement_fades_qa/`) verified fade persistence/direction, waveform attenuation, body/trim/fade zone separation, split redistribution, and real AudioParam ramps. It exposed two defects: visible inner fade endpoints were not hit-testable, and outward trim could restore `2399` rather than `2400` ticks due floored decode duration.
 - Fixes made endpoint dragging authoritative, enlarged handles, rounded decoded source-end ticks, and exposed numeric clip gain in the clip context menu. Focused recheck (`artifacts/e2e_screenshots/arrangement_fades_fix_qa/`) verified endpoint dragging without clip movement, exact `2400`-tick restoration, and stepped gain persistence; it exposed direct `-6` typing coercion.
 - The gain input is now uncontrolled while typing and commits only complete numeric input, preserving negative signs. The arrangement regression covers endpoint dragging and `-6 dB` persistence.
+
+## Iteration 11 — diagnostic target pitch consistency
+
+The diagnostic target-F0 curve now includes the track-level pitch automation envelope in addition to per-note pitch handles and vibrato, matching the SoulX metadata path. Regression coverage verifies the automated target differs by the expected interpolated cents at intermediate frames.

@@ -118,7 +118,7 @@ class RenderService:
             provenance = "OPENACE_CI_SYNTH_FIXTURE=1 — ORCHESTRATION TEST AUDIO, NOT MODEL OUTPUT" if self.fixture_mode else self.vocal_engine_name
             if dynamic_applied:
                 provenance += " + Dynamic lane gain post-processing (not neural conditioning)"
-            await asyncio.to_thread(write_diagnostic, diagnostic, project, track.sorted_notes(), audio, sr, actual_f0, provenance)
+            await asyncio.to_thread(write_diagnostic, diagnostic, project, track.sorted_notes(), audio, sr, actual_f0, provenance, track.automation.pitch_cents)
             track.render_path = str(wav)
             track.render_revision += 1
             self.store.save(project)

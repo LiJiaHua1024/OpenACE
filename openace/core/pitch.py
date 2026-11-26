@@ -147,7 +147,7 @@ def note_expression_cents(note: Note, offset_ms: float, duration_ms: float) -> f
             )
     return float(cents)
 
-def pitch_curve_for_notes(ppq: int, bpm: float, notes: Sequence[Note], frame_ms: float = 10.0) -> Tuple[np.ndarray, np.ndarray]:
+def pitch_curve_for_notes(ppq: int, bpm: float, notes: Sequence[Note], frame_ms: float = 10.0, pitch_automation: Sequence | None = None) -> Tuple[np.ndarray, np.ndarray]:
     """Build target time/F0 curve in seconds/Hz, with NaN in rests."""
     if not notes:
         return np.zeros(0), np.zeros(0)
@@ -164,5 +164,9 @@ def pitch_curve_for_notes(ppq: int, bpm: float, notes: Sequence[Note], frame_ms:
         for frame in range(start, min(end, frames)):
             offset_ms = frame * frame_ms - note.start_ticks * seconds_per_tick * 1000.0
             cents = note_expression_cents(note, offset_ms, duration_ms)
+            if pitch_automation is not None:
+                from openace.core.expression import envelope_value
+
+                cents += envelope_value(pitch_automation, note.start_ticks + offset_ms / 1000.0 / seconds_per_tick, default=0.0)
             f0[frame] = base * (2.0 ** (cents / 1200.0))
     return times, f0
