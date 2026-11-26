@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 
 from openace.core.audio import read_audio
-from openace.core.models import EnvelopePoint, Note, RenderMode, Track
+from openace.core.models import EnvelopePoint, Note, RenderJobStatus, RenderMode, Track
 from openace.core.project_store import ProjectStore
 from openace.engines.fixture import FixtureVocalEngine
 from openace.server.render_service import RenderService
@@ -70,3 +70,18 @@ def test_acestep_vocal2bgm_uses_complete_task_not_cover():
     vocal_fn = source.split("def vocal_to_bgm", 1)[1].split("def repaint", 1)[0]
     assert '"task_type": "complete"' in vocal_fn
     assert '"task_type": "cover"' not in vocal_fn
+
+
+def test_render_jobs_persist_and_interrupted_jobs_recover(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("durable")
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(project.id, RenderMode.SVS_SCORE, project.tracks[0].id)
+    service.jobs[job.id].status = RenderJobStatus.RUNNING
+    service._publish_job(service.jobs[job.id])
+
+    recovered = RenderService(store, tmp_path / "renders")
+    assert job.id in recovered.jobs
+    assert recovered.jobs[job.id].status == RenderJobStatus.FAILED
+    assert "backend restarted" in recovered.jobs[job.id].error

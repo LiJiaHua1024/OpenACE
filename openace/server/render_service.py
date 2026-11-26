@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import time
 from pathlib import Path
 from typing import Dict, Optional
@@ -27,7 +28,8 @@ class RenderService:
         self.store = store
         self.render_root = Path(render_root)
         self.render_root.mkdir(parents=True, exist_ok=True)
-        self.jobs: Dict[str, RenderJob] = {}
+        self.jobs_path = self.render_root / "jobs.json"
+        self.jobs: Dict[str, RenderJob] = self._load_jobs()
         if fixture_enabled():
             self.vocal_engine = FixtureVocalEngine()
             self.music_engine = FixtureMusicEngine()
@@ -44,7 +46,35 @@ class RenderService:
     def output_dir(self, project_id: str, job_id: str) -> Path:
         return self.render_root / project_id / job_id
 
+    def _load_jobs(self) -> Dict[str, RenderJob]:
+        if not self.jobs_path.exists():
+            return {}
+        try:
+            raw = json.loads(self.jobs_path.read_text(encoding="utf-8"))
+            jobs = {item["id"]: RenderJob.model_validate(item) for item in raw}
+        except Exception:
+            return {}
+        interrupted = False
+        for job in jobs.values():
+            if job.status in {RenderJobStatus.QUEUED, RenderJobStatus.RUNNING}:
+                job.status = RenderJobStatus.FAILED
+                job.error = "backend restarted before job completion"
+                job.message = job.error
+                job.finished_at = time.time()
+                interrupted = True
+        if interrupted:
+            self.jobs_path.write_text(json.dumps([job.model_dump(mode="json") for job in jobs.values()], ensure_ascii=False, indent=2), encoding="utf-8")
+        return jobs
+
+    def _persist_jobs(self) -> None:
+        self.jobs_path.parent.mkdir(parents=True, exist_ok=True)
+        payload = json.dumps([job.model_dump(mode="json") for job in self.jobs.values()], ensure_ascii=False, indent=2)
+        temporary = self.jobs_path.with_suffix(".tmp")
+        temporary.write_text(payload, encoding="utf-8")
+        temporary.replace(self.jobs_path)
+
     def _publish_job(self, job: RenderJob) -> None:
+        self._persist_jobs()
         event_bus.publish("render_job", job.model_dump(mode="json"))
 
     def _publish_project(self, project: Project) -> None:

@@ -60,7 +60,7 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 | MCP→UI live synchronization | External agent edits appear in workstation | **Done** | MCP writes persist then issue best-effort loopback publish into the FastAPI SSE bus; browser verification showed 4→5 notes without manual reload. |
 | Agent skill | Drop-in instructions | **Partial** | `skills/openace/SKILL.md` exists; should be installed/used in more real agent sessions. |
 | Acoustic X-ray diagnostics | Every render emits inspectable diagnostic | **Done** | Target/rendered F0, beat offsets, spectrogram, fixture provenance labels; browser/API verified. |
-| Render-job durability | Jobs survive backend restart | **Gap** | Job records are in-memory; project render paths persist. |
+| Render-job durability | Jobs survive backend restart | **Partial** | Job records persist atomically in `data/renders/jobs.json`; interrupted queued/running jobs recover as explicitly failed instead of silently disappearing. Automatic requeue remains absent. |
 
 ## P4 — tactile polish
 
@@ -78,4 +78,4 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 3. **Piano-roll professional depth**: per-note pitch handles, advanced vibrato editing, cross-track clipboard, performance profiling under large projects.
 4. **Arrangement clip depth**: fades/crossfades and richer clip context operations; independent dragging, trim, split, and real waveform analysis are now implemented.
 5. **Commercial host validation**: open `.ustx`, `.svp`, `.vpr` in the real target applications and repair exact schemas.
-6. **Job durability/recovery** and language coverage (validated Cantonese/Japanese frontends).
+6. **Automatic job requeue/recovery policy** and language coverage (validated Cantonese/Japanese frontends).

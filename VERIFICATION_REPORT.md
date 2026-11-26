@@ -216,3 +216,8 @@ Implemented and verified:
 
 Independent visible-Chrome QA drew exact endpoints `(0,0.0)` and `(960,1.0)`, rendered fixture audio, and measured first/second note RMS `0.17056 → 0.34032` (`2.00×`) with peak `0.726`, no clipping, working playback, and zero console/network errors. QA initially exposed that the final job message dropped the Dynamic provenance; this was fixed and covered by regression assertion. Evidence is indexed in `artifacts/e2e_screenshots/dynamic_expression_qa/`.
 Validation after iteration 5: frontend production build passed; Python compile passed; full automated suite reached 26 passed.
+
+
+## Iteration 6 — durable render-job recovery
+
+`RenderService` now atomically persists job records in `data/renders/jobs.json` on every state publication. A restarted service reloads completed/failed history and converts previously queued/running jobs into explicit failures with `backend restarted before job completion`, avoiding silent loss or misleading perpetual-running state. Regression coverage constructs a running job, recreates the service, and verifies the recovered failed state.

@@ -14,5 +14,5 @@
 - MP4 export now burns timed ASS subtitles and matches audio duration, but it is not polished karaoke highlighting. On Linux hosts without CJK fonts, Chinese glyphs may render as tofu even though project/export text is valid UTF-8.
 - `.ustx`/`.svp`/`.vpr` writers are structural implementations and must be opened in the real target applications for schema validation.
 - Cantonese and Japanese phoneme coverage are incomplete; unsupported input correctly errors instead of silently becoming “la”.
-- Render jobs are process-memory only and disappear on backend restart, although rendered project files persist.
+- Render jobs now persist across backend restart, but interrupted jobs are marked failed rather than automatically requeued.
 - Faster-whisper lyric transcription exists as a helper but is not yet integrated into the visible SVC/import workflow.
