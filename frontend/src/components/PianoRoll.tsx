@@ -23,7 +23,7 @@ interface NoteSnapshot {
 }
 
 interface DragState {
-  mode: 'move' | 'resize' | 'create' | 'marquee' | 'velocity' | null
+  mode: 'move' | 'resize' | 'resize-start' | 'create' | 'marquee' | 'velocity' | null
   noteId?: string
   startX: number
   startY: number
@@ -651,10 +651,11 @@ export default function PianoRoll(props: Props) {
       }
       const nx = xForTick(hit.start_ticks)
       const nw = Math.max(5, (hit.duration_ticks / ppq) * props.timeline.pxPerBeat)
-      const resize = x > nx + nw - 7
+      const resizeEnd = x > nx + nw - 7
+      const resizeStart = !resizeEnd && x < nx + 7
       props.beginTransaction()
       dragRef.current = {
-        mode: resize ? 'resize' : 'move',
+        mode: resizeEnd ? 'resize' : resizeStart ? 'resize-start' : 'move',
         noteId: hit.id,
         startX: x,
         startY: y,
@@ -730,6 +731,17 @@ export default function PianoRoll(props: Props) {
           const note = track.notes.find(n => n.id === id)
           if (note) note.duration_ticks = Math.max(step, originals[id].duration + allowedDelta)
         }
+      } else if (drag.mode === 'resize-start') {
+        const minStart = Math.min(...ids.map(id => originals[id].start))
+        const maxShrink = Math.min(...ids.map(id => originals[id].duration - step))
+        const allowedDelta = Math.max(-minStart, Math.min(deltaTicks, maxShrink))
+        for (const id of ids) {
+          const note = track.notes.find(n => n.id === id)
+          if (note) {
+            note.start_ticks = originals[id].start + allowedDelta
+            note.duration_ticks = originals[id].duration - allowedDelta
+          }
+        }
       } else if (drag.mode === 'move') {
         const minStart = Math.min(...ids.map(id => originals[id].start))
         const allowedTickDelta = Math.max(deltaTicks, -minStart)
@@ -761,7 +773,7 @@ export default function PianoRoll(props: Props) {
       window.setTimeout(() => setPitchReadout(null), 1600)
     }
     const hadDrag = dragRef.current
-    if (hadDrag && (hadDrag.mode === 'move' || hadDrag.mode === 'resize')) {
+    if (hadDrag && (hadDrag.mode === 'move' || hadDrag.mode === 'resize' || hadDrag.mode === 'resize-start')) {
       mutateTrack(track => resolveNoteOverlaps(track), true)
     }
     if (hadDrag && hadDrag.mode !== 'marquee') props.endTransaction()

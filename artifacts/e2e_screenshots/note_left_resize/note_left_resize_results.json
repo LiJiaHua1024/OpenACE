@@ -1,0 +1,370 @@
+{
+  "pid": "project_6a8e75356d2f",
+  "console": [],
+  "network": [],
+  "auto_editor_first": 1,
+  "single_baseline": {
+    "note": {
+      "id": "note_2a828f71-8f2",
+      "start_ticks": 240,
+      "duration_ticks": 240,
+      "pitch": 64,
+      "lyric": "你",
+      "velocity": 90,
+      "phonemes": [
+        {
+          "symbol": "n",
+          "start_ms": -45.0,
+          "duration_ms": 45.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "i",
+          "start_ms": 0.0,
+          "duration_ms": 250.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "pitch_curve": [
+        {
+          "offset_ms": 58.0,
+          "cents": 100.0
+        }
+      ],
+      "vibrato": {
+        "start_ratio": 0.35,
+        "depth_cents": 35.0,
+        "frequency_hz": 5.2,
+        "phase": 0.0
+      },
+      "techniques": []
+    },
+    "attachments": {
+      "lyric": "你",
+      "phonemes": [
+        {
+          "symbol": "n",
+          "start_ms": -45.0,
+          "duration_ms": 45.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "i",
+          "start_ms": 0.0,
+          "duration_ms": 250.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "vibrato": {
+        "start_ratio": 0.35,
+        "depth_cents": 35.0,
+        "frequency_hz": 5.2,
+        "phase": 0.0
+      },
+      "pitch_curve": [
+        {
+          "offset_ms": 58.0,
+          "cents": 100.0
+        }
+      ]
+    }
+  },
+  "single_right_clamp": {
+    "start": 360,
+    "duration": 120,
+    "end": 480,
+    "attachments_same": true,
+    "expected": [
+      360,
+      120,
+      480
+    ]
+  },
+  "single_undo_redo": {
+    "undo_matches_baseline": true,
+    "redo_matches_post": true
+  },
+  "single_left_expand": {
+    "start": 120,
+    "duration": 360,
+    "end": 480,
+    "attachments_same": true,
+    "expected": [
+      120,
+      360,
+      480
+    ]
+  },
+  "single_zero_clamp": {
+    "start": 0,
+    "duration": 480,
+    "end": 480,
+    "expected": [
+      0,
+      480,
+      480
+    ]
+  },
+  "right_edge_regression": {
+    "start": 240,
+    "duration": 360,
+    "end": 600,
+    "expected": [
+      240,
+      360,
+      600
+    ]
+  },
+  "move_no_auto_editor": true,
+  "single_cleanup_notes": 0,
+  "multi_positive": {
+    "a": [
+      600,
+      120,
+      720
+    ],
+    "b": [
+      1320,
+      120,
+      1440
+    ],
+    "spacing": 720,
+    "expected_a": [
+      600,
+      120,
+      720
+    ],
+    "expected_b": [
+      1320,
+      120,
+      1440
+    ],
+    "expected_spacing": 720
+  },
+  "multi_min_clamp": {
+    "unchanged": true
+  },
+  "multi_zero": {
+    "a": [
+      0,
+      720,
+      720
+    ],
+    "b": [
+      720,
+      720,
+      1440
+    ],
+    "spacing": 720,
+    "overlaps": [],
+    "expected_a": [
+      0,
+      720,
+      720
+    ],
+    "expected_b": [
+      720,
+      720,
+      1440
+    ],
+    "expected_spacing": 720
+  },
+  "multi_zero_undo_redo": {
+    "undo_matches_positive": true,
+    "redo_matches_zero": true
+  },
+  "multi_cleanup_notes": 1,
+  "collision": {
+    "prev": [
+      240,
+      120,
+      360,
+      "前",
+      [
+        "tɕʰ",
+        "iɛn"
+      ]
+    ],
+    "next": [
+      360,
+      360,
+      720,
+      "后",
+      [
+        "x",
+        "ou"
+      ]
+    ],
+    "overlaps": [],
+    "expected_prev": [
+      240,
+      120,
+      360
+    ],
+    "expected_next": [
+      360,
+      360,
+      720
+    ]
+  },
+  "collision_undo_redo": {
+    "undo_matches_pre": true,
+    "redo_matches_post": true
+  },
+  "copy_paste": {
+    "before": 3,
+    "after": 4,
+    "increased": true
+  },
+  "copy_undo_exact": true,
+  "reload_exact": true,
+  "final_notes": [
+    {
+      "id": "note_5973377f-fa2",
+      "start_ticks": 240,
+      "duration_ticks": 120,
+      "pitch": 62,
+      "lyric": "前",
+      "velocity": 90,
+      "phonemes": [
+        {
+          "symbol": "tɕʰ",
+          "start_ms": -45.0,
+          "duration_ms": 45.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "iɛn",
+          "start_ms": 0.0,
+          "duration_ms": 250.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "pitch_curve": [],
+      "vibrato": null,
+      "techniques": []
+    },
+    {
+      "id": "note_0d2c83c3-4e6",
+      "start_ticks": 360,
+      "duration_ticks": 360,
+      "pitch": 64,
+      "lyric": "后",
+      "velocity": 90,
+      "phonemes": [
+        {
+          "symbol": "x",
+          "start_ms": -45.0,
+          "duration_ms": 45.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "ou",
+          "start_ms": 0.0,
+          "duration_ms": 250.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "pitch_curve": [],
+      "vibrato": null,
+      "techniques": []
+    },
+    {
+      "id": "note_fe55a435-3cc",
+      "start_ticks": 720,
+      "duration_ticks": 720,
+      "pitch": 64,
+      "lyric": "吗",
+      "velocity": 90,
+      "phonemes": [
+        {
+          "symbol": "m",
+          "start_ms": -45.0,
+          "duration_ms": 45.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "a",
+          "start_ms": 0.0,
+          "duration_ms": 250.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "pitch_curve": [],
+      "vibrato": null,
+      "techniques": []
+    }
+  ],
+  "final_overlaps": [],
+  "harness_cleanup": {
+    "removed_leftover_multi_fixture": true,
+    "final_note_count_after_cleanup": 2,
+    "final_notes_after_cleanup": [
+      {
+        "id": "note_5973377f-fa2",
+        "start_ticks": 240,
+        "duration_ticks": 120,
+        "pitch": 62,
+        "lyric": "前",
+        "velocity": 90,
+        "phonemes": [
+          {
+            "symbol": "tɕʰ",
+            "start_ms": -45.0,
+            "duration_ms": 45.0,
+            "is_vowel": false,
+            "locked": false
+          },
+          {
+            "symbol": "iɛn",
+            "start_ms": 0.0,
+            "duration_ms": 250.0,
+            "is_vowel": true,
+            "locked": false
+          }
+        ],
+        "pitch_curve": [],
+        "vibrato": null,
+        "techniques": []
+      },
+      {
+        "id": "note_0d2c83c3-4e6",
+        "start_ticks": 360,
+        "duration_ticks": 360,
+        "pitch": 64,
+        "lyric": "后",
+        "velocity": 90,
+        "phonemes": [
+          {
+            "symbol": "x",
+            "start_ms": -45.0,
+            "duration_ms": 45.0,
+            "is_vowel": false,
+            "locked": false
+          },
+          {
+            "symbol": "ou",
+            "start_ms": 0.0,
+            "duration_ms": 250.0,
+            "is_vowel": true,
+            "locked": false
+          }
+        ],
+        "pitch_curve": [],
+        "vibrato": null,
+        "techniques": []
+      }
+    ],
+    "final_overlaps_after_cleanup": []
+  }
+}

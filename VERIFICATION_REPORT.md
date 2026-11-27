@@ -1169,3 +1169,14 @@ Implemented and verified:
 - Evidence: `artifacts/e2e_screenshots/extended_pitch/`.
 
 Validation after iteration 92: focused editing tests passed; frontend production build passed; independent browser QA passed. The first full run exposed one stale piano-roll E2E coordinate expectation after the intentional absolute-pitch mapping change; the test was corrected and the final full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 93 — piano-roll left-edge note resizing
+
+Implemented and verified:
+
+- Vocal notes can now resize from either edge. Left-edge drags preserve the note end anchor, clamp collectively at tick zero and one-grid minimum duration, and work for multi-selection without collapsing relative spacing; right-edge behavior remains unchanged.
+- Existing attachment data (lyrics, phonemes, vibrato, pitch curves) stays attached because resizing edits timing rather than replacing note identity. Collision resolution still trims overlaps deterministically on release.
+- Independent visible-Chrome QA at exact 1272×837 verified exact single/multi tick math, zero/minimum clamps, fixed-end anchoring, collision resolution, lyric/phoneme preservation, auto-lyric/move/copy regressions, undo/redo, reload persistence, and clean console/network.
+- Evidence: `artifacts/e2e_screenshots/note_left_resize/`.
+
+Validation after iteration 93: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
