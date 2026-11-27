@@ -334,3 +334,21 @@ Browser/audio QA evidence:
 - Key evidence: `05_falsetto_job_card.png`, `evidence_falsetto_audio_analysis.png`, `evidence_diagnostic_provenance_crop.png`, `FALSETTO_QA_REPORT.md`, and `falsetto_results.json`.
 
 Validation after iteration 17: frontend production build passed; full automated suite reached 47 passed.
+
+## Iteration 18 — automatic arrangement crossfades
+
+Implemented and verified:
+
+- Overlapping clips on the same arrangement track now receive automatic equal-power crossfades. Earlier/outgoing clips use cosine-shaped attenuation and later/incoming clips use complementary sine-shaped gain; no clip metadata mutation or manual fade overwrite is required.
+- Master WAV export applies the same overlap envelopes vectorized at audio rate. Regression coverage verifies exact boundary/midpoint gains and exported overlap energy shape.
+- WebAudio playback composes manual fades, clip gain, and automatic crossfades into scheduled `AudioParam` automation with 12-point equal-power approximations per overlap.
+- Arrangement waveforms attenuate according to automatic crossfade gain. Cyan overlap shading, complementary curves, and a compact `XF` badge visualize the automatic region without overwriting manual fades.
+
+Browser/audio QA evidence:
+
+- Independent visible-Chrome QA in `artifacts/e2e_screenshots/arrangement_crossfade_qa/` used real UI drags to create overlap and verified cyan shading confined to x `231–288`, correct outgoing/incoming curve direction, undo/redo removal/restoration, trim following, 26 scheduled AudioParam ramps, manual fade composition, playback, and zero console/network errors.
+- Export measurement: overlap/outside broadband RMS `0.997×` versus simple summing reference `~1.414×`; outgoing low-band cosine correlation `0.99988`; incoming high-band sine correlation `0.99962`.
+- Initial QA found the long `auto xfade` label crowded the clip label. It was replaced with a compact `XF` badge; focused recheck (`evidence_xf_badge_zoom.png`) confirmed clear separation and understandable curves.
+- Key evidence: `evidence_crossfade_visual_states.png`, `evidence_crossfade_export_analysis.png`, `evidence_xf_badge_zoom.png`, `ARRANGEMENT_CROSSFADE_QA_REPORT.md`, `XF_BADGE_RECHECK_ADDENDUM.md`, and `crossfade_results.json`.
+
+Validation after iteration 18: frontend production build passed; full automated suite reached 49 passed.

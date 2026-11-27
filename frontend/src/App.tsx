@@ -6,7 +6,8 @@ import PianoRoll from './components/PianoRoll'
 import RenderPanel from './components/RenderPanel'
 import TrackList from './components/TrackList'
 import TransportBar from './components/TransportBar'
-import type { Project, RenderJob, TimelineState, Track } from './types'
+import { crossfadeGainAt, crossfadeIntervals } from './crossfade'
+import type { AudioClip, Project, RenderJob, TimelineState, Track } from './types'
 
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value))
@@ -196,7 +197,7 @@ export default function App() {
     const rendered = project.tracks
       .map(track => {
         const clipPaths = new Set((track.clips || []).map(clip => clip.path))
-        const sources = (track.clips || []).map(clip => ({
+        const sources: { path: string; startTicks: number; offsetTicks: number; durationTicks: number | null; fadeInTicks: number; fadeOutTicks: number; gainDb: number; clip: AudioClip | null }[] = (track.clips || []).map(clip => ({
           path: clip.path,
           startTicks: clip.start_ticks || 0,
           offsetTicks: clip.offset_ticks || 0,
@@ -204,8 +205,9 @@ export default function App() {
           fadeInTicks: clip.fade_in_ticks || 0,
           fadeOutTicks: clip.fade_out_ticks || 0,
           gainDb: clip.gain_db || 0,
+          clip,
         }))
-        if (track.render_path && !clipPaths.has(track.render_path)) sources.push({ path: track.render_path, startTicks: 0, offsetTicks: 0, durationTicks: null, fadeInTicks: 0, fadeOutTicks: 0, gainDb: 0 })
+        if (track.render_path && !clipPaths.has(track.render_path)) sources.push({ path: track.render_path, startTicks: 0, offsetTicks: 0, durationTicks: null, fadeInTicks: 0, fadeOutTicks: 0, gainDb: 0, clip: null })
         return { ...track, playbackSources: sources }
       })
       .filter(track => !track.mute && track.playbackSources.length)
@@ -222,7 +224,7 @@ export default function App() {
         try {
           const response = await fetch(url)
           const buffer = await ctx.decodeAudioData(await response.arrayBuffer())
-          return { track, buffer, sourceStartTicks: sourceSpec.startTicks, sourceOffsetTicks: sourceSpec.offsetTicks, sourceDurationTicks: sourceSpec.durationTicks, fadeInTicks: sourceSpec.fadeInTicks, fadeOutTicks: sourceSpec.fadeOutTicks, gainDb: sourceSpec.gainDb }
+          return { track, buffer, sourceStartTicks: sourceSpec.startTicks, sourceOffsetTicks: sourceSpec.offsetTicks, sourceDurationTicks: sourceSpec.durationTicks, fadeInTicks: sourceSpec.fadeInTicks, fadeOutTicks: sourceSpec.fadeOutTicks, gainDb: sourceSpec.gainDb, clip: sourceSpec.clip }
         } catch { return null }
       })))
       if (playback.current.ctx !== ctx) { playback.current.starting = false; return }
@@ -247,22 +249,36 @@ export default function App() {
         const fadeInSeconds = (item.fadeInTicks || 0) / project.ppq * 60 / project.bpm
         const fadeOutSeconds = (item.fadeOutTicks || 0) / project.ppq * 60 / project.bpm
         const positionNow = Math.max(0, localOffset)
-        const fadeGainAt = (position: number) => Math.min(
-          fadeInSeconds ? Math.max(0, Math.min(1, position / fadeInSeconds)) : 1,
-          fadeOutSeconds ? Math.max(0, Math.min(1, (clipDurationSeconds - position) / fadeOutSeconds)) : 1,
-        )
-        gain.gain.setValueAtTime(baseGain * fadeGainAt(positionNow), Math.max(ctx.currentTime, clipStartClock))
-        if (fadeInSeconds > 0.001) {
-          const fadeInEnd = clipStartClock + fadeInSeconds
-          if (fadeInEnd > ctx.currentTime) gain.gain.linearRampToValueAtTime(baseGain, fadeInEnd)
+        const ticksPerSecond = project.ppq * project.bpm / 60
+        const fadeGainAt = (position: number) => {
+          const manual = Math.min(
+            fadeInSeconds ? Math.max(0, Math.min(1, position / fadeInSeconds)) : 1,
+            fadeOutSeconds ? Math.max(0, Math.min(1, (clipDurationSeconds - position) / fadeOutSeconds)) : 1,
+          )
+          if (!item.clip) return manual
+          const timelinePosition = item.sourceStartTicks + position * ticksPerSecond
+          return manual * crossfadeGainAt(item.track, item.clip, timelinePosition)
         }
-        if (fadeOutSeconds > 0.001) {
-          const fadeOutStart = clipStartClock + clipDurationSeconds - fadeOutSeconds
-          const clipEnd = clipStartClock + clipDurationSeconds
-          if (clipEnd > ctx.currentTime) {
-            if (fadeOutStart > ctx.currentTime) gain.gain.setValueAtTime(baseGain, fadeOutStart)
-            gain.gain.linearRampToValueAtTime(0.0001, clipEnd)
+        const automationPositions = new Set<number>([positionNow, clipDurationSeconds])
+        if (fadeInSeconds > 0.001) automationPositions.add(fadeInSeconds)
+        if (fadeOutSeconds > 0.001) automationPositions.add(clipDurationSeconds - fadeOutSeconds)
+        if (item.clip) {
+          for (const interval of crossfadeIntervals(item.track, item.clip)) {
+            for (let step = 0; step <= 12; step++) {
+              const ticks = interval.startTicks + (interval.endTicks - interval.startTicks) * step / 12
+              automationPositions.add((ticks - item.sourceStartTicks) / ticksPerSecond)
+            }
           }
+        }
+        const audibleStartClock = Math.max(ctx.currentTime, clipStartClock + positionNow)
+        gain.gain.setValueAtTime(Math.max(0.0001, baseGain * fadeGainAt(positionNow)), audibleStartClock)
+        let lastClock = audibleStartClock
+        for (const position of Array.from(automationPositions).sort((a, b) => a - b)) {
+          if (position <= positionNow + 0.0001 || position > clipDurationSeconds + 0.0001) continue
+          const clock = clipStartClock + position
+          if (clock <= ctx.currentTime + 0.001 || clock <= lastClock + 0.0005) continue
+          gain.gain.linearRampToValueAtTime(Math.max(0.0001, baseGain * fadeGainAt(position)), clock)
+          lastClock = clock
         }
         if (localOffset >= 0 && localOffset < clipDurationSeconds) {
           const audioOffset = sourceOffsetSeconds + localOffset

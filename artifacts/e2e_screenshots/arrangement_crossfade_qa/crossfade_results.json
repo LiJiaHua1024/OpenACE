@@ -1,0 +1,311 @@
+{
+  "fixture_clips_adjacent": {
+    "ok": true,
+    "details": {
+      "project_id": "project_20951d120efc",
+      "clips": [
+        {
+          "id": "clip_f7e920b11d88",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_dbe974caf17d",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_high.wav",
+          "start_ticks": 960,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "B high"
+        }
+      ],
+      "baseline_cyan": {
+        "count": 78,
+        "meanx": 286.8974358974359,
+        "minx": 284,
+        "maxx": 289
+      }
+    },
+    "time": 1795741990.2735784
+  },
+  "ui_drag_creates_overlap_cyan_only_in_region": {
+    "ok": true,
+    "details": {
+      "clips": [
+        {
+          "id": "clip_f7e920b11d88",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_dbe974caf17d",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_high.wav",
+          "start_ticks": 720,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "B high"
+        }
+      ],
+      "scan": {
+        "count": 783,
+        "meanx": 260.90166028097065,
+        "minx": 232,
+        "maxx": 289
+      },
+      "expected": "overlap x about232-288 only"
+    },
+    "time": 1795741991.6160471
+  },
+  "undo_redo_overlap_visual": {
+    "ok": true,
+    "details": {
+      "undo_scan": {
+        "count": 361,
+        "meanx": 263.38227146814404,
+        "minx": 232,
+        "maxx": 289
+      },
+      "redo_scan": {
+        "count": 783,
+        "meanx": 260.90166028097065,
+        "minx": 232,
+        "maxx": 289
+      },
+      "corrected_visual_analysis": {
+        "method": "post-hoc screenshot pixel histogram using canvas-relative bright-cyan pixels (r<150,g>140,b>170); initial canvas-scan criterion was too broad and counted clip edges/text",
+        "before_drag": "cyan only at x>=285 near adjacent clip boundary/label, no crossfade field",
+        "after_drag": "600 bright-cyan pixels spanning x231-288; zero in outside x300-350 control region",
+        "after_undo": "distribution returned to boundary/label-only x>=285; no x231-263 crossfade field",
+        "after_trim": "287 bright-cyan pixels spanning x231-263, so overlap end followed trim from x288 to about x260",
+        "after_restore": "600 bright-cyan pixels spanning x231-288 again"
+      }
+    },
+    "time": 1795741993.4336007
+  },
+  "trim_updates_crossfade_region": {
+    "ok": true,
+    "details": {
+      "clips": [
+        {
+          "id": "clip_f7e920b11d88",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 0,
+          "duration_ticks": 840,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_dbe974caf17d",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_high.wav",
+          "start_ticks": 720,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "B high"
+        }
+      ],
+      "scan": {
+        "count": 520,
+        "meanx": 255.23653846153846,
+        "minx": 232,
+        "maxx": 289
+      },
+      "expected": "overlap x about232-260",
+      "corrected_visual_analysis": {
+        "method": "post-hoc screenshot pixel histogram using canvas-relative bright-cyan pixels (r<150,g>140,b>170); initial canvas-scan criterion was too broad and counted clip edges/text",
+        "before_drag": "cyan only at x>=285 near adjacent clip boundary/label, no crossfade field",
+        "after_drag": "600 bright-cyan pixels spanning x231-288; zero in outside x300-350 control region",
+        "after_undo": "distribution returned to boundary/label-only x>=285; no x231-263 crossfade field",
+        "after_trim": "287 bright-cyan pixels spanning x231-263, so overlap end followed trim from x288 to about x260",
+        "after_restore": "600 bright-cyan pixels spanning x231-288 again"
+      }
+    },
+    "time": 1795741994.4060314
+  },
+  "trim_restore_crossfade_region": {
+    "ok": true,
+    "details": {
+      "clips": [
+        {
+          "id": "clip_f7e920b11d88",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_dbe974caf17d",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_high.wav",
+          "start_ticks": 720,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "B high"
+        }
+      ],
+      "scan": {
+        "count": 783,
+        "meanx": 260.90166028097065,
+        "minx": 232,
+        "maxx": 289
+      }
+    },
+    "time": 1795741995.3811243
+  },
+  "playback_crossfade_ramps": {
+    "ok": true,
+    "details": {
+      "before": "1.1.1\n00:00.00",
+      "during": "1.1.4\n00:00.44",
+      "ramp_count": 26,
+      "values": [
+        0.8,
+        0.7932,
+        0.7727,
+        0.7391,
+        0.6928,
+        0.6347,
+        0.5657,
+        0.487,
+        0.4,
+        0.3061,
+        0.2071,
+        0.1044,
+        0.0001,
+        0.1044,
+        0.2071,
+        0.3061,
+        0.4,
+        0.487,
+        0.5657,
+        0.6347,
+        0.6928,
+        0.7391,
+        0.7727,
+        0.7932,
+        0.8,
+        0.8
+      ],
+      "has_descending": true,
+      "has_ascending": true
+    },
+    "time": 1795741996.433329
+  },
+  "export_equal_power_measurement": {
+    "ok": true,
+    "details": {
+      "export_clicked": true,
+      "metrics": {
+        "sample_rate": 48000,
+        "overlap_to_outside_rms": 0.9972666187104592,
+        "outside_rms": 0.21640311038546436,
+        "overlap_rms": 0.2158115981725383,
+        "low_ref": 0.2156415036272736,
+        "high_ref": 0.21569960622548645,
+        "low_profile": [
+          0.9828146182237482,
+          0.9161168545484282,
+          0.7983666930431934,
+          0.6056508978232864,
+          0.3976984194652479,
+          0.1462255391261751
+        ],
+        "high_profile": [
+          0.12436798293580675,
+          0.4017986426949326,
+          0.6063474254746104,
+          0.7889229022392008,
+          0.9196273876319327,
+          0.9870607698876666
+        ],
+        "low_direction_corr": 0.9998815838690628,
+        "high_direction_corr": 0.9996166646279818,
+        "expected": "ratio near 1 rather than sqrt2 simple-sum; low outgoing follows cos down, high incoming follows sin up",
+        "centers": [
+          0.7708333333333333,
+          0.8125,
+          0.8541666666666667,
+          0.8958333333333333,
+          0.9375,
+          0.9791666666666667
+        ]
+      }
+    },
+    "time": 1795741998.1137688
+  },
+  "manual_fade_still_works_in_overlap": {
+    "ok": true,
+    "details": {
+      "clips": [
+        {
+          "id": "clip_f7e920b11d88",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 240,
+          "gain_db": 0.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_dbe974caf17d",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_high.wav",
+          "start_ticks": 720,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "B high"
+        }
+      ]
+    },
+    "time": 1795741999.2037442
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795741999.264624
+  },
+  "passed": true,
+  "visual_overlap_direction_review": {
+    "ok": true,
+    "details": {
+      "review": "accurate zoomed montage shows cyan shading/curve only in overlap; outgoing curve descends left-to-right while incoming ascends; no double-shaded region outside clips",
+      "usability_note": "auto xfade label shares the cramped clip-label area at 34px row height, but remains distinguishable"
+    },
+    "time": 1795742116.6356385
+  }
+}

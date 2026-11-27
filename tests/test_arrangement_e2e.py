@@ -231,6 +231,47 @@ def test_arrangement_decodes_waveform_and_drags_audio_clip_independently(tmp_pat
             assert abs((starts[1]["when"] - starts[1]["now"]) - 1.0) < 0.2
             assert abs(starts[1]["offset"] - 1.0) < 0.03
             assert abs(starts[1]["duration"] - 0.5) < 0.03
+
+            # Drag the second clip half a beat backward so it overlaps the first.
+            # The overlap is automatically rendered as an equal-power crossfade.
+            page.mouse.move(box["x"] + 344, box["y"] + 75)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 288, box["y"] + 75, steps=4)
+            page.mouse.up()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            clips = saved["tracks"][1]["clips"]
+            assert [c["start_ticks"] for c in clips] == [480, 720]
+            cyan_pixels = page.evaluate(
+                """() => {
+                  const canvas = document.querySelector('.arrangement-view canvas')
+                  const ctx = canvas.getContext('2d')
+                  const data = ctx.getImageData(232, 64, 56, 26).data
+                  let count = 0
+                  for (let i = 0; i < data.length; i += 4) {
+                    if (data[i] < 150 && data[i + 1] > 120 && data[i + 2] > 160) count++
+                  }
+                  return count
+                }"""
+            )
+            assert cyan_pixels > 10
+            page.locator('button[title="Stop"]').click()
+            page.wait_for_timeout(100)
+            page.evaluate(
+                """() => {
+                  window.__openaceRampCount = 0
+                  window.__openaceOriginalRamp ||= AudioParam.prototype.linearRampToValueAtTime
+                  const original = window.__openaceOriginalRamp
+                  AudioParam.prototype.linearRampToValueAtTime = function(value, endTime) {
+                    window.__openaceRampCount++
+                    return original.call(this, value, endTime)
+                  }
+                }"""
+            )
+            page.locator('.play-button').click()
+            page.wait_for_timeout(180)
+            page.locator('.play-button').click()
+            assert page.evaluate("() => window.__openaceRampCount") >= 10
             assert errors == []
             browser.close()
     finally:

@@ -4,9 +4,11 @@ from pathlib import Path
 
 import mido
 import numpy as np
+import pytest
 import yaml
 
-from openace.core.models import Note, Project, Track
+from openace.core.models import AudioClip, Note, Project, Track
+from openace.exporters.master import export_master_wav
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.exporters.svp import export_svp
 from openace.exporters.ustx import export_ustx
@@ -139,3 +141,50 @@ def test_master_export_applies_clip_fade_in_and_fade_out(tmp_path):
     assert mono[int(sr * 0.25)] > 0.85 * peak
     assert 0.35 * peak < mono[int(sr * 0.875)] < 0.65 * peak
     assert abs(mono[-1]) < peak * 0.08
+
+
+def test_automatic_crossfade_gain_is_equal_power():
+    from openace.core.crossfade import crossfade_gain_at
+    from openace.core.models import AudioClip, Project, Track
+
+    project = Project(bpm=120)
+    track = project.add_track(Track(name="BGM"))
+    first = AudioClip(path="a.wav", start_ticks=0, duration_ticks=480)
+    second = AudioClip(path="b.wav", start_ticks=240, duration_ticks=480)
+    track.clips.extend([first, second])
+    assert crossfade_gain_at(track, first, 240) == pytest.approx(1.0)
+    assert crossfade_gain_at(track, second, 240) == pytest.approx(0.0)
+    assert crossfade_gain_at(track, first, 360) == pytest.approx(0.5 ** 0.5, abs=0.01)
+    assert crossfade_gain_at(track, second, 360) == pytest.approx(0.5 ** 0.5, abs=0.01)
+    first_power = crossfade_gain_at(track, first, 400) ** 2
+    second_power = crossfade_gain_at(track, second, 400) ** 2
+    assert first_power + second_power == pytest.approx(1.0)
+
+
+def test_master_export_applies_automatic_overlap_crossfade(tmp_path):
+    import soundfile as sf
+
+    source = tmp_path / "constant.wav"
+    sr = 48000
+    sf.write(source, np.ones((sr * 2, 2), dtype=np.float32) * 0.2, sr, subtype="PCM_24")
+    project = Project(title="xfade", bpm=120)
+    track = project.add_track(Track(name="BGM", volume=1.0))
+    track.clips.extend([
+        AudioClip(path=str(source), start_ticks=0, duration_ticks=480),
+        AudioClip(path=str(source), start_ticks=240, duration_ticks=480),
+    ])
+    output = tmp_path / "master.wav"
+    export_master_wav(project, output, sample_rate=sr)
+    data, out_sr = sf.read(output, always_2d=True)
+    assert out_sr == sr
+
+    def rms_at(seconds, width=0.012):
+        center = int(seconds * sr)
+        half = int(width * sr / 2)
+        return float(np.sqrt(np.mean(data[center - half:center + half] ** 2)))
+
+    outside = rms_at(0.15)
+    boundary = rms_at(0.26)
+    middle = rms_at(0.375)
+    assert boundary / outside < 1.15
+    assert 1.25 < middle / outside < 1.55

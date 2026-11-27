@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { renderFileUrl } from '../api'
+import { crossfadeGainAt, crossfadeIntervals } from '../crossfade'
 import type { Project, TimelineState, Track } from '../types'
 
 const LABEL_WIDTH = 64
@@ -181,10 +182,11 @@ export default function ArrangementView(props: Props) {
               const clipTickPosition = (px / usable) * duration
               const fadeIn = Math.max(0, clip.fade_in_ticks || 0)
               const fadeOut = Math.max(0, clip.fade_out_ticks || 0)
-              const fadeGain = Math.min(
+              const manualFadeGain = Math.min(
                 fadeIn ? Math.max(0, Math.min(1, clipTickPosition / fadeIn)) : 1,
                 fadeOut ? Math.max(0, Math.min(1, (duration - clipTickPosition) / fadeOut)) : 1,
               )
+              const fadeGain = manualFadeGain * crossfadeGainAt(track, clip, clip.start_ticks + clipTickPosition)
               const amp = Math.max(0.35, waveform.peaks[index] * (ROW_HEIGHT - 15) * 0.48 * fadeGain)
               const wx = x + 5 + px
               ctx.beginPath(); ctx.moveTo(wx, center - amp); ctx.lineTo(wx, center + amp); ctx.stroke()
@@ -205,6 +207,30 @@ export default function ArrangementView(props: Props) {
           ctx.fillStyle = '#ffffffd8'
           ctx.fillRect(x + Math.max(1, fadeInWidth) - 2, y + 5, 4, 6)
           ctx.fillRect(x + w - Math.max(1, fadeOutWidth) - 2, y + 5, 4, 6)
+          for (const interval of crossfadeIntervals(track, clip)) {
+            const sx = xForTick(interval.startTicks)
+            const ex = xForTick(interval.endTicks)
+            if (ex < x || sx > x + w) continue
+            ctx.fillStyle = '#58d8ff20'
+            ctx.fillRect(sx, y + 6, ex - sx, ROW_HEIGHT - 12)
+            ctx.strokeStyle = '#74e4ffcc'
+            ctx.lineWidth = 1.2
+            ctx.beginPath()
+            for (let step = 0; step <= 12; step++) {
+              const position = interval.startTicks + (interval.endTicks - interval.startTicks) * step / 12
+              const gx = xForTick(position)
+              const gain = crossfadeGainAt(track, clip, position)
+              const gy = y + ROW_HEIGHT - 7 - gain * (ROW_HEIGHT - 14)
+              if (step === 0) ctx.moveTo(gx, gy)
+              else ctx.lineTo(gx, gy)
+            }
+            ctx.stroke()
+            if (interval.role === 'incoming' && ex - sx > 34) {
+              ctx.fillStyle = '#bdf2ff'
+              ctx.font = '7px Inter'
+              ctx.fillText('XF', sx + 3, y + 11)
+            }
+          }
         }
       })
       if (props.repaintRange.end > props.repaintRange.start) {

@@ -6,6 +6,7 @@ from typing import List, Tuple
 import numpy as np
 
 from openace.core.audio import export_video_with_lyrics, mix_tracks, read_audio, resample_linear, write_wav
+from openace.core.crossfade import apply_automatic_crossfades
 from openace.core.models import AudioClip, Project
 
 
@@ -62,6 +63,7 @@ def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48
                 continue
             if clip is not None:
                 data = _apply_clip_fades(data, project, clip, sample_rate)
+                data = apply_automatic_crossfades(data, project, track, clip, sample_rate)
             timeline_offset = int(round(project.ticks_to_seconds(start_ticks) * sample_rate))
             if timeline_offset:
                 padding = np.zeros((timeline_offset, data.shape[1]), dtype=data.dtype)
