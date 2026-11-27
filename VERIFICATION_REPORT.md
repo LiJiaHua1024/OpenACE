@@ -409,3 +409,15 @@ Implemented and verified:
 - Independent visible-Chrome QA in `artifacts/e2e_screenshots/track_operations_qa/` verified top/bottom/narrow clamping, duplicate fresh IDs/selection, arrangement color propagation, delete/undo/redo, reload persistence, single-track delete-all recovery, and rename/mute/solo/volume/pan/add-track regressions with zero console/network failures.
 
 Validation after iteration 22: frontend production build passed; Python compile passed; full automated suite reached 54 passed.
+
+## Iteration 23 — standards-compliant WAV master loudness
+
+Implemented and verified:
+
+- Replaced approximate master normalization with a ffmpeg-validated export pipeline. OpenACE first applies transparent constant-gain normalization when true-peak headroom permits; when linear gain cannot satisfy both targets it falls back to two-pass ffmpeg `loudnorm` using measured input statistics.
+- Export validation independently measures the final WAV with ffmpeg EBU R128 loudness/true-peak statistics. Compliant output must be within ±0.3 LU of `-14.0 LUFS` and strictly below `-1.0 dBTP`; otherwise export raises a loud error rather than silently shipping a false master. Silence remains a explicit no-signal bypass because integrated loudness is undefined.
+- Regression coverage now proves both a sustained musical mix and peaky material whose linear normalization cannot fit under the true-peak ceiling. Existing clip offset/fade/crossfade tests continue to pass with oscillating program material rather than physically impossible constant-DC loudness fixtures.
+- Evidence in `artifacts/loudness_validation.json`: musical input `-20.44 LUFS/-15.21 dBTP` exported as `-13.95 LUFS/-8.77 dBTP`; peaky input `-19.72 LUFS/-1.05 dBTP` exported through the dynamic fallback as `-14.11 LUFS/-1.10 dBTP`.
+- ffmpeg is now explicitly documented as a required local runtime dependency for standards-compliant WAV/MP4 export.
+
+Validation after iteration 23: frontend production build passed; Python compile passed; full automated suite reached 56 passed.

@@ -123,7 +123,9 @@ def test_master_export_applies_clip_fade_in_and_fade_out(tmp_path):
     from openace.exporters.master import export_master_wav
 
     sr = 48000
-    audio = np.ones((sr, 2), dtype=np.float32) * 0.5
+    tone_t = np.arange(sr) / sr
+    tone = np.sin(2 * np.pi * 440 * tone_t).astype(np.float32) * 0.5
+    audio = np.column_stack([tone, tone])
     source = tmp_path / "constant.wav"
     write_wav(source, audio, sr, normalize=False)
     project = Project(title="clip fades", bpm=120)
@@ -136,11 +138,72 @@ def test_master_export_applies_clip_fade_in_and_fade_out(tmp_path):
     mono = rendered.mean(axis=1)
     peak = float(np.max(np.abs(mono)))
     assert peak > 0.05
+
+    def envelope_rms(seconds: float, width: float = 0.012) -> float:
+        center = int(seconds * sr)
+        half = int(width * sr / 2)
+        return float(np.sqrt(np.mean(mono[max(0, center - half):center + half] ** 2)))
+
+    full_scale = envelope_rms(0.25)
     assert abs(mono[0]) < peak * 0.08
-    assert 0.35 * peak < mono[int(sr * 0.125)] < 0.65 * peak
-    assert mono[int(sr * 0.25)] > 0.85 * peak
-    assert 0.35 * peak < mono[int(sr * 0.875)] < 0.65 * peak
+    assert 0.35 * full_scale < envelope_rms(0.125) < 0.65 * full_scale
+    assert envelope_rms(0.25) > 0.85 * full_scale
+    assert 0.35 * full_scale < envelope_rms(0.875) < 0.65 * full_scale
     assert abs(mono[-1]) < peak * 0.08
+
+
+def test_master_export_meets_minus14_lufs_and_true_peak_ceiling(tmp_path):
+    import soundfile as sf
+
+    from openace.core.models import AudioClip, Project, Track
+    from openace.exporters.master import _ffmpeg_loudness_measurement
+
+    sr = 48000
+    t = np.arange(sr * 5) / sr
+    musical = (
+        0.15 * np.sin(2 * np.pi * 110 * t)
+        + 0.06 * np.sin(2 * np.pi * 330 * t)
+        + 0.025 * np.sin(2 * np.pi * 660 * t)
+    ) * (0.65 + 0.35 * np.sin(2 * np.pi * 2 * t))
+    source = tmp_path / "musical.wav"
+    sf.write(source, np.column_stack([musical, musical]).astype(np.float32), sr, subtype="PCM_24")
+    project = Project(title="loudness compliance", bpm=120)
+    track = project.add_track(Track(name="BGM", volume=1.0))
+    track.clips.append(AudioClip(path=str(source), start_ticks=0, duration_ticks=9600))
+    output = tmp_path / "master.wav"
+    export_master_wav(project, output, sample_rate=sr)
+    measurement = _ffmpeg_loudness_measurement(output)
+    assert abs(measurement["input_i"] - (-14.0)) <= 0.3
+    assert measurement["input_tp"] < -1.0
+
+
+def test_master_export_dynamic_fallback_handles_peaky_material(tmp_path):
+    import soundfile as sf
+
+    from openace.core.models import AudioClip, Project, Track
+    from openace.exporters.master import _ffmpeg_loudness_measurement
+
+    sr = 48000
+    t = np.arange(sr * 5) / sr
+    musical = (0.1 * np.sin(2 * np.pi * 180 * t)).astype(np.float32)
+    for index in range(5):
+        start = int(index * sr + 1000)
+        length = int(0.008 * sr)
+        envelope = np.hanning(length)
+        musical[start:start + length] += 0.85 * envelope * np.sin(2 * np.pi * 1800 * np.arange(length) / sr)
+    source = tmp_path / "peaky.wav"
+    sf.write(source, np.column_stack([musical, musical]), sr, subtype="PCM_24")
+    input_measurement = _ffmpeg_loudness_measurement(source)
+    assert input_measurement["input_tp"] + (-14.0 - input_measurement["input_i"]) > -1.1
+
+    project = Project(title="peaky loudness compliance", bpm=120)
+    track = project.add_track(Track(name="BGM", volume=1.0))
+    track.clips.append(AudioClip(path=str(source), start_ticks=0, duration_ticks=9600))
+    output = tmp_path / "master.wav"
+    export_master_wav(project, output, sample_rate=sr)
+    measurement = _ffmpeg_loudness_measurement(output)
+    assert abs(measurement["input_i"] - (-14.0)) <= 0.3
+    assert measurement["input_tp"] < -1.0
 
 
 def test_automatic_crossfade_gain_is_equal_power():
@@ -166,7 +229,9 @@ def test_master_export_applies_automatic_overlap_crossfade(tmp_path):
 
     source = tmp_path / "constant.wav"
     sr = 48000
-    sf.write(source, np.ones((sr * 2, 2), dtype=np.float32) * 0.2, sr, subtype="PCM_24")
+    t = np.arange(sr * 2) / sr
+    tone = np.sin(2 * np.pi * 440 * t).astype(np.float32) * 0.2
+    sf.write(source, np.column_stack([tone, tone]), sr, subtype="PCM_24")
     project = Project(title="xfade", bpm=120)
     track = project.add_track(Track(name="BGM", volume=1.0))
     track.clips.extend([

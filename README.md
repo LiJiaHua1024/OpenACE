@@ -59,7 +59,7 @@ OPENACE_CI_SYNTH_FIXTURE=1 openace-tool render-vocal <project-id> <track-id>
 
 ## Arrangement editing
 
-Audio clips are true timeline slices (`start/offset/duration`) with decoded waveforms, edge trimming, split-at-cursor, linear fade-in/out handles, and clip gain. Fade handles are dragged from the top corners; fades reshape the displayed waveform, schedule WebAudio gain ramps during monitor playback, and are rendered into master WAV exports. Overlapping faded clips therefore crossfade naturally, although automatic crossfade creation is not yet implemented.
+Audio clips are true timeline slices (`start/offset/duration`) with decoded waveforms, edge trimming, split-at-cursor, linear fade-in/out handles, and clip gain. Fade handles are dragged from the top corners; fades reshape the displayed waveform, schedule WebAudio gain ramps during monitor playback, and are rendered into master WAV exports. Overlapping faded clips therefore crossfade naturally.
 
 Track cards provide right-click/⋯ operations for duplicate, reorder, color, and undoable delete in addition to mute/solo/volume/pan. The arrangement canvas draws real decoded waveform peaks for audio clips rather than placeholder stripes. Audio clips drag independently, trim from either edge while preserving source offsets, and split at the cursor through the context menu. Waveforms remap to the trimmed source segment, contiguous vocal-note groups drag as musical phrases, and all clip timing paths persist through the same playback/export pipeline. Overlapping clips on a track automatically receive equal-power crossfades: the overlap is shown with a compact XF badge and complementary curves, waveform peaks attenuate with the crossfade, WebAudio schedules the envelope, and master export applies the same cosine/sine gains. The clip context menu supports split at cursor, copy, paste at cursor (including empty arrangement space and other audio-capable tracks), duplicate, delete, and gain; pasted clips preserve source offsets, durations, fades, and gain, while menus are compacted and clamped inside the arrangement strip.
 
@@ -80,6 +80,10 @@ The canvas piano roll supports brush/select/erase tools, marquee multi-select, m
 ## Repaint region selection
 
 In the arrangement canvas, hold **Alt** and drag across the timeline to draw the yellow repaint region. The same region is reflected in the Vocal2BGM/Repaint panel as numeric seconds and is passed to the ACE-Step repaint job.
+
+## Mastering and export
+
+Master WAV export is not approximate peak normalization: OpenACE first uses transparent constant-gain loudness normalization when peak headroom permits, falls back to two-pass ffmpeg `loudnorm` for peaky material, then independently measures the resulting file with ffmpeg EBU R128 loudness/true-peak statistics. Compliant masters are approximately `-14.0 LUFS` with true peak below `-1.0 dBTP`; material that cannot be validated fails loudly instead of silently shipping a false master. ffmpeg is therefore a required local runtime dependency for WAV/MP4 export.
 
 ## MCP
 

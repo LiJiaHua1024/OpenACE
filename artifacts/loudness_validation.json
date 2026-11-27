@@ -1,0 +1,36 @@
+{
+  "musical": {
+    "input": {
+      "input_i": -20.44,
+      "input_tp": -15.21,
+      "input_lra": 0.0,
+      "input_thresh": -30.44,
+      "target_offset": 0.0
+    },
+    "output": {
+      "input_i": -13.95,
+      "input_tp": -8.77,
+      "input_lra": 0.0,
+      "input_thresh": -23.95,
+      "target_offset": 0.01
+    },
+    "sample_rate": 48000
+  },
+  "peaky": {
+    "input": {
+      "input_i": -19.72,
+      "input_tp": -1.05,
+      "input_lra": 0.0,
+      "input_thresh": -29.72,
+      "target_offset": 1.19
+    },
+    "output": {
+      "input_i": -14.11,
+      "input_tp": -1.1,
+      "input_lra": 0.0,
+      "input_thresh": -24.11,
+      "target_offset": 0.02
+    },
+    "sample_rate": 48000
+  }
+}

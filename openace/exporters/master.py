@@ -1,6 +1,10 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
+import re
+import subprocess
+import tempfile
 from typing import List, Tuple
 
 import numpy as np
@@ -29,6 +33,110 @@ def _apply_clip_fades(data: np.ndarray, project: Project, clip: AudioClip, sampl
     if fade_out > 1:
         processed[-fade_out:] *= np.linspace(1.0, 0.0, fade_out, dtype=np.float32)[:, None]
     return processed
+
+
+
+LOUDNESS_TARGET_LUFS = -14.0
+# Export slightly below the user-facing -1 dBTP ceiling so codec/quantization
+# rounding cannot produce an exactly-at-ceiling master.
+LOUDNESS_TRUE_PEAK_TARGET_DBTP = -1.1
+LOUDNESS_LRA_TARGET = 11.0
+
+
+def _ffmpeg_loudness_measurement(path: Path) -> dict[str, float]:
+    """Measure integrated loudness/true peak through ffmpeg's EBU R128 loudnorm filter."""
+    cmd = [
+        "ffmpeg", "-hide_banner", "-nostdin", "-i", str(path),
+        "-af", f"loudnorm=I={LOUDNESS_TARGET_LUFS}:TP={LOUDNESS_TRUE_PEAK_TARGET_DBTP}:LRA={LOUDNESS_LRA_TARGET}:print_format=json", "-f", "null", "-",
+    ]
+    try:
+        result = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    except FileNotFoundError as exc:
+        raise RuntimeError("ffmpeg is required for standards-compliant -14 LUFS/-1 dBTP master export") from exc
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError(f"ffmpeg loudness measurement failed: {exc.stderr[-500:]}") from exc
+    match = re.search(r'\{\s*"input_i"\s*:.*?\}', result.stderr, re.S)
+    if not match:
+        raise RuntimeError("ffmpeg loudness measurement did not emit machine-readable statistics")
+    raw = json.loads(match.group(0))
+    return {
+        "input_i": float(raw["input_i"]),
+        "input_tp": float(raw["input_tp"]),
+        "input_lra": float(raw["input_lra"]),
+        "input_thresh": float(raw["input_thresh"]),
+        "target_offset": float(raw.get("target_offset", 0.0)),
+    }
+
+
+def _measurement_is_compliant(measurement: dict[str, float]) -> bool:
+    return (
+        abs(measurement["input_i"] - LOUDNESS_TARGET_LUFS) <= 0.3
+        and measurement["input_tp"] < -1.0
+    )
+
+
+def _write_linear_master(input_path: Path, samples: np.ndarray, output_path: Path, sample_rate: int) -> dict[str, float]:
+    """Apply transparent constant-gain loudness normalization when peak headroom permits."""
+    measured = _ffmpeg_loudness_measurement(input_path)
+    if not all(np.isfinite(value) for value in measured.values()):
+        raise RuntimeError("cannot loudness-normalize a silent or invalid master")
+    gain_db = LOUDNESS_TARGET_LUFS - measured["input_i"]
+    if measured["input_tp"] + gain_db > LOUDNESS_TRUE_PEAK_TARGET_DBTP:
+        gain_db = LOUDNESS_TRUE_PEAK_TARGET_DBTP - measured["input_tp"]
+    write_wav(output_path, samples * (10.0 ** (gain_db / 20.0)), sample_rate, normalize=False)
+    return _ffmpeg_loudness_measurement(output_path)
+
+
+def _run_two_pass_loudnorm(input_path: Path, output_path: Path, sample_rate: int) -> dict[str, float]:
+    measured = _ffmpeg_loudness_measurement(input_path)
+    if not all(np.isfinite(value) for value in measured.values()):
+        raise RuntimeError("cannot loudness-normalize a silent or invalid master")
+    loudnorm = (
+        f"loudnorm=I={LOUDNESS_TARGET_LUFS}:TP={LOUDNESS_TRUE_PEAK_TARGET_DBTP}:LRA={LOUDNESS_LRA_TARGET}:"
+        f"measured_I={measured['input_i']}:measured_TP={measured['input_tp']}:"
+        f"measured_LRA={measured['input_lra']}:measured_thresh={measured['input_thresh']}:"
+        f"offset={measured['target_offset']}:linear=true"
+    )
+    cmd = [
+        "ffmpeg", "-hide_banner", "-nostdin", "-y", "-i", str(input_path),
+        "-af", loudnorm, "-ar", str(sample_rate), "-c:a", "pcm_s24le", str(output_path),
+    ]
+    try:
+        subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    except FileNotFoundError as exc:
+        raise RuntimeError("ffmpeg is required for standards-compliant -14 LUFS/-1 dBTP master export") from exc
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError(f"ffmpeg loudness normalization failed: {exc.stderr[-700:]}") from exc
+    output = _ffmpeg_loudness_measurement(output_path)
+    if not _measurement_is_compliant(output):
+        raise RuntimeError(
+            "ffmpeg loudness normalization validation failed: "
+            f"{output['input_i']:.2f} LUFS, {output['input_tp']:.2f} dBTP"
+        )
+    return output
+
+
+def write_standards_compliant_master(samples: np.ndarray, output_path: Path, sample_rate: int) -> Path:
+    """Write a master whose loudness is validated with ffmpeg rather than approximation."""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    if not len(samples) or float(np.max(np.abs(samples))) < 1e-8:
+        write_wav(output_path, samples, sample_rate, normalize=False)
+        return output_path
+    temporary_name = None
+    try:
+        with tempfile.NamedTemporaryFile(prefix="openace-premaster-", suffix=".wav", dir=output_path.parent, delete=False) as handle:
+            temporary_name = handle.name
+        temporary = Path(temporary_name)
+        write_wav(temporary, samples, sample_rate, normalize=False)
+        linear_measurement = _write_linear_master(temporary, samples, output_path, sample_rate)
+        if _measurement_is_compliant(linear_measurement):
+            return output_path
+        _run_two_pass_loudnorm(temporary, output_path, sample_rate)
+    finally:
+        if temporary_name:
+            Path(temporary_name).unlink(missing_ok=True)
+    return output_path
+
 
 def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48000) -> Path:
     buffers: List[Tuple[np.ndarray, int]] = []
@@ -71,8 +179,7 @@ def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48
             clip_gain = 10.0 ** ((getattr(clip, "gain_db", 0.0) if clip is not None else 0.0) / 20.0)
             buffers.append((data * track.volume * clip_gain, sr))
     mixed = mix_tracks(buffers, sample_rate=sample_rate)
-    write_wav(output_path, mixed, sample_rate, normalize=True)
-    return output_path
+    return write_standards_compliant_master(mixed, output_path, sample_rate)
 
 
 def _ass_timestamp(seconds: float) -> str:

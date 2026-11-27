@@ -42,7 +42,7 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 |---|---|---:|---|
 | Audio-to-MIDI import | Upload sung audio and edit extracted notes | **Partial** | `/api/import/audio`, UI control, librosa/pyin extraction, octave correction, explicit no-pitch failure. Browser/API verified. Lyric ASR is not yet merged into this import flow. |
 | ASR lyrics | Real local transcription for cover/SVC | **Partial** | faster-whisper helper exists but is not yet integrated into the visible SVC/import workflow. |
-| WAV master | Streaming-safe stereo mixdown | **Partial** | Clip-aware mixing with offsets, duplicate-path suppression, volume, approximate -14 LUFS/-1 dBTP normalization. Needs ffmpeg loudnorm/true-peak proof. |
+| WAV master | Streaming-safe stereo mixdown | **Done** | Clip-aware mixing with offsets/duplicate-path suppression/volume/crossfades writes through transparent constant-gain normalization when possible, with two-pass ffmpeg loudnorm fallback for peaky material. Output is independently measured through ffmpeg EBU R128 loudness/true-peak statistics at about -14 LUFS and below -1 dBTP; non-conforming edge material fails loudly rather than silently exporting a false master. |
 | MP4 dynamic lyric video | Shareable synchronized lyric render | **Partial** | Rewritten to burn timed ASS subtitles and explicitly match audio duration; regression test passes. Karaoke highlighting/polished typography still absent; CJK rendering depends on host fonts. |
 | MIDI+LRC | Interoperable lyric MIDI export/import | **Partial** | UTF-8 roundtrip tests pass; tempo-map edge cases remain. |
 | OpenUtau `.ustx` | Openable in OpenUtau | **Partial** | Structural YAML writer/test. Not validated in actual OpenUtau. |
