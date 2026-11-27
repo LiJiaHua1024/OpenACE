@@ -1,0 +1,207 @@
+{
+  "fixture_bottom_right_clip": {
+    "ok": true,
+    "details": {
+      "project_id": "project_3ffce66d69d6",
+      "clip": [
+        {
+          "id": "clip_e0c3654c2000",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 2400,
+          "duration_ticks": 240,
+          "offset_ticks": 240,
+          "fade_in_ticks": 60,
+          "fade_out_ticks": 60,
+          "gain_db": -6.0,
+          "label": "menu target"
+        }
+      ]
+    },
+    "time": 1795743052.3563917
+  },
+  "full_menu_clamped_inside_arrangement": {
+    "ok": false,
+    "details": {
+      "geometry": {
+        "menu": {
+          "x": 742,
+          "y": 62,
+          "width": 204,
+          "height": 208
+        },
+        "canvas": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 132
+        },
+        "overflow_left": -506,
+        "overflow_top": -4,
+        "overflow_right": -4,
+        "overflow_bottom": 80,
+        "inside": false
+      },
+      "buttons": [
+        {
+          "text": "Split at cursor",
+          "enabled": true,
+          "box": {
+            "x": 748,
+            "y": 68,
+            "width": 192,
+            "height": 28
+          }
+        },
+        {
+          "text": "Copy",
+          "enabled": true,
+          "box": {
+            "x": 748,
+            "y": 98,
+            "width": 192,
+            "height": 28
+          }
+        },
+        {
+          "text": "Paste at cursor",
+          "enabled": false,
+          "box": {
+            "x": 748,
+            "y": 128,
+            "width": 192,
+            "height": 28
+          }
+        },
+        {
+          "text": "Duplicate",
+          "enabled": true,
+          "box": {
+            "x": 748,
+            "y": 158,
+            "width": 192,
+            "height": 28
+          }
+        },
+        {
+          "text": "Delete",
+          "enabled": true,
+          "box": {
+            "x": 748,
+            "y": 188,
+            "width": 192,
+            "height": 28
+          }
+        }
+      ],
+      "input_box": {
+        "x": 755,
+        "y": 239,
+        "width": 58,
+        "height": 20
+      },
+      "copy_clicked": true
+    },
+    "time": 1795743053.8113124
+  },
+  "clip_buttons_and_gain_clickable": {
+    "ok": true,
+    "details": {
+      "operations": {
+        "Duplicate": {
+          "clicked": true,
+          "after_count": 2,
+          "undo_count": 1
+        },
+        "Split at cursor": {
+          "clicked": true,
+          "after_count": 2,
+          "undo_count": 1
+        },
+        "Delete": {
+          "clicked": true,
+          "after_count": 0,
+          "undo_count": 1
+        }
+      },
+      "gain_focused": true,
+      "gain_box": {
+        "x": 755,
+        "y": 239,
+        "width": 58,
+        "height": 20
+      }
+    },
+    "time": 1795743060.6187313
+  },
+  "empty_paste_menu_clamped_inside_arrangement": {
+    "ok": true,
+    "details": {
+      "geometry": {
+        "menu": {
+          "x": 742,
+          "y": 148,
+          "width": 204,
+          "height": 40
+        },
+        "canvas": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 132
+        },
+        "overflow_left": -506,
+        "overflow_top": -90,
+        "overflow_right": -4,
+        "overflow_bottom": -2,
+        "inside": true
+      },
+      "buttons": [
+        {
+          "text": "Paste at cursor",
+          "enabled": true,
+          "box": {
+            "x": 748,
+            "y": 154,
+            "width": 192,
+            "height": 28
+          }
+        }
+      ],
+      "paste_clicked": true,
+      "clips": [
+        {
+          "id": "clip_e0c3654c2000",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 2400,
+          "duration_ticks": 240,
+          "offset_ticks": 240,
+          "fade_in_ticks": 60,
+          "fade_out_ticks": 60,
+          "gain_db": -6.0,
+          "label": "menu target"
+        },
+        {
+          "id": "clip_13a13dc1-40c",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 2760,
+          "duration_ticks": 240,
+          "offset_ticks": 240,
+          "fade_in_ticks": 60,
+          "fade_out_ticks": 60,
+          "gain_db": -6.0,
+          "label": "menu target"
+        }
+      ]
+    },
+    "time": 1795743062.3059413
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795743062.4063685
+  },
+  "passed": false
+}

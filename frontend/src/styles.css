@@ -202,7 +202,30 @@ button:disabled { cursor: not-allowed; opacity: .42; }
   border-bottom: 1px solid #293044;
   background: #0f121c;
 }
-.arrangement-context-menu { z-index: 60; }
+.piano-context-menu.arrangement-context-menu {
+  z-index: 60;
+  width: 204px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.arrangement-context-menu button {
+  padding: 5px 5px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.arrangement-context-menu .clip-gain-control {
+  grid-column: 1 / -1;
+  padding: 4px 6px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.arrangement-context-menu .clip-gain-control input {
+  width: 48px;
+}
+
 .arrangement-view canvas {
   display: block;
   width: 100%;

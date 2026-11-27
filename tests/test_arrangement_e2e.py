@@ -272,6 +272,41 @@ def test_arrangement_decodes_waveform_and_drags_audio_clip_independently(tmp_pat
             page.wait_for_timeout(180)
             page.locator('.play-button').click()
             assert page.evaluate("() => window.__openaceRampCount") >= 10
+
+            # Clip context operations copy/paste across empty space, duplicate, and delete.
+            page.mouse.click(box["x"] + 300, box["y"] + 75, button="right")
+            page.locator(".arrangement-context-menu button", has_text="Copy").click()
+            page.mouse.click(box["x"] + 620, box["y"] + 75, button="right")
+            page.locator(".arrangement-context-menu button", has_text="Paste at cursor").click()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            clips = saved["tracks"][1]["clips"]
+            assert len(clips) == 3
+            pasted = clips[-1]
+            assert pasted["start_ticks"] == 2400
+            assert (pasted["offset_ticks"], pasted["duration_ticks"]) == (960, 480)
+
+            page.mouse.click(box["x"] + 680, box["y"] + 75, button="right")
+            page.locator(".arrangement-context-menu button", has_text="Duplicate").click()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            clips = saved["tracks"][1]["clips"]
+            assert len(clips) == 4
+            assert clips[-1]["start_ticks"] == 2880
+
+            page.mouse.click(box["x"] + 792, box["y"] + 75, button="right")
+            page.locator(".arrangement-context-menu button", has_text="Delete").click()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert len(saved["tracks"][1]["clips"]) == 3
+            page.keyboard.press("Control+z")
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert len(saved["tracks"][1]["clips"]) == 4
+            page.keyboard.press("Control+y")
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert len(saved["tracks"][1]["clips"]) == 3
             assert errors == []
             browser.close()
     finally:

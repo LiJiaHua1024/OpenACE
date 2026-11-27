@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { renderFileUrl } from '../api'
 import { crossfadeGainAt, crossfadeIntervals } from '../crossfade'
-import type { Project, TimelineState, Track } from '../types'
+import type { AudioClip, Project, TimelineState, Track } from '../types'
 
 const LABEL_WIDTH = 64
 const RULER_HEIGHT = 24
@@ -46,7 +46,9 @@ export default function ArrangementView(props: Props) {
   const dragRef = useRef<DragState | null>(null)
   const repaintDragRef = useRef<{ anchorTicks: number; currentTicks: number } | null>(null)
   const [waveforms, setWaveforms] = useState<Record<string, WaveformData>>({})
-  const [menu, setMenu] = useState<{ x: number; y: number; trackId: string; clipId: string; ticks: number } | null>(null)
+  const [menu, setMenu] = useState<{ x: number; y: number; trackId: string; clipId: string | null; ticks: number } | null>(null)
+  const clipClipboardRef = useRef<AudioClip | null>(null)
+  const [, setClipClipboardVersion] = useState(0)
   const waveformCache = useRef(new Map<string, Promise<WaveformData>>())
   const audioContextRef = useRef<AudioContext | null>(null)
   const ppq = props.project.ppq
@@ -477,7 +479,63 @@ export default function ArrangementView(props: Props) {
   }
 
 
-  function splitClip(menuItem: { trackId: string; clipId: string; ticks: number }) {
+  function cloneClip(clip: AudioClip): AudioClip {
+    return JSON.parse(JSON.stringify(clip))
+  }
+
+  function copyClip(menuItem: { trackId: string; clipId: string | null }) {
+    const track = props.project.tracks.find(item => item.id === menuItem.trackId)
+    const clip = track?.clips.find(item => item.id === menuItem.clipId)
+    if (!clip) return
+    clipClipboardRef.current = cloneClip(clip)
+    setClipClipboardVersion(version => version + 1)
+    setMenu(null)
+  }
+
+  function pasteClip(menuItem: { trackId: string; ticks: number }) {
+    const clipboard = clipClipboardRef.current
+    if (!clipboard) return
+    const start = Math.max(0, Math.round(menuItem.ticks / (ppq / 4)) * (ppq / 4))
+    props.updateProject(project => {
+      const track = project.tracks.find(item => item.id === menuItem.trackId)
+      if (!track) return
+      track.clips.push({
+        ...cloneClip(clipboard),
+        id: `clip_${crypto.randomUUID().slice(0, 12)}`,
+        start_ticks: start,
+      })
+      track.clips.sort((a, b) => a.start_ticks - b.start_ticks)
+    }, false)
+    setMenu(null)
+  }
+
+  function duplicateClip(menuItem: { trackId: string; clipId: string | null }) {
+    props.updateProject(project => {
+      const track = project.tracks.find(item => item.id === menuItem.trackId)
+      if (!track) return
+      const index = track.clips.findIndex(item => item.id === menuItem.clipId)
+      if (index < 0) return
+      const clip = track.clips[index]
+      const duration = clipDuration(clip)
+      track.clips.splice(index + 1, 0, {
+        ...cloneClip(clip),
+        id: `clip_${crypto.randomUUID().slice(0, 12)}`,
+        start_ticks: clip.start_ticks + duration,
+      })
+    }, false)
+    setMenu(null)
+  }
+
+  function deleteClip(menuItem: { trackId: string; clipId: string | null }) {
+    props.updateProject(project => {
+      const track = project.tracks.find(item => item.id === menuItem.trackId)
+      if (!track) return
+      track.clips = track.clips.filter(item => item.id !== menuItem.clipId)
+    }, false)
+    setMenu(null)
+  }
+
+  function splitClip(menuItem: { trackId: string; clipId: string | null; ticks: number }) {
     props.updateProject(project => {
       const track = project.tracks.find(item => item.id === menuItem.trackId)
       if (!track) return
@@ -520,8 +578,7 @@ export default function ArrangementView(props: Props) {
     const track = trackAt(pos.y)
     if (!track || pos.x < LABEL_WIDTH) return
     const clip = clipAt(track, pos.x)
-    if (!clip) { setMenu(null); return }
-    setMenu({ x: pos.x, y: pos.y, trackId: track.id, clipId: clip.id, ticks: tickForX(pos.x) })
+    setMenu({ x: pos.x, y: pos.y, trackId: track.id, clipId: clip?.id || null, ticks: tickForX(pos.x) })
   }
 
   function onWheel(event: React.WheelEvent) {
@@ -532,13 +589,23 @@ export default function ArrangementView(props: Props) {
     }
   }
 
+  const menuWidth = 204
+  const menuHeight = menu?.clipId ? 130 : 40
+  const menuMargin = menu?.clipId ? 1 : 4
+  const menuLeft = menu ? Math.max(4, Math.min(menu.x, (canvasRef.current?.clientWidth || 640) - menuWidth - 4)) : 0
+  const menuTop = menu ? Math.max(menuMargin, Math.min(menu.y, 132 - menuHeight - menuMargin)) : 0
+
   return (
     <div className="arrangement-view" onClick={() => setMenu(null)}>
       <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onWheel={onWheel} onContextMenu={onContextMenu} />
       {menu && (
-        <div className="piano-context-menu arrangement-context-menu" style={{ left: menu.x, top: menu.y }} onClick={event => event.stopPropagation()}>
-          <button onClick={() => splitClip(menu)}>Split at cursor</button>
-          {(() => {
+        <div className="piano-context-menu arrangement-context-menu" style={{ left: menuLeft, top: menuTop }} onClick={event => event.stopPropagation()}>
+          {menu.clipId && <button onClick={() => splitClip(menu)}>Split at cursor</button>}
+          {menu.clipId && <button onClick={() => copyClip(menu)}>Copy</button>}
+          <button disabled={!clipClipboardRef.current} onClick={() => pasteClip(menu)}>Paste at cursor</button>
+          {menu.clipId && <button onClick={() => duplicateClip(menu)}>Duplicate</button>}
+          {menu.clipId && <button onClick={() => deleteClip(menu)}>Delete</button>}
+          {menu.clipId && (() => {
             const track = props.project.tracks.find(item => item.id === menu.trackId)
             const clip = track?.clips.find(item => item.id === menu.clipId)
             if (!clip) return null

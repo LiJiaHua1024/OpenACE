@@ -352,3 +352,19 @@ Browser/audio QA evidence:
 - Key evidence: `evidence_crossfade_visual_states.png`, `evidence_crossfade_export_analysis.png`, `evidence_xf_badge_zoom.png`, `ARRANGEMENT_CROSSFADE_QA_REPORT.md`, `XF_BADGE_RECHECK_ADDENDUM.md`, and `crossfade_results.json`.
 
 Validation after iteration 18: frontend production build passed; full automated suite reached 49 passed.
+
+## Iteration 19 — arrangement clip context operations
+
+Implemented and verified:
+
+- Arrangement clip context menus now support Copy, Paste at cursor, Duplicate, Delete, Split at cursor, and numeric gain. Empty arrangement space exposes Paste at cursor when the internal clip clipboard is populated.
+- Pasted clips preserve path, label, source offset, visible duration, manual fades, and gain. Paste works across audio-capable tracks at snapped cursor position; Duplicate inserts immediately after the source clip. All mutations participate in normal undo/redo.
+- Menus are compact two-column grids with inline gain editing and measured-position clamping inside the 132px arrangement strip.
+
+Browser QA evidence:
+
+- Independent visible-Chrome QA in `artifacts/e2e_screenshots/arrangement_clip_ops_qa/` verified copy is non-mutating, same-track and cross-track paste at tick `2400`/`2760`, exact preservation of `offset_ticks=240`, `duration_ticks=960`, `fade_in=120`, `fade_out=120`, `gain_db=-6`, duplicate insertion at `960`, delete/undo/redo, crossfade behavior after dragging a duplicate into overlap, playback, WAV export, and zero console/network errors.
+- Initial QA found the full menu overflowed into the piano roll and sidebar. Two focused rechecks diagnosed a CSS specificity failure and then a residual 2px clamp error. The final implementation uses the measured 130px full-menu height with 1px top/bottom containment inside the 132px strip; empty menus retain 4px margins.
+- Key evidence: `evidence_clip_ops_montage.png`, `evidence_menu_overflow_recheck_montage.png`, `evidence_menu_overflow_recheck2_montage.png`, `ARRANGEMENT_CLIP_OPS_QA_REPORT.md`, both menu addenda, and `clip_ops_results.json`.
+
+Validation after iteration 19: frontend production build passed; arrangement browser regression passed; full automated suite remains 49 passed.
