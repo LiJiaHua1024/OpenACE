@@ -24,7 +24,7 @@ from openace.core.editing import ripple_delete_time_range, split_note as split_n
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.voice_library import VoiceLibrary
 from openace.core.timing import validate_absolute_beat_anchor
-from openace.exporters.master import export_lyrics_video, export_master_wav
+from openace.exporters.master import export_lyrics_video, export_master_wav, export_stems_zip
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.exporters.svp import export_svp
 from openace.exporters.ustx import export_ustx
@@ -919,6 +919,9 @@ def export_project(project_id: str, fmt: str):
     if fmt == "wav":
         path = EXPORTS / f"{safe_title}.wav"
         export_master_wav(project, path)
+    elif fmt == "stems":
+        path = EXPORTS / f"{safe_title}_stems.zip"
+        export_stems_zip(project, path)
     elif fmt == "mp4":
         wav = EXPORTS / f"{safe_title}.wav"
         if not wav.exists():

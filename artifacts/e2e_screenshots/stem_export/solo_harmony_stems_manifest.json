@@ -1,0 +1,20 @@
+{
+  "sample_rate": 48000,
+  "format": "pcm_s24le wav",
+  "processing": "track volume, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization",
+  "tracks": [
+    {
+      "track_id": "track_harmony_stemqa",
+      "track_name": "Harmony Vocal",
+      "type": "vocal",
+      "file": "01_Harmony_Vocal.wav",
+      "peak": 0.09967764467000961,
+      "rms": 0.03971037268638611,
+      "volume": 0.5,
+      "pan": 0.0,
+      "solo": true,
+      "mute": false
+    }
+  ],
+  "skipped": []
+}

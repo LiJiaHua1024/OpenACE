@@ -5,6 +5,7 @@ import json
 import re
 import subprocess
 import tempfile
+import zipfile
 from typing import List, Tuple
 
 import numpy as np
@@ -144,50 +145,98 @@ def write_standards_compliant_master(samples: np.ndarray, output_path: Path, sam
     return output_path
 
 
+
+def audible_tracks(project: Project):
+    """Tracks audible in the current mixer state under standard solo/mute semantics."""
+    soloed = any(track.solo for track in project.tracks)
+    return [track for track in project.tracks if not track.mute and (not soloed or track.solo)]
+
+
+def _track_audio_buffers(project: Project, track, sample_rate: int) -> List[Tuple[np.ndarray, int]]:
+    """Decode one track's render/clips into timeline-positioned export buffers."""
+    buffers: List[Tuple[np.ndarray, int]] = []
+    clip_paths = {str(_resolve(clip.path)) for clip in track.clips}
+    sources: List[Tuple[Path, AudioClip | None]] = []
+    if track.render_path:
+        render_path = _resolve(track.render_path)
+        if str(render_path) not in clip_paths:
+            sources.append((render_path, None))
+    sources.extend((_resolve(clip.path), clip) for clip in track.clips)
+    for path, clip in sources:
+        if not path.exists():
+            continue
+        data, sr = read_audio(path)
+        if sr != sample_rate:
+            data = resample_linear(data, sr, sample_rate)
+            sr = sample_rate
+        if data.ndim == 1:
+            data = data[:, None]
+        start_ticks = getattr(clip, "start_ticks", 0) if clip is not None else 0
+        source_offset_ticks = getattr(clip, "offset_ticks", 0) if clip is not None else 0
+        duration_ticks = getattr(clip, "duration_ticks", None) if clip is not None else None
+        source_offset_seconds = project.seconds_between_ticks(start_ticks - source_offset_ticks, start_ticks) if clip is not None else project.ticks_to_seconds(source_offset_ticks)
+        source_start = int(round(source_offset_seconds * sample_rate))
+        source_end = len(data)
+        if duration_ticks is not None:
+            duration_seconds = project.tick_duration_seconds(start_ticks, duration_ticks) if clip is not None else project.ticks_to_seconds(duration_ticks)
+            source_end = min(source_end, source_start + int(round(duration_seconds * sample_rate)))
+        data = data[max(0, source_start):max(0, source_end)]
+        if not len(data):
+            continue
+        if clip is not None:
+            data = _apply_clip_fades(data, project, clip, sample_rate)
+            data = apply_automatic_crossfades(data, project, track, clip, sample_rate)
+        timeline_offset = int(round(project.ticks_to_seconds(start_ticks) * sample_rate))
+        if timeline_offset:
+            padding = np.zeros((timeline_offset, data.shape[1]), dtype=data.dtype)
+            data = np.concatenate([padding, data], axis=0)
+        clip_gain = 10.0 ** ((getattr(clip, "gain_db", 0.0) if clip is not None else 0.0) / 20.0)
+        buffers.append((data * track.volume * clip_gain, sr))
+    return buffers
+
 def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48000) -> Path:
     buffers: List[Tuple[np.ndarray, int]] = []
-    for track in project.tracks:
-        if track.mute:
-            continue
-        clip_paths = {str(_resolve(clip.path)) for clip in track.clips}
-        sources: List[Tuple[Path, AudioClip | None]] = []
-        if track.render_path:
-            render_path = _resolve(track.render_path)
-            if str(render_path) not in clip_paths:
-                sources.append((render_path, None))
-        sources.extend((_resolve(clip.path), clip) for clip in track.clips)
-        for path, clip in sources:
-            if not path.exists():
-                continue
-            data, sr = read_audio(path)
-            if sr != sample_rate:
-                data = resample_linear(data, sr, sample_rate)
-                sr = sample_rate
-            if data.ndim == 1:
-                data = data[:, None]
-            start_ticks = getattr(clip, "start_ticks", 0) if clip is not None else 0
-            source_offset_ticks = getattr(clip, "offset_ticks", 0) if clip is not None else 0
-            duration_ticks = getattr(clip, "duration_ticks", None) if clip is not None else None
-            source_offset_seconds = project.seconds_between_ticks(start_ticks - source_offset_ticks, start_ticks) if clip is not None else project.ticks_to_seconds(source_offset_ticks)
-            source_start = int(round(source_offset_seconds * sample_rate))
-            source_end = len(data)
-            if duration_ticks is not None:
-                duration_seconds = project.tick_duration_seconds(start_ticks, duration_ticks) if clip is not None else project.ticks_to_seconds(duration_ticks)
-                source_end = min(source_end, source_start + int(round(duration_seconds * sample_rate)))
-            data = data[max(0, source_start):max(0, source_end)]
-            if not len(data):
-                continue
-            if clip is not None:
-                data = _apply_clip_fades(data, project, clip, sample_rate)
-                data = apply_automatic_crossfades(data, project, track, clip, sample_rate)
-            timeline_offset = int(round(project.ticks_to_seconds(start_ticks) * sample_rate))
-            if timeline_offset:
-                padding = np.zeros((timeline_offset, data.shape[1]), dtype=data.dtype)
-                data = np.concatenate([padding, data], axis=0)
-            clip_gain = 10.0 ** ((getattr(clip, "gain_db", 0.0) if clip is not None else 0.0) / 20.0)
-            buffers.append((data * track.volume * clip_gain, sr))
+    for track in audible_tracks(project):
+        buffers.extend(_track_audio_buffers(project, track, sample_rate))
     mixed = mix_tracks(buffers, sample_rate=sample_rate)
     return write_standards_compliant_master(mixed, output_path, sample_rate)
+
+
+def export_stems_zip(project: Project, output_path: Path, sample_rate: int = 48000) -> Path:
+    """Export audible tracks as individual post-volume WAV stems plus a truthful manifest."""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = tempfile.TemporaryDirectory(prefix="openace-stems-", dir=output_path.parent)
+    stem_dir = Path(temporary.name)
+    manifest = {"sample_rate": sample_rate, "format": "pcm_s24le wav", "processing": "track volume, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization", "tracks": [], "skipped": []}
+    used_names: set[str] = set()
+    for index, track in enumerate(audible_tracks(project), 1):
+        buffers = _track_audio_buffers(project, track, sample_rate)
+        mixed = mix_tracks(buffers, sample_rate=sample_rate)
+        peak = float(np.max(np.abs(mixed))) if mixed.size else 0.0
+        if not len(mixed) or peak < 1e-8:
+            manifest["skipped"].append({"track_id": track.id, "track_name": track.name, "reason": "no audible decoded audio"})
+            continue
+        base = re.sub(r"[^A-Za-z0-9._-]+", "_", track.name).strip("._") or f"track_{index}"
+        name = f"{index:02d}_{base}.wav"
+        while name in used_names:
+            name = f"{index:02d}_{base}_{len(used_names)}.wav"
+        used_names.add(name)
+        path = stem_dir / name
+        write_wav(path, mixed, sample_rate, normalize=False)
+        rms = float(np.sqrt(np.mean(np.square(mixed)))) if mixed.size else 0.0
+        manifest["tracks"].append({"track_id": track.id, "track_name": track.name, "type": track.type.value, "file": name, "peak": peak, "rms": rms, "volume": track.volume, "pan": track.pan, "solo": track.solo, "mute": track.mute})
+    if not manifest["tracks"]:
+        raise RuntimeError("no audible track audio available for stem export")
+    manifest_path = stem_dir / "stems_manifest.json"
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    try:
+        with zipfile.ZipFile(output_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+            archive.write(manifest_path, "stems_manifest.json")
+            for item in manifest["tracks"]:
+                archive.write(stem_dir / item["file"], item["file"])
+    finally:
+        temporary.cleanup()
+    return output_path
 
 
 def _ass_timestamp(seconds: float) -> str:

@@ -1,0 +1,38 @@
+{
+  "crossfade": {
+    "project_id": "project_7bf20a7da815",
+    "zip": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/stem_export/crossfade_stems.zip",
+    "seconds": 1.5,
+    "peak": 0.5656464099884033,
+    "overlap_mean_abs": 0.3366145016377171,
+    "overlap_min_abs": 0.0,
+    "overlap_max_abs": 0.5656464099884033,
+    "passed": false,
+    "interpretation": "initial coherent-tone expectation was invalid: equal-power gains sum coherently for identical phase, so this row is superseded by crossfade_envelope"
+  },
+  "tempo_aware_offset": {
+    "project_id": "project_dccf46f12e7e",
+    "zip": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/stem_export/tempo_offset_stems.zip",
+    "seconds": 3.0,
+    "first_nonzero_s": 2.000020833333333,
+    "last_nonzero_s": 2.9999375,
+    "expected_seconds": 3.0,
+    "max_abs_diff": 2.1979640330016537e-13,
+    "passed": true
+  },
+  "cli_mcp": {
+    "cli_zip_exists": true,
+    "mcp_zip_exists": true
+  },
+  "crossfade_envelope": {
+    "project_id": "project_d95a9b085bd8",
+    "zip": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/stem_export/crossfade_envelope_stems.zip",
+    "seconds": 1.5,
+    "max_abs_diff_vs_cosine_envelope": 2.3283064365386963e-07,
+    "rms_before_overlap": 0.2826083107090534,
+    "rms_overlap_center": 0.19983425187848494,
+    "rms_overlap_end": 0.03214245391433304,
+    "rms_after_overlap": 0.0,
+    "passed": true
+  }
+}

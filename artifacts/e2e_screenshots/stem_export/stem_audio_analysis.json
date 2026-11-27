@@ -1,0 +1,205 @@
+{
+  "baseline_stems.zip": {
+    "names": [
+      "stems_manifest.json",
+      "01_Lead_Vocal.wav",
+      "02_Harmony_Vocal.wav"
+    ],
+    "manifest": {
+      "sample_rate": 48000,
+      "format": "pcm_s24le wav",
+      "processing": "track volume, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization",
+      "tracks": [
+        {
+          "track_id": "track_67a3834687f8",
+          "track_name": "Lead Vocal",
+          "type": "vocal",
+          "file": "01_Lead_Vocal.wav",
+          "peak": 0.3182128965854645,
+          "rms": 0.1735442876815796,
+          "volume": 0.8,
+          "pan": 0.0,
+          "solo": false,
+          "mute": false
+        },
+        {
+          "track_id": "track_harmony_stemqa",
+          "track_name": "Harmony Vocal",
+          "type": "vocal",
+          "file": "02_Harmony_Vocal.wav",
+          "peak": 0.09967764467000961,
+          "rms": 0.03971037268638611,
+          "volume": 0.5,
+          "pan": 0.0,
+          "solo": false,
+          "mute": false
+        }
+      ],
+      "skipped": []
+    },
+    "wav_metrics": {
+      "01_Lead_Vocal.wav": {
+        "frames": 48000,
+        "seconds": 1.0,
+        "peak": 0.31821298599243164,
+        "rms": 0.17354427831490987,
+        "channels": 2
+      },
+      "02_Harmony_Vocal.wav": {
+        "frames": 72000,
+        "seconds": 1.5,
+        "peak": 0.0996776819229126,
+        "rms": 0.03971037207405588,
+        "channels": 2
+      }
+    },
+    "sample_rates": {
+      "01_Lead_Vocal.wav": 48000,
+      "02_Harmony_Vocal.wav": 48000
+    }
+  },
+  "mute_harmony_stems.zip": {
+    "names": [
+      "stems_manifest.json",
+      "01_Lead_Vocal.wav"
+    ],
+    "manifest": {
+      "sample_rate": 48000,
+      "format": "pcm_s24le wav",
+      "processing": "track volume, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization",
+      "tracks": [
+        {
+          "track_id": "track_67a3834687f8",
+          "track_name": "Lead Vocal",
+          "type": "vocal",
+          "file": "01_Lead_Vocal.wav",
+          "peak": 0.3182128965854645,
+          "rms": 0.1735442876815796,
+          "volume": 0.8,
+          "pan": 0.0,
+          "solo": false,
+          "mute": false
+        }
+      ],
+      "skipped": []
+    },
+    "wav_metrics": {
+      "01_Lead_Vocal.wav": {
+        "frames": 48000,
+        "seconds": 1.0,
+        "peak": 0.31821298599243164,
+        "rms": 0.17354427831490987,
+        "channels": 2
+      }
+    },
+    "sample_rates": {
+      "01_Lead_Vocal.wav": 48000
+    }
+  },
+  "solo_harmony_stems.zip": {
+    "names": [
+      "stems_manifest.json",
+      "01_Harmony_Vocal.wav"
+    ],
+    "manifest": {
+      "sample_rate": 48000,
+      "format": "pcm_s24le wav",
+      "processing": "track volume, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization",
+      "tracks": [
+        {
+          "track_id": "track_harmony_stemqa",
+          "track_name": "Harmony Vocal",
+          "type": "vocal",
+          "file": "01_Harmony_Vocal.wav",
+          "peak": 0.09967764467000961,
+          "rms": 0.03971037268638611,
+          "volume": 0.5,
+          "pan": 0.0,
+          "solo": true,
+          "mute": false
+        }
+      ],
+      "skipped": []
+    },
+    "wav_metrics": {
+      "01_Harmony_Vocal.wav": {
+        "frames": 72000,
+        "seconds": 1.5,
+        "peak": 0.0996776819229126,
+        "rms": 0.03971037207405588,
+        "channels": 2
+      }
+    },
+    "sample_rates": {
+      "01_Harmony_Vocal.wav": 48000
+    }
+  },
+  "exact_chain": {
+    "lead": {
+      "len_expected": 48000,
+      "len_actual": 48000,
+      "max_abs_diff": 1.043081283569336e-07,
+      "len_equal": true
+    },
+    "harmony": {
+      "len_expected": 72000,
+      "len_actual": 72000,
+      "max_abs_diff": 1.1891825124621391e-07,
+      "len_equal": true
+    },
+    "lead_channels_identical": true,
+    "harmony_channels_identical": true
+  },
+  "stem_cross_correlation": 0.0015469181871036158,
+  "mute_zip_track_names": [
+    "Lead Vocal"
+  ],
+  "solo_zip_track_names": [
+    "Harmony Vocal"
+  ],
+  "baseline_master.wav": {
+    "metrics": {
+      "frames": 72000,
+      "seconds": 1.5,
+      "peak": 0.4005929231643677,
+      "rms": 0.14122312803769482,
+      "channels": 2
+    },
+    "sample_rate": 48000
+  },
+  "mute_harmony_master.wav": {
+    "metrics": {
+      "frames": 48000,
+      "seconds": 1.0,
+      "peak": 0.27587854862213135,
+      "rms": 0.15045627988390062,
+      "channels": 2
+    },
+    "sample_rate": 48000
+  },
+  "solo_harmony_master.wav": {
+    "metrics": {
+      "frames": 72000,
+      "seconds": 1.5,
+      "peak": 0.31520843505859375,
+      "rms": 0.12557522428076417,
+      "channels": 2
+    },
+    "sample_rate": 48000
+  },
+  "master_semantics": {
+    "mute_master_vs_lead_stem_corr": 0.9999999999999512,
+    "mute_master_vs_harmony_stem_corr": 0.0015469189346700633,
+    "solo_master_vs_harmony_stem_corr": 0.9999999999993718,
+    "solo_master_vs_lead_stem_corr": 0.0015469151424466051,
+    "baseline_master_nonzero": true
+  },
+  "passed": {
+    "baseline_zip_two_real_distinct_stems": true,
+    "exact_volume_clip_settings_chain": true,
+    "mute_zip_only_lead": true,
+    "solo_zip_only_harmony": true,
+    "master_mute_follows_lead": true,
+    "master_solo_follows_harmony": true
+  }
+}
