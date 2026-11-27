@@ -166,7 +166,8 @@ export default function RenderPanel(props: Props) {
   async function importClipFile(file: File) {
     setError('')
     try {
-      await importAudioClip(props.project.id, file, props.playheadTicks)
+      const targetTrackId = props.track && props.track.type !== 'vocal' ? props.track.id : undefined
+      await importAudioClip(props.project.id, file, props.playheadTicks, targetTrackId)
     } catch (e: any) { setError(e.message || String(e)) }
   }
 

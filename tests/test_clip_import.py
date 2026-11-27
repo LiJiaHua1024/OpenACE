@@ -53,3 +53,27 @@ def test_import_audio_clip_rejects_invalid_audio(tmp_path, monkeypatch):
     with bad.open("rb") as handle:
         response = client.post(f"/api/projects/{project.id}/clips/import", files={"file": ("bad.wav", handle, "audio/wav")})
     assert response.status_code == 422
+
+
+def test_import_audio_clip_rejects_vocal_target_and_upload_names_are_unique(tmp_path, monkeypatch):
+    monkeypatch.setattr(app_module, "UPLOADS", tmp_path / "uploads")
+    (tmp_path / "uploads").mkdir()
+    store = ProjectStore(tmp_path / "projects")
+    monkeypatch.setattr(app_module, "store", store)
+    project = store.create("Clip target validation")
+    source = tmp_path / "source.wav"
+    sf.write(source, np.zeros(2400, dtype=np.float32), 24000)
+    client = TestClient(app_module.app)
+    vocal_track = project.tracks[0]
+    with source.open("rb") as handle:
+        response = client.post(
+            f"/api/projects/{project.id}/clips/import",
+            data={"track_id": vocal_track.id},
+            files={"file": ("source.wav", handle, "audio/wav")},
+        )
+    assert response.status_code == 422
+    with source.open("rb") as one, source.open("rb") as two:
+        first = client.post("/api/upload", files={"file": ("same.wav", one, "audio/wav")})
+        second = client.post("/api/upload", files={"file": ("same.wav", two, "audio/wav")})
+    assert first.status_code == 200 and second.status_code == 200
+    assert first.json()["path"] != second.json()["path"]

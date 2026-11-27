@@ -662,3 +662,13 @@ Implemented and verified:
 - Independent visible-Chrome QA verified nonzero-playhead import, live no-reload `Audio — clipimport` track creation, exact 1.0s→960-tick conversion at 120 BPM/480 PPQ, canvas position/width within 1–2px, drag/trim/reload persistence, corrupt-file rejection, and quantitative master-export inclusion (`RMS before=0.0`, inside=`0.17629`). Initial QA caught the missing uploaded-media URL path; after the fix, waveform bright pixels improved from 38/3 interior to 790/332 interior, uploaded WAV playback loaded and advanced the playhead, and reload retained the waveform. Evidence: `artifacts/e2e_screenshots/audio_clip_import/`.
 
 Validation after iteration 43: frontend production build passed; Python compile passed; full automated suite passed (103 collected tests).
+
+## Iteration 44 — arrangement media import hardening
+
+Implemented and verified:
+
+- Direct clip import now targets the currently selected audio/accompaniment track; selecting a vocal track intentionally falls back to a new audio track. The backend rejects explicit vocal-track targets rather than corrupting note-track semantics.
+- Generic `/api/upload` now writes unique persistent filenames instead of silently overwriting same-name media that may already be referenced by clips/jobs.
+- Regression covers vocal-target rejection and upload-name uniqueness. Independent visible-Chrome QA verified insertion into an existing selected audio track without duplicate track creation, vocal-selection fallback to a separate `Audio — vocaltarget` track, clean layout, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/audio_clip_import/target_semantics.png`.
+
+Validation after iteration 44: frontend production build passed; Python compile passed; full automated suite passed (104 collected tests).

@@ -38,3 +38,15 @@ After rebuilding, restarting the backend, verifying `/uploads/vocal.wav` returne
 Artifacts: `fix_waveform_peaks.png`, `fix_waveform_peaks_zoom.png`, `fix_reload_waveform_layout.png`, `audio_clip_import_fix_results.json`.
 
 Harness note: an earlier recheck hit a stale backend process that still returned 404; the server was force-restarted and `/uploads` was verified 200 before the valid recorded run.
+
+## Selected-track target semantics recheck
+
+Rebuilt/cache-busted visible-Chrome regression passed:
+
+- Existing project began with 2 tracks: vocal plus `Audio — clipimport` with 1 clip.
+- After visibly selecting the existing audio track and importing `targetsem.wav` at a nonzero playhead, track count stayed 2 and the same audio track had 2 clips (`clipimport`, `targetsem`); no duplicate track was created.
+- After visibly selecting the vocal track and importing `vocaltarget.wav`, a new `Audio — vocaltarget` audio track was created with 1 clip; the vocal track still had 0 clips.
+- Final arrangement/layout at 1272x837 showed the two clips on the existing audio track and the separate new audio-track clip clearly.
+- No console errors or network failures.
+
+Evidence: `target_semantics.png`, `target_semantics_audio_track.png`, `clip_target_semantics_results.json`.

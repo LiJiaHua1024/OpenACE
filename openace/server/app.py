@@ -426,7 +426,7 @@ def delete_voice(voice_id: str, unassign: bool = False):
 @app.post("/api/upload")
 async def upload_file(file: UploadFile = File(...)):
     safe = Path(file.filename or "upload.bin").name
-    destination = UPLOADS / safe
+    destination = UPLOADS / f"{new_id('upload')}_{safe}"
     with destination.open("wb") as handle:
         shutil.copyfileobj(file.file, handle)
     return {"path": str(destination), "name": safe, "size": destination.stat().st_size}
@@ -452,6 +452,8 @@ async def import_audio_clip(project_id: str, file: UploadFile = File(...), start
             track = project.track(track_id)
         except KeyError as exc:
             raise HTTPException(404, str(exc)) from exc
+        if track.type == TrackType.VOCAL:
+            raise HTTPException(422, "imported audio clips cannot be placed on vocal note tracks; select an audio/accompaniment track or omit track_id")
     else:
         track = project.add_track(Track(name=f"Audio — {Path(safe).stem}", type=TrackType.AUDIO, color="#ff8f5a"))
     duration_ticks = project.seconds_to_ticks(info.frames / info.samplerate)

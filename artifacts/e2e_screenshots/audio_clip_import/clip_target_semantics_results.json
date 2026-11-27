@@ -1,0 +1,86 @@
+{
+  "console_errors": [],
+  "network_failures": [],
+  "before": {
+    "track_count": 2,
+    "tracks": [
+      {
+        "id": "track_ad26dd6ee607",
+        "name": "Lead Vocal",
+        "type": "vocal",
+        "clips": 0,
+        "clip_labels": []
+      },
+      {
+        "id": "track_22c141dbdff9",
+        "name": "Audio \u2014 clipimport",
+        "type": "audio",
+        "clips": 1,
+        "clip_labels": [
+          "clipimport"
+        ]
+      }
+    ]
+  },
+  "after_audio_target": {
+    "track_count": 2,
+    "tracks": [
+      {
+        "id": "track_ad26dd6ee607",
+        "name": "Lead Vocal",
+        "type": "vocal",
+        "clips": 0,
+        "clip_labels": []
+      },
+      {
+        "id": "track_22c141dbdff9",
+        "name": "Audio \u2014 clipimport",
+        "type": "audio",
+        "clips": 2,
+        "clip_labels": [
+          "clipimport",
+          "targetsem"
+        ]
+      }
+    ]
+  },
+  "after_vocal_selected": {
+    "track_count": 3,
+    "tracks": [
+      {
+        "id": "track_ad26dd6ee607",
+        "name": "Lead Vocal",
+        "type": "vocal",
+        "clips": 0,
+        "clip_labels": []
+      },
+      {
+        "id": "track_22c141dbdff9",
+        "name": "Audio \u2014 clipimport",
+        "type": "audio",
+        "clips": 2,
+        "clip_labels": [
+          "clipimport",
+          "targetsem"
+        ]
+      },
+      {
+        "id": "track_3b1060913b0c",
+        "name": "Audio \u2014 vocaltarget",
+        "type": "audio",
+        "clips": 1,
+        "clip_labels": [
+          "vocaltarget"
+        ]
+      }
+    ]
+  },
+  "checks": {
+    "audio_target_same_track": true,
+    "no_duplicate_track_for_audio_target": true,
+    "vocal_selection_creates_audio_track": true,
+    "vocal_track_not_directly_used": true,
+    "no_console_network_errors": true
+  },
+  "passed": true
+}
