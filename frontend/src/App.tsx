@@ -48,7 +48,7 @@ export default function App() {
   const [timeline, setTimeline] = useState<TimelineState>({ scrollTicks: 0, pxPerBeat: 112 })
   const [repaintRange, setRepaintRange] = useState({ start: 0, end: 0 })
   const [jobs, setJobs] = useState<RenderJob[]>([])
-  const [projectList, setProjectList] = useState<{ id: string; title: string }[]>([])
+  const [projectList, setProjectList] = useState<{ id: string; title: string; bpm?: number; track_count?: number; updated_at?: number }[]>([])
   const [past, setPast] = useState<Project[]>([])
   const [future, setFuture] = useState<Project[]>([])
   const [error, setError] = useState('')
@@ -207,7 +207,6 @@ export default function App() {
   const openProject = useCallback(async (projectId: string) => {
     try {
       playback.current.sources.forEach(source => { try { source.stop() } catch {} })
-      playback.current.ctx?.close().catch(() => {})
       playback.current.sources = []
       cancelAnimationFrame(playback.current.raf)
       setPlaying(false)
@@ -232,10 +231,11 @@ export default function App() {
   }, [setProjectRef])
 
 
-  const duplicateCurrentProject = useCallback(async () => {
-    if (!projectRef.current) return
+  const duplicateProjectById = useCallback(async (projectId?: string) => {
+    const sourceId = projectId || projectRef.current?.id
+    if (!sourceId) return
     try {
-      const next = await api.duplicateProject(projectRef.current.id)
+      const next = await api.duplicateProject(sourceId)
       setProjectList(await api.listProjects())
       setProjectRef(next)
       setSelectedTrackId(next.tracks[0]?.id)
@@ -243,13 +243,20 @@ export default function App() {
     } catch (e: any) { setError(e.message || String(e)) }
   }, [setProjectRef])
 
-  const deleteCurrentProject = useCallback(async () => {
+  const deleteProjectById = useCallback(async (projectId?: string) => {
     const current = projectRef.current
-    if (!current || !window.confirm(`Delete project “${current.title}”? This cannot be undone.`)) return
+    const targetId = projectId || current?.id
+    if (!targetId) return
+    const targetTitle = targetId === current?.id ? current.title : (projectList.find(item => item.id === targetId)?.title || targetId)
+    if (!window.confirm(`Delete project “${targetTitle}”? This cannot be undone.`)) return
     try {
-      locallyDeletingProjectId.current = current.id
-      await api.deleteProject(current.id)
+      if (targetId === current?.id) locallyDeletingProjectId.current = targetId
+      await api.deleteProject(targetId)
       let list = await api.listProjects()
+      if (targetId !== current?.id) {
+        setProjectList(list)
+        return
+      }
       let next: Project
       if (list.length) next = await api.getProject(list[0].id)
       else {
@@ -261,7 +268,7 @@ export default function App() {
       setSelectedTrackId(next.tracks[0]?.id)
       setPlayheadTicks(0); setPast([]); setFuture([])
     } catch (e: any) { setError(e.message || String(e)) }
-  }, [setProjectRef])
+  }, [projectList, setProjectRef])
 
   const selectedTrack = project?.tracks.find(t => t.id === selectedTrackId) || project?.tracks[0]
 
@@ -466,8 +473,8 @@ export default function App() {
         onRedo={redo}
         onOpenProject={openProject}
         onNewProject={createNewProject}
-        onDuplicateProject={duplicateCurrentProject}
-        onDeleteProject={deleteCurrentProject}
+        onDuplicateProject={duplicateProjectById}
+        onDeleteProject={deleteProjectById}
         onImportMidi={file => void handleImportedProject(importMidi(file))}
         onImportUstx={file => void handleImportedProject(importUstx(file))}
         onImportAudio={handleImportAudio}

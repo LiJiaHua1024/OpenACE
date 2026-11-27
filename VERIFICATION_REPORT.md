@@ -750,3 +750,14 @@ Implemented and verified:
 - Backend regression verifies exact midpoint BPM/time/inverse roundtrip, dense 90 BPM midpoint export at tick 480 of a 120→60 ramp, endpoint fidelity, schema rejection of unknown curves, and preservation of existing step behavior. Independent visible-Chrome QA verified flat-vs-sloped pixels, drag/undo/redo/reload persistence, measurably different transport progression (`step 1.2` vs `linear 2.1` after ~1.7s), clean layout, and the overlay repair (`1920/180 → 2040/174.8` direct drag stayed linear). Evidence: `artifacts/e2e_screenshots/tempo_ramps/`.
 
 Validation after iteration 51: frontend production build passed; tempo-map suite passed; full automated suite passed (110 collected tests).
+
+## Iteration 52 — recent project manager
+
+Implemented and verified:
+
+- Transport now consolidates project operations into a professional **Projects** popover while preserving exact 1272×837 toolbar fit. The popover lists recent projects in backend order with updated date, track count, and BPM metadata; search filters titles; click-outside closes the panel.
+- Project rows support opening arbitrary projects, duplicating arbitrary non-current projects into editable copies, and deleting non-current projects without disrupting the open workspace. Current-project deletion retains the exactly-once fallback behavior.
+- The shared playback AudioContext is no longer closed during project switching, preserving the playback-cache architecture while sources/transport still stop correctly.
+- Independent visible-Chrome QA verified metadata rows, search, open/copy/delete flows, current fallback stability with zero accidental create posts, click-outside close, zero toolbar/body overflow, and zero final console/network failures. Evidence: `artifacts/e2e_screenshots/project_manager/`.
+
+Validation after iteration 52: frontend production build passed; browser QA passed. Backend behavior was unchanged apart from existing list metadata consumption; the immediately preceding full automated suite remained green at 110 collected tests.

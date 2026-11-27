@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import type { Project } from '../types'
 import { beatUnitTicks, ticksToSeconds } from '../tempo'
 
-interface ProjectSummary { id: string; title: string }
+interface ProjectSummary { id: string; title: string; bpm?: number; track_count?: number; updated_at?: number }
 interface Props {
   project: Project
   projects: ProjectSummary[]
@@ -23,8 +24,8 @@ interface Props {
   importingAudio?: boolean
   onOpenProject(projectId: string): void
   onNewProject(): void
-  onDuplicateProject(): void
-  onDeleteProject(): void
+  onDuplicateProject(projectId?: string): void
+  onDeleteProject(projectId?: string): void
 }
 
 function formatTime(project: Project, ticks: number) {
@@ -35,6 +36,8 @@ function formatTime(project: Project, ticks: number) {
 }
 
 export default function TransportBar(props: Props) {
+  const [managerOpen, setManagerOpen] = useState(false)
+  const [search, setSearch] = useState('')
   const unitTicks = beatUnitTicks(props.project)
   const numerator = props.project.time_signature.numerator
   const bars = Math.floor(props.playheadTicks / (unitTicks * numerator)) + 1
@@ -48,8 +51,30 @@ export default function TransportBar(props: Props) {
         {props.projects.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}
       </select>
       <button className="new-project" onClick={props.onNewProject} title="New project">＋ New</button>
-      <button className="icon-button project-action" onClick={props.onDuplicateProject} title="Duplicate project">Copy</button>
-      <button className="icon-button project-action danger" onClick={props.onDeleteProject} title="Delete project">×</button>
+      <button className={`icon-button project-action ${managerOpen ? 'active' : ''}`} onClick={() => setManagerOpen(open => !open)} title="Project manager">Projects</button>
+      {managerOpen && (
+        <>
+          <div className="project-manager-backdrop" onClick={() => setManagerOpen(false)} />
+          <div className="project-manager-popover">
+          <input className="project-manager-search" autoFocus placeholder="Search projects…" value={search} onChange={event => setSearch(event.target.value)} />
+          <div className="project-manager-list">
+            {props.projects
+              .filter(item => !search.trim() || item.title.toLowerCase().includes(search.trim().toLowerCase()))
+              .map(item => (
+                <div className={`project-manager-row ${item.id === props.project.id ? 'current' : ''}`} key={item.id}>
+                  <button className="project-open-button" onClick={() => { props.onOpenProject(item.id); setManagerOpen(false) }}>
+                    <strong>{item.title}</strong>
+                    <span>{item.updated_at ? new Date(item.updated_at * 1000).toLocaleDateString() : 'recent'} · {item.track_count ?? '?'} tracks · {item.bpm ?? props.project.bpm} BPM</span>
+                  </button>
+                  <button onClick={() => { props.onDuplicateProject(item.id); setManagerOpen(false) }}>Copy</button>
+                  <button className="danger" onClick={() => props.onDeleteProject(item.id)}>Delete</button>
+                </div>
+              ))}
+            {!props.projects.length && <div className="empty-state">No projects</div>}
+          </div>
+          </div>
+        </>
+      )}
       <input className="title-input" value={props.project.title} onChange={e => props.onTitleChange(e.target.value)} />
       <div className="transport-controls">
         <button className="icon-button" title="Undo Ctrl+Z" disabled={!props.canUndo} onClick={props.onUndo}>↶</button>
