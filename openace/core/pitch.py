@@ -5,7 +5,7 @@ from typing import Iterable, List, Sequence, Tuple
 
 import numpy as np
 
-from .models import Note
+from .models import Note, Project
 
 
 def midi_to_hz(pitch: float) -> float:
@@ -147,26 +147,29 @@ def note_expression_cents(note: Note, offset_ms: float, duration_ms: float) -> f
             )
     return float(cents)
 
-def pitch_curve_for_notes(ppq: int, bpm: float, notes: Sequence[Note], frame_ms: float = 10.0, pitch_automation: Sequence | None = None) -> Tuple[np.ndarray, np.ndarray]:
-    """Build target time/F0 curve in seconds/Hz, with NaN in rests."""
+def pitch_curve_for_notes(project: Project, notes: Sequence[Note], frame_ms: float = 10.0, pitch_automation: Sequence | None = None) -> Tuple[np.ndarray, np.ndarray]:
+    """Build target time/F0 curve in seconds/Hz through the piecewise tempo map."""
     if not notes:
         return np.zeros(0), np.zeros(0)
-    seconds_per_tick = 60.0 / bpm / ppq
-    end_s = max(n.end_ticks for n in notes) * seconds_per_tick
+    end_s = max(project.ticks_to_seconds(note.end_ticks) for note in notes)
     frames = max(1, int(np.ceil(end_s * 1000.0 / frame_ms)) + 1)
     times = np.arange(frames) * frame_ms / 1000.0
     f0 = np.full(frames, np.nan)
     for note in notes:
-        start = int(np.floor(note.start_ticks * seconds_per_tick * 1000.0 / frame_ms))
-        end = int(np.ceil(note.end_ticks * seconds_per_tick * 1000.0 / frame_ms))
-        duration_ms = note.duration_ticks * seconds_per_tick * 1000.0
+        note_start_ms = project.ticks_to_seconds(note.start_ticks) * 1000.0
+        note_end_ms = project.ticks_to_seconds(note.end_ticks) * 1000.0
+        duration_ms = max(1e-9, note_end_ms - note_start_ms)
+        start = int(np.floor(note_start_ms / frame_ms))
+        end = int(np.ceil(note_end_ms / frame_ms))
         base = midi_to_hz(note.pitch)
         for frame in range(start, min(end, frames)):
-            offset_ms = frame * frame_ms - note.start_ticks * seconds_per_tick * 1000.0
+            absolute_ms = frame * frame_ms
+            offset_ms = absolute_ms - note_start_ms
             cents = note_expression_cents(note, offset_ms, duration_ms)
             if pitch_automation is not None:
                 from openace.core.expression import envelope_value
 
-                cents += envelope_value(pitch_automation, note.start_ticks + offset_ms / 1000.0 / seconds_per_tick, default=0.0)
+                absolute_ticks = project.seconds_to_ticks_float(absolute_ms / 1000.0)
+                cents += envelope_value(pitch_automation, absolute_ticks, default=0.0)
             f0[frame] = base * (2.0 ** (cents / 1200.0))
     return times, f0

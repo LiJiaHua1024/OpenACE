@@ -13,7 +13,6 @@ def export_midi(project: Project, output_path: Path) -> Path:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     mid = mido.MidiFile(type=1, ticks_per_beat=project.ppq, charset="utf-8")
     tempo_track = mido.MidiTrack()
-    tempo_track.append(mido.MetaMessage("set_tempo", tempo=mido.bpm2tempo(project.bpm), time=0))
     tempo_track.append(
         mido.MetaMessage(
             "time_signature",
@@ -22,6 +21,19 @@ def export_midi(project: Project, output_path: Path) -> Path:
             time=0,
         )
     )
+    tempo_points = project.normalized_tempo_map()
+    last_tempo_tick = 0
+    for tempo_point in tempo_points:
+        tick = max(0, int(round(tempo_point.ticks)))
+        tempo_track.append(
+            mido.MetaMessage(
+                "set_tempo",
+                tempo=mido.bpm2tempo(tempo_point.bpm),
+                time=max(0, tick - last_tempo_tick),
+            )
+        )
+        last_tempo_tick = tick
+    tempo_track.append(mido.MetaMessage("end_of_track", time=0))
     mid.tracks.append(tempo_track)
     for track in project.tracks:
         if track.type != TrackType.VOCAL:

@@ -1,4 +1,5 @@
 import type { Project } from '../types'
+import { ticksToSeconds } from '../tempo'
 
 interface ProjectSummary { id: string; title: string }
 interface Props {
@@ -26,7 +27,7 @@ interface Props {
 }
 
 function formatTime(project: Project, ticks: number) {
-  const seconds = ticks / project.ppq * 60 / project.bpm
+  const seconds = ticksToSeconds(project, ticks)
   const m = Math.floor(seconds / 60)
   const s = seconds - m * 60
   return `${String(m).padStart(2, '0')}:${s.toFixed(2).padStart(5, '0')}`

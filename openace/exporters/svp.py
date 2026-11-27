@@ -34,10 +34,9 @@ def export_svp(project: Project, output_path: Path) -> Path:
     for index, track in enumerate(project.tracks):
         is_vocal = track.type == TrackType.VOCAL
         notes = []
-        seconds_per_tick = 60.0 / project.bpm / project.ppq
         for note in track.sorted_notes():
             phonemes = " ".join(p.symbol for p in note.phonemes)
-            note_seconds = note.duration_ticks * seconds_per_tick
+            note_seconds = project.tick_duration_seconds(note.start_ticks, note.duration_ticks)
             notes.append(
                 {
                     "musicalType": "singing",
@@ -125,7 +124,10 @@ def export_svp(project: Project, output_path: Path) -> Path:
                     "denominator": project.time_signature.denominator,
                 }
             ],
-            "tempo": [{"position": 0, "bpm": project.bpm}],
+            "tempo": [
+                {"position": _units(project, point.ticks), "bpm": point.bpm}
+                for point in project.normalized_tempo_map()
+            ],
         },
         "library": [],
         "tracks": tracks,

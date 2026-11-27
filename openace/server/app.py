@@ -117,8 +117,8 @@ def validate_project_editing_invariants(project: Project) -> None:
         for track in project.vocal_tracks():
             for note in track.notes:
                 if note.lyric.strip():
-                    ensure_note_phonemes(note, track.language, project.ticks_to_seconds(note.duration_ticks) * 1000.0)
-            validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm)
+                    ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
+            validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm, project=project)
     except (PhonemeError, ValueError) as exc:
         raise HTTPException(422, str(exc)) from exc
 

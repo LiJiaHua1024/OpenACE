@@ -60,8 +60,8 @@ def cmd_add_note(args) -> None:
         )
     )
     if args.lyric:
-        ensure_note_phonemes(note, track.language, project.ticks_to_seconds(note.duration_ticks) * 1000.0)
-    validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm)
+        ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
+    validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm, project=project)
     store.save(project)
     emit(note.model_dump(mode="json"))
 
@@ -73,8 +73,8 @@ def cmd_validate(args) -> None:
     for track in project.tracks:
         for note in track.notes:
             if note.lyric:
-                ensure_note_phonemes(note, track.language, project.ticks_to_seconds(note.duration_ticks) * 1000.0)
-        anchors = validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm)
+                ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
+        anchors = validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm, project=project)
         result["tracks"].append({"track": track.id, "notes": len(track.notes), "anchors": len(anchors)})
     store.save(project)
     emit(result)

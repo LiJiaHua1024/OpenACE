@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { EnvelopePoint, Note, Phoneme, Project, TimelineState, Track } from '../types'
+import { tickDurationSeconds } from '../tempo'
 
 const LANE_HEIGHT = 148
 const KEY_WIDTH = 64
@@ -49,7 +50,7 @@ export default function AutomationLane(props: Props) {
   }
 
   function noteDurationMs(note: Note) {
-    return Math.max(1, note.duration_ticks * 60000 / props.project.bpm / ppq)
+    return Math.max(1, tickDurationSeconds(props.project, note.start_ticks, note.duration_ticks) * 1000)
   }
 
   function noteLayout(note: Note) {

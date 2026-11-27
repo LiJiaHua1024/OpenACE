@@ -8,6 +8,16 @@ _NEUTRAL = 0.5
 _DYNAMIC_RANGE_DB = 12.0
 
 
+def _seconds_to_ticks_array(project: Project, seconds: np.ndarray) -> np.ndarray:
+    """Vectorized inverse of Project.ticks_to_seconds for automation DSP."""
+    points = project.normalized_tempo_map()
+    point_ticks = np.asarray([point.ticks for point in points], dtype=np.float64)
+    point_bpms = np.asarray([point.bpm for point in points], dtype=np.float64)
+    anchor_seconds = np.asarray([project.ticks_to_seconds(point.ticks) for point in points], dtype=np.float64)
+    indexes = np.clip(np.searchsorted(anchor_seconds, seconds, side="right") - 1, 0, len(points) - 1)
+    return point_ticks[indexes] + (seconds - anchor_seconds[indexes]) * point_bpms[indexes] / 60.0 * project.ppq
+
+
 def envelope_value(points: list[EnvelopePoint], ticks: float, default: float = _NEUTRAL) -> float:
     """Linearly interpolate a project-time automation envelope."""
     if not points:
@@ -39,7 +49,6 @@ def apply_dynamic_envelope(audio: np.ndarray, sample_rate: int, project: Project
         return audio, False
     if audio.ndim == 1:
         audio = audio[:, None]
-    seconds_per_tick = 60.0 / project.bpm / project.ppq
     ordered = sorted(points, key=lambda point: point.ticks)
     point_ticks = np.asarray([point.ticks for point in ordered], dtype=np.float64)
     point_values = np.clip(np.asarray([point.value for point in ordered], dtype=np.float64), 0.0, 1.0)
@@ -48,7 +57,8 @@ def apply_dynamic_envelope(audio: np.ndarray, sample_rate: int, project: Project
     chunk_size = 262144
     for start in range(0, len(audio), chunk_size):
         end = min(len(audio), start + chunk_size)
-        sample_ticks = (start + np.arange(end - start, dtype=np.float64)) / sample_rate / seconds_per_tick
+        sample_seconds = (start + np.arange(end - start, dtype=np.float64)) / sample_rate
+        sample_ticks = _seconds_to_ticks_array(project, sample_seconds)
         values = np.interp(sample_ticks, point_ticks, point_values, left=point_values[0], right=point_values[-1])
         gains = 10.0 ** (((values - _NEUTRAL) * _DYNAMIC_RANGE_DB) / 20.0)
         processed[start:end] *= gains[:, None].astype(np.float32)
@@ -77,7 +87,6 @@ def apply_air_envelope(audio: np.ndarray, sample_rate: int, project: Project, tr
     sos = signal.butter(2, min(3000.0, sample_rate * 0.45), btype="lowpass", fs=sample_rate, output="sos")
     low = signal.sosfiltfilt(sos, mono_reference)
     residue = (mono_reference - low)[:, None]
-    seconds_per_tick = 60.0 / project.bpm / project.ppq
     ordered = sorted(points, key=lambda point: point.ticks)
     point_ticks = np.asarray([point.ticks for point in ordered], dtype=np.float64)
     point_values = np.clip(np.asarray([point.value for point in ordered], dtype=np.float64), 0.0, 1.0)
@@ -85,7 +94,8 @@ def apply_air_envelope(audio: np.ndarray, sample_rate: int, project: Project, tr
     chunk_size = 262144
     for start in range(0, len(processed), chunk_size):
         end = min(len(processed), start + chunk_size)
-        sample_ticks = (start + np.arange(end - start, dtype=np.float64)) / sample_rate / seconds_per_tick
+        sample_seconds = (start + np.arange(end - start, dtype=np.float64)) / sample_rate
+        sample_ticks = _seconds_to_ticks_array(project, sample_seconds)
         values = np.interp(sample_ticks, point_ticks, point_values, left=point_values[0], right=point_values[-1])
         bipolar = (values - _NEUTRAL) * 2.0
         amounts = np.where(bipolar >= 0.0, bipolar * 1.8, bipolar * 0.8)
@@ -117,7 +127,6 @@ def apply_energy_envelope(audio: np.ndarray, sample_rate: int, project: Project,
     cutoff = min(5200.0, sample_rate * 0.38)
     sos = signal.butter(2, cutoff, btype="lowpass", fs=sample_rate, output="sos")
     softened = signal.sosfiltfilt(sos, source, axis=0)
-    seconds_per_tick = 60.0 / project.bpm / project.ppq
     ordered = sorted(points, key=lambda point: point.ticks)
     point_ticks = np.asarray([point.ticks for point in ordered], dtype=np.float64)
     point_values = np.clip(np.asarray([point.value for point in ordered], dtype=np.float64), 0.0, 1.0)
@@ -125,7 +134,8 @@ def apply_energy_envelope(audio: np.ndarray, sample_rate: int, project: Project,
     chunk_size = 262144
     for start in range(0, len(processed), chunk_size):
         end = min(len(processed), start + chunk_size)
-        sample_ticks = (start + np.arange(end - start, dtype=np.float64)) / sample_rate / seconds_per_tick
+        sample_seconds = (start + np.arange(end - start, dtype=np.float64)) / sample_rate
+        sample_ticks = _seconds_to_ticks_array(project, sample_seconds)
         values = np.interp(sample_ticks, point_ticks, point_values, left=point_values[0], right=point_values[-1])
         bipolar = (values - _NEUTRAL) * 2.0
         positive = np.clip(bipolar, 0.0, 1.0)[:, None].astype(np.float32)
@@ -160,7 +170,6 @@ def apply_tension_envelope(audio: np.ndarray, sample_rate: int, project: Project
     low = signal.sosfiltfilt(low_sos, source, axis=0)
     high = signal.sosfiltfilt(high_sos, source, axis=0)
     presence = high - low
-    seconds_per_tick = 60.0 / project.bpm / project.ppq
     ordered = sorted(points, key=lambda point: point.ticks)
     point_ticks = np.asarray([point.ticks for point in ordered], dtype=np.float64)
     point_values = np.clip(np.asarray([point.value for point in ordered], dtype=np.float64), 0.0, 1.0)
@@ -168,7 +177,8 @@ def apply_tension_envelope(audio: np.ndarray, sample_rate: int, project: Project
     chunk_size = 262144
     for start in range(0, len(processed), chunk_size):
         end = min(len(processed), start + chunk_size)
-        sample_ticks = (start + np.arange(end - start, dtype=np.float64)) / sample_rate / seconds_per_tick
+        sample_seconds = (start + np.arange(end - start, dtype=np.float64)) / sample_rate
+        sample_ticks = _seconds_to_ticks_array(project, sample_seconds)
         values = np.interp(sample_ticks, point_ticks, point_values, left=point_values[0], right=point_values[-1])
         bipolar = (values - _NEUTRAL) * 2.0
         amounts = (bipolar * 0.75)[:, None].astype(np.float32)
@@ -202,7 +212,6 @@ def apply_falsetto_envelope(audio: np.ndarray, sample_rate: int, project: Projec
     chest = signal.sosfiltfilt(chest_sos, source, axis=0)
     lowpassed_upper = signal.sosfiltfilt(upper_sos, source, axis=0)
     upper = source - lowpassed_upper
-    seconds_per_tick = 60.0 / project.bpm / project.ppq
     ordered = sorted(points, key=lambda point: point.ticks)
     point_ticks = np.asarray([point.ticks for point in ordered], dtype=np.float64)
     point_values = np.clip(np.asarray([point.value for point in ordered], dtype=np.float64), 0.0, 1.0)
@@ -210,7 +219,8 @@ def apply_falsetto_envelope(audio: np.ndarray, sample_rate: int, project: Projec
     chunk_size = 262144
     for start in range(0, len(processed), chunk_size):
         end = min(len(processed), start + chunk_size)
-        sample_ticks = (start + np.arange(end - start, dtype=np.float64)) / sample_rate / seconds_per_tick
+        sample_seconds = (start + np.arange(end - start, dtype=np.float64)) / sample_rate
+        sample_ticks = _seconds_to_ticks_array(project, sample_seconds)
         values = np.interp(sample_ticks, point_ticks, point_values, left=point_values[0], right=point_values[-1])
         bipolar = (values - _NEUTRAL) * 2.0
         positive = np.clip(bipolar, 0.0, 1.0)[:, None].astype(np.float32)

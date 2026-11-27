@@ -68,15 +68,21 @@ def apply_automatic_crossfades(data: np.ndarray, project: Project, track: Track,
         return data
     processed = np.array(data, dtype=np.float32, copy=True)
     clip_start = clip.start_ticks
-    ticks_per_second = project.ppq * project.bpm / 60.0
+    clip_end = clip.start_ticks + clip.duration_ticks
+    clip_start_seconds = project.ticks_to_seconds(clip_start)
+    clip_duration_seconds = project.tick_duration_seconds(clip_start, clip.duration_ticks)
     for interval in intervals:
-        local_start = max(0.0, (interval.start_ticks - clip_start) / ticks_per_second)
-        local_end = min(clip.duration_ticks / ticks_per_second, (interval.end_ticks - clip_start) / ticks_per_second)
+        local_start = max(0.0, project.seconds_between_ticks(clip_start, interval.start_ticks))
+        local_end = min(clip_duration_seconds, project.seconds_between_ticks(clip_start, min(interval.end_ticks, clip_end)))
         first = max(0, int(math.floor(local_start * sample_rate)))
         last = min(len(processed), int(math.ceil(local_end * sample_rate)))
         if last <= first:
             continue
-        positions = clip_start + ((first + np.arange(last - first, dtype=np.float64)) / sample_rate) * ticks_per_second
+        local_seconds = (first + np.arange(last - first, dtype=np.float64)) / sample_rate
+        positions = np.asarray([
+            project.seconds_to_ticks_float(clip_start_seconds + float(offset))
+            for offset in local_seconds
+        ])
         progress = np.clip((positions - interval.start_ticks) / max(1e-9, interval.end_ticks - interval.start_ticks), 0.0, 1.0)
         if interval.role == "outgoing":
             shape = np.cos(progress * np.pi / 2.0)

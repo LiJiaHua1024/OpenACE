@@ -80,6 +80,7 @@ export interface Project {
   title: string
   ppq: number
   bpm: number
+  tempo_map?: { ticks: number; bpm: number }[]
   time_signature: { numerator: number; denominator: number }
   tracks: Track[]
   created_at: number

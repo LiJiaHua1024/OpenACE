@@ -217,13 +217,78 @@ class Project(BaseModel):
     def ticks_to_beats(self, ticks: float) -> float:
         return ticks / self.ppq
 
+    def normalized_tempo_map(self) -> List[TempoPoint]:
+        """Return sorted tempo points with a deterministic anchor at tick zero."""
+        points = sorted((point for point in (self.tempo_map or []) if point.ticks > 0), key=lambda point: point.ticks)
+        deduped: List[TempoPoint] = []
+        for point in points:
+            bpm = max(1.0, float(point.bpm))
+            if deduped and deduped[-1].ticks == point.ticks:
+                deduped[-1] = TempoPoint(ticks=int(point.ticks), bpm=bpm)
+            else:
+                deduped.append(TempoPoint(ticks=int(point.ticks), bpm=bpm))
+        # Project.bpm is the editing surface's canonical tick-zero tempo. Later
+        # tempo points automate after that anchor; this preserves existing projects
+        # whose default tempo map was not updated when the BPM transport changed.
+        return [TempoPoint(ticks=0, bpm=max(1.0, float(self.bpm)))] + deduped
+
+    def bpm_at(self, ticks: float) -> float:
+        """Return the active piecewise tempo at a musical timeline position."""
+        bpm = self.normalized_tempo_map()[0].bpm
+        for point in self.normalized_tempo_map():
+            if point.ticks <= ticks:
+                bpm = point.bpm
+            else:
+                break
+        return bpm
+
     def ticks_to_seconds(self, ticks: float) -> float:
-        # The current project model supports a tempo map for export but intentionally
-        # uses the project base tempo for editing until multiple tempo automation lands.
-        return self.ticks_to_beats(ticks) * 60.0 / self.bpm
+        """Convert absolute musical ticks to seconds through the piecewise tempo map."""
+        points = self.normalized_tempo_map()
+        elapsed = 0.0
+        cursor_ticks = points[0].ticks
+        cursor_bpm = points[0].bpm
+        if ticks <= cursor_ticks:
+            return (ticks - cursor_ticks) / self.ppq * 60.0 / cursor_bpm
+        for point in points[1:]:
+            if ticks <= point.ticks:
+                return elapsed + (ticks - cursor_ticks) / self.ppq * 60.0 / cursor_bpm
+            elapsed += (point.ticks - cursor_ticks) / self.ppq * 60.0 / cursor_bpm
+            cursor_ticks = point.ticks
+            cursor_bpm = point.bpm
+        return elapsed + (ticks - cursor_ticks) / self.ppq * 60.0 / cursor_bpm
+
+    def seconds_to_ticks_float(self, seconds: float) -> float:
+        """Invert absolute seconds through the piecewise tempo map without rounding."""
+        points = self.normalized_tempo_map()
+        first = points[0]
+        if seconds <= 0.0:
+            return first.ticks + seconds * first.bpm / 60.0 * self.ppq
+        elapsed = 0.0
+        cursor_ticks = float(first.ticks)
+        cursor_bpm = first.bpm
+        for point in points[1:]:
+            segment_seconds = (point.ticks - cursor_ticks) / self.ppq * 60.0 / cursor_bpm
+            if seconds <= elapsed + segment_seconds:
+                return cursor_ticks + (seconds - elapsed) * cursor_bpm / 60.0 * self.ppq
+            elapsed += segment_seconds
+            cursor_ticks = float(point.ticks)
+            cursor_bpm = point.bpm
+        return cursor_ticks + (seconds - elapsed) * cursor_bpm / 60.0 * self.ppq
 
     def seconds_to_ticks(self, seconds: float) -> int:
-        return int(round(seconds * self.bpm / 60.0 * self.ppq))
+        return int(round(self.seconds_to_ticks_float(seconds)))
+
+    def seconds_between_ticks(self, start_ticks: float, end_ticks: float) -> float:
+        return self.ticks_to_seconds(end_ticks) - self.ticks_to_seconds(start_ticks)
+
+    def tick_duration_seconds(self, start_ticks: float, duration_ticks: float) -> float:
+        return self.seconds_between_ticks(start_ticks, start_ticks + duration_ticks)
+
+    def seconds_to_ticks_from(self, start_ticks: float, seconds: float) -> int:
+        """Convert a duration in seconds starting at a timeline position into ticks."""
+        start_seconds = self.ticks_to_seconds(start_ticks)
+        return int(round(self.seconds_to_ticks_float(start_seconds + seconds) - start_ticks))
 
     def dump_json(self) -> str:
         return self.model_dump_json(indent=2)

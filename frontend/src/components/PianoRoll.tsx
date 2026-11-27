@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { api } from '../api'
 import type { Note, Project, TimelineState, Track } from '../types'
+import { tickDurationSeconds } from '../tempo'
 
 const KEY_WIDTH = 64
 const RULER_HEIGHT = 30
@@ -255,7 +256,7 @@ export default function PianoRoll(props: Props) {
           }
           if (note.vibrato && w > 34) {
             const startX = x + Math.max(0, Math.min(0.95, note.vibrato.start_ratio)) * w
-            const seconds = note.duration_ticks * 60 / props.project.bpm / ppq
+            const seconds = tickDurationSeconds(props.project, note.start_ticks, note.duration_ticks)
             const amplitude = Math.max(1.2, Math.min(view.rowHeight * 0.24, note.vibrato.depth_cents / 100 * view.rowHeight * 0.28))
             ctx.strokeStyle = selected ? '#fff7a8' : '#ffd76dcc'
             ctx.lineWidth = 1
@@ -417,7 +418,7 @@ export default function PianoRoll(props: Props) {
   }
 
   function noteDurationMs(note: Note) {
-    return note.duration_ticks * 60000 / props.project.bpm / ppq
+    return tickDurationSeconds(props.project, note.start_ticks, note.duration_ticks) * 1000
   }
 
   function pitchPointPosition(note: Note, point: { offset_ms: number; cents: number }) {

@@ -65,7 +65,10 @@ def export_vpr(project: Project, output_path: Path) -> Path:
         "masterTrack": {
             "samplingRate": 48000,
             "loop": {"isEnabled": False, "startTick": 0, "endTick": 0},
-            "tempo": {"events": [{"posTick": 0, "bpm": int(round(project.bpm * 100))}]},
+            "tempo": {"events": [
+                {"posTick": _vpr_ticks(project, point.ticks), "bpm": int(round(point.bpm * 100))}
+                for point in project.normalized_tempo_map()
+            ]},
             "timeSig": {"events": [{"posTick": 0, "numerator": project.time_signature.numerator, "denominator": project.time_signature.denominator}]},
             "volume": {"events": [{"posTick": 0, "value": 100}]},
         },

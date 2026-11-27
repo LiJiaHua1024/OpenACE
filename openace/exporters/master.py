@@ -26,8 +26,14 @@ def _apply_clip_fades(data: np.ndarray, project: Project, clip: AudioClip, sampl
         return data
     processed = np.array(data, dtype=np.float32, copy=True)
     half = len(processed) // 2
-    fade_in = min(half, int(round(project.ticks_to_seconds(max(0, clip.fade_in_ticks)) * sample_rate)))
-    fade_out = min(half, int(round(project.ticks_to_seconds(max(0, clip.fade_out_ticks)) * sample_rate)))
+    fade_in_seconds = project.tick_duration_seconds(clip.start_ticks, max(0, clip.fade_in_ticks))
+    if clip.duration_ticks is not None:
+        end_ticks = clip.start_ticks + clip.duration_ticks
+        fade_out_seconds = project.tick_duration_seconds(end_ticks - max(0, clip.fade_out_ticks), max(0, clip.fade_out_ticks))
+    else:
+        fade_out_seconds = project.tick_duration_seconds(clip.start_ticks, max(0, clip.fade_out_ticks))
+    fade_in = min(half, int(round(fade_in_seconds * sample_rate)))
+    fade_out = min(half, int(round(fade_out_seconds * sample_rate)))
     if fade_in > 1:
         processed[:fade_in] *= np.linspace(0.0, 1.0, fade_in, dtype=np.float32)[:, None]
     if fade_out > 1:
@@ -162,10 +168,12 @@ def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48
             start_ticks = getattr(clip, "start_ticks", 0) if clip is not None else 0
             source_offset_ticks = getattr(clip, "offset_ticks", 0) if clip is not None else 0
             duration_ticks = getattr(clip, "duration_ticks", None) if clip is not None else None
-            source_start = int(round(project.ticks_to_seconds(source_offset_ticks) * sample_rate))
+            source_offset_seconds = project.seconds_between_ticks(start_ticks - source_offset_ticks, start_ticks) if clip is not None else project.ticks_to_seconds(source_offset_ticks)
+            source_start = int(round(source_offset_seconds * sample_rate))
             source_end = len(data)
             if duration_ticks is not None:
-                source_end = min(source_end, source_start + int(round(project.ticks_to_seconds(duration_ticks) * sample_rate)))
+                duration_seconds = project.tick_duration_seconds(start_ticks, duration_ticks) if clip is not None else project.ticks_to_seconds(duration_ticks)
+                source_end = min(source_end, source_start + int(round(duration_seconds * sample_rate)))
             data = data[max(0, source_start):max(0, source_end)]
             if not len(data):
                 continue

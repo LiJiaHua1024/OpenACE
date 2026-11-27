@@ -121,7 +121,7 @@ def test_note_pitch_handles_are_interpolated_into_soulx_and_diagnostic_f0():
     rendered = _f0_for_notes(project, [bent], 1000)
     assert rendered[12] / base[12] == pytest.approx(2 ** (48 / 1200), rel=0.002)
 
-    _, diagnostic_f0 = pitch_curve_for_notes(project.ppq, project.bpm, [bent], frame_ms=10.0)
+    _, diagnostic_f0 = pitch_curve_for_notes(project, [bent], frame_ms=10.0)
     base_hz = 261.6255653005986
     assert diagnostic_f0[25] / base_hz == pytest.approx(2 ** (50 / 1200), rel=0.002)
 
@@ -133,8 +133,8 @@ def test_diagnostic_target_f0_includes_track_pitch_automation():
     project = Project(title="diagnostic automation")
     note = Note(start_ticks=0, duration_ticks=960, pitch=60, lyric="你")
     automation = [EnvelopePoint(ticks=0, value=0.0), EnvelopePoint(ticks=960, value=100.0)]
-    _, plain = pitch_curve_for_notes(project.ppq, project.bpm, [note], frame_ms=10.0)
-    _, automated = pitch_curve_for_notes(project.ppq, project.bpm, [note], frame_ms=10.0, pitch_automation=automation)
+    _, plain = pitch_curve_for_notes(project, [note], frame_ms=10.0)
+    _, automated = pitch_curve_for_notes(project, [note], frame_ms=10.0, pitch_automation=automation)
     assert automated[50] / plain[50] == pytest.approx(2 ** (50 / 1200), rel=0.002)
 
 

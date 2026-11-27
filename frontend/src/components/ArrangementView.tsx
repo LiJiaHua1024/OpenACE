@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { renderFileUrl } from '../api'
 import { crossfadeGainAt, crossfadeIntervals } from '../crossfade'
 import type { AudioClip, Project, TimelineState, Track } from '../types'
+import { secondsBetweenTicks, secondsToTicks, secondsToTicksFrom, tickDurationSeconds, ticksToSeconds } from '../tempo'
 
 const LABEL_WIDTH = 64
 const RULER_HEIGHT = 24
@@ -175,9 +176,8 @@ export default function ArrangementView(props: Props) {
             ctx.lineWidth = 1
             const center = y + ROW_HEIGHT / 2 + 2
             const usable = Math.max(1, w - 10)
-            const secondsPerTick = 60 / (props.project.bpm * ppq)
-            const sourceOffset = (clip.offset_ticks || 0) * secondsPerTick
-            const visibleDuration = duration * secondsPerTick
+            const sourceOffset = secondsBetweenTicks(props.project, clip.start_ticks - (clip.offset_ticks || 0), clip.start_ticks)
+            const visibleDuration = tickDurationSeconds(props.project, clip.start_ticks, duration)
             const startRatio = Math.max(0, Math.min(1, sourceOffset / Math.max(0.001, waveform.durationSeconds)))
             const endRatio = Math.max(startRatio, Math.min(1, (sourceOffset + visibleDuration) / Math.max(0.001, waveform.durationSeconds)))
             for (let px = 0; px < usable; px++) {
@@ -238,8 +238,8 @@ export default function ArrangementView(props: Props) {
         }
       })
       if (props.repaintRange.end > props.repaintRange.start) {
-        const startTicks = props.repaintRange.start * props.project.bpm * ppq / 60
-        const endTicks = props.repaintRange.end * props.project.bpm * ppq / 60
+        const startTicks = secondsToTicks(props.project, props.repaintRange.start)
+        const endTicks = secondsToTicks(props.project, props.repaintRange.end)
         const sx = xForTick(startTicks)
         const ex = xForTick(endTicks)
         if (ex >= LABEL_WIDTH && sx < width) {
@@ -349,8 +349,8 @@ export default function ArrangementView(props: Props) {
       const ticks = tickForX(pos.x)
       repaintDragRef.current = { anchorTicks: ticks, currentTicks: ticks }
       props.onRepaintRange({
-        start: ticks * 60 / (props.project.bpm * ppq),
-        end: ticks * 60 / (props.project.bpm * ppq) + 0.001,
+        start: ticksToSeconds(props.project, ticks),
+        end: ticksToSeconds(props.project, ticks) + 0.001,
       })
       canvasRef.current?.setPointerCapture(event.pointerId)
       return
@@ -415,8 +415,8 @@ export default function ArrangementView(props: Props) {
       const startTicks = Math.min(repaintDrag.anchorTicks, repaintDrag.currentTicks)
       const endTicks = Math.max(repaintDrag.anchorTicks, repaintDrag.currentTicks)
       props.onRepaintRange({
-        start: startTicks * 60 / (props.project.bpm * ppq),
-        end: endTicks * 60 / (props.project.bpm * ppq),
+        start: ticksToSeconds(props.project, startTicks),
+        end: ticksToSeconds(props.project, endTicks),
       })
       return
     }
@@ -456,7 +456,7 @@ export default function ArrangementView(props: Props) {
           clip.duration_ticks = drag.originalDuration - appliedDelta
         } else {
           const waveform = waveforms[clip.path]
-          const sourceEndTicks = waveform ? Math.round(waveform.durationSeconds * project.bpm * ppq / 60) : Infinity
+          const sourceEndTicks = waveform ? Math.round(secondsToTicksFrom(props.project, clip.start_ticks - (clip.offset_ticks || 0), waveform.durationSeconds)) : Infinity
           const maxDuration = Math.max(minimum, sourceEndTicks - drag.originalOffset)
           clip.duration_ticks = Math.max(minimum, Math.min(maxDuration, drag.originalDuration + deltaTicks))
         }

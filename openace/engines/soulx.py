@@ -127,16 +127,20 @@ def _envelope_cents(points, tick: float) -> float:
 def _f0_for_notes(project: Project, notes: Sequence[Note], end_ms: int, pitch_automation=None) -> List[float]:
     frames = max(1, int(round(end_ms / HOP_MS)) + 1)
     f0 = np.zeros(frames, dtype=np.float64)
-    sec_per_tick = 60.0 / project.bpm / project.ppq
     for note in notes:
-        start = int(round(note.start_ticks * sec_per_tick * 1000.0 / HOP_MS))
-        end = int(round(note.end_ticks * sec_per_tick * 1000.0 / HOP_MS))
+        note_start_ms = project.ticks_to_seconds(note.start_ticks) * 1000.0
+        note_end_ms = project.ticks_to_seconds(note.end_ticks) * 1000.0
+        note_duration_ms = max(1e-9, note_end_ms - note_start_ms)
+        start = int(round(note_start_ms / HOP_MS))
+        end = int(round(note_end_ms / HOP_MS))
         base = midi_to_hz(note.pitch)
         for frame in range(max(0, start), min(frames, max(start + 1, end))):
-            t_ms = frame * HOP_MS - note.start_ticks * sec_per_tick * 1000.0
-            cents = note_expression_cents(note, t_ms, note.duration_ticks * sec_per_tick * 1000.0)
+            absolute_ms = frame * HOP_MS
+            t_ms = absolute_ms - note_start_ms
+            cents = note_expression_cents(note, t_ms, note_duration_ms)
             if pitch_automation is not None:
-                cents += _envelope_cents(pitch_automation, note.start_ticks + t_ms / 1000.0 / sec_per_tick)
+                absolute_ticks = project.seconds_to_ticks_float(absolute_ms / 1000.0)
+                cents += _envelope_cents(pitch_automation, absolute_ticks)
             f0[frame] = base * (2.0 ** (cents / 1200.0))
     return [round(float(x), 1) for x in f0]
 
@@ -146,8 +150,8 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
     if not notes:
         raise ValueError("cannot render an empty vocal track")
     for note in notes:
-        ensure_note_phonemes(note, track.language, project.ticks_to_seconds(note.duration_ticks) * 1000.0)
-    validate_absolute_beat_anchor(notes, project.ppq, project.bpm)
+        ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
+    validate_absolute_beat_anchor(notes, project.ppq, project.bpm, project=project)
     phoneset = set(json.loads(phoneset_path.read_text(encoding="utf-8")))
 
     durations: List[float] = []
@@ -155,8 +159,6 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
     phonemes: List[str] = []
     pitches: List[int] = []
     types: List[int] = []
-    sec_per_tick = 60.0 / project.bpm / project.ppq
-
     cursor_s = 0.0
 
     def spacer(duration_s: float) -> None:
@@ -169,8 +171,8 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
         types.append(1)
 
     for note in notes:
-        start_s = note.start_ticks * sec_per_tick
-        duration_s = note.duration_ticks * sec_per_tick
+        start_s = project.ticks_to_seconds(note.start_ticks)
+        duration_s = project.tick_duration_seconds(note.start_ticks, note.duration_ticks)
         spacer(start_s - cursor_s)
         tokens = lyric_to_soulx_tokens(note.lyric, track.language, phoneset)
         each = duration_s / len(tokens)

@@ -514,3 +514,17 @@ Validation after iteration 30: frontend production build passed; Python compile 
 Implemented and verified: persistent project duplication with fresh project id/` Copy` title; confirmed deletion with fallback to first or new project; visible transport controls use legible `Copy`/`×` labels after QA caught an unsupported glyph. Backend regression covers duplicate identity/title, deletion, and 404. Independent visible-Chrome QA verified duplicate creation/selector/backend persistence, confirmation, fallback, disappearance, fixed glyph legibility, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/project_operations/`.
 
 Validation after iteration 31: frontend production build passed; Python compile passed; full automated suite reached 72 passed.
+
+## Iteration 32 — tempo-map-aware timing and MIDI interoperability
+
+Implemented and verified:
+
+- Replaced constant base-BPM conversion with piecewise tempo-map integration/inversion in the core project model. `Project.bpm` remains the canonical tick-zero editing tempo while positive-tick points automate later tempo changes.
+- MIDI export now writes time signature first, then every tempo point with correct delta times; MIDI import merges `set_tempo` events across tracks, reconstructs `tempo_map`, and preserves note/lyric positions. LRC times are generated through the same piecewise conversion.
+- SoulX score metadata, target F0 construction, diagnostics, pitch automation lookup, all five expression DSP lanes, master clip source offsets/durations/fades, automatic crossfades, and USTX wave timing now use tempo-aware timeline conversion. Expression automation remains linear in musical ticks while DSP sample positions invert seconds back through the tempo map.
+- USTX/SVP/VPR export now serializes complete tempo points in their host-specific units; USTX export/import anchors wave file duration through inverse tempo conversion.
+- Frontend transport formatting, waveform source mapping, repaint range conversion, note-duration/phoneme overlay calculations, WebAudio clip scheduling, fades, and playhead progression use the shared TypeScript piecewise tempo converter.
+- Regression coverage in `tests/test_tempo_map.py` proves exact conversion across a 120→60 BPM boundary, inverse conversion, MIDI tempo export/import (including the standard 120 BPM default before a late first tempo event), LRC timestamps, SoulX duration metadata, USTX/SVP/VPR tempo serialization, tick-domain expression interpolation, and tempo-aware clip interval conversion.
+- Independent visible-Chrome QA generated/imported a real MIDI fixture through the file chooser. It verified HTTP 200, backend tempo points exactly `[0:120, 960:60]`, notes/lyrics, tick 1440 transport reading `1.4.1 / 00:02.00` rather than constant-BPM `00:01.50`, live playback progression into the slower section, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/tempo_map/`, especially `TEMPO_MAP_QA_REPORT.md` and `03_seek_1440_piecewise_time.png`.
+
+Validation after iteration 32: frontend production build passed; Python compile passed; full automated suite reached 79 passed.

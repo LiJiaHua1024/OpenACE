@@ -27,7 +27,7 @@ def beat_phase_ms(ticks: int, ppq: int, bpm: float) -> float:
     return ticks_to_ms(beat_ticks, bpm, ppq)
 
 
-def validate_absolute_beat_anchor(notes: Iterable[Note], ppq: int, bpm: float, tolerance_ms: float = 1.0) -> List[BeatAnchor]:
+def validate_absolute_beat_anchor(notes: Iterable[Note], ppq: int, bpm: float, tolerance_ms: float = 1.0, project: Project | None = None) -> List[BeatAnchor]:
     """Validate that vowel onset stays on the symbolic note onset.
 
     Consonants may precede the onset by 40-90ms, but they must never move the vowel or
@@ -58,7 +58,7 @@ def validate_absolute_beat_anchor(notes: Iterable[Note], ppq: int, bpm: float, t
                 note_id=note.id,
                 vowel_onset_ticks=note.start_ticks,
                 consonant_preonset_ms=preonset,
-                beat_phase_ms=beat_phase_ms(note.start_ticks, ppq, bpm),
+                beat_phase_ms=beat_phase_ms(note.start_ticks, ppq, project.bpm_at(note.start_ticks) if project is not None else bpm),
             )
         )
     return anchors

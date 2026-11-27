@@ -44,10 +44,9 @@ class FixtureVocalEngine:
         sr = 24000
         total = max(1, int(project.ticks_to_seconds(project.duration_ticks() + project.ppq) * sr))
         out = np.zeros(total, dtype=np.float32)
-        sec_per_tick = 60.0 / project.bpm / project.ppq
         for note in track.sorted_notes():
-            start = int(note.start_ticks * sec_per_tick * sr)
-            end = min(total, int(note.end_ticks * sec_per_tick * sr))
+            start = int(project.ticks_to_seconds(note.start_ticks) * sr)
+            end = min(total, int(project.ticks_to_seconds(note.end_ticks) * sr))
             if end <= start:
                 continue
             t = np.arange(end - start) / sr

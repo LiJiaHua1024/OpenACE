@@ -156,16 +156,20 @@ def import_ustx(path: Path, title: str | None = None) -> Project:
 
         for part in sorted(wave_parts_by_track.get(index, []), key=lambda item: int(item.get("position", 0))):
             file_seconds = float(part.get("file_duration_ms", 0.0)) / 1000.0
-            full_ticks = project.seconds_to_ticks(file_seconds)
             skip = max(0, int(part.get("skip", 0)))
             trim = max(0, int(part.get("trim", 0)))
+            position = max(0, int(part.get("position", 0)))
+            file_start_ticks = position - skip
+            file_start_seconds = project.ticks_to_seconds(file_start_ticks)
+            file_end_ticks = project.seconds_to_ticks_float(file_start_seconds + file_seconds)
+            full_ticks = int(round(file_end_ticks - file_start_ticks))
             duration = max(1, full_ticks - skip - trim)
             source = _resolve_wave_path(path, part.get("relative_path"))
             if not source:
                 raise RuntimeError(f"USTX wave part {part.get('name') or '<unnamed>'} has no audio source path")
             track.clips.append(AudioClip(
                 path=source,
-                start_ticks=max(0, int(part.get("position", 0))),
+                start_ticks=position,
                 duration_ticks=duration,
                 offset_ticks=skip,
                 fade_in_ticks=max(0, int(part.get("fadein", 0))),

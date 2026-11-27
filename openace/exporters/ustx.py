@@ -122,7 +122,10 @@ def _wave_part(project: Project, clip, track_index: int, tick_scale: float, outp
     except Exception as exc:
         raise RuntimeError(f"cannot measure USTX wave-part source {source}: {exc}") from exc
     file_seconds = info.frames / float(info.samplerate)
-    full_source_ticks = project.seconds_to_ticks(file_seconds)
+    file_start_ticks = clip.start_ticks - clip.offset_ticks
+    file_start_seconds = project.ticks_to_seconds(file_start_ticks)
+    file_end_ticks = project.seconds_to_ticks_float(file_start_seconds + file_seconds)
+    full_source_ticks = int(round(file_end_ticks - file_start_ticks))
     duration_ticks = clip.duration_ticks if clip.duration_ticks is not None else max(1, full_source_ticks - clip.offset_ticks)
     position = int(round(clip.start_ticks * tick_scale))
     skip = int(round(clip.offset_ticks * tick_scale))
@@ -233,7 +236,10 @@ def export_ustx(project: Project, output_path: Path) -> Path:
                 "beat_unit": project.time_signature.denominator,
             }
         ],
-        "tempos": [{"position": 0, "bpm": project.bpm}],
+        "tempos": [
+            {"position": int(round(point.ticks * tick_scale)), "bpm": point.bpm}
+            for point in project.normalized_tempo_map()
+        ],
         "tracks": tracks,
         "voice_parts": voice_parts,
         "wave_parts": wave_parts,

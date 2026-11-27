@@ -7,6 +7,7 @@ import RenderPanel from './components/RenderPanel'
 import TrackList from './components/TrackList'
 import TransportBar from './components/TransportBar'
 import { crossfadeGainAt, crossfadeIntervals } from './crossfade'
+import { secondsBetweenTicks, secondsToTicks, tickDurationSeconds, ticksToSeconds } from './tempo'
 import type { AudioClip, Project, RenderJob, TimelineState, Track } from './types'
 
 function clone<T>(value: T): T {
@@ -245,7 +246,7 @@ export default function App() {
       .filter(track => !track.mute && track.playbackSources.length)
     const anySolo = rendered.some(track => track.solo)
     const audible = rendered.filter(track => !anySolo || track.solo)
-    const offsetSeconds = playheadTicks / project.ppq * 60 / project.bpm
+    const offsetSeconds = ticksToSeconds(project, playheadTicks)
     if (audible.length) {
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
       const ctx = new AudioContextClass() as AudioContext
@@ -271,24 +272,26 @@ export default function App() {
         const pan = ctx.createStereoPanner()
         pan.pan.value = item.track.pan
         source.connect(gain).connect(pan).connect(ctx.destination)
-        const sourceStartSeconds = item.sourceStartTicks / project.ppq * 60 / project.bpm
-        const sourceOffsetSeconds = item.sourceOffsetTicks / project.ppq * 60 / project.bpm
+        const sourceStartSeconds = ticksToSeconds(project, item.sourceStartTicks)
+        const sourceOffsetSeconds = secondsBetweenTicks(project, item.sourceStartTicks - item.sourceOffsetTicks, item.sourceStartTicks)
         const clipDurationSeconds = item.sourceDurationTicks
-          ? item.sourceDurationTicks / project.ppq * 60 / project.bpm
+          ? tickDurationSeconds(project, item.sourceStartTicks, item.sourceDurationTicks)
           : Math.max(0, item.buffer.duration - sourceOffsetSeconds)
         const localOffset = offsetSeconds - sourceStartSeconds
         const clipStartClock = ctx.currentTime - localOffset
-        const fadeInSeconds = (item.fadeInTicks || 0) / project.ppq * 60 / project.bpm
-        const fadeOutSeconds = (item.fadeOutTicks || 0) / project.ppq * 60 / project.bpm
+        const fadeInSeconds = tickDurationSeconds(project, item.sourceStartTicks, item.fadeInTicks || 0)
+        const clipEndTicks = item.sourceStartTicks + (item.sourceDurationTicks || 0)
+        const fadeOutSeconds = item.sourceDurationTicks
+          ? tickDurationSeconds(project, clipEndTicks - (item.fadeOutTicks || 0), item.fadeOutTicks || 0)
+          : tickDurationSeconds(project, item.sourceStartTicks, item.fadeOutTicks || 0)
         const positionNow = Math.max(0, localOffset)
-        const ticksPerSecond = project.ppq * project.bpm / 60
         const fadeGainAt = (position: number) => {
           const manual = Math.min(
             fadeInSeconds ? Math.max(0, Math.min(1, position / fadeInSeconds)) : 1,
             fadeOutSeconds ? Math.max(0, Math.min(1, (clipDurationSeconds - position) / fadeOutSeconds)) : 1,
           )
           if (!item.clip) return manual
-          const timelinePosition = item.sourceStartTicks + position * ticksPerSecond
+          const timelinePosition = secondsToTicks(project, sourceStartSeconds + position)
           return manual * crossfadeGainAt(item.track, item.clip, timelinePosition)
         }
         const automationPositions = new Set<number>([positionNow, clipDurationSeconds])
@@ -298,7 +301,7 @@ export default function App() {
           for (const interval of crossfadeIntervals(item.track, item.clip)) {
             for (let step = 0; step <= 12; step++) {
               const ticks = interval.startTicks + (interval.endTicks - interval.startTicks) * step / 12
-              automationPositions.add((ticks - item.sourceStartTicks) / ticksPerSecond)
+              automationPositions.add(secondsBetweenTicks(project, item.sourceStartTicks, ticks))
             }
           }
         }
@@ -326,7 +329,7 @@ export default function App() {
     playback.current.startTicks = playheadTicks
     const step = (now: number) => {
       const elapsed = (now - playback.current.startMs) / 1000
-      const ticks = playback.current.startTicks + elapsed * project.bpm / 60 * project.ppq
+      const ticks = secondsToTicks(project, ticksToSeconds(project, playback.current.startTicks) + elapsed)
       setPlayheadTicks(Math.floor(ticks))
       playback.current.raf = requestAnimationFrame(step)
     }
