@@ -153,6 +153,7 @@ class Track(BaseModel):
     midi_program: Optional[int] = Field(default=None, ge=0, le=127)
     render_path: Optional[str] = None
     render_revision: int = 0
+    render_fingerprint: Optional[str] = None
 
     def sorted_notes(self) -> List[Note]:
         return sorted(self.notes, key=lambda n: (n.start_ticks, n.pitch))

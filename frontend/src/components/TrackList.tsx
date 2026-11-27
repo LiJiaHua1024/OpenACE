@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Project, Track } from '../types'
 import LevelMeter from './LevelMeter'
+import { vocalRenderIsStale } from '../renderFingerprint'
 
 interface Props {
   project: Project
@@ -128,7 +129,7 @@ export default function TrackList(props: Props) {
                 <input className="track-name" value={track.name} onClick={e => e.stopPropagation()} onChange={e => props.onPatchTrack(track.id, { name: e.target.value })} />
                 <button className="track-menu-button" title="Track operations" onClick={event => openMenu(event, track.id)}>⋯</button>
               </div>
-              <div className="track-meta">{track.type} · {track.language} · {track.notes.length} notes</div>
+              <div className="track-meta">{track.type} · {track.language} · {track.notes.length} notes {vocalRenderIsStale(props.project, track) && <span className="stale-render-badge" title="Notes/expression/tempo/voice changed after this render">stale render</span>}</div>
               {props.getTrackLevel && <LevelMeter compact getLevel={() => props.getTrackLevel!(track.id)} />}
               <div className="track-controls" onClick={e => e.stopPropagation()}>
                 <button className={track.mute ? 'toggle active' : 'toggle'} onClick={() => props.onPatchTrack(track.id, { mute: !track.mute })}>M</button>

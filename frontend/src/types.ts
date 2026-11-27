@@ -86,6 +86,7 @@ export interface Track {
   midi_program?: number | null
   render_path?: string | null
   render_revision: number
+  render_fingerprint?: string | null
 }
 
 export interface TimelineState {

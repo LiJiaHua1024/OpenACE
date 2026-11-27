@@ -1,0 +1,272 @@
+{
+  "checks": [
+    {
+      "name": "exact viewport and fixture project loaded",
+      "passed": true,
+      "details": {
+        "viewport": {
+          "w": 1272,
+          "h": 837
+        },
+        "title": "Stale Render QA"
+      }
+    },
+    {
+      "name": "fresh render has render path/fingerprint and no stale badge or warning",
+      "passed": true,
+      "details": {
+        "render_path": true,
+        "revision": 4,
+        "fingerprint": "601955486b40e607",
+        "badge": 0,
+        "warning": 0
+      }
+    },
+    {
+      "name": "note pitch transpose creates stale badge and warning",
+      "passed": true,
+      "details": {
+        "badge": 1,
+        "warning": 1,
+        "fingerprint": "601955486b40e607"
+      }
+    },
+    {
+      "name": "note pitch transpose undo restores exact rendered state and clears stale indicators",
+      "passed": true,
+      "details": {
+        "badge": 0,
+        "warning": 0
+      }
+    },
+    {
+      "name": "note lyric edit creates stale badge and warning",
+      "passed": true,
+      "details": {
+        "badge": 1,
+        "warning": 1,
+        "fingerprint": "601955486b40e607"
+      }
+    },
+    {
+      "name": "note lyric edit undo restores exact rendered state and clears stale indicators",
+      "passed": true,
+      "details": {
+        "badge": 0,
+        "warning": 0
+      }
+    },
+    {
+      "name": "automation point edit creates stale badge and warning",
+      "passed": true,
+      "details": {
+        "badge": 1,
+        "warning": 1,
+        "fingerprint": "601955486b40e607"
+      }
+    },
+    {
+      "name": "automation point edit undo restores exact rendered state and clears stale indicators",
+      "passed": true,
+      "details": {
+        "badge": 0,
+        "warning": 0
+      }
+    },
+    {
+      "name": "breath event edit creates stale badge and warning",
+      "passed": true,
+      "details": {
+        "badge": 1,
+        "warning": 1,
+        "fingerprint": "601955486b40e607"
+      }
+    },
+    {
+      "name": "breath event edit undo restores exact rendered state and clears stale indicators",
+      "passed": true,
+      "details": {
+        "badge": 0,
+        "warning": 0
+      }
+    },
+    {
+      "name": "tempo BPM edit creates stale badge and warning",
+      "passed": true,
+      "details": {
+        "badge": 1,
+        "warning": 1,
+        "fingerprint": "601955486b40e607"
+      }
+    },
+    {
+      "name": "tempo BPM edit undo restores exact rendered state and clears stale indicators",
+      "passed": true,
+      "details": {
+        "badge": 0,
+        "warning": 0
+      }
+    },
+    {
+      "name": "voice assignment edit creates stale badge and warning",
+      "passed": true,
+      "details": {
+        "badge": 1,
+        "warning": 1,
+        "fingerprint": "601955486b40e607"
+      }
+    },
+    {
+      "name": "voice assignment edit undo restores exact rendered state and clears stale indicators",
+      "passed": true,
+      "details": {
+        "badge": 0,
+        "warning": 0
+      }
+    },
+    {
+      "name": "reload preserves stale state for persisted render-input edit",
+      "passed": true,
+      "details": {
+        "badge": 1,
+        "warning": 1
+      }
+    },
+    {
+      "name": "playback/export warning text truthful while stale",
+      "passed": true,
+      "details": {
+        "status": 200,
+        "bytes": 432044,
+        "warning": "Rendered audio is older than the current notes, expression, tempo, or voice. Playback/export still use the old render until you render again.",
+        "time": "00:00.00",
+        "playing": 1
+      }
+    },
+    {
+      "name": "rerender clears stale badge and warning",
+      "passed": true,
+      "details": {
+        "revision": 5,
+        "badge": 0,
+        "warning": 0
+      }
+    },
+    {
+      "name": "mixer volume/mute/pan and track name/color do not create stale",
+      "passed": true,
+      "details": {
+        "mute": true,
+        "volume": 0.08,
+        "pan": 0.96,
+        "name": "Renamed irrelevant",
+        "color": "#2fb996",
+        "fp_same": true,
+        "badge": 0,
+        "warning": 0
+      }
+    },
+    {
+      "name": "legacy missing render_fingerprint is treated stale",
+      "passed": true,
+      "details": {
+        "backend_fp": null,
+        "badge": 1,
+        "warning": 1
+      }
+    },
+    {
+      "name": "stale badge/warning and exact layout have no overflow",
+      "passed": true,
+      "details": {
+        "innerWidth": 1272,
+        "innerHeight": 837,
+        "body": {
+          "sw": 1272,
+          "cw": 1272
+        },
+        "right": {
+          "x": 950,
+          "width": 322,
+          "right": 1272,
+          "sw": 311,
+          "cw": 311
+        },
+        "transport": {
+          "width": 1272,
+          "right": 1272,
+          "sw": 1272,
+          "cw": 1272
+        },
+        "badge": {
+          "width": 70.2421875,
+          "right": 189.8828125
+        },
+        "warning": {
+          "width": 287,
+          "right": 1250,
+          "sw": 285,
+          "cw": 285
+        }
+      }
+    },
+    {
+      "name": "console network and HTTP clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "network": [
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          }
+        ],
+        "unexpected": [],
+        "http": []
+      }
+    }
+  ],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http": [],
+  "manual_playback_timing": {
+    "passed": true,
+    "project": "Stale Render QA Legacy Missing FP",
+    "samples": {
+      "250ms": "00:00.26",
+      "500ms": "00:00.52",
+      "1000ms": "00:01.02",
+      "1600ms": "00:01.64"
+    },
+    "screenshot": "13_manual_playback_timing.png"
+  }
+}

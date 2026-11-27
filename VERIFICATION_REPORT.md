@@ -872,3 +872,14 @@ Implemented and verified:
 - Automated regression proves FIFO serialization, failure isolation, in-process non-overlap, and independent-process lock ordering. Browser/API QA with a fixture-only 0.8s delay proved two rapid waves in exact FIFO order: second jobs transitioned from queued to running only after first completion; continuous polling never saw more than one running job. Evidence: `artifacts/e2e_screenshots/render_queue/`.
 
 Validation after iteration 63: targeted queue/VRAM tests passed; browser/API QA passed with zero console/unexpected network failures. Full automated suite passed with 120 tests collected.
+
+## Iteration 64 — stale vocal render detection
+
+Implemented and verified:
+
+- Vocal renders now store a deterministic 64-bit input fingerprint covering musical render inputs: notes/lyrics/phonemes/pitch curves/vibrato/techniques, all expression lanes, breath events, normalized tempo map/PPQ, language, and voice assignment/reference path. Note and breath IDs are deliberately excluded so identical musical content does not become falsely stale.
+- Backend and browser use matching canonical JSON/FNV-1a implementations. Fresh browser-rendered audio produced no stale indicator, proving cross-language hash parity in the real app; backend regression proves stability, sensitivity, and exact canonical-vector behavior.
+- Track cards now expose an amber `stale render` badge and the render panel explains that playback/export still use the old render until rendering again. Legacy renders without fingerprints are conservatively marked stale rather than silently trusted.
+- Independent visible-Chrome QA verified fresh-clean state, pitch/lyric/automation/breath/tempo/voice edits, exact undo clearing, reload persistence, rerender clearing, irrelevant mixer/name/color edits remaining clean, legacy missing-fingerprint behavior, playback/export truthfulness, clean 1272×837 layout, and zero console/unexpected network failures. Evidence: `artifacts/e2e_screenshots/stale_render_detection/`.
+
+Validation after iteration 64: frontend production build passed; targeted fingerprint/render tests passed; browser QA passed. Full automated suite passed with 123 tests collected.

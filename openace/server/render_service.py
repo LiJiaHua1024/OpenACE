@@ -15,6 +15,7 @@ from openace.core.diagnostics import extract_f0, write_diagnostic
 from openace.core.expression import apply_air_envelope, apply_dynamic_envelope, apply_energy_envelope, apply_falsetto_envelope, apply_tension_envelope
 from openace.core.models import AudioClip, Project, RenderJob, RenderJobStatus, RenderMode, TimedLyric, Track, TrackType
 from openace.core.project_store import ProjectStore
+from openace.core.render_fingerprint import vocal_render_input_hash
 from openace.engines.acestep import ACEStepEngine
 from openace.engines.base import EngineUnavailable
 from openace.engines.fixture import FixtureMusicEngine, FixtureVocalEngine, fixture_enabled, fixture_separate_stems
@@ -285,6 +286,7 @@ class RenderService:
             await asyncio.to_thread(write_diagnostic, diagnostic, project, track.sorted_notes(), audio, sr, actual_f0, provenance, track.automation.pitch_cents)
             track.render_path = str(wav)
             track.render_revision += 1
+            track.render_fingerprint = vocal_render_input_hash(project, track)
             self.store.save(project)
             self._publish_project(project)
             job.output_path = str(wav)

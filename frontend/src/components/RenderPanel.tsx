@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { api, importAudioClip, renderFileUrl, uploadFile, uploadVoice } from '../api'
 import { barTicks, ticksToSeconds } from '../tempo'
 import type { Note, Project, RenderJob, Track, VoiceProfile } from '../types'
+import { vocalRenderIsStale } from '../renderFingerprint'
 
 interface Props {
   project: Project
@@ -40,6 +41,7 @@ export default function RenderPanel(props: Props) {
 
   const activeJobs = props.jobs.filter(j => j.project_id === props.project.id).slice(0, 8)
   const latestDiagnostic = activeJobs.find(j => j.diagnostic_path)?.diagnostic_path
+  const staleRender = props.track ? vocalRenderIsStale(props.project, props.track) : false
 
   async function run(name: string, fn: () => Promise<RenderJob>) {
     setBusy(name); setError('')
@@ -258,6 +260,7 @@ export default function RenderPanel(props: Props) {
               <button onClick={() => transposeNotes(1)}>+1</button>
               <button onClick={() => transposeNotes(12)}>+12</button>
             </div>
+            {staleRender && <div className="stale-render-warning">Rendered audio is older than the current notes, expression, tempo, or voice. Playback/export still use the old render until you render again.</div>}
             <button disabled={!props.track.notes.length || busy === 'vocal'} className="render-button" onClick={() => run('vocal', () => api.renderVocal(props.project.id, props.track!.id))}>
               {busy === 'vocal' ? 'Rendering…' : 'Render vocal'}
             </button>

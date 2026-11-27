@@ -8,6 +8,7 @@ import pytest
 from openace.core.audio import read_audio
 from openace.core.models import Breath, EnvelopePoint, Note, RenderJobStatus, RenderMode, Track
 from openace.core.project_store import ProjectStore
+from openace.core.render_fingerprint import vocal_render_input_hash
 from openace.engines.fixture import FixtureVocalEngine
 from openace.server.render_service import RenderService
 
@@ -38,6 +39,9 @@ def test_explicit_ci_fixture_renders_wav_and_diagnostic(monkeypatch, tmp_path):
     assert Path(result.output_path).exists()
     assert Path(result.diagnostic_path).exists()
     assert Path(result.output_path).stat().st_size > 1000
+    stored = store.get(project.id)
+    stored_track = stored.track(track.id)
+    assert stored_track.render_fingerprint == vocal_render_input_hash(stored, stored_track)
 
 
 def test_dynamic_automation_postprocesses_fixture_render(monkeypatch, tmp_path):
