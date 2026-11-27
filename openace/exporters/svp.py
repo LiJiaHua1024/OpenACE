@@ -71,8 +71,8 @@ def export_svp(project: Project, output_path: Path) -> Path:
             "name": track.name,
             "notes": notes,
             "parameters": {
-                # pitchDelta is semitones; loudness is dB; tension/breathiness are -1..1.
-                "pitchDelta": _svp_curve(project, track.automation.pitch_cents, lambda value: value / 100.0),
+                # pitchDelta is cents; loudness is dB; tension/breathiness are -1..1.
+                "pitchDelta": _svp_curve(project, track.automation.pitch_cents, lambda value: value),
                 "loudness": _svp_curve(project, track.automation.dynamic, lambda value: (max(0.0, min(1.0, value)) - 0.5) * 12.0),
                 "tension": _svp_curve(project, track.automation.tension, _centered_unit),
                 "breathiness": _svp_curve(project, track.automation.air, _centered_unit),
@@ -86,7 +86,7 @@ def export_svp(project: Project, output_path: Path) -> Path:
             "blickOffset": 0,
             "blickAbsoluteBegin": 0,
             "pitchOffset": 0,
-            "database": {"name": track.voice_id},
+            "database": {"name": ""},
             "voice": {
                 "vocalModeParams": {},
                 "tension": 0.0,

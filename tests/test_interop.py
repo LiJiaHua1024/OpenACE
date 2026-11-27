@@ -306,17 +306,18 @@ def test_svp_voice_reference_vibrato_seconds_and_automation_units(tmp_path):
     ref = exported_track["mainRef"]
     assert group["uuid"] == ref["groupID"]
     assert ref["blickOffset"] == 0
-    assert ref["database"] == {"name": track.voice_id}
+    assert ref["database"] == {"name": ""}
     assert ref["voice"]["voicing"] == 1.0
     attrs = group["notes"][0]["attributes"]
     assert attrs["dF0Vbr"] == 0.4
     assert attrs["fF0Vbr"] == 4.0
     assert attrs["tF0VbrStart"] == pytest.approx(0.125)
     parameters = group["parameters"]
-    assert parameters["pitchDelta"]["points"] == [0, -0.5, 705600000, 0.25]
+    assert parameters["pitchDelta"]["points"] == [0, -50.0, 705600000, 25.0]
     assert parameters["loudness"]["points"] == [0, 0.0, 705600000, 6.0]
     assert parameters["tension"]["points"] == [0, 0.0, 705600000, 1.0]
     assert parameters["breathiness"]["points"] == [0, -1.0, 705600000, 0.0]
+    assert data["tracks"][0]["mainRef"]["database"]["name"] == ""
 
 
 def test_vpr_is_zip_with_project_sequence(tmp_path):

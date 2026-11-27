@@ -1071,3 +1071,14 @@ Implemented and verified:
 - `scripts/verify_local_gpu.py` now preflights required SoulX/SVC/RMVPE/ACE-Step base files with sizes plus CUDA free/total memory, writes that evidence to `artifacts/local_gpu/report.json`, fails before model launch when bootstrap artifacts are missing, and warns when the visible GPU is below the 12GB acceptance target.
 
 Validation after iteration 83: focused melisma/bootstrap-code-sync regressions passed; Python compilation passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0). No real GPU inference is claimed.
+
+## Iteration 84 — real OpenUtau SVP importer validation
+
+Implemented and verified:
+
+- Exported a representative SVP fixture and opened it in the official visible OpenUtau Linux x64 v0.1.576 host both by direct file launch and File > Open. The first host pass exposed a genuine exporter defect: OpenACE divided pitch cents by 100 even though SVP `pitchDelta` is cents, reducing an intended +80 cent deviation to 0.8 cents.
+- Fixed the exporter to write pitch cents directly and to emit an empty singer database instead of the meaningless internal `zero-shot-reference` id. Regression tests now lock cents-valued `pitchDelta` and empty unmapped database output.
+- Revalidated the fixed SVP in the same real host. Clean host-saved USTX round-trip pitch-deviation samples are exactly `0/50/80/50/0` cents at ticks `0/240/480/720/960`; notes remain exactly `你` C4 `0+480` and `好` D4 `480+480`; vibrato length/period/depth and loudness automation remain correct. The singer now truthfully shows generic `[Missing]`/Select Phonemizer rather than `[Missing] zero-shot-reference`.
+- Evidence: `artifacts/e2e_screenshots/openutau_svp_validation/`, including `HOST_VALIDATION.md`, fixed parse summary, input copies, and host-saved round-trip USTX. This validates OpenUtau's SVP importer only; it is not Synthesizer V validation. Remaining host/format limitations: OpenUtau retains an empty default Track1, does not preserve mixer gain/pan/color, and the SVP fixture carries no project-title field.
+
+Validation after iteration 84: focused SVP regressions passed; real host revalidation passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

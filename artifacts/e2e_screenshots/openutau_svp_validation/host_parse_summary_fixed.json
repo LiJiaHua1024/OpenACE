@@ -1,0 +1,97 @@
+{
+  "input_sha256": "20fc076b670acf0d8e52ccc0182240a2044a4f464925604cd202c685772baf61",
+  "input_database_name": "",
+  "input_pitchDelta_points": [
+    0,
+    0.0,
+    705600000,
+    80.0,
+    1411200000,
+    0.0
+  ],
+  "direct_open": "passed",
+  "host_singer_display": "[Missing] (no zero-shot-reference suffix)",
+  "roundtrip": {
+    "tracks": [
+      "Track1",
+      "SVP Lead"
+    ],
+    "notes": [
+      {
+        "position": 0,
+        "duration": 480,
+        "tone": 60,
+        "lyric": "你",
+        "vibrato": {
+          "length": 80,
+          "period": 181.81818,
+          "depth": 35,
+          "in": 10,
+          "out": 10,
+          "shift": 0,
+          "drift": 0,
+          "vol_link": 0
+        }
+      },
+      {
+        "position": 480,
+        "duration": 480,
+        "tone": 62,
+        "lyric": "好",
+        "vibrato": {
+          "length": 0,
+          "period": 175,
+          "depth": 25,
+          "in": 10,
+          "out": 10,
+          "shift": 0,
+          "drift": 0,
+          "vol_link": 0
+        }
+      }
+    ],
+    "curves": {
+      "pitd": {
+        "min_y": 0,
+        "max_y": 80,
+        "samples": {
+          "0": 0,
+          "240": 50,
+          "480": 80,
+          "720": 50,
+          "960": 0
+        },
+        "last_x": 960
+      },
+      "dyn": {
+        "min_y": -18,
+        "max_y": 36,
+        "samples": {
+          "0": -18,
+          "240": -4,
+          "480": 9,
+          "720": 22,
+          "960": 36
+        },
+        "last_x": 960
+      },
+      "voic": {
+        "min_y": 100,
+        "max_y": 100,
+        "samples": {
+          "0": 100,
+          "240": 100,
+          "480": 100,
+          "720": 100,
+          "960": 100
+        },
+        "last_x": 960
+      }
+    }
+  },
+  "remaining_limitations": [
+    "empty singer still displays as generic [Missing] because no real SV voice database is available",
+    "OpenUtau retains empty default Track1",
+    "mixer gain/pan/color still not preserved by host importer"
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "input_sha256": "1a157a4ee5c19c62cefc8ca49627eb3fcf477ccc116e1963cb529f4d6b5e027d",
+  "input_top_level_keys": [
+    "version",
+    "time",
+    "library",
+    "tracks",
+    "renderConfig"
+  ],
+  "input_has_project_title_field": false,
+  "openutau_version": "v0.1.576.0",
+  "direct_cli_open": "passed",
+  "file_open_dialog_open": "passed",
+  "roundtrip": {
+    "tracks": [
+      "Track1",
+      "SVP Lead"
+    ],
+    "bpm": 120,
+    "beat_per_bar": 4,
+    "beat_unit": 4,
+    "part": {
+      "name": "SVP Lead",
+      "position": 0,
+      "duration": 960,
+      "track_no": 1
+    },
+    "notes": [
+      {
+        "position": 0,
+        "duration": 480,
+        "tone": 60,
+        "lyric": "你",
+        "vibrato": {
+          "length": 80,
+          "period": 181.81818,
+          "depth": 35,
+          "in": 10,
+          "out": 10,
+          "shift": 0,
+          "drift": 0,
+          "vol_link": 0
+        },
+        "pitch_data": [
+          {
+            "x": -40,
+            "y": 0,
+            "shape": "io"
+          },
+          {
+            "x": 40,
+            "y": 0,
+            "shape": "io"
+          }
+        ]
+      },
+      {
+        "position": 480,
+        "duration": 480,
+        "tone": 62,
+        "lyric": "好",
+        "vibrato": {
+          "length": 0,
+          "period": 175,
+          "depth": 25,
+          "in": 10,
+          "out": 10,
+          "shift": 0,
+          "drift": 0,
+          "vol_link": 0
+        },
+        "pitch_data": [
+          {
+            "x": -40,
+            "y": -20,
+            "shape": "io"
+          },
+          {
+            "x": 40,
+            "y": 0,
+            "shape": "io"
+          }
+        ]
+      }
+    ],
+    "curves": {
+      "pitd": {
+        "length": 193,
+        "first_x": 0,
+        "last_x": 960,
+        "min_y": 0,
+        "max_y": 1,
+        "samples": {
+          "0": 0,
+          "240": 0,
+          "480": 1,
+          "720": 0,
+          "960": 0
+        }
+      },
+      "dyn": {
+        "length": 193,
+        "first_x": 0,
+        "last_x": 960,
+        "min_y": -18,
+        "max_y": 36,
+        "samples": {
+          "0": -18,
+          "240": -4,
+          "480": 9,
+          "720": 22,
+          "960": 36
+        }
+      },
+      "voic": {
+        "length": 193,
+        "first_x": 0,
+        "last_x": 960,
+        "min_y": 100,
+        "max_y": 100,
+        "samples": {
+          "0": 100,
+          "240": 100,
+          "480": 100,
+          "720": 100,
+          "960": 100
+        }
+      }
+    }
+  },
+  "observed_limitations": [
+    "pitchDelta exported in semitone-scaled values although SVP expects cents",
+    "missing zero-shot-reference singer in host",
+    "OpenUtau keeps empty default Track1 above imported SVP Lead",
+    "mixer gain/pan and display color are not preserved by OpenUtau importer",
+    "SVP top-level format in fixture has no project title field"
+  ]
+}
