@@ -458,3 +458,6 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .icon-button.loop-toggle { width: auto; padding: 0 8px; font-size: 10px; }
 .icon-button.loop-toggle.active { color: #8fe5ff; border-color: #2d778f; background: #14303d; }
 .tempo-selection-count { align-self: center; white-space: nowrap; color: #8ea2cf; font-size: 9px; line-height: 1; }
+.automation-range-actions { position: absolute; left: 4px; top: 28px; z-index: 5; width: 56px; display: flex; flex-direction: column; gap: 3px; padding: 4px; border: 1px solid #31445d; border-radius: 6px; background: rgba(13, 17, 26, .94); }
+.automation-range-actions span { color: #8fe5ff; font-size: 8px; text-align: center; }
+.automation-range-actions button { height: 18px; border: 1px solid #3c4c68; border-radius: 4px; background: #182133; color: #cfe7ff; font-size: 8px; padding: 0; }

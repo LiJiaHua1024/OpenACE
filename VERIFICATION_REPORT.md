@@ -904,3 +904,13 @@ Implemented and verified:
 - Independent visible-Chrome QA reproduced the prior overlay defect scenario and confirmed tick `960` now hit-tests canvas rather than the editor, with zero spinner mutation. A dense 13-point fixture had zero covered centers. All 19 matrix checks passed, including exact `0/+240/+480` spacing, `step/linear/step` preservation, collision replacement, undo/redo/reload, group/right-click deletion, drag/numeric/curve regressions, zero-anchor behavior, layout, console, HTTP, and network. Evidence: `artifacts/e2e_screenshots/tempo_multiselect_dedicated/`.
 
 Validation after iteration 66: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 67 — automation range clipboard editing
+
+Implemented and verified:
+
+- Expression automation lanes now support Shift-drag range selection snapped to musical sixteenths (`ppq/4`), cyan range visualization, and compact Copy/Paste/Delete controls inside the reserved left gutter rather than overflowing the dense header.
+- Copy captures the exact ordered interior automation points plus linearly interpolated values at both selection boundaries. Interior point spacing, values, and curve metadata are preserved; pasted boundary points are explicit linear anchors. Paste is same-lane-only, targets the snapped playhead, replaces existing target-range points deterministically, and remains repeatable without duplicates. Delete removes points in the selected range. Pitch ±100 values paste exactly; dynamic clipboard does not expose Paste in Air.
+- Independent visible-Chrome QA verified exact snapped `480–960` selection from an off-grid drag, step-curve preservation, interpolated boundary values, collision replacement, repeated paste, delete, undo/redo/reload, lane-mismatch prevention, brush/line/erase regressions, breath/phoneme isolation, reserved-gutter layout, and clean console/network. Evidence: `artifacts/e2e_screenshots/automation_range_fixed/`.
+
+Validation after iteration 67: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

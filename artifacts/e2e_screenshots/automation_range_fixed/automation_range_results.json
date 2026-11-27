@@ -1,0 +1,526 @@
+{
+  "checks": [
+    {
+      "name": "exact viewport fixture and complex automation loaded",
+      "passed": true,
+      "details": {
+        "dynamic": [
+          {
+            "ticks": 450,
+            "value": 0.2,
+            "curve": "linear"
+          },
+          {
+            "ticks": 600,
+            "value": 0.8,
+            "curve": "linear"
+          },
+          {
+            "ticks": 720,
+            "value": 0.4,
+            "curve": "step"
+          },
+          {
+            "ticks": 840,
+            "value": 0.9,
+            "curve": "linear"
+          },
+          {
+            "ticks": 990,
+            "value": 0.3,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1200,
+            "value": 0.7,
+            "curve": "linear"
+          }
+        ],
+        "pitch": [
+          {
+            "ticks": 480,
+            "value": -100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 600,
+            "value": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 720,
+            "value": -50.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 840,
+            "value": 0.0,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "shift micro-drag below minimum does not create selection",
+      "passed": true,
+      "details": {
+        "actions": 0
+      }
+    },
+    {
+      "name": "shift-drag creates cyan range visual",
+      "passed": true,
+      "details": {
+        "actions": "480t\nCopy\nDelete",
+        "band": [
+          {
+            "x": 176,
+            "y": 0,
+            "w": 84,
+            "h": 153,
+            "fill": "rgba(85, 199, 255, 0.125)",
+            "ms": 2300
+          },
+          {
+            "x": 176,
+            "y": 0,
+            "w": 112,
+            "h": 153,
+            "fill": "rgba(85, 199, 255, 0.125)",
+            "ms": 2300.9000000059605
+          },
+          {
+            "x": 176,
+            "y": 0,
+            "w": 112,
+            "h": 153,
+            "fill": "rgba(85, 199, 255, 0.125)",
+            "ms": 2316.2999999970198
+          }
+        ]
+      }
+    },
+    {
+      "name": "shift-drag selection snaps to sixteenth grid",
+      "passed": true,
+      "details": {
+        "actual_actions": "480t\nCopy\nDelete",
+        "expected": "480t for snapped 480-960"
+      }
+    },
+    {
+      "name": "copy paste preserves interpolated boundaries interior spacing and values",
+      "passed": true,
+      "details": {
+        "expected": [
+          [
+            1200,
+            0.32
+          ],
+          [
+            1320,
+            0.8
+          ],
+          [
+            1440,
+            0.4
+          ],
+          [
+            1560,
+            0.9
+          ],
+          [
+            1680,
+            0.42
+          ]
+        ],
+        "pasted_target": [
+          {
+            "ticks": 1200,
+            "value": 0.32000000000000006,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1320,
+            "value": 0.8,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1440,
+            "value": 0.4,
+            "curve": "step"
+          },
+          {
+            "ticks": 1560,
+            "value": 0.9,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1680,
+            "value": 0.41999999999999993,
+            "curve": "linear"
+          }
+        ],
+        "collision_removed": true
+      }
+    },
+    {
+      "name": "copy paste preserves original point curves",
+      "passed": true,
+      "details": {
+        "target_1420": [
+          {
+            "ticks": 1440,
+            "value": 0.4,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "repeated paste replaces target range without duplicates",
+      "passed": true,
+      "details": {
+        "count_before": 10,
+        "count_after": 10,
+        "target": [
+          {
+            "ticks": 1200,
+            "value": 0.32000000000000006,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1320,
+            "value": 0.8,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1440,
+            "value": 0.4,
+            "curve": "step"
+          },
+          {
+            "ticks": 1560,
+            "value": 0.9,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1680,
+            "value": 0.41999999999999993,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "undo restores pre-paste dynamic automation",
+      "passed": true,
+      "details": {
+        "undo": [
+          {
+            "ticks": 450,
+            "value": 0.2,
+            "curve": "linear"
+          },
+          {
+            "ticks": 600,
+            "value": 0.8,
+            "curve": "linear"
+          },
+          {
+            "ticks": 720,
+            "value": 0.4,
+            "curve": "step"
+          },
+          {
+            "ticks": 840,
+            "value": 0.9,
+            "curve": "linear"
+          },
+          {
+            "ticks": 990,
+            "value": 0.3,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1200,
+            "value": 0.7,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "redo and reload persist pasted automation",
+      "passed": true,
+      "details": {
+        "reload": [
+          {
+            "ticks": 450,
+            "value": 0.2,
+            "curve": "linear"
+          },
+          {
+            "ticks": 600,
+            "value": 0.8,
+            "curve": "linear"
+          },
+          {
+            "ticks": 720,
+            "value": 0.4,
+            "curve": "step"
+          },
+          {
+            "ticks": 840,
+            "value": 0.9,
+            "curve": "linear"
+          },
+          {
+            "ticks": 990,
+            "value": 0.3,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1200,
+            "value": 0.32000000000000006,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1320,
+            "value": 0.8,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1440,
+            "value": 0.4,
+            "curve": "step"
+          },
+          {
+            "ticks": 1560,
+            "value": 0.9,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1680,
+            "value": 0.41999999999999993,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "delete range removes interior and boundary target points",
+      "passed": true,
+      "details": {
+        "after": [
+          {
+            "ticks": 450,
+            "value": 0.2,
+            "curve": "linear"
+          },
+          {
+            "ticks": 600,
+            "value": 0.8,
+            "curve": "linear"
+          },
+          {
+            "ticks": 720,
+            "value": 0.4,
+            "curve": "step"
+          },
+          {
+            "ticks": 840,
+            "value": 0.9,
+            "curve": "linear"
+          },
+          {
+            "ticks": 990,
+            "value": 0.3,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "undo restores deleted automation range",
+      "passed": true,
+      "details": {
+        "restored": [
+          {
+            "ticks": 1200,
+            "value": 0.32000000000000006,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1320,
+            "value": 0.8,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1440,
+            "value": 0.4,
+            "curve": "step"
+          },
+          {
+            "ticks": 1560,
+            "value": 0.9,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1680,
+            "value": 0.41999999999999993,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "clipboard lane mismatch hides paste in air lane",
+      "passed": true,
+      "details": {
+        "air_actions": "480t\nCopy\nDelete"
+      }
+    },
+    {
+      "name": "selection across lane switch behavior sane",
+      "passed": true,
+      "details": {
+        "air_actions": "480t\nCopy\nDelete",
+        "observation": "selection/range actions visibility after lane switch"
+      }
+    },
+    {
+      "name": "pitch +/-100 values preserved through copy paste",
+      "passed": true,
+      "details": {
+        "pitch_target": {
+          "1200": -100.0,
+          "1320": 100.0,
+          "1440": -50.0
+        },
+        "all": [
+          {
+            "ticks": 480,
+            "value": -100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 600,
+            "value": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 720,
+            "value": -50.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 840,
+            "value": 0.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1200,
+            "value": -100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1320,
+            "value": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1440,
+            "value": -50.0,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "plain brush line and erase regressions",
+      "passed": true,
+      "details": {
+        "brush": [
+          {
+            "ticks": 1800,
+            "value": 0.7999998900267455,
+            "curve": "linear"
+          }
+        ],
+        "line": [
+          {
+            "ticks": 1800,
+            "value": 0.7999998900267455,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1920,
+            "value": 0.7999998900267455,
+            "curve": "linear"
+          }
+        ],
+        "after": [
+          {
+            "ticks": 1800,
+            "value": 0.7999998900267455,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "compact gutter controls and header do not overflow",
+      "passed": true,
+      "details": {
+        "body": {
+          "sw": 1272,
+          "cw": 1272
+        },
+        "header": {
+          "sw": 714,
+          "cw": 714,
+          "height": 40
+        },
+        "actions": {
+          "left": 4,
+          "right": 60,
+          "width": 56
+        },
+        "canvas": {
+          "x": 236,
+          "width": 714,
+          "height": 153
+        }
+      }
+    },
+    {
+      "name": "breath phoneme lane unaffected and range controls hidden",
+      "passed": true,
+      "details": {
+        "range_actions": 0
+      }
+    },
+    {
+      "name": "console network and HTTP clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "unexpected": [],
+        "http": []
+      }
+    }
+  ],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http": []
+}

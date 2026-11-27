@@ -11,6 +11,7 @@ type Tab = 'breath' | 'dynamic' | 'advanced' | 'pitch'
 interface Props {
   project: Project
   track?: Track
+  playheadTicks: number
   beginTransaction(): void
   endTransaction(): void
   updateProject(mutator: (project: Project) => void, transient?: boolean): void
@@ -46,6 +47,10 @@ export default function AutomationLane(props: Props) {
   } | null>(null)
   const [phonemeReadout, setPhonemeReadout] = useState('')
   const [selectedBreathId, setSelectedBreathId] = useState<string | null>(null)
+  const [selection, setSelection] = useState<{ start: number; end: number } | null>(null)
+  const selectionDragRef = useRef<{ anchorTicks: number; startX: number; moved: boolean } | null>(null)
+  const automationClipboardRef = useRef<{ lane: LaneKey; spanTicks: number; points: { deltaTicks: number; value: number; curve: string }[] } | null>(null)
+  const [, setAutomationClipboardVersion] = useState(0)
   const ppq = props.project.ppq
 
   const xForTick = useCallback((ticks: number) => KEY_WIDTH + ((ticks - props.timeline.scrollTicks) / ppq) * props.timeline.pxPerBeat, [props.timeline, ppq])
@@ -55,6 +60,22 @@ export default function AutomationLane(props: Props) {
 
   function pointsFor(track: Track, key: LaneKey): EnvelopePoint[] {
     return (track.automation as any)[key] || []
+  }
+
+  function automationValueAt(points: EnvelopePoint[], ticks: number) {
+    if (!points.length) return lane === 'pitch_cents' ? 0 : 0.5
+    const ordered = [...points].sort((a, b) => a.ticks - b.ticks)
+    if (ticks <= ordered[0].ticks) return ordered[0].value
+    if (ticks >= ordered[ordered.length - 1].ticks) return ordered[ordered.length - 1].value
+    for (let index = 0; index < ordered.length - 1; index++) {
+      const left = ordered[index]
+      const right = ordered[index + 1]
+      if (ticks >= left.ticks && ticks <= right.ticks) {
+        const ratio = (ticks - left.ticks) / Math.max(1e-9, right.ticks - left.ticks)
+        return left.value + (right.value - left.value) * ratio
+      }
+    }
+    return ordered[ordered.length - 1].value
   }
 
   function noteDurationMs(note: Note) {
@@ -251,6 +272,14 @@ export default function AutomationLane(props: Props) {
         const label = lane === 'pitch_cents' ? 'Pitch deviation (cents)' : lane[0].toUpperCase() + lane.slice(1)
         ctx.fillStyle = '#aeb7d4'; ctx.font = '11px Inter'; ctx.fillText(label, 10, 18)
         const points = pointsFor(props.track, lane)
+        if (selection && selection.end > selection.start) {
+          const sx = xForTick(selection.start)
+          const ex = xForTick(selection.end)
+          ctx.fillStyle = '#55c7ff20'
+          ctx.fillRect(sx, 0, ex - sx, height)
+          ctx.strokeStyle = '#61d5ffaa'
+          ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, height); ctx.moveTo(ex, 0); ctx.lineTo(ex, height); ctx.stroke()
+        }
         const neutral = lane === 'pitch_cents' ? height / 2 : height - 18 - 0.5 * (height - 42)
         ctx.strokeStyle = '#6d748c'; ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.moveTo(KEY_WIDTH, neutral); ctx.lineTo(width, neutral); ctx.stroke(); ctx.setLineDash([])
         if (!points.length) {
@@ -279,7 +308,7 @@ export default function AutomationLane(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(parent)
     return () => observer.disconnect()
-  }, [props.project, props.track, props.timeline, tab, lane, ppq, xForTick, selectedBreathId])
+  }, [props.project, props.track, props.timeline, tab, lane, ppq, xForTick, selectedBreathId, selection])
 
   function pointer(event: React.PointerEvent) {
     const rect = canvasRef.current!.getBoundingClientRect()
@@ -295,6 +324,11 @@ export default function AutomationLane(props: Props) {
     if (!props.track) return
     const pos = pointer(event)
     const tick = tickForX(pos.x)
+    if (tab !== 'breath' && event.button === 0 && event.shiftKey) {
+      selectionDragRef.current = { anchorTicks: tick, startX: pos.x, moved: false }
+      canvasRef.current?.setPointerCapture(event.pointerId)
+      return
+    }
     props.beginTransaction()
     if (tab === 'breath') {
       const boundaryHit = event.button === 0 ? phonemeBoundaryHit(pos.x, pos.y) : null
@@ -354,6 +388,20 @@ export default function AutomationLane(props: Props) {
 
   function onPointerMove(event: React.PointerEvent) {
     const pos = pointer(event)
+    const selectionDrag = selectionDragRef.current
+    if (selectionDrag) {
+      if (Math.abs(pos.x - selectionDrag.startX) > 3) {
+        selectionDrag.moved = true
+        const grid = Math.max(1, ppq / 4)
+        const snapSelectionTick = (ticks: number) => Math.max(0, Math.round(ticks / grid) * grid)
+        const current = snapSelectionTick(tickForX(pos.x))
+        const anchor = snapSelectionTick(selectionDrag.anchorTicks)
+        const start = Math.min(anchor, current)
+        const end = Math.max(anchor, current)
+        if (end - start >= grid) setSelection({ start, end })
+      }
+      return
+    }
     const phonemeDrag = phonemeDragRef.current
     if (phonemeDrag) {
       const deltaMs = (pos.x - phonemeDrag.startX) / phonemeDrag.pxPerMs
@@ -428,6 +476,12 @@ export default function AutomationLane(props: Props) {
   }
 
   function onPointerUp(event: React.PointerEvent) {
+    if (selectionDragRef.current) {
+      if (!selectionDragRef.current.moved) setSelection(null)
+      selectionDragRef.current = null
+      canvasRef.current?.releasePointerCapture(event.pointerId)
+      return
+    }
     if (phonemeDragRef.current) {
       phonemeDragRef.current = null
       props.endTransaction()
@@ -447,6 +501,50 @@ export default function AutomationLane(props: Props) {
     if (dragRef.current.drawing) props.endTransaction()
     dragRef.current.drawing = false
     canvasRef.current?.releasePointerCapture(event.pointerId)
+  }
+
+  function copyAutomationSelection() {
+    if (!props.track || !selection || selection.end <= selection.start) return
+    const source = [...pointsFor(props.track, lane)].sort((a, b) => a.ticks - b.ticks)
+    const copied = new Map<number, { value: number; curve: string }>()
+    copied.set(0, { value: automationValueAt(source, selection.start), curve: 'linear' })
+    copied.set(selection.end - selection.start, { value: automationValueAt(source, selection.end), curve: 'linear' })
+    for (const point of source) {
+      if (point.ticks > selection.start && point.ticks < selection.end) copied.set(point.ticks - selection.start, { value: point.value, curve: point.curve || 'linear' })
+    }
+    automationClipboardRef.current = {
+      lane,
+      spanTicks: selection.end - selection.start,
+      points: Array.from(copied.entries()).sort((a, b) => a[0] - b[0]).map(([deltaTicks, point]) => ({ deltaTicks, value: point.value, curve: point.curve })),
+    }
+    setAutomationClipboardVersion(version => version + 1)
+  }
+
+  function pasteAutomationClipboard() {
+    const clipboard = automationClipboardRef.current
+    if (!props.track || !clipboard || clipboard.lane !== lane) return
+    const targetStart = Math.max(0, Math.round(props.playheadTicks / (ppq / 4)) * (ppq / 4))
+    const targetEnd = targetStart + clipboard.spanTicks
+    const trackId = props.track.id
+    props.updateProject(project => {
+      const track = project.tracks.find(item => item.id === trackId)
+      if (!track) return
+      const kept = clonePoints(pointsFor(track, lane)).filter(point => point.ticks < targetStart || point.ticks > targetEnd)
+      const pasted = clipboard.points.map(point => ({ ticks: Math.round(targetStart + point.deltaTicks), value: point.value, curve: point.curve || 'linear' }))
+      ;(track.automation as any)[lane] = [...kept, ...pasted].sort((a, b) => a.ticks - b.ticks)
+    }, false)
+    setSelection({ start: targetStart, end: targetEnd })
+  }
+
+  function deleteAutomationSelection() {
+    if (!props.track || !selection) return
+    const trackId = props.track.id
+    const range = selection
+    props.updateProject(project => {
+      const track = project.tracks.find(item => item.id === trackId)
+      if (!track) return
+      ;(track.automation as any)[lane] = clonePoints(pointsFor(track, lane)).filter(point => point.ticks < range.start || point.ticks > range.end)
+    }, false)
   }
 
   const selectedBreath = props.track?.breaths.find(breath => breath.id === selectedBreathId) || null
@@ -512,6 +610,14 @@ export default function AutomationLane(props: Props) {
       </div>
       <div className="automation-canvas-wrap">
         <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onContextMenu={e => e.preventDefault()} />
+        {tab !== 'breath' && (selection || automationClipboardRef.current?.lane === lane) && (
+          <div className="automation-range-actions">
+            {selection && <span>{Math.round(selection.end - selection.start)}t</span>}
+            {selection && <button title="Copy selected automation segment" onClick={copyAutomationSelection}>Copy</button>}
+            {automationClipboardRef.current?.lane === lane && <button title="Paste copied automation at playhead" onClick={pasteAutomationClipboard}>Paste</button>}
+            {selection && <button title="Delete points inside selected automation range" onClick={deleteAutomationSelection}>Delete</button>}
+          </div>
+        )}
         {tab === 'breath' && selectedBreath && (
           <div className="breath-inspector" title="Honest post-render shaping of real donor aspiration; not neural breath synthesis">
             <span>Intensity</span>

@@ -733,6 +733,7 @@ export default function App() {
           <AutomationLane
             project={project}
             track={selectedTrack}
+            playheadTicks={playheadTicks}
             beginTransaction={beginTransaction}
             endTransaction={endTransaction}
             updateProject={updateProject}
