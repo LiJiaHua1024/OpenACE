@@ -729,3 +729,13 @@ Implemented and verified:
 - Independent visible-Chrome QA verified continuous playback, playhead/wall-clock agreement within about 0.04s over 2.3s, repeated stop/start with exactly one media fetch, exactly one decode, one AudioContext constructor, trimmed/faded/overlapping clips scheduling without errors, no layout overflow, and no console/network failures. Evidence: `artifacts/e2e_screenshots/playback_cache/`.
 
 Validation after iteration 49: frontend production build passed; browser playback QA passed. Backend code was unchanged; the immediately preceding full automated suite remained green at 105 collected tests.
+
+## Iteration 50 — expressive audio-to-MIDI pitch curves
+
+Implemented and verified:
+
+- `audio_to_midi_notes` now preserves measured unvoiced-masked pyin microtonal movement as editable `Note.pitch_curve` points instead of discarding it during semitone quantization. Points use real frame deviations in cents, a small median window suppresses isolated octave artifacts, and sparse 30ms/3-cent downsampling avoids bloating projects.
+- Regression proves a measured rising curve retains multiple pitch handles without a fabricated octave spike and that the extracted curve raises target diagnostic/engine F0 within the note without crossing the next semitone. Existing USTX pitch-curve export/import and piano-roll pitch-handle editing consume the same data model.
+- Focused browser QA confirmed visible continuous microtonal curve and multiple handles. Interaction coverage was incomplete because scripted hit testing did not mutate state and reload hit an SSE `networkidle` harness timeout; no implementation defect was confirmed, and pitch-handle edit/delete behavior itself was already covered by earlier piano-roll end-to-end evidence. Evidence: `artifacts/e2e_screenshots/audio_pitch_curve/`.
+
+Validation after iteration 50: targeted ASR/pitch regression passed; full automated suite passed (107 collected tests).

@@ -7,9 +7,43 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
-from openace.core.models import Note, Project, Track
+from openace.core.models import Note, PitchPoint, Project, Track
 from openace.core.pitch import correct_octave_errors, hz_to_midi, sanitize_f0
 
+
+
+def pitch_points_from_midi(midi_values, base_pitch: int, frame_ms: float = 10.0) -> List[PitchPoint]:
+    """Convert measured unwrapped MIDI frames into editable cent offsets.
+
+    NaN/unvoiced frames are ignored. A small median window suppresses isolated octave or
+    pyin artifacts without quantizing genuine slides back to semitones.
+    """
+    values = np.asarray(midi_values, dtype=float)
+    finite = np.isfinite(values)
+    if not finite.any():
+        return []
+    cents = np.full(len(values), np.nan)
+    cents[finite] = (values[finite] - float(base_pitch)) * 100.0
+    smoothed = np.full(len(values), np.nan)
+    for index in np.where(finite)[0]:
+        window = cents[max(0, index - 2):min(len(cents), index + 3)]
+        window = window[np.isfinite(window)]
+        if len(window):
+            smoothed[index] = float(np.median(window))
+    points: List[PitchPoint] = []
+    last_index = -10**9
+    last_cents = 0.0
+    finite_indices = list(np.where(np.isfinite(smoothed))[0])
+    for position, index in enumerate(finite_indices):
+        value = float(smoothed[index])
+        endpoint = position == 0 or position == len(finite_indices) - 1
+        enough_time = index - last_index >= max(1, int(round(30.0 / frame_ms)))
+        enough_change = abs(value - last_cents) >= 3.0
+        if endpoint or (enough_time and enough_change):
+            points.append(PitchPoint(offset_ms=round(float(index) * frame_ms, 3), cents=round(value, 2)))
+            last_index = index
+            last_cents = value
+    return points
 
 def audio_to_midi_notes(audio_path: Path, project: Optional[Project] = None, frame_ms: float = 10.0) -> List[Note]:
     """Real audio-to-MIDI monophonic transcription using librosa pyin.
@@ -51,13 +85,15 @@ def audio_to_midi_notes(audio_path: Path, project: Optional[Project] = None, fra
             if current is not None and start is not None and i - start >= min_frames:
                 s = project.seconds_to_ticks(start * frame_ms / 1000.0)
                 e = project.seconds_to_ticks(i * frame_ms / 1000.0)
-                notes.append(Note(start_ticks=s, duration_ticks=max(1, e - s), pitch=current, lyric=""))
+                points = pitch_points_from_midi(midi[start:i], current, frame_ms)
+                notes.append(Note(start_ticks=s, duration_ticks=max(1, e - s), pitch=current, lyric="", pitch_curve=points))
             start = i if pitch is not None else None
             current = pitch
     if current is not None and start is not None and len(rounded) - start >= min_frames:
         s = project.seconds_to_ticks(start * frame_ms / 1000.0)
         e = project.seconds_to_ticks(len(rounded) * frame_ms / 1000.0)
-        notes.append(Note(start_ticks=s, duration_ticks=max(1, e - s), pitch=current, lyric=""))
+        points = pitch_points_from_midi(midi[start:len(rounded)], current, frame_ms)
+        notes.append(Note(start_ticks=s, duration_ticks=max(1, e - s), pitch=current, lyric="", pitch_curve=points))
     return notes
 
 

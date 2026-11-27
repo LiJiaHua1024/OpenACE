@@ -92,3 +92,37 @@ def test_shared_audio_project_builder_matches_server_semantics(monkeypatch, tmp_
     assert project.title == "Agent import"
     assert project.tracks[0].language == "en"
     assert project.tracks[0].notes[0].lyric == "hello"
+
+
+def test_audio_import_pitch_points_preserve_microtonal_movement_without_noise_spikes():
+    import numpy as np
+
+    from openace.importers.audio import pitch_points_from_midi
+
+    frames = np.linspace(60.0, 60.4, 31)
+    frames[15] += 12.0  # isolated octave artifact must not become a huge pitch handle
+    frames[5] = np.nan
+    points = pitch_points_from_midi(frames, 60, frame_ms=10.0)
+    assert len(points) >= 5
+    assert points[0].offset_ms == 0
+    assert points[-1].offset_ms == 300
+    assert max(point.cents for point in points) < 55
+    assert min(point.cents for point in points) >= -2
+    assert points[-1].cents > 25
+
+
+def test_extracted_audio_pitch_curve_changes_target_f0_within_note():
+    import numpy as np
+
+    from openace.core.pitch import midi_to_hz, pitch_curve_for_notes
+    from openace.importers.audio import pitch_points_from_midi
+
+    points = pitch_points_from_midi(np.linspace(60.0, 60.4, 31), 60, frame_ms=10.0)
+    project = Project(bpm=120)
+    note = Note(start_ticks=0, duration_ticks=960, pitch=60, pitch_curve=points)
+    times, target = pitch_curve_for_notes(project, [note], frame_ms=10.0)
+    base = midi_to_hz(60)
+    end_index = int(np.isfinite(target).nonzero()[0][-1])
+    assert target[end_index] > base * 1.01
+    assert target[end_index] < midi_to_hz(61)
+    assert times[end_index] > 0.9
