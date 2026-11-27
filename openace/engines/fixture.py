@@ -41,9 +41,10 @@ def write_fixture_wav(path: Path, samples: np.ndarray, sample_rate: int = 24000)
 
 
 class FixtureVocalEngine:
-    def render_score(self, project: Project, track: Track, output_path: Path, reference_voice=None, cancellation=None) -> Path:
+    def render_score(self, project: Project, track: Track, output_path: Path, reference_voice=None, cancellation=None, progress=None) -> Path:
         require_fixture_enabled()
         delay = float(os.environ.get("OPENACE_CI_FIXTURE_DELAY_SECONDS", "0") or 0)
+        if progress: progress(0.12, "fixture vocal synthesis stage")
         if delay > 0:
             deadline = time.time() + delay
             while time.time() < deadline:
@@ -68,9 +69,10 @@ class FixtureVocalEngine:
                 + 0.06 * np.sin(2 * np.pi * f0 * 3.0 * t)
             ) * env
             out[start:end] += signal.astype(np.float32)
+        if progress: progress(0.82, "writing fixture vocal output")
         return write_fixture_wav(output_path, out, sr)
 
-    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None) -> Path:
+    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None, progress=None) -> Path:
         require_fixture_enabled()
         data, sr = sf.read(str(source_audio), always_2d=False)
         # A transparent pass-through would be misleading, so add a clear low-level fixture tremolo.
@@ -79,11 +81,12 @@ class FixtureVocalEngine:
             mono = mono.mean(axis=1)
         t = np.arange(len(mono)) / sr
         fixture = mono * (0.8 + 0.2 * np.sin(2 * np.pi * 5 * t))
+        if progress: progress(0.82, "writing fixture conversion output")
         return write_fixture_wav(output_path, fixture, sr)
 
 
 class FixtureMusicEngine:
-    def vocal_to_bgm(self, vocal_audio: Path, output_path: Path, caption: str, duration: float, bpm: float, cancellation=None) -> Path:
+    def vocal_to_bgm(self, vocal_audio: Path, output_path: Path, caption: str, duration: float, bpm: float, cancellation=None, progress=None) -> Path:
         require_fixture_enabled()
         sr = 24000
         n = int(max(1.0, duration) * sr)
@@ -92,9 +95,10 @@ class FixtureMusicEngine:
         # Sparse rhythm/chord fixture; deliberately not a substitute for ACE-Step.
         chord = 0.08 * np.sin(2 * np.pi * 110 * t) + 0.06 * np.sin(2 * np.pi * 165 * t)
         gate = (np.sin(2 * np.pi * beat_hz * t) > -0.2).astype(np.float32)
+        if progress: progress(0.82, "writing fixture accompaniment output")
         return write_fixture_wav(output_path, chord * gate, sr)
 
-    def repaint(self, source_audio: Path, output_path: Path, start_s: float, end_s: float, caption: str, cancellation=None) -> Path:
+    def repaint(self, source_audio: Path, output_path: Path, start_s: float, end_s: float, caption: str, cancellation=None, progress=None) -> Path:
         require_fixture_enabled()
         data, sr = sf.read(str(source_audio), always_2d=False)
         audio = np.asarray(data, dtype=np.float32)
@@ -105,9 +109,10 @@ class FixtureMusicEngine:
         if end > start:
             t = np.arange(end - start) / sr
             audio[start:end] = 0.12 * np.sin(2 * np.pi * 220 * t)
+        if progress: progress(0.82, "writing fixture repaint output")
         return write_fixture_wav(output_path, audio, sr)
 
-def fixture_separate_stems(source_audio: Path, vocal_output: Path, accompaniment_output: Path) -> tuple[Path, Path]:
+def fixture_separate_stems(source_audio: Path, vocal_output: Path, accompaniment_output: Path, progress=None) -> tuple[Path, Path]:
     """Explicit CI-only two-stem orchestration fixture, never production separation."""
     require_fixture_enabled()
     data, sr = sf.read(str(source_audio), always_2d=False)
@@ -120,6 +125,7 @@ def fixture_separate_stems(source_audio: Path, vocal_output: Path, accompaniment
     frequencies = np.fft.rfftfreq(len(mono), 1.0 / sr)
     vocal = np.fft.irfft(spectrum * (frequencies >= 500.0), n=len(mono)).astype(np.float32)
     accompaniment = np.fft.irfft(spectrum * (frequencies < 500.0), n=len(mono)).astype(np.float32)
+    if progress: progress(0.82, "writing fixture separated stems")
     write_fixture_wav(vocal_output, vocal, sr)
     write_fixture_wav(accompaniment_output, accompaniment, sr)
     return vocal_output, accompaniment_output

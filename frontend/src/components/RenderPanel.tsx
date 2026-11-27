@@ -32,6 +32,7 @@ export default function RenderPanel(props: Props) {
   const [trimEnd, setTrimEnd] = useState(0)
   const [lyricsError, setLyricsError] = useState('')
   const [lyricScrollTop, setLyricScrollTop] = useState(0)
+  const [clockNow, setClockNow] = useState(() => Date.now())
   const referenceInput = useRef<HTMLInputElement | null>(null)
   const lyricListRef = useRef<HTMLDivElement | null>(null)
   const audioInput = useRef<HTMLInputElement | null>(null)
@@ -51,6 +52,23 @@ export default function RenderPanel(props: Props) {
 
   const activeJobs = props.jobs.filter(j => j.project_id === props.project.id).slice(0, 8)
   const latestDiagnostic = activeJobs.find(j => j.diagnostic_path)?.diagnostic_path
+  const hasActiveJobs = activeJobs.some(job => job.status === 'queued' || job.status === 'running')
+  const queuedPositions = new Map(activeJobs.filter(job => job.status === 'queued').map((job, index) => [job.id, index + 1]))
+
+  useEffect(() => {
+    if (!hasActiveJobs) return
+    const timer = window.setInterval(() => setClockNow(Date.now()), 1000)
+    return () => window.clearInterval(timer)
+  }, [hasActiveJobs])
+
+  function jobTiming(job: RenderJob) {
+    const end = job.finished_at || clockNow / 1000
+    const seconds = Math.max(0, end - job.created_at)
+    const formatted = seconds < 10 ? seconds.toFixed(1) : Math.round(seconds).toString()
+    if (job.status === 'queued') return `queued ${formatted}s · FIFO #${queuedPositions.get(job.id) || 1}`
+    if (job.status === 'running') return `${formatted}s elapsed`
+    return `${formatted}s total`
+  }
   const staleRender = props.track ? vocalRenderIsStale(props.project, props.track) : false
 
   async function run(name: string, fn: () => Promise<RenderJob>) {
@@ -502,9 +520,10 @@ export default function RenderPanel(props: Props) {
         {activeJobs.length === 0 && <div className="empty-state">No renders yet</div>}
         {activeJobs.map(job => (
           <div key={job.id} className={`job-card ${job.status}`}>
-            <div className="job-row"><strong>{job.mode}{job.fixture ? ' · CI FIXTURE' : ''}</strong><span>{job.status}</span></div>
+            <div className="job-row"><strong>{job.mode}{job.fixture ? ' · CI FIXTURE' : ''}</strong><span>{job.status} · {Math.round(job.progress * 100)}%</span></div>
             <div className="progress"><div style={{ width: `${Math.round(job.progress * 100)}%` }} /></div>
             <div className="job-message">{job.error || job.message}</div>
+            <div className="job-timing">{jobTiming(job)}</div>
             {(job.status === 'queued' || job.status === 'running') && <button className="job-cancel danger" onClick={() => void cancelRenderJob(job)}>{job.status === 'queued' ? 'Cancel queued job' : 'Cancel running job'}</button>}
             {job.output_path && renderFileUrl(job.output_path) && <audio controls src={renderFileUrl(job.output_path)!} />}
           </div>

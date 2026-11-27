@@ -150,6 +150,22 @@ class RenderService:
             {"project_id": project.id, "project": project.model_dump(mode="json")},
         )
 
+    def _report_job_progress(self, job_id: str, progress: float, message: str) -> None:
+        job = self.jobs.get(job_id)
+        if job is None or job.status != RenderJobStatus.RUNNING or self.cancellation_token(job_id).cancelled:
+            return
+        job.progress = max(job.progress, min(0.95, progress))
+        job.message = message
+        self._publish_job(job)
+
+    def _progress_callback(self, job_id: str):
+        loop = asyncio.get_running_loop()
+
+        def report(progress: float, message: str) -> None:
+            loop.call_soon_threadsafe(self._report_job_progress, job_id, progress, message)
+
+        return report
+
     def cancellation_token(self, job_id: str) -> CancellationToken:
         token = self._cancel_tokens.get(job_id)
         if token is None:
@@ -277,9 +293,10 @@ class RenderService:
             outdir = self.output_dir(project.id, job.id)
             wav = outdir / "vocal.wav"
             diagnostic = outdir / "diagnostic.png"
-            await asyncio.to_thread(self.vocal_engine.render_score, project, track, wav, cancellation=self.cancellation_token(job_id))
+            await asyncio.to_thread(self.vocal_engine.render_score, project, track, wav, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
             self.raise_if_cancelled(job_id)
             audio, sr = await asyncio.to_thread(read_audio, wav)
+            self._report_job_progress(job_id, 0.84, "applying expression and breath post-processing")
             reference_audio, reference_sr = await asyncio.to_thread(load_reference_audio, track.reference_voice_path)
             audio, breath_result = await asyncio.to_thread(
                 apply_breath_events,
@@ -332,6 +349,7 @@ class RenderService:
                 provenance += " + Tension lane presence-band DSP (not neural conditioning)"
             if falsetto_applied:
                 provenance += " + Falsetto lane spectral-tilt DSP (not neural conditioning)"
+            self._report_job_progress(job_id, 0.92, "writing acoustic diagnostic")
             await asyncio.to_thread(write_diagnostic, diagnostic, project, track.sorted_notes(), audio, sr, actual_f0, provenance, track.automation.pitch_cents)
             track.render_path = str(wav)
             track.render_revision += 1
@@ -375,14 +393,15 @@ class RenderService:
             if job.mode == RenderMode.REPAINT:
                 if not source_audio:
                     raise ValueError("repaint requires source_audio")
-                await asyncio.to_thread(self.music_engine.repaint, Path(source_audio), wav, start_s, end_s, caption, cancellation=self.cancellation_token(job_id))
+                await asyncio.to_thread(self.music_engine.repaint, Path(source_audio), wav, start_s, end_s, caption, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
                 self.raise_if_cancelled(job_id)
             else:
                 if not source_audio:
                     raise ValueError("vocal2bgm requires source_audio")
-                await asyncio.to_thread(self.music_engine.vocal_to_bgm, Path(source_audio), wav, caption, duration, project.bpm, cancellation=self.cancellation_token(job_id))
+                await asyncio.to_thread(self.music_engine.vocal_to_bgm, Path(source_audio), wav, caption, duration, project.bpm, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
                 self.raise_if_cancelled(job_id)
             audio, sr = await asyncio.to_thread(read_audio, wav)
+            self._report_job_progress(job_id, 0.84, "integrating accompaniment into arrangement")
             duration_ticks = project.seconds_to_ticks(len(audio) / sr) if sr else None
             accompaniment = next((t for t in project.tracks if t.type == TrackType.ACCOMPANIMENT), None)
             if accompaniment is None:
@@ -412,6 +431,7 @@ class RenderService:
             self._publish_project(project)
             diagnostic = outdir / "diagnostic.png"
             notes = first_vocal_notes(project)
+            self._report_job_progress(job_id, 0.92, "writing acoustic diagnostic")
             await asyncio.to_thread(write_diagnostic, diagnostic, project, notes, audio, sr)
             job.output_path = str(wav)
             job.diagnostic_path = str(diagnostic)
@@ -438,12 +458,13 @@ class RenderService:
             if self.fixture_mode:
                 vocals = outdir / "separated_vocal.wav"
                 accompaniment = outdir / "separated_accompaniment.wav"
-                await asyncio.to_thread(fixture_separate_stems, Path(source_audio), vocals, accompaniment)
+                await asyncio.to_thread(fixture_separate_stems, Path(source_audio), vocals, accompaniment, progress=self._progress_callback(job_id))
             else:
-                vocals, accompaniment = await asyncio.to_thread(self.stem_separator.separate, Path(source_audio), outdir, cancellation=self.cancellation_token(job_id))
+                vocals, accompaniment = await asyncio.to_thread(self.stem_separator.separate, Path(source_audio), outdir, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
             self.raise_if_cancelled(job_id)
             vocal_audio, vocal_sr = await asyncio.to_thread(read_audio, vocals)
             accompaniment_audio, accompaniment_sr = await asyncio.to_thread(read_audio, accompaniment)
+            self._report_job_progress(job_id, 0.84, "integrating separated stems into arrangement")
             self.raise_if_cancelled(job_id)
             source_name = Path(source_audio).stem or "source"
             vocal_track = project.add_track(Track(name=f"Separated vocal — {source_name}", type=TrackType.AUDIO, color="#ff7b9c"))
@@ -470,6 +491,7 @@ class RenderService:
             self._publish_project(project)
             diagnostic = outdir / "diagnostic.png"
             provenance = "OPENACE_CI_SYNTH_FIXTURE=1 — ORCHESTRATION TEST AUDIO, NOT DEMUCS OUTPUT" if self.fixture_mode else "Demucs htdemucs local stem separation"
+            self._report_job_progress(job_id, 0.92, "writing acoustic diagnostic")
             await asyncio.to_thread(write_diagnostic, diagnostic, project, first_vocal_notes(project), vocal_audio, vocal_sr, None, provenance)
             job.output_path = str(vocals)
             job.diagnostic_path = str(diagnostic)
@@ -494,9 +516,10 @@ class RenderService:
             project = self.store.get(job.project_id)
             outdir = self.output_dir(project.id, job.id)
             wav = outdir / "svc.wav"
-            await asyncio.to_thread(self.vocal_engine.convert_voice, Path(source_audio), Path(reference_voice), wav, cancellation=self.cancellation_token(job_id))
+            await asyncio.to_thread(self.vocal_engine.convert_voice, Path(source_audio), Path(reference_voice), wav, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
             self.raise_if_cancelled(job_id)
             audio, sr = await asyncio.to_thread(read_audio, wav)
+            self._report_job_progress(job_id, 0.84, "transcribing and integrating converted vocal")
 
             # SVC output is arrangement media, not just a side-file in the job card.
             # Keep each conversion on its own audio track so users can mute/compare/move
@@ -554,6 +577,7 @@ class RenderService:
             diagnostic = outdir / "diagnostic.png"
             notes = first_vocal_notes(project)
             provenance = "OPENACE_CI_SYNTH_FIXTURE=1 — ORCHESTRATION TEST AUDIO, NOT MODEL OUTPUT" if self.fixture_mode else f"{self.vocal_engine_name} SVC"
+            self._report_job_progress(job_id, 0.92, "writing acoustic diagnostic")
             await asyncio.to_thread(write_diagnostic, diagnostic, project, notes, audio, sr, None, provenance)
             job.output_path = str(wav)
             job.diagnostic_path = str(diagnostic)

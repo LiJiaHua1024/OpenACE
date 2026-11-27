@@ -58,7 +58,7 @@ def test_render_service_cancels_running_engine_subprocess(tmp_path):
     service.store.save(project)
 
     class SlowEngine:
-        def render_score(self, project, track, output_path, cancellation=None):
+        def render_score(self, project, track, output_path, cancellation=None, progress=None):
             run_cancellable([sys.executable, "-c", "import time; time.sleep(30)"], cancellation)
 
     service.vocal_engine = SlowEngine()

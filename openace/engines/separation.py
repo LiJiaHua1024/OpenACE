@@ -26,7 +26,7 @@ class DemucsStemSeparator:
         self.model = model
         self.vram = vram or vram_manager
 
-    def separate(self, source_audio: Path, output_dir: Path, cancellation: CancellationToken | None = None) -> tuple[Path, Path]:
+    def separate(self, source_audio: Path, output_dir: Path, cancellation: CancellationToken | None = None, progress=None) -> tuple[Path, Path]:
         if importlib.util.find_spec("demucs") is None:
             raise EngineUnavailable(
                 "Demucs is not installed. Install OpenACE GPU extras (`pip install -e .[gpu]`) "
@@ -47,8 +47,11 @@ class DemucsStemSeparator:
             str(output_dir),
             str(source_audio),
         ]
+        if progress: progress(0.16, "waiting for Demucs VRAM slot")
         with self.vram.acquire("demucs-htdemucs", estimated_gb=2.0):
+            if progress: progress(0.22, "running Demucs htdemucs separation")
             result = run_cancellable(command, cancellation, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        if progress: progress(0.78, "collecting Demucs stems")
         if result.returncode != 0:
             raise RuntimeError("Demucs separation failed:\n" + result.stdout[-3000:])
         stem_dir = output_dir / self.model / Path(source_audio).stem
