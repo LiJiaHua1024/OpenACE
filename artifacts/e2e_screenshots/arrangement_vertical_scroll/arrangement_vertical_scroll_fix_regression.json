@@ -1,0 +1,181 @@
+{
+  "checks": [
+    {
+      "name": "large viewport/content sizing",
+      "passed": true,
+      "details": {
+        "height": 210,
+        "scrollTop": 0,
+        "scrollHeight": 336,
+        "clientHeight": 209,
+        "contentHeight": 336,
+        "canvasHeight": 336,
+        "bodySw": 1272,
+        "bodyCw": 1272,
+        "viewSw": 704,
+        "viewCw": 704,
+        "x": 236,
+        "y": 58,
+        "zoom": 1
+      }
+    },
+    {
+      "name": "ctrl wheel zooms timeline with scrollTop fixed",
+      "passed": true,
+      "details": {
+        "spacing": 403.2,
+        "pre": 60,
+        "post": 60,
+        "browserZoom": 1
+      }
+    },
+    {
+      "name": "shift wheel horizontal with scrollTop fixed",
+      "passed": true,
+      "details": {
+        "dx": -100.8,
+        "pre": 60,
+        "post": 60
+      }
+    },
+    {
+      "name": "plain wheel vertical still works without horizontal redraw",
+      "passed": true,
+      "details": {
+        "pre": 60,
+        "post": 127,
+        "redraw": null
+      }
+    },
+    {
+      "name": "bottom lane names rendered in arrangement label column",
+      "passed": true,
+      "details": [
+        {
+          "text": "Fix Scroll Lane 7",
+          "x": 8,
+          "y": 248
+        },
+        {
+          "text": "Fix Scroll Lane 8",
+          "x": 8,
+          "y": 282
+        },
+        {
+          "text": "Fix Scroll Lane 9",
+          "x": 8,
+          "y": 316
+        },
+        {
+          "text": "Fix Scroll Lane 1",
+          "x": 8,
+          "y": 44
+        },
+        {
+          "text": "Fix Scroll Lane 2",
+          "x": 8,
+          "y": 78
+        },
+        {
+          "text": "Fix Scroll Lane 3",
+          "x": 8,
+          "y": 112
+        },
+        {
+          "text": "Fix Scroll Lane 4",
+          "x": 8,
+          "y": 146
+        },
+        {
+          "text": "Fix Scroll Lane 5",
+          "x": 8,
+          "y": 180
+        },
+        {
+          "text": "Fix Scroll Lane 6",
+          "x": 8,
+          "y": 214
+        },
+        {
+          "text": "Fix Scroll Lane 7",
+          "x": 8,
+          "y": 248
+        },
+        {
+          "text": "Fix Scroll Lane 8",
+          "x": 8,
+          "y": 282
+        },
+        {
+          "text": "Fix Scroll Lane 9",
+          "x": 8,
+          "y": 316
+        }
+      ]
+    },
+    {
+      "name": "small project unchanged and unscrollable",
+      "passed": true,
+      "details": {
+        "height": 166,
+        "scrollTop": 0,
+        "scrollHeight": 166,
+        "clientHeight": 165,
+        "contentHeight": 166,
+        "canvasHeight": 166,
+        "bodySw": 1272,
+        "bodyCw": 1272,
+        "viewSw": 704,
+        "viewCw": 704,
+        "x": 236,
+        "y": 58,
+        "zoom": 1
+      }
+    },
+    {
+      "name": "layout console network clean",
+      "passed": true,
+      "details": {
+        "geom": {
+          "height": 166,
+          "scrollTop": 0,
+          "scrollHeight": 166,
+          "clientHeight": 165,
+          "contentHeight": 166,
+          "canvasHeight": 166,
+          "bodySw": 1272,
+          "bodyCw": 1272,
+          "viewSw": 704,
+          "viewCw": 704,
+          "x": 236,
+          "y": 58,
+          "zoom": 1
+        },
+        "console": [],
+        "http": [],
+        "fail": [
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          }
+        ]
+      }
+    }
+  ],
+  "console": [],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http_errors": []
+}

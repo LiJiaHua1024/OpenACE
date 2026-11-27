@@ -1,0 +1,26 @@
+{
+  "view": {
+    "width": 714,
+    "height": 166,
+    "scrollTop": 0,
+    "scrollHeight": 166,
+    "clientHeight": 165,
+    "scrollWidth": 704,
+    "clientWidth": 704
+  },
+  "content": {
+    "width": 704,
+    "height": 166
+  },
+  "canvas": {
+    "width": 704,
+    "height": 166
+  },
+  "body": {
+    "scrollWidth": 1272,
+    "clientWidth": 1272
+  },
+  "tracks": 0,
+  "expected": 166,
+  "passed": true
+}

@@ -813,3 +813,12 @@ Implemented and verified:
 - Independent visible-Chrome QA verified step paste `480/150→240/150`, linear replacement `720/130 step→720/90 linear` with no duplicate, visible ramp/schema preservation, exact undo/redo restoration, reload persistence, clean lane layout, and zero console/HTTP failures. Evidence: `artifacts/e2e_screenshots/tempo_copy_paste/`.
 
 Validation after iteration 57: frontend production build passed; browser QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green at 110 collected tests.
+
+## Iteration 58 — large-arrangement vertical scrolling
+
+Implemented and verified:
+
+- Arrangement content now keeps full dynamic height inside a capped 210px viewport, so projects with many tracks no longer squeeze the piano roll. Plain wheel natively scrolls lanes; Ctrl+wheel zooms horizontally without vertical scrolling; Shift+wheel/horizontal deltas move the shared timeline; lane names are drawn in the arrangement label column for orientation while scrolled.
+- Browser QA initially caught Ctrl+wheel double-scrolling and passive-listener console errors. The implementation now uses a native non-passive canvas wheel listener. Final visible-Chrome regression verified correct large/small heights, bottom-lane clip drag/context/copy/delete/undo at scrolled coordinates, wheel isolation, bottom lane names, small-project preservation, clean layout, and zero console/network failures. Evidence: `artifacts/e2e_screenshots/arrangement_vertical_scroll/`.
+
+Validation after iteration 58: frontend production build passed; browser regression QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green at 110 collected tests.

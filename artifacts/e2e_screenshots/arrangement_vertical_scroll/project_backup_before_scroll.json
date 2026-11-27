@@ -1,0 +1,324 @@
+{
+  "id": "project_d152f8c8ae7d",
+  "schema_version": 1,
+  "title": "Arrangement Vertical Scroll QA",
+  "ppq": 480,
+  "bpm": 120.0,
+  "tempo_map": [
+    {
+      "ticks": 240,
+      "bpm": 150.0,
+      "curve": "step"
+    },
+    {
+      "ticks": 480,
+      "bpm": 150.0,
+      "curve": "step"
+    },
+    {
+      "ticks": 720,
+      "bpm": 90.0,
+      "curve": "linear"
+    },
+    {
+      "ticks": 960,
+      "bpm": 90.0,
+      "curve": "linear"
+    }
+  ],
+  "time_signature": {
+    "numerator": 4,
+    "denominator": 4
+  },
+  "tracks": [
+    {
+      "id": "scroll_0",
+      "name": "Scroll Lane 1",
+      "type": "audio",
+      "color": "#25b995",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [
+        {
+          "id": "scroll_t0",
+          "path": "/uploads/svclyrics_words.wav",
+          "start_ticks": 480,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "T0",
+          "transcribed_lyrics": []
+        }
+      ],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": null,
+      "render_revision": 0
+    },
+    {
+      "id": "scroll_1",
+      "name": "Scroll Lane 2",
+      "type": "vocal",
+      "color": "#7568ff",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": null,
+      "render_revision": 0
+    },
+    {
+      "id": "scroll_2",
+      "name": "Scroll Lane 3",
+      "type": "audio",
+      "color": "#38bdf8",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [
+        {
+          "id": "scroll_t2",
+          "path": "/uploads/svclyrics_words.wav",
+          "start_ticks": 480,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "T2",
+          "transcribed_lyrics": []
+        }
+      ],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": null,
+      "render_revision": 0
+    },
+    {
+      "id": "scroll_3",
+      "name": "Scroll Lane 4",
+      "type": "accompaniment",
+      "color": "#e6a23c",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": null,
+      "render_revision": 0
+    },
+    {
+      "id": "scroll_4",
+      "name": "Scroll Lane 5",
+      "type": "audio",
+      "color": "#22c55e",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": null,
+      "render_revision": 0
+    },
+    {
+      "id": "scroll_5",
+      "name": "Scroll Lane 6",
+      "type": "audio",
+      "color": "#f472b6",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": null,
+      "render_revision": 0
+    },
+    {
+      "id": "scroll_6",
+      "name": "Scroll Lane 7",
+      "type": "audio",
+      "color": "#facc15",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": null,
+      "render_revision": 0
+    },
+    {
+      "id": "scroll_7",
+      "name": "Scroll Lane 8",
+      "type": "audio",
+      "color": "#60a5fa",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [
+        {
+          "id": "scroll_b7",
+          "path": "/uploads/svclyrics_words.wav",
+          "start_ticks": 600,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "B7",
+          "transcribed_lyrics": []
+        }
+      ],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": null,
+      "render_revision": 0
+    },
+    {
+      "id": "scroll_8",
+      "name": "Scroll Lane 9",
+      "type": "accompaniment",
+      "color": "#fb7185",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [
+        {
+          "id": "scroll_b8",
+          "path": "/uploads/svclyrics_words.wav",
+          "start_ticks": 600,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "B8",
+          "transcribed_lyrics": []
+        }
+      ],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": null,
+      "render_revision": 0
+    }
+  ],
+  "created_at": 1795770868.6768143,
+  "updated_at": 1795780133.9156797,
+  "metadata": {}
+}

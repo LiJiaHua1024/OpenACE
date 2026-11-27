@@ -144,6 +144,8 @@ export default function ArrangementView(props: Props) {
           ctx.fillStyle = '#7568ff18'; ctx.fillRect(0, y, width, ROW_HEIGHT)
         }
         ctx.fillStyle = track.color; ctx.fillRect(0, y + 5, 4, ROW_HEIGHT - 10)
+        ctx.fillStyle = '#dbe3f6d9'; ctx.font = '9px Inter'
+        ctx.fillText(track.name, 8, y + 20, 50)
 
         if (track.type === 'vocal' && track.notes.length) {
           const groups: { start: number; end: number; count: number }[] = []
@@ -306,6 +308,25 @@ export default function ArrangementView(props: Props) {
     observer.observe(parent)
     return () => observer.disconnect()
   }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, waveforms, selectedClips, marquee, scrollTicks, pxPerBeat, ppq])
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const handleNativeWheel = (event: WheelEvent) => {
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault()
+        props.onTimelineChange({ ...props.timeline, pxPerBeat: Math.max(32, Math.min(360, pxPerBeat * (event.deltaY > 0 ? .9 : 1.1))) })
+      } else if (event.shiftKey) {
+        event.preventDefault()
+        props.onTimelineChange({ ...props.timeline, scrollTicks: Math.max(0, scrollTicks + event.deltaY * 2 + event.deltaX * 2) })
+      } else if (event.deltaX) {
+        event.preventDefault()
+        props.onTimelineChange({ ...props.timeline, scrollTicks: Math.max(0, scrollTicks + event.deltaX * 2) })
+      }
+    }
+    canvas.addEventListener('wheel', handleNativeWheel, { passive: false })
+    return () => canvas.removeEventListener('wheel', handleNativeWheel)
+  }, [props.timeline, props.onTimelineChange, scrollTicks, pxPerBeat])
 
   function pointer(event: React.PointerEvent) {
     const rect = canvasRef.current!.getBoundingClientRect()
@@ -768,24 +789,18 @@ export default function ArrangementView(props: Props) {
     setMenu({ x: pos.x, y: pos.y, trackId: track.id, clipId: clip?.id || null, ticks: tickForX(pos.x) })
   }
 
-  function onWheel(event: React.WheelEvent) {
-    if (event.ctrlKey || event.metaKey) {
-      props.onTimelineChange({ ...props.timeline, pxPerBeat: Math.max(32, Math.min(360, pxPerBeat * (event.deltaY > 0 ? .9 : 1.1))) })
-    } else {
-      props.onTimelineChange({ ...props.timeline, scrollTicks: Math.max(0, scrollTicks + event.deltaY * 2 + event.deltaX * 2) })
-    }
-  }
-
-  const arrangementHeight = Math.max(132, RULER_HEIGHT + props.project.tracks.length * ROW_HEIGHT + 6)
+  const arrangementContentHeight = Math.max(132, RULER_HEIGHT + props.project.tracks.length * ROW_HEIGHT + 6)
+  const arrangementViewportHeight = Math.min(arrangementContentHeight, 210)
   const menuWidth = 204
   const menuHeight = menu?.clipId ? 130 : 40
   const menuMargin = menu?.clipId ? 1 : 4
   const menuLeft = menu ? Math.max(4, Math.min(menu.x, (canvasRef.current?.clientWidth || 640) - menuWidth - 4)) : 0
-  const menuTop = menu ? Math.max(menuMargin, Math.min(menu.y, arrangementHeight - menuHeight - menuMargin)) : 0
+  const menuTop = menu ? Math.max(menuMargin, Math.min(menu.y, arrangementContentHeight - menuHeight - menuMargin)) : 0
 
   return (
-    <div className="arrangement-view" style={{ height: arrangementHeight }} onClick={() => setMenu(null)}>
-      <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onWheel={onWheel} onContextMenu={onContextMenu} />
+    <div className="arrangement-view" style={{ height: arrangementViewportHeight }} onClick={() => setMenu(null)}>
+      <div className="arrangement-content" style={{ height: arrangementContentHeight }}>
+        <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onContextMenu={onContextMenu} />
       {menu && (
         <div className="piano-context-menu arrangement-context-menu" style={{ left: menuLeft, top: menuTop }} onClick={event => event.stopPropagation()}>
           {menu.clipId && <button onClick={() => splitClip(menu)}>Split at cursor</button>}
@@ -820,6 +835,7 @@ export default function ArrangementView(props: Props) {
           })()}
         </div>
       )}
+      </div>
     </div>
   )
 }
