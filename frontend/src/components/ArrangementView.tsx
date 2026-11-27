@@ -860,6 +860,50 @@ export default function ArrangementView(props: Props) {
   }
 
 
+  function rippleDeleteAcrossTracks(menuItem: { trackId: string; clipId: string | null }) {
+    const items = operationClips(menuItem)
+    if (!items.length) return
+    const ordered = [...items].sort((a, b) => a.clip.start_ticks - b.clip.start_ticks)
+    const intervals: { start: number; end: number }[] = []
+    for (const item of ordered) {
+      const start = item.clip.start_ticks
+      const end = item.clip.start_ticks + clipDuration(item.clip)
+      const last = intervals[intervals.length - 1]
+      if (last && start <= last.end) last.end = Math.max(last.end, end)
+      else intervals.push({ start, end })
+    }
+    const selectedIds = new Set(items.map(item => item.clipId))
+    props.updateProject(project => {
+      for (const track of project.tracks) {
+        track.clips = track.clips.filter(candidate => !selectedIds.has(candidate.id))
+      }
+      for (const interval of [...intervals].reverse()) {
+        const ripple = interval.end - interval.start
+        for (const track of project.tracks) {
+          for (const later of track.clips) {
+            if (later.start_ticks >= interval.end) later.start_ticks = Math.max(0, later.start_ticks - ripple)
+          }
+          for (const note of track.notes) {
+            if (note.start_ticks >= interval.end) note.start_ticks = Math.max(0, note.start_ticks - ripple)
+          }
+          for (const breath of track.breaths) {
+            if (breath.start_ticks >= interval.end) breath.start_ticks = Math.max(0, breath.start_ticks - ripple)
+          }
+          for (const lane of Object.values(track.automation)) {
+            for (const point of lane) {
+              if (point.ticks >= interval.end) point.ticks = Math.max(0, point.ticks - ripple)
+            }
+            lane.sort((a, b) => a.ticks - b.ticks)
+          }
+          track.clips.sort((a, b) => a.start_ticks - b.start_ticks)
+          track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+        }
+      }
+    }, false)
+    setSelectedClips([])
+    setMenu(null)
+  }
+
   function updateClipGain(menuItem: { trackId: string; clipId: string }, gainDb: number) {
     props.updateProject(project => {
       const track = project.tracks.find(item => item.id === menuItem.trackId)
@@ -930,10 +974,12 @@ export default function ArrangementView(props: Props) {
   const arrangementContentHeight = Math.max(132, RULER_HEIGHT + props.project.tracks.length * ROW_HEIGHT + 6)
   const arrangementViewportHeight = Math.min(arrangementContentHeight, 210)
   const menuWidth = 204
-  const menuHeight = menu?.clipId ? 150 : 40
+  const menuHeight = menu?.clipId ? 164 : 40
   const menuMargin = menu?.clipId ? 1 : 4
   const menuLeft = menu ? Math.max(4, Math.min(menu.x, (canvasRef.current?.clientWidth || 640) - menuWidth - 4)) : 0
-  const menuTop = menu ? Math.max(menuMargin, Math.min(menu.y, arrangementContentHeight - menuHeight - menuMargin)) : 0
+  const visibleMenuTop = arrangementScrollTop + menuMargin
+  const visibleMenuBottom = arrangementScrollTop + arrangementViewportHeight - menuHeight - menuMargin
+  const menuTop = menu ? Math.max(visibleMenuTop, Math.min(menu.y, Math.max(visibleMenuTop, visibleMenuBottom))) : 0
 
   return (
     <div ref={arrangementRef} className="arrangement-view" style={{ height: arrangementViewportHeight }} onClick={() => setMenu(null)} onScroll={event => setArrangementScrollTop((event.target as HTMLDivElement).scrollTop)}>
@@ -948,6 +994,7 @@ export default function ArrangementView(props: Props) {
           {menu.clipId && <button onClick={() => duplicateClip(menu)}>Duplicate</button>}
           {menu.clipId && <button onClick={() => deleteClip(menu)}>Delete</button>}
           {menu.clipId && <button onClick={() => rippleDeleteClip(menu)}>Ripple delete</button>}
+          {menu.clipId && <button onClick={() => rippleDeleteAcrossTracks(menu)}>Ripple delete across tracks</button>}
           {menu.clipId && (() => {
             const track = props.project.tracks.find(item => item.id === menu.trackId)
             const clip = track?.clips.find(item => item.id === menu.clipId)

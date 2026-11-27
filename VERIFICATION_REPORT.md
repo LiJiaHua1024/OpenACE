@@ -1032,3 +1032,12 @@ Implemented and verified:
 - Regression coverage proves MCP listing/placement/in-use-delete/delete semantics and subprocess CLI listing/project placement/in-use-delete/delete behavior with isolated data directories. `skills/openace/SKILL.md` now documents the atomic media commands.
 
 Validation after iteration 79: targeted media-agent tests passed; frontend production build was already green for this branch state; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 80 — cross-track ripple delete
+
+Implemented and verified:
+
+- Arrangement clip menus now expose cross-track ripple delete. Selected/right-clicked clips define merged contiguous/overlapping intervals; selected clips are removed and downstream clips, vocal notes, breaths, and automation points on every track shift by the exact merged ripple amount, preserving downstream cross-track synchronization without double-counting. Earlier and overlapping unselected material remains unchanged because this is clip-driven ripple semantics rather than destructive arbitrary time-range cutting.
+- Independent visible-Chrome QA at exact 1272×837 verified bottom-row menu containment, exact single ripple/undo/Ctrl+Y redo, verified white multi-selection, exact merge of intervals `960–1440`/`1200–1680`/`1440–1920` into `960–1920`, exact 960-tick downstream shifts, unchanged inside material, undo/redo/reload persistence, and clean console/network. Evidence: `artifacts/e2e_screenshots/cross_track_ripple/`.
+
+Validation after iteration 80: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
