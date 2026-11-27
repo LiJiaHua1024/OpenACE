@@ -1180,3 +1180,9 @@ Implemented and verified:
 - Evidence: `artifacts/e2e_screenshots/note_left_resize/`.
 
 Validation after iteration 93: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 94 — media-bin tags and folder organization
+
+Implemented and verified: durable sidecar-backed media tags/folders with validation, partial PATCH preservation, SSE/list integration, folder filtering, metadata-aware search, chips, prompt editing, safe in-use deletion protection, and automatic metadata cleanup after file deletion. Browser QA verified upload/listing/chips/filter/search/reload/long-label rejection/clearing, drag-created arrangement clip, context-delete clip removal, fresh-file metadata assignment, UI deletion, and sidecar cleanup. Evidence: `artifacts/e2e_screenshots/media_organization/`.
+
+Validation after iteration 94: focused media-bin tests passed; frontend production build passed; independent browser QA and focused retest passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

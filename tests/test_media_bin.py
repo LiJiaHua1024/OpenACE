@@ -77,3 +77,39 @@ def test_media_bin_rejects_missing_media_invalid_audio_and_vocal_target(tmp_path
         json={"media_name": media_name, "track_id": project.tracks[0].id},
     )
     assert vocal_target.status_code == 422
+
+
+def test_media_organization_persists_validates_and_cleans_up(tmp_path, monkeypatch):
+    uploads = tmp_path / "uploads"
+    uploads.mkdir()
+    monkeypatch.setattr(app_module, "UPLOADS", uploads)
+    monkeypatch.setattr(app_module, "store", ProjectStore(tmp_path / "projects"))
+    source = tmp_path / "take.wav"
+    sf.write(source, np.zeros(2400, dtype=np.float32), 24000)
+    client = TestClient(app_module.app)
+    with source.open("rb") as handle:
+        upload = client.post("/api/upload", files={"file": ("take.wav", handle, "audio/wav")})
+    media_name = Path(upload.json()["path"]).name
+
+    updated = client.patch(f"/api/media/{media_name}/organization", json={"tags": ["lead", "lead", "hook"], "folders": ["demos", "2026"]})
+    assert updated.status_code == 200, updated.text
+    assert updated.json()["tags"] == ["lead", "hook"]
+    assert updated.json()["folders"] == ["demos", "2026"]
+    listing = client.get("/api/media").json()
+    row = next(item for item in listing if item["file_name"] == media_name)
+    assert row["tags"] == ["lead", "hook"]
+    assert row["folders"] == ["demos", "2026"]
+
+    partial = client.patch(f"/api/media/{media_name}/organization", json={"tags": ["alt"]})
+    assert partial.status_code == 200
+    assert partial.json()["tags"] == ["alt"]
+    assert partial.json()["folders"] == ["demos", "2026"]
+    assert client.patch(f"/api/media/{media_name}/organization", json={"tags": ["x" * 41]}).status_code == 422
+
+    cleared = client.patch(f"/api/media/{media_name}/organization", json={"tags": [], "folders": []})
+    assert cleared.status_code == 200
+    assert cleared.json()["tags"] == [] and cleared.json()["folders"] == []
+    assert media_name not in app_module.load_media_metadata()
+
+    assert client.delete(f"/api/media/{media_name}").status_code == 200
+    assert media_name not in app_module.load_media_metadata()

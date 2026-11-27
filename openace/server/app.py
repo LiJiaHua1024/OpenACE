@@ -435,6 +435,11 @@ class VoiceTrimRequest(BaseModel):
     end_seconds: float
 
 
+class MediaOrganizationRequest(BaseModel):
+    tags: Optional[List[str]] = None
+    folders: Optional[List[str]] = None
+
+
 @app.get("/api/voices")
 def list_voices():
     return [voice.model_dump(mode="json") for voice in voice_library.list()]
@@ -551,6 +556,43 @@ def media_path_for(media_name: str) -> Path:
     return path
 
 
+def media_metadata_path() -> Path:
+    return UPLOADS / "media_metadata.json"
+
+
+def load_media_metadata() -> Dict[str, Any]:
+    path = media_metadata_path()
+    if not path.exists():
+        return {}
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        return raw if isinstance(raw, dict) else {}
+    except Exception:
+        return {}
+
+
+def save_media_metadata(metadata: Dict[str, Any]) -> None:
+    path = media_metadata_path()
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
+    temporary.replace(path)
+
+
+def clean_media_labels(values: Optional[List[str]], field: str) -> List[str]:
+    if values is None:
+        return []
+    cleaned = []
+    for value in values:
+        item = str(value).strip()
+        if not item:
+            continue
+        if len(item) > 40:
+            raise ValueError(f"media {field} must be at most 40 characters")
+        if item not in cleaned:
+            cleaned.append(item)
+    return cleaned[:24]
+
+
 def media_entry(path: Path) -> Dict[str, Any]:
     parts = path.name.split("_", 2)
     display_name = parts[2] if len(parts) == 3 else path.name
@@ -573,6 +615,9 @@ def media_entry(path: Path) -> Dict[str, Any]:
         })
     except Exception as exc:
         entry["error"] = str(exc)
+    organization = load_media_metadata().get(path.name) or {}
+    entry["tags"] = list(organization.get("tags") or [])
+    entry["folders"] = list(organization.get("folders") or [])
     return entry
 
 
@@ -602,6 +647,30 @@ def list_media_files():
     return files
 
 
+@app.patch("/api/media/{media_name}/organization")
+def update_media_organization(media_name: str, request: MediaOrganizationRequest):
+    path = media_path_for(media_name)
+    try:
+        tags = clean_media_labels(request.tags, "tags") if request.tags is not None else None
+        folders = clean_media_labels(request.folders, "folders") if request.folders is not None else None
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    metadata = load_media_metadata()
+    current = dict(metadata.get(path.name) or {})
+    if tags is not None:
+        current["tags"] = tags
+    if folders is not None:
+        current["folders"] = folders
+    if current.get("tags") or current.get("folders"):
+        metadata[path.name] = current
+    else:
+        metadata.pop(path.name, None)
+    save_media_metadata(metadata)
+    entry = media_entry(path)
+    publish_media_library("updated", entry)
+    return entry
+
+
 @app.delete("/api/media/{media_name}")
 def delete_media_file(media_name: str):
     path = media_path_for(media_name)
@@ -610,6 +679,9 @@ def delete_media_file(media_name: str):
     if users:
         raise HTTPException(409, f"media file is used by arrangement clips in {len(users)} project(s); remove those clips before deleting it")
     path.unlink()
+    metadata = load_media_metadata()
+    if metadata.pop(path.name, None) is not None:
+        save_media_metadata(metadata)
     publish_media_library("deleted", entry)
     return {"ok": True, "deleted": entry}
 

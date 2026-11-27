@@ -472,6 +472,11 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .automation-range-actions span { color: #8fe5ff; font-size: 8px; text-align: center; }
 .automation-range-actions button { height: 18px; border: 1px solid #3c4c68; border-radius: 4px; background: #182133; color: #cfe7ff; font-size: 8px; padding: 0; }
 
+.media-filter-row { display: grid; grid-template-columns: 1fr 82px; gap: 5px; margin-bottom: 6px; }
+.media-filter-row select { min-width: 0; background: #0e111a; color: #dfe7ff; border: 1px solid #333b54; border-radius: 4px; font-size: 10px; }
+.media-labels { display: flex; flex-wrap: wrap; gap: 3px; margin: 3px 0; }
+.media-tag,.media-folder { border-radius: 99px; padding: 1px 5px; font-size: 9px; background: #26324d; color: #aebfff; }
+.media-folder { background: #243f35; color: #9fe6c4; }
 .media-search {
   width: 100%;
   box-sizing: border-box;

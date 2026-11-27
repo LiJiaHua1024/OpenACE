@@ -140,6 +140,8 @@ export interface MediaFile {
   sample_rate?: number
   channels?: number
   error?: string
+  tags?: string[]
+  folders?: string[]
 }
 
 export interface RenderJob {

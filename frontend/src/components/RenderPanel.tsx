@@ -26,6 +26,7 @@ export default function RenderPanel(props: Props) {
   const [voices, setVoices] = useState<VoiceProfile[]>([])
   const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([])
   const [mediaSearch, setMediaSearch] = useState('')
+  const [mediaFolderFilter, setMediaFolderFilter] = useState('')
   const [batchLyrics, setBatchLyrics] = useState('')
   const [trimStart, setTrimStart] = useState(0)
   const [trimEnd, setTrimEnd] = useState(0)
@@ -132,10 +133,27 @@ export default function RenderPanel(props: Props) {
   }
 
 
+  const mediaFolders = Array.from(new Set(mediaFiles.flatMap(item => item.folders || []))).sort((a, b) => a.localeCompare(b))
   const visibleMedia = mediaFiles.filter(item => {
     const query = mediaSearch.trim().toLowerCase()
-    return !query || item.name.toLowerCase().includes(query) || item.file_name.toLowerCase().includes(query)
+    const matchesFolder = !mediaFolderFilter || (item.folders || []).includes(mediaFolderFilter)
+    return matchesFolder && (!query || item.name.toLowerCase().includes(query) || item.file_name.toLowerCase().includes(query) || (item.tags || []).some(tag => tag.toLowerCase().includes(query)) || (item.folders || []).some(folder => folder.toLowerCase().includes(query)))
   })
+
+  async function editMediaOrganization(item: MediaFile) {
+    const tags = window.prompt('Comma-separated media tags', (item.tags || []).join(', '))
+    if (tags === null) return
+    const folders = window.prompt('Comma-separated media folders', (item.folders || []).join(', '))
+    if (folders === null) return
+    setError('')
+    try {
+      const updated = await api.updateMediaOrganization(item.file_name, {
+        tags: tags.split(',').map(value => value.trim()).filter(Boolean),
+        folders: folders.split(',').map(value => value.trim()).filter(Boolean),
+      })
+      setMediaFiles(current => current.map(candidate => candidate.file_name === item.file_name ? updated : candidate))
+    } catch (e: any) { setError(readableError(e)) }
+  }
 
   function readableError(error: unknown): string {
     const raw = error instanceof Error ? error.message : String(error)
@@ -440,7 +458,7 @@ export default function RenderPanel(props: Props) {
 
       <section className="side-section media-bin-section">
         <div className="panel-title">Media bin</div>
-        <input className="media-search" placeholder="Search uploaded audio" value={mediaSearch} onChange={event => setMediaSearch(event.target.value)} />
+        <div className="media-filter-row"><input className="media-search" placeholder="Search uploaded audio" value={mediaSearch} onChange={event => setMediaSearch(event.target.value)} /><select value={mediaFolderFilter} onChange={event => setMediaFolderFilter(event.target.value)} title="Filter media folder"><option value="">All folders</option>{mediaFolders.map(folder => <option key={folder} value={folder}>{folder}</option>)}</select></div>
         {!visibleMedia.length && <div className="empty-state">No uploaded audio</div>}
         <div className="media-list">
           {visibleMedia.map(item => {
@@ -459,8 +477,10 @@ export default function RenderPanel(props: Props) {
                   <strong title={item.file_name}>{item.name}</strong>
                   <span>{item.valid ? `${(item.duration_seconds || 0).toFixed(2)}s · ${Math.round((item.sample_rate || 0) / 100) / 10}k` : 'invalid'}</span>
                 </div>
+                {(!!item.tags?.length || !!item.folders?.length) && <div className="media-labels">{(item.folders || []).map(folder => <span key={`f${folder}`} className="media-folder">▸{folder}</span>)}{(item.tags || []).map(tag => <span key={`t${tag}`} className="media-tag">#{tag}</span>)}</div>}
                 {url && <audio controls preload="none" src={url} />}
                 <div className="media-actions">
+                  <button onClick={() => void editMediaOrganization(item)}>Tags</button>
                   <button disabled={!item.valid} onClick={() => void placeMedia(item)}>Add at playhead</button>
                   <button className="danger" onClick={() => void deleteMedia(item)}>Delete</button>
                 </div>
