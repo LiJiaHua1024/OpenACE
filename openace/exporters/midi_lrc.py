@@ -36,17 +36,26 @@ def export_midi(project: Project, output_path: Path) -> Path:
         last_tempo_tick = tick
     tempo_track.append(mido.MetaMessage("end_of_track", time=0))
     mid.tracks.append(tempo_track)
+    melodic_track_index = 0
     for track in project.tracks:
         if track.type != TrackType.VOCAL:
             continue
+        if track.midi_channel is not None:
+            channel = track.midi_channel
+        else:
+            channel = melodic_track_index % 15
+            if channel >= 9:
+                channel += 1
         mt = mido.MidiTrack()
         mt.append(mido.MetaMessage("track_name", name=track.name, time=0))
+        if track.midi_program is not None:
+            mt.append(mido.Message("program_change", channel=channel, program=track.midi_program, time=0))
         events = []
         for note in track.sorted_notes():
             if note.lyric:
                 events.append((note.start_ticks, mido.MetaMessage("lyrics", text=note.lyric, time=0)))
-            events.append((note.start_ticks, mido.Message("note_on", note=note.pitch, velocity=note.velocity, time=0)))
-            events.append((note.end_ticks, mido.Message("note_off", note=note.pitch, velocity=0, time=0)))
+            events.append((note.start_ticks, mido.Message("note_on", channel=channel, note=note.pitch, velocity=note.velocity, time=0)))
+            events.append((note.end_ticks, mido.Message("note_off", channel=channel, note=note.pitch, velocity=0, time=0)))
         events.sort(key=lambda item: (item[0], 0 if isinstance(item[1], mido.MetaMessage) else 1))
         last = 0
         for absolute, message in events:
@@ -55,6 +64,7 @@ def export_midi(project: Project, output_path: Path) -> Path:
             last = absolute
         mt.append(mido.MetaMessage("end_of_track", time=0))
         mid.tracks.append(mt)
+        melodic_track_index += 1
     # Modern DAWs commonly use UTF-8 lyric events for CJK projects. Mido defaults to
     # latin-1, so scope the charset override to encoding this file.
     with meta_charset("utf-8"):

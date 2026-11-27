@@ -30,25 +30,40 @@ def import_midi(path: Path, title: str | None = None) -> Project:
         project.tempo_map = [TempoPoint(ticks=0, bpm=120.0)]
         project.bpm = 120.0
     for track_index, midi_track in enumerate(mid.tracks):
-        active: Dict[int, Tuple[int, int, str]] = {}
+        active: Dict[tuple[int, int], Tuple[int, int, str]] = {}
         pending_lyric = ""
         abs_ticks = 0
-        notes: List[Note] = []
+        channel_data: dict[int, dict[str, object]] = {}
         for msg in midi_track:
             abs_ticks += msg.time
             if msg.type == "lyrics":
                 pending_lyric += msg.text
+                continue
+            channel = getattr(msg, "channel", 0)
+            data = channel_data.setdefault(channel, {"notes": [], "program": None})
+            if msg.type == "program_change":
+                data["program"] = msg.program
             elif msg.type == "note_on" and msg.velocity > 0:
-                active[msg.note] = (abs_ticks, msg.velocity, pending_lyric)
+                active[(channel, msg.note)] = (abs_ticks, msg.velocity, pending_lyric)
                 pending_lyric = ""
             elif msg.type in {"note_off", "note_on"} and (msg.type == "note_off" or msg.velocity == 0):
-                if msg.note in active:
-                    start, velocity, lyric = active.pop(msg.note)
+                key = (channel, msg.note)
+                if key in active:
+                    start, velocity, lyric = active.pop(key)
                     duration = max(1, abs_ticks - start)
-                    notes.append(Note(start_ticks=start, duration_ticks=duration, pitch=msg.note, velocity=velocity, lyric=lyric))
-        if notes:
-            name = next((m.name for m in midi_track if m.type == "track_name"), f"Track {track_index + 1}")
-            project.add_track(Track(name=name, notes=sorted(notes, key=lambda n: n.start_ticks)))
+                    data["notes"].append(Note(start_ticks=start, duration_ticks=duration, pitch=msg.note, velocity=velocity, lyric=lyric))
+        channels_with_notes = [(channel, data) for channel, data in sorted(channel_data.items()) if data["notes"]]
+        if not channels_with_notes:
+            continue
+        base_name = next((m.name for m in midi_track if m.type == "track_name"), f"Track {track_index + 1}")
+        for channel, data in channels_with_notes:
+            name = base_name if len(channels_with_notes) == 1 else f"{base_name} ch{channel + 1}"
+            project.add_track(Track(
+                name=name,
+                notes=sorted(data["notes"], key=lambda n: n.start_ticks),
+                midi_channel=channel,
+                midi_program=data["program"],
+            ))
     if not project.tracks:
         project.add_track(Track(name="Vocal 1"))
     return project

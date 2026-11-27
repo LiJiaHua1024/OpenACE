@@ -149,6 +149,8 @@ class Track(BaseModel):
     solo: bool = False
     volume: float = 0.8
     pan: float = 0.0
+    midi_channel: Optional[int] = Field(default=None, ge=0, le=15)
+    midi_program: Optional[int] = Field(default=None, ge=0, le=127)
     render_path: Optional[str] = None
     render_revision: int = 0
 

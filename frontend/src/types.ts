@@ -82,6 +82,8 @@ export interface Track {
   solo: boolean
   volume: number
   pan: number
+  midi_channel?: number | null
+  midi_program?: number | null
   render_path?: string | null
   render_revision: number
 }

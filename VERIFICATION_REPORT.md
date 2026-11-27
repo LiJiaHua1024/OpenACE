@@ -822,3 +822,13 @@ Implemented and verified:
 - Browser QA initially caught Ctrl+wheel double-scrolling and passive-listener console errors. The implementation now uses a native non-passive canvas wheel listener. Final visible-Chrome regression verified correct large/small heights, bottom-lane clip drag/context/copy/delete/undo at scrolled coordinates, wheel isolation, bottom lane names, small-project preservation, clean layout, and zero console/network failures. Evidence: `artifacts/e2e_screenshots/arrangement_vertical_scroll/`.
 
 Validation after iteration 58: frontend production build passed; browser regression QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green at 110 collected tests.
+
+## Iteration 59 — MIDI channel/program interoperability
+
+Implemented and verified:
+
+- Tracks now carry optional validated `midi_channel`/`midi_program` metadata. MIDI export writes channel-scoped note events and program changes; automatic channel assignment skips the percussion channel and remains deterministic for multi-track projects.
+- MIDI import now groups notes by channel, preventing same-pitch cross-channel collisions, splits mixed-channel source tracks into truthful channel-labeled OpenACE tracks, and roundtrips channel/program metadata.
+- Regression coverage verifies channel 4/program 52 export+roundtrip and a mixed-channel same-pitch fixture splitting into two tracks with correct independent durations (`240/480` ticks).
+
+Validation after iteration 59: targeted MIDI interoperability tests passed; frontend production build passed. Full suite follows before commit.

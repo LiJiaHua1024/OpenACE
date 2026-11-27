@@ -35,6 +35,38 @@ def test_midi_roundtrip_preserves_notes_and_lyrics(tmp_path):
     assert "".join(n.lyric for n in notes) == "你好"
 
 
+def test_midi_channel_and_program_roundtrip(tmp_path):
+    project = sample_project()
+    project.tracks[0].midi_channel = 4
+    project.tracks[0].midi_program = 52
+    path = export_midi(project, tmp_path / "channels.mid")
+    mid = mido.MidiFile(str(path))
+    note_track = mid.tracks[1]
+    assert next(m for m in note_track if m.type == "program_change").program == 52
+    assert {m.channel for m in note_track if m.type in {"note_on", "note_off"}} == {4}
+    imported = import_midi(path)
+    assert imported.tracks[0].midi_channel == 4
+    assert imported.tracks[0].midi_program == 52
+
+
+def test_midi_import_splits_channels_without_note_collisions(tmp_path):
+    path = tmp_path / "split.mid"
+    mid = mido.MidiFile(ticks_per_beat=480)
+    mt = mido.MidiTrack()
+    mt.append(mido.MetaMessage("track_name", name="Layered", time=0))
+    mt.append(mido.Message("note_on", channel=0, note=60, velocity=80, time=0))
+    mt.append(mido.Message("note_on", channel=1, note=60, velocity=90, time=0))
+    mt.append(mido.Message("note_off", channel=0, note=60, velocity=0, time=240))
+    mt.append(mido.Message("note_off", channel=1, note=60, velocity=0, time=240))
+    mt.append(mido.MetaMessage("end_of_track", time=0))
+    mid.tracks.append(mt)
+    mid.save(str(path))
+    imported = import_midi(path)
+    assert len(imported.tracks) == 2
+    assert [track.midi_channel for track in imported.tracks] == [0, 1]
+    assert [track.notes[0].duration_ticks for track in imported.tracks] == [240, 480]
+
+
 def test_lrc_contains_real_timed_lyrics(tmp_path):
     path = export_lrc(sample_project(), tmp_path / "song.lrc")
     text = path.read_text(encoding="utf-8")
