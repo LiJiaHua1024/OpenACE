@@ -1,0 +1,32 @@
+{
+  "normal": {
+    "left": "176px",
+    "top": "58px",
+    "rect": {
+      "x": 412,
+      "y": 115,
+      "width": 2,
+      "height": 34,
+      "top": 115,
+      "right": 414,
+      "bottom": 149,
+      "left": 412
+    },
+    "display": "block"
+  },
+  "alt": {
+    "left": "204px",
+    "top": "58px",
+    "rect": {
+      "x": 440,
+      "y": 115,
+      "width": 2,
+      "height": 34,
+      "top": 115,
+      "right": 442,
+      "bottom": 149,
+      "left": 440
+    },
+    "display": "block"
+  }
+}

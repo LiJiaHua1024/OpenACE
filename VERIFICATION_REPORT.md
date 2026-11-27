@@ -1013,3 +1013,13 @@ Implemented and verified:
 - Independent visible-Chrome QA at exact 1272×837 verified no-reload SSE appearance, truthful 2s/48kHz metadata, playback audition progress, exact tick960 placement and arrangement playback, used/unused deletion semantics, long-filename containment/ellipsizing, clickable controls, and sticky immediate error visibility. Evidence: `artifacts/e2e_screenshots/media_bin/`.
 
 Validation after iteration 77: frontend production build passed; media-bin backend regressions passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 78 — media-bin drag/drop arrangement placement
+
+Implemented and verified:
+
+- Valid media-bin rows can be dragged directly into the arrangement. Drops snap to beats by default, Alt preserves exact nonsnapped ticks, audio/accompaniment lanes are reused when targeted, vocal lanes are never corrupted, and otherwise a new measured audio track is created. A cyan insertion indicator follows normal drag positions and clears after drop or leaving the arrangement.
+- Independent visible-Chrome QA at exact 1272×837 used real native HTML5 drag gestures. It verified exact beat snap raw600→480, existing audio lane raw2520→2400, accompaniment half-beat tie raw1200→1440, exact Alt tick600 placement, vocal-lane fallback, invalid rows not draggable, playback of the dropped 2s clip, search/audition/add/delete regressions, clean layout, and clean console/network. Evidence: `artifacts/e2e_screenshots/media_drag_drop/`.
+- Three focused reproduction/fix attempts improved normal diagonal indicator persistence and leave/drop clearing, but the indicator can still vanish on one narrow Alt lower-diagonal drag path even though placement remains exact. Per the 3-strike escape rule this minor visual-feedback limitation is documented in `KNOWN_ISSUES.md` rather than blocking the correct workflow.
+
+Validation after iteration 78: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

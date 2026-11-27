@@ -393,7 +393,15 @@ export default function RenderPanel(props: Props) {
           {visibleMedia.map(item => {
             const url = renderFileUrl(item.path)
             return (
-              <div className={`media-row ${item.valid ? '' : 'invalid'}`} key={item.file_name}>
+              <div
+                className={`media-row ${item.valid ? '' : 'invalid'}`}
+                key={item.file_name}
+                draggable={item.valid}
+                onDragStart={event => {
+                  event.dataTransfer.setData('application/x-openace-media', item.file_name)
+                  event.dataTransfer.effectAllowed = 'copy'
+                }}
+              >
                 <div className="media-row-head">
                   <strong title={item.file_name}>{item.name}</strong>
                   <span>{item.valid ? `${(item.duration_seconds || 0).toFixed(2)}s · ${Math.round((item.sample_rate || 0) / 100) / 10}k` : 'invalid'}</span>

@@ -1,0 +1,28 @@
+{
+  "canvas": {
+    "x": 236,
+    "y": 57,
+    "width": 704,
+    "height": 166
+  },
+  "results": [
+    {
+      "alt": false,
+      "inside_before": true,
+      "lower_indicator": {
+        "left": "176px",
+        "top": "126px",
+        "display": "block"
+      }
+    },
+    {
+      "alt": true,
+      "inside_before": true,
+      "lower_indicator": {
+        "left": "204px",
+        "top": "126px",
+        "display": "block"
+      }
+    }
+  ]
+}

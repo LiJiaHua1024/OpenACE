@@ -1,0 +1,937 @@
+{
+  "console": [],
+  "network": [],
+  "drops": {
+    "empty_snap": {
+      "indicator": {
+        "left": "176px",
+        "top": "58px",
+        "height": "34px",
+        "rect": {
+          "x": 412,
+          "y": 116,
+          "width": 2,
+          "height": 34
+        },
+        "display": "block",
+        "background": "rgb(103, 232, 249)"
+      },
+      "draglog_tail": [
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 581,
+          "y": 212,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragenter",
+          "target": "",
+          "x": 534,
+          "y": 187,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragleave",
+          "target": "",
+          "x": 534,
+          "y": 187,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 487,
+          "y": 162,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 440,
+          "y": 138,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 440,
+          "y": 138,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "drop",
+          "target": "",
+          "x": 440,
+          "y": 138,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragend",
+          "target": "media-row ",
+          "x": 440,
+          "y": 138,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        }
+      ],
+      "drop_events": 1,
+      "dragstart": 1
+    },
+    "audio_lane": {
+      "indicator": {
+        "left": "624px",
+        "top": "58px",
+        "height": "34px",
+        "rect": {
+          "x": 860,
+          "y": 116,
+          "width": 2,
+          "height": 34
+        },
+        "display": "block",
+        "background": "rgb(103, 232, 249)"
+      },
+      "draglog_tail": [
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 933,
+          "y": 208,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragenter",
+          "target": "",
+          "x": 918,
+          "y": 183,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragleave",
+          "target": "",
+          "x": 918,
+          "y": 183,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 903,
+          "y": 158,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 888,
+          "y": 133,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 888,
+          "y": 133,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "drop",
+          "target": "",
+          "x": 888,
+          "y": 133,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragend",
+          "target": "media-row ",
+          "x": 888,
+          "y": 133,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        }
+      ],
+      "drop_events": 1,
+      "dragstart": 1
+    },
+    "accompaniment_lane": {
+      "indicator": null,
+      "draglog_tail": [
+        {
+          "type": "dragleave",
+          "target": "tool",
+          "x": 691,
+          "y": 234,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 654,
+          "y": 212,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 617,
+          "y": 189,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragenter",
+          "target": "",
+          "x": 580,
+          "y": 167,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragleave",
+          "target": "",
+          "x": 580,
+          "y": 167,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 580,
+          "y": 167,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "drop",
+          "target": "",
+          "x": 580,
+          "y": 167,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragend",
+          "target": "media-row ",
+          "x": 580,
+          "y": 167,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        }
+      ],
+      "drop_events": 1,
+      "dragstart": 1
+    },
+    "alt_fine": {
+      "indicator": null,
+      "draglog_tail": [
+        {
+          "type": "dragenter",
+          "target": "",
+          "x": 534,
+          "y": 228,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": true
+        },
+        {
+          "type": "dragleave",
+          "target": "editor-toolbar",
+          "x": 534,
+          "y": 228,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": true
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 487,
+          "y": 207,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": true
+        },
+        {
+          "type": "dragenter",
+          "target": "",
+          "x": 440,
+          "y": 186,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": true
+        },
+        {
+          "type": "dragleave",
+          "target": "",
+          "x": 440,
+          "y": 186,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": true
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 440,
+          "y": 186,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": true
+        },
+        {
+          "type": "drop",
+          "target": "",
+          "x": 440,
+          "y": 186,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": true
+        },
+        {
+          "type": "dragend",
+          "target": "media-row ",
+          "x": 440,
+          "y": 186,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        }
+      ],
+      "drop_events": 1,
+      "dragstart": 1
+    },
+    "vocal_row": {
+      "indicator": {
+        "left": "400px",
+        "top": "24px",
+        "height": "34px",
+        "rect": {
+          "x": 636,
+          "y": 81,
+          "width": 2,
+          "height": 34
+        },
+        "display": "block",
+        "background": "rgb(103, 232, 249)"
+      },
+      "draglog_tail": [
+        {
+          "type": "dragleave",
+          "target": "",
+          "x": 728,
+          "y": 208,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 691,
+          "y": 180,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 654,
+          "y": 153,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 617,
+          "y": 125,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 580,
+          "y": 98,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragover",
+          "target": "",
+          "x": 580,
+          "y": 98,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "drop",
+          "target": "",
+          "x": 580,
+          "y": 98,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        },
+        {
+          "type": "dragend",
+          "target": "media-row ",
+          "x": 580,
+          "y": 98,
+          "types": [
+            "application/x-openace-media"
+          ],
+          "alt": false
+        }
+      ],
+      "drop_events": 1,
+      "dragstart": 1
+    }
+  },
+  "defects": [
+    "empty drag indicator not at expected snapped x176 row y80",
+    "accompaniment lane drop did not reuse BGM lane at start960",
+    "alt fine placement did not preserve nonsnapped tick603",
+    "alt indicator unexpectedly snapped",
+    "vocal-row drop did not create correct fallback audio track at start960"
+  ],
+  "project_id": "project_ae423835400a",
+  "invalid": {
+    "draggable": false,
+    "text": "dnd_invalid_probe.wavinvalidAdd at playheadDelete"
+  },
+  "after_empty": [
+    {
+      "id": "track_c0cbe214b234",
+      "type": "vocal",
+      "name": "Lead Vocal",
+      "clips": []
+    },
+    {
+      "id": "track_685ea5115c27",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_fef0e1ba9f9d",
+          "start_ticks": 480,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    }
+  ],
+  "playback": {
+    "starts": [
+      {
+        "t": 5963.600000008941,
+        "when": 1.7763265306122449,
+        "offset": 0,
+        "duration": 2,
+        "bufdur": 1.9999773242630385
+      }
+    ],
+    "position": ""
+  },
+  "after_audio_lane": [
+    {
+      "id": "track_c0cbe214b234",
+      "type": "vocal",
+      "name": "Lead Vocal",
+      "clips": []
+    },
+    {
+      "id": "track_685ea5115c27",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_fef0e1ba9f9d",
+          "start_ticks": 480,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        },
+        {
+          "id": "clip_f21cb60a9fa9",
+          "start_ticks": 2400,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    }
+  ],
+  "track_count_after_bgm": 3,
+  "after_accompaniment": [
+    {
+      "id": "track_c0cbe214b234",
+      "type": "vocal",
+      "name": "Lead Vocal",
+      "clips": []
+    },
+    {
+      "id": "track_685ea5115c27",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_fef0e1ba9f9d",
+          "start_ticks": 480,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        },
+        {
+          "id": "clip_f21cb60a9fa9",
+          "start_ticks": 2400,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    },
+    {
+      "id": "track_e9411f61-d47",
+      "type": "accompaniment",
+      "name": "BGM 3",
+      "clips": [
+        {
+          "id": "clip_45730a12d900",
+          "start_ticks": 1440,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    }
+  ],
+  "after_alt": [
+    {
+      "id": "track_c0cbe214b234",
+      "type": "vocal",
+      "name": "Lead Vocal",
+      "clips": []
+    },
+    {
+      "id": "track_685ea5115c27",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_fef0e1ba9f9d",
+          "start_ticks": 480,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        },
+        {
+          "id": "clip_f21cb60a9fa9",
+          "start_ticks": 2400,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    },
+    {
+      "id": "track_e9411f61-d47",
+      "type": "accompaniment",
+      "name": "BGM 3",
+      "clips": [
+        {
+          "id": "clip_45730a12d900",
+          "start_ticks": 1440,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    },
+    {
+      "id": "track_b10f9ce181c2",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_4eee5599146e",
+          "start_ticks": 600,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    }
+  ],
+  "after_vocal_row": [
+    {
+      "id": "track_c0cbe214b234",
+      "type": "vocal",
+      "name": "Lead Vocal",
+      "clips": []
+    },
+    {
+      "id": "track_685ea5115c27",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_fef0e1ba9f9d",
+          "start_ticks": 480,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        },
+        {
+          "id": "clip_f21cb60a9fa9",
+          "start_ticks": 2400,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    },
+    {
+      "id": "track_e9411f61-d47",
+      "type": "accompaniment",
+      "name": "BGM 3",
+      "clips": [
+        {
+          "id": "clip_45730a12d900",
+          "start_ticks": 1440,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    },
+    {
+      "id": "track_b10f9ce181c2",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_4eee5599146e",
+          "start_ticks": 600,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    },
+    {
+      "id": "track_607c9283624f",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_d78c769259c5",
+          "start_ticks": 1440,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    }
+  ],
+  "invalid_drag": {
+    "events": [],
+    "track_count_before": 5,
+    "track_count_after": 5
+  },
+  "search": {
+    "query": "svclyrics",
+    "count": 1
+  },
+  "audition": {
+    "src": "/uploads/svclyrics_words.wav",
+    "paused": false,
+    "currentTime": 0.245028,
+    "readyState": 4
+  },
+  "add_regression": {
+    "beforetracks": 5,
+    "aftertracks": 6,
+    "lasttype": "audio",
+    "lastclips": 1
+  },
+  "delete_regression": {
+    "row_count_after": 0,
+    "file_exists": false
+  },
+  "media_events": [
+    {
+      "t": 3180.9000000059605,
+      "data": {
+        "type": "media_library",
+        "time": 1795800607.1981094,
+        "payload": {
+          "action": "created",
+          "media": {
+            "id": "upload_aa06733b404a_dnd_invalid_probe.wav",
+            "name": "dnd_invalid_probe.wav",
+            "file_name": "upload_aa06733b404a_dnd_invalid_probe.wav",
+            "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_aa06733b404a_dnd_invalid_probe.wav",
+            "size": 9,
+            "modified_at": 1795800607.197228,
+            "valid": false,
+            "error": "Error opening '/home/ubuntu/repos/OpenACE/data/uploads/upload_aa06733b404a_dnd_invalid_probe.wav': Format not recognised."
+          }
+        }
+      }
+    },
+    {
+      "t": 21883.40000000596,
+      "data": {
+        "type": "media_library",
+        "time": 1795800625.9004745,
+        "payload": {
+          "action": "created",
+          "media": {
+            "id": "upload_fe59d25c013a_dnd_unused_delete.wav",
+            "name": "dnd_unused_delete.wav",
+            "file_name": "upload_fe59d25c013a_dnd_unused_delete.wav",
+            "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_fe59d25c013a_dnd_unused_delete.wav",
+            "size": 192044,
+            "modified_at": 1795800625.8991723,
+            "valid": true,
+            "duration_seconds": 2,
+            "sample_rate": 48000,
+            "channels": 1
+          }
+        }
+      }
+    },
+    {
+      "t": 22344.90000000596,
+      "data": {
+        "type": "media_library",
+        "time": 1795800626.3625498,
+        "payload": {
+          "action": "deleted",
+          "media": {
+            "id": "upload_fe59d25c013a_dnd_unused_delete.wav",
+            "name": "dnd_unused_delete.wav",
+            "file_name": "upload_fe59d25c013a_dnd_unused_delete.wav",
+            "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_fe59d25c013a_dnd_unused_delete.wav",
+            "size": 192044,
+            "modified_at": 1795800625.8991723,
+            "valid": true,
+            "duration_seconds": 2,
+            "sample_rate": 48000,
+            "channels": 1
+          }
+        }
+      }
+    }
+  ],
+  "layout": {
+    "viewport": [
+      1272,
+      837
+    ],
+    "list": {
+      "clientWidth": 277,
+      "scrollWidth": 277
+    },
+    "rows": [
+      {
+        "cw": 273,
+        "sw": 273,
+        "right": 1238
+      },
+      {
+        "cw": 273,
+        "sw": 273,
+        "right": 1238
+      },
+      {
+        "cw": 273,
+        "sw": 273,
+        "right": 1238
+      },
+      {
+        "cw": 273,
+        "sw": 273,
+        "right": 1238
+      },
+      {
+        "cw": 273,
+        "sw": 273,
+        "right": 1238
+      }
+    ]
+  },
+  "final_project": [
+    {
+      "id": "track_c0cbe214b234",
+      "type": "vocal",
+      "name": "Lead Vocal",
+      "clips": []
+    },
+    {
+      "id": "track_685ea5115c27",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_fef0e1ba9f9d",
+          "start_ticks": 480,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        },
+        {
+          "id": "clip_f21cb60a9fa9",
+          "start_ticks": 2400,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    },
+    {
+      "id": "track_e9411f61-d47",
+      "type": "accompaniment",
+      "name": "BGM 3",
+      "clips": [
+        {
+          "id": "clip_45730a12d900",
+          "start_ticks": 1440,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    },
+    {
+      "id": "track_b10f9ce181c2",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_4eee5599146e",
+          "start_ticks": 600,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    },
+    {
+      "id": "track_607c9283624f",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_d78c769259c5",
+          "start_ticks": 1440,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    },
+    {
+      "id": "track_e68011db930a",
+      "type": "audio",
+      "name": "Audio — svclyrics_words",
+      "clips": [
+        {
+          "id": "clip_7b3ae9187473",
+          "start_ticks": 1382,
+          "duration_ticks": 1920,
+          "path": "/home/ubuntu/repos/OpenACE/data/uploads/svclyrics_words.wav",
+          "label": "svclyrics_words"
+        }
+      ]
+    }
+  ]
+}

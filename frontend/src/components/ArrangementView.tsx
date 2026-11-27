@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { renderFileUrl } from '../api'
+import { api, renderFileUrl } from '../api'
 import { crossfadeGainAt, crossfadeIntervals } from '../crossfade'
 import type { AudioClip, Project, TimelineState, Track } from '../types'
 import { barTicks as musicalBarTicks, secondsBetweenTicks, secondsToTicks, secondsToTicksFrom, tickDurationSeconds, ticksToSeconds } from '../tempo'
@@ -59,6 +59,8 @@ export default function ArrangementView(props: Props) {
   const [menu, setMenu] = useState<{ x: number; y: number; trackId: string; clipId: string | null; ticks: number } | null>(null)
   const [selectedClips, setSelectedClips] = useState<{ trackId: string; clipId: string }[]>([])
   const [marquee, setMarquee] = useState<{ startX: number; startY: number; currentX: number; currentY: number; additive: boolean } | null>(null)
+  const [mediaDropTarget, setMediaDropTarget] = useState<{ x: number; y: number; height: number } | null>(null)
+  const mediaDropLeaveTimer = useRef<number | null>(null)
   const clipClipboardRef = useRef<{ trackId: string; clip: AudioClip; relativeStart: number }[]>([])
   const [, setClipClipboardVersion] = useState(0)
   const waveformCache = useRef(new Map<string, Promise<WaveformData>>())
@@ -877,6 +879,54 @@ export default function ArrangementView(props: Props) {
     setMenu({ x: pos.x, y: pos.y, trackId: track.id, clipId: clip?.id || null, ticks: tickForX(pos.x) })
   }
 
+  function mediaDropPosition(event: React.DragEvent) {
+    const rect = canvasRef.current!.getBoundingClientRect()
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
+    const rawTicks = tickForX(x)
+    const ticks = event.altKey ? rawTicks : Math.max(0, Math.round(rawTicks / ppq) * ppq)
+    return { x, y, ticks, track: trackAt(y) }
+  }
+
+  function onMediaDragOver(event: React.DragEvent) {
+    if (!event.dataTransfer.types.includes('application/x-openace-media')) return
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'copy'
+    const pos = mediaDropPosition(event)
+    const row = Math.max(0, Math.floor((pos.y - RULER_HEIGHT) / ROW_HEIGHT))
+    if (mediaDropLeaveTimer.current !== null) {
+      window.clearTimeout(mediaDropLeaveTimer.current)
+      mediaDropLeaveTimer.current = null
+    }
+    setMediaDropTarget({ x: xForTick(pos.ticks), y: RULER_HEIGHT + row * ROW_HEIGHT, height: ROW_HEIGHT })
+  }
+
+  function onMediaDragLeave(event: React.DragEvent) {
+    const nextTarget = event.relatedTarget as Node | null
+    if (nextTarget && (event.currentTarget as Node).contains(nextTarget)) return
+    if (mediaDropLeaveTimer.current !== null) window.clearTimeout(mediaDropLeaveTimer.current)
+    mediaDropLeaveTimer.current = window.setTimeout(() => {
+      mediaDropLeaveTimer.current = null
+      setMediaDropTarget(null)
+    }, 160)
+  }
+
+  async function onMediaDrop(event: React.DragEvent) {
+    const mediaName = event.dataTransfer.getData('application/x-openace-media')
+    if (!mediaName) return
+    event.preventDefault()
+    const pos = mediaDropPosition(event)
+    if (mediaDropLeaveTimer.current !== null) {
+      window.clearTimeout(mediaDropLeaveTimer.current)
+      mediaDropLeaveTimer.current = null
+    }
+    setMediaDropTarget(null)
+    const targetTrack = pos.track && pos.track.type !== 'vocal' ? pos.track : undefined
+    try {
+      await api.placeMediaClip(props.project.id, mediaName, pos.ticks, targetTrack?.id)
+    } catch {}
+  }
+
   const arrangementContentHeight = Math.max(132, RULER_HEIGHT + props.project.tracks.length * ROW_HEIGHT + 6)
   const arrangementViewportHeight = Math.min(arrangementContentHeight, 210)
   const menuWidth = 204
@@ -887,8 +937,9 @@ export default function ArrangementView(props: Props) {
 
   return (
     <div ref={arrangementRef} className="arrangement-view" style={{ height: arrangementViewportHeight }} onClick={() => setMenu(null)} onScroll={event => setArrangementScrollTop((event.target as HTMLDivElement).scrollTop)}>
-      <div className="arrangement-content" style={{ height: arrangementContentHeight }}>
+      <div className="arrangement-content" style={{ height: arrangementContentHeight }} onDragOver={onMediaDragOver} onDrop={event => { void onMediaDrop(event) }} onDragLeave={onMediaDragLeave}>
         <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onContextMenu={onContextMenu} />
+        {mediaDropTarget && <div className="media-drop-indicator" style={{ left: mediaDropTarget.x, top: mediaDropTarget.y, height: mediaDropTarget.height }} />}
       {menu && (
         <div className="piano-context-menu arrangement-context-menu" style={{ left: menuLeft, top: menuTop }} onClick={event => event.stopPropagation()}>
           {menu.clipId && <button onClick={() => splitClip(menu)}>Split at cursor</button>}

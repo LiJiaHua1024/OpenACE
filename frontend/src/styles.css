@@ -550,3 +550,20 @@ button:disabled { cursor: not-allowed; opacity: .42; }
   min-width: 0;
   overflow-x: hidden;
 }
+
+.media-drop-indicator {
+  position: absolute;
+  width: 2px;
+  background: #67e8f9;
+  box-shadow: 0 0 8px rgba(103, 232, 249, 0.8);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.media-drop-indicator::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 -1px;
+  width: 4px;
+  background: rgba(103, 232, 249, 0.16);
+}
