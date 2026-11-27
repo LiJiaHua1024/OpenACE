@@ -963,3 +963,13 @@ Implemented and verified:
 - Independent visible-Chrome QA at exact 1272×837 verified Chinese sustained-vowel splitting, exact phoneme/pitch/vibrato math, context/toolbar/Ctrl+E chains without duplicate notes, undo/redo/reload, invalid-position immutability, English `cat` tail rejection, CLI/MCP behavior, exact toolbar geometry, and clean console/network. Evidence: `artifacts/e2e_screenshots/note_split/`.
 
 Validation after iteration 72: frontend production build passed; focused backend/endpoint/CLI tests passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 73 — piano-roll keyboard nudging
+
+Implemented and verified:
+
+- Selected piano-roll notes now support arrow-key editing: Left/Right moves by the current grid step with collective zero clamping; Up/Down transposes by semitone; Shift+Up/Down transposes by octave. Multi-note groups clamp collectively at pitch boundaries, preserving exact adjacent intervals rather than squashing or octave-folding individual notes.
+- Nudging is transaction-based, undo/redo-safe, reload-persistent, and does not interfere with lyric text-input caret movement.
+- Independent visible-Chrome QA at exact 1272×837 verified exact grid movement, horizontal spacing, zero clamp, semitone/octave shifts, upper/lower collective clamps with exact `+2,-5` interval preservation, lyric-input isolation, Grid-select/form-control isolation, undo/redo/reload, toolbar geometry, and clean console/network. Evidence: `artifacts/e2e_screenshots/keyboard_nudge/`.
+
+Validation after iteration 73: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

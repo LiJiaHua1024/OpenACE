@@ -1,0 +1,636 @@
+{
+  "checks": {
+    "viewport_fixture_exact": true,
+    "single_selected": true,
+    "single_right_grid_exact": true,
+    "single_undo_exact": true,
+    "single_redo_exact": true,
+    "single_left_zero_clamped": true,
+    "group_left_zero_clamp_no_squash": true,
+    "group_right_spacing_exact": true,
+    "group_undo_exact": true,
+    "group_redo_exact": true,
+    "text_input_arrows_caret_not_notes": true,
+    "group_semitone_up_exact": true,
+    "group_octave_up_exact": true,
+    "group_upper_clamp_preserves_intervals": true,
+    "group_upper_clamp_stable": true,
+    "group_octave_down_exact": true,
+    "group_lower_clamp_preserves_intervals": false,
+    "group_lower_clamp_stable": false,
+    "reload_persists_exact_nudges": true,
+    "toolbar_no_overflow": true,
+    "console_network_clean": true
+  },
+  "details": {
+    "viewport_fixture_exact": [
+      [
+        "note_8ecd52707b97",
+        240,
+        240,
+        70,
+        "啊"
+      ],
+      [
+        "note_75ccb6b46668",
+        720,
+        240,
+        72,
+        "啊"
+      ],
+      [
+        "note_93c8ba07e3aa",
+        1200,
+        240,
+        67,
+        "啊"
+      ]
+    ],
+    "single_selected": "1 selected",
+    "single_right_grid_exact": [
+      [
+        "note_8ecd52707b97",
+        360,
+        240,
+        70,
+        "啊"
+      ],
+      [
+        "note_75ccb6b46668",
+        720,
+        240,
+        72,
+        "啊"
+      ],
+      [
+        "note_93c8ba07e3aa",
+        1200,
+        240,
+        67,
+        "啊"
+      ]
+    ],
+    "single_undo_exact": [
+      [
+        "note_8ecd52707b97",
+        240,
+        240,
+        70,
+        "啊"
+      ],
+      [
+        "note_75ccb6b46668",
+        720,
+        240,
+        72,
+        "啊"
+      ],
+      [
+        "note_93c8ba07e3aa",
+        1200,
+        240,
+        67,
+        "啊"
+      ]
+    ],
+    "single_redo_exact": [
+      [
+        "note_8ecd52707b97",
+        360,
+        240,
+        70,
+        "啊"
+      ],
+      [
+        "note_75ccb6b46668",
+        720,
+        240,
+        72,
+        "啊"
+      ],
+      [
+        "note_93c8ba07e3aa",
+        1200,
+        240,
+        67,
+        "啊"
+      ]
+    ],
+    "single_left_zero_clamped": [
+      [
+        "note_8ecd52707b97",
+        0,
+        240,
+        70,
+        "啊"
+      ],
+      [
+        "note_75ccb6b46668",
+        720,
+        240,
+        72,
+        "啊"
+      ],
+      [
+        "note_93c8ba07e3aa",
+        1200,
+        240,
+        67,
+        "啊"
+      ]
+    ],
+    "group_left_zero_clamp_no_squash": {
+      "before": [
+        [
+          "note_8ecd52707b97",
+          0,
+          240,
+          70,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          720,
+          240,
+          72,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1200,
+          240,
+          67,
+          "啊"
+        ]
+      ],
+      "after": [
+        [
+          "note_8ecd52707b97",
+          0,
+          240,
+          70,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          720,
+          240,
+          72,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1200,
+          240,
+          67,
+          "啊"
+        ]
+      ]
+    },
+    "group_right_spacing_exact": {
+      "sig": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          70,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          72,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          67,
+          "啊"
+        ]
+      ],
+      "intervals": {
+        "start_gaps": [
+          720,
+          480
+        ],
+        "pitch_deltas": [
+          2,
+          -5
+        ]
+      }
+    },
+    "group_undo_exact": [
+      [
+        "note_8ecd52707b97",
+        0,
+        240,
+        70,
+        "啊"
+      ],
+      [
+        "note_75ccb6b46668",
+        720,
+        240,
+        72,
+        "啊"
+      ],
+      [
+        "note_93c8ba07e3aa",
+        1200,
+        240,
+        67,
+        "啊"
+      ]
+    ],
+    "group_redo_exact": [
+      [
+        "note_8ecd52707b97",
+        120,
+        240,
+        70,
+        "啊"
+      ],
+      [
+        "note_75ccb6b46668",
+        840,
+        240,
+        72,
+        "啊"
+      ],
+      [
+        "note_93c8ba07e3aa",
+        1320,
+        240,
+        67,
+        "啊"
+      ]
+    ],
+    "text_input_arrows_caret_not_notes": {
+      "caret": [
+        2,
+        1,
+        2
+      ],
+      "before": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          70,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          72,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          67,
+          "啊"
+        ]
+      ],
+      "after": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          70,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          72,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          67,
+          "啊"
+        ]
+      ]
+    },
+    "group_semitone_up_exact": [
+      [
+        "note_8ecd52707b97",
+        120,
+        240,
+        71,
+        "啊"
+      ],
+      [
+        "note_75ccb6b46668",
+        840,
+        240,
+        73,
+        "啊"
+      ],
+      [
+        "note_93c8ba07e3aa",
+        1320,
+        240,
+        68,
+        "啊"
+      ]
+    ],
+    "group_octave_up_exact": [
+      [
+        "note_8ecd52707b97",
+        120,
+        240,
+        83,
+        "啊"
+      ],
+      [
+        "note_75ccb6b46668",
+        840,
+        240,
+        85,
+        "啊"
+      ],
+      [
+        "note_93c8ba07e3aa",
+        1320,
+        240,
+        80,
+        "啊"
+      ]
+    ],
+    "group_upper_clamp_preserves_intervals": {
+      "sig": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          94,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          96,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          91,
+          "啊"
+        ]
+      ],
+      "intervals": {
+        "start_gaps": [
+          720,
+          480
+        ],
+        "pitch_deltas": [
+          2,
+          -5
+        ]
+      }
+    },
+    "group_upper_clamp_stable": {
+      "before": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          94,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          96,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          91,
+          "啊"
+        ]
+      ],
+      "after": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          94,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          96,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          91,
+          "啊"
+        ]
+      ]
+    },
+    "group_octave_down_exact": [
+      [
+        "note_8ecd52707b97",
+        120,
+        240,
+        82,
+        "啊"
+      ],
+      [
+        "note_75ccb6b46668",
+        840,
+        240,
+        84,
+        "啊"
+      ],
+      [
+        "note_93c8ba07e3aa",
+        1320,
+        240,
+        79,
+        "啊"
+      ]
+    ],
+    "group_lower_clamp_preserves_intervals": {
+      "sig": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          34,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          36,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          31,
+          "啊"
+        ]
+      ],
+      "intervals": {
+        "start_gaps": [
+          720,
+          480
+        ],
+        "pitch_deltas": [
+          2,
+          -5
+        ]
+      }
+    },
+    "group_lower_clamp_stable": {
+      "before": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          34,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          36,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          31,
+          "啊"
+        ]
+      ],
+      "after": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          27,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          29,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          24,
+          "啊"
+        ]
+      ]
+    },
+    "reload_persists_exact_nudges": {
+      "before": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          27,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          29,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          24,
+          "啊"
+        ]
+      ],
+      "after": [
+        [
+          "note_8ecd52707b97",
+          120,
+          240,
+          27,
+          "啊"
+        ],
+        [
+          "note_75ccb6b46668",
+          840,
+          240,
+          29,
+          "啊"
+        ],
+        [
+          "note_93c8ba07e3aa",
+          1320,
+          240,
+          24,
+          "啊"
+        ]
+      ]
+    },
+    "toolbar_no_overflow": {
+      "viewport": [
+        1272,
+        837
+      ],
+      "toolbar": [
+        714,
+        714
+      ],
+      "toolbarRight": 950,
+      "selection": {
+        "text": "",
+        "right": 926.5,
+        "width": 48
+      },
+      "body": [
+        1272,
+        1272
+      ]
+    },
+    "console_network_clean": {
+      "console": [],
+      "network": []
+    }
+  },
+  "console": [],
+  "network": [],
+  "passed": 19,
+  "total": 21
+}

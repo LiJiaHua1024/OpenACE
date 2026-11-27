@@ -938,9 +938,49 @@ export default function PianoRoll(props: Props) {
     setPhonemeEditor(null)
   }
 
+  function nudgeSelection(direction: 'left' | 'right' | 'up' | 'down', octave = false) {
+    if (!props.track || !selectedNoteIds.length) return
+    const notes = props.track.notes.filter(note => selectedSet.has(note.id))
+    if (!notes.length) return
+    props.beginTransaction()
+    if (direction === 'left' || direction === 'right') {
+      const step = ppq / gridDivision
+      const rawDelta = direction === 'left' ? -step : step
+      const minStart = Math.min(...notes.map(note => note.start_ticks))
+      const delta = Math.max(rawDelta, -minStart)
+      mutateTrack(track => {
+        for (const note of track.notes) {
+          if (selectedSet.has(note.id)) note.start_ticks = Math.max(0, note.start_ticks + delta)
+        }
+        track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+      }, true)
+    } else {
+      const rawDelta = (direction === 'up' ? 1 : -1) * (octave ? 12 : 1)
+      const minPitch = Math.min(...notes.map(note => note.pitch))
+      const maxPitch = Math.max(...notes.map(note => note.pitch))
+      const delta = Math.max(MIN_PITCH - minPitch, Math.min(MAX_PITCH - maxPitch, rawDelta))
+      mutateTrack(track => {
+        for (const note of track.notes) {
+          if (selectedSet.has(note.id)) note.pitch = Math.max(MIN_PITCH, Math.min(MAX_PITCH, note.pitch + delta))
+        }
+        track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+      }, true)
+    }
+    props.endTransaction()
+  }
+
   function handleEditorKey(event: KeyboardEvent) {
-    if ((event.target as HTMLElement).tagName === 'INPUT') return
+    const target = event.target as HTMLElement
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) || target.isContentEditable) return
     const key = event.key.toLowerCase()
+    if (!event.ctrlKey && !event.metaKey && !event.altKey && event.key.startsWith('Arrow')) {
+      const direction = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down' }[event.key] as 'left' | 'right' | 'up' | 'down' | undefined
+      if (direction && selectedNoteIds.length) {
+        event.preventDefault()
+        nudgeSelection(direction, event.shiftKey)
+        return
+      }
+    }
     if ((event.ctrlKey || event.metaKey) && key === 'a') {
       event.preventDefault()
       setSelectedNoteIds(props.track?.notes.map(note => note.id) || [])
@@ -1015,7 +1055,7 @@ export default function PianoRoll(props: Props) {
         </div>
         <div className="selection-count">{selectedNoteIds.length ? `${selectedNoteIds.length} selected` : ''}</div>
         <div className="pitch-readout">{pitchReadout || ''}</div>
-        <div className="editor-hint">V/B/E/P · Ctrl+C/V/D/E</div>
+        <div className="editor-hint">V/B/E/P · arrows nudge · Ctrl+C/V/D/E</div>
       </div>
       <div className="piano-roll-wrap" ref={wrapRef} tabIndex={0}>
         {splitError && <div className="split-error">{splitError}</div>}
