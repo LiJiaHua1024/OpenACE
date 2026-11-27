@@ -1126,3 +1126,13 @@ Implemented and verified:
 - Evidence: `artifacts/e2e_screenshots/voice_quality/`.
 
 Validation after iteration 88: focused voice-library tests passed; frontend production build passed; independent browser QA and UX retest passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 89 — automatic lyric entry for newly drawn notes
+
+Implemented and verified:
+
+- Pencil-created notes now open the existing focused inline lyric editor automatically when the pointer is released, centered over the newly resized note. This removes the lyricless-note/double-click workflow break without assigning any fake default lyric.
+- Independent visible-Chrome QA at exact 1272×837 verified exact editor placement, repeated creation, Enter and blur commits (`你`, `好`, `啦` with correct phonemes), Escape cancellation without corruption, no accidental editor during existing-note move/resize, undo/redo, reload persistence, and marquee/copy/paste regressions.
+- Evidence: `artifacts/e2e_screenshots/note_auto_lyric/`.
+
+Validation after iteration 89: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

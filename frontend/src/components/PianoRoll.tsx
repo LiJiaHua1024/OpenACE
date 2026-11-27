@@ -100,6 +100,7 @@ export default function PianoRoll(props: Props) {
   const [tool, setTool] = useState<Tool>('pencil')
   const [auditionEnabled, setAuditionEnabled] = useState(() => window.localStorage.getItem('openace_note_audition') !== 'off')
   const lastAuditionRef = useRef<{ pitch: number; at: number } | null>(null)
+  const newlyCreatedNoteIdRef = useRef<string | null>(null)
   const [gridDivision, setGridDivision] = useState(4)
   const [view, setView] = useState<ViewState>({ rowHeight: 15, topPitch: 79 })
   const [selectedNoteIds, setSelectedNoteIds] = useState<string[]>([])
@@ -601,6 +602,7 @@ export default function PianoRoll(props: Props) {
       const start = snap(tickForX(x), step)
       const pitch = Math.max(MIN_PITCH, Math.min(MAX_PITCH, pitchForY(y)))
       const id = `note_${crypto.randomUUID().slice(0, 12)}`
+      newlyCreatedNoteIdRef.current = id
       const duration = step
       mutateTrack(track => {
         track.notes.push({
@@ -753,6 +755,15 @@ export default function PianoRoll(props: Props) {
     dragRef.current = null
     setMarquee(null)
     canvasRef.current?.releasePointerCapture(event.pointerId)
+    const createdId = newlyCreatedNoteIdRef.current
+    newlyCreatedNoteIdRef.current = null
+    if (createdId && props.track) {
+      const created = props.track.notes.find(note => note.id === createdId)
+      if (created) {
+        const rect = noteRect(created)
+        setEditing({ note: created, x: rect.x + rect.w / 2, y: rect.y + rect.h / 2, value: created.lyric })
+      }
+    }
   }
 
   function onDoubleClick(event: React.MouseEvent) {
