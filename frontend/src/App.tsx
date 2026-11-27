@@ -17,15 +17,27 @@ function clone<T>(value: T): T {
 
 const decodedPlaybackBuffers = new Map<string, Promise<AudioBuffer>>()
 let sharedPlaybackContext: AudioContext | null = null
+let sharedDecodeContext: OfflineAudioContext | null = null
 
-function playbackContext(): AudioContext {
+function prewarmPlaybackContext(): AudioContext {
   const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
   if (!sharedPlaybackContext || sharedPlaybackContext.state === 'closed') sharedPlaybackContext = new AudioContextClass() as AudioContext
-  if (sharedPlaybackContext.state === 'suspended') sharedPlaybackContext.resume().catch(() => {})
   return sharedPlaybackContext
 }
 
-function decodePlaybackBuffer(ctx: AudioContext, url: string): Promise<AudioBuffer> {
+function playbackContext(): AudioContext {
+  const ctx = prewarmPlaybackContext()
+  if (ctx.state === 'suspended') ctx.resume().catch(() => {})
+  return ctx
+}
+
+
+function playbackDecodeContext(): BaseAudioContext {
+  if (!sharedDecodeContext) sharedDecodeContext = new OfflineAudioContext(1, 1, 44100)
+  return sharedDecodeContext
+}
+
+function decodePlaybackBuffer(ctx: BaseAudioContext, url: string): Promise<AudioBuffer> {
   let cached = decodedPlaybackBuffers.get(url)
   if (!cached) {
     cached = fetch(url)
@@ -408,6 +420,35 @@ export default function App() {
 
   const getTrackLevel = useCallback((trackId: string) => analyserPeakLevel(playback.current.analysers[trackId]), [])
   const getMasterLevel = useCallback(() => analyserPeakLevel(playback.current.masterAnalyser), [])
+
+
+  const preloadPlaybackMedia = useCallback((targetProject: Project) => {
+    const urls = Array.from(new Set(targetProject.tracks.flatMap(track => [
+      renderFileUrl(track.render_path),
+      ...(track.clips || []).map(clip => renderFileUrl(clip.path)),
+    ]).filter((url): url is string => Boolean(url))))
+    if (!urls.length) return
+    const decodeContext = playbackDecodeContext()
+    prewarmPlaybackContext()
+    for (const url of urls) void decodePlaybackBuffer(decodeContext, url).catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (!project) return
+    const timer = window.setTimeout(() => preloadPlaybackMedia(project), 80)
+    return () => window.clearTimeout(timer)
+  }, [project, preloadPlaybackMedia])
+
+
+  useEffect(() => {
+    const warmOutput = () => { playbackContext() }
+    window.addEventListener('pointerdown', warmOutput, { once: true })
+    window.addEventListener('keydown', warmOutput, { once: true })
+    return () => {
+      window.removeEventListener('pointerdown', warmOutput)
+      window.removeEventListener('keydown', warmOutput)
+    }
+  }, [])
 
   const schedulePlayback = useCallback(async (targetProject: Project, startTicks: number, continuous = false) => {
     const generation = playback.current.generation + 1

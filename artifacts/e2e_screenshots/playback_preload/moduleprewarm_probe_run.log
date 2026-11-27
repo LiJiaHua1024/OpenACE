@@ -1,0 +1,272 @@
+{
+  "viewport": [
+    1272,
+    837
+  ],
+  "early": {
+    "now": 705.5,
+    "ctxTime": 0,
+    "ctxState": "suspended",
+    "ctxDelta": null,
+    "wallSinceSource": null,
+    "pos": "00:00.00",
+    "strong": "1.1.1",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 172.70000000298023,
+        "stateAtCreate": "suspended",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [],
+    "decodes": [],
+    "fetches": []
+  },
+  "preclick": {
+    "now": 2032.800000011921,
+    "ctxTime": 0,
+    "ctxState": "suspended",
+    "ctxDelta": null,
+    "wallSinceSource": null,
+    "pos": "00:00.00",
+    "strong": "1.1.1",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 172.70000000298023,
+        "stateAtCreate": "suspended",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1425.7000000029802,
+        "end": 1428,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 1422.1000000089407,
+        "end": 1423.7000000029802,
+        "status": 200
+      }
+    ]
+  },
+  "click_to_source_ms": 1.0,
+  "click_to_playhead_ms": 24.0,
+  "clock_lags": {
+    "0.5054": 0.4928,
+    "1.0132": 1.0007,
+    "2.0187": 1.9713,
+    "3.0321": 1.9746
+  },
+  "stall_removed": false,
+  "console": [],
+  "network": []
+}
+source {
+  "perf": 2072.7000000029802,
+  "when": 0,
+  "offset": 0,
+  "duration": 2.4999773242630385,
+  "ctxState": "suspended",
+  "ctxTime": 0,
+  "decodeId": 1,
+  "decodeCtor": "OfflineAudioContext"
+}
+samples [
+  {
+    "now": 2577.1000000089407,
+    "ctxTime": 0.011609977324263039,
+    "ctxState": "running",
+    "ctxDelta": 0.011609977324263039,
+    "wallSinceSource": 0.5044000000059604,
+    "pos": "00:00.01",
+    "strong": "1.1.1",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 172.70000000298023,
+        "stateAtCreate": "suspended",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [
+      {
+        "perf": 2072.1000000089407,
+        "stateBefore": "suspended",
+        "timeBefore": 0
+      }
+    ],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1425.7000000029802,
+        "end": 1428,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 1422.1000000089407,
+        "end": 1423.7000000029802,
+        "status": 200
+      }
+    ],
+    "elapsedSinceClick": 0.5054,
+    "clock_lag_seconds": 0.4928
+  },
+  {
+    "now": 3084.9000000059605,
+    "ctxTime": 0.011609977324263039,
+    "ctxState": "running",
+    "ctxDelta": 0.011609977324263039,
+    "wallSinceSource": 1.0122999999970197,
+    "pos": "00:00.01",
+    "strong": "1.1.1",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 172.70000000298023,
+        "stateAtCreate": "suspended",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [
+      {
+        "perf": 2072.1000000089407,
+        "stateBefore": "suspended",
+        "timeBefore": 0
+      }
+    ],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1425.7000000029802,
+        "end": 1428,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 1422.1000000089407,
+        "end": 1423.7000000029802,
+        "status": 200
+      }
+    ],
+    "elapsedSinceClick": 1.0132,
+    "clock_lag_seconds": 1.0007
+  },
+  {
+    "now": 4090.4000000059605,
+    "ctxTime": 0.046439909297052155,
+    "ctxState": "running",
+    "ctxDelta": 0.046439909297052155,
+    "wallSinceSource": 2.0177000000029803,
+    "pos": "00:00.03",
+    "strong": "1.1.1",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 172.70000000298023,
+        "stateAtCreate": "suspended",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [
+      {
+        "perf": 2072.1000000089407,
+        "stateBefore": "suspended",
+        "timeBefore": 0
+      }
+    ],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1425.7000000029802,
+        "end": 1428,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 1422.1000000089407,
+        "end": 1423.7000000029802,
+        "status": 200
+      }
+    ],
+    "elapsedSinceClick": 2.0187,
+    "clock_lag_seconds": 1.9713
+  },
+  {
+    "now": 5103.800000011921,
+    "ctxTime": 1.0565079365079366,
+    "ctxState": "running",
+    "ctxDelta": 1.0565079365079366,
+    "wallSinceSource": 3.0311000000089408,
+    "pos": "00:01.06",
+    "strong": "1.3.1",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 172.70000000298023,
+        "stateAtCreate": "suspended",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [
+      {
+        "perf": 2072.1000000089407,
+        "stateBefore": "suspended",
+        "timeBefore": 0
+      }
+    ],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1425.7000000029802,
+        "end": 1428,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 1422.1000000089407,
+        "end": 1423.7000000029802,
+        "status": 200
+      }
+    ],
+    "elapsedSinceClick": 3.0321,
+    "clock_lag_seconds": 1.9746
+  }
+]

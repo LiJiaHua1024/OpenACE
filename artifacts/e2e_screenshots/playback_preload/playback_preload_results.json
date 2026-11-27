@@ -1,0 +1,3690 @@
+{
+  "viewport": [
+    1272,
+    837
+  ],
+  "preload": {
+    "after_ms": 900,
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_b4ed192a7b21/vocal.wav",
+        "start": 1296.5999999940395,
+        "end": 1298.5,
+        "status": 200
+      }
+    ],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1299.7999999970198,
+        "end": 1302.2000000029802,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "decode_count": 1,
+    "fetch_count": 1
+  },
+  "first_play": {
+    "click": {
+      "perf": 2234.9000000059605,
+      "x": 748,
+      "y": 28,
+      "play": true,
+      "stop": false,
+      "text": "▶"
+    },
+    "source_start_count": 1,
+    "first_source_start": {
+      "perf": 2239.5999999940395,
+      "when": 0,
+      "offset": 0,
+      "duration": 2.4999773242630385,
+      "ctxCtor": "AudioContext",
+      "ctxState": "running",
+      "ctxTime": 0,
+      "decodeId": 1,
+      "decodeCtor": "OfflineAudioContext",
+      "bufferDuration": 2.4999773242630385
+    },
+    "click_to_source_start_ms": 4.7,
+    "click_to_audible_start_ms": 4.7,
+    "click_to_playhead_change_ms": 23.4,
+    "first_position_change": {
+      "t": 2258.2999999970198,
+      "text": "00:00.01|1.1.1",
+      "ctxTime": 0.011609977324263039,
+      "ctxState": "running"
+    }
+  },
+  "first_clock_check": {
+    "wall": 1.922300000011921,
+    "ctx": 0.011609977324263039,
+    "diff": 1.910690022687658,
+    "state": "running",
+    "position": "00:00.01"
+  },
+  "second_play": {
+    "click": {
+      "perf": 4582.9000000059605,
+      "x": 748,
+      "y": 28,
+      "play": true,
+      "stop": false,
+      "text": "▶"
+    },
+    "source_start_count": 1,
+    "first_source_start": {
+      "perf": 4583.20000000298,
+      "when": 0.37151927437641724,
+      "offset": 0,
+      "duration": 2.4999773242630385,
+      "ctxCtor": "AudioContext",
+      "ctxState": "running",
+      "ctxTime": 0.37151927437641724,
+      "decodeId": 1,
+      "decodeCtor": "OfflineAudioContext",
+      "bufferDuration": 2.4999773242630385
+    },
+    "click_to_source_start_ms": 0.3,
+    "click_to_audible_start_ms": 0.3,
+    "click_to_playhead_change_ms": 41.5,
+    "first_position_change": {
+      "t": 4624.4000000059605,
+      "text": "00:00.02|1.1.1",
+      "ctxTime": 0.40634920634920635,
+      "ctxState": "running"
+    }
+  },
+  "seek_restart": {
+    "click": {
+      "perf": 6122.4000000059605,
+      "x": 524,
+      "y": 66,
+      "play": false,
+      "stop": false,
+      "text": ""
+    },
+    "source_start_count": 1,
+    "first_source_start": {
+      "perf": 6122.20000000298,
+      "when": 1.9040362811791383,
+      "offset": 1,
+      "duration": 1.4999773242630385,
+      "ctxCtor": "AudioContext",
+      "ctxState": "running",
+      "ctxTime": 1.9040362811791383,
+      "decodeId": 1,
+      "decodeCtor": "OfflineAudioContext",
+      "bufferDuration": 2.4999773242630385
+    },
+    "click_to_source_start_ms": -0.2,
+    "click_to_audible_start_ms": -0.2,
+    "click_to_playhead_change_ms": 2.6,
+    "first_position_change": {
+      "t": 6125,
+      "text": "00:01.00|1.3.1",
+      "ctxTime": 1.9156462585034013,
+      "ctxState": "running"
+    }
+  },
+  "seek_position_text": "00:01.71|1.4.2",
+  "loop": {
+    "ui_active_count": 1,
+    "initial_play": {
+      "click": {
+        "perf": 7646.9000000059605,
+        "x": 748,
+        "y": 28,
+        "play": true,
+        "stop": false,
+        "text": "▶"
+      },
+      "source_start_count": 2,
+      "first_source_start": {
+        "perf": 7647.29999999702,
+        "when": 3.436553287981859,
+        "offset": 0,
+        "duration": 2.4999773242630385,
+        "ctxCtor": "AudioContext",
+        "ctxState": "running",
+        "ctxTime": 3.436553287981859,
+        "decodeId": 1,
+        "decodeCtor": "OfflineAudioContext",
+        "bufferDuration": 2.4999773242630385
+      },
+      "click_to_source_start_ms": 0.4,
+      "click_to_audible_start_ms": 0.4,
+      "click_to_playhead_change_ms": 28.1,
+      "first_position_change": {
+        "t": 7675,
+        "text": "00:00.01|1.1.1",
+        "ctxTime": 3.4597732426303853,
+        "ctxState": "running"
+      }
+    },
+    "source_starts_after_play": 2,
+    "wrapped": true,
+    "positions_tail": [
+      "00:01.59|1.4.1",
+      "00:01.61|1.4.1",
+      "00:01.62|1.4.1",
+      "00:01.64|1.4.2",
+      "00:01.66|1.4.2",
+      "00:01.68|1.4.2",
+      "00:01.69|1.4.2",
+      "00:01.70|1.4.2",
+      "00:01.73|1.4.2",
+      "00:01.74|1.4.2",
+      "00:01.76|1.4.3",
+      "00:01.77|1.4.3",
+      "00:01.80|1.4.3",
+      "00:01.81|1.4.3",
+      "00:01.83|1.4.3",
+      "00:01.84|1.4.3",
+      "00:01.85|1.4.3",
+      "00:01.88|1.4.4"
+    ]
+  },
+  "normal_edit_preload": {
+    "before": {
+      "f": 1,
+      "d": 1
+    },
+    "after": {
+      "f": 1,
+      "d": 1
+    },
+    "new_fetches": 0,
+    "new_decodes": 0
+  },
+  "render_update_preload": {
+    "old_url": "/renders/project_5383a7be8dc4/job_b4ed192a7b21/vocal.wav",
+    "new_url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+    "path_changed": true,
+    "new_fetch_count": 1,
+    "all_fetch_counts": {
+      "/renders/project_5383a7be8dc4/job_b4ed192a7b21/vocal.wav": 1,
+      "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav": 1
+    },
+    "decode_total": 2,
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1299.7999999970198,
+        "end": 1302.2000000029802,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      },
+      {
+        "id": 2,
+        "ctor": "OfflineAudioContext",
+        "start": 15968.20000000298,
+        "end": 15971,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ]
+  },
+  "post_render_play": {
+    "click": {
+      "perf": 17231.79999999702,
+      "x": 748,
+      "y": 28,
+      "play": true,
+      "stop": false,
+      "text": "▶"
+    },
+    "source_start_count": 1,
+    "first_source_start": {
+      "perf": 17232.29999999702,
+      "when": 13.02639455782313,
+      "offset": 0,
+      "duration": 2.4999773242630385,
+      "ctxCtor": "AudioContext",
+      "ctxState": "running",
+      "ctxTime": 13.02639455782313,
+      "decodeId": 2,
+      "decodeCtor": "OfflineAudioContext",
+      "bufferDuration": 2.4999773242630385
+    },
+    "click_to_source_start_ms": 0.5,
+    "click_to_audible_start_ms": 0.5,
+    "click_to_playhead_change_ms": 43.0,
+    "first_position_change": {
+      "t": 17274.79999999702,
+      "text": "00:00.02|1.1.1",
+      "ctxTime": 13.061224489795919,
+      "ctxState": "running"
+    }
+  },
+  "post_render_clock_check": {
+    "wall": 0.14079999999701978,
+    "ctx": 0.13931972789115576,
+    "diff": 0.0015802721148046872,
+    "state": "running",
+    "position": "00:00.14"
+  },
+  "raw": {
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_b4ed192a7b21/vocal.wav",
+        "start": 1296.5999999940395,
+        "end": 1298.5,
+        "status": 200
+      },
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 15964.20000000298,
+        "end": 15967,
+        "status": 200
+      }
+    ],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1299.7999999970198,
+        "end": 1302.2000000029802,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      },
+      {
+        "id": 2,
+        "ctor": "OfflineAudioContext",
+        "start": 15968.20000000298,
+        "end": 15971,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "sourceStarts": [
+      {
+        "perf": 2239.5999999940395,
+        "when": 0,
+        "offset": 0,
+        "duration": 2.4999773242630385,
+        "ctxCtor": "AudioContext",
+        "ctxState": "running",
+        "ctxTime": 0,
+        "decodeId": 1,
+        "decodeCtor": "OfflineAudioContext",
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "perf": 4583.20000000298,
+        "when": 0.37151927437641724,
+        "offset": 0,
+        "duration": 2.4999773242630385,
+        "ctxCtor": "AudioContext",
+        "ctxState": "running",
+        "ctxTime": 0.37151927437641724,
+        "decodeId": 1,
+        "decodeCtor": "OfflineAudioContext",
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "perf": 6122.20000000298,
+        "when": 1.9040362811791383,
+        "offset": 1,
+        "duration": 1.4999773242630385,
+        "ctxCtor": "AudioContext",
+        "ctxState": "running",
+        "ctxTime": 1.9040362811791383,
+        "decodeId": 1,
+        "decodeCtor": "OfflineAudioContext",
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "perf": 7647.29999999702,
+        "when": 3.436553287981859,
+        "offset": 0,
+        "duration": 2.4999773242630385,
+        "ctxCtor": "AudioContext",
+        "ctxState": "running",
+        "ctxTime": 3.436553287981859,
+        "decodeId": 1,
+        "decodeCtor": "OfflineAudioContext",
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "perf": 9658.70000000298,
+        "when": 5.445079365079365,
+        "offset": 0.008526077097505436,
+        "duration": 2.491451247165533,
+        "ctxCtor": "AudioContext",
+        "ctxState": "running",
+        "ctxTime": 5.445079365079365,
+        "decodeId": 1,
+        "decodeCtor": "OfflineAudioContext",
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "perf": 11658.29999999702,
+        "when": 7.441995464852607,
+        "offset": 0.005442176870748246,
+        "duration": 2.4945351473922903,
+        "ctxCtor": "AudioContext",
+        "ctxState": "running",
+        "ctxTime": 7.441995464852607,
+        "decodeId": 1,
+        "decodeCtor": "OfflineAudioContext",
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "perf": 17232.29999999702,
+        "when": 13.02639455782313,
+        "offset": 0,
+        "duration": 2.4999773242630385,
+        "ctxCtor": "AudioContext",
+        "ctxState": "running",
+        "ctxTime": 13.02639455782313,
+        "decodeId": 2,
+        "decodeCtor": "OfflineAudioContext",
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "perf": 19242,
+        "when": 15.034920634920635,
+        "offset": 0.008526077097504962,
+        "duration": 2.4914512471655335,
+        "ctxCtor": "AudioContext",
+        "ctxState": "running",
+        "ctxTime": 15.034920634920635,
+        "decodeId": 2,
+        "decodeCtor": "OfflineAudioContext",
+        "bufferDuration": 2.4999773242630385
+      }
+    ],
+    "clicks": [
+      {
+        "perf": 2234.9000000059605,
+        "x": 748,
+        "y": 28,
+        "play": true,
+        "stop": false,
+        "text": "▶"
+      },
+      {
+        "perf": 4286.70000000298,
+        "x": 655,
+        "y": 28,
+        "play": false,
+        "stop": true,
+        "text": "■"
+      },
+      {
+        "perf": 4582.9000000059605,
+        "x": 748,
+        "y": 28,
+        "play": true,
+        "stop": false,
+        "text": "▶"
+      },
+      {
+        "perf": 6122.4000000059605,
+        "x": 524,
+        "y": 66,
+        "play": false,
+        "stop": false,
+        "text": ""
+      },
+      {
+        "perf": 6982.5,
+        "x": 655,
+        "y": 28,
+        "play": false,
+        "stop": true,
+        "text": "■"
+      },
+      {
+        "perf": 7646.9000000059605,
+        "x": 748,
+        "y": 28,
+        "play": true,
+        "stop": false,
+        "text": "▶"
+      },
+      {
+        "perf": 11702.40000000596,
+        "x": 655,
+        "y": 28,
+        "play": false,
+        "stop": true,
+        "text": "■"
+      },
+      {
+        "perf": 12062.5,
+        "x": 315,
+        "y": 503,
+        "play": false,
+        "stop": false,
+        "text": ""
+      },
+      {
+        "perf": 13064.70000000298,
+        "x": 1106,
+        "y": 427,
+        "play": false,
+        "stop": false,
+        "text": "Render vocal"
+      },
+      {
+        "perf": 17231.79999999702,
+        "x": 748,
+        "y": 28,
+        "play": true,
+        "stop": false,
+        "text": "▶"
+      },
+      {
+        "perf": 19533.59999999404,
+        "x": 655,
+        "y": 28,
+        "play": false,
+        "stop": true,
+        "text": "■"
+      }
+    ],
+    "positions": [
+      {
+        "t": 345.5,
+        "text": "00:00.00|1.1.1",
+        "ctxTime": null,
+        "ctxState": null
+      },
+      {
+        "t": 2258.2999999970198,
+        "text": "00:00.01|1.1.1",
+        "ctxTime": 0.011609977324263039,
+        "ctxState": "running"
+      },
+      {
+        "t": 4262.20000000298,
+        "text": "00:00.02|1.1.1",
+        "ctxTime": 0.046439909297052155,
+        "ctxState": "running"
+      },
+      {
+        "t": 4279.0999999940395,
+        "text": "00:00.05|1.1.1",
+        "ctxTime": 0.06965986394557823,
+        "ctxState": "running"
+      },
+      {
+        "t": 4291.5,
+        "text": "00:00.00|1.1.1",
+        "ctxTime": 0.08126984126984127,
+        "ctxState": "running"
+      },
+      {
+        "t": 4624.4000000059605,
+        "text": "00:00.02|1.1.1",
+        "ctxTime": 0.40634920634920635,
+        "ctxState": "running"
+      },
+      {
+        "t": 4642,
+        "text": "00:00.03|1.1.1",
+        "ctxTime": 0.4295691609977324,
+        "ctxState": "running"
+      },
+      {
+        "t": 4658.0999999940395,
+        "text": "00:00.06|1.1.1",
+        "ctxTime": 0.44117913832199546,
+        "ctxState": "running"
+      },
+      {
+        "t": 4675.20000000298,
+        "text": "00:00.07|1.1.1",
+        "ctxTime": 0.4527891156462585,
+        "ctxState": "running"
+      },
+      {
+        "t": 4691.5999999940395,
+        "text": "00:00.08|1.1.1",
+        "ctxTime": 0.47600907029478456,
+        "ctxState": "running"
+      },
+      {
+        "t": 4708.0999999940395,
+        "text": "00:00.10|1.1.1",
+        "ctxTime": 0.4876190476190476,
+        "ctxState": "running"
+      },
+      {
+        "t": 4725.4000000059605,
+        "text": "00:00.12|1.1.1",
+        "ctxTime": 0.5108390022675737,
+        "ctxState": "running"
+      },
+      {
+        "t": 4741.70000000298,
+        "text": "00:00.14|1.1.2",
+        "ctxTime": 0.5224489795918368,
+        "ctxState": "running"
+      },
+      {
+        "t": 4758.0999999940395,
+        "text": "00:00.15|1.1.2",
+        "ctxTime": 0.5456689342403628,
+        "ctxState": "running"
+      },
+      {
+        "t": 4774.5,
+        "text": "00:00.17|1.1.2",
+        "ctxTime": 0.5572789115646258,
+        "ctxState": "running"
+      },
+      {
+        "t": 4791.9000000059605,
+        "text": "00:00.19|1.1.2",
+        "ctxTime": 0.5688888888888889,
+        "ctxState": "running"
+      },
+      {
+        "t": 4808.29999999702,
+        "text": "00:00.20|1.1.2",
+        "ctxTime": 0.592108843537415,
+        "ctxState": "running"
+      },
+      {
+        "t": 4825.0999999940395,
+        "text": "00:00.22|1.1.2",
+        "ctxTime": 0.603718820861678,
+        "ctxState": "running"
+      },
+      {
+        "t": 4841.4000000059605,
+        "text": "00:00.23|1.1.2",
+        "ctxTime": 0.626938775510204,
+        "ctxState": "running"
+      },
+      {
+        "t": 4858.79999999702,
+        "text": "00:00.26|1.1.3",
+        "ctxTime": 0.6385487528344671,
+        "ctxState": "running"
+      },
+      {
+        "t": 4875.0999999940395,
+        "text": "00:00.27|1.1.3",
+        "ctxTime": 0.6617687074829932,
+        "ctxState": "running"
+      },
+      {
+        "t": 4891.9000000059605,
+        "text": "00:00.29|1.1.3",
+        "ctxTime": 0.6733786848072563,
+        "ctxState": "running"
+      },
+      {
+        "t": 4908.29999999702,
+        "text": "00:00.30|1.1.3",
+        "ctxTime": 0.6849886621315193,
+        "ctxState": "running"
+      },
+      {
+        "t": 4924.79999999702,
+        "text": "00:00.31|1.1.3",
+        "ctxTime": 0.7198185941043084,
+        "ctxState": "running"
+      },
+      {
+        "t": 4942.0999999940395,
+        "text": "00:00.35|1.1.3",
+        "ctxTime": 0.7314285714285714,
+        "ctxState": "running"
+      },
+      {
+        "t": 4958.4000000059605,
+        "text": "00:00.36|1.1.3",
+        "ctxTime": 0.7546485260770975,
+        "ctxState": "running"
+      },
+      {
+        "t": 4974.70000000298,
+        "text": "00:00.38|1.1.4",
+        "ctxTime": 0.7662585034013606,
+        "ctxState": "running"
+      },
+      {
+        "t": 4991.0999999940395,
+        "text": "00:00.39|1.1.4",
+        "ctxTime": 0.7778684807256235,
+        "ctxState": "running"
+      },
+      {
+        "t": 5008.20000000298,
+        "text": "00:00.41|1.1.4",
+        "ctxTime": 0.8010884353741496,
+        "ctxState": "running"
+      },
+      {
+        "t": 5024.5,
+        "text": "00:00.43|1.1.4",
+        "ctxTime": 0.8126984126984127,
+        "ctxState": "running"
+      },
+      {
+        "t": 5041.5999999940395,
+        "text": "00:00.44|1.1.4",
+        "ctxTime": 0.8359183673469388,
+        "ctxState": "running"
+      },
+      {
+        "t": 5058.29999999702,
+        "text": "00:00.46|1.1.4",
+        "ctxTime": 0.8475283446712019,
+        "ctxState": "running"
+      },
+      {
+        "t": 5074.4000000059605,
+        "text": "00:00.47|1.1.4",
+        "ctxTime": 0.8707482993197279,
+        "ctxState": "running"
+      },
+      {
+        "t": 5091,
+        "text": "00:00.50|1.1.4",
+        "ctxTime": 0.8823582766439909,
+        "ctxState": "running"
+      },
+      {
+        "t": 5108.5,
+        "text": "00:00.51|1.2.1",
+        "ctxTime": 0.905578231292517,
+        "ctxState": "running"
+      },
+      {
+        "t": 5124.70000000298,
+        "text": "00:00.53|1.2.1",
+        "ctxTime": 0.9171882086167801,
+        "ctxState": "running"
+      },
+      {
+        "t": 5141.5999999940395,
+        "text": "00:00.54|1.2.1",
+        "ctxTime": 0.9287981859410431,
+        "ctxState": "running"
+      },
+      {
+        "t": 5157.79999999702,
+        "text": "00:00.56|1.2.1",
+        "ctxTime": 0.9520181405895691,
+        "ctxState": "running"
+      },
+      {
+        "t": 5174.79999999702,
+        "text": "00:00.58|1.2.1",
+        "ctxTime": 0.9636281179138322,
+        "ctxState": "running"
+      },
+      {
+        "t": 5191.4000000059605,
+        "text": "00:00.59|1.2.1",
+        "ctxTime": 0.9868480725623583,
+        "ctxState": "running"
+      },
+      {
+        "t": 5208.5,
+        "text": "00:00.61|1.2.1",
+        "ctxTime": 0.9984580498866213,
+        "ctxState": "running"
+      },
+      {
+        "t": 5224.5,
+        "text": "00:00.63|1.2.2",
+        "ctxTime": 1.0100680272108844,
+        "ctxState": "running"
+      },
+      {
+        "t": 5241.79999999702,
+        "text": "00:00.64|1.2.2",
+        "ctxTime": 1.0332879818594105,
+        "ctxState": "running"
+      },
+      {
+        "t": 5258.79999999702,
+        "text": "00:00.66|1.2.2",
+        "ctxTime": 1.0448979591836736,
+        "ctxState": "running"
+      },
+      {
+        "t": 5274.70000000298,
+        "text": "00:00.67|1.2.2",
+        "ctxTime": 1.0681179138321995,
+        "ctxState": "running"
+      },
+      {
+        "t": 5292,
+        "text": "00:00.70|1.2.2",
+        "ctxTime": 1.0797278911564625,
+        "ctxState": "running"
+      },
+      {
+        "t": 5307.79999999702,
+        "text": "00:00.71|1.2.2",
+        "ctxTime": 1.1029478458049886,
+        "ctxState": "running"
+      },
+      {
+        "t": 5324.70000000298,
+        "text": "00:00.73|1.2.2",
+        "ctxTime": 1.1145578231292517,
+        "ctxState": "running"
+      },
+      {
+        "t": 5341.79999999702,
+        "text": "00:00.74|1.2.2",
+        "ctxTime": 1.1261678004535147,
+        "ctxState": "running"
+      },
+      {
+        "t": 5357.9000000059605,
+        "text": "00:00.75|1.2.3",
+        "ctxTime": 1.1493877551020408,
+        "ctxState": "running"
+      },
+      {
+        "t": 5375.4000000059605,
+        "text": "00:00.78|1.2.3",
+        "ctxTime": 1.1609977324263039,
+        "ctxState": "running"
+      },
+      {
+        "t": 5391.70000000298,
+        "text": "00:00.79|1.2.3",
+        "ctxTime": 1.18421768707483,
+        "ctxState": "running"
+      },
+      {
+        "t": 5408.5999999940395,
+        "text": "00:00.81|1.2.3",
+        "ctxTime": 1.195827664399093,
+        "ctxState": "running"
+      },
+      {
+        "t": 5424.5999999940395,
+        "text": "00:00.82|1.2.3",
+        "ctxTime": 1.2190476190476192,
+        "ctxState": "running"
+      },
+      {
+        "t": 5441.20000000298,
+        "text": "00:00.85|1.2.3",
+        "ctxTime": 1.230657596371882,
+        "ctxState": "running"
+      },
+      {
+        "t": 5458.20000000298,
+        "text": "00:00.86|1.2.3",
+        "ctxTime": 1.242267573696145,
+        "ctxState": "running"
+      },
+      {
+        "t": 5475.20000000298,
+        "text": "00:00.87|1.2.3",
+        "ctxTime": 1.2654875283446712,
+        "ctxState": "running"
+      },
+      {
+        "t": 5491.9000000059605,
+        "text": "00:00.89|1.2.4",
+        "ctxTime": 1.2770975056689342,
+        "ctxState": "running"
+      },
+      {
+        "t": 5507.9000000059605,
+        "text": "00:00.91|1.2.4",
+        "ctxTime": 1.3003174603174603,
+        "ctxState": "running"
+      },
+      {
+        "t": 5524.5999999940395,
+        "text": "00:00.93|1.2.4",
+        "ctxTime": 1.3119274376417234,
+        "ctxState": "running"
+      },
+      {
+        "t": 5541.79999999702,
+        "text": "00:00.94|1.2.4",
+        "ctxTime": 1.3351473922902495,
+        "ctxState": "running"
+      },
+      {
+        "t": 5558.70000000298,
+        "text": "00:00.96|1.2.4",
+        "ctxTime": 1.3467573696145125,
+        "ctxState": "running"
+      },
+      {
+        "t": 5575.0999999940395,
+        "text": "00:00.97|1.2.4",
+        "ctxTime": 1.3583673469387756,
+        "ctxState": "running"
+      },
+      {
+        "t": 5592.0999999940395,
+        "text": "00:00.99|1.2.4",
+        "ctxTime": 1.3815873015873017,
+        "ctxState": "running"
+      },
+      {
+        "t": 5608.5999999940395,
+        "text": "00:01.01|1.3.1",
+        "ctxTime": 1.3931972789115645,
+        "ctxState": "running"
+      },
+      {
+        "t": 5625.29999999702,
+        "text": "00:01.02|1.3.1",
+        "ctxTime": 1.4164172335600906,
+        "ctxState": "running"
+      },
+      {
+        "t": 5641.70000000298,
+        "text": "00:01.04|1.3.1",
+        "ctxTime": 1.4280272108843537,
+        "ctxState": "running"
+      },
+      {
+        "t": 5657.9000000059605,
+        "text": "00:01.06|1.3.1",
+        "ctxTime": 1.4512471655328798,
+        "ctxState": "running"
+      },
+      {
+        "t": 5675,
+        "text": "00:01.08|1.3.1",
+        "ctxTime": 1.4628571428571429,
+        "ctxState": "running"
+      },
+      {
+        "t": 5691.70000000298,
+        "text": "00:01.09|1.3.1",
+        "ctxTime": 1.474467120181406,
+        "ctxState": "running"
+      },
+      {
+        "t": 5708.70000000298,
+        "text": "00:01.10|1.3.1",
+        "ctxTime": 1.497687074829932,
+        "ctxState": "running"
+      },
+      {
+        "t": 5725.29999999702,
+        "text": "00:01.13|1.3.2",
+        "ctxTime": 1.509297052154195,
+        "ctxState": "running"
+      },
+      {
+        "t": 5742,
+        "text": "00:01.14|1.3.2",
+        "ctxTime": 1.5325170068027212,
+        "ctxState": "running"
+      },
+      {
+        "t": 5757.9000000059605,
+        "text": "00:01.16|1.3.2",
+        "ctxTime": 1.5441269841269842,
+        "ctxState": "running"
+      },
+      {
+        "t": 5775.0999999940395,
+        "text": "00:01.17|1.3.2",
+        "ctxTime": 1.5673469387755101,
+        "ctxState": "running"
+      },
+      {
+        "t": 5791.70000000298,
+        "text": "00:01.19|1.3.2",
+        "ctxTime": 1.5789569160997732,
+        "ctxState": "running"
+      },
+      {
+        "t": 5808.5999999940395,
+        "text": "00:01.21|1.3.2",
+        "ctxTime": 1.5905668934240362,
+        "ctxState": "running"
+      },
+      {
+        "t": 5825.20000000298,
+        "text": "00:01.22|1.3.2",
+        "ctxTime": 1.6137868480725623,
+        "ctxState": "running"
+      },
+      {
+        "t": 5841.70000000298,
+        "text": "00:01.24|1.3.2",
+        "ctxTime": 1.6253968253968254,
+        "ctxState": "running"
+      },
+      {
+        "t": 5857.9000000059605,
+        "text": "00:01.25|1.3.3",
+        "ctxTime": 1.6486167800453515,
+        "ctxState": "running"
+      },
+      {
+        "t": 5875.29999999702,
+        "text": "00:01.28|1.3.3",
+        "ctxTime": 1.6602267573696146,
+        "ctxState": "running"
+      },
+      {
+        "t": 5891.20000000298,
+        "text": "00:01.29|1.3.3",
+        "ctxTime": 1.6834467120181407,
+        "ctxState": "running"
+      },
+      {
+        "t": 5908.5999999940395,
+        "text": "00:01.31|1.3.3",
+        "ctxTime": 1.6950566893424037,
+        "ctxState": "running"
+      },
+      {
+        "t": 5924.5999999940395,
+        "text": "00:01.32|1.3.3",
+        "ctxTime": 1.7066666666666668,
+        "ctxState": "running"
+      },
+      {
+        "t": 5941.5999999940395,
+        "text": "00:01.33|1.3.3",
+        "ctxTime": 1.7298866213151927,
+        "ctxState": "running"
+      },
+      {
+        "t": 5958.5,
+        "text": "00:01.36|1.3.3",
+        "ctxTime": 1.7414965986394557,
+        "ctxState": "running"
+      },
+      {
+        "t": 5974.5,
+        "text": "00:01.37|1.3.3",
+        "ctxTime": 1.7647165532879818,
+        "ctxState": "running"
+      },
+      {
+        "t": 5991.79999999702,
+        "text": "00:01.39|1.3.4",
+        "ctxTime": 1.7763265306122449,
+        "ctxState": "running"
+      },
+      {
+        "t": 6007.70000000298,
+        "text": "00:01.40|1.3.4",
+        "ctxTime": 1.799546485260771,
+        "ctxState": "running"
+      },
+      {
+        "t": 6025.20000000298,
+        "text": "00:01.43|1.3.4",
+        "ctxTime": 1.811156462585034,
+        "ctxState": "running"
+      },
+      {
+        "t": 6041.70000000298,
+        "text": "00:01.44|1.3.4",
+        "ctxTime": 1.8343764172335602,
+        "ctxState": "running"
+      },
+      {
+        "t": 6058.0999999940395,
+        "text": "00:01.46|1.3.4",
+        "ctxTime": 1.8459863945578232,
+        "ctxState": "running"
+      },
+      {
+        "t": 6074.5,
+        "text": "00:01.47|1.3.4",
+        "ctxTime": 1.8575963718820863,
+        "ctxState": "running"
+      },
+      {
+        "t": 6091.20000000298,
+        "text": "00:01.49|1.3.4",
+        "ctxTime": 1.8808163265306121,
+        "ctxState": "running"
+      },
+      {
+        "t": 6109.5,
+        "text": "00:01.51|1.4.1",
+        "ctxTime": 1.8924263038548752,
+        "ctxState": "running"
+      },
+      {
+        "t": 6125,
+        "text": "00:01.00|1.3.1",
+        "ctxTime": 1.9156462585034013,
+        "ctxState": "running"
+      },
+      {
+        "t": 6141.29999999702,
+        "text": "00:01.01|1.3.1",
+        "ctxTime": 1.9272562358276644,
+        "ctxState": "running"
+      },
+      {
+        "t": 6158.5,
+        "text": "00:01.02|1.3.1",
+        "ctxTime": 1.9504761904761905,
+        "ctxState": "running"
+      },
+      {
+        "t": 6174.5999999940395,
+        "text": "00:01.05|1.3.1",
+        "ctxTime": 1.9620861678004535,
+        "ctxState": "running"
+      },
+      {
+        "t": 6191.5999999940395,
+        "text": "00:01.06|1.3.1",
+        "ctxTime": 1.9736961451247166,
+        "ctxState": "running"
+      },
+      {
+        "t": 6208.5999999940395,
+        "text": "00:01.07|1.3.1",
+        "ctxTime": 1.9969160997732427,
+        "ctxState": "running"
+      },
+      {
+        "t": 6224.5,
+        "text": "00:01.09|1.3.1",
+        "ctxTime": 2.0085260770975055,
+        "ctxState": "running"
+      },
+      {
+        "t": 6241.20000000298,
+        "text": "00:01.10|1.3.1",
+        "ctxTime": 2.0317460317460316,
+        "ctxState": "running"
+      },
+      {
+        "t": 6258.4000000059605,
+        "text": "00:01.13|1.3.2",
+        "ctxTime": 2.043356009070295,
+        "ctxState": "running"
+      },
+      {
+        "t": 6275.20000000298,
+        "text": "00:01.14|1.3.2",
+        "ctxTime": 2.066575963718821,
+        "ctxState": "running"
+      },
+      {
+        "t": 6291.20000000298,
+        "text": "00:01.16|1.3.2",
+        "ctxTime": 2.078185941043084,
+        "ctxState": "running"
+      },
+      {
+        "t": 6308.4000000059605,
+        "text": "00:01.17|1.3.2",
+        "ctxTime": 2.10140589569161,
+        "ctxState": "running"
+      },
+      {
+        "t": 6325.29999999702,
+        "text": "00:01.20|1.3.2",
+        "ctxTime": 2.1130158730158732,
+        "ctxState": "running"
+      },
+      {
+        "t": 6341.4000000059605,
+        "text": "00:01.21|1.3.2",
+        "ctxTime": 2.124625850340136,
+        "ctxState": "running"
+      },
+      {
+        "t": 6358.29999999702,
+        "text": "00:01.22|1.3.2",
+        "ctxTime": 2.147845804988662,
+        "ctxState": "running"
+      },
+      {
+        "t": 6375,
+        "text": "00:01.24|1.3.2",
+        "ctxTime": 2.159455782312925,
+        "ctxState": "running"
+      },
+      {
+        "t": 6391.0999999940395,
+        "text": "00:01.26|1.3.3",
+        "ctxTime": 2.182675736961451,
+        "ctxState": "running"
+      },
+      {
+        "t": 6407.79999999702,
+        "text": "00:01.28|1.3.3",
+        "ctxTime": 2.1942857142857144,
+        "ctxState": "running"
+      },
+      {
+        "t": 6424.9000000059605,
+        "text": "00:01.29|1.3.3",
+        "ctxTime": 2.2175056689342405,
+        "ctxState": "running"
+      },
+      {
+        "t": 6441.9000000059605,
+        "text": "00:01.31|1.3.3",
+        "ctxTime": 2.2291156462585033,
+        "ctxState": "running"
+      },
+      {
+        "t": 6458.20000000298,
+        "text": "00:01.32|1.3.3",
+        "ctxTime": 2.2407256235827666,
+        "ctxState": "running"
+      },
+      {
+        "t": 6474.70000000298,
+        "text": "00:01.34|1.3.3",
+        "ctxTime": 2.2639455782312927,
+        "ctxState": "running"
+      },
+      {
+        "t": 6492,
+        "text": "00:01.36|1.3.3",
+        "ctxTime": 2.2755555555555556,
+        "ctxState": "running"
+      },
+      {
+        "t": 6508.5,
+        "text": "00:01.37|1.3.3",
+        "ctxTime": 2.2987755102040817,
+        "ctxState": "running"
+      },
+      {
+        "t": 6525.0999999940395,
+        "text": "00:01.39|1.3.4",
+        "ctxTime": 2.3103854875283445,
+        "ctxState": "running"
+      },
+      {
+        "t": 6541.70000000298,
+        "text": "00:01.41|1.3.4",
+        "ctxTime": 2.3336054421768706,
+        "ctxState": "running"
+      },
+      {
+        "t": 6558.70000000298,
+        "text": "00:01.43|1.3.4",
+        "ctxTime": 2.345215419501134,
+        "ctxState": "running"
+      },
+      {
+        "t": 6574.70000000298,
+        "text": "00:01.44|1.3.4",
+        "ctxTime": 2.3568253968253967,
+        "ctxState": "running"
+      },
+      {
+        "t": 6592.20000000298,
+        "text": "00:01.45|1.3.4",
+        "ctxTime": 2.380045351473923,
+        "ctxState": "running"
+      },
+      {
+        "t": 6608.70000000298,
+        "text": "00:01.48|1.3.4",
+        "ctxTime": 2.391655328798186,
+        "ctxState": "running"
+      },
+      {
+        "t": 6624.9000000059605,
+        "text": "00:01.49|1.3.4",
+        "ctxTime": 2.414875283446712,
+        "ctxState": "running"
+      },
+      {
+        "t": 6641.29999999702,
+        "text": "00:01.51|1.4.1",
+        "ctxTime": 2.426485260770975,
+        "ctxState": "running"
+      },
+      {
+        "t": 6658.79999999702,
+        "text": "00:01.52|1.4.1",
+        "ctxTime": 2.449705215419501,
+        "ctxState": "running"
+      },
+      {
+        "t": 6675,
+        "text": "00:01.54|1.4.1",
+        "ctxTime": 2.461315192743764,
+        "ctxState": "running"
+      },
+      {
+        "t": 6690.9000000059605,
+        "text": "00:01.56|1.4.1",
+        "ctxTime": 2.4729251700680273,
+        "ctxState": "running"
+      },
+      {
+        "t": 6708,
+        "text": "00:01.57|1.4.1",
+        "ctxTime": 2.4961451247165534,
+        "ctxState": "running"
+      },
+      {
+        "t": 6724.20000000298,
+        "text": "00:01.59|1.4.1",
+        "ctxTime": 2.507755102040816,
+        "ctxState": "running"
+      },
+      {
+        "t": 6741.4000000059605,
+        "text": "00:01.60|1.4.1",
+        "ctxTime": 2.5309750566893423,
+        "ctxState": "running"
+      },
+      {
+        "t": 6757.5999999940395,
+        "text": "00:01.63|1.4.2",
+        "ctxTime": 2.5425850340136056,
+        "ctxState": "running"
+      },
+      {
+        "t": 6774.70000000298,
+        "text": "00:01.64|1.4.2",
+        "ctxTime": 2.5658049886621317,
+        "ctxState": "running"
+      },
+      {
+        "t": 6791.70000000298,
+        "text": "00:01.66|1.4.2",
+        "ctxTime": 2.5774149659863945,
+        "ctxState": "running"
+      },
+      {
+        "t": 6808.4000000059605,
+        "text": "00:01.67|1.4.2",
+        "ctxTime": 2.6006349206349206,
+        "ctxState": "running"
+      },
+      {
+        "t": 6824.5999999940395,
+        "text": "00:01.70|1.4.2",
+        "ctxTime": 2.6122448979591835,
+        "ctxState": "running"
+      },
+      {
+        "t": 6841.0999999940395,
+        "text": "00:01.71|1.4.2",
+        "ctxTime": 2.6238548752834467,
+        "ctxState": "running"
+      },
+      {
+        "t": 6859,
+        "text": "00:01.72|1.4.2",
+        "ctxTime": 2.647074829931973,
+        "ctxState": "running"
+      },
+      {
+        "t": 6874.5999999940395,
+        "text": "00:01.74|1.4.2",
+        "ctxTime": 2.6586848072562357,
+        "ctxState": "running"
+      },
+      {
+        "t": 6891.29999999702,
+        "text": "00:01.75|1.4.3",
+        "ctxTime": 2.681904761904762,
+        "ctxState": "running"
+      },
+      {
+        "t": 6908.0999999940395,
+        "text": "00:01.78|1.4.3",
+        "ctxTime": 2.693514739229025,
+        "ctxState": "running"
+      },
+      {
+        "t": 6924.70000000298,
+        "text": "00:01.79|1.4.3",
+        "ctxTime": 2.716734693877551,
+        "ctxState": "running"
+      },
+      {
+        "t": 6946.29999999702,
+        "text": "00:01.81|1.4.3",
+        "ctxTime": 2.728344671201814,
+        "ctxState": "running"
+      },
+      {
+        "t": 6961.9000000059605,
+        "text": "00:01.82|1.4.3",
+        "ctxTime": 2.75156462585034,
+        "ctxState": "running"
+      },
+      {
+        "t": 6975.4000000059605,
+        "text": "00:01.85|1.4.3",
+        "ctxTime": 2.7631746031746034,
+        "ctxState": "running"
+      },
+      {
+        "t": 6991.79999999702,
+        "text": "00:00.00|1.1.1",
+        "ctxTime": 2.7747845804988662,
+        "ctxState": "running"
+      },
+      {
+        "t": 7675,
+        "text": "00:00.01|1.1.1",
+        "ctxTime": 3.4597732426303853,
+        "ctxState": "running"
+      },
+      {
+        "t": 7691.4000000059605,
+        "text": "00:00.02|1.1.1",
+        "ctxTime": 3.4829931972789114,
+        "ctxState": "running"
+      },
+      {
+        "t": 7708,
+        "text": "00:00.05|1.1.1",
+        "ctxTime": 3.4946031746031747,
+        "ctxState": "running"
+      },
+      {
+        "t": 7725.20000000298,
+        "text": "00:00.06|1.1.1",
+        "ctxTime": 3.517823129251701,
+        "ctxState": "running"
+      },
+      {
+        "t": 7741.5999999940395,
+        "text": "00:00.08|1.1.1",
+        "ctxTime": 3.5294331065759637,
+        "ctxState": "running"
+      },
+      {
+        "t": 7758.70000000298,
+        "text": "00:00.09|1.1.1",
+        "ctxTime": 3.541043083900227,
+        "ctxState": "running"
+      },
+      {
+        "t": 7775,
+        "text": "00:00.10|1.1.1",
+        "ctxTime": 3.564263038548753,
+        "ctxState": "running"
+      },
+      {
+        "t": 7792.20000000298,
+        "text": "00:00.13|1.1.2",
+        "ctxTime": 3.575873015873016,
+        "ctxState": "running"
+      },
+      {
+        "t": 7808.5,
+        "text": "00:00.14|1.1.2",
+        "ctxTime": 3.599092970521542,
+        "ctxState": "running"
+      },
+      {
+        "t": 7824.29999999702,
+        "text": "00:00.16|1.1.2",
+        "ctxTime": 3.610702947845805,
+        "ctxState": "running"
+      },
+      {
+        "t": 7841.5,
+        "text": "00:00.17|1.1.2",
+        "ctxTime": 3.633922902494331,
+        "ctxState": "running"
+      },
+      {
+        "t": 7858.4000000059605,
+        "text": "00:00.20|1.1.2",
+        "ctxTime": 3.645532879818594,
+        "ctxState": "running"
+      },
+      {
+        "t": 7875.0999999940395,
+        "text": "00:00.21|1.1.2",
+        "ctxTime": 3.657142857142857,
+        "ctxState": "running"
+      },
+      {
+        "t": 7891.5,
+        "text": "00:00.22|1.1.2",
+        "ctxTime": 3.680362811791383,
+        "ctxState": "running"
+      },
+      {
+        "t": 7908.70000000298,
+        "text": "00:00.24|1.1.2",
+        "ctxTime": 3.6919727891156464,
+        "ctxState": "running"
+      },
+      {
+        "t": 7924.5,
+        "text": "00:00.26|1.1.3",
+        "ctxTime": 3.7151927437641725,
+        "ctxState": "running"
+      },
+      {
+        "t": 7941.9000000059605,
+        "text": "00:00.28|1.1.3",
+        "ctxTime": 3.7268027210884354,
+        "ctxState": "running"
+      },
+      {
+        "t": 7958.0999999940395,
+        "text": "00:00.29|1.1.3",
+        "ctxTime": 3.7500226757369615,
+        "ctxState": "running"
+      },
+      {
+        "t": 7974.5,
+        "text": "00:00.31|1.1.3",
+        "ctxTime": 3.7616326530612243,
+        "ctxState": "running"
+      },
+      {
+        "t": 7991.70000000298,
+        "text": "00:00.33|1.1.3",
+        "ctxTime": 3.7732426303854876,
+        "ctxState": "running"
+      },
+      {
+        "t": 8007.70000000298,
+        "text": "00:00.34|1.1.3",
+        "ctxTime": 3.7964625850340137,
+        "ctxState": "running"
+      },
+      {
+        "t": 8025.0999999940395,
+        "text": "00:00.36|1.1.3",
+        "ctxTime": 3.8080725623582765,
+        "ctxState": "running"
+      },
+      {
+        "t": 8041.5999999940395,
+        "text": "00:00.37|1.1.3",
+        "ctxTime": 3.8312925170068026,
+        "ctxState": "running"
+      },
+      {
+        "t": 8057.79999999702,
+        "text": "00:00.39|1.1.4",
+        "ctxTime": 3.842902494331066,
+        "ctxState": "running"
+      },
+      {
+        "t": 8074.70000000298,
+        "text": "00:00.41|1.1.4",
+        "ctxTime": 3.866122448979592,
+        "ctxState": "running"
+      },
+      {
+        "t": 8090.79999999702,
+        "text": "00:00.43|1.1.4",
+        "ctxTime": 3.877732426303855,
+        "ctxState": "running"
+      },
+      {
+        "t": 8108.29999999702,
+        "text": "00:00.44|1.1.4",
+        "ctxTime": 3.900952380952381,
+        "ctxState": "running"
+      },
+      {
+        "t": 8124.70000000298,
+        "text": "00:00.46|1.1.4",
+        "ctxTime": 3.912562358276644,
+        "ctxState": "running"
+      },
+      {
+        "t": 8141.5999999940395,
+        "text": "00:00.47|1.1.4",
+        "ctxTime": 3.924172335600907,
+        "ctxState": "running"
+      },
+      {
+        "t": 8158.20000000298,
+        "text": "00:00.49|1.1.4",
+        "ctxTime": 3.947392290249433,
+        "ctxState": "running"
+      },
+      {
+        "t": 8174.4000000059605,
+        "text": "00:00.51|1.2.1",
+        "ctxTime": 3.959002267573696,
+        "ctxState": "running"
+      },
+      {
+        "t": 8192,
+        "text": "00:00.52|1.2.1",
+        "ctxTime": 3.982222222222222,
+        "ctxState": "running"
+      },
+      {
+        "t": 8208.90000000596,
+        "text": "00:00.54|1.2.1",
+        "ctxTime": 3.9938321995464854,
+        "ctxState": "running"
+      },
+      {
+        "t": 8224.29999999702,
+        "text": "00:00.56|1.2.1",
+        "ctxTime": 4.017052154195011,
+        "ctxState": "running"
+      },
+      {
+        "t": 8241.79999999702,
+        "text": "00:00.58|1.2.1",
+        "ctxTime": 4.028662131519274,
+        "ctxState": "running"
+      },
+      {
+        "t": 8258.29999999702,
+        "text": "00:00.59|1.2.1",
+        "ctxTime": 4.040272108843538,
+        "ctxState": "running"
+      },
+      {
+        "t": 8275,
+        "text": "00:00.60|1.2.1",
+        "ctxTime": 4.063492063492063,
+        "ctxState": "running"
+      },
+      {
+        "t": 8291.09999999404,
+        "text": "00:00.63|1.2.2",
+        "ctxTime": 4.0751020408163265,
+        "ctxState": "running"
+      },
+      {
+        "t": 8308.09999999404,
+        "text": "00:00.64|1.2.2",
+        "ctxTime": 4.098321995464852,
+        "ctxState": "running"
+      },
+      {
+        "t": 8325,
+        "text": "00:00.66|1.2.2",
+        "ctxTime": 4.1099319727891155,
+        "ctxState": "running"
+      },
+      {
+        "t": 8341.59999999404,
+        "text": "00:00.67|1.2.2",
+        "ctxTime": 4.133151927437642,
+        "ctxState": "running"
+      },
+      {
+        "t": 8358.59999999404,
+        "text": "00:00.70|1.2.2",
+        "ctxTime": 4.144761904761904,
+        "ctxState": "running"
+      },
+      {
+        "t": 8375.29999999702,
+        "text": "00:00.71|1.2.2",
+        "ctxTime": 4.167981859410431,
+        "ctxState": "running"
+      },
+      {
+        "t": 8391.20000000298,
+        "text": "00:00.73|1.2.2",
+        "ctxTime": 4.179591836734694,
+        "ctxState": "running"
+      },
+      {
+        "t": 8408,
+        "text": "00:00.74|1.2.2",
+        "ctxTime": 4.191201814058957,
+        "ctxState": "running"
+      },
+      {
+        "t": 8424.5,
+        "text": "00:00.75|1.2.3",
+        "ctxTime": 4.214421768707483,
+        "ctxState": "running"
+      },
+      {
+        "t": 8441.20000000298,
+        "text": "00:00.78|1.2.3",
+        "ctxTime": 4.2260317460317465,
+        "ctxState": "running"
+      },
+      {
+        "t": 8458.5,
+        "text": "00:00.79|1.2.3",
+        "ctxTime": 4.249251700680272,
+        "ctxState": "running"
+      },
+      {
+        "t": 8475.20000000298,
+        "text": "00:00.81|1.2.3",
+        "ctxTime": 4.260861678004535,
+        "ctxState": "running"
+      },
+      {
+        "t": 8491.59999999404,
+        "text": "00:00.82|1.2.3",
+        "ctxTime": 4.284081632653061,
+        "ctxState": "running"
+      },
+      {
+        "t": 8507.79999999702,
+        "text": "00:00.85|1.2.3",
+        "ctxTime": 4.295691609977324,
+        "ctxState": "running"
+      },
+      {
+        "t": 8524.29999999702,
+        "text": "00:00.86|1.2.3",
+        "ctxTime": 4.307301587301588,
+        "ctxState": "running"
+      },
+      {
+        "t": 8540.79999999702,
+        "text": "00:00.87|1.2.3",
+        "ctxTime": 4.330521541950113,
+        "ctxState": "running"
+      },
+      {
+        "t": 8558,
+        "text": "00:00.89|1.2.4",
+        "ctxTime": 4.342131519274377,
+        "ctxState": "running"
+      },
+      {
+        "t": 8574.29999999702,
+        "text": "00:00.91|1.2.4",
+        "ctxTime": 4.365351473922902,
+        "ctxState": "running"
+      },
+      {
+        "t": 8590.79999999702,
+        "text": "00:00.93|1.2.4",
+        "ctxTime": 4.3769614512471655,
+        "ctxState": "running"
+      },
+      {
+        "t": 8607.79999999702,
+        "text": "00:00.94|1.2.4",
+        "ctxTime": 4.400181405895691,
+        "ctxState": "running"
+      },
+      {
+        "t": 8625,
+        "text": "00:00.96|1.2.4",
+        "ctxTime": 4.4117913832199545,
+        "ctxState": "running"
+      },
+      {
+        "t": 8641.70000000298,
+        "text": "00:00.97|1.2.4",
+        "ctxTime": 4.423401360544218,
+        "ctxState": "running"
+      },
+      {
+        "t": 8658.29999999702,
+        "text": "00:01.00|1.2.4",
+        "ctxTime": 4.446621315192743,
+        "ctxState": "running"
+      },
+      {
+        "t": 8674.40000000596,
+        "text": "00:01.01|1.3.1",
+        "ctxTime": 4.458231292517007,
+        "ctxState": "running"
+      },
+      {
+        "t": 8691.5,
+        "text": "00:01.02|1.3.1",
+        "ctxTime": 4.481451247165533,
+        "ctxState": "running"
+      },
+      {
+        "t": 8708.29999999702,
+        "text": "00:01.04|1.3.1",
+        "ctxTime": 4.493061224489796,
+        "ctxState": "running"
+      },
+      {
+        "t": 8724.09999999404,
+        "text": "00:01.06|1.3.1",
+        "ctxTime": 4.516281179138322,
+        "ctxState": "running"
+      },
+      {
+        "t": 8740.79999999702,
+        "text": "00:01.08|1.3.1",
+        "ctxTime": 4.527891156462585,
+        "ctxState": "running"
+      },
+      {
+        "t": 8757.79999999702,
+        "text": "00:01.09|1.3.1",
+        "ctxTime": 4.551111111111111,
+        "ctxState": "running"
+      },
+      {
+        "t": 8774.40000000596,
+        "text": "00:01.11|1.3.1",
+        "ctxTime": 4.562721088435374,
+        "ctxState": "running"
+      },
+      {
+        "t": 8791,
+        "text": "00:01.13|1.3.2",
+        "ctxTime": 4.574331065759637,
+        "ctxState": "running"
+      },
+      {
+        "t": 8808.70000000298,
+        "text": "00:01.14|1.3.2",
+        "ctxTime": 4.597551020408163,
+        "ctxState": "running"
+      },
+      {
+        "t": 8824.90000000596,
+        "text": "00:01.16|1.3.2",
+        "ctxTime": 4.609160997732427,
+        "ctxState": "running"
+      },
+      {
+        "t": 8841.09999999404,
+        "text": "00:01.17|1.3.2",
+        "ctxTime": 4.632380952380952,
+        "ctxState": "running"
+      },
+      {
+        "t": 8857.90000000596,
+        "text": "00:01.19|1.3.2",
+        "ctxTime": 4.6439909297052155,
+        "ctxState": "running"
+      },
+      {
+        "t": 8874.79999999702,
+        "text": "00:01.21|1.3.2",
+        "ctxTime": 4.667210884353741,
+        "ctxState": "running"
+      },
+      {
+        "t": 8891.90000000596,
+        "text": "00:01.23|1.3.2",
+        "ctxTime": 4.6788208616780045,
+        "ctxState": "running"
+      },
+      {
+        "t": 8907.90000000596,
+        "text": "00:01.24|1.3.2",
+        "ctxTime": 4.690430839002268,
+        "ctxState": "running"
+      },
+      {
+        "t": 8925.20000000298,
+        "text": "00:01.25|1.3.3",
+        "ctxTime": 4.713650793650793,
+        "ctxState": "running"
+      },
+      {
+        "t": 8941.29999999702,
+        "text": "00:01.28|1.3.3",
+        "ctxTime": 4.725260770975057,
+        "ctxState": "running"
+      },
+      {
+        "t": 8958.29999999702,
+        "text": "00:01.29|1.3.3",
+        "ctxTime": 4.748480725623582,
+        "ctxState": "running"
+      },
+      {
+        "t": 8974.40000000596,
+        "text": "00:01.31|1.3.3",
+        "ctxTime": 4.760090702947846,
+        "ctxState": "running"
+      },
+      {
+        "t": 8991.29999999702,
+        "text": "00:01.32|1.3.3",
+        "ctxTime": 4.783310657596372,
+        "ctxState": "running"
+      },
+      {
+        "t": 9007.90000000596,
+        "text": "00:01.35|1.3.3",
+        "ctxTime": 4.794920634920635,
+        "ctxState": "running"
+      },
+      {
+        "t": 9024.5,
+        "text": "00:01.36|1.3.3",
+        "ctxTime": 4.806530612244898,
+        "ctxState": "running"
+      },
+      {
+        "t": 9041.70000000298,
+        "text": "00:01.37|1.3.3",
+        "ctxTime": 4.829750566893424,
+        "ctxState": "running"
+      },
+      {
+        "t": 9058,
+        "text": "00:01.39|1.3.4",
+        "ctxTime": 4.841360544217687,
+        "ctxState": "running"
+      },
+      {
+        "t": 9074.59999999404,
+        "text": "00:01.40|1.3.4",
+        "ctxTime": 4.864580498866213,
+        "ctxState": "running"
+      },
+      {
+        "t": 9091.59999999404,
+        "text": "00:01.43|1.3.4",
+        "ctxTime": 4.876190476190477,
+        "ctxState": "running"
+      },
+      {
+        "t": 9107.70000000298,
+        "text": "00:01.44|1.3.4",
+        "ctxTime": 4.899410430839002,
+        "ctxState": "running"
+      },
+      {
+        "t": 9124.09999999404,
+        "text": "00:01.46|1.3.4",
+        "ctxTime": 4.911020408163266,
+        "ctxState": "running"
+      },
+      {
+        "t": 9141.20000000298,
+        "text": "00:01.47|1.3.4",
+        "ctxTime": 4.934240362811791,
+        "ctxState": "running"
+      },
+      {
+        "t": 9158.70000000298,
+        "text": "00:01.50|1.3.4",
+        "ctxTime": 4.9458503401360545,
+        "ctxState": "running"
+      },
+      {
+        "t": 9174.40000000596,
+        "text": "00:01.51|1.4.1",
+        "ctxTime": 4.957460317460318,
+        "ctxState": "running"
+      },
+      {
+        "t": 9191,
+        "text": "00:01.52|1.4.1",
+        "ctxTime": 4.9806802721088435,
+        "ctxState": "running"
+      },
+      {
+        "t": 9207.79999999702,
+        "text": "00:01.54|1.4.1",
+        "ctxTime": 4.992290249433107,
+        "ctxState": "running"
+      },
+      {
+        "t": 9224.09999999404,
+        "text": "00:01.56|1.4.1",
+        "ctxTime": 5.015510204081632,
+        "ctxState": "running"
+      },
+      {
+        "t": 9241.40000000596,
+        "text": "00:01.58|1.4.1",
+        "ctxTime": 5.027120181405896,
+        "ctxState": "running"
+      },
+      {
+        "t": 9257.79999999702,
+        "text": "00:01.59|1.4.1",
+        "ctxTime": 5.050340136054421,
+        "ctxState": "running"
+      },
+      {
+        "t": 9274.29999999702,
+        "text": "00:01.61|1.4.1",
+        "ctxTime": 5.061950113378685,
+        "ctxState": "running"
+      },
+      {
+        "t": 9291.5,
+        "text": "00:01.63|1.4.2",
+        "ctxTime": 5.073560090702948,
+        "ctxState": "running"
+      },
+      {
+        "t": 9307.59999999404,
+        "text": "00:01.64|1.4.2",
+        "ctxTime": 5.0967800453514736,
+        "ctxState": "running"
+      },
+      {
+        "t": 9325.20000000298,
+        "text": "00:01.66|1.4.2",
+        "ctxTime": 5.108390022675737,
+        "ctxState": "running"
+      },
+      {
+        "t": 9341.29999999702,
+        "text": "00:01.67|1.4.2",
+        "ctxTime": 5.131609977324263,
+        "ctxState": "running"
+      },
+      {
+        "t": 9358.29999999702,
+        "text": "00:01.69|1.4.2",
+        "ctxTime": 5.143219954648526,
+        "ctxState": "running"
+      },
+      {
+        "t": 9374.29999999702,
+        "text": "00:01.71|1.4.2",
+        "ctxTime": 5.166439909297052,
+        "ctxState": "running"
+      },
+      {
+        "t": 9391.40000000596,
+        "text": "00:01.73|1.4.2",
+        "ctxTime": 5.178049886621316,
+        "ctxState": "running"
+      },
+      {
+        "t": 9408.29999999702,
+        "text": "00:01.74|1.4.2",
+        "ctxTime": 5.201269841269841,
+        "ctxState": "running"
+      },
+      {
+        "t": 9425.20000000298,
+        "text": "00:01.76|1.4.3",
+        "ctxTime": 5.2128798185941045,
+        "ctxState": "running"
+      },
+      {
+        "t": 9441.20000000298,
+        "text": "00:01.78|1.4.3",
+        "ctxTime": 5.224489795918367,
+        "ctxState": "running"
+      },
+      {
+        "t": 9457.79999999702,
+        "text": "00:01.79|1.4.3",
+        "ctxTime": 5.2477097505668935,
+        "ctxState": "running"
+      },
+      {
+        "t": 9474.70000000298,
+        "text": "00:01.81|1.4.3",
+        "ctxTime": 5.259319727891157,
+        "ctxState": "running"
+      },
+      {
+        "t": 9491.5,
+        "text": "00:01.82|1.4.3",
+        "ctxTime": 5.282539682539682,
+        "ctxState": "running"
+      },
+      {
+        "t": 9508.5,
+        "text": "00:01.85|1.4.3",
+        "ctxTime": 5.294149659863946,
+        "ctxState": "running"
+      },
+      {
+        "t": 9524.40000000596,
+        "text": "00:01.86|1.4.3",
+        "ctxTime": 5.317369614512471,
+        "ctxState": "running"
+      },
+      {
+        "t": 9541.40000000596,
+        "text": "00:01.88|1.4.4",
+        "ctxTime": 5.328979591836735,
+        "ctxState": "running"
+      },
+      {
+        "t": 9558.20000000298,
+        "text": "00:01.89|1.4.4",
+        "ctxTime": 5.340589569160998,
+        "ctxState": "running"
+      },
+      {
+        "t": 9574.40000000596,
+        "text": "00:01.90|1.4.4",
+        "ctxTime": 5.363809523809524,
+        "ctxState": "running"
+      },
+      {
+        "t": 9591.29999999702,
+        "text": "00:01.93|1.4.4",
+        "ctxTime": 5.375419501133787,
+        "ctxState": "running"
+      },
+      {
+        "t": 9608.29999999702,
+        "text": "00:01.94|1.4.4",
+        "ctxTime": 5.3986394557823125,
+        "ctxState": "running"
+      },
+      {
+        "t": 9624.40000000596,
+        "text": "00:01.96|1.4.4",
+        "ctxTime": 5.410249433106576,
+        "ctxState": "running"
+      },
+      {
+        "t": 9641.70000000298,
+        "text": "00:01.97|1.4.4",
+        "ctxTime": 5.433469387755102,
+        "ctxState": "running"
+      },
+      {
+        "t": 9658.29999999702,
+        "text": "00:02.00|1.4.4",
+        "ctxTime": 5.445079365079365,
+        "ctxState": "running"
+      },
+      {
+        "t": 9674.79999999702,
+        "text": "00:00.01|1.1.1",
+        "ctxTime": 5.456689342403628,
+        "ctxState": "running"
+      },
+      {
+        "t": 9691.5,
+        "text": "00:00.02|1.1.1",
+        "ctxTime": 5.479909297052155,
+        "ctxState": "running"
+      },
+      {
+        "t": 9708.09999999404,
+        "text": "00:00.04|1.1.1",
+        "ctxTime": 5.491519274376417,
+        "ctxState": "running"
+      },
+      {
+        "t": 9725.09999999404,
+        "text": "00:00.05|1.1.1",
+        "ctxTime": 5.5147392290249435,
+        "ctxState": "running"
+      },
+      {
+        "t": 9741.09999999404,
+        "text": "00:00.08|1.1.1",
+        "ctxTime": 5.526349206349207,
+        "ctxState": "running"
+      },
+      {
+        "t": 9757.59999999404,
+        "text": "00:00.09|1.1.1",
+        "ctxTime": 5.5495691609977325,
+        "ctxState": "running"
+      },
+      {
+        "t": 9774.59999999404,
+        "text": "00:00.11|1.1.1",
+        "ctxTime": 5.561179138321996,
+        "ctxState": "running"
+      },
+      {
+        "t": 9791.70000000298,
+        "text": "00:00.12|1.1.1",
+        "ctxTime": 5.584399092970521,
+        "ctxState": "running"
+      },
+      {
+        "t": 9807.79999999702,
+        "text": "00:00.15|1.1.2",
+        "ctxTime": 5.596009070294785,
+        "ctxState": "running"
+      },
+      {
+        "t": 9824.59999999404,
+        "text": "00:00.16|1.1.2",
+        "ctxTime": 5.607619047619048,
+        "ctxState": "running"
+      },
+      {
+        "t": 9841.70000000298,
+        "text": "00:00.17|1.1.2",
+        "ctxTime": 5.630839002267574,
+        "ctxState": "running"
+      },
+      {
+        "t": 9858.09999999404,
+        "text": "00:00.19|1.1.2",
+        "ctxTime": 5.642448979591837,
+        "ctxState": "running"
+      },
+      {
+        "t": 9875,
+        "text": "00:00.21|1.1.2",
+        "ctxTime": 5.6656689342403626,
+        "ctxState": "running"
+      },
+      {
+        "t": 9891,
+        "text": "00:00.23|1.1.2",
+        "ctxTime": 5.677278911564626,
+        "ctxState": "running"
+      },
+      {
+        "t": 9908.09999999404,
+        "text": "00:00.24|1.1.2",
+        "ctxTime": 5.7004988662131515,
+        "ctxState": "running"
+      },
+      {
+        "t": 9925.09999999404,
+        "text": "00:00.26|1.1.3",
+        "ctxTime": 5.712108843537415,
+        "ctxState": "running"
+      },
+      {
+        "t": 9941,
+        "text": "00:00.28|1.1.3",
+        "ctxTime": 5.723718820861678,
+        "ctxState": "running"
+      },
+      {
+        "t": 9957.79999999702,
+        "text": "00:00.29|1.1.3",
+        "ctxTime": 5.746938775510204,
+        "ctxState": "running"
+      },
+      {
+        "t": 9974.29999999702,
+        "text": "00:00.31|1.1.3",
+        "ctxTime": 5.758548752834467,
+        "ctxState": "running"
+      },
+      {
+        "t": 9991.29999999702,
+        "text": "00:00.32|1.1.3",
+        "ctxTime": 5.7817687074829935,
+        "ctxState": "running"
+      },
+      {
+        "t": 10008.29999999702,
+        "text": "00:00.34|1.1.3",
+        "ctxTime": 5.793378684807256,
+        "ctxState": "running"
+      },
+      {
+        "t": 10024.29999999702,
+        "text": "00:00.36|1.1.3",
+        "ctxTime": 5.8165986394557825,
+        "ctxState": "running"
+      },
+      {
+        "t": 10041.59999999404,
+        "text": "00:00.38|1.1.4",
+        "ctxTime": 5.828208616780046,
+        "ctxState": "running"
+      },
+      {
+        "t": 10058,
+        "text": "00:00.39|1.1.4",
+        "ctxTime": 5.839818594104308,
+        "ctxState": "running"
+      },
+      {
+        "t": 10075.20000000298,
+        "text": "00:00.40|1.1.4",
+        "ctxTime": 5.863038548752835,
+        "ctxState": "running"
+      },
+      {
+        "t": 10091.29999999702,
+        "text": "00:00.43|1.1.4",
+        "ctxTime": 5.874648526077097,
+        "ctxState": "running"
+      },
+      {
+        "t": 10107.59999999404,
+        "text": "00:00.44|1.1.4",
+        "ctxTime": 5.897868480725624,
+        "ctxState": "running"
+      },
+      {
+        "t": 10124.59999999404,
+        "text": "00:00.46|1.1.4",
+        "ctxTime": 5.909478458049887,
+        "ctxState": "running"
+      },
+      {
+        "t": 10140.90000000596,
+        "text": "00:00.47|1.1.4",
+        "ctxTime": 5.932698412698413,
+        "ctxState": "running"
+      },
+      {
+        "t": 10157.79999999702,
+        "text": "00:00.50|1.1.4",
+        "ctxTime": 5.944308390022676,
+        "ctxState": "running"
+      },
+      {
+        "t": 10174.40000000596,
+        "text": "00:00.51|1.2.1",
+        "ctxTime": 5.955918367346939,
+        "ctxState": "running"
+      },
+      {
+        "t": 10191.5,
+        "text": "00:00.52|1.2.1",
+        "ctxTime": 5.979138321995465,
+        "ctxState": "running"
+      },
+      {
+        "t": 10208.59999999404,
+        "text": "00:00.54|1.2.1",
+        "ctxTime": 5.990748299319728,
+        "ctxState": "running"
+      },
+      {
+        "t": 10224.40000000596,
+        "text": "00:00.55|1.2.1",
+        "ctxTime": 6.013968253968254,
+        "ctxState": "running"
+      },
+      {
+        "t": 10241.59999999404,
+        "text": "00:00.58|1.2.1",
+        "ctxTime": 6.025578231292517,
+        "ctxState": "running"
+      },
+      {
+        "t": 10258.40000000596,
+        "text": "00:00.59|1.2.1",
+        "ctxTime": 6.048798185941043,
+        "ctxState": "running"
+      },
+      {
+        "t": 10274.90000000596,
+        "text": "00:00.61|1.2.1",
+        "ctxTime": 6.060408163265306,
+        "ctxState": "running"
+      },
+      {
+        "t": 10291.79999999702,
+        "text": "00:00.62|1.2.1",
+        "ctxTime": 6.0836281179138325,
+        "ctxState": "running"
+      },
+      {
+        "t": 10307.90000000596,
+        "text": "00:00.65|1.2.2",
+        "ctxTime": 6.095238095238095,
+        "ctxState": "running"
+      },
+      {
+        "t": 10324.20000000298,
+        "text": "00:00.66|1.2.2",
+        "ctxTime": 6.106848072562358,
+        "ctxState": "running"
+      },
+      {
+        "t": 10341.59999999404,
+        "text": "00:00.67|1.2.2",
+        "ctxTime": 6.130068027210885,
+        "ctxState": "running"
+      },
+      {
+        "t": 10358.29999999702,
+        "text": "00:00.69|1.2.2",
+        "ctxTime": 6.141678004535147,
+        "ctxState": "running"
+      },
+      {
+        "t": 10374.5,
+        "text": "00:00.70|1.2.2",
+        "ctxTime": 6.164897959183674,
+        "ctxState": "running"
+      },
+      {
+        "t": 10391.70000000298,
+        "text": "00:00.73|1.2.2",
+        "ctxTime": 6.176507936507937,
+        "ctxState": "running"
+      },
+      {
+        "t": 10408.40000000596,
+        "text": "00:00.74|1.2.2",
+        "ctxTime": 6.199727891156463,
+        "ctxState": "running"
+      },
+      {
+        "t": 10424.70000000298,
+        "text": "00:00.76|1.2.3",
+        "ctxTime": 6.211337868480726,
+        "ctxState": "running"
+      },
+      {
+        "t": 10441.79999999702,
+        "text": "00:00.77|1.2.3",
+        "ctxTime": 6.2345578231292516,
+        "ctxState": "running"
+      },
+      {
+        "t": 10458.40000000596,
+        "text": "00:00.80|1.2.3",
+        "ctxTime": 6.246167800453515,
+        "ctxState": "running"
+      },
+      {
+        "t": 10475,
+        "text": "00:00.81|1.2.3",
+        "ctxTime": 6.257777777777778,
+        "ctxState": "running"
+      },
+      {
+        "t": 10490.90000000596,
+        "text": "00:00.82|1.2.3",
+        "ctxTime": 6.280997732426304,
+        "ctxState": "running"
+      },
+      {
+        "t": 10507.90000000596,
+        "text": "00:00.84|1.2.3",
+        "ctxTime": 6.292607709750567,
+        "ctxState": "running"
+      },
+      {
+        "t": 10524.59999999404,
+        "text": "00:00.86|1.2.3",
+        "ctxTime": 6.315827664399093,
+        "ctxState": "running"
+      },
+      {
+        "t": 10541.5,
+        "text": "00:00.88|1.2.4",
+        "ctxTime": 6.327437641723356,
+        "ctxState": "running"
+      },
+      {
+        "t": 10557.70000000298,
+        "text": "00:00.89|1.2.4",
+        "ctxTime": 6.350657596371882,
+        "ctxState": "running"
+      },
+      {
+        "t": 10574.70000000298,
+        "text": "00:00.91|1.2.4",
+        "ctxTime": 6.362267573696145,
+        "ctxState": "running"
+      },
+      {
+        "t": 10591.59999999404,
+        "text": "00:00.93|1.2.4",
+        "ctxTime": 6.373877551020408,
+        "ctxState": "running"
+      },
+      {
+        "t": 10608.40000000596,
+        "text": "00:00.94|1.2.4",
+        "ctxTime": 6.397097505668934,
+        "ctxState": "running"
+      },
+      {
+        "t": 10624.70000000298,
+        "text": "00:00.96|1.2.4",
+        "ctxTime": 6.408707482993197,
+        "ctxState": "running"
+      },
+      {
+        "t": 10641.90000000596,
+        "text": "00:00.97|1.2.4",
+        "ctxTime": 6.431927437641724,
+        "ctxState": "running"
+      },
+      {
+        "t": 10658.29999999702,
+        "text": "00:00.99|1.2.4",
+        "ctxTime": 6.443537414965986,
+        "ctxState": "running"
+      },
+      {
+        "t": 10674.59999999404,
+        "text": "00:01.01|1.3.1",
+        "ctxTime": 6.466757369614513,
+        "ctxState": "running"
+      },
+      {
+        "t": 10691,
+        "text": "00:01.03|1.3.1",
+        "ctxTime": 6.478367346938776,
+        "ctxState": "running"
+      },
+      {
+        "t": 10707.59999999404,
+        "text": "00:01.04|1.3.1",
+        "ctxTime": 6.489977324263038,
+        "ctxState": "running"
+      },
+      {
+        "t": 10724.29999999702,
+        "text": "00:01.05|1.3.1",
+        "ctxTime": 6.513197278911565,
+        "ctxState": "running"
+      },
+      {
+        "t": 10741.29999999702,
+        "text": "00:01.08|1.3.1",
+        "ctxTime": 6.524807256235827,
+        "ctxState": "running"
+      },
+      {
+        "t": 10757.70000000298,
+        "text": "00:01.09|1.3.1",
+        "ctxTime": 6.548027210884354,
+        "ctxState": "running"
+      },
+      {
+        "t": 10774.09999999404,
+        "text": "00:01.11|1.3.1",
+        "ctxTime": 6.559637188208617,
+        "ctxState": "running"
+      },
+      {
+        "t": 10790.90000000596,
+        "text": "00:01.12|1.3.1",
+        "ctxTime": 6.582857142857143,
+        "ctxState": "running"
+      },
+      {
+        "t": 10808.40000000596,
+        "text": "00:01.15|1.3.2",
+        "ctxTime": 6.594467120181406,
+        "ctxState": "running"
+      },
+      {
+        "t": 10825,
+        "text": "00:01.16|1.3.2",
+        "ctxTime": 6.617687074829932,
+        "ctxState": "running"
+      },
+      {
+        "t": 10841.5,
+        "text": "00:01.18|1.3.2",
+        "ctxTime": 6.629297052154195,
+        "ctxState": "running"
+      },
+      {
+        "t": 10858.20000000298,
+        "text": "00:01.19|1.3.2",
+        "ctxTime": 6.640907029478458,
+        "ctxState": "running"
+      },
+      {
+        "t": 10874.59999999404,
+        "text": "00:01.20|1.3.2",
+        "ctxTime": 6.664126984126984,
+        "ctxState": "running"
+      },
+      {
+        "t": 10891.29999999702,
+        "text": "00:01.23|1.3.2",
+        "ctxTime": 6.675736961451247,
+        "ctxState": "running"
+      },
+      {
+        "t": 10907.79999999702,
+        "text": "00:01.24|1.3.2",
+        "ctxTime": 6.698956916099773,
+        "ctxState": "running"
+      },
+      {
+        "t": 10924.29999999702,
+        "text": "00:01.26|1.3.3",
+        "ctxTime": 6.710566893424036,
+        "ctxState": "running"
+      },
+      {
+        "t": 10941.40000000596,
+        "text": "00:01.27|1.3.3",
+        "ctxTime": 6.733786848072563,
+        "ctxState": "running"
+      },
+      {
+        "t": 10957.90000000596,
+        "text": "00:01.30|1.3.3",
+        "ctxTime": 6.745396825396825,
+        "ctxState": "running"
+      },
+      {
+        "t": 10974.90000000596,
+        "text": "00:01.31|1.3.3",
+        "ctxTime": 6.757006802721088,
+        "ctxState": "running"
+      },
+      {
+        "t": 10991.70000000298,
+        "text": "00:01.32|1.3.3",
+        "ctxTime": 6.780226757369615,
+        "ctxState": "running"
+      },
+      {
+        "t": 11008.20000000298,
+        "text": "00:01.34|1.3.3",
+        "ctxTime": 6.791836734693877,
+        "ctxState": "running"
+      },
+      {
+        "t": 11025.20000000298,
+        "text": "00:01.36|1.3.3",
+        "ctxTime": 6.815056689342404,
+        "ctxState": "running"
+      },
+      {
+        "t": 11041.20000000298,
+        "text": "00:01.38|1.3.4",
+        "ctxTime": 6.826666666666667,
+        "ctxState": "running"
+      },
+      {
+        "t": 11057.70000000298,
+        "text": "00:01.39|1.3.4",
+        "ctxTime": 6.849886621315193,
+        "ctxState": "running"
+      },
+      {
+        "t": 11075.09999999404,
+        "text": "00:01.41|1.3.4",
+        "ctxTime": 6.861496598639456,
+        "ctxState": "running"
+      },
+      {
+        "t": 11091.70000000298,
+        "text": "00:01.42|1.3.4",
+        "ctxTime": 6.884716553287982,
+        "ctxState": "running"
+      },
+      {
+        "t": 11108.09999999404,
+        "text": "00:01.45|1.3.4",
+        "ctxTime": 6.896326530612245,
+        "ctxState": "running"
+      },
+      {
+        "t": 11124.5,
+        "text": "00:01.46|1.3.4",
+        "ctxTime": 6.907936507936508,
+        "ctxState": "running"
+      },
+      {
+        "t": 11141.59999999404,
+        "text": "00:01.47|1.3.4",
+        "ctxTime": 6.931156462585034,
+        "ctxState": "running"
+      },
+      {
+        "t": 11157.70000000298,
+        "text": "00:01.49|1.3.4",
+        "ctxTime": 6.942766439909297,
+        "ctxState": "running"
+      },
+      {
+        "t": 11175,
+        "text": "00:01.51|1.4.1",
+        "ctxTime": 6.965986394557823,
+        "ctxState": "running"
+      },
+      {
+        "t": 11191.40000000596,
+        "text": "00:01.53|1.4.1",
+        "ctxTime": 6.977596371882086,
+        "ctxState": "running"
+      },
+      {
+        "t": 11207.90000000596,
+        "text": "00:01.54|1.4.1",
+        "ctxTime": 7.000816326530612,
+        "ctxState": "running"
+      },
+      {
+        "t": 11224.70000000298,
+        "text": "00:01.56|1.4.1",
+        "ctxTime": 7.012426303854875,
+        "ctxState": "running"
+      },
+      {
+        "t": 11241.70000000298,
+        "text": "00:01.57|1.4.1",
+        "ctxTime": 7.024036281179138,
+        "ctxState": "running"
+      },
+      {
+        "t": 11257.5,
+        "text": "00:01.59|1.4.1",
+        "ctxTime": 7.047256235827664,
+        "ctxState": "running"
+      },
+      {
+        "t": 11274.59999999404,
+        "text": "00:01.61|1.4.1",
+        "ctxTime": 7.058866213151927,
+        "ctxState": "running"
+      },
+      {
+        "t": 11291,
+        "text": "00:01.62|1.4.1",
+        "ctxTime": 7.082086167800454,
+        "ctxState": "running"
+      },
+      {
+        "t": 11307.79999999702,
+        "text": "00:01.64|1.4.2",
+        "ctxTime": 7.093696145124716,
+        "ctxState": "running"
+      },
+      {
+        "t": 11324.70000000298,
+        "text": "00:01.66|1.4.2",
+        "ctxTime": 7.116916099773243,
+        "ctxState": "running"
+      },
+      {
+        "t": 11341.20000000298,
+        "text": "00:01.68|1.4.2",
+        "ctxTime": 7.128526077097506,
+        "ctxState": "running"
+      },
+      {
+        "t": 11358.09999999404,
+        "text": "00:01.69|1.4.2",
+        "ctxTime": 7.1401360544217685,
+        "ctxState": "running"
+      },
+      {
+        "t": 11374.40000000596,
+        "text": "00:01.70|1.4.2",
+        "ctxTime": 7.163356009070295,
+        "ctxState": "running"
+      },
+      {
+        "t": 11391.20000000298,
+        "text": "00:01.73|1.4.2",
+        "ctxTime": 7.174965986394557,
+        "ctxState": "running"
+      },
+      {
+        "t": 11408,
+        "text": "00:01.74|1.4.2",
+        "ctxTime": 7.198185941043084,
+        "ctxState": "running"
+      },
+      {
+        "t": 11424.40000000596,
+        "text": "00:01.76|1.4.3",
+        "ctxTime": 7.209795918367347,
+        "ctxState": "running"
+      },
+      {
+        "t": 11441.59999999404,
+        "text": "00:01.77|1.4.3",
+        "ctxTime": 7.233015873015873,
+        "ctxState": "running"
+      },
+      {
+        "t": 11457.79999999702,
+        "text": "00:01.80|1.4.3",
+        "ctxTime": 7.244625850340136,
+        "ctxState": "running"
+      },
+      {
+        "t": 11475.09999999404,
+        "text": "00:01.81|1.4.3",
+        "ctxTime": 7.267845804988662,
+        "ctxState": "running"
+      },
+      {
+        "t": 11491.29999999702,
+        "text": "00:01.83|1.4.3",
+        "ctxTime": 7.279455782312925,
+        "ctxState": "running"
+      },
+      {
+        "t": 11508.20000000298,
+        "text": "00:01.84|1.4.3",
+        "ctxTime": 7.291065759637188,
+        "ctxState": "running"
+      },
+      {
+        "t": 11524.70000000298,
+        "text": "00:01.85|1.4.3",
+        "ctxTime": 7.314285714285714,
+        "ctxState": "running"
+      },
+      {
+        "t": 11540.79999999702,
+        "text": "00:01.88|1.4.4",
+        "ctxTime": 7.325895691609977,
+        "ctxState": "running"
+      },
+      {
+        "t": 11560.70000000298,
+        "text": "00:01.89|1.4.4",
+        "ctxTime": 7.349115646258503,
+        "ctxState": "running"
+      },
+      {
+        "t": 11574.70000000298,
+        "text": "00:01.91|1.4.4",
+        "ctxTime": 7.360725623582766,
+        "ctxState": "running"
+      },
+      {
+        "t": 11591.20000000298,
+        "text": "00:01.92|1.4.4",
+        "ctxTime": 7.383945578231293,
+        "ctxState": "running"
+      },
+      {
+        "t": 11607.79999999702,
+        "text": "00:01.95|1.4.4",
+        "ctxTime": 7.395555555555555,
+        "ctxState": "running"
+      },
+      {
+        "t": 11624.29999999702,
+        "text": "00:01.96|1.4.4",
+        "ctxTime": 7.4071655328798185,
+        "ctxState": "running"
+      },
+      {
+        "t": 11641.20000000298,
+        "text": "00:01.97|1.4.4",
+        "ctxTime": 7.430385487528345,
+        "ctxState": "running"
+      },
+      {
+        "t": 11657.90000000596,
+        "text": "00:01.99|1.4.4",
+        "ctxTime": 7.441995464852607,
+        "ctxState": "running"
+      },
+      {
+        "t": 11681.20000000298,
+        "text": "00:00.01|1.1.1",
+        "ctxTime": 7.465215419501134,
+        "ctxState": "running"
+      },
+      {
+        "t": 11695.79999999702,
+        "text": "00:00.03|1.1.1",
+        "ctxTime": 7.48843537414966,
+        "ctxState": "running"
+      },
+      {
+        "t": 11707.79999999702,
+        "text": "00:00.00|1.1.1",
+        "ctxTime": 7.500045351473923,
+        "ctxState": "running"
+      },
+      {
+        "t": 17274.79999999702,
+        "text": "00:00.02|1.1.1",
+        "ctxTime": 13.061224489795919,
+        "ctxState": "running"
+      },
+      {
+        "t": 17291.29999999702,
+        "text": "00:00.03|1.1.1",
+        "ctxTime": 13.084444444444445,
+        "ctxState": "running"
+      },
+      {
+        "t": 17307.90000000596,
+        "text": "00:00.06|1.1.1",
+        "ctxTime": 13.096054421768708,
+        "ctxState": "running"
+      },
+      {
+        "t": 17324.5,
+        "text": "00:00.07|1.1.1",
+        "ctxTime": 13.10766439909297,
+        "ctxState": "running"
+      },
+      {
+        "t": 17341,
+        "text": "00:00.08|1.1.1",
+        "ctxTime": 13.130884353741497,
+        "ctxState": "running"
+      },
+      {
+        "t": 17357.20000000298,
+        "text": "00:00.10|1.1.1",
+        "ctxTime": 13.142494331065759,
+        "ctxState": "running"
+      },
+      {
+        "t": 17374.20000000298,
+        "text": "00:00.12|1.1.1",
+        "ctxTime": 13.165714285714285,
+        "ctxState": "running"
+      },
+      {
+        "t": 17395.90000000596,
+        "text": "00:00.14|1.1.2",
+        "ctxTime": 13.188934240362812,
+        "ctxState": "running"
+      },
+      {
+        "t": 17408.70000000298,
+        "text": "00:00.16|1.1.2",
+        "ctxTime": 13.200544217687074,
+        "ctxState": "running"
+      },
+      {
+        "t": 17429.20000000298,
+        "text": "00:00.17|1.1.2",
+        "ctxTime": 13.212154195011339,
+        "ctxState": "running"
+      },
+      {
+        "t": 17442.40000000596,
+        "text": "00:00.19|1.1.2",
+        "ctxTime": 13.235374149659863,
+        "ctxState": "running"
+      },
+      {
+        "t": 17458.5,
+        "text": "00:00.21|1.1.2",
+        "ctxTime": 13.246984126984128,
+        "ctxState": "running"
+      },
+      {
+        "t": 17475.79999999702,
+        "text": "00:00.22|1.1.2",
+        "ctxTime": 13.25859410430839,
+        "ctxState": "running"
+      },
+      {
+        "t": 17491.40000000596,
+        "text": "00:00.23|1.1.2",
+        "ctxTime": 13.281814058956916,
+        "ctxState": "running"
+      },
+      {
+        "t": 17508.79999999702,
+        "text": "00:00.26|1.1.3",
+        "ctxTime": 13.293424036281179,
+        "ctxState": "running"
+      },
+      {
+        "t": 17525.20000000298,
+        "text": "00:00.27|1.1.3",
+        "ctxTime": 13.316643990929705,
+        "ctxState": "running"
+      },
+      {
+        "t": 17541.40000000596,
+        "text": "00:00.29|1.1.3",
+        "ctxTime": 13.328253968253968,
+        "ctxState": "running"
+      },
+      {
+        "t": 17558.29999999702,
+        "text": "00:00.30|1.1.3",
+        "ctxTime": 13.351473922902494,
+        "ctxState": "running"
+      },
+      {
+        "t": 17574.20000000298,
+        "text": "00:00.33|1.1.3",
+        "ctxTime": 13.363083900226757,
+        "ctxState": "running"
+      },
+      {
+        "t": 17591.40000000596,
+        "text": "00:00.34|1.1.3",
+        "ctxTime": 13.374693877551021,
+        "ctxState": "running"
+      },
+      {
+        "t": 17607.40000000596,
+        "text": "00:00.35|1.1.3",
+        "ctxTime": 13.397913832199546,
+        "ctxState": "running"
+      },
+      {
+        "t": 17624.40000000596,
+        "text": "00:00.37|1.1.3",
+        "ctxTime": 13.40952380952381,
+        "ctxState": "running"
+      },
+      {
+        "t": 17641.29999999702,
+        "text": "00:00.38|1.1.4",
+        "ctxTime": 13.432743764172336,
+        "ctxState": "running"
+      },
+      {
+        "t": 17657.5,
+        "text": "00:00.41|1.1.4",
+        "ctxTime": 13.444353741496599,
+        "ctxState": "running"
+      },
+      {
+        "t": 17674.70000000298,
+        "text": "00:00.42|1.1.4",
+        "ctxTime": 13.467573696145125,
+        "ctxState": "running"
+      },
+      {
+        "t": 17691.40000000596,
+        "text": "00:00.44|1.1.4",
+        "ctxTime": 13.479183673469388,
+        "ctxState": "running"
+      },
+      {
+        "t": 17707.59999999404,
+        "text": "00:00.45|1.1.4",
+        "ctxTime": 13.49079365079365,
+        "ctxState": "running"
+      },
+      {
+        "t": 17724.59999999404,
+        "text": "00:00.46|1.1.4",
+        "ctxTime": 13.514013605442177,
+        "ctxState": "running"
+      },
+      {
+        "t": 17741.29999999702,
+        "text": "00:00.49|1.1.4",
+        "ctxTime": 13.525623582766439,
+        "ctxState": "running"
+      },
+      {
+        "t": 17758,
+        "text": "00:00.50|1.1.4",
+        "ctxTime": 13.548843537414966,
+        "ctxState": "running"
+      },
+      {
+        "t": 17774.20000000298,
+        "text": "00:00.52|1.2.1",
+        "ctxTime": 13.56045351473923,
+        "ctxState": "running"
+      },
+      {
+        "t": 17790.79999999702,
+        "text": "00:00.53|1.2.1",
+        "ctxTime": 13.583673469387755,
+        "ctxState": "running"
+      },
+      {
+        "t": 17807.79999999702,
+        "text": "00:00.56|1.2.1",
+        "ctxTime": 13.595283446712019,
+        "ctxState": "running"
+      },
+      {
+        "t": 17825,
+        "text": "00:00.57|1.2.1",
+        "ctxTime": 13.618503401360543,
+        "ctxState": "running"
+      },
+      {
+        "t": 17840.90000000596,
+        "text": "00:00.59|1.2.1",
+        "ctxTime": 13.630113378684808,
+        "ctxState": "running"
+      },
+      {
+        "t": 17857.79999999702,
+        "text": "00:00.60|1.2.1",
+        "ctxTime": 13.64172335600907,
+        "ctxState": "running"
+      },
+      {
+        "t": 17874.59999999404,
+        "text": "00:00.61|1.2.1",
+        "ctxTime": 13.664943310657597,
+        "ctxState": "running"
+      },
+      {
+        "t": 17891.20000000298,
+        "text": "00:00.64|1.2.2",
+        "ctxTime": 13.676553287981859,
+        "ctxState": "running"
+      },
+      {
+        "t": 17907.59999999404,
+        "text": "00:00.65|1.2.2",
+        "ctxTime": 13.699773242630386,
+        "ctxState": "running"
+      },
+      {
+        "t": 17924.70000000298,
+        "text": "00:00.67|1.2.2",
+        "ctxTime": 13.711383219954648,
+        "ctxState": "running"
+      },
+      {
+        "t": 17941,
+        "text": "00:00.68|1.2.2",
+        "ctxTime": 13.734603174603174,
+        "ctxState": "running"
+      },
+      {
+        "t": 17957.79999999702,
+        "text": "00:00.71|1.2.2",
+        "ctxTime": 13.746213151927437,
+        "ctxState": "running"
+      },
+      {
+        "t": 17974.5,
+        "text": "00:00.72|1.2.2",
+        "ctxTime": 13.757823129251701,
+        "ctxState": "running"
+      },
+      {
+        "t": 17991.09999999404,
+        "text": "00:00.73|1.2.2",
+        "ctxTime": 13.781043083900228,
+        "ctxState": "running"
+      },
+      {
+        "t": 18007.40000000596,
+        "text": "00:00.75|1.2.3",
+        "ctxTime": 13.79265306122449,
+        "ctxState": "running"
+      },
+      {
+        "t": 18024.09999999404,
+        "text": "00:00.77|1.2.3",
+        "ctxTime": 13.815873015873017,
+        "ctxState": "running"
+      },
+      {
+        "t": 18041.20000000298,
+        "text": "00:00.79|1.2.3",
+        "ctxTime": 13.827482993197279,
+        "ctxState": "running"
+      },
+      {
+        "t": 18057.40000000596,
+        "text": "00:00.80|1.2.3",
+        "ctxTime": 13.850702947845805,
+        "ctxState": "running"
+      },
+      {
+        "t": 18074.70000000298,
+        "text": "00:00.82|1.2.3",
+        "ctxTime": 13.862312925170068,
+        "ctxState": "running"
+      },
+      {
+        "t": 18091.40000000596,
+        "text": "00:00.84|1.2.3",
+        "ctxTime": 13.87392290249433,
+        "ctxState": "running"
+      },
+      {
+        "t": 18107.79999999702,
+        "text": "00:00.85|1.2.3",
+        "ctxTime": 13.897142857142857,
+        "ctxState": "running"
+      },
+      {
+        "t": 18124.79999999702,
+        "text": "00:00.87|1.2.3",
+        "ctxTime": 13.908752834467121,
+        "ctxState": "running"
+      },
+      {
+        "t": 18140.79999999702,
+        "text": "00:00.88|1.2.4",
+        "ctxTime": 13.931972789115646,
+        "ctxState": "running"
+      },
+      {
+        "t": 18158,
+        "text": "00:00.91|1.2.4",
+        "ctxTime": 13.94358276643991,
+        "ctxState": "running"
+      },
+      {
+        "t": 18174.79999999702,
+        "text": "00:00.92|1.2.4",
+        "ctxTime": 13.966802721088435,
+        "ctxState": "running"
+      },
+      {
+        "t": 18191.20000000298,
+        "text": "00:00.94|1.2.4",
+        "ctxTime": 13.978412698412699,
+        "ctxState": "running"
+      },
+      {
+        "t": 18208.20000000298,
+        "text": "00:00.95|1.2.4",
+        "ctxTime": 14.001632653061224,
+        "ctxState": "running"
+      },
+      {
+        "t": 18223.70000000298,
+        "text": "00:00.97|1.2.4",
+        "ctxTime": 14.013242630385488,
+        "ctxState": "running"
+      },
+      {
+        "t": 18241.20000000298,
+        "text": "00:00.99|1.2.4",
+        "ctxTime": 14.02485260770975,
+        "ctxState": "running"
+      },
+      {
+        "t": 18259.29999999702,
+        "text": "00:01.00|1.2.4",
+        "ctxTime": 14.048072562358277,
+        "ctxState": "running"
+      },
+      {
+        "t": 18277.09999999404,
+        "text": "00:01.02|1.3.1",
+        "ctxTime": 14.05968253968254,
+        "ctxState": "running"
+      },
+      {
+        "t": 18290.59999999404,
+        "text": "00:01.03|1.3.1",
+        "ctxTime": 14.082902494331066,
+        "ctxState": "running"
+      },
+      {
+        "t": 18307.90000000596,
+        "text": "00:01.06|1.3.1",
+        "ctxTime": 14.094512471655328,
+        "ctxState": "running"
+      },
+      {
+        "t": 18324.40000000596,
+        "text": "00:01.07|1.3.1",
+        "ctxTime": 14.117732426303855,
+        "ctxState": "running"
+      },
+      {
+        "t": 18341.20000000298,
+        "text": "00:01.09|1.3.1",
+        "ctxTime": 14.129342403628119,
+        "ctxState": "running"
+      },
+      {
+        "t": 18358,
+        "text": "00:01.10|1.3.1",
+        "ctxTime": 14.140952380952381,
+        "ctxState": "running"
+      },
+      {
+        "t": 18374.20000000298,
+        "text": "00:01.11|1.3.1",
+        "ctxTime": 14.164172335600908,
+        "ctxState": "running"
+      },
+      {
+        "t": 18390.90000000596,
+        "text": "00:01.14|1.3.2",
+        "ctxTime": 14.17578231292517,
+        "ctxState": "running"
+      },
+      {
+        "t": 18407.70000000298,
+        "text": "00:01.15|1.3.2",
+        "ctxTime": 14.199002267573697,
+        "ctxState": "running"
+      },
+      {
+        "t": 18423.90000000596,
+        "text": "00:01.17|1.3.2",
+        "ctxTime": 14.210612244897959,
+        "ctxState": "running"
+      },
+      {
+        "t": 18441.40000000596,
+        "text": "00:01.18|1.3.2",
+        "ctxTime": 14.233832199546486,
+        "ctxState": "running"
+      },
+      {
+        "t": 18458.09999999404,
+        "text": "00:01.21|1.3.2",
+        "ctxTime": 14.245442176870748,
+        "ctxState": "running"
+      },
+      {
+        "t": 18474.5,
+        "text": "00:01.22|1.3.2",
+        "ctxTime": 14.257052154195012,
+        "ctxState": "running"
+      },
+      {
+        "t": 18491.20000000298,
+        "text": "00:01.24|1.3.2",
+        "ctxTime": 14.280272108843537,
+        "ctxState": "running"
+      },
+      {
+        "t": 18507.40000000596,
+        "text": "00:01.25|1.3.3",
+        "ctxTime": 14.291882086167801,
+        "ctxState": "running"
+      },
+      {
+        "t": 18524.5,
+        "text": "00:01.26|1.3.3",
+        "ctxTime": 14.315102040816326,
+        "ctxState": "running"
+      },
+      {
+        "t": 18541.20000000298,
+        "text": "00:01.29|1.3.3",
+        "ctxTime": 14.32671201814059,
+        "ctxState": "running"
+      },
+      {
+        "t": 18558.20000000298,
+        "text": "00:01.30|1.3.3",
+        "ctxTime": 14.349931972789115,
+        "ctxState": "running"
+      },
+      {
+        "t": 18574.79999999702,
+        "text": "00:01.32|1.3.3",
+        "ctxTime": 14.361541950113379,
+        "ctxState": "running"
+      },
+      {
+        "t": 18591.40000000596,
+        "text": "00:01.33|1.3.3",
+        "ctxTime": 14.384761904761906,
+        "ctxState": "running"
+      },
+      {
+        "t": 18608.20000000298,
+        "text": "00:01.36|1.3.3",
+        "ctxTime": 14.396371882086168,
+        "ctxState": "running"
+      },
+      {
+        "t": 18624.59999999404,
+        "text": "00:01.37|1.3.3",
+        "ctxTime": 14.40798185941043,
+        "ctxState": "running"
+      },
+      {
+        "t": 18640.70000000298,
+        "text": "00:01.38|1.3.4",
+        "ctxTime": 14.431201814058957,
+        "ctxState": "running"
+      },
+      {
+        "t": 18658,
+        "text": "00:01.40|1.3.4",
+        "ctxTime": 14.44281179138322,
+        "ctxState": "running"
+      },
+      {
+        "t": 18675,
+        "text": "00:01.42|1.3.4",
+        "ctxTime": 14.466031746031746,
+        "ctxState": "running"
+      },
+      {
+        "t": 18691.59999999404,
+        "text": "00:01.44|1.3.4",
+        "ctxTime": 14.477641723356008,
+        "ctxState": "running"
+      },
+      {
+        "t": 18707.70000000298,
+        "text": "00:01.45|1.3.4",
+        "ctxTime": 14.500861678004535,
+        "ctxState": "running"
+      },
+      {
+        "t": 18724.5,
+        "text": "00:01.47|1.3.4",
+        "ctxTime": 14.512471655328799,
+        "ctxState": "running"
+      },
+      {
+        "t": 18740.5,
+        "text": "00:01.49|1.3.4",
+        "ctxTime": 14.524081632653061,
+        "ctxState": "running"
+      },
+      {
+        "t": 18758.29999999702,
+        "text": "00:01.50|1.3.4",
+        "ctxTime": 14.547301587301588,
+        "ctxState": "running"
+      },
+      {
+        "t": 18774.70000000298,
+        "text": "00:01.52|1.4.1",
+        "ctxTime": 14.55891156462585,
+        "ctxState": "running"
+      },
+      {
+        "t": 18791.59999999404,
+        "text": "00:01.53|1.4.1",
+        "ctxTime": 14.582131519274377,
+        "ctxState": "running"
+      },
+      {
+        "t": 18808.20000000298,
+        "text": "00:01.56|1.4.1",
+        "ctxTime": 14.59374149659864,
+        "ctxState": "running"
+      },
+      {
+        "t": 18824.09999999404,
+        "text": "00:01.57|1.4.1",
+        "ctxTime": 14.616961451247166,
+        "ctxState": "running"
+      },
+      {
+        "t": 18840.5,
+        "text": "00:01.59|1.4.1",
+        "ctxTime": 14.628571428571428,
+        "ctxState": "running"
+      },
+      {
+        "t": 18857.20000000298,
+        "text": "00:01.60|1.4.1",
+        "ctxTime": 14.640181405895692,
+        "ctxState": "running"
+      },
+      {
+        "t": 18874.29999999702,
+        "text": "00:01.61|1.4.1",
+        "ctxTime": 14.663401360544217,
+        "ctxState": "running"
+      },
+      {
+        "t": 18890.70000000298,
+        "text": "00:01.64|1.4.2",
+        "ctxTime": 14.675011337868481,
+        "ctxState": "running"
+      },
+      {
+        "t": 18908.09999999404,
+        "text": "00:01.65|1.4.2",
+        "ctxTime": 14.698231292517006,
+        "ctxState": "running"
+      },
+      {
+        "t": 18924.09999999404,
+        "text": "00:01.67|1.4.2",
+        "ctxTime": 14.70984126984127,
+        "ctxState": "running"
+      },
+      {
+        "t": 18941.59999999404,
+        "text": "00:01.68|1.4.2",
+        "ctxTime": 14.733061224489797,
+        "ctxState": "running"
+      },
+      {
+        "t": 18957.5,
+        "text": "00:01.71|1.4.2",
+        "ctxTime": 14.744671201814059,
+        "ctxState": "running"
+      },
+      {
+        "t": 18973.90000000596,
+        "text": "00:01.72|1.4.2",
+        "ctxTime": 14.767891156462586,
+        "ctxState": "running"
+      },
+      {
+        "t": 18991.29999999702,
+        "text": "00:01.74|1.4.2",
+        "ctxTime": 14.779501133786848,
+        "ctxState": "running"
+      },
+      {
+        "t": 19007.20000000298,
+        "text": "00:01.75|1.4.3",
+        "ctxTime": 14.79111111111111,
+        "ctxState": "running"
+      },
+      {
+        "t": 19024.20000000298,
+        "text": "00:01.76|1.4.3",
+        "ctxTime": 14.814331065759637,
+        "ctxState": "running"
+      },
+      {
+        "t": 19040.90000000596,
+        "text": "00:01.79|1.4.3",
+        "ctxTime": 14.8259410430839,
+        "ctxState": "running"
+      },
+      {
+        "t": 19057.70000000298,
+        "text": "00:01.80|1.4.3",
+        "ctxTime": 14.849160997732426,
+        "ctxState": "running"
+      },
+      {
+        "t": 19074.70000000298,
+        "text": "00:01.82|1.4.3",
+        "ctxTime": 14.86077097505669,
+        "ctxState": "running"
+      },
+      {
+        "t": 19091.29999999702,
+        "text": "00:01.83|1.4.3",
+        "ctxTime": 14.883990929705215,
+        "ctxState": "running"
+      },
+      {
+        "t": 19107.70000000298,
+        "text": "00:01.86|1.4.3",
+        "ctxTime": 14.895600907029479,
+        "ctxState": "running"
+      },
+      {
+        "t": 19124.40000000596,
+        "text": "00:01.87|1.4.3",
+        "ctxTime": 14.907210884353741,
+        "ctxState": "running"
+      },
+      {
+        "t": 19141.29999999702,
+        "text": "00:01.88|1.4.4",
+        "ctxTime": 14.930430839002268,
+        "ctxState": "running"
+      },
+      {
+        "t": 19157.90000000596,
+        "text": "00:01.90|1.4.4",
+        "ctxTime": 14.94204081632653,
+        "ctxState": "running"
+      },
+      {
+        "t": 19174.59999999404,
+        "text": "00:01.92|1.4.4",
+        "ctxTime": 14.965260770975057,
+        "ctxState": "running"
+      },
+      {
+        "t": 19191.5,
+        "text": "00:01.94|1.4.4",
+        "ctxTime": 14.97687074829932,
+        "ctxState": "running"
+      },
+      {
+        "t": 19208,
+        "text": "00:01.95|1.4.4",
+        "ctxTime": 15.000090702947846,
+        "ctxState": "running"
+      },
+      {
+        "t": 19224.70000000298,
+        "text": "00:01.97|1.4.4",
+        "ctxTime": 15.011700680272108,
+        "ctxState": "running"
+      },
+      {
+        "t": 19241.70000000298,
+        "text": "00:01.98|1.4.4",
+        "ctxTime": 15.034920634920635,
+        "ctxState": "running"
+      },
+      {
+        "t": 19257.59999999404,
+        "text": "00:00.01|1.1.1",
+        "ctxTime": 15.046530612244897,
+        "ctxState": "running"
+      },
+      {
+        "t": 19274.90000000596,
+        "text": "00:00.02|1.1.1",
+        "ctxTime": 15.058140589569161,
+        "ctxState": "running"
+      },
+      {
+        "t": 19290.90000000596,
+        "text": "00:00.03|1.1.1",
+        "ctxTime": 15.081360544217688,
+        "ctxState": "running"
+      },
+      {
+        "t": 19308,
+        "text": "00:00.05|1.1.1",
+        "ctxTime": 15.09297052154195,
+        "ctxState": "running"
+      },
+      {
+        "t": 19323.90000000596,
+        "text": "00:00.07|1.1.1",
+        "ctxTime": 15.116190476190477,
+        "ctxState": "running"
+      },
+      {
+        "t": 19340.70000000298,
+        "text": "00:00.09|1.1.1",
+        "ctxTime": 15.12780045351474,
+        "ctxState": "running"
+      },
+      {
+        "t": 19357.29999999702,
+        "text": "00:00.10|1.1.1",
+        "ctxTime": 15.151020408163266,
+        "ctxState": "running"
+      },
+      {
+        "t": 19373.90000000596,
+        "text": "00:00.12|1.1.1",
+        "ctxTime": 15.162630385487528,
+        "ctxState": "running"
+      },
+      {
+        "t": 19390.90000000596,
+        "text": "00:00.14|1.1.2",
+        "ctxTime": 15.17424036281179,
+        "ctxState": "running"
+      },
+      {
+        "t": 19407.70000000298,
+        "text": "00:00.15|1.1.2",
+        "ctxTime": 15.197460317460317,
+        "ctxState": "running"
+      },
+      {
+        "t": 19424.40000000596,
+        "text": "00:00.17|1.1.2",
+        "ctxTime": 15.209070294784581,
+        "ctxState": "running"
+      },
+      {
+        "t": 19441.09999999404,
+        "text": "00:00.18|1.1.2",
+        "ctxTime": 15.232290249433106,
+        "ctxState": "running"
+      },
+      {
+        "t": 19469.5,
+        "text": "00:00.21|1.1.2",
+        "ctxTime": 15.255510204081633,
+        "ctxState": "running"
+      },
+      {
+        "t": 19473.90000000596,
+        "text": "00:00.23|1.1.2",
+        "ctxTime": 15.267120181405895,
+        "ctxState": "running"
+      },
+      {
+        "t": 19493.20000000298,
+        "text": "00:00.24|1.1.2",
+        "ctxTime": 15.27873015873016,
+        "ctxState": "running"
+      },
+      {
+        "t": 19512,
+        "text": "00:00.25|1.1.3",
+        "ctxTime": 15.301950113378684,
+        "ctxState": "running"
+      },
+      {
+        "t": 19524.40000000596,
+        "text": "00:00.28|1.1.3",
+        "ctxTime": 15.313560090702948,
+        "ctxState": "running"
+      },
+      {
+        "t": 19540.70000000298,
+        "text": "00:00.00|1.1.1",
+        "ctxTime": 15.32517006802721,
+        "ctxState": "running"
+      }
+    ],
+    "resumes": []
+  },
+  "console": [],
+  "network": [],
+  "summary": {
+    "preload_exactly_one_initial_media_fetch": true,
+    "preload_decode_count": 1,
+    "first_playhead_ms": 23.4,
+    "first_source_ms": 4.7,
+    "second_playhead_ms": 41.5,
+    "second_source_ms": 0.3,
+    "seek_playhead_ms": 2.6,
+    "seek_source_ms": -0.2,
+    "loop_wrapped": true,
+    "loop_source_starts": 2,
+    "normal_edit_new_fetches": 0,
+    "normal_edit_new_decodes": 0,
+    "render_path_changed": true,
+    "render_new_fetch_count": 1,
+    "offline_decoded_buffer_used": true,
+    "autoplay_warnings": [],
+    "console_count": 0,
+    "network_count": 0
+  }
+}

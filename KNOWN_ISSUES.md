@@ -1,5 +1,6 @@
 # Known Issues / Escape-Hatch Register
 
+- Web playback media now preloads/decodes offline and realistic post-interaction first playback is verified below 20ms audio-clock lag, but a direct cold press of play as the very first browser gesture can still incur the host Chrome/audio-device startup cost (about 2 seconds in this sandbox). This is an environment/browser output initialization limitation, not a decode-cache miss.
 ## Critical validation gaps
 
 - Real GPU inference has not been run in this CPU-only cloud sandbox. `scripts/verify_local_gpu.py` is the required acceptance gate on a 12GB NVIDIA machine.

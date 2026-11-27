@@ -1,0 +1,240 @@
+{
+  "viewport": [
+    1272,
+    837
+  ],
+  "early": {
+    "now": 762,
+    "ctxTime": null,
+    "ctxState": null,
+    "ctxDelta": null,
+    "wallSinceSource": null,
+    "pos": "00:00.00",
+    "strong": "1.1.1",
+    "contexts": [],
+    "resumes": [],
+    "decodes": [],
+    "fetches": []
+  },
+  "preclick": {
+    "now": 2088.5,
+    "ctxTime": 0.011609977324263039,
+    "ctxState": "running",
+    "ctxDelta": null,
+    "wallSinceSource": null,
+    "pos": "00:00.00",
+    "strong": "1.1.1",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 1484.0999999940395,
+        "stateAtCreate": "running",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1486.4000000059605,
+        "end": 1489.0999999940395,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 1484.2000000029802,
+        "end": 1485.5,
+        "status": 200
+      }
+    ]
+  },
+  "click_to_source_ms": 1.1,
+  "click_to_playhead_ms": 1359.6,
+  "clock_lags": {
+    "0.5124": 0.5113,
+    "1.0013": 1.0002,
+    "2.0207": 1.3346,
+    "3.0245": 1.3283
+  },
+  "stall_removed": false,
+  "console": [],
+  "network": []
+}
+source {
+  "perf": 2136.0999999940395,
+  "when": 0.011609977324263039,
+  "offset": 0,
+  "duration": 2.4999773242630385,
+  "ctxState": "running",
+  "ctxTime": 0.011609977324263039,
+  "decodeId": 1,
+  "decodeCtor": "OfflineAudioContext"
+}
+samples [
+  {
+    "now": 2647.4000000059605,
+    "ctxTime": 0.011609977324263039,
+    "ctxState": "running",
+    "ctxDelta": 0,
+    "wallSinceSource": 0.5113000000119209,
+    "pos": "00:00.00",
+    "strong": "1.1.1",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 1484.0999999940395,
+        "stateAtCreate": "running",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1486.4000000059605,
+        "end": 1489.0999999940395,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 1484.2000000029802,
+        "end": 1485.5,
+        "status": 200
+      }
+    ],
+    "elapsedSinceClick": 0.5124,
+    "clock_lag_seconds": 0.5113
+  },
+  {
+    "now": 3136.2999999970198,
+    "ctxTime": 0.011609977324263039,
+    "ctxState": "running",
+    "ctxDelta": 0,
+    "wallSinceSource": 1.0002000000029803,
+    "pos": "00:00.00",
+    "strong": "1.1.1",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 1484.0999999940395,
+        "stateAtCreate": "running",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1486.4000000059605,
+        "end": 1489.0999999940395,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 1484.2000000029802,
+        "end": 1485.5,
+        "status": 200
+      }
+    ],
+    "elapsedSinceClick": 1.0013,
+    "clock_lag_seconds": 1.0002
+  },
+  {
+    "now": 4155.70000000298,
+    "ctxTime": 0.6965986394557823,
+    "ctxState": "running",
+    "ctxDelta": 0.6849886621315192,
+    "wallSinceSource": 2.019600000008941,
+    "pos": "00:00.67",
+    "strong": "1.2.2",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 1484.0999999940395,
+        "stateAtCreate": "running",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1486.4000000059605,
+        "end": 1489.0999999940395,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 1484.2000000029802,
+        "end": 1485.5,
+        "status": 200
+      }
+    ],
+    "elapsedSinceClick": 2.0207,
+    "clock_lag_seconds": 1.3346
+  },
+  {
+    "now": 5159.5,
+    "ctxTime": 1.7066666666666668,
+    "ctxState": "running",
+    "ctxDelta": 1.6950566893424037,
+    "wallSinceSource": 3.0234000000059607,
+    "pos": "00:01.67",
+    "strong": "1.4.2",
+    "contexts": [
+      {
+        "index": 0,
+        "perf": 1484.0999999940395,
+        "stateAtCreate": "running",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "resumes": [],
+    "decodes": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1486.4000000059605,
+        "end": 1489.0999999940395,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ],
+    "fetches": [
+      {
+        "url": "/renders/project_5383a7be8dc4/job_966f87eb01ca/vocal.wav",
+        "start": 1484.2000000029802,
+        "end": 1485.5,
+        "status": 200
+      }
+    ],
+    "elapsedSinceClick": 3.0245,
+    "clock_lag_seconds": 1.3283
+  }
+]

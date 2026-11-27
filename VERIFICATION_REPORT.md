@@ -993,3 +993,13 @@ Implemented and verified:
 - Quantitative tests cover exact high/low velocity ratios, default-90 transparency, and click-safe transitions. Independent visible-Chrome QA at exact 1272×837 verified real velocity-lane editing at approximately 60 FPS, baseline RMS ratio exactly `1.0`, edited `[127,30]` RMS ratio `8.0675477` vs theoretical `8.0675483`, smooth boundary waveform, stale/render/playback behavior, diagnostic provenance, and clean console/network. Evidence: `artifacts/e2e_screenshots/velocity_render/`.
 
 Validation after iteration 75: focused automated tests passed; independent browser/audio QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 76 — playback media preloading and output warmup
+
+Implemented and verified:
+
+- Render/upload media is now preloaded shortly after project/media changes and decoded once through a shared OfflineAudioContext, while playback reuses the exact decoded buffer object in the real output AudioContext. Normal project edits do not cause fetch/decode storms, and newly rendered media is preloaded exactly once.
+- The real playback AudioContext is pre-created where autoplay policy permits and resumed/warmed after the first pointer/key interaction. This removes user-visible startup latency in realistic workflows without weakening audio-clock transport synchronization.
+- Independent visible-Chrome QA at exact 1272×837 verified exactly one initial fetch/decode, exact buffer reuse, no duplicate edit-triggered decode work, render-output preloading, realistic first-play source start `0.8ms`/playhead update `24.6ms`/clock lag `-0.0027s`, warm restart `0.3ms`, accurate seek and loop behavior, and clean console/network. A direct cold play as the very first browser gesture still pays the intrinsic ~1.8–2.1s Chrome/audio-device output initialization cost in this sandbox; this is documented honestly and is not a cache miss. Evidence: `artifacts/e2e_screenshots/playback_preload/`.
+
+Validation after iteration 76: frontend production build passed; independent browser/audio QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

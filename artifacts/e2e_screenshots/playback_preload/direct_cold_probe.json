@@ -1,0 +1,54 @@
+{
+  "construction": {
+    "index": 0,
+    "perf": 1348.0999999940395,
+    "stateAtCreate": "running",
+    "timeAtCreate": 0,
+    "sampleRate": 44100
+  },
+  "click": {
+    "perf": 1500.8999999910593,
+    "x": 749,
+    "y": 28,
+    "play": true,
+    "text": "\u25b6"
+  },
+  "source": {
+    "perf": 1501.3999999910593,
+    "when": 0.011609977324263039,
+    "offset": 0,
+    "duration": 2.4999773242630385,
+    "ctxState": "running",
+    "ctxTime": 0.011609977324263039,
+    "decodeId": 1,
+    "decodeCtor": "OfflineAudioContext"
+  },
+  "marks": [
+    {
+      "target_ms": 500,
+      "position": null,
+      "ctxDelta": null,
+      "wall": null
+    },
+    {
+      "target_ms": 1000,
+      "position": null,
+      "ctxDelta": null,
+      "wall": null
+    },
+    {
+      "target_ms": 2000,
+      "position": "00:00.14|1.1.2",
+      "ctxDelta": 0.16253968253968254,
+      "wall": 1.990800000011921
+    }
+  ],
+  "tail": [
+    "00:00.70|1.2.2",
+    "00:00.71|1.2.2",
+    "00:00.73|1.2.2",
+    "00:00.74|1.2.2",
+    "00:00.77|1.2.3"
+  ],
+  "resumes": []
+}

@@ -1,0 +1,112 @@
+{
+  "pre": {
+    "ctxs": [
+      {
+        "index": 0,
+        "perf": 1491.5999999940395,
+        "stateAtCreate": "running",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "r": [],
+    "d": [
+      {
+        "id": 1,
+        "ctor": "OfflineAudioContext",
+        "start": 1494.8999999910593,
+        "end": 1497.2999999970198,
+        "ok": true,
+        "duration": 2.4999773242630385,
+        "sampleRate": 44100
+      }
+    ]
+  },
+  "warmed": {
+    "ctxs": [
+      {
+        "index": 0,
+        "perf": 1491.5999999940395,
+        "stateAtCreate": "running",
+        "timeAtCreate": 0,
+        "sampleRate": 44100
+      }
+    ],
+    "r": [],
+    "pc": {
+      "t": 0.5340589569160997,
+      "state": "running"
+    }
+  },
+  "realistic": {
+    "source": {
+      "perf": 4063.7999999970198,
+      "when": 0.592108843537415,
+      "offset": 0,
+      "duration": 2.4999773242630385,
+      "ctxState": "running",
+      "ctxTime": 0.592108843537415,
+      "decodeId": 1,
+      "decodeCtor": "OfflineAudioContext"
+    },
+    "source_ms": 0.8,
+    "playhead_ms": 24.6,
+    "lag": -0.0027,
+    "tail": [
+      "00:01.43|1.3.4",
+      "00:01.45|1.3.4",
+      "00:01.46|1.3.4",
+      "00:01.49|1.3.4",
+      "00:01.50|1.3.4"
+    ],
+    "wrapped": false
+  },
+  "warm": {
+    "source": {
+      "perf": 5927.0999999940395,
+      "when": 2.461315192743764,
+      "offset": 0,
+      "duration": 2.4999773242630385,
+      "ctxState": "running",
+      "ctxTime": 2.461315192743764,
+      "decodeId": 1,
+      "decodeCtor": "OfflineAudioContext"
+    },
+    "source_ms": 0.3,
+    "playhead_ms": 27.5,
+    "lag": -0.0041,
+    "tail": [
+      "00:01.22|1.3.2",
+      "00:01.23|1.3.2",
+      "00:01.25|1.3.3",
+      "00:01.26|1.3.3",
+      "00:01.27|1.3.3"
+    ],
+    "wrapped": true
+  },
+  "direct": {
+    "source": {
+      "perf": 1578.199999988079,
+      "when": 0.22058956916099773,
+      "offset": 0,
+      "duration": 2.4999773242630385,
+      "ctxState": "running",
+      "ctxTime": 0.22058956916099773,
+      "decodeId": 1,
+      "decodeCtor": "OfflineAudioContext"
+    },
+    "source_ms": 0.4,
+    "playhead_ms": 21.7,
+    "lag": 0.0039,
+    "tail": [
+      "00:00.52|1.2.1",
+      "00:00.53|1.2.1",
+      "00:00.54|1.2.1",
+      "00:00.57|1.2.1",
+      "00:00.58|1.2.1"
+    ],
+    "wrapped": true
+  },
+  "console": [],
+  "network": []
+}
