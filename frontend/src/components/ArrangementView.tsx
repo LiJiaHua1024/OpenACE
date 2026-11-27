@@ -27,7 +27,7 @@ interface Props {
 }
 
 interface DragState {
-  kind: 'clip' | 'notes' | 'trim-left' | 'trim-right' | 'fade-in' | 'fade-out'
+  kind: 'clip' | 'notes' | 'trim-left' | 'trim-right' | 'fade-in' | 'fade-out' | 'slip'
   trackId: string
   startX: number
   startY: number
@@ -522,12 +522,14 @@ export default function ArrangementView(props: Props) {
       }))
       props.beginTransaction()
       dragRef.current = {
-        kind: 'clip',
+        kind: event.shiftKey && nextSelection.length === 1 ? 'slip' : 'clip',
         trackId: track.id,
         startX: pos.x,
         startY: pos.y,
         clipId: clip.id,
         originalStart: clip.start_ticks,
+        originalDuration: clipDuration(clip),
+        originalOffset: clip.offset_ticks || 0,
         clipOriginals,
         clipAssignments: Object.fromEntries(clipOriginals.map(item => [item.clipId, item.trackId])),
       }
@@ -637,6 +639,13 @@ export default function ArrangementView(props: Props) {
         const fade = Math.max(0, Math.min(maxFade, drag.originalFade + signedDelta))
         if (drag.kind === 'fade-in') clip.fade_in_ticks = fade
         else clip.fade_out_ticks = fade
+      } else if (drag.kind === 'slip') {
+        const clip = track.clips.find(item => item.id === drag.clipId)
+        if (!clip || drag.originalDuration === undefined || drag.originalOffset === undefined) return
+        const waveform = waveforms[clip.path]
+        const sourceEndTicks = waveform ? Math.round(secondsToTicksFrom(props.project, drag.originalStart - drag.originalOffset, waveform.durationSeconds)) : Infinity
+        const maxOffset = Math.max(0, sourceEndTicks - drag.originalDuration)
+        clip.offset_ticks = Math.max(0, Math.min(maxOffset, drag.originalOffset + deltaTicks))
       } else if (drag.kind === 'trim-left' || drag.kind === 'trim-right') {
         const clip = track.clips.find(item => item.id === drag.clipId)
         if (!clip || drag.originalDuration === undefined || drag.originalOffset === undefined) return

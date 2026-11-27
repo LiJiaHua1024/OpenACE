@@ -1,0 +1,278 @@
+{
+  "console_errors": [],
+  "network_errors": [],
+  "page_errors": [],
+  "normal_drag": {
+    "before": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 960,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "after": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 120,
+      "duration_ticks": 960,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "after_undo": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 960,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "passed": true
+  },
+  "edge_trim": {
+    "after": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 840,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "after_undo": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 960,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "passed": true
+  },
+  "slip_right": {
+    "base": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 960,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "after": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 960,
+      "offset_ticks": 240,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "undo": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 960,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "redo": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 960,
+      "offset_ticks": 240,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "passed": true
+  },
+  "playback_offsets": [
+    {
+      "when": 5.874648526077097,
+      "offset": 0,
+      "duration": 1.9999773242630385
+    },
+    {
+      "when": 5.874648526077097,
+      "offset": 0.25,
+      "duration": 1
+    }
+  ],
+  "playback_used_offset": true,
+  "left_clamp": {
+    "after": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 960,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "passed": true
+  },
+  "right_clamp": {
+    "after": {
+      "id": "clip_slip_test",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 960,
+      "offset_ticks": 960,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Slip fixture",
+      "transcribed_lyrics": [],
+      "created_by_job_id": null
+    },
+    "passed": true
+  },
+  "reload_persisted": {
+    "id": "clip_slip_test",
+    "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+    "start_ticks": 0,
+    "duration_ticks": 960,
+    "offset_ticks": 960,
+    "fade_in_ticks": 0,
+    "fade_out_ticks": 0,
+    "gain_db": 0.0,
+    "label": "Slip fixture",
+    "transcribed_lyrics": [],
+    "created_by_job_id": null
+  },
+  "reload_passed": true,
+  "multi_selection_shift_drag": {
+    "before": {
+      "clip_slip_multi": {
+        "id": "clip_slip_multi",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+        "start_ticks": 1440,
+        "duration_ticks": 480,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "Multi fixture",
+        "transcribed_lyrics": [],
+        "created_by_job_id": null
+      },
+      "clip_slip_test": {
+        "id": "clip_slip_test",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+        "start_ticks": 0,
+        "duration_ticks": 960,
+        "offset_ticks": 960,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "Slip fixture",
+        "transcribed_lyrics": [],
+        "created_by_job_id": null
+      }
+    },
+    "after": {
+      "clip_slip_multi": {
+        "id": "clip_slip_multi",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+        "start_ticks": 1560,
+        "duration_ticks": 480,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "Multi fixture",
+        "transcribed_lyrics": [],
+        "created_by_job_id": null
+      },
+      "clip_slip_test": {
+        "id": "clip_slip_test",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+        "start_ticks": 120,
+        "duration_ticks": 960,
+        "offset_ticks": 960,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "Slip fixture",
+        "transcribed_lyrics": [],
+        "created_by_job_id": null
+      }
+    },
+    "undo": {
+      "clip_slip_multi": {
+        "id": "clip_slip_multi",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+        "start_ticks": 1440,
+        "duration_ticks": 480,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "Multi fixture",
+        "transcribed_lyrics": [],
+        "created_by_job_id": null
+      },
+      "clip_slip_test": {
+        "id": "clip_slip_test",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+        "start_ticks": 0,
+        "duration_ticks": 960,
+        "offset_ticks": 960,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "Slip fixture",
+        "transcribed_lyrics": [],
+        "created_by_job_id": null
+      }
+    },
+    "passed": true
+  },
+  "playback_interpretation": "offset 0.25s exactly matches 240 ticks at 120 BPM (960 ticks/sec); first zero-offset entry is another scheduled source"
+}
