@@ -89,6 +89,10 @@ In the arrangement canvas, hold **Alt** and drag across the timeline to draw the
 
 `.ustx` export follows the OpenUtau 0.10 source schema rather than a guessed YAML shape: exact `UNote` keys and mandatory two-point pitch defaults, scaling from any OpenACE PPQ to OpenUtau’s fixed 480 PPQ, OpenUtau pitch units (0.1 semitone), vibrato length/period/depth/shift conversion, beat-aligned voice-part durations, `xs`/`ys` automation curves, decibel track faders, -100..100 pan, named track colors, and the real default phonemizer id. Dynamic automation maps to OpenUtau `dyn` in decibel×10 units and pitch deviation maps to `pitd` cents. Manual phoneme symbols are exported as overrides, but OpenACE millisecond offsets are not misrepresented as OpenUtau tick deltas.
 
+## Synthesizer V SVP interoperability
+
+`.svp` export uses the real Synthesizer V group/reference shape: deterministic group UUIDs, `mainRef` database/voice metadata, blick-based timing, and flattened automation point pairs. Pitch deviation exports as semitone `pitchDelta`, Dynamic as loudness dB, Tension/Air as centered -1..1 tension/breathiness curves, and vibrato start time is correctly converted from an OpenACE note ratio into seconds.
+
 ## Mastering and export
 
 Master WAV export is not approximate peak normalization: OpenACE first uses transparent constant-gain loudness normalization when peak headroom permits, falls back to two-pass ffmpeg `loudnorm` for peaky material, then independently measures the resulting file with ffmpeg EBU R128 loudness/true-peak statistics. Compliant masters are approximately `-14.0 LUFS` with true peak below `-1.0 dBTP`; material that cannot be validated fails loudly instead of silently shipping a false master. ffmpeg is therefore a required local runtime dependency for WAV/MP4 export.

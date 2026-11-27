@@ -1,0 +1,105 @@
+{
+  "visible_svp_click_ui_healthy": {
+    "ok": true,
+    "details": {
+      "download_started": true,
+      "status": 200,
+      "bytes": 4267,
+      "title": "SVP Contract QA"
+    },
+    "time": 1795748027.7623434
+  },
+  "svp_schema_contract": {
+    "ok": true,
+    "details": {
+      "checks": {
+        "version": true,
+        "mainref_group": true,
+        "blick_offsets": true,
+        "database": true,
+        "voice": true,
+        "vibrato_seconds": true,
+        "pitchDelta": true,
+        "loudness": true,
+        "tension": true,
+        "breathiness": true
+      },
+      "mainRef": {
+        "groupID": "2e6b818f-c135-57cb-a9e3-d8d1c535ecf2",
+        "blickOffset": 0,
+        "blickAbsoluteBegin": 0,
+        "pitchOffset": 0,
+        "database": {
+          "name": "zero-shot-reference"
+        },
+        "voice": {
+          "vocalModeParams": {},
+          "tension": 0.0,
+          "breathiness": 0.0,
+          "gender": 0.0,
+          "voicing": 1.0,
+          "toneShift": 0.0
+        },
+        "isInstrumental": false
+      },
+      "attributes": {
+        "evenSyllableDuration": false,
+        "tF0Left": 0.04,
+        "tF0Right": 0.04,
+        "dF0Left": 0.0,
+        "dF0Right": 0.0,
+        "dF0Vbr": 0.4,
+        "fF0Vbr": 4.0,
+        "tF0VbrStart": 0.125
+      },
+      "parameters": {
+        "pitchDelta": {
+          "mode": "linear",
+          "points": [
+            0,
+            -0.5,
+            705600000,
+            0.25
+          ]
+        },
+        "loudness": {
+          "mode": "linear",
+          "points": [
+            0,
+            0.0,
+            705600000,
+            6.0
+          ]
+        },
+        "tension": {
+          "mode": "linear",
+          "points": [
+            0,
+            0.0,
+            705600000,
+            1.0
+          ]
+        },
+        "breathiness": {
+          "mode": "linear",
+          "points": [
+            0,
+            -1.0,
+            705600000,
+            0.0
+          ]
+        }
+      }
+    },
+    "time": 1795748027.7629051
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795748027.7631223
+  },
+  "passed": true
+}

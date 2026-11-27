@@ -122,6 +122,33 @@ def test_svp_is_json_with_notes_and_render_config(tmp_path):
     assert data["renderConfig"]["sampleRate"] == 48000
 
 
+def test_svp_voice_reference_vibrato_seconds_and_automation_units(tmp_path):
+    project = sample_project()
+    track = project.tracks[0]
+    track.automation.pitch_cents = [EnvelopePoint(ticks=0, value=-50), EnvelopePoint(ticks=480, value=25)]
+    track.automation.dynamic = [EnvelopePoint(ticks=0, value=0.5), EnvelopePoint(ticks=480, value=1.0)]
+    track.automation.tension = [EnvelopePoint(ticks=0, value=0.5), EnvelopePoint(ticks=480, value=1.0)]
+    track.automation.air = [EnvelopePoint(ticks=0, value=0.0), EnvelopePoint(ticks=480, value=0.5)]
+    track.notes[0].vibrato = Vibrato(start_ratio=0.25, depth_cents=40, frequency_hz=4.0)
+    data = json.loads(export_svp(project, tmp_path / "song.svp").read_text(encoding="utf-8"))
+    exported_track = data["tracks"][0]
+    group = exported_track["mainGroup"]
+    ref = exported_track["mainRef"]
+    assert group["uuid"] == ref["groupID"]
+    assert ref["blickOffset"] == 0
+    assert ref["database"] == {"name": track.voice_id}
+    assert ref["voice"]["voicing"] == 1.0
+    attrs = group["notes"][0]["attributes"]
+    assert attrs["dF0Vbr"] == 0.4
+    assert attrs["fF0Vbr"] == 4.0
+    assert attrs["tF0VbrStart"] == pytest.approx(0.125)
+    parameters = group["parameters"]
+    assert parameters["pitchDelta"]["points"] == [0, -0.5, 705600000, 0.25]
+    assert parameters["loudness"]["points"] == [0, 0.0, 705600000, 6.0]
+    assert parameters["tension"]["points"] == [0, 0.0, 705600000, 1.0]
+    assert parameters["breathiness"]["points"] == [0, -1.0, 705600000, 0.0]
+
+
 def test_vpr_is_zip_with_project_sequence(tmp_path):
     path = export_vpr(sample_project(), tmp_path / "song.vpr")
     with zipfile.ZipFile(path) as archive:
