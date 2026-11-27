@@ -9,13 +9,36 @@ _DYNAMIC_RANGE_DB = 12.0
 
 
 def _seconds_to_ticks_array(project: Project, seconds: np.ndarray) -> np.ndarray:
-    """Vectorized inverse of Project.ticks_to_seconds for automation DSP."""
+    """Vectorized exact inverse of Project.ticks_to_seconds for automation DSP."""
     points = project.normalized_tempo_map()
-    point_ticks = np.asarray([point.ticks for point in points], dtype=np.float64)
-    point_bpms = np.asarray([point.bpm for point in points], dtype=np.float64)
-    anchor_seconds = np.asarray([project.ticks_to_seconds(point.ticks) for point in points], dtype=np.float64)
-    indexes = np.clip(np.searchsorted(anchor_seconds, seconds, side="right") - 1, 0, len(points) - 1)
-    return point_ticks[indexes] + (seconds - anchor_seconds[indexes]) * point_bpms[indexes] / 60.0 * project.ppq
+    samples = np.asarray(seconds, dtype=np.float64)
+    result = np.asarray(samples, dtype=np.float64) * points[0].bpm / 60.0 * project.ppq
+
+    segments = []
+    elapsed = 0.0
+    previous = points[0]
+    for point in points[1:]:
+        segment_seconds = project._segment_seconds(previous.ticks, point.ticks, previous.bpm, point.bpm, point.curve == "linear")
+        segments.append((elapsed, elapsed + segment_seconds, previous.ticks, point.ticks, previous.bpm, point.bpm, point.curve == "linear"))
+        elapsed += segment_seconds
+        previous = point
+    segments.append((elapsed, np.inf, previous.ticks, previous.ticks, previous.bpm, previous.bpm, False))
+
+    end_seconds = np.asarray([segment[1] for segment in segments], dtype=np.float64)
+    indexes = np.searchsorted(end_seconds, samples, side="right")
+    for row, segment in enumerate(segments):
+        start_second, _, start_ticks, end_ticks, start_bpm, end_bpm, linear = segment
+        mask = (indexes == row) & (samples >= start_second)
+        if not np.any(mask):
+            continue
+        local_seconds = samples[mask] - start_second
+        if linear and abs(end_bpm - start_bpm) > 1e-9:
+            span = end_ticks - start_ticks
+            bpm = start_bpm * np.exp(local_seconds * project.ppq / 60.0 * (end_bpm - start_bpm) / span)
+            result[mask] = start_ticks + span * (bpm - start_bpm) / (end_bpm - start_bpm)
+        else:
+            result[mask] = start_ticks + local_seconds * start_bpm / 60.0 * project.ppq
+    return result
 
 
 def envelope_value(points: list[EnvelopePoint], ticks: float, default: float = _NEUTRAL) -> float:
