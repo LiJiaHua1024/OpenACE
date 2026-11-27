@@ -163,6 +163,55 @@ export default function RenderPanel(props: Props) {
     setLyricsError('')
   }
 
+  function updateClipLyric(clipId: string, index: number, patch: Partial<{ text: string; start: number; end: number }>) {
+    if (!props.track) return
+    const trackId = props.track.id
+    let invalid = ''
+    const clips = props.track.clips.map(clip => {
+      if (clip.id !== clipId) return clip
+      const words = (clip.transcribed_lyrics || []).map((word, wordIndex) => {
+        if (wordIndex !== index) return word
+        const next = { ...word, ...patch }
+        if (!next.text.trim()) invalid = 'Lyric text cannot be empty.'
+        if (!(next.end > next.start)) invalid = 'Lyric end must be after its start.'
+        return next
+      })
+      return { ...clip, transcribed_lyrics: words }
+    })
+    if (invalid) {
+      setLyricsError(invalid)
+      return
+    }
+    props.onPatchTrack(trackId, { clips })
+    setLyricsError('')
+  }
+
+  function deleteClipLyric(clipId: string, index: number) {
+    if (!props.track) return
+    props.onPatchTrack(props.track.id, {
+      clips: props.track.clips.map(clip => clip.id === clipId ? {
+        ...clip,
+        transcribed_lyrics: (clip.transcribed_lyrics || []).filter((_word, wordIndex) => wordIndex !== index),
+      } : clip),
+    })
+  }
+
+  function addClipLyric(clipId: string, index: number) {
+    if (!props.track) return
+    props.onPatchTrack(props.track.id, {
+      clips: props.track.clips.map(clip => {
+        if (clip.id !== clipId) return clip
+        const words = [...(clip.transcribed_lyrics || [])]
+        const anchor = words[index]
+        const text = window.prompt('New lyric word')?.trim()
+        if (!text) return clip
+        const start = anchor ? anchor.end + 0.02 : 0
+        words.splice(index + 1, 0, { text, start, end: start + 0.3 })
+        return { ...clip, transcribed_lyrics: words }
+      }),
+    })
+  }
+
   async function importClipFile(file: File) {
     setError('')
     try {
@@ -171,6 +220,7 @@ export default function RenderPanel(props: Props) {
     } catch (e: any) { setError(e.message || String(e)) }
   }
 
+  const transcribedClips = props.track?.clips.filter(clip => (clip.transcribed_lyrics || []).length) || []
   const selectedVoice = voices.find(voice => voice.id === props.track?.voice_id) || voices.find(voice => voice.path === props.track?.reference_voice_path) || null
 
   return (
@@ -255,6 +305,29 @@ export default function RenderPanel(props: Props) {
           </>
         ) : <div className="empty-state">Select a vocal track with notes</div>}
       </section>
+
+      {transcribedClips.length > 0 && (
+        <section className="side-section clip-lyrics-section">
+          <div className="panel-title">SVC clip lyrics</div>
+          {transcribedClips.map(clip => (
+            <div className="clip-lyrics-card" key={clip.id}>
+              <div className="lyric-summary"><strong>{clip.transcribed_lyrics!.length}</strong> ASR words · {clip.label || 'audio clip'}</div>
+              {lyricsError && <div className="inline-error">{lyricsError}</div>}
+              <div className="clip-lyrics-list">
+                {clip.transcribed_lyrics!.map((word, index) => (
+                  <div className="clip-lyric-row" key={`${clip.id}:${index}:${word.text}:${word.start}:${word.end}`}>
+                    <input className="clip-lyric-text" defaultValue={word.text} onBlur={event => updateClipLyric(clip.id, index, { text: event.target.value.trim() })} onKeyDown={event => { if (event.key === 'Enter') (event.target as HTMLInputElement).blur() }} />
+                    <input className="clip-lyric-time" type="number" step="0.01" min="0" defaultValue={word.start} onBlur={event => updateClipLyric(clip.id, index, { start: Number(event.target.value) })} />
+                    <input className="clip-lyric-time" type="number" step="0.01" min="0" defaultValue={word.end} onBlur={event => updateClipLyric(clip.id, index, { end: Number(event.target.value) })} />
+                    <button title="Add word after" onClick={() => addClipLyric(clip.id, index)}>+</button>
+                    <button title="Delete word" onClick={() => deleteClipLyric(clip.id, index)}>×</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
 
       <section className="side-section">
         <div className="panel-title">ACE-Step music</div>

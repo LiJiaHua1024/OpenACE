@@ -1,0 +1,460 @@
+{
+  "panel_visible": true,
+  "after_edits": {
+    "backend": [
+      {
+        "text": "hey",
+        "start": 0.1,
+        "end": 0.4
+      },
+      {
+        "text": "are",
+        "start": 0.55,
+        "end": 0.8
+      },
+      {
+        "text": "my",
+        "start": 1.1,
+        "end": 1.4
+      },
+      {
+        "text": "world",
+        "start": 1.45,
+        "end": 1.8
+      }
+    ],
+    "canvas": {
+      "yellowCount": 305,
+      "groups": [
+        {
+          "start": 87,
+          "end": 99,
+          "count": 73
+        },
+        {
+          "start": 187.5,
+          "end": 198.5,
+          "count": 65
+        },
+        {
+          "start": 311,
+          "end": 321,
+          "count": 58
+        },
+        {
+          "start": 389.5,
+          "end": 409,
+          "count": 109
+        }
+      ]
+    }
+  },
+  "reload": {
+    "backend": [
+      {
+        "text": "hey",
+        "start": 0.1,
+        "end": 0.4
+      },
+      {
+        "text": "are",
+        "start": 0.55,
+        "end": 0.8
+      },
+      {
+        "text": "my",
+        "start": 1.1,
+        "end": 1.4
+      },
+      {
+        "text": "world",
+        "start": 1.45,
+        "end": 1.8
+      }
+    ],
+    "canvas": {
+      "yellowCount": 305,
+      "groups": [
+        {
+          "start": 87,
+          "end": 99,
+          "count": 73
+        },
+        {
+          "start": 187.5,
+          "end": 198.5,
+          "count": 65
+        },
+        {
+          "start": 311,
+          "end": 321,
+          "count": 58
+        },
+        {
+          "start": 389.5,
+          "end": 409,
+          "count": 109
+        }
+      ]
+    }
+  },
+  "undo": {
+    "backend": [
+      {
+        "text": "hey",
+        "start": 0.1,
+        "end": 0.4
+      },
+      {
+        "text": "are",
+        "start": 0.55,
+        "end": 0.8
+      },
+      {
+        "text": "my",
+        "start": 1.1,
+        "end": 1.4
+      },
+      {
+        "text": "world",
+        "start": 1.45,
+        "end": 1.8
+      }
+    ],
+    "canvas": {
+      "yellowCount": 305,
+      "groups": [
+        {
+          "start": 87,
+          "end": 99,
+          "count": 73
+        },
+        {
+          "start": 187.5,
+          "end": 198.5,
+          "count": 65
+        },
+        {
+          "start": 311,
+          "end": 321,
+          "count": 58
+        },
+        {
+          "start": 389.5,
+          "end": 409,
+          "count": 109
+        }
+      ]
+    }
+  },
+  "redo": {
+    "backend": [
+      {
+        "text": "hey",
+        "start": 0.1,
+        "end": 0.4
+      },
+      {
+        "text": "are",
+        "start": 0.55,
+        "end": 0.8
+      },
+      {
+        "text": "my",
+        "start": 1.1,
+        "end": 1.4
+      },
+      {
+        "text": "world",
+        "start": 1.45,
+        "end": 1.8
+      }
+    ],
+    "canvas": {
+      "yellowCount": 305,
+      "groups": [
+        {
+          "start": 87,
+          "end": 99,
+          "count": 73
+        },
+        {
+          "start": 187.5,
+          "end": 198.5,
+          "count": 65
+        },
+        {
+          "start": 311,
+          "end": 321,
+          "count": 58
+        },
+        {
+          "start": 389.5,
+          "end": 409,
+          "count": 109
+        }
+      ]
+    }
+  },
+  "invalid": {
+    "before": [
+      {
+        "text": "hey",
+        "start": 0.1,
+        "end": 0.4
+      },
+      {
+        "text": "are",
+        "start": 0.55,
+        "end": 0.8
+      },
+      {
+        "text": "my",
+        "start": 1.1,
+        "end": 1.4
+      },
+      {
+        "text": "world",
+        "start": 1.45,
+        "end": 1.8
+      }
+    ],
+    "after": [
+      {
+        "text": "hey",
+        "start": 0.1,
+        "end": 0.4
+      },
+      {
+        "text": "are",
+        "start": 0.55,
+        "end": 0.8
+      },
+      {
+        "text": "my",
+        "start": 1.1,
+        "end": 1.4
+      },
+      {
+        "text": "world",
+        "start": 1.45,
+        "end": 1.8
+      }
+    ],
+    "error": "Lyric end must be after its start."
+  },
+  "add": {
+    "backend": [
+      {
+        "text": "hey",
+        "start": 0.1,
+        "end": 0.4
+      },
+      {
+        "text": "newword",
+        "start": 0.42000000000000004,
+        "end": 0.72
+      },
+      {
+        "text": "are",
+        "start": 0.55,
+        "end": 0.8
+      },
+      {
+        "text": "my",
+        "start": 1.1,
+        "end": 1.4
+      },
+      {
+        "text": "world",
+        "start": 1.45,
+        "end": 1.8
+      }
+    ]
+  },
+  "delete": {
+    "backend": [
+      {
+        "text": "hey",
+        "start": 0.1,
+        "end": 0.4
+      },
+      {
+        "text": "are",
+        "start": 0.55,
+        "end": 0.8
+      },
+      {
+        "text": "my",
+        "start": 1.1,
+        "end": 1.4
+      },
+      {
+        "text": "world",
+        "start": 1.45,
+        "end": 1.8
+      }
+    ]
+  },
+  "layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "bodyOverflow": false,
+    "panel": {
+      "sw": 311,
+      "cw": 311,
+      "text": "SVC CLIP LYRICS\n4 ASR words · svc lyrics source\n+\n×\n+\n×\n+\n×\n+\n×"
+    }
+  },
+  "console": [
+    {
+      "type": "warning",
+      "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+    }
+  ],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "visible_undo_redo": {
+    "after_new_edit": {
+      "backend": [
+        {
+          "text": "hey",
+          "start": 0.1,
+          "end": 0.4
+        },
+        {
+          "text": "are",
+          "start": 0.65,
+          "end": 0.8
+        },
+        {
+          "text": "my",
+          "start": 1.1,
+          "end": 1.4
+        },
+        {
+          "text": "world",
+          "start": 1.45,
+          "end": 1.8
+        }
+      ],
+      "groups": [
+        {
+          "start": 87,
+          "end": 99
+        },
+        {
+          "start": 210,
+          "end": 220.5
+        },
+        {
+          "start": 311,
+          "end": 321
+        },
+        {
+          "start": 389.5,
+          "end": 409
+        }
+      ]
+    },
+    "visible_undo": {
+      "backend": [
+        {
+          "text": "hey",
+          "start": 0.1,
+          "end": 0.4
+        },
+        {
+          "text": "are",
+          "start": 0.55,
+          "end": 0.8
+        },
+        {
+          "text": "my",
+          "start": 1.1,
+          "end": 1.4
+        },
+        {
+          "text": "world",
+          "start": 1.45,
+          "end": 1.8
+        }
+      ],
+      "groups": [
+        {
+          "start": 87,
+          "end": 99
+        },
+        {
+          "start": 187.5,
+          "end": 198.5
+        },
+        {
+          "start": 311,
+          "end": 321
+        },
+        {
+          "start": 389.5,
+          "end": 409
+        }
+      ],
+      "redo_enabled": true
+    },
+    "visible_redo": {
+      "backend": [
+        {
+          "text": "hey",
+          "start": 0.1,
+          "end": 0.4
+        },
+        {
+          "text": "are",
+          "start": 0.65,
+          "end": 0.8
+        },
+        {
+          "text": "my",
+          "start": 1.1,
+          "end": 1.4
+        },
+        {
+          "text": "world",
+          "start": 1.45,
+          "end": 1.8
+        }
+      ],
+      "groups": [
+        {
+          "start": 87,
+          "end": 99
+        },
+        {
+          "start": 210,
+          "end": 220.5
+        },
+        {
+          "start": 311,
+          "end": 321
+        },
+        {
+          "start": 389.5,
+          "end": 409
+        }
+      ]
+    }
+  },
+  "undo_note": "Reload resets undo history as expected; undo/redo was verified with visible toolbar buttons after a fresh timing edit.",
+  "overall": {
+    "ok": true,
+    "confirmed_defects": [],
+    "notes": "All focused acceptance checks passed. Console warning was QA canvas instrumentation; SSE aborts were deliberate reloads."
+  }
+}

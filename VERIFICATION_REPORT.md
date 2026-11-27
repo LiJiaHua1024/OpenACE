@@ -709,3 +709,13 @@ Implemented and verified:
 - Harness limitation recorded: the long-running Chrome instance rendered CJK canvas glyphs as narrow tofu despite installed fonts, so QA used ASCII words for reliable pixel evidence. This is a test-environment font limitation, not a lyric-data substitution path.
 
 Validation after iteration 47: frontend production build passed; Python compile passed; full automated suite passed (105 collected tests).
+
+## Iteration 48 — SVC lyric correction editing
+
+Implemented and verified:
+
+- The right panel now exposes an **SVC clip lyrics** editor for audio clips carrying real ASR word timings. Users can correct word text and exact start/end seconds, add a genuinely entered word through a prompt (no fabricated placeholder), delete words, and receive atomic validation when end time is not after start time.
+- Edits flow through normal project persistence/undo state. The arrangement canvas remaps corrected timing through the project tempo map, so moving a word changes its visual x position and survives reload.
+- Independent visible-Chrome QA at exact 1272×837 verified text edit persistence, start-time movement, reload, visible undo/redo, real-word add/delete, invalid-time atomic rejection, compact layout, and zero app console errors. Evidence: `artifacts/e2e_screenshots/svc_lyric_editing/`, especially `SVC_LYRIC_EDITING_QA_REPORT.md` and `02_edited_word_time_canvas.png`.
+
+Validation after iteration 48: frontend production build passed; Python compile passed; full automated suite passed (105 collected tests).
