@@ -1,0 +1,192 @@
+{
+  "console_errors": [],
+  "network_errors": [],
+  "page_errors": [],
+  "title_repeated_edit": {
+    "before": "Conflict Save QA X",
+    "after": "Conflict Save QA X Y",
+    "buttons_before": {
+      "undo_disabled": true,
+      "redo_disabled": true
+    },
+    "buttons_after": {
+      "undo_disabled": true,
+      "redo_disabled": true
+    },
+    "undo_step_created": false
+  },
+  "volume_coalesce": {
+    "start": 1.0,
+    "after_10_steps": 1.0,
+    "after_one_undo": 1.0,
+    "after_redo": 1.0,
+    "duration": 0.03105087799485773,
+    "buttons_before_undo": {
+      "undo_disabled": true,
+      "redo_disabled": true
+    },
+    "undo_clicked": false,
+    "redo_clicked": false,
+    "passed": false
+  },
+  "note_drag": {
+    "before": {
+      "start_ticks": 0,
+      "duration_ticks": 480,
+      "pitch": 64
+    },
+    "after": {
+      "start_ticks": 0,
+      "duration_ticks": 480,
+      "pitch": 64
+    },
+    "after_one_undo": {
+      "start_ticks": 0,
+      "duration_ticks": 480,
+      "pitch": 64
+    },
+    "after_redo": {
+      "start_ticks": 0,
+      "duration_ticks": 480,
+      "pitch": 64
+    },
+    "undo_clicked": false,
+    "redo_clicked": false,
+    "passed": false
+  },
+  "pitch_drag": {
+    "created_curve": [],
+    "after_one_undo_len": 0,
+    "after_redo": [],
+    "undo_clicked": false,
+    "redo_clicked": false,
+    "passed": false
+  },
+  "render_completion_history": {
+    "job": "job_eb70c8e34191",
+    "job_status": "completed",
+    "volume_start": 1.0,
+    "volume_edited": 1.0,
+    "buttons_after_completion": {
+      "undo_disabled": true,
+      "redo_disabled": true
+    },
+    "volume_after_completion": 1.0,
+    "volume_after_undo": 1.0,
+    "volume_after_redo": 1.0,
+    "undo_clicked": false,
+    "redo_clicked": false,
+    "passed": false
+  },
+  "external_invalidation": {
+    "buttons_before": {
+      "undo_disabled": false,
+      "redo_disabled": true
+    },
+    "put_status": 200,
+    "title_visible": "External Invalidation QA",
+    "lyrics_after_external": [
+      "五",
+      "二",
+      "三"
+    ],
+    "buttons_after": {
+      "undo_disabled": true,
+      "redo_disabled": true
+    },
+    "passed": true
+  },
+  "reload": {
+    "api_title": "External Invalidation QA",
+    "api_lyrics": [
+      "五",
+      "二",
+      "三"
+    ],
+    "booted_project": "project_2d8c09379db6",
+    "booted_title": "FolderQA Beta"
+  },
+  "supplement_console_errors": [],
+  "supplement_network_errors": [],
+  "supplement_page_errors": [],
+  "volume_coalesce_valid": {
+    "start": 0.99,
+    "after_10_steps": 0.89,
+    "after_one_undo": 0.99,
+    "after_redo": 0.89,
+    "duration": 0.11729056300828233,
+    "undo_clicked": true,
+    "redo_clicked": true,
+    "passed": true
+  },
+  "note_drag_coords": {
+    "x": 89.0,
+    "y": 112,
+    "canvas": {
+      "x": 190,
+      "y": 284,
+      "width": 554,
+      "height": 230
+    },
+    "pitch": 64
+  },
+  "note_drag_valid": {
+    "before": {
+      "start_ticks": 0,
+      "duration_ticks": 480,
+      "pitch": 64
+    },
+    "after": {
+      "start_ticks": 0,
+      "duration_ticks": 480,
+      "pitch": 65
+    },
+    "after_one_undo": {
+      "start_ticks": 0,
+      "duration_ticks": 480,
+      "pitch": 64
+    },
+    "after_redo": {
+      "start_ticks": 0,
+      "duration_ticks": 480,
+      "pitch": 65
+    },
+    "undo_clicked": true,
+    "redo_clicked": true,
+    "passed": true
+  },
+  "pitch_drag_valid": {
+    "created_curve": [
+      {
+        "offset_ms": 106.0,
+        "cents": 163.0
+      }
+    ],
+    "after_one_undo_len": 0,
+    "after_redo": [
+      {
+        "offset_ms": 106.0,
+        "cents": 163.0
+      }
+    ],
+    "undo_clicked": true,
+    "redo_clicked": true,
+    "passed": true
+  },
+  "render_completion_history_valid": {
+    "job": "job_bfd277503b98",
+    "job_status": "completed",
+    "volume_start": 0.89,
+    "volume_edited": 0.9,
+    "buttons_after_completion": {
+      "undo_disabled": false,
+      "redo_disabled": true
+    },
+    "volume_after_completion": 0.9,
+    "volume_after_undo": 0.89,
+    "volume_after_redo": 0.9,
+    "undo_clicked": true,
+    "redo_clicked": true,
+    "passed": true
+  }
+}

@@ -89,6 +89,18 @@ function analyserPeakLevel(analyser?: AnalyserNode): number {
   return peak
 }
 
+function undoSemanticSignature(project: Project): string {
+  const copy = JSON.parse(JSON.stringify(project)) as Project
+  copy.updated_at = 0
+  for (const track of copy.tracks) {
+    delete (track as any).render_path
+    delete (track as any).render_fingerprint
+    ;(track as any).render_revision = 0
+    for (const note of track.notes) (note as any).phonemes = []
+  }
+  return JSON.stringify(copy)
+}
+
 export default function App() {
   const [project, setProject] = useState<Project | null>(null)
   const [selectedTrackId, setSelectedTrackId] = useState<string>()
@@ -108,6 +120,8 @@ export default function App() {
   const [importingAudio, setImportingAudio] = useState(false)
   const projectRef = useRef<Project | null>(null)
   const transactionBase = useRef<Project | null>(null)
+  const undoAncestry = useRef<string[]>([])
+  const lastDirectEdit = useRef<{ key: string; time: number }>({ key: '', time: 0 })
   const locallyDeletingProjectId = useRef<string | null>(null)
   const saveTimer = useRef<number | null>(null)
   const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; transitionGains: GainNode[]; ctx?: AudioContext; starting?: boolean; generation: number; analysers: Record<string, AnalyserNode>; masterAnalyser?: AnalyserNode; loudnessNode?: AudioWorkletNode; loudnessSink?: GainNode; loudnessFeed?: GainNode; loudness: LoudnessReading }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], transitionGains: [], starting: false, generation: 0, analysers: {}, loudness: emptyLoudnessReading() })
@@ -188,6 +202,11 @@ export default function App() {
     return () => { cancelled = true }
   }, [setProjectRef, applyLoopFromProject])
 
+  const rememberUndoSignature = useCallback((target: Project) => {
+    const signature = undoSemanticSignature(target)
+    undoAncestry.current = [...undoAncestry.current.filter(item => item !== signature), signature].slice(-80)
+  }, [])
+
   useEffect(() => {
     const source = new EventSource('/api/events')
     source.addEventListener('project_updated', event => {
@@ -214,6 +233,12 @@ export default function App() {
           })
         }
         if (incoming && projectRef.current && incoming.id === projectRef.current.id && incoming.updated_at > projectRef.current.updated_at) {
+          const signature = undoSemanticSignature(incoming)
+          if (!undoAncestry.current.includes(signature)) {
+            setPast([])
+            setFuture([])
+          }
+          rememberUndoSignature(incoming)
           setProjectRef(incoming)
           applyLoopFromProject(incoming)
         }
@@ -262,12 +287,18 @@ export default function App() {
     mutator(next)
     next.updated_at = Date.now() / 1000
     if (!transient) {
-      setPast(items => [...items.slice(-80), clone(current)])
-      setFuture([])
+      const now = performance.now()
+      const key = mutator.toString()
+      if (key !== lastDirectEdit.current.key || now - lastDirectEdit.current.time > 900) {
+        setPast(items => [...items.slice(-80), clone(current)])
+        setFuture([])
+      }
+      lastDirectEdit.current = { key, time: now }
+      rememberUndoSignature(next)
     }
     setProjectRef(next)
     scheduleSave(next)
-  }, [scheduleSave, setProjectRef])
+  }, [scheduleSave, setProjectRef, rememberUndoSignature])
 
   const persistLoopState = useCallback((range: { start: number; end: number } | null, enabled: boolean) => {
     updateProject(next => {
@@ -293,9 +324,10 @@ export default function App() {
     if (JSON.stringify(base) !== JSON.stringify(current)) {
       setPast(items => [...items.slice(-80), base])
       setFuture([])
+      rememberUndoSignature(current)
       scheduleSave(current)
     }
-  }, [scheduleSave])
+  }, [scheduleSave, rememberUndoSignature])
 
   const undo = useCallback(() => {
     const current = projectRef.current
@@ -303,10 +335,11 @@ export default function App() {
     const previous = past[past.length - 1]
     setPast(items => items.slice(0, -1))
     setFuture(items => [...items, clone(current)])
+    rememberUndoSignature(previous)
     setProjectRef(previous)
     applyLoopFromProject(previous)
     void saveProjectNow(previous)
-  }, [past, setProjectRef, applyLoopFromProject, saveProjectNow])
+  }, [past, setProjectRef, applyLoopFromProject, saveProjectNow, rememberUndoSignature])
 
   const redo = useCallback(() => {
     const current = projectRef.current
@@ -314,10 +347,11 @@ export default function App() {
     const next = future[future.length - 1]
     setFuture(items => items.slice(0, -1))
     setPast(items => [...items, clone(current)])
+    rememberUndoSignature(next)
     setProjectRef(next)
     applyLoopFromProject(next)
     void saveProjectNow(next)
-  }, [future, setProjectRef, applyLoopFromProject, saveProjectNow])
+  }, [future, setProjectRef, applyLoopFromProject, saveProjectNow, rememberUndoSignature])
 
 
   const openProject = useCallback(async (projectId: string) => {
@@ -857,7 +891,7 @@ export default function App() {
         onSeek={seekTransport}
         loopEnabled={loopEnabled}
         onLoopToggle={toggleLoop}
-        onTitleChange={title => updateProject(next => { next.title = title }, true)}
+        onTitleChange={title => updateProject(next => { next.title = title }, false)}
         onBpmChange={bpm => updateProject(next => { next.bpm = Math.max(30, Math.min(300, bpm)) }, false)}
         onTimeSignatureChange={(numerator, denominator) => updateProject(next => { next.time_signature = { numerator, denominator } }, false)}
         onUndo={undo}

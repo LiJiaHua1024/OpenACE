@@ -1,0 +1,92 @@
+{
+  "console_errors": [],
+  "network_errors": [],
+  "page_errors": [],
+  "title_retest": {
+    "base": "External Invalidation QAABC",
+    "typed": "External Invalidation QAABCABC",
+    "undo": "External Invalidation QAABC",
+    "redo": "External Invalidation QAABCABC",
+    "undo_disabled_before": false,
+    "passed": true
+  },
+  "lyric_retest": {
+    "orig": [
+      "六",
+      "七",
+      "八"
+    ],
+    "rapid": [
+      "甲",
+      "乙",
+      "丙"
+    ],
+    "undo_disabled_before": false,
+    "undo": [
+      "六",
+      "七",
+      "八"
+    ],
+    "redo": [
+      "甲",
+      "乙",
+      "丙"
+    ],
+    "passed": true
+  },
+  "distinct_ops": {
+    "start": [
+      0.91,
+      120.0
+    ],
+    "after_first_undo": [
+      0.9,
+      120.0
+    ],
+    "after_second_undo": [
+      0.91,
+      120.0
+    ],
+    "passed": true
+  },
+  "note_regression": {
+    "before": [
+      0,
+      480,
+      66
+    ],
+    "after": [
+      0,
+      480,
+      67
+    ],
+    "undo": [
+      0,
+      480,
+      66
+    ],
+    "redo": [
+      0,
+      480,
+      67
+    ],
+    "passed": true
+  },
+  "render_regression": {
+    "job_status": "completed",
+    "start": 0.91,
+    "edited": 0.92,
+    "post": 0.92,
+    "undo_disabled_after_render": false,
+    "undo": 0.91,
+    "redo": 0.92,
+    "passed": true
+  },
+  "volume_coalesce_final": {
+    "start": 0.92,
+    "after10": 0.82,
+    "undo": 0.92,
+    "redo": 0.82,
+    "passed": true
+  }
+}
