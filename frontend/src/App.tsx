@@ -106,7 +106,7 @@ export default function App() {
   const transactionBase = useRef<Project | null>(null)
   const locallyDeletingProjectId = useRef<string | null>(null)
   const saveTimer = useRef<number | null>(null)
-  const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext; starting?: boolean; generation: number; analysers: Record<string, AnalyserNode>; masterAnalyser?: AnalyserNode }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], starting: false, generation: 0, analysers: {} })
+  const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; transitionGains: GainNode[]; ctx?: AudioContext; starting?: boolean; generation: number; analysers: Record<string, AnalyserNode>; masterAnalyser?: AnalyserNode }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], transitionGains: [], starting: false, generation: 0, analysers: {} })
   const playbackSnapshotRef = useRef('')
   const playbackRebuildTimer = useRef<number | null>(null)
   const loopRestarting = useRef(false)
@@ -320,6 +320,7 @@ export default function App() {
     try {
       playback.current.sources.forEach(source => { try { source.stop() } catch {} })
       playback.current.sources = []
+      playback.current.transitionGains = []
       cancelAnimationFrame(playback.current.raf)
       setPlaying(false)
       setPlayheadTicks(0)
@@ -431,8 +432,11 @@ export default function App() {
     playback.current.generation += 1
     playback.current.sources.forEach(source => { try { source.stop() } catch {} })
     playback.current.sources = []
+    playback.current.transitionGains = []
+    const oldMasterAnalyser = playback.current.masterAnalyser
     playback.current.analysers = {}
     playback.current.masterAnalyser = undefined
+    window.setTimeout(() => { try { oldMasterAnalyser?.disconnect() } catch {} }, 30)
     // Keep the context alive: decoder and node creation are reused across transport starts.
     playback.current.ctx = undefined
   }, [])
@@ -469,7 +473,36 @@ export default function App() {
     }
   }, [])
 
-  const schedulePlayback = useCallback(async (targetProject: Project, startTicks: number, continuous = false) => {
+  const fadeOutPlaybackGraph = useCallback((fadeSeconds = 0.09) => {
+    const ctx = playback.current.ctx
+    const oldSources = playback.current.sources
+    const oldGains = playback.current.transitionGains
+    const oldMasterAnalyser = playback.current.masterAnalyser
+    playback.current.sources = []
+    playback.current.transitionGains = []
+    if (!ctx || !oldSources.length) return
+    const now = ctx.currentTime
+    oldSources.forEach((source, index) => {
+      const gain = oldGains[index]
+      try {
+        if (gain) {
+          const current = Math.max(0.0001, gain.gain.value || 1)
+          const curve = new Float32Array(17)
+          for (let step = 0; step < curve.length; step++) curve[step] = current * Math.cos((step / (curve.length - 1)) * Math.PI / 2)
+          gain.gain.cancelScheduledValues(now)
+          gain.gain.setValueAtTime(current, now)
+          gain.gain.setValueCurveAtTime(curve, now, fadeSeconds)
+        }
+        source.stop(now + fadeSeconds + 0.03)
+      } catch {}
+    })
+    window.setTimeout(() => {
+      oldGains.forEach(gain => { try { gain.disconnect() } catch {} })
+      try { oldMasterAnalyser?.disconnect() } catch {}
+    }, Math.ceil((fadeSeconds + 0.08) * 1000))
+  }, [])
+
+  const schedulePlayback = useCallback(async (targetProject: Project, startTicks: number, continuous = false, transitionFadeInSeconds = 0) => {
     const generation = playback.current.generation + 1
     playback.current.generation = generation
     const rendered = targetProject.tracks
@@ -498,6 +531,7 @@ export default function App() {
     playback.current.startContextTime = ctx?.currentTime || 0
     if (!audible.length) {
       playback.current.sources = []
+      playback.current.transitionGains = []
       playback.current.analysers = {}
       playback.current.masterAnalyser = undefined
       return true
@@ -543,15 +577,19 @@ export default function App() {
       trackInputs.set(track.id, input)
       return input
     }
-    playback.current.sources = tracksAndBuffers.flatMap(item => {
-      if (!item || !ctx) return []
+    const nextSources: AudioBufferSourceNode[] = []
+    const nextTransitionGains: GainNode[] = []
+    for (const item of tracksAndBuffers) {
+      if (!item || !ctx) continue
       const source = ctx.createBufferSource()
       source.buffer = item.buffer
+      const transitionGain = ctx.createGain()
+      transitionGain.gain.value = transitionFadeInSeconds > 0.001 ? 0.0001 : 1
       const gain = ctx.createGain()
       const clipGain = Math.pow(10, (item.gainDb || 0) / 20)
       const baseGain = clipGain
       gain.gain.value = baseGain
-      source.connect(gain).connect(inputForTrack(item.track))
+      source.connect(transitionGain).connect(gain).connect(inputForTrack(item.track))
       const sourceStartSeconds = ticksToSeconds(targetProject, item.sourceStartTicks)
       const sourceOffsetSeconds = secondsBetweenTicks(targetProject, item.sourceStartTicks - item.sourceOffsetTicks, item.sourceStartTicks)
       const clipDurationSeconds = item.sourceDurationTicks
@@ -602,8 +640,17 @@ export default function App() {
       } else if (localOffset < 0) {
         source.start(ctx.currentTime - localOffset, sourceOffsetSeconds, Math.max(0.01, clipDurationSeconds))
       }
-      return [source]
-    })
+      if (transitionFadeInSeconds > 0.001) {
+        const now = ctx.currentTime
+        const curve = new Float32Array(17)
+        for (let step = 0; step < curve.length; step++) curve[step] = Math.max(0.0001, Math.sin((step / (curve.length - 1)) * Math.PI / 2))
+        transitionGain.gain.setValueCurveAtTime(curve, now, transitionFadeInSeconds)
+      }
+      nextSources.push(source)
+      nextTransitionGains.push(transitionGain)
+    }
+    playback.current.sources = nextSources
+    playback.current.transitionGains = nextTransitionGains
     return true
   }, [])
 
@@ -641,11 +688,11 @@ export default function App() {
         if (!current || !playing) return
         const elapsed = playback.current.ctx ? playback.current.ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
         const ticks = secondsToTicks(current, ticksToSeconds(current, playback.current.startTicks) + elapsed)
-        stopPlaybackAudio()
-        await schedulePlayback(current, ticks, true)
+        fadeOutPlaybackGraph()
+        await schedulePlayback(current, ticks, true, 0.09)
       })()
     }, 120)
-  }, [project, playing, schedulePlayback, stopPlaybackAudio])
+  }, [project, playing, schedulePlayback, stopPlaybackAudio, fadeOutPlaybackGraph])
 
   const playToggle = useCallback(async () => {
     if (!project) return
