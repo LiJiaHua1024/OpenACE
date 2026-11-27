@@ -66,14 +66,26 @@ def _vibrato(raw) -> Vibrato | None:
     )
 
 
-def _import_note(raw, part_position: int) -> Note:
+def _import_note(raw, part_position: int, previous_note: Note | None = None) -> Note:
     overrides = sorted(raw.get("phoneme_overrides") or [], key=lambda item: int(item.get("index", 0)))
+    raw_pitch = raw.get("pitch") or {}
+    snap_first = bool(raw_pitch.get("snap_first", True))
+    points = _pitch_curve(raw_pitch.get("data"))
+    start_ticks = part_position + int(raw.get("position", 0))
+    pitch = int(raw.get("tone", 60))
+    if snap_first and points:
+        # With snap-first enabled, OpenUtau treats the first pitch point as a
+        # generated transition anchor rather than user-authored automation.
+        points.pop(0)
+    if len(points) == 1 and points[0].offset_ms == 40 and points[0].cents == 0:
+        points = []
     note = Note(
-        start_ticks=part_position + int(raw.get("position", 0)),
+        start_ticks=start_ticks,
         duration_ticks=max(1, int(raw.get("duration", 1))),
-        pitch=int(raw.get("tone", 60)),
+        pitch=pitch,
         lyric=str(raw.get("lyric", "") or ""),
-        pitch_curve=_pitch_curve((raw.get("pitch") or {}).get("data")),
+        pitch_curve=points,
+        pitch_snap_first=snap_first,
         vibrato=_vibrato(raw.get("vibrato")),
     )
     note.phonemes = [Phoneme(symbol=str(item.get("phoneme", "") or "")) for item in overrides]
@@ -150,8 +162,8 @@ def import_ustx(path: Path, title: str | None = None) -> Project:
             if comment.startswith("OpenACE voice_id:"):
                 track.voice_id = comment.split(":", 1)[1].strip() or "zero-shot-reference"
             position = int(part.get("position", 0))
-            for raw_note in part.get("notes") or []:
-                track.notes.append(_import_note(raw_note, position))
+            for raw_note in sorted(part.get("notes") or [], key=lambda item: int(item.get("position", 0))):
+                track.notes.append(_import_note(raw_note, position, track.notes[-1] if track.notes else None))
             curves = _import_curves(part.get("curves"), position)
             track.automation.dynamic.extend(curves["dynamic"])
             track.automation.pitch_cents.extend(curves["pitch_cents"])

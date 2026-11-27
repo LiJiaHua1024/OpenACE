@@ -17,6 +17,7 @@ export interface Note {
   velocity: number
   phonemes: Phoneme[]
   pitch_curve: { offset_ms: number; cents: number }[]
+  pitch_snap_first?: boolean
   vibrato?: { start_ratio: number; depth_cents: number; frequency_hz: number; phase: number } | null
   techniques: string[]
 }

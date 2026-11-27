@@ -71,20 +71,28 @@ def _part_duration(project: Project, max_end_tick: int) -> int:
     return int(round((bar * ticks_per_bar) + ((beat + 1) * ticks_per_beat)))
 
 
-def _pitch_data(note: Note) -> list[dict[str, float | str]]:
-    """Convert cents to OpenUtau pitch units and always emit the required two points."""
-    if note.pitch_curve:
-        return [
-            {"x": round(point.offset_ms, 3), "y": round(point.cents / 10.0, 4), "shape": "io"}
-            for point in sorted(note.pitch_curve, key=lambda item: item.offset_ms)
-        ]
-    # OpenUtau's UNote.Validate indexes pitch.data[0]; an empty user pitch lane is
-    # therefore not a valid portable note. These are OpenUtau's own standard defaults.
-    return [
-        {"x": -40, "y": 0, "shape": "io"},
-        {"x": 40, "y": 0, "shape": "io"},
+def _pitch_data(note: Note, previous_note: Note | None = None) -> list[dict[str, float | str]]:
+    """Convert cents to OpenUtau pitch units, preserving snap-first semantics."""
+    user_data = [
+        {"x": round(point.offset_ms, 3), "y": round(point.cents / 10.0, 4), "shape": "io"}
+        for point in sorted(note.pitch_curve, key=lambda item: item.offset_ms)
     ]
-
+    if note.pitch_snap_first:
+        contiguous = previous_note is not None and previous_note.end_ticks == note.start_ticks
+        snap_y = round((previous_note.pitch - note.pitch) * 10 if contiguous else 0, 4)
+        automatic_first = {"x": -40, "y": snap_y, "shape": "io"}
+        # The first host point is generated when snap-first is enabled, so it is
+        # not part of OpenACE's user-authored pitch_curve. Replace a colliding
+        # user point at the automatic anchor rather than corrupting its value.
+        remaining = [point for point in user_data if point["x"] != -40]
+        data = [automatic_first] + remaining
+    else:
+        data = user_data
+    if not data:
+        data = [{"x": -40, "y": 0, "shape": "io"}]
+    if len(data) == 1:
+        data.append({"x": 40, "y": 0, "shape": "io"})
+    return data
 
 def _curve(points, mapper, tick_scale: float) -> dict[str, object]:
     ordered = sorted(points, key=lambda point: point.ticks)
@@ -178,7 +186,9 @@ def export_ustx(project: Project, output_path: Path) -> Path:
         if track.type != TrackType.VOCAL:
             continue
         notes = []
-        for note in track.sorted_notes():
+        sorted_notes = track.sorted_notes()
+        for note_index, note in enumerate(sorted_notes):
+            previous_note = sorted_notes[note_index - 1] if note_index else None
             if note.vibrato:
                 phase_ratio = (note.vibrato.phase / (2.0 * math.pi)) % 1.0
                 vibrato = {
@@ -198,7 +208,7 @@ def export_ustx(project: Project, output_path: Path) -> Path:
                 "duration": max(1, int(round(note.duration_ticks * tick_scale))),
                 "tone": note.pitch,
                 "lyric": note.lyric,
-                "pitch": {"data": _pitch_data(note), "snap_first": True},
+                "pitch": {"data": _pitch_data(note, previous_note), "snap_first": note.pitch_snap_first},
                 "vibrato": vibrato,
                 "tuning": 0,
                 "phoneme_expressions": [],

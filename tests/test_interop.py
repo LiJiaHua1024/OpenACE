@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 import yaml
 
-from openace.core.models import AudioClip, EnvelopePoint, Note, Phoneme, PitchPoint, Project, Track, Vibrato
+from openace.core.models import AudioClip, EnvelopePoint, Note, Phoneme, PitchPoint, Project, Track, TrackType, Vibrato
 from openace.exporters.master import export_master_wav, export_lyrics_video
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.exporters.svp import export_svp
@@ -119,7 +119,7 @@ def test_ustx_matches_source_derived_units_and_curve_schema(tmp_path):
     part = data["voice_parts"][0]
     assert part["duration"] == 960
     exported_note = part["notes"][0]
-    assert exported_note["pitch"]["data"] == [{"x": 12.5, "y": 3.0, "shape": "io"}]
+    assert exported_note["pitch"]["data"] == [{"x": -40, "y": 0, "shape": "io"}, {"x": 12.5, "y": 3.0, "shape": "io"}]
     assert exported_note["vibrato"]["length"] == 75.0
     assert exported_note["vibrato"]["period"] == 250.0
     assert exported_note["vibrato"]["depth"] == 40.0
@@ -663,3 +663,23 @@ def test_ustx_host_singer_mapping_roundtrip_preserves_openace_voice(tmp_path):
     assert imported.tracks[0].openutau_singer == "友人"
     assert imported.tracks[0].openutau_phonemizer == "OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer"
     assert imported.tracks[0].voice_id == track.voice_id
+
+
+def test_ustx_snap_first_transitions_are_regenerated_not_frozen(tmp_path):
+    project = Project(title="snap", ppq=480, bpm=120)
+    track = Track(name="lead", type=TrackType.VOCAL)
+    track.notes = [
+        Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="a"),
+        Note(start_ticks=480, duration_ticks=480, pitch=62, lyric="ka"),
+    ]
+    project.tracks = [track]
+    exported = export_ustx(project, tmp_path / "snap.ustx")
+    data = yaml.safe_load(exported.read_text(encoding="utf-8"))
+    assert data["voice_parts"][0]["notes"][1]["pitch"]["data"][0]["y"] == -20
+    imported = import_ustx(exported)
+    assert imported.tracks[0].notes[1].pitch_curve == []
+    assert imported.tracks[0].notes[1].pitch_snap_first is True
+    imported.tracks[0].notes[0].pitch = 64
+    reexported = export_ustx(imported, tmp_path / "snap-reordered.ustx")
+    regenerated = yaml.safe_load(reexported.read_text(encoding="utf-8"))
+    assert regenerated["voice_parts"][0]["notes"][1]["pitch"]["data"][0]["y"] == 20

@@ -63,6 +63,7 @@ class Note(BaseModel):
     velocity: int = 90
     phonemes: List[Phoneme] = Field(default_factory=list)
     pitch_curve: List[PitchPoint] = Field(default_factory=list)
+    pitch_snap_first: bool = True
     vibrato: Optional[Vibrato] = None
     techniques: List[str] = Field(default_factory=list)
 
