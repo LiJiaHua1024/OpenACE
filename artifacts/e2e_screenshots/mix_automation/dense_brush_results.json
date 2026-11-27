@@ -1,0 +1,18 @@
+{
+  "before_count": 2,
+  "dense_count": 35,
+  "after_one_undo_count": 2,
+  "final_volume": [
+    {
+      "ticks": 0,
+      "value": 0.8018018018018018,
+      "curve": "linear"
+    },
+    {
+      "ticks": 960,
+      "value": 0.1981981981981982,
+      "curve": "linear"
+    }
+  ],
+  "passed": true
+}

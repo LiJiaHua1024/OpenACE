@@ -30,3 +30,14 @@ def test_render_fingerprint_sensitive_to_tempo_automation_breath_and_voice():
 def test_canonical_fingerprint_vector_is_stable():
     assert canonical_json({"b": 1.0, "a": ["x", 0.5, None]}) == '{"a":["x",0.5,null],"b":1}'
     assert fnv1a64('{"a":1}') == "9c3e82dd6fcae8b1"
+
+
+def test_mix_automation_does_not_invalidate_vocal_render(tmp_path):
+    from openace.core.models import EnvelopePoint, Project, Track
+
+    project = Project(title="Fingerprint", bpm=120)
+    track = project.add_track(Track(name="Lead"))
+    before = vocal_render_input_hash(project, track)
+    track.automation.volume.append(EnvelopePoint(ticks=0, value=0.2))
+    track.automation.pan.append(EnvelopePoint(ticks=480, value=1.0))
+    assert vocal_render_input_hash(project, track) == before

@@ -4,7 +4,7 @@ import zipfile
 import numpy as np
 import soundfile as sf
 
-from openace.core.models import AudioClip, Project, Track, TrackType
+from openace.core.models import AudioClip, EnvelopePoint, Project, Track, TrackType
 from openace.exporters.master import export_master_wav, export_stems_zip
 
 
@@ -33,7 +33,7 @@ def test_export_stems_zip_preserves_track_separation_offsets_and_mixer_audibilit
         assert "02_BGM.wav" in names
         assert not any("Muted" in name for name in names)
         manifest = json.loads(archive.read("stems_manifest.json"))
-        assert manifest["processing"].startswith("track volume")
+        assert manifest["processing"].startswith("static/automated track volume")
         assert [item["track_name"] for item in manifest["tracks"]] == ["Lead Vocal", "BGM"]
         archive.extract("01_Lead_Vocal.wav", tmp_path / "extracted")
         lead_data, lead_sr = sf.read(tmp_path / "extracted" / "01_Lead_Vocal.wav", always_2d=True)
@@ -88,3 +88,27 @@ def test_export_pan_matches_webaudio_stereo_panner_semantics(tmp_path):
     mono_data, _ = sf.read(extract / "02_MonoRight.wav", always_2d=True)
     assert np.max(np.abs(mono_data[:, 0])) == 0
     assert 0.14 < np.max(np.abs(mono_data[:, 1])) <= 0.17
+
+
+def test_volume_and_pan_automation_export_uses_timeline_positions(tmp_path):
+    sr = 24000
+    source = tmp_path / "source.wav"
+    sf.write(source, np.ones((sr, 2), dtype=np.float32) * 0.2, sr)
+    project = Project(title="Mix automation", bpm=120)
+    track = project.add_track(Track(name="Automated", type=TrackType.AUDIO, volume=0.1, pan=-1.0))
+    # At 120 BPM, 960 ticks is one second. Automation is absolute and overrides static mixer values.
+    track.automation.volume = [EnvelopePoint(ticks=0, value=1.0), EnvelopePoint(ticks=960, value=0.0)]
+    track.automation.pan = [EnvelopePoint(ticks=0, value=-1.0), EnvelopePoint(ticks=960, value=1.0)]
+    track.clips.append(AudioClip(path=str(source), start_ticks=0, duration_ticks=960))
+    output = tmp_path / "mix.zip"
+    export_stems_zip(project, output, sample_rate=sr)
+    extract = tmp_path / "extract"
+    with zipfile.ZipFile(output) as archive:
+        archive.extractall(extract)
+    data, _ = sf.read(extract / "01_Automated.wav", always_2d=True)
+    first = slice(int(sr * 0.05), int(sr * 0.2))
+    last = slice(int(sr * 0.8), int(sr * 0.95))
+    assert float(np.mean(data[first, 0])) > float(np.mean(data[first, 1])) * 3
+    assert float(np.mean(data[last, 1])) > float(np.mean(data[last, 0])) * 3
+    assert float(np.mean(np.abs(data[first]))) > float(np.mean(np.abs(data[last]))) * 3
+    assert float(np.max(np.abs(data))) > 0.15  # automation value 1.0 overrides the quieter static volume 0.1

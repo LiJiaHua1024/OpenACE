@@ -13,7 +13,8 @@ import numpy as np
 
 from openace.core.audio import export_video_with_lyrics, mix_tracks, read_audio, resample_linear, write_wav
 from openace.core.crossfade import apply_automatic_crossfades
-from openace.core.models import AudioClip, Project
+from openace.core.expression import _seconds_to_ticks_array
+from openace.core.models import AudioClip, EnvelopePoint, Project
 
 
 def _resolve(path_value: str) -> Path:
@@ -173,6 +174,57 @@ def _apply_stereo_panner(data: np.ndarray, pan_value: float) -> np.ndarray:
         return np.stack([left + right * gain_left, right * gain_right], axis=1).astype(np.float32)
     return np.stack([left * gain_left, right + left * gain_right], axis=1).astype(np.float32)
 
+
+def _envelope_series(project: Project, points: list[EnvelopePoint], length: int, sample_rate: int, default: float) -> np.ndarray:
+    """Sample musical-tick automation at exact timeline positions for export."""
+    if length <= 0:
+        return np.zeros(0, dtype=np.float32)
+    if not points:
+        return np.full(length, default, dtype=np.float32)
+    ordered = sorted(points, key=lambda point: point.ticks)
+    seconds = (np.arange(length, dtype=np.float64) + 0.5) / sample_rate
+    ticks = _seconds_to_ticks_array(project, seconds)
+    xp = np.asarray([point.ticks for point in ordered], dtype=np.float64)
+    fp = np.asarray([point.value for point in ordered], dtype=np.float64)
+    return np.interp(ticks, xp, fp, left=fp[0], right=fp[-1]).astype(np.float32)
+
+
+def _apply_stereo_panner_series(data: np.ndarray, pans: np.ndarray) -> np.ndarray:
+    """Apply time-varying WebAudio StereoPannerNode semantics."""
+    if not len(data):
+        return data
+    pan = np.clip(np.asarray(pans, dtype=np.float64), -1.0, 1.0)
+    mono = data.ndim == 1 or data.shape[1] == 1
+    if mono:
+        x = (pan + 1.0) / 2.0
+        gain_left = np.cos(x * math.pi / 2.0)
+        gain_right = np.sin(x * math.pi / 2.0)
+        source = data if data.ndim == 1 else data[:, 0]
+        return np.stack([source * gain_left, source * gain_right], axis=1).astype(np.float32)
+    stereo = np.asarray(data[:, :2], dtype=np.float32)
+    x = np.where(pan <= 0.0, pan + 1.0, pan)
+    gain_left = np.cos(x * math.pi / 2.0)
+    gain_right = np.sin(x * math.pi / 2.0)
+    left = stereo[:, 0]
+    right = stereo[:, 1]
+    out_left = np.where(pan <= 0.0, left + right * gain_left, left * gain_left)
+    out_right = np.where(pan <= 0.0, right * gain_right, right + left * gain_right)
+    return np.stack([out_left, out_right], axis=1).astype(np.float32)
+
+
+def _apply_track_mix(project: Project, track, data: np.ndarray, sample_rate: int) -> np.ndarray:
+    """Apply static or automated track volume/pan at timeline sample positions."""
+    if track.automation.volume:
+        volume = _envelope_series(project, track.automation.volume, len(data), sample_rate, track.volume)
+    else:
+        volume = np.full(len(data), track.volume, dtype=np.float32)
+    if track.automation.pan:
+        pans = _envelope_series(project, track.automation.pan, len(data), sample_rate, track.pan)
+    else:
+        pans = np.full(len(data), track.pan, dtype=np.float32)
+    panned = _apply_stereo_panner_series(data, pans)
+    return panned * volume[:, None]
+
 def _track_audio_buffers(project: Project, track, sample_rate: int) -> List[Tuple[np.ndarray, int]]:
     """Decode one track's render/clips into timeline-positioned export buffers."""
     buffers: List[Tuple[np.ndarray, int]] = []
@@ -192,7 +244,6 @@ def _track_audio_buffers(project: Project, track, sample_rate: int) -> List[Tupl
             sr = sample_rate
         if data.ndim == 1:
             data = data[:, None]
-        data = _apply_stereo_panner(data, track.pan)
         start_ticks = getattr(clip, "start_ticks", 0) if clip is not None else 0
         source_offset_ticks = getattr(clip, "offset_ticks", 0) if clip is not None else 0
         duration_ticks = getattr(clip, "duration_ticks", None) if clip is not None else None
@@ -213,7 +264,7 @@ def _track_audio_buffers(project: Project, track, sample_rate: int) -> List[Tupl
             padding = np.zeros((timeline_offset, data.shape[1]), dtype=data.dtype)
             data = np.concatenate([padding, data], axis=0)
         clip_gain = 10.0 ** ((getattr(clip, "gain_db", 0.0) if clip is not None else 0.0) / 20.0)
-        buffers.append((data * track.volume * clip_gain, sr))
+        buffers.append((_apply_track_mix(project, track, data, sample_rate) * clip_gain, sr))
     return buffers
 
 def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48000) -> Path:
@@ -229,7 +280,7 @@ def export_stems_zip(project: Project, output_path: Path, sample_rate: int = 480
     output_path.parent.mkdir(parents=True, exist_ok=True)
     temporary = tempfile.TemporaryDirectory(prefix="openace-stems-", dir=output_path.parent)
     stem_dir = Path(temporary.name)
-    manifest = {"sample_rate": sample_rate, "format": "pcm_s24le wav", "processing": "track volume/pan, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization", "tracks": [], "skipped": []}
+    manifest = {"sample_rate": sample_rate, "format": "pcm_s24le wav", "processing": "static/automated track volume/pan, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization", "tracks": [], "skipped": []}
     used_names: set[str] = set()
     for index, track in enumerate(audible_tracks(project), 1):
         buffers = _track_audio_buffers(project, track, sample_rate)

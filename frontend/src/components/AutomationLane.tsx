@@ -5,7 +5,7 @@ import { barTicks as musicalBarTicks, tickDurationSeconds } from '../tempo'
 const LANE_HEIGHT = 148
 const KEY_WIDTH = 64
 
-type LaneKey = 'pitch_cents' | 'dynamic' | 'air' | 'falsetto' | 'tension' | 'energy'
+type LaneKey = 'pitch_cents' | 'dynamic' | 'air' | 'falsetto' | 'tension' | 'energy' | 'volume' | 'pan'
 type Tab = 'breath' | 'dynamic' | 'advanced' | 'pitch'
 
 interface Props {
@@ -55,15 +55,24 @@ export default function AutomationLane(props: Props) {
 
   const xForTick = useCallback((ticks: number) => KEY_WIDTH + ((ticks - props.timeline.scrollTicks) / ppq) * props.timeline.pxPerBeat, [props.timeline, ppq])
   const tickForX = useCallback((x: number) => Math.max(0, Math.round(props.timeline.scrollTicks + ((x - KEY_WIDTH) / props.timeline.pxPerBeat) * ppq)), [props.timeline, ppq])
-  const maxValue = lane === 'pitch_cents' ? 600 : 1
-  const minValue = lane === 'pitch_cents' ? -600 : 0
+  function laneRange(key: LaneKey = lane): [number, number] {
+    if (key === 'pitch_cents') return [-600, 600]
+    if (key === 'pan') return [-1, 1]
+    return [0, 1]
+  }
+  const [minValue, maxValue] = laneRange()
 
   function pointsFor(track: Track, key: LaneKey): EnvelopePoint[] {
     return (track.automation as any)[key] || []
   }
 
   function automationValueAt(points: EnvelopePoint[], ticks: number) {
-    if (!points.length) return lane === 'pitch_cents' ? 0 : 0.5
+    if (!points.length) {
+      if (lane === 'pitch_cents') return 0
+      if (lane === 'pan') return props.track?.pan ?? 0
+      if (lane === 'volume') return props.track?.volume ?? 0.8
+      return 0.5
+    }
     const ordered = [...points].sort((a, b) => a.ticks - b.ticks)
     if (ticks <= ordered[0].ticks) return ordered[0].value
     if (ticks >= ordered[ordered.length - 1].ticks) return ordered[ordered.length - 1].value
@@ -76,6 +85,22 @@ export default function AutomationLane(props: Props) {
       }
     }
     return ordered[ordered.length - 1].value
+  }
+
+  function laneFallbackValue() {
+    if (lane === 'pitch_cents') return 0
+    if (lane === 'pan') return props.track?.pan ?? 0
+    if (lane === 'volume') return props.track?.volume ?? 0.8
+    return 0.5
+  }
+
+  function yForLaneValue(value: number, height: number) {
+    const [minimum, maximum] = laneRange()
+    if (minimum < 0) {
+      const scale = Math.max(Math.abs(minimum), Math.abs(maximum))
+      return height / 2 - (value / scale) * (height * 0.38)
+    }
+    return height - 18 - ((value - minimum) / Math.max(1e-9, maximum - minimum)) * (height - 42)
   }
 
   function noteDurationMs(note: Note) {
@@ -269,7 +294,7 @@ export default function AutomationLane(props: Props) {
           }
         }
       } else {
-        const label = lane === 'pitch_cents' ? 'Pitch deviation (cents)' : lane[0].toUpperCase() + lane.slice(1)
+        const label = lane === 'pitch_cents' ? 'Pitch deviation (cents)' : lane === 'volume' ? 'Track volume automation (absolute)' : lane === 'pan' ? 'Track pan automation (absolute)' : lane[0].toUpperCase() + lane.slice(1)
         ctx.fillStyle = '#aeb7d4'; ctx.font = '11px Inter'; ctx.fillText(label, 10, 18)
         const points = pointsFor(props.track, lane)
         if (selection && selection.end > selection.start) {
@@ -280,15 +305,12 @@ export default function AutomationLane(props: Props) {
           ctx.strokeStyle = '#61d5ffaa'
           ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, height); ctx.moveTo(ex, 0); ctx.lineTo(ex, height); ctx.stroke()
         }
-        const neutral = lane === 'pitch_cents' ? height / 2 : height - 18 - 0.5 * (height - 42)
+        const neutral = yForLaneValue(laneFallbackValue(), height)
         ctx.strokeStyle = '#6d748c'; ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.moveTo(KEY_WIDTH, neutral); ctx.lineTo(width, neutral); ctx.stroke(); ctx.setLineDash([])
         if (!points.length) {
           ctx.fillStyle = '#65708e'; ctx.font = '12px Inter'; ctx.fillText('AUTO', KEY_WIDTH + 18, neutral - 10)
         }
-        const yForValue = (value: number) => {
-          if (lane === 'pitch_cents') return height / 2 - (value / 600) * (height * 0.38)
-          return height - 18 - value * (height - 42)
-        }
+        const yForValue = (value: number) => yForLaneValue(value, height)
         ctx.strokeStyle = '#64e3ff'; ctx.lineWidth = 1.8
         ctx.beginPath()
         points.forEach((p, i) => {
@@ -316,8 +338,15 @@ export default function AutomationLane(props: Props) {
   }
 
   function valueForY(y: number, height: number) {
-    if (lane === 'pitch_cents') return Math.max(minValue, Math.min(maxValue, ((height / 2 - y) / (height * 0.38)) * 600))
-    return Math.max(0, Math.min(1, (height - 18 - y) / (height - 42)))
+    const [minimum, maximum] = laneRange()
+    let value: number
+    if (minimum < 0) {
+      const scale = Math.max(Math.abs(minimum), Math.abs(maximum))
+      value = ((height / 2 - y) / (height * 0.38)) * scale
+    } else {
+      value = minimum + ((height - 18 - y) / (height - 42)) * (maximum - minimum)
+    }
+    return Math.max(minimum, Math.min(maximum, value))
   }
 
   function onPointerDown(event: React.PointerEvent) {
@@ -594,6 +623,8 @@ export default function AutomationLane(props: Props) {
           {advancedButton('falsetto', 'Falsetto')}
           {advancedButton('tension', 'Tension')}
           {advancedButton('energy', 'Energy')}
+          {advancedButton('volume', 'Volume')}
+          {advancedButton('pan', 'Pan')}
         </div>
         {tab === 'breath' ? (
           <div className="breath-actions">

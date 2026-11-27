@@ -46,8 +46,11 @@ export function vocalRenderInputHash(project: Project, track: Track): string {
     else tempoMap.push(normalized)
   }
   tempoMap.unshift({ ticks: 0, bpm: Math.max(1, project.bpm), curve: 'step' })
+  const automation = { ...(track.automation as any) }
+  delete automation.volume
+  delete automation.pan
   return fnv1a64(canonicalJson({
-    automation: track.automation,
+    automation,
     breaths,
     language: track.language,
     notes,

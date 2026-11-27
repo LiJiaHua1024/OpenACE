@@ -35,6 +35,8 @@ export interface VocalAutomation {
   falsetto: EnvelopePoint[]
   tension: EnvelopePoint[]
   energy: EnvelopePoint[]
+  volume: EnvelopePoint[]
+  pan: EnvelopePoint[]
 }
 
 

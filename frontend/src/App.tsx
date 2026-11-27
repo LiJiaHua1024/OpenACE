@@ -61,6 +61,7 @@ function playbackAudioSnapshot(project: Project): string {
       solo: track.solo,
       volume: track.volume,
       pan: track.pan,
+      mix_automation: { volume: track.automation?.volume || [], pan: track.automation?.pan || [] },
       render_path: track.render_path,
       clips: (track.clips || []).map(clip => ({
         id: clip.id,
@@ -87,6 +88,62 @@ function analyserPeakLevel(analyser?: AnalyserNode): number {
   let peak = 0
   for (const value of data) peak = Math.max(peak, Math.abs(value - 128) / 128)
   return peak
+}
+
+function mixEnvelopeValueAt(points: { ticks: number; value: number }[], ticks: number, fallback: number): number {
+  if (!points.length) return fallback
+  const ordered = [...points].sort((a, b) => a.ticks - b.ticks)
+  if (ticks <= ordered[0].ticks) return ordered[0].value
+  if (ticks >= ordered[ordered.length - 1].ticks) return ordered[ordered.length - 1].value
+  for (let index = 0; index < ordered.length - 1; index++) {
+    const left = ordered[index]
+    const right = ordered[index + 1]
+    if (ticks >= left.ticks && ticks <= right.ticks) {
+      const ratio = (ticks - left.ticks) / Math.max(1e-9, right.ticks - left.ticks)
+      return left.value + (right.value - left.value) * ratio
+    }
+  }
+  return fallback
+}
+
+function scheduleTrackMixAutomation(
+  param: AudioParam,
+  ctx: AudioContext,
+  project: Project,
+  track: Track,
+  key: 'volume' | 'pan',
+  fallback: number,
+  scheduleOffsetSeconds: number,
+) {
+  const points = [...(((track.automation as any)?.[key] || []) as { ticks: number; value: number }[])].sort((a, b) => a.ticks - b.ticks)
+  param.cancelScheduledValues(ctx.currentTime)
+  const startTicks = Math.max(0, secondsToTicks(project, scheduleOffsetSeconds))
+  const valueAt = (ticks: number) => {
+    const raw = mixEnvelopeValueAt(points, ticks, fallback)
+    return key === 'pan' ? Math.max(-1, Math.min(1, raw)) : Math.max(0, Math.min(2, raw))
+  }
+  param.setValueAtTime(valueAt(startTicks), ctx.currentTime)
+  if (!points.length) return
+  const eventTicks = new Set<number>()
+  for (let index = 0; index < points.length - 1; index++) {
+    const left = Math.max(0, Math.round(points[index].ticks))
+    const right = Math.max(0, Math.round(points[index + 1].ticks))
+    eventTicks.add(left)
+    eventTicks.add(right)
+    // Musical-time linear interpolation is not exactly linear in seconds inside tempo ramps.
+    // Subdivide long segments enough that AudioParam timelines track ramped tempo truthfully.
+    const divisions = Math.min(32, Math.max(1, Math.ceil((right - left) / Math.max(1, project.ppq / 16))))
+    for (let step = 1; step < divisions; step++) eventTicks.add(Math.round(left + (right - left) * step / divisions))
+  }
+  if (points.length) eventTicks.add(Math.max(0, Math.round(points[points.length - 1].ticks)))
+  let lastClock = ctx.currentTime
+  for (const ticks of Array.from(eventTicks).sort((a, b) => a - b)) {
+    if (ticks <= startTicks + 0.001) continue
+    const clock = ctx.currentTime + ticksToSeconds(project, ticks) - scheduleOffsetSeconds
+    if (!Number.isFinite(clock) || clock <= ctx.currentTime + 0.002 || clock <= lastClock + 0.0005) continue
+    param.linearRampToValueAtTime(valueAt(ticks), clock)
+    lastClock = clock
+  }
 }
 
 function undoSemanticSignature(project: Project): string {
@@ -658,6 +715,8 @@ export default function App() {
       volume.gain.value = track.volume
       const panner = ctx.createStereoPanner()
       panner.pan.value = track.pan
+      scheduleTrackMixAutomation(volume.gain, ctx, targetProject, track, 'volume', track.volume, scheduleOffsetSeconds)
+      scheduleTrackMixAutomation(panner.pan, ctx, targetProject, track, 'pan', track.pan, scheduleOffsetSeconds)
       const analyser = ctx.createAnalyser()
       analyser.fftSize = 512
       input.connect(volume).connect(panner).connect(analyser)
@@ -926,7 +985,7 @@ export default function App() {
               language: 'zh',
               notes: [],
               clips: [],
-              automation: { pitch_cents: [], dynamic: [], air: [], falsetto: [], tension: [], energy: [] },
+              automation: { pitch_cents: [], dynamic: [], air: [], falsetto: [], tension: [], energy: [], volume: [], pan: [] },
               breaths: [],
               mute: false,
               solo: false,

@@ -59,8 +59,11 @@ def vocal_render_input_hash(project: Project, track: Track) -> str:
         payload = breath.model_dump(mode="json")
         payload.pop("id", None)
         breaths.append(payload)
+    automation = track.automation.model_dump(mode="json")
+    automation.pop("volume", None)
+    automation.pop("pan", None)
     payload = {
-        "automation": track.automation.model_dump(mode="json"),
+        "automation": automation,
         "breaths": breaths,
         "language": track.language,
         "notes": notes,

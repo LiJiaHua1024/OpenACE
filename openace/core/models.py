@@ -105,6 +105,8 @@ class VocalAutomation(BaseModel):
     falsetto: List[EnvelopePoint] = Field(default_factory=list)
     tension: List[EnvelopePoint] = Field(default_factory=list)
     energy: List[EnvelopePoint] = Field(default_factory=list)
+    volume: List[EnvelopePoint] = Field(default_factory=list)
+    pan: List[EnvelopePoint] = Field(default_factory=list)
 
 
 class Breath(BaseModel):

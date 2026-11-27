@@ -1,0 +1,1074 @@
+{
+  "groups": [
+    {
+      "id": "6",
+      "kind": "gain:6",
+      "count": 33,
+      "first": 0.8018018018018018,
+      "last": 0.1981981981981982,
+      "min": 0.1981981981981982,
+      "max": 0.8018018018018018,
+      "sample": [
+        {
+          "id": 6,
+          "kind": "gain:6",
+          "method": "setValueAtTime",
+          "value": 0.8018018018018018,
+          "time": 110.58503401360544
+        },
+        {
+          "id": 6,
+          "kind": "gain:6",
+          "method": "linearRampToValueAtTime",
+          "value": 0.7829391891891893,
+          "time": 110.61628401360544
+        },
+        {
+          "id": 6,
+          "kind": "gain:6",
+          "method": "linearRampToValueAtTime",
+          "value": 0.7640765765765766,
+          "time": 110.64753401360544
+        },
+        {
+          "id": 6,
+          "kind": "gain:6",
+          "method": "linearRampToValueAtTime",
+          "value": 0.745213963963964,
+          "time": 110.67878401360544
+        },
+        {
+          "id": 6,
+          "kind": "gain:6",
+          "method": "linearRampToValueAtTime",
+          "value": 0.7263513513513513,
+          "time": 110.71003401360544
+        },
+        {
+          "id": 6,
+          "kind": "gain:6",
+          "method": "linearRampToValueAtTime",
+          "value": 0.7074887387387387,
+          "time": 110.74128401360544
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "kind": "pan:7",
+      "count": 33,
+      "first": -0.6793945648434813,
+      "last": 0.9717922256621947,
+      "min": -0.6793945648434813,
+      "max": 0.9717922256621947,
+      "sample": [
+        {
+          "id": 7,
+          "kind": "pan:7",
+          "method": "setValueAtTime",
+          "value": -0.6793945648434813,
+          "time": 110.58503401360544
+        },
+        {
+          "id": 7,
+          "kind": "pan:7",
+          "method": "linearRampToValueAtTime",
+          "value": -0.6277949776401789,
+          "time": 110.61628401360544
+        },
+        {
+          "id": 7,
+          "kind": "pan:7",
+          "method": "linearRampToValueAtTime",
+          "value": -0.5761953904368765,
+          "time": 110.64753401360544
+        },
+        {
+          "id": 7,
+          "kind": "pan:7",
+          "method": "linearRampToValueAtTime",
+          "value": -0.5245958032335741,
+          "time": 110.67878401360544
+        },
+        {
+          "id": 7,
+          "kind": "pan:7",
+          "method": "linearRampToValueAtTime",
+          "value": -0.47299621603027175,
+          "time": 110.71003401360544
+        },
+        {
+          "id": 7,
+          "kind": "pan:7",
+          "method": "linearRampToValueAtTime",
+          "value": -0.4213966288269694,
+          "time": 110.74128401360544
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "kind": "gain:4",
+      "count": 2,
+      "first": 1,
+      "last": 1,
+      "min": 1,
+      "max": 1,
+      "sample": [
+        {
+          "id": 4,
+          "kind": "gain:4",
+          "method": "setValueAtTime",
+          "value": 1,
+          "time": 110.58503401360544
+        },
+        {
+          "id": 4,
+          "kind": "gain:4",
+          "method": "linearRampToValueAtTime",
+          "value": 1,
+          "time": 112.58501133786848
+        }
+      ]
+    }
+  ],
+  "master_peak_count": 33,
+  "early_mean_peak": 0.033482142857142856,
+  "late_mean_peak": 0.0390625,
+  "early_n": 7,
+  "late_n": 20,
+  "console_errors": [],
+  "page_errors": [],
+  "network_errors": [],
+  "raw": {
+    "events": [
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "setValueAtTime",
+        "value": 0.8018018018018018,
+        "time": 110.58503401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.7829391891891893,
+        "time": 110.61628401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.7640765765765766,
+        "time": 110.64753401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.745213963963964,
+        "time": 110.67878401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.7263513513513513,
+        "time": 110.71003401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.7074887387387387,
+        "time": 110.74128401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.6886261261261262,
+        "time": 110.77253401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.6697635135135136,
+        "time": 110.80378401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.6509009009009009,
+        "time": 110.83503401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.6320382882882882,
+        "time": 110.86628401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.6131756756756757,
+        "time": 110.89753401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.5943130630630631,
+        "time": 110.92878401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.5754504504504505,
+        "time": 110.96003401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.5565878378378378,
+        "time": 110.99128401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.5377252252252253,
+        "time": 111.02253401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.5188626126126126,
+        "time": 111.05378401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.5,
+        "time": 111.08503401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.48113738738738737,
+        "time": 111.11628401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.46227477477477474,
+        "time": 111.14753401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.44341216216216217,
+        "time": 111.17878401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.42454954954954954,
+        "time": 111.21003401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.4056869369369369,
+        "time": 111.24128401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.38682432432432434,
+        "time": 111.27253401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.3679617117117117,
+        "time": 111.30378401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.3490990990990991,
+        "time": 111.33503401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.33023648648648646,
+        "time": 111.36628401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.31137387387387383,
+        "time": 111.39753401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.29251126126126126,
+        "time": 111.42878401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.2736486486486487,
+        "time": 111.46003401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.254786036036036,
+        "time": 111.49128401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.23592342342342343,
+        "time": 111.52253401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.21706081081081074,
+        "time": 111.55378401360544
+      },
+      {
+        "id": 6,
+        "kind": "gain:6",
+        "method": "linearRampToValueAtTime",
+        "value": 0.1981981981981982,
+        "time": 111.58503401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "setValueAtTime",
+        "value": -0.6793945648434813,
+        "time": 110.58503401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.6277949776401789,
+        "time": 110.61628401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.5761953904368765,
+        "time": 110.64753401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.5245958032335741,
+        "time": 110.67878401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.47299621603027175,
+        "time": 110.71003401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.4213966288269694,
+        "time": 110.74128401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.369797041623667,
+        "time": 110.77253401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.3181974544203646,
+        "time": 110.80378401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.26659786721706225,
+        "time": 110.83503401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.21499828001375987,
+        "time": 110.86628401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.1633986928104575,
+        "time": 110.89753401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.11179910560715511,
+        "time": 110.92878401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.060199518403852736,
+        "time": 110.96003401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": -0.00859993120055036,
+        "time": 110.99128401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.04299965600275202,
+        "time": 111.02253401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.0945992432060544,
+        "time": 111.05378401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.14619883040935677,
+        "time": 111.08503401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.19779841761265915,
+        "time": 111.11628401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.24939800481596153,
+        "time": 111.14753401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.3009975920192639,
+        "time": 111.17878401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.3525971792225663,
+        "time": 111.21003401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.40419676642586866,
+        "time": 111.24128401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.45579635362917104,
+        "time": 111.27253401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.5073959408324734,
+        "time": 111.30378401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.5589955280357758,
+        "time": 111.33503401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.6105951152390782,
+        "time": 111.36628401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.6621947024423805,
+        "time": 111.39753401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.7137942896456829,
+        "time": 111.42878401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.7653938768489853,
+        "time": 111.46003401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.8169934640522877,
+        "time": 111.49128401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.86859305125559,
+        "time": 111.52253401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.9201926384588924,
+        "time": 111.55378401360544
+      },
+      {
+        "id": 7,
+        "kind": "pan:7",
+        "method": "linearRampToValueAtTime",
+        "value": 0.9717922256621947,
+        "time": 111.58503401360544
+      },
+      {
+        "id": 4,
+        "kind": "gain:4",
+        "method": "setValueAtTime",
+        "value": 1,
+        "time": 110.58503401360544
+      },
+      {
+        "id": 4,
+        "kind": "gain:4",
+        "method": "linearRampToValueAtTime",
+        "value": 1,
+        "time": 112.58501133786848
+      }
+    ],
+    "kinds": {
+      "1": "gain:1",
+      "2": "gain:2",
+      "3": "gain:3",
+      "4": "gain:4",
+      "5": "gain:5",
+      "6": "gain:6",
+      "7": "pan:7"
+    },
+    "peaks": [
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 113.51739999997616,
+        "peak": 0
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 113.53479999998211,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 113.56809999999403,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 113.58439999997616,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 113.61759999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 113.635,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 113.66819999998808,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 113.68409999999405,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 113.7175,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 113.73479999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 113.76779999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 113.78469999998808,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 113.81809999999403,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 113.83459999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 113.8675,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 113.88509999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 113.91759999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 113.93469999998808,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 113.96789999997615,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 113.985,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.01769999998808,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.03509999999405,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.06809999999403,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.08429999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.1175,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.13479999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.16759999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.184,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.21789999997615,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.2345,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.26739999997616,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.2845,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.318,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.3345,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.367,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.38429999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.41729999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.43479999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.46809999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.48439999997616,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.51739999997616,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.5345,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.5675,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.58389999997615,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.6175,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.63409999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.66779999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.68419999998808,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.71759999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.73479999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.768,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.7845,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.818,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.83409999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.86759999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.88469999998807,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.91819999998808,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.9345,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 114.96729999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 114.98479999998212,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 115.01759999999403,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 115.034,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 115.06739999997616,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 115.08459999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 1,
+        "kind": "master",
+        "t": 115.11759999999404,
+        "peak": 0.0390625
+      },
+      {
+        "id": 2,
+        "kind": "track",
+        "t": 115.13479999998212,
+        "peak": 0.0390625
+      }
+    ],
+    "analyserKinds": {
+      "1": "master",
+      "2": "track"
+    }
+  },
+  "analysis": {
+    "gain_candidates": [
+      {
+        "id": "6",
+        "first": 0.8018018018018018,
+        "last": 0.1981981981981982,
+        "n": 33,
+        "vals": [
+          0.8018018018018018,
+          0.7829391891891893,
+          0.7640765765765766,
+          0.745213963963964,
+          0.7263513513513513,
+          0.7074887387387387,
+          0.6886261261261262,
+          0.6697635135135136
+        ]
+      }
+    ],
+    "pan_candidates": [
+      {
+        "id": "7",
+        "first": -0.6793945648434813,
+        "last": 0.9717922256621947,
+        "n": 33,
+        "vals": [
+          -0.6793945648434813,
+          -0.6277949776401789,
+          -0.5761953904368765,
+          -0.5245958032335741,
+          -0.47299621603027175,
+          -0.4213966288269694,
+          -0.369797041623667,
+          -0.3181974544203646
+        ]
+      }
+    ],
+    "level_drop_ratio": 0.8571428571428571
+  },
+  "passed": false
+}
