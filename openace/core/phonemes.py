@@ -296,7 +296,11 @@ def timed_phonemes(tokens: List[PhonemeToken], duration_ms: float) -> List[Phone
     post_vowels = [token for token in post_tokens if token.is_vowel]
     coda_each = min(70.0, max(35.0, duration_ms * 0.08))
     coda_total = coda_each * len(post_consonants)
-    vowel_total = max(80.0, duration_ms - coda_total)
+    max_coda_total = duration_ms * 0.35
+    if coda_total > max_coda_total and post_consonants:
+        coda_each = max_coda_total / len(post_consonants)
+        coda_total = max_coda_total
+    vowel_total = duration_ms - coda_total
     vowel_each = vowel_total / len(post_vowels)
     cursor = 0.0
     for token in post_tokens:
@@ -304,6 +308,7 @@ def timed_phonemes(tokens: List[PhonemeToken], duration_ms: float) -> List[Phone
         phonemes.append(Phoneme(symbol=token.symbol, start_ms=cursor, duration_ms=length, is_vowel=token.is_vowel))
         cursor += length
     validate_phoneme_inventory(phonemes)
+    validate_phoneme_timing(phonemes)
     return phonemes
 
 
@@ -317,6 +322,7 @@ def ensure_note_phonemes(note: Note, language: str, duration_ms: float | None = 
         if not any(p.is_vowel for p in note.phonemes):
             raise PhonemeError(f"note '{note.lyric}' has no vowel phoneme")
         validate_phoneme_inventory(note.phonemes)
+        validate_phoneme_timing(note.phonemes)
         return note.phonemes
     tokens = phonemes_for_text(note.lyric, language)
     if duration_ms is None:
@@ -325,6 +331,23 @@ def ensure_note_phonemes(note: Note, language: str, duration_ms: float | None = 
         duration_ms = note.duration_ticks * 60000.0 / (120.0 * 480.0)
     note.phonemes = timed_phonemes(tokens, duration_ms)
     return note.phonemes
+
+
+def validate_phoneme_timing(phonemes) -> None:
+    """Require contiguous, positive, beat-anchored manual timing."""
+    if not phonemes:
+        return
+    first_vowel = next((p for p in phonemes if p.is_vowel), None)
+    if first_vowel is None:
+        raise PhonemeError("phoneme inventory has no vowel phoneme")
+    if abs(first_vowel.start_ms) > 0.75:
+        raise PhonemeError("first vowel must start at 0ms to preserve the beat anchor")
+    for left, right in zip(phonemes, phonemes[1:]):
+        if left.duration_ms <= 0 or right.duration_ms <= 0:
+            raise PhonemeError("phoneme durations must be positive")
+        boundary = left.start_ms + left.duration_ms
+        if abs(boundary - right.start_ms) > 0.75:
+            raise PhonemeError("phonemes must be contiguous without gaps or overlaps")
 
 
 def validate_phoneme_inventory(phonemes) -> None:

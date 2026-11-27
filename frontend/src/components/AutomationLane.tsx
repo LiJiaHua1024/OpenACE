@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { EnvelopePoint, Project, TimelineState, Track } from '../types'
+import type { EnvelopePoint, Note, Phoneme, Project, TimelineState, Track } from '../types'
 
 const LANE_HEIGHT = 148
 const KEY_WIDTH = 64
@@ -26,6 +26,17 @@ export default function AutomationLane(props: Props) {
   const [lane, setLane] = useState<LaneKey>('dynamic')
   const [tool, setTool] = useState<'brush' | 'line' | 'erase'>('brush')
   const dragRef = useRef<{ drawing: boolean; startTick: number; startValue: number; lineStart?: EnvelopePoint }>({ drawing: false, startTick: 0, startValue: 0 })
+  const phonemeDragRef = useRef<{
+    noteId: string
+    edge: 'start' | 'between' | 'end'
+    index: number
+    startX: number
+    originalBoundary: number
+    originals: Phoneme[]
+    pxPerMs: number
+    durationMs: number
+  } | null>(null)
+  const [phonemeReadout, setPhonemeReadout] = useState('')
   const ppq = props.project.ppq
 
   const xForTick = useCallback((ticks: number) => KEY_WIDTH + ((ticks - props.timeline.scrollTicks) / ppq) * props.timeline.pxPerBeat, [props.timeline, ppq])
@@ -35,6 +46,46 @@ export default function AutomationLane(props: Props) {
 
   function pointsFor(track: Track, key: LaneKey): EnvelopePoint[] {
     return (track.automation as any)[key] || []
+  }
+
+  function noteDurationMs(note: Note) {
+    return Math.max(1, note.duration_ticks * 60000 / props.project.bpm / ppq)
+  }
+
+  function noteLayout(note: Note) {
+    const x = xForTick(note.start_ticks)
+    const w = Math.max(14, (note.duration_ticks / ppq) * props.timeline.pxPerBeat)
+    return { x, w, durationMs: noteDurationMs(note), pxPerMs: w / noteDurationMs(note) }
+  }
+
+  function phonemeBoundaryHit(x: number, y: number) {
+    if (!props.track || y < 82 || y > 112) return null
+    let best: { note: Note; edge: 'start' | 'between' | 'end'; index: number; boundaryMs: number; distance: number } | null = null
+    for (const note of props.track.notes) {
+      if (note.phonemes.length < 1) continue
+      const layout = noteLayout(note)
+      const candidates: { edge: 'start' | 'between' | 'end'; index: number; boundaryMs: number }[] = []
+      const first = note.phonemes[0]
+      const last = note.phonemes[note.phonemes.length - 1]
+      candidates.push({ edge: 'start', index: 0, boundaryMs: first.start_ms })
+      for (let index = 0; index < note.phonemes.length - 1; index++) {
+        candidates.push({ edge: 'between', index, boundaryMs: note.phonemes[index].start_ms + note.phonemes[index].duration_ms })
+      }
+      candidates.push({ edge: 'end', index: note.phonemes.length - 1, boundaryMs: last.start_ms + last.duration_ms })
+      for (const candidate of candidates) {
+        const next = note.phonemes[candidate.index + 1]
+        const anchoredVowelBoundary = candidate.edge === 'start'
+          ? first.is_vowel && Math.abs(first.start_ms) < 0.75
+          : candidate.edge === 'between' && next?.is_vowel && Math.abs(next.start_ms) < 0.75
+        if (anchoredVowelBoundary) continue
+        const bx = layout.x + candidate.boundaryMs * layout.pxPerMs
+        const distance = Math.abs(bx - x)
+        if (distance <= 7 && (!best || distance < best.distance)) {
+          best = { note, edge: candidate.edge, index: candidate.index, boundaryMs: candidate.boundaryMs, distance }
+        }
+      }
+    }
+    return best
   }
 
   function upsertPoint(points: EnvelopePoint[], point: EnvelopePoint) {
@@ -107,20 +158,50 @@ export default function AutomationLane(props: Props) {
           ctx.beginPath(); ctx.roundRect(x, 34, w, 28, 4); ctx.fill()
           ctx.fillStyle = 'white'; ctx.font = '10px Inter'; ctx.fillText('BR.', x + 5, 52)
         }
-        let y = 82
+        const y = 82
         for (const note of props.track.notes) {
-          const x = xForTick(note.start_ticks)
-          const w = Math.max(14, note.duration_ticks / 2)
+          const layout = noteLayout(note)
+          const { x, w } = layout
           if (x > width || x + w < KEY_WIDTH) continue
           ctx.strokeStyle = '#3d465f'; ctx.strokeRect(x, y, w, 30)
           if (note.phonemes.length) {
-            let cursor = x
             for (const ph of note.phonemes) {
-              const pw = Math.max(8, (ph.duration_ms / Math.max(1, note.duration_ticks * 60000 / props.project.bpm / ppq)) * w)
+              const px = x + ph.start_ms * layout.pxPerMs
+              const pw = Math.max(2, ph.duration_ms * layout.pxPerMs)
               ctx.fillStyle = ph.is_vowel ? '#2f9e7a88' : '#4d8bd888'
-              ctx.fillRect(cursor, y, pw, 30)
-              ctx.fillStyle = '#eaf2ff'; ctx.font = '9px Inter'; ctx.fillText(ph.symbol, cursor + 2, y + 18)
-              cursor += pw
+              ctx.fillRect(px, y, pw, 30)
+              ctx.fillStyle = '#eaf2ff'; ctx.font = '9px Inter'
+              if (pw > 9) ctx.fillText(ph.symbol, px + 2, y + 18)
+            }
+            const first = note.phonemes[0]
+            const last = note.phonemes[note.phonemes.length - 1]
+            const outer = [
+              { ms: first.start_ms, locked: first.is_vowel && Math.abs(first.start_ms) < 0.75 },
+              { ms: last.start_ms + last.duration_ms, locked: false },
+            ]
+            for (const edge of outer) {
+              const ex = x + edge.ms * layout.pxPerMs
+              ctx.strokeStyle = edge.locked ? '#ffffffdd' : '#d8e7ff99'
+              ctx.lineWidth = edge.locked ? 1.5 : 1
+              ctx.beginPath(); ctx.moveTo(ex, y); ctx.lineTo(ex, y + 30); ctx.stroke()
+              if (!edge.locked) {
+                ctx.fillStyle = '#eaf2ffcc'
+                ctx.fillRect(ex - 1.5, y + 25, 3, 5)
+              }
+            }
+            for (let index = 0; index < note.phonemes.length - 1; index++) {
+              const left = note.phonemes[index]
+              const right = note.phonemes[index + 1]
+              const boundaryMs = left.start_ms + left.duration_ms
+              const bx = x + boundaryMs * layout.pxPerMs
+              const locked = right.is_vowel && Math.abs(right.start_ms) < 0.75
+              ctx.strokeStyle = locked ? '#ffffffdd' : '#d8e7ff99'
+              ctx.lineWidth = locked ? 1.5 : 1
+              ctx.beginPath(); ctx.moveTo(bx, y); ctx.lineTo(bx, y + 30); ctx.stroke()
+              if (!locked) {
+                ctx.fillStyle = '#eaf2ffcc'
+                ctx.fillRect(bx - 1.5, y + 25, 3, 5)
+              }
             }
           } else {
             ctx.fillStyle = '#7f89a8'; ctx.font = '9px Inter'; ctx.fillText(note.lyric ? 'phonemes generated on validate/render' : 'no lyric', x + 3, y + 18)
@@ -176,6 +257,22 @@ export default function AutomationLane(props: Props) {
     const tick = tickForX(pos.x)
     props.beginTransaction()
     if (tab === 'breath') {
+      const boundaryHit = event.button === 0 ? phonemeBoundaryHit(pos.x, pos.y) : null
+      if (boundaryHit) {
+        const layout = noteLayout(boundaryHit.note)
+        phonemeDragRef.current = {
+          noteId: boundaryHit.note.id,
+          edge: boundaryHit.edge,
+          index: boundaryHit.index,
+          startX: pos.x,
+          originalBoundary: boundaryHit.boundaryMs,
+          originals: JSON.parse(JSON.stringify(boundaryHit.note.phonemes)),
+          pxPerMs: layout.pxPerMs,
+          durationMs: layout.durationMs,
+        }
+        canvasRef.current?.setPointerCapture(event.pointerId)
+        return
+      }
       if (event.button === 0 && pos.y > 28 && pos.y < 68) {
         props.updateProject(project => {
           const track = project.tracks.find(t => t.id === props.track!.id)
@@ -192,13 +289,61 @@ export default function AutomationLane(props: Props) {
   }
 
   function onPointerMove(event: React.PointerEvent) {
-    if (!dragRef.current.drawing || tab === 'breath') return
     const pos = pointer(event)
+    const phonemeDrag = phonemeDragRef.current
+    if (phonemeDrag) {
+      const deltaMs = (pos.x - phonemeDrag.startX) / phonemeDrag.pxPerMs
+      const minimum = 8
+      props.updateProject(project => {
+        const note = project.tracks.find(t => t.id === props.track?.id)?.notes.find(item => item.id === phonemeDrag.noteId)
+        if (!note) return
+        const phonemes: Phoneme[] = JSON.parse(JSON.stringify(phonemeDrag.originals))
+        if (phonemeDrag.edge === 'between') {
+          const left = phonemes[phonemeDrag.index]
+          const right = phonemes[phonemeDrag.index + 1]
+          if (!left || !right) return
+          const rightEnd = right.start_ms + right.duration_ms
+          const boundary = Math.max(left.start_ms + minimum, Math.min(rightEnd - minimum, phonemeDrag.originalBoundary + deltaMs))
+          left.duration_ms = boundary - left.start_ms
+          right.start_ms = boundary
+          right.duration_ms = rightEnd - boundary
+          setPhonemeReadout(`${left.symbol}/${right.symbol} · ${Math.round(boundary)} ms`)
+        } else if (phonemeDrag.edge === 'start') {
+          const first = phonemes[0]
+          if (!first) return
+          const fixedEnd = first.start_ms + first.duration_ms
+          const lower = first.is_vowel ? 0 : -90
+          const upper = first.is_vowel ? 0 : Math.min(-40, fixedEnd - minimum)
+          const start = Math.max(lower, Math.min(upper, phonemeDrag.originalBoundary + deltaMs))
+          first.start_ms = start
+          first.duration_ms = fixedEnd - start
+          setPhonemeReadout(`${first.symbol} onset · ${Math.round(start)} ms`)
+        } else {
+          const last = phonemes[phonemeDrag.index]
+          if (!last) return
+          const end = Math.max(last.start_ms + minimum, Math.min(phonemeDrag.durationMs, phonemeDrag.originalBoundary + deltaMs))
+          last.duration_ms = end - last.start_ms
+          setPhonemeReadout(`${last.symbol} end · ${Math.round(end)} ms`)
+        }
+        note.phonemes = phonemes
+      }, true)
+      return
+    }
+    if (tab === 'breath') {
+      if (canvasRef.current) canvasRef.current.style.cursor = phonemeBoundaryHit(pos.x, pos.y) ? 'col-resize' : 'default'
+      return
+    }
+    if (!dragRef.current.drawing) return
     if (tool === 'line') return
     writeLanePoint(tickForX(pos.x), valueForY(pos.y, pos.height), tool === 'erase')
   }
 
   function onPointerUp(event: React.PointerEvent) {
+    if (phonemeDragRef.current) {
+      phonemeDragRef.current = null
+      props.endTransaction()
+      window.setTimeout(() => setPhonemeReadout(''), 1600)
+    }
     if (dragRef.current.drawing && tool === 'line' && dragRef.current.lineStart) {
       const pos = pointer(event)
       const endTick = tickForX(pos.x)
@@ -246,7 +391,10 @@ export default function AutomationLane(props: Props) {
           {advancedButton('energy', 'Energy')}
         </div>
         {tab === 'breath' ? (
-          <button className="tiny-button" onClick={addAllBreaths}>Add all breaths</button>
+          <div className="breath-actions">
+            <span className="phoneme-readout">{phonemeReadout}</span>
+            <button className="tiny-button" onClick={addAllBreaths}>Add all breaths</button>
+          </div>
         ) : (
           <div className="tool-group">
             <button className={tool === 'brush' ? 'tool active' : 'tool'} onClick={() => setTool('brush')}>Brush</button>

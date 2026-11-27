@@ -1,0 +1,144 @@
+{
+  "visual_positions_symbols": {
+    "ok": false,
+    "details": {
+      "phonemes": [
+        {
+          "symbol": "s",
+          "start_ms": -52.5,
+          "duration_ms": 26.25,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u014b",
+          "start_ms": -26.25,
+          "duration_ms": 26.25,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u026a",
+          "start_ms": 0.0,
+          "duration_ms": 270.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ]
+    }
+  },
+  "drag_internal_outer_end_persist": {
+    "ok": false,
+    "details": {
+      "cursors": [
+        "col-resize",
+        "col-resize",
+        "col-resize"
+      ],
+      "before": [
+        {
+          "symbol": "s",
+          "start_ms": -52.5,
+          "duration_ms": 26.25,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u014b",
+          "start_ms": -26.25,
+          "duration_ms": 26.25,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u026a",
+          "start_ms": 0.0,
+          "duration_ms": 270.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "after": [
+        {
+          "symbol": "s",
+          "start_ms": -90.0,
+          "duration_ms": 82.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u014b",
+          "start_ms": -8.0,
+          "duration_ms": 8.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u026a",
+          "start_ms": 0.0,
+          "duration_ms": 314.6428571428571,
+          "is_vowel": true,
+          "locked": false
+        }
+      ]
+    }
+  },
+  "undo_redo_last_boundary": {
+    "ok": true,
+    "details": {
+      "undo": [
+        {
+          "symbol": "s",
+          "start_ms": -90.0,
+          "duration_ms": 82.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u014b",
+          "start_ms": -8.0,
+          "duration_ms": 8.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u026a",
+          "start_ms": 0.0,
+          "duration_ms": 270.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "redo": [
+        {
+          "symbol": "s",
+          "start_ms": -90.0,
+          "duration_ms": 82.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u014b",
+          "start_ms": -8.0,
+          "duration_ms": 8.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u026a",
+          "start_ms": 0.0,
+          "duration_ms": 314.6428571428571,
+          "is_vowel": true,
+          "locked": false
+        }
+      ]
+    }
+  },
+  "console_health": {
+    "ok": true,
+    "details": {
+      "errors": []
+    }
+  },
+  "passed": false
+}

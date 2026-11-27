@@ -147,3 +147,29 @@ def test_post_vowel_consonants_remain_after_beat_anchored_vowel():
     assert phonemes[1].start_ms == 0
     assert phonemes[2].start_ms > 0
     assert phonemes[2].start_ms + phonemes[2].duration_ms <= 500.1
+
+
+def test_short_multi_coda_timing_ends_at_note_duration():
+    from openace.core.phonemes import timed_phonemes, tokens_from_symbols
+
+    timed = timed_phonemes(tokens_from_symbols(["s", "ɪ", "ŋ", "k"]), 120.0)
+    final_end = timed[-1].start_ms + timed[-1].duration_ms
+    assert final_end == pytest.approx(120.0, abs=0.01)
+    assert all(phoneme.duration_ms > 0 for phoneme in timed)
+
+
+def test_manual_phoneme_timing_rejects_gaps_and_unanchored_vowels():
+    from openace.core.models import Phoneme
+
+    gap_note = Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你")
+    gap_note.phonemes = [
+        Phoneme(symbol="n", start_ms=-45, duration_ms=35, is_vowel=False),
+        Phoneme(symbol="i", start_ms=0, duration_ms=100, is_vowel=True),
+    ]
+    with pytest.raises(PhonemeError, match="contiguous"):
+        ensure_note_phonemes(gap_note, "zh")
+
+    shifted_note = Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你")
+    shifted_note.phonemes = [Phoneme(symbol="i", start_ms=5, duration_ms=100, is_vowel=True)]
+    with pytest.raises(PhonemeError, match="beat anchor"):
+        ensure_note_phonemes(shifted_note, "zh")

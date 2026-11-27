@@ -284,3 +284,19 @@ Manual note phonemes can now be edited from the piano-roll context menu as space
 ## Iteration 14 — cross-track clipboard regression proof
 
 Real-browser regression now proves note clipboard state survives switching to a newly created vocal track and pastes the copied note into that track. This closes the cross-track clipboard gap; large-project sustained-performance profiling remains open.
+
+## Iteration 15 — draggable beat-anchored phoneme boundaries
+
+Implemented and verified:
+
+- Phoneme lane rendering now positions segments by real `start_ms`/`duration_ms` relative to the beat-anchored note start, including negative pre-vowel consonants, and scales with the shared piano-roll zoom.
+- Internal boundaries, first-consonant onset, and final end expose visible drag handles. The first-vowel 0ms anchor is locked; drags move contiguous neighbor boundaries transactionally with positive-duration constraints and a live millisecond readout.
+- Backend validation rejects positive/nonpositive durations, gaps, overlaps, and first-vowel starts not anchored at 0ms. Generated timing now caps multi-coda allocation so short notes still end exactly at note duration rather than overrunning it.
+- `tests/test_acoustic_invariants.py` covers invalid manual timing and short multi-coda exact end timing; `tests/test_piano_roll_e2e.py` drags a real English `sing` vowel/coda boundary in Chrome, verifies backend contiguity/persistence, and verifies Ctrl+Z restoration.
+
+Browser QA evidence:
+
+- The first independent QA run exposed a stale-backend false positive (`s/ŋ/ɪ` ordering from an old server process). After restarting from the current working tree, focused visible-Chrome QA in `artifacts/e2e_screenshots/phoneme_boundaries_qa/` passed: correct `s(-45,45), ɪ(0,1055), ŋ(1055,70)` layout, internal/onset/end dragging, persistence, exact undo/redo, col-resize hit zones, no accidental breath creation, and no console errors.
+- Key evidence: `rerun_01_phonemes_before.png`, `rerun_05_after_three_drags.png`, `PHONEME_BOUNDARIES_RERUN_REPORT.md`, and `phoneme_rerun_results.json`.
+
+Validation after iteration 15: frontend production build passed; full automated suite reached 39 passed.

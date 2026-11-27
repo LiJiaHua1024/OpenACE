@@ -162,6 +162,44 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
             first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
             assert first["phonemes"][0]["symbol"] == "n"
 
+            # Phoneme boundaries are draggable in the Breath & Phoneme lane while preserving contiguity.
+            track_id = project["tracks"][0]["id"]
+            project["tracks"][0]["language"] = "en"
+            httpx.put(f"{base}/api/projects/{project_id}", json=project).raise_for_status()
+            response = httpx.patch(f"{base}/api/projects/{project_id}/tracks/{track_id}/notes/{first['id']}", json={"lyric": "sing", "phonemes": []})
+            assert response.status_code == 200, response.text
+            page.wait_for_timeout(600)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert [item["symbol"] for item in first["phonemes"]] == ["s", "ɪ", "ŋ"]
+            page.locator('button', has_text="Breath & Phoneme").click()
+            page.wait_for_timeout(250)
+            automation_box = page.locator(".automation-canvas-wrap canvas").bounding_box()
+            assert automation_box
+            duration_ms = first["duration_ticks"] * 60000 / project["bpm"] / project["ppq"]
+            note_x = 64 + (first["start_ticks"] / project["ppq"]) * 112
+            note_w = (first["duration_ticks"] / project["ppq"]) * 112
+            px_per_ms = note_w / duration_ms
+            vowel = first["phonemes"][1]
+            original_boundary = vowel["start_ms"] + vowel["duration_ms"]
+            boundary_x = automation_box["x"] + note_x + original_boundary * px_per_ms
+            boundary_y = automation_box["y"] + 95
+            page.mouse.move(boundary_x, boundary_y)
+            page.mouse.down()
+            page.mouse.move(boundary_x + 10, boundary_y, steps=4)
+            page.mouse.up()
+            page.wait_for_timeout(750)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            moved_vowel, moved_coda = first["phonemes"][1], first["phonemes"][2]
+            assert moved_coda["start_ms"] > original_boundary + 20
+            assert abs(moved_vowel["start_ms"] + moved_vowel["duration_ms"] - moved_coda["start_ms"]) < 0.8
+            page.keyboard.press("Control+z")
+            page.wait_for_timeout(750)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert abs(first["phonemes"][2]["start_ms"] - original_boundary) < 0.8
+
             # Per-note pitch handles are created and dragged directly on the note body.
             page.locator('button[title^="Per-note pitch handles"]').click()
             page.mouse.move(box["x"] + 170, box["y"] + 322)
