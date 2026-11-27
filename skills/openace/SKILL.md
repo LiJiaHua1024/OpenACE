@@ -46,6 +46,7 @@ openace-tool upsert-clip <project-id> <track-id> '{"path":"/path/audio.wav","sta
 openace-tool set-tempo <project-id> --bpm 120 --points-json '[{"ticks":960,"bpm":60}]'
 openace-tool assign-voice <project-id> <track-id> <voice-id> --reference-voice /path/reference.wav
 openace-tool duplicate-project <project-id> --title "Copy"
+openace-tool organize-project <project-id> --pinned true --tags "lead,draft"
 openace-tool delete-project <project-id>
 openace-tool import-audio vocal.wav --title "Imported Vocal"
 openace-tool import-midi input.mid --title "Imported Song"
@@ -73,4 +74,4 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, separation, conversion, repaint, and export.
+Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `organize_project`, `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, separation, conversion, repaint, and export.

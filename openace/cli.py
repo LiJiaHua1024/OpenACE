@@ -12,7 +12,7 @@ from openace.core import editing
 from openace.core.models import Note, RenderMode, Track, new_id
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
-from openace.core.project_store import ProjectStore
+from openace.core.project_store import ProjectStore, normalize_project_tags
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_master_wav
 from openace.importers.audio import project_from_audio
@@ -97,8 +97,24 @@ def cmd_duplicate_project(args) -> None:
     duplicate = type(source).model_validate(source.model_dump())
     duplicate.id = new_id("project")
     duplicate.title = args.title or f"{source.title} Copy"
+    duplicate.metadata = dict(source.metadata or {})
+    duplicate.metadata["pinned"] = False
     save_and_notify(store, duplicate)
     emit(duplicate.model_dump(mode="json"))
+
+
+def cmd_organize_project(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    metadata = dict(project.metadata or {})
+    if args.pinned is not None:
+        metadata["pinned"] = args.pinned == "true"
+    if args.tags is not None:
+        metadata["tags"] = normalize_project_tags(args.tags.split(","))
+    project.metadata = metadata
+    project.save(store.path_for(project.id))
+    notify_web(project)
+    emit(project.model_dump(mode="json"))
 
 
 def cmd_delete_project(args) -> None:
@@ -337,6 +353,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("project")
     p.add_argument("--title")
     p.set_defaults(func=cmd_duplicate_project)
+
+    p = sub.add_parser("organize-project")
+    p.add_argument("project")
+    p.add_argument("--pinned", choices=["true", "false"])
+    p.add_argument("--tags", help="comma-separated project tags")
+    p.set_defaults(func=cmd_organize_project)
 
     p = sub.add_parser("delete-project")
     p.add_argument("project")

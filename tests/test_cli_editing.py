@@ -83,3 +83,17 @@ def test_cli_project_duplicate_and_delete_roundtrip(tmp_path):
     store = ProjectStore(tmp_path / "projects")
     assert not store.path_for(duplicate["id"]).exists()
     assert store.path_for(project["id"]).exists()
+
+
+def test_cli_project_organization_and_duplicate_unpinned(tmp_path):
+    project = run_cli(tmp_path, "create-project", "--title", "Organize CLI")
+    organized = run_cli(tmp_path, "organize-project", project["id"], "--pinned", "true", "--tags", "lead, lead, draft")
+    assert organized["metadata"]["pinned"] is True
+    assert organized["metadata"]["tags"] == ["lead", "draft"]
+    listing = ProjectStore(tmp_path / "projects").list()
+    assert listing[0]["id"] == project["id"]
+    assert listing[0]["pinned"] is True
+    assert listing[0]["tags"] == ["lead", "draft"]
+    duplicate = run_cli(tmp_path, "duplicate-project", project["id"])
+    assert duplicate["metadata"]["tags"] == ["lead", "draft"]
+    assert duplicate["metadata"]["pinned"] is False

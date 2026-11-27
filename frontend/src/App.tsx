@@ -81,7 +81,7 @@ export default function App() {
   const [timeline, setTimeline] = useState<TimelineState>({ scrollTicks: 0, pxPerBeat: 112 })
   const [repaintRange, setRepaintRange] = useState({ start: 0, end: 0 })
   const [jobs, setJobs] = useState<RenderJob[]>([])
-  const [projectList, setProjectList] = useState<{ id: string; title: string; bpm?: number; track_count?: number; updated_at?: number }[]>([])
+  const [projectList, setProjectList] = useState<{ id: string; title: string; bpm?: number; track_count?: number; updated_at?: number; pinned?: boolean; tags?: string[] }[]>([])
   const [past, setPast] = useState<Project[]>([])
   const [future, setFuture] = useState<Project[]>([])
   const [error, setError] = useState('')
@@ -142,10 +142,20 @@ export default function App() {
         const incoming = data.payload?.project
         if (incoming) {
           setProjectList(current => {
-            const summary = { id: incoming.id, title: incoming.title }
-            return current.some(item => item.id === incoming.id)
+            const metadata = incoming.metadata || {}
+            const summary = {
+              id: incoming.id,
+              title: incoming.title,
+              bpm: incoming.bpm,
+              track_count: incoming.tracks?.length,
+              updated_at: incoming.updated_at,
+              pinned: Boolean(metadata.pinned),
+              tags: Array.isArray(metadata.tags) ? metadata.tags : [],
+            }
+            const next = current.some(item => item.id === incoming.id)
               ? current.map(item => item.id === incoming.id ? summary : item)
               : [summary, ...current]
+            return [...next].sort((a, b) => Number(Boolean(b.pinned)) - Number(Boolean(a.pinned)) || (b.updated_at || 0) - (a.updated_at || 0))
           })
         }
         if (incoming && projectRef.current && incoming.id === projectRef.current.id && incoming.updated_at > projectRef.current.updated_at) {
@@ -304,6 +314,15 @@ export default function App() {
       setPlayheadTicks(0); setPast([]); setFuture([])
     } catch (e: any) { setError(e.message || String(e)) }
   }, [projectList, setProjectRef])
+
+  const updateProjectOrganization = useCallback(async (projectId: string, patch: { pinned?: boolean; tags?: string[] }) => {
+    try {
+      const updated = await api.updateProjectOrganization(projectId, patch)
+      setProjectList(await api.listProjects())
+      const current = projectRef.current
+      if (current?.id === projectId) setProjectRef({ ...current, metadata: updated.metadata || {} })
+    } catch (e: any) { setError(e.message || String(e)) }
+  }, [setProjectRef])
 
   const selectedTrack = project?.tracks.find(t => t.id === selectedTrackId) || project?.tracks[0]
 
@@ -593,6 +612,7 @@ export default function App() {
         onNewProject={createNewProject}
         onDuplicateProject={duplicateProjectById}
         onDeleteProject={deleteProjectById}
+        onUpdateProjectOrganization={updateProjectOrganization}
         onImportMidi={file => void handleImportedProject(importMidi(file))}
         onImportUstx={file => void handleImportedProject(importUstx(file))}
         onImportAudio={handleImportAudio}

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { Project } from '../types'
 import { beatUnitTicks, ticksToSeconds } from '../tempo'
 
-interface ProjectSummary { id: string; title: string; bpm?: number; track_count?: number; updated_at?: number }
+interface ProjectSummary { id: string; title: string; bpm?: number; track_count?: number; updated_at?: number; pinned?: boolean; tags?: string[] }
 interface Props {
   project: Project
   projects: ProjectSummary[]
@@ -26,6 +26,7 @@ interface Props {
   onNewProject(): void
   onDuplicateProject(projectId?: string): void
   onDeleteProject(projectId?: string): void
+  onUpdateProjectOrganization(projectId: string, patch: { pinned?: boolean; tags?: string[] }): void
 }
 
 function formatTime(project: Project, ticks: number) {
@@ -38,6 +39,7 @@ function formatTime(project: Project, ticks: number) {
 export default function TransportBar(props: Props) {
   const [managerOpen, setManagerOpen] = useState(false)
   const [search, setSearch] = useState('')
+  const [tagEditor, setTagEditor] = useState<{ projectId: string; value: string } | null>(null)
   const unitTicks = beatUnitTicks(props.project)
   const numerator = props.project.time_signature.numerator
   const bars = Math.floor(props.playheadTicks / (unitTicks * numerator)) + 1
@@ -59,15 +61,41 @@ export default function TransportBar(props: Props) {
           <input className="project-manager-search" autoFocus placeholder="Search projects…" value={search} onChange={event => setSearch(event.target.value)} />
           <div className="project-manager-list">
             {props.projects
-              .filter(item => !search.trim() || item.title.toLowerCase().includes(search.trim().toLowerCase()))
+              .filter(item => {
+                const query = search.trim().toLowerCase()
+                return !query || item.title.toLowerCase().includes(query) || (item.tags || []).some(tag => tag.toLowerCase().includes(query))
+              })
               .map(item => (
                 <div className={`project-manager-row ${item.id === props.project.id ? 'current' : ''}`} key={item.id}>
                   <button className="project-open-button" onClick={() => { props.onOpenProject(item.id); setManagerOpen(false) }}>
-                    <strong>{item.title}</strong>
-                    <span>{item.updated_at ? new Date(item.updated_at * 1000).toLocaleDateString() : 'recent'} · {item.track_count ?? '?'} tracks · {item.bpm ?? props.project.bpm} BPM</span>
+                    <strong>{item.pinned ? '★ ' : ''}{item.title}</strong>
+                    <span>{item.updated_at ? new Date(item.updated_at * 1000).toLocaleDateString() : 'recent'} · {item.track_count ?? '?'} tracks · {item.bpm ?? props.project.bpm} BPM{(item.tags || []).length ? ' · ' + (item.tags || []).map(tag => `#${tag}`).join(' ') : ''}</span>
                   </button>
+                  <button className={item.pinned ? 'pin active' : 'pin'} title={item.pinned ? 'Unpin project' : 'Pin project'} onClick={() => props.onUpdateProjectOrganization(item.id, { pinned: !item.pinned })}>{item.pinned ? '★' : '☆'}</button>
+                  <button className={tagEditor?.projectId === item.id ? 'active' : ''} title="Edit tags" onClick={() => setTagEditor(tagEditor?.projectId === item.id ? null : { projectId: item.id, value: (item.tags || []).join(', ') })}>Tags</button>
                   <button onClick={() => { props.onDuplicateProject(item.id); setManagerOpen(false) }}>Copy</button>
                   <button className="danger" onClick={() => props.onDeleteProject(item.id)}>Delete</button>
+                  {tagEditor?.projectId === item.id && (
+                    <div className="project-tag-editor">
+                      <input
+                        autoFocus
+                        value={tagEditor.value}
+                        placeholder="comma-separated tags"
+                        onChange={event => setTagEditor({ projectId: item.id, value: event.target.value })}
+                        onKeyDown={event => {
+                          if (event.key === 'Escape') setTagEditor(null)
+                          if (event.key === 'Enter') {
+                            props.onUpdateProjectOrganization(item.id, { tags: tagEditor.value.split(',').map(tag => tag.trim()).filter(Boolean) })
+                            setTagEditor(null)
+                          }
+                        }}
+                      />
+                      <button onClick={() => {
+                        props.onUpdateProjectOrganization(item.id, { tags: tagEditor.value.split(',').map(tag => tag.trim()).filter(Boolean) })
+                        setTagEditor(null)
+                      }}>Save</button>
+                    </div>
+                  )}
                 </div>
               ))}
             {!props.projects.length && <div className="empty-state">No projects</div>}

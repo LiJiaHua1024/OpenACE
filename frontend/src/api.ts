@@ -21,6 +21,7 @@ export const api = {
   saveProject: (project: Project) => request<Project>(`/api/projects/${project.id}`, json({ method: 'PUT', body: JSON.stringify(project) })),
   duplicateProject: (projectId: string) => request<Project>(`/api/projects/${projectId}/duplicate`, json({ method: 'POST' })),
   deleteProject: (projectId: string) => request<any>(`/api/projects/${projectId}`, { method: 'DELETE' }),
+  updateProjectOrganization: (projectId: string, patch: { pinned?: boolean; tags?: string[] }) => request<Project>(`/api/projects/${projectId}/organization`, json({ method: 'PATCH', body: JSON.stringify(patch) })),
   addTrack: (projectId: string, payload: object) => request<Track>(`/api/projects/${projectId}/tracks`, json({ method: 'POST', body: JSON.stringify(payload) })),
   addNote: (projectId: string, trackId: string, note: Partial<Note>) => request<Note>(`/api/projects/${projectId}/tracks/${trackId}/notes`, json({ method: 'POST', body: JSON.stringify(note) })),
   updateNote: (projectId: string, trackId: string, noteId: string, patch: Partial<Note>) => request<Note>(`/api/projects/${projectId}/tracks/${trackId}/notes/${noteId}`, json({ method: 'PATCH', body: JSON.stringify(patch) })),

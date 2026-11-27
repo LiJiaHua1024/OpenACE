@@ -5,13 +5,13 @@ import asyncio
 import json
 import os
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 from openace.core import editing
 from openace.core.models import Note, RenderMode, Track, new_id
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
-from openace.core.project_store import ProjectStore
+from openace.core.project_store import ProjectStore, normalize_project_tags
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.importers.audio import project_from_audio
@@ -82,9 +82,24 @@ def duplicate_project(project_id: str, title: Optional[str] = None) -> str:
     duplicate = type(source).model_validate(source.model_dump())
     duplicate.id = new_id("project")
     duplicate.title = title or f"{source.title} Copy"
+    duplicate.metadata = dict(source.metadata or {})
+    duplicate.metadata["pinned"] = False
     store.save(duplicate)
     notify_web(duplicate)
     return dumps(duplicate.model_dump(mode="json"))
+
+
+def organize_project(project_id: str, pinned: Optional[bool] = None, tags: Optional[List[str]] = None) -> str:
+    project = store.get(project_id)
+    metadata = dict(project.metadata or {})
+    if pinned is not None:
+        metadata["pinned"] = bool(pinned)
+    if tags is not None:
+        metadata["tags"] = normalize_project_tags(tags)
+    project.metadata = metadata
+    project.save(store.path_for(project.id))
+    notify_web(project)
+    return dumps(project.model_dump(mode="json"))
 
 
 def delete_project(project_id: str) -> str:
@@ -279,6 +294,7 @@ def build_mcp_server():
     mcp.tool()(list_projects)
     mcp.tool()(get_project)
     mcp.tool()(duplicate_project)
+    mcp.tool()(organize_project)
     mcp.tool()(delete_project)
     mcp.tool()(add_track)
     mcp.tool()(add_note)

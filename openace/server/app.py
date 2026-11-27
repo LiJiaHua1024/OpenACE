@@ -19,7 +19,7 @@ from pydantic import BaseModel
 
 from openace.core.models import AudioClip, Note, Project, RenderMode, Track, TrackType, new_id
 from openace.core.phonemes import PhonemeError, ensure_note_phonemes, timed_phonemes, tokens_from_symbols
-from openace.core.project_store import ProjectStore
+from openace.core.project_store import ProjectStore, normalize_project_tags
 from openace.core.voice_library import VoiceLibrary
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_lyrics_video, export_master_wav
@@ -78,6 +78,11 @@ async def recover_interrupted_render_jobs():
 
 class CreateProjectRequest(BaseModel):
     title: str = "Untitled OpenACE Project"
+
+
+class ProjectOrganizationRequest(BaseModel):
+    pinned: Optional[bool] = None
+    tags: Optional[List[str]] = None
 
 
 class CreateTrackRequest(BaseModel):
@@ -207,6 +212,23 @@ def update_project(project_id: str, payload: Dict[str, Any]):
     return project.model_dump(mode="json")
 
 
+@app.patch("/api/projects/{project_id}/organization")
+def update_project_organization(project_id: str, request: ProjectOrganizationRequest):
+    try:
+        project = store.get(project_id)
+    except KeyError as exc:
+        raise HTTPException(404, "project not found") from exc
+    metadata = dict(project.metadata or {})
+    if request.pinned is not None:
+        metadata["pinned"] = bool(request.pinned)
+    if request.tags is not None:
+        metadata["tags"] = normalize_project_tags(request.tags)
+    project.metadata = metadata
+    project.save(store.path_for(project.id))
+    publish_project(project)
+    return project.model_dump(mode="json")
+
+
 @app.post("/api/projects/{project_id}/duplicate")
 def duplicate_project(project_id: str):
     try:
@@ -216,6 +238,8 @@ def duplicate_project(project_id: str):
     duplicate = Project.model_validate(source.model_dump())
     duplicate.id = new_id("project")
     duplicate.title = f"{source.title} Copy"
+    duplicate.metadata = dict(source.metadata or {})
+    duplicate.metadata["pinned"] = False
     duplicate.touch()
     store.save(duplicate)
     publish_project(duplicate)

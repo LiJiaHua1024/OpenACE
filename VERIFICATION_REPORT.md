@@ -850,3 +850,14 @@ Implemented and verified:
 - Visible-Chrome QA verified correct large-project sticky rendering and seek behavior, bottom-lane orientation names, unchanged small-project height/no-scroll behavior, preserved Ctrl/Shift/plain wheel isolation, clean layout, and zero console/network failures. Evidence: `artifacts/e2e_screenshots/sticky_arrangement_ruler/`.
 
 Validation after iteration 61: frontend production build passed; browser QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green.
+
+## Iteration 62 — project pinning and tag organization
+
+Implemented and verified:
+
+- Project metadata now supports persistent pinned state and normalized lightweight tags (comma-entry friendly, deduplicated, max 12, 32 characters per tag). Project lists sort pinned projects first, then newest `updated_at`; organization edits intentionally do not rewrite project modification time.
+- FastAPI exposes `PATCH /api/projects/{id}/organization`; CLI exposes `organize-project`; MCP exposes `organize_project`. All three write through the same normalized metadata semantics and publish SSE updates. Duplicates retain tags but are intentionally unpinned.
+- The Projects popover now shows pin state/tags, supports pin/unpin, inline comma-separated tag editing with Enter/Save/Escape, title-or-tag search isolation, and preserves open/copy/delete/current-delete fallback behavior.
+- Independent visible-Chrome QA verified three-project ordering, pin/unpin reordering, normalization/max-12/32-character rules, reload and SSE persistence, search isolation, duplicate semantics, normal project operations, exact 1272×837 layout without overflow, and zero console/unexpected network failures. Evidence: `artifacts/e2e_screenshots/project_pin_tags/`.
+
+Validation after iteration 62: frontend production build passed; targeted API/CLI/MCP tests passed; browser QA passed; full automated suite passed with 116 tests collected.
