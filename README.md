@@ -94,7 +94,7 @@ The MCP tools mirror the atomic CLI: create projects/tracks/notes, transpose wit
 
 - `openace/core` — project model, timing, phonemes, pitch/F0 invariants, loudness, diagnostics
 - `openace/engines` — SoulX-Singer, ACE-Step, VRAM scheduling, model bootstrap, explicit CI fixture
-- `openace/server` — FastAPI app, render jobs, SSE
+- `openace/server` — FastAPI app, durable auto-requeued render jobs, SSE
 - `openace/exporters` / `openace/importers` — DAW/project/audio interoperability
 - `frontend` — professional dark workstation UI
 - `scripts` — one-command model bootstrap and real GPU verification

@@ -72,19 +72,69 @@ def test_acestep_vocal2bgm_uses_complete_task_not_cover():
     assert '"task_type": "cover"' not in vocal_fn
 
 
-def test_render_jobs_persist_and_interrupted_jobs_recover(tmp_path, monkeypatch):
+def test_render_jobs_persist_and_interrupted_vocal_job_requeues(tmp_path, monkeypatch):
     monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
     store = ProjectStore(tmp_path / "projects")
     project = store.create("durable")
+    track = project.tracks[0]
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    store.save(project)
     service = RenderService(store, tmp_path / "renders")
-    job = service.create_job(project.id, RenderMode.SVS_SCORE, project.tracks[0].id)
+    job = service.create_job(project.id, RenderMode.SVS_SCORE, track.id)
+    service.jobs[job.id].status = RenderJobStatus.RUNNING
+    service._publish_job(service.jobs[job.id])
+
+    recovered_service = RenderService(store, tmp_path / "renders")
+    recovered = recovered_service.recover_interrupted_jobs()
+    assert [item.id for item in recovered] == [job.id]
+    assert recovered_service.jobs[job.id].status == RenderJobStatus.QUEUED
+    assert recovered_service.jobs[job.id].message == "requeued after backend restart"
+    assert recovered_service.recover_interrupted_jobs() == []
+    result = asyncio.run(recovered_service.recovery_coro(recovered[0]))
+    assert result.status == RenderJobStatus.COMPLETED
+    assert Path(result.output_path).exists()
+
+
+def test_unrecoverable_interrupted_music_job_fails_loudly(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("legacy-durable")
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(project.id, RenderMode.VOCAL2BGM)
     service.jobs[job.id].status = RenderJobStatus.RUNNING
     service._publish_job(service.jobs[job.id])
 
     recovered = RenderService(store, tmp_path / "renders")
-    assert job.id in recovered.jobs
+    assert recovered.recover_interrupted_jobs() == []
     assert recovered.jobs[job.id].status == RenderJobStatus.FAILED
     assert "backend restarted" in recovered.jobs[job.id].error
+    assert "automatic requeue" in recovered.jobs[job.id].error
+
+
+def test_music_job_recovery_parameters_are_durable(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("music-durable")
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(
+        project.id,
+        RenderMode.REPAINT,
+        source_audio="/tmp/source.wav",
+        caption="warmer drums",
+        start_s=1.25,
+        end_s=2.5,
+    )
+    service.jobs[job.id].status = RenderJobStatus.RUNNING
+    service._publish_job(service.jobs[job.id])
+
+    recovered_service = RenderService(store, tmp_path / "renders")
+    recovered = recovered_service.recover_interrupted_jobs()
+    assert [item.id for item in recovered] == [job.id]
+    restored = recovered[0]
+    assert restored.source_audio == "/tmp/source.wav"
+    assert restored.caption == "warmer drums"
+    assert restored.start_s == 1.25
+    assert restored.end_s == 2.5
 
 
 def test_air_automation_postprocesses_fixture_render(monkeypatch, tmp_path):

@@ -220,7 +220,7 @@ Validation after iteration 5: frontend production build passed; Python compile p
 
 ## Iteration 6 — durable render-job recovery
 
-`RenderService` now atomically persists job records in `data/renders/jobs.json` on every state publication. A restarted service reloads completed/failed history and converts previously queued/running jobs into explicit failures with `backend restarted before job completion`, avoiding silent loss or misleading perpetual-running state. Regression coverage constructs a running job, recreates the service, and verifies the recovered failed state.
+`RenderService` atomically persists job records in `data/renders/jobs.json` on every state publication. Iteration 6 initially converted interrupted queued/running jobs into explicit failures to avoid silent loss or misleading perpetual-running state. Iteration 21 supersedes that fallback with automatic requeue for jobs whose original inputs are durable; legacy jobs missing required inputs still fail loudly.
 
 ## Iteration 7 — phoneme placeholder validation enforcement
 
@@ -385,3 +385,15 @@ Performance evidence:
 - Key evidence: `dense_project_dpr2.png`, `performance_metrics.json`, `01_sparse_initial.png`, `14_dense_playhead_late.png`, `PIANO_PERFORMANCE_QA_REPORT.md`, and `piano_performance_results.json`.
 
 Validation after iteration 20: frontend production build passed; performance regression passed; full automated suite reached 50 passed.
+
+## Iteration 21 — automatic render-job requeue after restart
+
+Implemented and verified:
+
+- `RenderJob` now durably stores source audio, reference voice, caption, and repaint interval inputs required to reconstruct music/SVC work. SVS jobs are recoverable from project/track identity alone.
+- FastAPI startup scans persisted queued/running jobs. Recoverable jobs are reset to `queued`, marked `requeued after backend restart`, and rerun serially through the same render service. Legacy jobs lacking required inputs become explicit failures instead of silently disappearing.
+- CLI, MCP, and HTTP job creation all persist the same recovery inputs.
+- Backend regressions prove: interrupted SVS jobs requeue and complete through `recovery_coro`; repaint source/caption/start/end survive a service restart; unrecoverable legacy music jobs fail loudly; duplicate in-process recovery scans do not schedule the same job twice.
+- End-to-end restart proof launched the real FastAPI service with `OPENACE_CI_SYNTH_FIXTURE=1`, created a project/note/job, killed the backend, restored the job to a simulated power-loss running state in `jobs.json`, restarted the backend on the same data directory, and observed the job automatically complete with real output and diagnostic files. Evidence: `artifacts/e2e_screenshots/render_recovery_proof.json`.
+
+Validation after iteration 21: frontend production build passed; Python compile passed; full automated suite reached 53 passed, including the real FastAPI restart/requeue regression.

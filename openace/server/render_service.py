@@ -4,7 +4,7 @@ import asyncio
 import json
 import time
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 import numpy as np
 import soundfile as sf
@@ -30,6 +30,7 @@ class RenderService:
         self.render_root.mkdir(parents=True, exist_ok=True)
         self.jobs_path = self.render_root / "jobs.json"
         self.jobs: Dict[str, RenderJob] = self._load_jobs()
+        self.recovery_pending: set[str] = set()
         if fixture_enabled():
             self.vocal_engine = FixtureVocalEngine()
             self.music_engine = FixtureMusicEngine()
@@ -54,17 +55,60 @@ class RenderService:
             jobs = {item["id"]: RenderJob.model_validate(item) for item in raw}
         except Exception:
             return {}
-        interrupted = False
-        for job in jobs.values():
-            if job.status in {RenderJobStatus.QUEUED, RenderJobStatus.RUNNING}:
+        return jobs
+
+    def _can_recover(self, job: RenderJob) -> bool:
+        if job.mode == RenderMode.SVS_SCORE:
+            return bool(job.project_id and job.track_id)
+        if job.mode == RenderMode.VOCAL2BGM:
+            return bool(job.source_audio)
+        if job.mode == RenderMode.REPAINT:
+            return bool(job.source_audio) and job.start_s is not None and job.end_s is not None
+        if job.mode == RenderMode.SVC:
+            return bool(job.source_audio and job.reference_voice)
+        return False
+
+    def recover_interrupted_jobs(self) -> List[RenderJob]:
+        """Requeue durable interrupted jobs whose original inputs are recoverable."""
+        recovered: List[RenderJob] = []
+        changed = False
+        for job in self.jobs.values():
+            if job.status not in {RenderJobStatus.QUEUED, RenderJobStatus.RUNNING}:
+                continue
+            changed = True
+            if self._can_recover(job):
+                if job.id in self.recovery_pending:
+                    continue
+                job.status = RenderJobStatus.QUEUED
+                job.progress = 0.0
+                job.error = None
+                job.finished_at = None
+                job.message = "requeued after backend restart"
+                self.recovery_pending.add(job.id)
+                recovered.append(job)
+            else:
                 job.status = RenderJobStatus.FAILED
-                job.error = "backend restarted before job completion"
+                job.error = "backend restarted before job completion and original inputs are unavailable for automatic requeue"
                 job.message = job.error
                 job.finished_at = time.time()
-                interrupted = True
-        if interrupted:
-            self.jobs_path.write_text(json.dumps([job.model_dump(mode="json") for job in jobs.values()], ensure_ascii=False, indent=2), encoding="utf-8")
-        return jobs
+        if changed:
+            self._persist_jobs()
+        return recovered
+
+    def recovery_coro(self, job: RenderJob):
+        if job.mode == RenderMode.SVS_SCORE:
+            return self.run_vocal_render(job.id)
+        if job.mode in {RenderMode.VOCAL2BGM, RenderMode.REPAINT}:
+            return self.run_music_generation(
+                job.id,
+                job.source_audio,
+                job.caption,
+                job.start_s if job.start_s is not None else 0.0,
+                job.end_s if job.end_s is not None else -1.0,
+            )
+        if job.mode == RenderMode.SVC:
+            return self.run_svc(job.id, job.source_audio or "", job.reference_voice or "")
+        raise ValueError(f"unsupported render job mode for recovery: {job.mode}")
 
     def _persist_jobs(self) -> None:
         self.jobs_path.parent.mkdir(parents=True, exist_ok=True)
@@ -83,8 +127,27 @@ class RenderService:
             {"project_id": project.id, "project": project.model_dump(mode="json")},
         )
 
-    def create_job(self, project_id: str, mode: RenderMode, track_id: Optional[str] = None) -> RenderJob:
-        job = RenderJob(project_id=project_id, track_id=track_id, mode=mode)
+    def create_job(
+        self,
+        project_id: str,
+        mode: RenderMode,
+        track_id: Optional[str] = None,
+        source_audio: Optional[str] = None,
+        reference_voice: Optional[str] = None,
+        caption: str = "",
+        start_s: Optional[float] = None,
+        end_s: Optional[float] = None,
+    ) -> RenderJob:
+        job = RenderJob(
+            project_id=project_id,
+            track_id=track_id,
+            mode=mode,
+            source_audio=source_audio,
+            reference_voice=reference_voice,
+            caption=caption,
+            start_s=start_s,
+            end_s=end_s,
+        )
         job.fixture = self.fixture_mode
         job.engine = self.vocal_engine_name if mode in {RenderMode.SVS_SCORE, RenderMode.SVC} else self.music_engine_name
         self.jobs[job.id] = job

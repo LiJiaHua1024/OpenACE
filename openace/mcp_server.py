@@ -95,19 +95,19 @@ async def render_vocal(project_id: str, track_id: str) -> str:
 
 
 async def vocal2bgm(project_id: str, source_audio: str, caption: str = "professional instrumental accompaniment") -> str:
-    job = render_service.create_job(project_id, RenderMode.VOCAL2BGM)
+    job = render_service.create_job(project_id, RenderMode.VOCAL2BGM, source_audio=source_audio, caption=caption)
     result = await render_service.run_music_generation(job.id, source_audio, caption)
     return dumps(result.model_dump(mode="json"))
 
 
 async def repaint(project_id: str, source_audio: str, start_s: float, end_s: float, caption: str = "") -> str:
-    job = render_service.create_job(project_id, RenderMode.REPAINT)
+    job = render_service.create_job(project_id, RenderMode.REPAINT, source_audio=source_audio, caption=caption, start_s=start_s, end_s=end_s)
     result = await render_service.run_music_generation(job.id, source_audio, caption, start_s, end_s)
     return dumps(result.model_dump(mode="json"))
 
 
 async def svc_convert(project_id: str, source_audio: str, reference_voice: str) -> str:
-    job = render_service.create_job(project_id, RenderMode.SVC)
+    job = render_service.create_job(project_id, RenderMode.SVC, source_audio=source_audio, reference_voice=reference_voice)
     result = await render_service.run_svc(job.id, source_audio, reference_voice)
     return dumps(result.model_dump(mode="json"))
 

@@ -263,6 +263,11 @@ class RenderJob(BaseModel):
     error: Optional[str] = None
     engine: Optional[str] = None
     fixture: bool = False
+    source_audio: Optional[str] = None
+    reference_voice: Optional[str] = None
+    caption: str = ""
+    start_s: Optional[float] = None
+    end_s: Optional[float] = None
 
 
 def project_to_yaml(project: Project) -> str:

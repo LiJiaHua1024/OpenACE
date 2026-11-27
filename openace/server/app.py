@@ -52,6 +52,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.mount("/renders", StaticFiles(directory=str(RENDERS)), name="renders")
+recovery_tasks: set[asyncio.Task] = set()
+
+
+@app.on_event("startup")
+async def recover_interrupted_render_jobs():
+    recovered = render_service.recover_interrupted_jobs()
+
+    async def run_recovered_jobs():
+        for recovered_job in recovered:
+            await render_service.recovery_coro(recovered_job)
+
+    if recovered:
+        task = asyncio.create_task(run_recovered_jobs())
+        recovery_tasks.add(task)
+        task.add_done_callback(recovery_tasks.discard)
 
 
 class CreateProjectRequest(BaseModel):
@@ -262,7 +277,7 @@ async def render_vocal(project_id: str, request: RenderRequest, background: Back
 @app.post("/api/projects/{project_id}/render/vocal2bgm")
 async def render_vocal2bgm(project_id: str, request: RenderRequest, background: BackgroundTasks):
     get_project(project_id)
-    job = render_service.create_job(project_id, RenderMode.VOCAL2BGM, request.track_id)
+    job = render_service.create_job(project_id, RenderMode.VOCAL2BGM, request.track_id, source_audio=request.source_audio, caption=request.caption)
     background.add_task(render_service.run_music_generation, job.id, request.source_audio, request.caption)
     return job.model_dump(mode="json")
 
@@ -270,7 +285,7 @@ async def render_vocal2bgm(project_id: str, request: RenderRequest, background: 
 @app.post("/api/projects/{project_id}/render/repaint")
 async def render_repaint(project_id: str, request: RenderRequest, background: BackgroundTasks):
     get_project(project_id)
-    job = render_service.create_job(project_id, RenderMode.REPAINT, request.track_id)
+    job = render_service.create_job(project_id, RenderMode.REPAINT, request.track_id, source_audio=request.source_audio, caption=request.caption, start_s=request.start_s, end_s=request.end_s)
     background.add_task(render_service.run_music_generation, job.id, request.source_audio, request.caption, request.start_s, request.end_s)
     return job.model_dump(mode="json")
 
@@ -278,7 +293,7 @@ async def render_repaint(project_id: str, request: RenderRequest, background: Ba
 @app.post("/api/projects/{project_id}/render/svc")
 async def render_svc(project_id: str, request: RenderRequest, background: BackgroundTasks):
     get_project(project_id)
-    job = render_service.create_job(project_id, RenderMode.SVC, request.track_id)
+    job = render_service.create_job(project_id, RenderMode.SVC, request.track_id, source_audio=request.source_audio, reference_voice=request.reference_voice)
     background.add_task(render_service.run_svc, job.id, request.source_audio, request.reference_voice)
     return job.model_dump(mode="json")
 

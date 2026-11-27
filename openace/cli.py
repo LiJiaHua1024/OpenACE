@@ -100,19 +100,19 @@ def cmd_render_vocal(args) -> None:
 
 def cmd_vocal2bgm(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.VOCAL2BGM, args.track)
+    job = service.create_job(args.project, RenderMode.VOCAL2BGM, args.track, source_audio=args.source_audio, caption=args.caption)
     emit(asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption)).model_dump(mode="json"))
 
 
 def cmd_repaint(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.REPAINT, args.track)
+    job = service.create_job(args.project, RenderMode.REPAINT, args.track, source_audio=args.source_audio, caption=args.caption, start_s=args.start, end_s=args.end)
     emit(asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption, args.start, args.end)).model_dump(mode="json"))
 
 
 def cmd_svc(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.SVC, args.track)
+    job = service.create_job(args.project, RenderMode.SVC, args.track, source_audio=args.source_audio, reference_voice=args.reference_voice)
     emit(asyncio.run(service.run_svc(job.id, args.source_audio, args.reference_voice)).model_dump(mode="json"))
 
 
