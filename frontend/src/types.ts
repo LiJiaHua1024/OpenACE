@@ -149,7 +149,7 @@ export interface RenderJob {
   project_id: string
   track_id?: string | null
   mode: string
-  status: 'queued' | 'running' | 'completed' | 'failed'
+  status: 'queued' | 'running' | 'completed' | 'failed' | 'canceled'
   progress: number
   message: string
   output_path?: string | null

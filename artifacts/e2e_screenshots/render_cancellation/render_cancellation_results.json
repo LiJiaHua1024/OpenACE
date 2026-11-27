@@ -1,0 +1,84 @@
+{
+  "console": [],
+  "network": [],
+  "initial_jobs": [
+    {
+      "id": "job_a489da5512f2",
+      "status": "queued",
+      "mode": "svs_score"
+    },
+    {
+      "id": "job_0ee295118adb",
+      "status": "running",
+      "mode": "svs_score"
+    }
+  ],
+  "queued_cancel_seconds": 0.5450692176818848,
+  "after_queued_cancel": [
+    {
+      "id": "job_a489da5512f2",
+      "status": "canceled"
+    },
+    {
+      "id": "job_0ee295118adb",
+      "status": "running"
+    }
+  ],
+  "queued_button_count": 0,
+  "running_cancel_seconds": 0.5323150157928467,
+  "after_running_cancel": [
+    {
+      "id": "job_a489da5512f2",
+      "status": "canceled",
+      "output_path": null
+    },
+    {
+      "id": "job_0ee295118adb",
+      "status": "canceled",
+      "output_path": null
+    }
+  ],
+  "third_wait_seconds": 9.920859813690186,
+  "final_jobs": [
+    {
+      "id": "job_9f3a80571736",
+      "status": "completed",
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4500a939b5da/job_9f3a80571736/vocal.wav",
+      "error": null
+    },
+    {
+      "id": "job_a489da5512f2",
+      "status": "canceled",
+      "output_path": null,
+      "error": null
+    },
+    {
+      "id": "job_0ee295118adb",
+      "status": "canceled",
+      "output_path": null,
+      "error": null
+    }
+  ],
+  "reload_statuses": [
+    "completed",
+    "canceled",
+    "canceled"
+  ],
+  "cancel_buttons_after_complete": 0,
+  "repeat_cancel_api": {
+    "result": null,
+    "error": [
+      409,
+      "{\"detail\":\"cannot cancel render job in state completed\"}"
+    ]
+  },
+  "final_track_render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4500a939b5da/job_9f3a80571736/vocal.wav",
+  "cli_cancel_help": true,
+  "cancel_no_track_adoption_retest": {
+    "before": "/home/ubuntu/repos/OpenACE/data/renders/project_4500a939b5da/job_9f3a80571736/vocal.wav",
+    "after": "/home/ubuntu/repos/OpenACE/data/renders/project_4500a939b5da/job_9f3a80571736/vocal.wav",
+    "unchanged": true,
+    "latest_status": "canceled",
+    "latest_output": null
+  }
+}

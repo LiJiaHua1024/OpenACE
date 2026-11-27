@@ -242,6 +242,38 @@ def cmd_svc(args) -> None:
     emit(result.model_dump(mode="json"))
 
 
+def server_cancel_job(job_id: str) -> dict | None:
+    try:
+        import urllib.request
+
+        request = urllib.request.Request(f"http://127.0.0.1:8787/api/jobs/{job_id}/cancel", data=b"{}", headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(request, timeout=1.0) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except Exception as exc:
+        import urllib.error
+        if isinstance(exc, urllib.error.HTTPError):
+            try:
+                detail = json.loads(exc.read().decode("utf-8")).get("detail", exc.reason)
+            except Exception:
+                detail = exc.reason
+            raise SystemExit(f"server cancel failed ({exc.code}): {detail}") from exc
+        return None
+
+
+def cmd_cancel_render_job(args) -> None:
+    server_result = server_cancel_job(args.job)
+    if server_result is not None:
+        emit(server_result)
+        return
+    _, service = services()
+    job = service.jobs.get(args.job)
+    if job is None:
+        raise SystemExit(f"render job not found: {args.job}")
+    if job.status.value == "running":
+        raise SystemExit("running render job is owned by another live process; cancel it through the OpenACE server API/UI so the engine subprocess can be terminated")
+    emit(service.cancel_job(args.job).model_dump(mode="json"))
+
+
 def cmd_export(args) -> None:
     store, _ = services()
     project = store.get(args.project)
@@ -472,6 +504,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("reference_voice")
     p.add_argument("--track", default=None)
     p.set_defaults(func=cmd_svc)
+
+    p = sub.add_parser("cancel-render-job")
+    p.add_argument("job")
+    p.set_defaults(func=cmd_cancel_render_job)
 
     p = sub.add_parser("batch-add-notes")
     p.add_argument("project"); p.add_argument("track"); p.add_argument("notes_json")

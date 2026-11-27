@@ -18,6 +18,14 @@ from openace.core.pitch import midi_to_hz, note_expression_cents
 from openace.core.timing import validate_absolute_beat_anchor
 
 from .base import EngineUnavailable
+from .processes import CancellationToken, run_cancellable
+
+
+def _run_checked(cmd, cancellation, cwd, env, label: str) -> None:
+    result = run_cancellable(cmd, cancellation, cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    if result.returncode != 0:
+        output = (result.stdout or "")[-6000:]
+        raise EngineUnavailable(f"{label} failed with exit code {result.returncode}:\n{output}")
 from .downloader import external_dir
 from .vram import VRAMManager
 
@@ -239,7 +247,7 @@ class SoulXSingerEngine:
             )
         return path
 
-    def preprocess_reference(self, reference_voice: Path, work_dir: Path, language: str = "Mandarin") -> Path:
+    def preprocess_reference(self, reference_voice: Path, work_dir: Path, language: str = "Mandarin", cancellation: Optional[CancellationToken] = None) -> Path:
         work_dir.mkdir(parents=True, exist_ok=True)
         canonical_language = _canonical_language(language)
         cmd = [
@@ -263,13 +271,13 @@ class SoulXSingerEngine:
         ]
         env = os.environ.copy()
         env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
-        subprocess.run(cmd, cwd=self.repo, env=env, check=True)
+        _run_checked(cmd, cancellation, self.repo, env, "SoulX reference preprocessing")
         metadata_path = work_dir / "metadata.json"
         if not metadata_path.exists():
             raise EngineUnavailable(f"preprocess did not produce expected metadata: {metadata_path}")
         return metadata_path
 
-    def render_score(self, project: Project, track: Track, output_path: Path, reference_voice: Optional[Path] = None) -> Path:
+    def render_score(self, project: Project, track: Track, output_path: Path, reference_voice: Optional[Path] = None, cancellation: Optional[CancellationToken] = None) -> Path:
         self._require()
         model = self._model_path(svc=False)
         reference = reference_voice or (Path(track.reference_voice_path) if track.reference_voice_path else None)
@@ -282,7 +290,7 @@ class SoulXSingerEngine:
             tmpdir = Path(tmp)
             target_path = tmpdir / "target.json"
             target_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
-            prompt_meta = self.preprocess_reference(reference, tmpdir / "prompt", track.language)
+            prompt_meta = self.preprocess_reference(reference, tmpdir / "prompt", track.language, cancellation)
             save_dir = tmpdir / "generated"
             env = os.environ.copy()
             env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
@@ -314,14 +322,14 @@ class SoulXSingerEngine:
                 "--fp16",
             ]
             with self.vram.acquire("soulx-singer", estimated_gb=5.5):
-                subprocess.run(cmd, cwd=self.repo, env=env, check=True)
+                _run_checked(cmd, cancellation, self.repo, env, "SoulX-Singer inference")
             generated = save_dir / "generated.wav"
             if not generated.exists():
                 raise EngineUnavailable(f"SoulX-Singer completed without output: {generated}")
             shutil.copyfile(generated, output_path)
         return output_path
 
-    def _extract_f0_with_preprocess(self, audio: Path, work_dir: Path) -> Path:
+    def _extract_f0_with_preprocess(self, audio: Path, work_dir: Path, cancellation: Optional[CancellationToken] = None) -> Path:
         work_dir.mkdir(parents=True, exist_ok=True)
         cmd = [
             sys.executable,
@@ -342,20 +350,20 @@ class SoulXSingerEngine:
         ]
         env = os.environ.copy()
         env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
-        subprocess.run(cmd, cwd=self.repo, env=env, check=True)
+        _run_checked(cmd, cancellation, self.repo, env, "SoulX F0 preprocessing")
         f0 = work_dir / "vocal_f0.npy"
         if not f0.exists():
             raise EngineUnavailable(f"F0 extraction did not produce {f0}")
         return f0
 
-    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path) -> Path:
+    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation: Optional[CancellationToken] = None) -> Path:
         self._require()
         model = self._model_path(svc=True)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="openace-svc-") as tmp:
             tmpdir = Path(tmp)
-            prompt_f0 = self._extract_f0_with_preprocess(reference_voice, tmpdir / "prompt")
-            target_f0 = self._extract_f0_with_preprocess(source_audio, tmpdir / "target")
+            prompt_f0 = self._extract_f0_with_preprocess(reference_voice, tmpdir / "prompt", cancellation)
+            target_f0 = self._extract_f0_with_preprocess(source_audio, tmpdir / "target", cancellation)
             save_dir = tmpdir / "generated"
             env = os.environ.copy()
             env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
@@ -385,7 +393,7 @@ class SoulXSingerEngine:
                 "--fp16",
             ]
             with self.vram.acquire("soulx-singer-svc", estimated_gb=5.5):
-                subprocess.run(cmd, cwd=self.repo, env=env, check=True)
+                _run_checked(cmd, cancellation, self.repo, env, "SoulX-Singer-SVC inference")
             generated = save_dir / "generated.wav"
             if not generated.exists():
                 raise EngineUnavailable(f"SoulX-Singer-SVC completed without output: {generated}")

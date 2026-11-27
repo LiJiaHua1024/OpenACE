@@ -19,6 +19,7 @@ from openace.core.render_fingerprint import vocal_render_input_hash
 from openace.engines.acestep import ACEStepEngine
 from openace.engines.base import EngineUnavailable
 from openace.engines.fixture import FixtureMusicEngine, FixtureVocalEngine, fixture_enabled, fixture_separate_stems
+from openace.engines.processes import CancellationToken, JobCancelled
 from openace.engines.separation import DemucsStemSeparator
 from openace.engines.soulx import SoulXSingerEngine
 from openace.engines.vram import vram_manager
@@ -46,6 +47,7 @@ class RenderService:
         self._job_queue_loop: Optional[asyncio.AbstractEventLoop] = None
         self._queue_worker: Optional[asyncio.Task] = None
         self._enqueued_jobs: set[str] = set()
+        self._cancel_tokens: Dict[str, CancellationToken] = {}
         if fixture_enabled():
             self.vocal_engine = FixtureVocalEngine()
             self.music_engine = FixtureMusicEngine()
@@ -148,6 +150,48 @@ class RenderService:
             {"project_id": project.id, "project": project.model_dump(mode="json")},
         )
 
+    def cancellation_token(self, job_id: str) -> CancellationToken:
+        token = self._cancel_tokens.get(job_id)
+        if token is None:
+            token = CancellationToken()
+            self._cancel_tokens[job_id] = token
+        return token
+
+    def raise_if_cancelled(self, job_id: str) -> None:
+        if self.cancellation_token(job_id).cancelled:
+            raise JobCancelled("render job cancelled")
+
+    def cancel_job(self, job_id: str) -> RenderJob:
+        job = self.jobs.get(job_id)
+        if job is None:
+            raise KeyError(f"render job not found: {job_id}")
+        if job.status == RenderJobStatus.QUEUED:
+            job.status = RenderJobStatus.CANCELED
+            job.progress = 0.0
+            job.message = "cancelled before engine start"
+            job.error = None
+            job.finished_at = time.time()
+            self.cancellation_token(job_id).cancel()
+            self._publish_job(job)
+            return job
+        if job.status == RenderJobStatus.RUNNING:
+            self.cancellation_token(job_id).cancel()
+            job.message = "cancellation requested; terminating engine process"
+            self._publish_job(job)
+            return job
+        raise ValueError(f"cannot cancel render job in state {job.status}")
+
+    def _record_job_exception(self, job: RenderJob, exc: Exception) -> None:
+        if isinstance(exc, JobCancelled) or self.cancellation_token(job.id).cancelled:
+            job.status = RenderJobStatus.CANCELED
+            job.error = None
+            job.message = "cancelled"
+        else:
+            job.status = RenderJobStatus.FAILED
+            job.error = str(exc)
+            job.message = str(exc)
+        job.finished_at = time.time()
+
     def enqueue_job(self, job_id: str) -> None:
         """Serialize server-triggered jobs so heavy engines never contend for VRAM."""
         if job_id not in self.jobs:
@@ -233,7 +277,8 @@ class RenderService:
             outdir = self.output_dir(project.id, job.id)
             wav = outdir / "vocal.wav"
             diagnostic = outdir / "diagnostic.png"
-            await asyncio.to_thread(self.vocal_engine.render_score, project, track, wav)
+            await asyncio.to_thread(self.vocal_engine.render_score, project, track, wav, cancellation=self.cancellation_token(job_id))
+            self.raise_if_cancelled(job_id)
             audio, sr = await asyncio.to_thread(read_audio, wav)
             reference_audio, reference_sr = await asyncio.to_thread(load_reference_audio, track.reference_voice_path)
             audio, breath_result = await asyncio.to_thread(
@@ -291,10 +336,12 @@ class RenderService:
             track.render_path = str(wav)
             track.render_revision += 1
             track.render_fingerprint = vocal_render_input_hash(project, track)
+            self.raise_if_cancelled(job_id)
             self.store.save(project)
             self._publish_project(project)
             job.output_path = str(wav)
             job.diagnostic_path = str(diagnostic)
+            self.raise_if_cancelled(job_id)
             job.status = RenderJobStatus.COMPLETED
             job.progress = 1.0
             if applied_lanes and breath_result.applied:
@@ -309,10 +356,7 @@ class RenderService:
                 job.message = "completed"
             job.finished_at = time.time()
         except Exception as exc:
-            job.status = RenderJobStatus.FAILED
-            job.error = str(exc)
-            job.message = str(exc)
-            job.finished_at = time.time()
+            self._record_job_exception(job, exc)
         self._publish_job(job)
         event_bus.publish("project_updated", {"project_id": job.project_id})
         return job
@@ -331,11 +375,13 @@ class RenderService:
             if job.mode == RenderMode.REPAINT:
                 if not source_audio:
                     raise ValueError("repaint requires source_audio")
-                await asyncio.to_thread(self.music_engine.repaint, Path(source_audio), wav, start_s, end_s, caption)
+                await asyncio.to_thread(self.music_engine.repaint, Path(source_audio), wav, start_s, end_s, caption, cancellation=self.cancellation_token(job_id))
+                self.raise_if_cancelled(job_id)
             else:
                 if not source_audio:
                     raise ValueError("vocal2bgm requires source_audio")
-                await asyncio.to_thread(self.music_engine.vocal_to_bgm, Path(source_audio), wav, caption, duration, project.bpm)
+                await asyncio.to_thread(self.music_engine.vocal_to_bgm, Path(source_audio), wav, caption, duration, project.bpm, cancellation=self.cancellation_token(job_id))
+                self.raise_if_cancelled(job_id)
             audio, sr = await asyncio.to_thread(read_audio, wav)
             duration_ticks = project.seconds_to_ticks(len(audio) / sr) if sr else None
             accompaniment = next((t for t in project.tracks if t.type == TrackType.ACCOMPANIMENT), None)
@@ -343,6 +389,7 @@ class RenderService:
                 accompaniment = project.add_track(
                     Track(name="ACE-Step BGM", type=TrackType.ACCOMPANIMENT, color="#2fb996")
                 )
+            self.raise_if_cancelled(job_id)
             if job.mode == RenderMode.REPAINT and accompaniment.clips:
                 # Repaint returns a full-length revised accompaniment. Replacing the
                 # previous clip keeps arrangement, playback, and master export consistent.
@@ -360,6 +407,7 @@ class RenderService:
                 )
             accompaniment.render_path = str(wav)
             accompaniment.render_revision += 1
+            self.raise_if_cancelled(job_id)
             self.store.save(project)
             self._publish_project(project)
             diagnostic = outdir / "diagnostic.png"
@@ -367,15 +415,13 @@ class RenderService:
             await asyncio.to_thread(write_diagnostic, diagnostic, project, notes, audio, sr)
             job.output_path = str(wav)
             job.diagnostic_path = str(diagnostic)
+            self.raise_if_cancelled(job_id)
             job.status = RenderJobStatus.COMPLETED
             job.progress = 1.0
             job.message = "completed"
             job.finished_at = time.time()
         except Exception as exc:
-            job.status = RenderJobStatus.FAILED
-            job.error = str(exc)
-            job.message = str(exc)
-            job.finished_at = time.time()
+            self._record_job_exception(job, exc)
         self._publish_job(job)
         event_bus.publish("project_updated", {"project_id": job.project_id})
         return job
@@ -394,9 +440,11 @@ class RenderService:
                 accompaniment = outdir / "separated_accompaniment.wav"
                 await asyncio.to_thread(fixture_separate_stems, Path(source_audio), vocals, accompaniment)
             else:
-                vocals, accompaniment = await asyncio.to_thread(self.stem_separator.separate, Path(source_audio), outdir)
+                vocals, accompaniment = await asyncio.to_thread(self.stem_separator.separate, Path(source_audio), outdir, cancellation=self.cancellation_token(job_id))
+            self.raise_if_cancelled(job_id)
             vocal_audio, vocal_sr = await asyncio.to_thread(read_audio, vocals)
             accompaniment_audio, accompaniment_sr = await asyncio.to_thread(read_audio, accompaniment)
+            self.raise_if_cancelled(job_id)
             source_name = Path(source_audio).stem or "source"
             vocal_track = project.add_track(Track(name=f"Separated vocal — {source_name}", type=TrackType.AUDIO, color="#ff7b9c"))
             vocal_track.clips.append(AudioClip(path=str(vocals), start_ticks=0, duration_ticks=project.seconds_to_ticks(len(vocal_audio) / vocal_sr), label="Separated vocal"))
@@ -417,6 +465,7 @@ class RenderService:
                 "engine": "explicit CI separation fixture" if self.fixture_mode else "Demucs htdemucs",
             })
             project.metadata["stem_separations"] = separations
+            self.raise_if_cancelled(job_id)
             self.store.save(project)
             self._publish_project(project)
             diagnostic = outdir / "diagnostic.png"
@@ -424,15 +473,13 @@ class RenderService:
             await asyncio.to_thread(write_diagnostic, diagnostic, project, first_vocal_notes(project), vocal_audio, vocal_sr, None, provenance)
             job.output_path = str(vocals)
             job.diagnostic_path = str(diagnostic)
+            self.raise_if_cancelled(job_id)
             job.status = RenderJobStatus.COMPLETED
             job.progress = 1.0
             job.message = f"completed; added separated vocal/instrumental tracks for {source_name}"
             job.finished_at = time.time()
         except Exception as exc:
-            job.status = RenderJobStatus.FAILED
-            job.error = str(exc)
-            job.message = str(exc)
-            job.finished_at = time.time()
+            self._record_job_exception(job, exc)
         self._publish_job(job)
         event_bus.publish("project_updated", {"project_id": job.project_id})
         return job
@@ -447,7 +494,8 @@ class RenderService:
             project = self.store.get(job.project_id)
             outdir = self.output_dir(project.id, job.id)
             wav = outdir / "svc.wav"
-            await asyncio.to_thread(self.vocal_engine.convert_voice, Path(source_audio), Path(reference_voice), wav)
+            await asyncio.to_thread(self.vocal_engine.convert_voice, Path(source_audio), Path(reference_voice), wav, cancellation=self.cancellation_token(job_id))
+            self.raise_if_cancelled(job_id)
             audio, sr = await asyncio.to_thread(read_audio, wav)
 
             # SVC output is arrangement media, not just a side-file in the job card.
@@ -455,6 +503,7 @@ class RenderService:
             # alternatives without accidentally doubling the score-rendered vocal track.
             duration_ticks = project.seconds_to_ticks(len(audio) / sr) if sr else None
             source_name = Path(source_audio).stem or "source"
+            self.raise_if_cancelled(job_id)
             conversion_track = project.add_track(
                 Track(name=f"SVC — {source_name}", type=TrackType.AUDIO, color="#ff8f5a")
             )
@@ -498,6 +547,7 @@ class RenderService:
                 }
             )
             project.metadata["svc_conversions"] = conversions
+            self.raise_if_cancelled(job_id)
             self.store.save(project)
             self._publish_project(project)
 
@@ -507,15 +557,13 @@ class RenderService:
             await asyncio.to_thread(write_diagnostic, diagnostic, project, notes, audio, sr, None, provenance)
             job.output_path = str(wav)
             job.diagnostic_path = str(diagnostic)
+            self.raise_if_cancelled(job_id)
             job.status = RenderJobStatus.COMPLETED
             job.progress = 1.0
             job.message = f"completed; added to arrangement as {conversion_track.name}"
             job.finished_at = time.time()
         except Exception as exc:
-            job.status = RenderJobStatus.FAILED
-            job.error = str(exc)
-            job.message = str(exc)
-            job.finished_at = time.time()
+            self._record_job_exception(job, exc)
         self._publish_job(job)
         event_bus.publish("project_updated", {"project_id": job.project_id})
         return job

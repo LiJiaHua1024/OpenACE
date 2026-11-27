@@ -167,6 +167,13 @@ export default function RenderPanel(props: Props) {
     } catch (e: any) { setError(readableError(e)) }
   }
 
+  async function cancelRenderJob(job: RenderJob) {
+    setError('')
+    try {
+      await api.cancelJob(job.id)
+    } catch (e: any) { setError(readableError(e)) }
+  }
+
   async function deleteMedia(item: MediaFile) {
     if (!window.confirm(`Delete media file "${item.name}"?`)) return
     setError('')
@@ -498,6 +505,7 @@ export default function RenderPanel(props: Props) {
             <div className="job-row"><strong>{job.mode}{job.fixture ? ' · CI FIXTURE' : ''}</strong><span>{job.status}</span></div>
             <div className="progress"><div style={{ width: `${Math.round(job.progress * 100)}%` }} /></div>
             <div className="job-message">{job.error || job.message}</div>
+            {(job.status === 'queued' || job.status === 'running') && <button className="job-cancel danger" onClick={() => void cancelRenderJob(job)}>{job.status === 'queued' ? 'Cancel queued job' : 'Cancel running job'}</button>}
             {job.output_path && renderFileUrl(job.output_path) && <audio controls src={renderFileUrl(job.output_path)!} />}
           </div>
         ))}

@@ -5,7 +5,7 @@ OpenACE is a local-first, open-source virtual singer workstation built to replic
 ## Architecture
 
 - **Web workstation**: React + Canvas arrangement view, piano-roll editor, lyric editing, vocal automation lanes, track mixer, render jobs, acoustic diagnostics, and export center.
-- **Local API**: FastAPI project store, atomic editing endpoints, SSE synchronization, render orchestration, uploads, and format export.
+- **Local API**: FastAPI project store, atomic editing endpoints, SSE synchronization, cancellable FIFO render orchestration, uploads, and format export.
 - **Vocal core**: production adapter for [SoulX-Singer](https://github.com/Soul-AILab/SoulX-Singer) (Apache 2.0) score/melody SVS and SoulX-Singer-SVC.
 - **Music/edit core**: production adapter for [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5) (MIT), including ACE-Step `complete` Vocal2BGM and explicit interval repaint.
 - **Agent surface**: `openace-tool` atomic CLI, `openace-mcp` MCP server (`stdio` and `streamable-http`), and `skills/openace/SKILL.md`.
@@ -126,7 +126,7 @@ The MCP tools mirror the atomic CLI: create/duplicate/delete projects, create tr
 
 - `openace/core` — project model, timing, phonemes, pitch/F0 invariants, loudness, diagnostics
 - `openace/engines` — SoulX-Singer, ACE-Step, VRAM scheduling, model bootstrap, explicit CI fixture
-- `openace/server` — FastAPI app, durable auto-requeued render jobs, SSE
+- `openace/server` — FastAPI app, durable auto-requeued/cancellable render jobs, SSE
 - `openace/exporters` / `openace/importers` — DAW/project/audio interoperability
 - `frontend` — professional dark workstation UI
 - `scripts` — one-command model bootstrap and real GPU verification

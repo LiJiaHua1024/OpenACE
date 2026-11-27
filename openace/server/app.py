@@ -414,6 +414,16 @@ async def render_svc(project_id: str, request: RenderRequest):
     return job.model_dump(mode="json")
 
 
+@app.post("/api/jobs/{job_id}/cancel")
+def cancel_job(job_id: str):
+    try:
+        return render_service.cancel_job(job_id).model_dump(mode="json")
+    except KeyError as exc:
+        raise HTTPException(404, str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(409, str(exc)) from exc
+
+
 @app.get("/api/jobs/{job_id}")
 def read_job(job_id: str):
     if job_id not in render_service.jobs:

@@ -367,6 +367,7 @@ class RenderJobStatus(str, Enum):
     RUNNING = "running"
     COMPLETED = "completed"
     FAILED = "failed"
+    CANCELED = "canceled"
 
 
 class RenderJob(BaseModel):

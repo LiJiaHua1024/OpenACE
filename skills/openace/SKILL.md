@@ -52,6 +52,8 @@ openace-tool delete-project <project-id>
 openace-tool import-audio vocal.wav --title "Imported Vocal"
 openace-tool import-midi input.mid --title "Imported Song"
 openace-tool render-vocal <project-id> <track-id>
+# If a queued server-side render was a mistake:
+openace-tool cancel-render-job <job-id>
 openace-tool vocal2bgm <project-id> <source.wav> --caption "professional instrumental accompaniment"
 openace-tool repaint <project-id> <source.wav> --start 1.0 --end 5.0 --caption "warmer rock backing"
 openace-tool separate <project-id> <source.wav>
@@ -75,5 +77,5 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `ripple_delete_range`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `organize_project`, `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, separation, conversion, repaint, and export.
+Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `ripple_delete_range`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `organize_project`, `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, queued/running render cancellation (`cancel_render_job`), separation, conversion, repaint, and export.
 Media-library atoms: `openace-tool list-media`, `openace-tool place-media-clip <project> <media_name> --start-ticks <ticks> [--track-id <id>]`, and `openace-tool delete-media <media_name>`. Deletion is safe and fails while arrangement clips reference the media.

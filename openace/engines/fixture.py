@@ -19,6 +19,7 @@ import soundfile as sf
 
 from openace.core.models import Project, Track
 from openace.core.pitch import midi_to_hz
+from openace.engines.processes import JobCancelled
 
 FIXTURE_ENV = "OPENACE_CI_SYNTH_FIXTURE"
 
@@ -40,11 +41,15 @@ def write_fixture_wav(path: Path, samples: np.ndarray, sample_rate: int = 24000)
 
 
 class FixtureVocalEngine:
-    def render_score(self, project: Project, track: Track, output_path: Path, reference_voice=None) -> Path:
+    def render_score(self, project: Project, track: Track, output_path: Path, reference_voice=None, cancellation=None) -> Path:
         require_fixture_enabled()
         delay = float(os.environ.get("OPENACE_CI_FIXTURE_DELAY_SECONDS", "0") or 0)
         if delay > 0:
-            time.sleep(delay)
+            deadline = time.time() + delay
+            while time.time() < deadline:
+                if cancellation is not None and cancellation.cancelled:
+                    raise JobCancelled("render job cancelled")
+                time.sleep(min(0.05, deadline - time.time()))
         sr = 24000
         total = max(1, int(project.ticks_to_seconds(project.duration_ticks() + project.ppq) * sr))
         out = np.zeros(total, dtype=np.float32)
@@ -65,7 +70,7 @@ class FixtureVocalEngine:
             out[start:end] += signal.astype(np.float32)
         return write_fixture_wav(output_path, out, sr)
 
-    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path) -> Path:
+    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None) -> Path:
         require_fixture_enabled()
         data, sr = sf.read(str(source_audio), always_2d=False)
         # A transparent pass-through would be misleading, so add a clear low-level fixture tremolo.
@@ -78,7 +83,7 @@ class FixtureVocalEngine:
 
 
 class FixtureMusicEngine:
-    def vocal_to_bgm(self, vocal_audio: Path, output_path: Path, caption: str, duration: float, bpm: float) -> Path:
+    def vocal_to_bgm(self, vocal_audio: Path, output_path: Path, caption: str, duration: float, bpm: float, cancellation=None) -> Path:
         require_fixture_enabled()
         sr = 24000
         n = int(max(1.0, duration) * sr)
@@ -89,7 +94,7 @@ class FixtureMusicEngine:
         gate = (np.sin(2 * np.pi * beat_hz * t) > -0.2).astype(np.float32)
         return write_fixture_wav(output_path, chord * gate, sr)
 
-    def repaint(self, source_audio: Path, output_path: Path, start_s: float, end_s: float, caption: str) -> Path:
+    def repaint(self, source_audio: Path, output_path: Path, start_s: float, end_s: float, caption: str, cancellation=None) -> Path:
         require_fixture_enabled()
         data, sr = sf.read(str(source_audio), always_2d=False)
         audio = np.asarray(data, dtype=np.float32)

@@ -205,6 +205,21 @@ async def svc_convert(project_id: str, source_audio: str, reference_voice: str) 
     return dumps(result.model_dump(mode="json"))
 
 
+def cancel_render_job(job_id: str) -> str:
+    """Cancel a queued render job or terminate a running engine subprocess when possible."""
+    if job_id in render_service.jobs:
+        return dumps(render_service.cancel_job(job_id).model_dump(mode="json"))
+    try:
+        import urllib.request
+
+        request = urllib.request.Request(f"http://127.0.0.1:8787/api/jobs/{job_id}/cancel", data=b"{}", headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(request, timeout=1.0) as response:
+            return response.read().decode("utf-8")
+    except Exception:
+        pass
+    return dumps(render_service.cancel_job(job_id).model_dump(mode="json"))
+
+
 def export_project(project_id: str, fmt: str, output_path: str) -> str:
     project = store.get(project_id)
     output = Path(output_path)
@@ -350,6 +365,7 @@ def build_mcp_server():
     mcp.tool()(vocal2bgm)
     mcp.tool()(repaint)
     mcp.tool()(svc_convert)
+    mcp.tool()(cancel_render_job)
     mcp.tool()(separate_stems)
     mcp.tool()(export_project)
     mcp.tool()(batch_add_notes)
