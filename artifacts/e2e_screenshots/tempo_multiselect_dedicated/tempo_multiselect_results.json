@@ -1,0 +1,847 @@
+{
+  "checks": [
+    {
+      "name": "exact viewport and tempo fixture loaded",
+      "passed": true,
+      "details": {
+        "points": [
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1200,
+            "bpm": 80.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1440,
+            "bpm": 77.0,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "normal click selects single point with primary editor",
+      "passed": true,
+      "details": {
+        "editor": {
+          "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+          "inputs": [
+            {
+              "value": "480",
+              "disabled": false
+            },
+            {
+              "value": "150",
+              "disabled": false
+            }
+          ],
+          "select": "step",
+          "buttons": [
+            {
+              "text": "Copy",
+              "disabled": false
+            },
+            {
+              "text": "Paste at playhead",
+              "disabled": true
+            },
+            {
+              "text": "Delete",
+              "disabled": false
+            }
+          ],
+          "rect": {
+            "x": 541.703125,
+            "width": 400.296875,
+            "right": 942,
+            "height": 46
+          },
+          "sw": 398,
+          "cw": 398
+        },
+        "visual": {
+          "480": {
+            "r": 5.5,
+            "stroke": "#ffffff"
+          },
+          "720": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          },
+          "960": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          },
+          "1200": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          },
+          "1440": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          }
+        }
+      }
+    },
+    {
+      "name": "multi-select editor must not cover candidate positive points",
+      "passed": true,
+      "details": {
+        "point960": {
+          "x": 524.0,
+          "y": 258.52135374697826
+        },
+        "hit": {
+          "tag": "CANVAS",
+          "text": "",
+          "cls": "",
+          "inEditor": false,
+          "inCanvas": true
+        }
+      }
+    },
+    {
+      "name": "real ctrl-click at tick 960 reaches canvas without spinner mutation",
+      "passed": true,
+      "details": {
+        "hit": {
+          "tag": "CANVAS",
+          "text": "",
+          "cls": "",
+          "inEditor": false,
+          "inCanvas": true
+        },
+        "before": [
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1200,
+            "bpm": 80.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1440,
+            "bpm": 77.0,
+            "curve": "step"
+          }
+        ],
+        "after": [
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1200,
+            "bpm": 80.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1440,
+            "bpm": 77.0,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ctrl/cmd-click additively selects three points with white visuals and primary editor",
+      "passed": true,
+      "details": {
+        "editor": {
+          "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\n3 selected\nCopy 3\nPaste at playhead\nDelete 3",
+          "inputs": [
+            {
+              "value": "960",
+              "disabled": false
+            },
+            {
+              "value": "90",
+              "disabled": false
+            }
+          ],
+          "select": "step",
+          "buttons": [
+            {
+              "text": "Copy 3",
+              "disabled": false
+            },
+            {
+              "text": "Paste at playhead",
+              "disabled": true
+            },
+            {
+              "text": "Delete 3",
+              "disabled": false
+            }
+          ],
+          "rect": {
+            "x": 475.234375,
+            "width": 466.765625,
+            "right": 942,
+            "height": 46
+          },
+          "sw": 465,
+          "cw": 465
+        },
+        "visual": {
+          "480": {
+            "r": 5.5,
+            "stroke": "#ffffff"
+          },
+          "720": {
+            "r": 5.5,
+            "stroke": "#ffffff"
+          },
+          "960": {
+            "r": 5.5,
+            "stroke": "#ffffff"
+          },
+          "1200": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          },
+          "1440": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          }
+        }
+      }
+    },
+    {
+      "name": "ctrl-click toggles selected point off additively",
+      "passed": true,
+      "details": {
+        "editor": {
+          "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\n2 selected\nCopy 2\nPaste at playhead\nDelete 2",
+          "inputs": [
+            {
+              "value": "960",
+              "disabled": false
+            },
+            {
+              "value": "90",
+              "disabled": false
+            }
+          ],
+          "select": "step",
+          "buttons": [
+            {
+              "text": "Copy 2",
+              "disabled": false
+            },
+            {
+              "text": "Paste at playhead",
+              "disabled": true
+            },
+            {
+              "text": "Delete 2",
+              "disabled": false
+            }
+          ],
+          "rect": {
+            "x": 475.4453125,
+            "width": 466.5546875,
+            "right": 942,
+            "height": 46
+          },
+          "sw": 465,
+          "cw": 465
+        },
+        "visual": {
+          "480": {
+            "r": 5.5,
+            "stroke": "#ffffff"
+          },
+          "720": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          },
+          "960": {
+            "r": 5.5,
+            "stroke": "#ffffff"
+          },
+          "1200": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          },
+          "1440": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          }
+        }
+      }
+    },
+    {
+      "name": "shift-click selects inclusive range with clicked point primary",
+      "passed": true,
+      "details": {
+        "editor": {
+          "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\n3 selected\nCopy 3\nPaste at playhead\nDelete 3",
+          "inputs": [
+            {
+              "value": "960",
+              "disabled": false
+            },
+            {
+              "value": "90",
+              "disabled": false
+            }
+          ],
+          "select": "step",
+          "buttons": [
+            {
+              "text": "Copy 3",
+              "disabled": false
+            },
+            {
+              "text": "Paste at playhead",
+              "disabled": true
+            },
+            {
+              "text": "Delete 3",
+              "disabled": false
+            }
+          ],
+          "rect": {
+            "x": 475.234375,
+            "width": 466.765625,
+            "right": 942,
+            "height": 46
+          },
+          "sw": 465,
+          "cw": 465
+        },
+        "visual": {
+          "480": {
+            "r": 5.5,
+            "stroke": "#ffffff"
+          },
+          "720": {
+            "r": 5.5,
+            "stroke": "#ffffff"
+          },
+          "960": {
+            "r": 5.5,
+            "stroke": "#ffffff"
+          },
+          "1200": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          },
+          "1440": {
+            "r": 4.5,
+            "stroke": "#161a26"
+          }
+        }
+      }
+    },
+    {
+      "name": "copy 3 paste preserves spacing BPM curve and replaces collisions at snapped playhead",
+      "passed": true,
+      "details": {
+        "points": [
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1200,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1440,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1680,
+            "bpm": 90.0,
+            "curve": "step"
+          }
+        ],
+        "editor": {
+          "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\n3 selected\nCopy 3\nPaste at playhead\nDelete 3",
+          "inputs": [
+            {
+              "value": "1680",
+              "disabled": false
+            },
+            {
+              "value": "90",
+              "disabled": false
+            }
+          ],
+          "select": "step",
+          "buttons": [
+            {
+              "text": "Copy 3",
+              "disabled": false
+            },
+            {
+              "text": "Paste at playhead",
+              "disabled": false
+            },
+            {
+              "text": "Delete 3",
+              "disabled": false
+            }
+          ],
+          "rect": {
+            "x": 308,
+            "width": 466.765625,
+            "right": 774.765625,
+            "height": 46
+          },
+          "sw": 465,
+          "cw": 465
+        }
+      }
+    },
+    {
+      "name": "undo restores exact pre-paste collision state",
+      "passed": true,
+      "details": {
+        "points": [
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1200,
+            "bpm": 80.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1440,
+            "bpm": 77.0,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "redo reapplies multi-paste collision replacement",
+      "passed": true,
+      "details": {
+        "points": [
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1200,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1440,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1680,
+            "bpm": 90.0,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "reload persists pasted multi-point tempo map",
+      "passed": true,
+      "details": {
+        "points": [
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1200,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1440,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1680,
+            "bpm": 90.0,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "group delete button removes all selected points",
+      "passed": true,
+      "details": {
+        "before_editor": {
+          "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\n3 selected\nCopy 3\nPaste at playhead\nDelete 3",
+          "inputs": [
+            {
+              "value": "1680",
+              "disabled": false
+            },
+            {
+              "value": "90",
+              "disabled": false
+            }
+          ],
+          "select": "step",
+          "buttons": [
+            {
+              "text": "Copy 3",
+              "disabled": false
+            },
+            {
+              "text": "Paste at playhead",
+              "disabled": true
+            },
+            {
+              "text": "Delete 3",
+              "disabled": false
+            }
+          ],
+          "rect": {
+            "x": 475.234375,
+            "width": 466.765625,
+            "right": 942,
+            "height": 46
+          },
+          "sw": 465,
+          "cw": 465
+        },
+        "points": [
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "right-click outside selection deletes only hit point",
+      "passed": true,
+      "details": {
+        "points": [
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "right-click inside selection deletes entire selected group",
+      "passed": true,
+      "details": {
+        "points": []
+      }
+    },
+    {
+      "name": "single point drag still moves snapped point without duplicate",
+      "passed": true,
+      "details": {
+        "points": [
+          {
+            "ticks": 600,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1200,
+            "bpm": 80.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1440,
+            "bpm": 77.0,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "numeric tick BPM and curve editing regression",
+      "passed": true,
+      "details": {
+        "point": [
+          {
+            "ticks": 600,
+            "bpm": 142.5,
+            "curve": "linear"
+          }
+        ],
+        "points": [
+          {
+            "ticks": 600,
+            "bpm": 142.5,
+            "curve": "linear"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1200,
+            "bpm": 80.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1440,
+            "bpm": 77.0,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "zero-tick anchor numeric BPM and horizontal drag behavior unchanged",
+      "passed": true,
+      "details": {
+        "editor": {
+          "text": "TICK\nBPM",
+          "inputs": [
+            {
+              "value": "0",
+              "disabled": true
+            },
+            {
+              "value": "120",
+              "disabled": false
+            }
+          ],
+          "select": null,
+          "buttons": [],
+          "rect": {
+            "x": 798,
+            "width": 144,
+            "right": 942,
+            "height": 46
+          },
+          "sw": 142,
+          "cw": 142
+        },
+        "bpm": 135.0,
+        "points": [
+          {
+            "ticks": 600,
+            "bpm": 142.5,
+            "curve": "linear"
+          },
+          {
+            "ticks": 720,
+            "bpm": 100.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1200,
+            "bpm": 80.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 1440,
+            "bpm": 77.0,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "editor panel and exact layout do not overflow",
+      "passed": true,
+      "details": {
+        "innerWidth": 1272,
+        "innerHeight": 837,
+        "body": {
+          "sw": 1272,
+          "cw": 1272
+        },
+        "editor": {
+          "x": 798,
+          "width": 144,
+          "right": 942,
+          "height": 46,
+          "sw": 142,
+          "cw": 142
+        },
+        "lane": {
+          "x": 236,
+          "width": 714,
+          "right": 950,
+          "height": 106
+        }
+      }
+    },
+    {
+      "name": "console network and HTTP clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "unexpected": [],
+        "http": [],
+        "network": [
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          }
+        ]
+      }
+    }
+  ],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http": []
+}

@@ -48,9 +48,10 @@ function writePositivePoints(project: Project, points: { ticks: number; bpm: num
 export default function TempoLane(props: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const dragRef = useRef<DragState | null>(null)
-  const clipboardRef = useRef<{ bpm: number; curve: 'step' | 'linear' } | null>(null)
+  const clipboardRef = useRef<{ deltaTicks: number; bpm: number; curve: 'step' | 'linear' }[]>([])
   const [clipboardVersion, setClipboardVersion] = useState(0)
-  const [selectedTick, setSelectedTick] = useState<number | null>(null)
+  const [selectedTicks, setSelectedTicks] = useState<number[]>([])
+  const selectionAnchorRef = useRef<number | null>(null)
   const ppq = props.project.ppq
   const scrollTicks = props.timeline.scrollTicks
   const pxPerBeat = props.timeline.pxPerBeat
@@ -85,9 +86,9 @@ export default function TempoLane(props: Props) {
       const rect = parent.getBoundingClientRect()
       const dpr = window.devicePixelRatio || 1
       canvas.width = Math.max(1, Math.floor(rect.width * dpr))
-      canvas.height = Math.max(1, Math.floor(rect.height * dpr))
+      canvas.height = Math.max(1, Math.floor(HEIGHT * dpr))
       canvas.style.width = `${rect.width}px`
-      canvas.style.height = `${rect.height}px`
+      canvas.style.height = `${HEIGHT}px`
       const ctx = canvas.getContext('2d')
       if (!ctx) return
       ctx.save(); ctx.scale(dpr, dpr)
@@ -128,7 +129,7 @@ export default function TempoLane(props: Props) {
         const x = xForTick(point.ticks)
         if (x < LABEL_WIDTH - 8 || x > width + 8) continue
         const y = yForBpm(point.bpm)
-        const selected = selectedTick === point.ticks
+        const selected = selectedTicks.includes(point.ticks)
         ctx.fillStyle = point.ticks === 0 ? '#71dcff' : '#ffbe55'
         ctx.strokeStyle = selected ? '#ffffff' : '#161a26'
         ctx.beginPath(); ctx.arc(x, y, selected ? 5.5 : 4.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke()
@@ -155,7 +156,7 @@ export default function TempoLane(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(parent)
     return () => observer.disconnect()
-  }, [props.project, props.playheadTicks, scrollTicks, pxPerBeat, selectedTick, ppq, grid, points, minimum, maximum])
+  }, [props.project, props.playheadTicks, scrollTicks, pxPerBeat, selectedTicks, ppq, grid, points, minimum, maximum])
 
   function pointer(event: React.PointerEvent) {
     const rect = canvasRef.current!.getBoundingClientRect()
@@ -184,24 +185,50 @@ export default function TempoLane(props: Props) {
     const hit = pointHit(pos.x, pos.y)
     if (event.button === 2) {
       if (hit && hit.ticks > 0) {
+        const targets = selectedTicks.includes(hit.ticks)
+          ? selectedTicks.filter(tick => tick > 0)
+          : [hit.ticks]
         props.updateProject(project => {
-          writePositivePoints(project, sortedPositivePoints(project).filter(point => point.ticks !== hit.ticks))
+          writePositivePoints(project, sortedPositivePoints(project).filter(point => !targets.includes(point.ticks)))
         }, false)
-        setSelectedTick(null)
+        setSelectedTicks([])
+        selectionAnchorRef.current = null
       }
       return
     }
     if (event.button !== 0) return
+
+    if (hit && hit.ticks > 0 && (event.ctrlKey || event.metaKey)) {
+      setSelectedTicks(current => {
+        const without = current.filter(tick => tick !== hit.ticks)
+        return current.includes(hit.ticks) ? without : [...without, hit.ticks]
+      })
+      selectionAnchorRef.current = hit.ticks
+      return
+    }
+    if (hit && hit.ticks > 0 && event.shiftKey) {
+      const anchor = selectionAnchorRef.current ?? selectedTicks[selectedTicks.length - 1] ?? hit.ticks
+      const low = Math.min(anchor, hit.ticks)
+      const high = Math.max(anchor, hit.ticks)
+      const range = sortedPositivePoints(props.project)
+        .map(point => point.ticks)
+        .filter(tick => tick >= low && tick <= high)
+      setSelectedTicks([...range.filter(tick => tick !== hit.ticks), hit.ticks])
+      return
+    }
+
     props.beginTransaction()
     if (hit) {
       dragRef.current = { originalTick: hit.ticks, originalBpm: hit.bpm, originalCurve: hit.curve, startX: pos.x, startY: pos.y, anchor: hit.ticks === 0 }
-      setSelectedTick(hit.ticks)
+      setSelectedTicks([hit.ticks])
+      selectionAnchorRef.current = hit.ticks
     } else {
       const ticks = Math.max(grid, snap(tickForX(pos.x)))
       const bpm = clampBpm(bpmForY(pos.y))
       props.updateProject(project => upsertPoint(project, null, ticks, bpm), true)
       dragRef.current = { originalTick: ticks, originalBpm: bpm, originalCurve: 'step', startX: pos.x, startY: pos.y, anchor: false }
-      setSelectedTick(ticks)
+      setSelectedTicks([ticks])
+      selectionAnchorRef.current = ticks
     }
     canvasRef.current?.setPointerCapture(event.pointerId)
   }
@@ -224,7 +251,8 @@ export default function TempoLane(props: Props) {
       } else {
         const ticks = Math.max(grid, snap(drag.originalTick + deltaTicks))
         upsertPoint(project, drag.originalTick, ticks, nextBpm, drag.originalCurve)
-        setSelectedTick(ticks)
+        setSelectedTicks([ticks])
+        selectionAnchorRef.current = ticks
       }
     }, true)
   }
@@ -237,24 +265,40 @@ export default function TempoLane(props: Props) {
     canvasRef.current?.releasePointerCapture(event.pointerId)
   }
 
+  const selectedTick = selectedTicks.length ? selectedTicks[selectedTicks.length - 1] : null
+  const positiveSelectedPoints = sortedPositivePoints(props.project).filter(point => selectedTicks.includes(point.ticks))
   const selectedPoint = selectedTick === 0
     ? { ticks: 0, bpm: props.project.bpm }
     : sortedPositivePoints(props.project).find(point => point.ticks === selectedTick) || null
 
-  function copySelectedPoint() {
-    if (!selectedPoint || selectedPoint.ticks === 0) return
-    clipboardRef.current = { bpm: selectedPoint.bpm, curve: (selectedPoint as any).curve || 'step' }
+  function copySelectedPoints() {
+    if (!positiveSelectedPoints.length) return
+    const baseTick = positiveSelectedPoints[0].ticks
+    clipboardRef.current = positiveSelectedPoints.map(point => ({
+      deltaTicks: point.ticks - baseTick,
+      bpm: point.bpm,
+      curve: (point as any).curve || 'step',
+    }))
     setClipboardVersion(version => version + 1)
   }
 
-  function pasteCopiedPoint() {
+  function pasteCopiedPoints() {
     const clipboard = clipboardRef.current
-    if (!clipboard) return
-    const targetTick = Math.max(grid, snap(props.playheadTicks))
+    if (!clipboard.length) return
+    const baseTargetTick = Math.max(grid, snap(props.playheadTicks))
+    const pasted = clipboard.map(item => ({
+      ticks: Math.max(grid, baseTargetTick + item.deltaTicks),
+      bpm: clampBpm(item.bpm),
+      curve: item.curve,
+    }))
+    const pastedTicks = pasted.map(point => point.ticks)
     props.updateProject(project => {
-      upsertPoint(project, null, targetTick, clipboard.bpm, clipboard.curve)
+      const next = sortedPositivePoints(project).filter(point => !pastedTicks.includes(point.ticks))
+      next.push(...pasted)
+      writePositivePoints(project, next)
     }, false)
-    setSelectedTick(targetTick)
+    setSelectedTicks(pastedTicks)
+    selectionAnchorRef.current = pastedTicks[pastedTicks.length - 1] ?? null
   }
 
   function editSelectedCurve(curve: 'step' | 'linear') {
@@ -266,14 +310,29 @@ export default function TempoLane(props: Props) {
 
   function editSelected(ticks: number, bpm: number) {
     if (!selectedPoint) return
+    const originalTick = selectedPoint.ticks
+    const nextTick = Math.max(grid, snap(ticks))
     props.updateProject(project => {
       if (selectedPoint.ticks === 0) {
         project.bpm = clampBpm(bpm)
       } else {
-        upsertPoint(project, selectedPoint.ticks, Math.max(grid, snap(ticks)), clampBpm(bpm))
+        upsertPoint(project, selectedPoint.ticks, nextTick, clampBpm(bpm))
       }
     }, false)
-    if (selectedPoint.ticks !== 0) setSelectedTick(Math.max(grid, snap(ticks)))
+    if (originalTick !== 0) {
+      setSelectedTicks(current => current.map(tick => tick === originalTick ? nextTick : tick))
+      selectionAnchorRef.current = nextTick
+    }
+  }
+
+  function deleteSelectedPoints() {
+    if (!positiveSelectedPoints.length) return
+    const targets = positiveSelectedPoints.map(point => point.ticks)
+    props.updateProject(project => {
+      writePositivePoints(project, sortedPositivePoints(project).filter(point => !targets.includes(point.ticks)))
+    }, false)
+    setSelectedTicks([])
+    selectionAnchorRef.current = null
   }
 
   function onWheel(event: React.WheelEvent) {
@@ -284,11 +343,14 @@ export default function TempoLane(props: Props) {
     }
   }
 
+  const laneWidth = canvasRef.current?.parentElement?.clientWidth || 800
+  const editorOnLeft = selectedPoint ? xForTick(selectedPoint.ticks) > laneWidth / 2 : false
+
   return (
     <div className="tempo-lane" onContextMenu={event => event.preventDefault()}>
       <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onWheel={onWheel} />
       {selectedPoint && (
-        <div className={`tempo-editor ${xForTick(selectedPoint.ticks) > ((canvasRef.current?.parentElement?.clientWidth || 800) / 2) ? 'left' : ''}`}>
+        <div className={`tempo-editor ${editorOnLeft ? 'left' : ''}`}>
           <label>Tick
             <input
               type="number"
@@ -317,14 +379,10 @@ export default function TempoLane(props: Props) {
               </select>
             </label>
           )}
-          {selectedPoint.ticks > 0 && <button onClick={copySelectedPoint}>Copy</button>}
-          {selectedPoint.ticks > 0 && <button disabled={!clipboardRef.current} onClick={pasteCopiedPoint}>Paste at playhead</button>}
-          {selectedPoint.ticks > 0 && <button onClick={() => {
-            props.updateProject(project => {
-              writePositivePoints(project, sortedPositivePoints(project).filter(point => point.ticks !== selectedPoint.ticks))
-            }, false)
-            setSelectedTick(null)
-          }}>Delete</button>}
+          {positiveSelectedPoints.length > 1 && <div className="tempo-selection-count">{positiveSelectedPoints.length} selected</div>}
+          {positiveSelectedPoints.length > 0 && <button onClick={copySelectedPoints}>Copy{positiveSelectedPoints.length > 1 ? ` ${positiveSelectedPoints.length}` : ''}</button>}
+          {positiveSelectedPoints.length > 0 && <button disabled={!clipboardRef.current.length} onClick={pasteCopiedPoints}>Paste at playhead</button>}
+          {positiveSelectedPoints.length > 0 && <button onClick={deleteSelectedPoints}>Delete{positiveSelectedPoints.length > 1 ? ` ${positiveSelectedPoints.length}` : ''}</button>}
         </div>
       )}
     </div>

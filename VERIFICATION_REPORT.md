@@ -894,3 +894,13 @@ Implemented and verified:
 - Independent visible-Chrome QA verified default current-bar creation, keyboard toggling, snapped ruler drag, two-plus cycles, mean measured interval `0.5025s` for a `0.5s` loop with population stdev `0.0052s`, nonzero phase-correct source offsets, loop-off continuation, pause/stop/seek behavior, repaint separation, sticky scrolling regression, clean exact layout, and zero console/unexpected network failures. Evidence: `artifacts/e2e_screenshots/loop_playback/`.
 
 Validation after iteration 65: frontend production build passed; independent browser/API instrumentation QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 66 — multi-point tempo selection and clipboard editing
+
+Implemented and verified:
+
+- Positive-tick tempo points now support Ctrl/Cmd additive selection and toggle, Shift inclusive range selection, visible white multi-selection with the clicked point as primary, multi-copy preserving relative spacing/BPM/step-linear curve, paste at the snapped playhead with deterministic collision replacement, group delete through the editor or right-click, undo/redo, and reload persistence.
+- The tempo editor no longer floats over the graph. It is normal-flow in a dedicated strip below the fixed 54px lane, expanding only while a point is selected; the canvas remains exactly 54px and dense tempo points stay clickable.
+- Independent visible-Chrome QA reproduced the prior overlay defect scenario and confirmed tick `960` now hit-tests canvas rather than the editor, with zero spinner mutation. A dense 13-point fixture had zero covered centers. All 19 matrix checks passed, including exact `0/+240/+480` spacing, `step/linear/step` preservation, collision replacement, undo/redo/reload, group/right-click deletion, drag/numeric/curve regressions, zero-anchor behavior, layout, console, HTTP, and network. Evidence: `artifacts/e2e_screenshots/tempo_multiselect_dedicated/`.
+
+Validation after iteration 66: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
