@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from openace.core.expression import apply_dynamic_envelope, envelope_value
 from openace.core.models import EnvelopePoint, Project, Track
@@ -181,3 +182,39 @@ def test_empty_falsetto_is_transparent():
     processed, applied = apply_falsetto_envelope(audio, 48000, Project(), Track(name="Lead"))
     assert not applied
     assert np.array_equal(processed, audio)
+
+
+def test_note_velocity_changes_tempo_aligned_note_gain_without_clicks():
+    from openace.core.expression import apply_note_velocity, velocity_gain_db
+    from openace.core.models import Note
+
+    sr = 48000
+    project = Project(title="velocity", bpm=120)
+    track = project.add_track(Track(name="Lead"))
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, velocity=127))
+    track.add_note(Note(start_ticks=480, duration_ticks=480, pitch=60, velocity=30))
+    audio = np.full((sr, 1), 0.2, dtype=np.float32)
+
+    processed, applied = apply_note_velocity(audio, sr, project, track)
+
+    assert applied is True
+    high = float(np.sqrt(np.mean(processed[int(0.1*sr):int(0.4*sr)] ** 2)))
+    low = float(np.sqrt(np.mean(processed[int(0.6*sr):int(0.9*sr)] ** 2)))
+    expected_ratio = 10 ** ((velocity_gain_db(127) - velocity_gain_db(30)) / 20)
+    assert high / low == pytest.approx(expected_ratio, rel=0.03)
+    assert high > 0.2 * 1.9
+    assert low < 0.2 * 0.3
+    assert float(np.max(np.abs(np.diff(processed[:, 0])))) < 0.02
+
+
+def test_default_velocity_90_is_transparent():
+    from openace.core.expression import apply_note_velocity
+    from openace.core.models import Note
+
+    project = Project(title="velocity-neutral", bpm=120)
+    track = project.add_track(Track(name="Lead"))
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, velocity=90))
+    audio = np.full((24000, 1), 0.2, dtype=np.float32)
+    processed, applied = apply_note_velocity(audio, 48000, project, track)
+    assert applied is False
+    assert processed is audio

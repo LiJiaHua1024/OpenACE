@@ -12,7 +12,7 @@ import soundfile as sf
 from openace.core.audio import read_audio
 from openace.core.breath import apply_breath_events, load_reference_audio
 from openace.core.diagnostics import extract_f0, write_diagnostic
-from openace.core.expression import apply_air_envelope, apply_dynamic_envelope, apply_energy_envelope, apply_falsetto_envelope, apply_tension_envelope
+from openace.core.expression import apply_air_envelope, apply_dynamic_envelope, apply_energy_envelope, apply_falsetto_envelope, apply_note_velocity, apply_tension_envelope
 from openace.core.models import AudioClip, Project, RenderJob, RenderJobStatus, RenderMode, TimedLyric, Track, TrackType
 from openace.core.project_store import ProjectStore
 from openace.core.render_fingerprint import vocal_render_input_hash
@@ -245,6 +245,7 @@ class RenderService:
                 reference_audio,
                 reference_sr,
             )
+            audio, velocity_applied = apply_note_velocity(audio, sr, project, track)
             audio, dynamic_applied = apply_dynamic_envelope(audio, sr, project, track)
             audio, air_applied = apply_air_envelope(audio, sr, project, track)
             audio, energy_applied = apply_energy_envelope(audio, sr, project, track)
@@ -253,6 +254,7 @@ class RenderService:
             applied_lanes = [
                 name
                 for name, applied in (
+                    ("Velocity", velocity_applied),
                     ("Dynamic", dynamic_applied),
                     ("Air", air_applied),
                     ("Energy", energy_applied),
@@ -273,6 +275,8 @@ class RenderService:
                 provenance += " + Breath events real donor-noise overlays (post-render DSP, not neural conditioning)"
             elif track.breaths:
                 provenance += " + Breath events requested but no real donor noise was available; no synthetic noise inserted"
+            if velocity_applied:
+                provenance += " + Note velocity post-render gain (not neural articulation conditioning)"
             if dynamic_applied:
                 provenance += " + Dynamic lane gain post-processing (not neural conditioning)"
             if air_applied:

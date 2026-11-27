@@ -983,3 +983,13 @@ Implemented and verified:
 - Independent visible-Chrome QA at exact 1272×837 with real uploaded audio clips verified exact single/contiguous/overlapping/multi-track ripple math, sync preservation, undo/redo/reload, menu containment, and clean console/network. Evidence: `artifacts/e2e_screenshots/ripple_delete/`.
 
 Validation after iteration 74: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 75 — note velocity render integration
+
+Implemented and verified:
+
+- The piano-roll velocity lane is no longer a dead editor parameter. Because SoulX-Singer does not consume velocity as neural articulation conditioning, vocal renders now apply explicit per-note post-render gain: velocity 90 is transparent, 127 reaches +6 dB, and 1 reaches -18 dB. Gain spans use exact tempo-aware note boundaries and approximately 4 ms smoothing to avoid clicks.
+- Render provenance, job messaging, and diagnostics now honestly label this as `post-render gain`, not neural conditioning. Existing note fingerprints already include velocity, so velocity edits correctly mark prior renders stale.
+- Quantitative tests cover exact high/low velocity ratios, default-90 transparency, and click-safe transitions. Independent visible-Chrome QA at exact 1272×837 verified real velocity-lane editing at approximately 60 FPS, baseline RMS ratio exactly `1.0`, edited `[127,30]` RMS ratio `8.0675477` vs theoretical `8.0675483`, smooth boundary waveform, stale/render/playback behavior, diagnostic provenance, and clean console/network. Evidence: `artifacts/e2e_screenshots/velocity_render/`.
+
+Validation after iteration 75: focused automated tests passed; independent browser/audio QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

@@ -35,6 +35,54 @@ def envelope_value(points: list[EnvelopePoint], ticks: float, default: float = _
     return float(ordered[-1].value)
 
 
+_VELOCITY_NEUTRAL = 90
+
+
+def velocity_gain_db(velocity: int) -> float:
+    """Map OpenACE note velocity to explicit post-render loudness gain."""
+    value = max(1, min(127, int(velocity)))
+    if value >= _VELOCITY_NEUTRAL:
+        return (value - _VELOCITY_NEUTRAL) / 37.0 * 6.0
+    return (value - _VELOCITY_NEUTRAL) / 89.0 * 18.0
+
+
+def apply_note_velocity(audio: np.ndarray, sample_rate: int, project: Project, track: Track) -> tuple[np.ndarray, bool]:
+    """Apply per-note velocity as click-safe post-render gain.
+
+    SoulX-Singer's score interface does not consume velocity as neural articulation
+    conditioning. OpenACE therefore treats the velocity lane honestly as a per-note
+    loudness-performance control: the existing default value 90 is transparent,
+    higher values reach +6 dB at 127, and lower values reach -18 dB at 1. Gains are
+    placed by exact tempo-aware note boundaries and smoothed over approximately 4 ms
+    so step changes do not create sample discontinuities.
+    """
+    notes = sorted(track.notes, key=lambda note: (note.start_ticks, note.pitch))
+    if not notes or not len(audio):
+        return audio, False
+    gain_db = [velocity_gain_db(note.velocity) for note in notes]
+    if all(abs(value) < 0.01 for value in gain_db):
+        return audio, False
+    if audio.ndim == 1:
+        audio = audio[:, None]
+    envelope = np.ones(len(audio), dtype=np.float32)
+    for note, db in zip(notes, gain_db):
+        start_seconds = project.ticks_to_seconds(note.start_ticks)
+        end_seconds = project.ticks_to_seconds(note.start_ticks + note.duration_ticks)
+        start = max(0, min(len(audio), int(round(start_seconds * sample_rate))))
+        end = max(start, min(len(audio), int(round(end_seconds * sample_rate))))
+        if end > start:
+            envelope[start:end] = float(10.0 ** (db / 20.0))
+    smooth_width = max(3, int(round(sample_rate * 0.004)) | 1)
+    kernel = np.ones(smooth_width, dtype=np.float32) / float(smooth_width)
+    envelope = np.convolve(envelope, kernel, mode="same").astype(np.float32)
+    processed = np.array(audio, dtype=np.float32, copy=True)
+    processed *= envelope[:, None]
+    peak = float(np.max(np.abs(processed))) if processed.size else 0.0
+    if peak > 0.98:
+        processed *= 0.98 / peak
+    return processed, True
+
+
 def apply_dynamic_envelope(audio: np.ndarray, sample_rate: int, project: Project, track: Track) -> tuple[np.ndarray, bool]:
     """Apply the Dynamic lane as honest post-render gain automation.
 
