@@ -1,0 +1,252 @@
+{
+  "checks": [
+    {
+      "name": "large viewport and content sizing",
+      "passed": true,
+      "details": {
+        "height": 210,
+        "scrollTop": 0,
+        "scrollHeight": 336,
+        "clientHeight": 209,
+        "contentHeight": 336,
+        "canvasHeight": 336,
+        "bodySw": 1272,
+        "bodyCw": 1272,
+        "viewSw": 704,
+        "viewCw": 704,
+        "x": 236,
+        "y": 58,
+        "zoom": 1
+      }
+    },
+    {
+      "name": "ctrl wheel zooms without vertical scroll or passive errors",
+      "passed": true,
+      "details": {
+        "spacing": 403.2,
+        "pre": 60,
+        "post": 60,
+        "console": []
+      }
+    },
+    {
+      "name": "shift wheel horizontal while scrollTop fixed",
+      "passed": true,
+      "details": {
+        "dx": -100.8,
+        "pre": 60,
+        "post": 60
+      }
+    },
+    {
+      "name": "horizontal wheel isolated while scrollTop fixed",
+      "passed": true,
+      "details": {
+        "dx": -100.8,
+        "pre": 60,
+        "post": 60
+      }
+    },
+    {
+      "name": "plain wheel vertical scroll works without horizontal movement",
+      "passed": true,
+      "details": {
+        "scrollTop": 127,
+        "before": {
+          "text": "B8",
+          "x": 209,
+          "y": 317,
+          "t": 239
+        },
+        "after": {
+          "text": "B8",
+          "x": 209,
+          "y": 317,
+          "t": 1586.2000000029802
+        }
+      }
+    },
+    {
+      "name": "ruler sticks to viewport top while scrolled",
+      "passed": true,
+      "details": {
+        "scrollTop": 127,
+        "numeric": {
+          "1": {
+            "text": "1",
+            "x": 68,
+            "y": 143,
+            "t": 1586.4000000059605
+          },
+          "2": {
+            "text": "2",
+            "x": 516,
+            "y": 143,
+            "t": 1586.4000000059605
+          },
+          "3": {
+            "text": "3",
+            "x": 964,
+            "y": 143,
+            "t": 1586.4000000059605
+          }
+        }
+      }
+    },
+    {
+      "name": "bottom lane names visible orienting while scrolled",
+      "passed": true,
+      "details": [
+        {
+          "text": "Sticky Lane 7",
+          "x": 8,
+          "y": 248
+        },
+        {
+          "text": "Sticky Lane 8",
+          "x": 8,
+          "y": 282
+        },
+        {
+          "text": "Sticky Lane 9",
+          "x": 8,
+          "y": 316
+        },
+        {
+          "text": "Sticky Lane 1",
+          "x": 8,
+          "y": 44
+        },
+        {
+          "text": "Sticky Lane 2",
+          "x": 8,
+          "y": 78
+        },
+        {
+          "text": "Sticky Lane 3",
+          "x": 8,
+          "y": 112
+        },
+        {
+          "text": "Sticky Lane 4",
+          "x": 8,
+          "y": 146
+        },
+        {
+          "text": "Sticky Lane 5",
+          "x": 8,
+          "y": 180
+        },
+        {
+          "text": "Sticky Lane 6",
+          "x": 8,
+          "y": 214
+        },
+        {
+          "text": "Sticky Lane 7",
+          "x": 8,
+          "y": 248
+        },
+        {
+          "text": "Sticky Lane 8",
+          "x": 8,
+          "y": 282
+        },
+        {
+          "text": "Sticky Lane 9",
+          "x": 8,
+          "y": 316
+        }
+      ]
+    },
+    {
+      "name": "clicking sticky ruler seeks correct musical timeline position",
+      "passed": true,
+      "details": {
+        "text_excerpt": "OA\nLOCAL\nSticky Arrangement Ruler QA\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nArrange MultiSelect QA\nProject Ops\nInterop Test\nInterop Test\nvocal\nPM Alpha QA\nPM Beta QA\nProject Ops\nInterop T",
+        "click_screen_x": 636,
+        "click_screen_y": 66
+      }
+    },
+    {
+      "name": "small project unchanged and unscrollable",
+      "passed": true,
+      "details": {
+        "height": 166,
+        "scrollTop": 0,
+        "scrollHeight": 166,
+        "clientHeight": 165,
+        "contentHeight": 166,
+        "canvasHeight": 166,
+        "bodySw": 1272,
+        "bodyCw": 1272,
+        "viewSw": 704,
+        "viewCw": 704,
+        "x": 236,
+        "y": 58,
+        "zoom": 1
+      }
+    },
+    {
+      "name": "layout console network clean",
+      "passed": true,
+      "details": {
+        "geom": {
+          "height": 166,
+          "scrollTop": 0,
+          "scrollHeight": 166,
+          "clientHeight": 165,
+          "contentHeight": 166,
+          "canvasHeight": 166,
+          "bodySw": 1272,
+          "bodyCw": 1272,
+          "viewSw": 704,
+          "viewCw": 704,
+          "x": 236,
+          "y": 58,
+          "zoom": 1
+        },
+        "console": [],
+        "http": [],
+        "fail": [
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          }
+        ]
+      }
+    }
+  ],
+  "console": [],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http_errors": []
+}

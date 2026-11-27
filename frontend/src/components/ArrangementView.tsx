@@ -45,6 +45,8 @@ interface WaveformData {
 
 export default function ArrangementView(props: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const arrangementRef = useRef<HTMLDivElement | null>(null)
+  const [arrangementScrollTop, setArrangementScrollTop] = useState(0)
   const scrollTicks = props.timeline.scrollTicks
   const pxPerBeat = props.timeline.pxPerBeat
   const dragRef = useRef<DragState | null>(null)
@@ -127,12 +129,12 @@ export default function ArrangementView(props: Props) {
         ctx.strokeStyle = t % barTicks === 0 ? '#48516e' : t % ppq === 0 ? '#2c3349' : '#202638'
         ctx.beginPath(); ctx.moveTo(x, RULER_HEIGHT); ctx.lineTo(x, height); ctx.stroke()
         if (t % barTicks === 0) {
-          ctx.fillStyle = '#9aa5c5'; ctx.font = '10px Inter'; ctx.fillText(String(Math.floor(t / barTicks) + 1), x + 4, 16)
+          ctx.fillStyle = '#9aa5c5'; ctx.font = '10px Inter'; ctx.fillText(String(Math.floor(t / barTicks) + 1), x + 4, arrangementScrollTop + 16)
         }
       }
-      ctx.fillStyle = '#151927'; ctx.fillRect(0, 0, width, RULER_HEIGHT)
+      ctx.fillStyle = '#151927'; ctx.fillRect(0, arrangementScrollTop, width, RULER_HEIGHT)
       ctx.fillStyle = '#151927'; ctx.fillRect(0, 0, LABEL_WIDTH, height)
-      ctx.strokeStyle = '#333b54'; ctx.beginPath(); ctx.moveTo(0, RULER_HEIGHT - .5); ctx.lineTo(width, RULER_HEIGHT - .5); ctx.stroke()
+      ctx.strokeStyle = '#333b54'; ctx.beginPath(); ctx.moveTo(0, arrangementScrollTop + RULER_HEIGHT - .5); ctx.lineTo(width, arrangementScrollTop + RULER_HEIGHT - .5); ctx.stroke()
       ctx.beginPath(); ctx.moveTo(LABEL_WIDTH - .5, 0); ctx.lineTo(LABEL_WIDTH - .5, height); ctx.stroke()
 
       props.project.tracks.forEach((track, index) => {
@@ -280,6 +282,15 @@ export default function ArrangementView(props: Props) {
         ctx.strokeRect(x1 + .5, y1 + .5, x2 - x1, y2 - y1)
         ctx.setLineDash([])
       }
+      ctx.fillStyle = '#151927'
+      ctx.fillRect(0, arrangementScrollTop, width, RULER_HEIGHT)
+      ctx.strokeStyle = '#333b54'
+      ctx.beginPath(); ctx.moveTo(0, arrangementScrollTop + RULER_HEIGHT - .5); ctx.lineTo(width, arrangementScrollTop + RULER_HEIGHT - .5); ctx.stroke()
+      ctx.fillStyle = '#9aa5c5'
+      ctx.font = '10px Inter'
+      for (let t = Math.floor(scrollTicks / barTicks) * barTicks; t < endTicks; t += barTicks) {
+        ctx.fillText(String(Math.floor(t / barTicks) + 1), xForTick(t) + 4, arrangementScrollTop + 16)
+      }
       if (props.repaintRange.end > props.repaintRange.start) {
         const startTicks = secondsToTicks(props.project, props.repaintRange.start)
         const endTicks = secondsToTicks(props.project, props.repaintRange.end)
@@ -307,7 +318,7 @@ export default function ArrangementView(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(parent)
     return () => observer.disconnect()
-  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, waveforms, selectedClips, marquee, scrollTicks, pxPerBeat, ppq])
+  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, waveforms, selectedClips, marquee, arrangementScrollTop, scrollTicks, pxPerBeat, ppq])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -429,7 +440,7 @@ export default function ArrangementView(props: Props) {
       canvasRef.current?.setPointerCapture(event.pointerId)
       return
     }
-    if (pos.y < RULER_HEIGHT) { props.onSeek(tickForX(pos.x)); return }
+    if (pos.y >= arrangementScrollTop && pos.y < arrangementScrollTop + RULER_HEIGHT && pos.x >= LABEL_WIDTH) { props.onSeek(tickForX(pos.x)); return }
     const track = trackAt(pos.y)
     if (!track) return
     props.onSelect(track.id)
@@ -798,7 +809,7 @@ export default function ArrangementView(props: Props) {
   const menuTop = menu ? Math.max(menuMargin, Math.min(menu.y, arrangementContentHeight - menuHeight - menuMargin)) : 0
 
   return (
-    <div className="arrangement-view" style={{ height: arrangementViewportHeight }} onClick={() => setMenu(null)}>
+    <div ref={arrangementRef} className="arrangement-view" style={{ height: arrangementViewportHeight }} onClick={() => setMenu(null)} onScroll={event => setArrangementScrollTop((event.target as HTMLDivElement).scrollTop)}>
       <div className="arrangement-content" style={{ height: arrangementContentHeight }}>
         <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onContextMenu={onContextMenu} />
       {menu && (

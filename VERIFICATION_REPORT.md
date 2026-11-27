@@ -841,3 +841,12 @@ Implemented and verified:
 - Regression coverage verifies generated `Lyrics`/`LyricsLane1` styles, distinct `96/172` margins, and correct per-phrase dialogue style assignment. A real rendered 1920×1080 frame at an overlapping timestamp visually shows simultaneous lead and harmony lyrics on separated lines without collision. Evidence: `artifacts/e2e_screenshots/karaoke_multitrack/overlap_frame.png` and `layered.ass`.
 
 Validation after iteration 60: targeted karaoke/MP4 interoperability tests passed; visual frame inspection passed. Full suite follows before commit.
+
+## Iteration 61 — sticky arrangement ruler
+
+Implemented and verified:
+
+- The arrangement bar ruler now remains visible at the viewport top while vertically scrolling large arrangements. Bar labels/background render as a sticky overlay above lane content, and pointer hit-testing treats the sticky band as ruler so clicking seeks rather than selecting or dragging the underlying lane.
+- Visible-Chrome QA verified correct large-project sticky rendering and seek behavior, bottom-lane orientation names, unchanged small-project height/no-scroll behavior, preserved Ctrl/Shift/plain wheel isolation, clean layout, and zero console/network failures. Evidence: `artifacts/e2e_screenshots/sticky_arrangement_ruler/`.
+
+Validation after iteration 61: frontend production build passed; browser QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green.
