@@ -87,7 +87,7 @@ In the arrangement canvas, hold **Alt** and drag across the timeline to draw the
 
 ## OpenUtau USTX interoperability
 
-`.ustx` export follows the OpenUtau 0.10 source schema rather than a guessed YAML shape: exact `UNote` keys and mandatory two-point pitch defaults, scaling from any OpenACE PPQ to OpenUtau’s fixed 480 PPQ, OpenUtau pitch units (0.1 semitone), vibrato length/period/depth/shift conversion, beat-aligned voice-part durations, `xs`/`ys` automation curves, decibel track faders, -100..100 pan, named track colors, and the real default phonemizer id. Dynamic automation maps to OpenUtau `dyn` in decibel×10 units and pitch deviation maps to `pitd` cents. Manual phoneme symbols are exported as overrides, but OpenACE millisecond offsets are not misrepresented as OpenUtau tick deltas.
+`.ustx` export follows the OpenUtau 0.10 source schema rather than a guessed YAML shape: exact `UNote` keys and mandatory two-point pitch defaults, scaling from any OpenACE PPQ to OpenUtau’s fixed 480 PPQ, OpenUtau pitch units (0.1 semitone), vibrato length/period/depth/shift conversion, beat-aligned voice-part durations, `xs`/`ys` automation curves, decibel track faders, -100..100 pan, named track colors, and the real default phonemizer id. Dynamic automation maps to OpenUtau `dyn` in decibel×10 units and pitch deviation maps to `pitd` cents. Manual phoneme symbols are exported as overrides, but OpenACE millisecond offsets are not misrepresented as OpenUtau tick deltas. Arrangement audio clips now export as real OpenUtau `wave_parts` with measured source duration, relative paths, fixed-480 tick-scaled position/source-skip/trim, and fade times; clip gain is not faked because UWavePart has no per-clip gain field.
 
 ## Synthesizer V SVP interoperability
 

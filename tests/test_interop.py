@@ -100,6 +100,36 @@ def test_ustx_matches_source_derived_units_and_curve_schema(tmp_path):
     assert curves["pitd"]["ys"] == [-25, 50]
 
 
+def test_ustx_exports_audio_clips_as_source_derived_wave_parts(tmp_path):
+    import soundfile as sf
+
+    source = tmp_path / "clip-source.wav"
+    sr = 48000
+    sf.write(source, np.zeros((sr, 2), dtype=np.float32), sr, subtype="PCM_24")
+    project = sample_project()
+    track = project.tracks[0]
+    track.clips.append(AudioClip(
+        path=str(source), start_ticks=480, offset_ticks=240, duration_ticks=480,
+        fade_in_ticks=48, fade_out_ticks=96, label="Hook",
+    ))
+    out_dir = tmp_path / "export"
+    data = yaml.safe_load(export_ustx(project, out_dir / "song.ustx").read_text(encoding="utf-8"))
+    assert len(data["wave_parts"]) == 1
+    part = data["wave_parts"][0]
+    assert part["name"] == "Hook"
+    assert part["track_no"] == 0
+    assert part["position"] == 480
+    assert Path(part["relative_path"]).as_posix().endswith("clip-source.wav")
+    assert part["file_duration_ms"] == pytest.approx(1000.0)
+    assert part["skip"] == 240
+    assert part["trim"] == 240
+    assert part["fadein"] == 48
+    assert part["fadeout"] == 96
+    # OpenUtau derives visible duration as full source duration minus skip/trim.
+    assert 960 - part["skip"] - part["trim"] == 480
+    assert "_openace_duration_ticks" not in part
+
+
 def test_ustx_scales_non480_project_ticks_to_openutau_resolution(tmp_path):
     project = sample_project()
     project.ppq = 240

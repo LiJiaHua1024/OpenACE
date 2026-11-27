@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import os
 from pathlib import Path
 
 import yaml
@@ -109,11 +110,48 @@ def _part_curves(track, tick_scale: float) -> list[dict[str, object]]:
     return curves
 
 
+def _wave_part(project: Project, clip, track_index: int, tick_scale: float, output_path: Path) -> dict[str, object]:
+    """Map an OpenACE timeline clip to OpenUtau's source-relative UWavePart semantics."""
+    try:
+        import soundfile as sf  # type: ignore
+    except ImportError as exc:
+        raise RuntimeError("USTX wave-part export requires soundfile to measure audio clips") from exc
+    source = Path(clip.path).expanduser()
+    try:
+        info = sf.info(str(source))
+    except Exception as exc:
+        raise RuntimeError(f"cannot measure USTX wave-part source {source}: {exc}") from exc
+    file_seconds = info.frames / float(info.samplerate)
+    full_source_ticks = project.seconds_to_ticks(file_seconds)
+    duration_ticks = clip.duration_ticks if clip.duration_ticks is not None else max(1, full_source_ticks - clip.offset_ticks)
+    position = int(round(clip.start_ticks * tick_scale))
+    skip = int(round(clip.offset_ticks * tick_scale))
+    duration = max(1, int(round(duration_ticks * tick_scale)))
+    full_duration = max(1, int(round(full_source_ticks * tick_scale)))
+    trim = max(0, full_duration - skip - duration)
+    try:
+        relative_path = os.path.relpath(source.resolve(), output_path.parent.resolve())
+    except OSError:
+        relative_path = str(source)
+    return {
+        "name": clip.label or source.name,
+        "track_no": track_index,
+        "position": position,
+        "relative_path": relative_path,
+        "file_duration_ms": round(file_seconds * 1000.0, 3),
+        "skip": skip,
+        "trim": trim,
+        "fadein": int(round(clip.fade_in_ticks * tick_scale)),
+        "fadeout": int(round(clip.fade_out_ticks * tick_scale)),
+    }
+
+
 def export_ustx(project: Project, output_path: Path) -> Path:
     """Export an OpenUtau 0.10 YAML project using source-derived USTX semantics."""
     output_path.parent.mkdir(parents=True, exist_ok=True)
     tracks = []
     voice_parts = []
+    wave_parts = []
     tick_scale = 480.0 / project.ppq
     for index, track in enumerate(project.tracks):
         tracks.append(
@@ -128,6 +166,8 @@ def export_ustx(project: Project, output_path: Path) -> Path:
                 "pan": round(max(-100.0, min(100.0, track.pan * 100.0)), 3),
             }
         )
+        for clip in track.clips:
+            wave_parts.append(_wave_part(project, clip, index, tick_scale, output_path))
         if track.type != TrackType.VOCAL:
             continue
         notes = []
@@ -196,7 +236,7 @@ def export_ustx(project: Project, output_path: Path) -> Path:
         "tempos": [{"position": 0, "bpm": project.bpm}],
         "tracks": tracks,
         "voice_parts": voice_parts,
-        "wave_parts": [],
+        "wave_parts": wave_parts,
     }
     output_path.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8")
     return output_path

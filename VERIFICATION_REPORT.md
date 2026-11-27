@@ -459,3 +459,15 @@ Implemented and verified:
 - Independent visible-Chrome QA clicked the real SVP export control, verified browser download/backend HTTP 200, UI health, matching group/mainRef IDs, correct vibrato/automation values, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/svp_contract/`.
 
 Validation after iteration 26: frontend production build passed; Python compile passed; full automated suite reached 63 passed.
+
+## Iteration 27 — USTX arrangement wave parts
+
+Implemented and verified:
+
+- `.ustx` export no longer silently drops arrangement audio clips. Each clip becomes a real OpenUtau `wave_parts` entry with measured `file_duration_ms`, a path relative to the exported project, fixed-480 tick-scaled `position`, source-offset `skip`, computed `trim`, and scaled `fadein`/`fadeout`.
+- The trim calculation follows OpenUtau's actual `UWavePart.UpdateDuration` semantics so the host derives exactly the OpenACE clip duration from full source duration minus skip/trim. Missing/unmeasurable audio fails loudly instead of writing a false part.
+- No invalid schema extensions or fake per-clip gain fields are emitted; per-clip gain remains a documented interoperability limitation because UWavePart has no such field.
+- Regression coverage proves non-zero start/offset/duration/fades, measured duration, relative path, exact derived duration, and absence of invalid extra keys.
+- Independent visible-Chrome QA clicked the real USTX export control and verified HTTP 200, UI health, exact wave-part schema, `position=480`, `skip=240`, `trim=240`, derived duration 480, fades, relative path, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/ustx_wave_parts/`.
+
+Validation after iteration 27: frontend production build passed; Python compile passed; full automated suite reached 64 passed.

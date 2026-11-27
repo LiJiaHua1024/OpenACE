@@ -1,0 +1,63 @@
+name: USTX Wave QA
+comment: Exported by OpenACE
+output_dir: Vocal
+cache_dir: UCache
+ustx_version: '0.10'
+expressions: {}
+exp_selectors:
+- dyn
+- pitd
+- clr
+- eng
+- vel
+- vol
+- atk
+- dec
+- gen
+- bre
+exp_primary: 0
+exp_secondary: 1
+key: 0
+time_signatures:
+- bar_position: 0
+  beat_per_bar: 4
+  beat_unit: 4
+tempos:
+- position: 0
+  bpm: 120.0
+tracks:
+- track_name: Vocal reference
+  track_color: Blue
+  singer: zero-shot-reference
+  phonemizer: OpenUtau.Core.DefaultPhonemizer
+  mute: false
+  solo: false
+  volume: -1.938
+  pan: 0.0
+- track_name: Wave Track
+  track_color: Green
+  singer: ''
+  phonemizer: OpenUtau.Core.DefaultPhonemizer
+  mute: false
+  solo: false
+  volume: -1.938
+  pan: 0.0
+voice_parts:
+- name: Vocal reference
+  comment: 'OpenACE voice_id: zero-shot-reference'
+  track_no: 0
+  position: 0
+  duration: 480
+  notes: []
+  curves: []
+  masked_curves: []
+wave_parts:
+- name: Hook
+  track_no: 1
+  position: 480
+  relative_path: ../../../../../../tmp/ustx_wave_fixture.wav
+  file_duration_ms: 1000.0
+  skip: 240
+  trim: 240
+  fadein: 48
+  fadeout: 96
