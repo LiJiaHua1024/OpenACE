@@ -15,4 +15,4 @@
 - `.ustx`/`.svp`/`.vpr` writers are structural implementations and must be opened in the real target applications for schema validation.
 - Cantonese and Japanese phoneme coverage are incomplete; unsupported input correctly errors instead of silently becoming “la”.
 - Render jobs persist across backend restart and recoverable interrupted jobs are automatically requeued; very extreme sparse-transient masters can still fail loudness validation loudly instead of being silently exported below spec.
-- Faster-whisper lyric transcription exists as a helper but is not yet integrated into the visible SVC/import workflow.
+- Local faster-whisper word-timestamp lyrics are integrated into audio import and verified on a real vocal. ASR can still misrecognize sung words, monophonic pitch extraction can fragment or merge syllables, and notes that cannot be aligned remain blank for user correction; a dedicated lyric-correction workflow and SVC-side lyric display are still missing.

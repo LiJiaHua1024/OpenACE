@@ -25,6 +25,7 @@ export default function App() {
   const [past, setPast] = useState<Project[]>([])
   const [future, setFuture] = useState<Project[]>([])
   const [error, setError] = useState('')
+  const [importingAudio, setImportingAudio] = useState(false)
   const projectRef = useRef<Project | null>(null)
   const transactionBase = useRef<Project | null>(null)
   const saveTimer = useRef<number | null>(null)
@@ -331,6 +332,7 @@ export default function App() {
 
 
   async function handleImportAudio(file: File) {
+    setImportingAudio(true)
     try {
       const imported = await importAudio(file)
       setProjectList(await api.listProjects())
@@ -339,6 +341,7 @@ export default function App() {
       setPast([])
       setFuture([])
     } catch (e: any) { setError(e.message || String(e)) }
+    finally { setImportingAudio(false) }
   }
 
   async function handleImportMidi(file: File) {
@@ -376,6 +379,7 @@ export default function App() {
         onNewProject={createNewProject}
         onImportMidi={handleImportMidi}
         onImportAudio={handleImportAudio}
+        importingAudio={importingAudio}
       />
       <div className="workspace-grid">
         <TrackList

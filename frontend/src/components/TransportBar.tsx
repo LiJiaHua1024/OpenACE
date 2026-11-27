@@ -17,6 +17,7 @@ interface Props {
   onRedo(): void
   onImportMidi(file: File): void
   onImportAudio(file: File): void
+  importingAudio?: boolean
   onOpenProject(projectId: string): void
   onNewProject(): void
 }
@@ -56,8 +57,8 @@ export default function TransportBar(props: Props) {
       <label className="import-midi">Import MIDI
         <input type="file" accept=".mid,.midi" onChange={e => e.target.files?.[0] && props.onImportMidi(e.target.files[0])} />
       </label>
-      <label className="import-midi">Import audio
-        <input type="file" accept="audio/*,.wav,.mp3,.flac" onChange={e => e.target.files?.[0] && props.onImportAudio(e.target.files[0])} />
+      <label className={`import-midi ${props.importingAudio ? 'importing' : ''}`}>{props.importingAudio ? 'Transcribing audio…' : 'Import audio'}
+        <input type="file" accept="audio/*,.wav,.mp3,.flac" disabled={props.importingAudio} onChange={e => e.target.files?.[0] && props.onImportAudio(e.target.files[0])} />
       </label>
     </header>
   )

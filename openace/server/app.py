@@ -24,7 +24,7 @@ from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.exporters.svp import export_svp
 from openace.exporters.ustx import export_ustx
 from openace.exporters.vpr import export_vpr
-from openace.importers.audio import audio_to_midi_notes
+from openace.importers.audio import assign_lyrics_to_notes, audio_to_midi_notes, transcribe_lyric_words
 from openace.importers.midi import import_midi
 from openace.engines.vram import vram_manager
 
@@ -343,10 +343,15 @@ async def import_audio_file(file: UploadFile = File(...)):
     try:
         project = Project(title=Path(file.filename or "Imported Audio").stem)
         track = project.add_track(Track(name="Imported Vocal", color="#7c5cff"))
-        track.notes = audio_to_midi_notes(tmp_path, project)
+        track.notes = await asyncio.to_thread(audio_to_midi_notes, tmp_path, project)
         track.notes.sort(key=lambda n: (n.start_ticks, n.pitch))
         if not track.notes:
             raise HTTPException(422, "no stable monophonic pitch contour found; refusing fabricated notes")
+        words, detected_language = await asyncio.to_thread(transcribe_lyric_words, tmp_path)
+        assigned = assign_lyrics_to_notes(track.notes, words, project, detected_language)
+        if not assigned:
+            raise RuntimeError("ASR lyrics could not be aligned to the transcribed melody; refusing fabricated lyric placement")
+        track.language = detected_language
         store.save(project)
         publish_project(project)
         return project.model_dump(mode="json")

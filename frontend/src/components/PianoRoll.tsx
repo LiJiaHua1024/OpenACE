@@ -271,7 +271,7 @@ export default function PianoRoll(props: Props) {
           if (drawDenseLabels && w > 24) {
             ctx.fillStyle = '#f7f8ff'
             ctx.font = `${Math.min(12, Math.max(9, view.rowHeight - 3))}px Inter, sans-serif`
-            ctx.fillText(note.lyric || '—', x + 5, y + view.rowHeight * 0.68)
+            if (note.lyric) ctx.fillText(note.lyric, x + 5, y + view.rowHeight * 0.68)
           }
           if (drawDenseLabels && note.phonemes?.length && w > 48 && view.rowHeight >= 13) {
             ctx.fillStyle = '#9cc8ff'
