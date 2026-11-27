@@ -270,3 +270,46 @@ def test_svc_conversion_is_added_to_arrangement_with_provenance(monkeypatch, tmp
     asyncio.run(service.run_svc(second.id, str(source), str(reference)))
     updated = store.get(project.id)
     assert len([track for track in updated.tracks if track.name == "SVC — take_one"]) == 2
+
+def test_fixture_stem_separation_adds_dry_wet_tracks_with_provenance(monkeypatch, tmp_path):
+    import soundfile as sf
+
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    sr = 24000
+    t = np.arange(sr) / sr
+    source = tmp_path / "mixed_song.wav"
+    sf.write(source, 0.1 * np.sin(2 * np.pi * 220 * t) + 0.1 * np.sin(2 * np.pi * 1200 * t), sr)
+
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("separation")
+    store.save(project)
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(project.id, RenderMode.SEPARATE, source_audio=str(source))
+    result = asyncio.run(service.run_separation(job.id, str(source)))
+
+    assert result.status == RenderJobStatus.COMPLETED
+    assert "separated vocal/instrumental" in result.message
+    updated = store.get(project.id)
+    vocal_tracks = [track for track in updated.tracks if track.name == "Separated vocal — mixed_song"]
+    instrumental_tracks = [track for track in updated.tracks if track.name == "Separated instrumental — mixed_song"]
+    assert len(vocal_tracks) == len(instrumental_tracks) == 1
+    vocal_clip = vocal_tracks[0].clips[0]
+    instrumental_clip = instrumental_tracks[0].clips[0]
+    assert vocal_clip.path == result.output_path
+    assert vocal_clip.duration_ticks == updated.seconds_to_ticks(1.0)
+    assert instrumental_clip.duration_ticks == vocal_clip.duration_ticks
+    assert Path(instrumental_clip.path).exists()
+    provenance = updated.metadata["stem_separations"][-1]
+    assert provenance["job_id"] == job.id
+    assert provenance["vocal_track_id"] == vocal_tracks[0].id
+    assert provenance["accompaniment_track_id"] == instrumental_tracks[0].id
+    assert provenance["engine"] == "explicit CI separation fixture"
+    assert Path(result.diagnostic_path).exists()
+
+    vocal_audio, vocal_sr = read_audio(Path(vocal_clip.path))
+    instrumental_audio, instrumental_sr = read_audio(Path(instrumental_clip.path))
+    assert vocal_sr == instrumental_sr == sr
+    vocal_array = np.asarray(vocal_audio)
+    instrumental_array = np.asarray(instrumental_audio)
+    assert float(np.max(np.abs(vocal_array))) > 0.01
+    assert float(np.max(np.abs(instrumental_array))) > 0.01

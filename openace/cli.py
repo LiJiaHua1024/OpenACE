@@ -140,6 +140,12 @@ def cmd_repaint(args) -> None:
     emit(asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption, args.start, args.end)).model_dump(mode="json"))
 
 
+def cmd_separate(args) -> None:
+    store, service = services()
+    job = service.create_job(args.project, RenderMode.SEPARATE, args.track, source_audio=args.source_audio)
+    emit(asyncio.run(service.run_separation(job.id, args.source_audio)).model_dump(mode="json"))
+
+
 def cmd_svc(args) -> None:
     store, service = services()
     job = service.create_job(args.project, RenderMode.SVC, args.track, source_audio=args.source_audio, reference_voice=args.reference_voice)
@@ -312,6 +318,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--end", type=float, required=True)
     p.add_argument("--caption", default="")
     p.set_defaults(func=cmd_repaint)
+
+    p = sub.add_parser("separate")
+    p.add_argument("project")
+    p.add_argument("source_audio")
+    p.add_argument("--track", default=None)
+    p.set_defaults(func=cmd_separate)
 
     p = sub.add_parser("svc")
     p.add_argument("project")

@@ -49,6 +49,7 @@ openace-tool import-midi input.mid --title "Imported Song"
 openace-tool render-vocal <project-id> <track-id>
 openace-tool vocal2bgm <project-id> <source.wav> --caption "professional instrumental accompaniment"
 openace-tool repaint <project-id> <source.wav> --start 1.0 --end 5.0 --caption "warmer rock backing"
+openace-tool separate <project-id> <source.wav>
 openace-tool svc <project-id> <source.wav> <reference.wav>
 openace-tool export <project-id> svp output.svp
 openace-tool export <project-id> ustx output.ustx
@@ -69,4 +70,4 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, conversion, repaint, and export.
+Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, separation, conversion, repaint, and export.

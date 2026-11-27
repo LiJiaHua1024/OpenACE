@@ -161,6 +161,7 @@ export default function RenderPanel(props: Props) {
           <label>End<input type="number" min="0" step="0.1" value={Number(repaintEnd.toFixed(2))} onChange={e => props.onRepaintRange({ start: repaintStart, end: Number(e.target.value) })} /></label>
         </div>
         <button disabled={!sourceAudio || repaintEnd <= repaintStart || busy === 'repaint'} className="wide-action secondary" onClick={() => run('repaint', () => api.repaint(props.project.id, sourceAudio, repaintStart, repaintEnd, caption))}>Repaint selection</button>
+        <button disabled={!sourceAudio || busy === 'separate'} className="wide-action secondary" onClick={() => run('separate', () => api.separate(props.project.id, sourceAudio))}>{busy === 'separate' ? 'Separating…' : 'Separate vocal/instrumental'}</button>
         <button disabled={!sourceAudio || !props.track?.reference_voice_path || busy === 'svc'} className="wide-action secondary" onClick={() => run('svc', () => api.svc(props.project.id, sourceAudio, props.track!.reference_voice_path!))}>SVC voice conversion</button>
       </section>
 

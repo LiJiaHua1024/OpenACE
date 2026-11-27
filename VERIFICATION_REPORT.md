@@ -601,3 +601,15 @@ Implemented and verified:
 - Independent visible-Chrome QA drove external `openace-tool` edits against the running backend data directory and verified no-reload SSE appearance of batch notes, dynamic curve, strong 180% breath, real arrangement waveform clip, live 120→60 tempo step, correct tick-1440 transport `1.1 / 00:02.00`, and external pitch revision `64→69`; no console/network errors. Evidence: `artifacts/e2e_screenshots/agent_editing/`, especially `AGENT_EDITING_QA_REPORT.md` and `09_final_clean_state.png`.
 
 Validation after iteration 38: frontend production build passed; Python compile passed; full automated suite reached 95 passed.
+
+## Iteration 39 — local stem separation and dry/wet remix
+
+Implemented and verified:
+
+- Added a production `DemucsStemSeparator` that runs local open-source Demucs `htdemucs` through `python -m demucs --two-stems vocals`, validates expected non-empty stems, and fails loudly with installation guidance if the optional runtime is absent. No production fallback or synthetic separation exists; only the explicitly labeled CI fixture uses deterministic frequency splitting for orchestration tests.
+- Added durable `RenderMode.SEPARATE` jobs with restart recovery, API/CLI/MCP entry points (`/render/separate`, `openace-tool separate`, `separate_stems`), frontend **Separate vocal/instrumental** control, diagnostic output, and `demucs` in the optional `gpu` dependency set.
+- Successful separation creates independent `Separated vocal — <source>` and `Separated instrumental — <source>` audio tracks/clips at tick zero. Existing mute/solo/volume/pan/clip gain, waveform editing, drag/trim/split, playback, and loudness master export therefore provide the dry/wet remix workflow without special-case code. `project.metadata['stem_separations']` records job/source/track/output provenance.
+- `scripts/verify_local_gpu.py` now includes a default Demucs acceptance stage after serialized SoulX/ACE-Step verification: it mixes short portions of the real outputs and validates the production separation path, with `--skip-separation` available for constrained runs.
+- Backend regression verifies fixture-labeled stem content, exact durations/paths, arrangement tracks, metadata, and diagnostic creation. Independent visible-Chrome QA verified upload/job completion, no-reload appearance of both waveform tracks, metadata, vocal mute persistence, quantitative master high/low spectral ratio dropping `0.74930 → 0.000114` after vocal mute, clip drag `0→120` and trim `1920→1680`, CLI/MCP entry-point visibility, professional 1272×837 layout, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/stem_separation/`, especially `STEM_SEPARATION_QA_REPORT.md` and `04_final_layout.png`.
+
+Validation after iteration 39: frontend production build passed; Python compile passed; full automated suite reached 96 passed.

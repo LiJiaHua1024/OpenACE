@@ -109,6 +109,12 @@ async def repaint(project_id: str, source_audio: str, start_s: float, end_s: flo
     return dumps(result.model_dump(mode="json"))
 
 
+async def separate_stems(project_id: str, source_audio: str) -> str:
+    job = render_service.create_job(project_id, RenderMode.SEPARATE, source_audio=source_audio)
+    result = await render_service.run_separation(job.id, source_audio)
+    return dumps(result.model_dump(mode="json"))
+
+
 async def svc_convert(project_id: str, source_audio: str, reference_voice: str) -> str:
     job = render_service.create_job(project_id, RenderMode.SVC, source_audio=source_audio, reference_voice=reference_voice)
     result = await render_service.run_svc(job.id, source_audio, reference_voice)
@@ -230,6 +236,7 @@ def build_mcp_server():
     mcp.tool()(vocal2bgm)
     mcp.tool()(repaint)
     mcp.tool()(svc_convert)
+    mcp.tool()(separate_stems)
     mcp.tool()(export_project)
     mcp.tool()(batch_add_notes)
     mcp.tool()(update_note)

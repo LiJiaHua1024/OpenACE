@@ -63,6 +63,10 @@ Audio clips are true timeline slices (`start/offset/duration`) with decoded wave
 
 Track cards provide right-click/⋯ operations for duplicate, reorder, color, and undoable delete in addition to mute/solo/volume/pan. The arrangement canvas draws real decoded waveform peaks for audio clips rather than placeholder stripes. Audio clips drag independently, trim from either edge while preserving source offsets, and split at the cursor through the context menu. Waveforms remap to the trimmed source segment, contiguous vocal-note groups drag as musical phrases, and all clip timing paths persist through the same playback/export pipeline. Overlapping clips on a track automatically receive equal-power crossfades: the overlap is shown with a compact XF badge and complementary curves, waveform peaks attenuate with the crossfade, WebAudio schedules the envelope, and master export applies the same cosine/sine gains. The clip context menu supports split at cursor, copy, paste at cursor (including empty arrangement space and other audio-capable tracks), duplicate, delete, and gain; pasted clips preserve source offsets, durations, fades, and gain, while menus are compacted and clamped inside the arrangement strip.
 
+## Stem separation and dry/wet remix
+
+`Separate vocal/instrumental` uses local open-source Demucs (`htdemucs`, optional `gpu` extra) with no API key. Production separation never falls back to fixture audio: if Demucs or weights/runtime support are unavailable the job fails loudly with installation guidance. The explicit CI fixture exists only for orchestration tests and is labeled as such. Completed separation creates independent `Separated vocal` and `Separated instrumental` arrangement tracks/clips with provenance metadata, so existing mute/solo/volume/pan/clip gain, waveform editing, playback, and loudness master export provide the dry/wet remix workflow. MCP `separate_stems` and CLI `openace-tool separate` expose the same operation to agents.
+
 ## Expression automation
 
 Pitch deviation is written into SoulX target F0 metadata. SoulX-Singer does not expose a direct neural Dynamic control, so OpenACE applies the Dynamic lane as honest post-render gain automation: neutral `0.5`, ±6 dB range, sample-interpolated gain, clipping protection, and explicit diagnostic/job provenance. Air is also applied as honest post-render DSP: it reinforces or attenuates the 3 kHz+ residue already present in the rendered vocal, with no injected synthetic noise and explicit non-neural provenance. Energy adds harmonic density through parallel soft saturation for positive values and softens through low-pass blending for negative values. Tension reinforces or attenuates the 0.9–5.5 kHz articulation/presence band extracted from the actual vocal. Both are peak-protected and explicitly labeled as non-neural DSP. Falsetto uses a spectral-tilt approximation: positive values thin the low chest-resonance band and reinforce existing upper vocal residue, while negative values produce a chestier/pressed tilt; it does not shift F0 and is explicitly labeled as non-neural DSP.
@@ -108,7 +112,7 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-The MCP tools mirror the atomic CLI: create projects/tracks/notes, transpose with interval conservation, render, repaint, convert voices, and export project formats. No hosted model or vendor API key is involved.
+The MCP tools mirror the atomic CLI: create projects/tracks/notes, batch/edit notes, write expression lanes and breath events, edit audio clips and tempo maps, assign reference voices, transpose with interval conservation, render, separate stems, repaint, convert voices, import MIDI, and export project formats. No hosted model or vendor API key is involved.
 
 ## Repository layout
 

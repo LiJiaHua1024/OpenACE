@@ -28,6 +28,7 @@ def run(cmd, cwd=None, env=None):
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--skip-download", action="store_true")
+    parser.add_argument("--skip-separation", action="store_true", help="skip the Demucs stem-separation acceptance stage")
     parser.add_argument("--hf-endpoint", default=os.environ.get("HF_ENDPOINT", ""))
     args = parser.parse_args()
 
@@ -159,6 +160,43 @@ def main() -> int:
             "true_peak_dbtp_approx": round(true_peak_db(data, sr), 2),
         }
     report["audio"] = audio_report
+
+    if not args.skip_separation:
+        # Validate the production Demucs path on a real mixture made from the two model
+        # outputs. This is intentionally after both heavyweight synthesis subprocesses so
+        # memory use remains stage-wise rather than co-resident.
+        import numpy as np
+        import soundfile as sf
+
+        from openace.engines.separation import DemucsStemSeparator
+
+        vocal_audio, vocal_sr = read_audio(vocal_out)
+        bgm_audio, bgm_sr = read_audio(bgm_out)
+        vocal_mono = np.asarray(vocal_audio, dtype=np.float32)
+        bgm_mono = np.asarray(bgm_audio, dtype=np.float32)
+        if vocal_mono.ndim > 1:
+            vocal_mono = vocal_mono.mean(axis=1)
+        if bgm_mono.ndim > 1:
+            bgm_mono = bgm_mono.mean(axis=1)
+        if vocal_sr != bgm_sr:
+            ratio = vocal_sr / bgm_sr
+            x_old = np.linspace(0.0, 1.0, num=len(bgm_mono), endpoint=False)
+            x_new = np.linspace(0.0, 1.0, num=max(1, int(round(len(bgm_mono) * ratio))), endpoint=False)
+            bgm_mono = np.interp(x_new, x_old, bgm_mono).astype(np.float32)
+            bgm_sr = vocal_sr
+        length = min(len(vocal_mono), len(bgm_mono), int(5 * vocal_sr))
+        if length < vocal_sr:
+            raise RuntimeError("model outputs are too short for separation acceptance")
+        mixture = vocal_mono[:length] * 0.8 + bgm_mono[:length] * 0.35
+        mixture_path = artifacts / "separation_input.wav"
+        sf.write(mixture_path, mixture, vocal_sr, subtype="PCM_16")
+        sep_vocal, sep_accompaniment = DemucsStemSeparator().separate(mixture_path, artifacts / "demucs_run")
+        report["steps"].append({
+            "demucs_separation": "ok",
+            "vocal": str(sep_vocal),
+            "accompaniment": str(sep_accompaniment),
+        })
+
     report["ok"] = True
     (artifacts / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))

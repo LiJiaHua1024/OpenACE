@@ -28,6 +28,7 @@ class RenderMode(str, Enum):
     SVS_SCORE = "svs_score"
     SVS_MELODY = "svs_melody"
     SVC = "svc"
+    SEPARATE = "separate"
     VOCAL2BGM = "vocal2bgm"
     REPAINT = "repaint"
 

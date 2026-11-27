@@ -17,7 +17,8 @@ from openace.core.models import AudioClip, Project, RenderJob, RenderJobStatus, 
 from openace.core.project_store import ProjectStore
 from openace.engines.acestep import ACEStepEngine
 from openace.engines.base import EngineUnavailable
-from openace.engines.fixture import FixtureMusicEngine, FixtureVocalEngine, fixture_enabled
+from openace.engines.fixture import FixtureMusicEngine, FixtureVocalEngine, fixture_enabled, fixture_separate_stems
+from openace.engines.separation import DemucsStemSeparator
 from openace.engines.soulx import SoulXSingerEngine
 from openace.engines.vram import vram_manager
 
@@ -43,12 +44,14 @@ class RenderService:
         if fixture_enabled():
             self.vocal_engine = FixtureVocalEngine()
             self.music_engine = FixtureMusicEngine()
+            self.stem_separator = None
             self.vocal_engine_name = "explicit CI synthesis fixture"
             self.music_engine_name = "explicit CI music fixture"
             self.fixture_mode = True
         else:
             self.vocal_engine = SoulXSingerEngine(vram=vram_manager)
             self.music_engine = ACEStepEngine(vram=vram_manager)
+            self.stem_separator = DemucsStemSeparator()
             self.vocal_engine_name = "SoulX-Singer"
             self.music_engine_name = "ACE-Step 1.5"
             self.fixture_mode = False
@@ -75,6 +78,8 @@ class RenderService:
             return bool(job.source_audio) and job.start_s is not None and job.end_s is not None
         if job.mode == RenderMode.SVC:
             return bool(job.source_audio and job.reference_voice)
+        if job.mode == RenderMode.SEPARATE:
+            return bool(job.source_audio)
         return False
 
     def recover_interrupted_jobs(self) -> List[RenderJob]:
@@ -117,6 +122,8 @@ class RenderService:
             )
         if job.mode == RenderMode.SVC:
             return self.run_svc(job.id, job.source_audio or "", job.reference_voice or "")
+        if job.mode == RenderMode.SEPARATE:
+            return self.run_separation(job.id, job.source_audio or "")
         raise ValueError(f"unsupported render job mode for recovery: {job.mode}")
 
     def _persist_jobs(self) -> None:
@@ -158,7 +165,7 @@ class RenderService:
             end_s=end_s,
         )
         job.fixture = self.fixture_mode
-        job.engine = self.vocal_engine_name if mode in {RenderMode.SVS_SCORE, RenderMode.SVC} else self.music_engine_name
+        job.engine = self.vocal_engine_name if mode in {RenderMode.SVS_SCORE, RenderMode.SVC} else ("Demucs" if mode == RenderMode.SEPARATE and not self.fixture_mode else self.music_engine_name)
         self.jobs[job.id] = job
         self._publish_job(job)
         return job
@@ -309,6 +316,63 @@ class RenderService:
             job.status = RenderJobStatus.COMPLETED
             job.progress = 1.0
             job.message = "completed"
+            job.finished_at = time.time()
+        except Exception as exc:
+            job.status = RenderJobStatus.FAILED
+            job.error = str(exc)
+            job.message = str(exc)
+            job.finished_at = time.time()
+        self._publish_job(job)
+        event_bus.publish("project_updated", {"project_id": job.project_id})
+        return job
+
+    async def run_separation(self, job_id: str, source_audio: str) -> RenderJob:
+        job = self.jobs[job_id]
+        job.status = RenderJobStatus.RUNNING
+        job.message = "running local stem separation"
+        job.progress = 0.05
+        self._publish_job(job)
+        try:
+            project = self.store.get(job.project_id)
+            outdir = self.output_dir(project.id, job.id)
+            if self.fixture_mode:
+                vocals = outdir / "separated_vocal.wav"
+                accompaniment = outdir / "separated_accompaniment.wav"
+                await asyncio.to_thread(fixture_separate_stems, Path(source_audio), vocals, accompaniment)
+            else:
+                vocals, accompaniment = await asyncio.to_thread(self.stem_separator.separate, Path(source_audio), outdir)
+            vocal_audio, vocal_sr = await asyncio.to_thread(read_audio, vocals)
+            accompaniment_audio, accompaniment_sr = await asyncio.to_thread(read_audio, accompaniment)
+            source_name = Path(source_audio).stem or "source"
+            vocal_track = project.add_track(Track(name=f"Separated vocal — {source_name}", type=TrackType.AUDIO, color="#ff7b9c"))
+            vocal_track.clips.append(AudioClip(path=str(vocals), start_ticks=0, duration_ticks=project.seconds_to_ticks(len(vocal_audio) / vocal_sr), label="Separated vocal"))
+            vocal_track.render_path = str(vocals)
+            vocal_track.render_revision += 1
+            accompaniment_track = project.add_track(Track(name=f"Separated instrumental — {source_name}", type=TrackType.AUDIO, color="#42c6a8"))
+            accompaniment_track.clips.append(AudioClip(path=str(accompaniment), start_ticks=0, duration_ticks=project.seconds_to_ticks(len(accompaniment_audio) / accompaniment_sr), label="Separated instrumental"))
+            accompaniment_track.render_path = str(accompaniment)
+            accompaniment_track.render_revision += 1
+            separations = list(project.metadata.get("stem_separations", []))
+            separations.append({
+                "job_id": job.id,
+                "source_audio": str(source_audio),
+                "vocal_track_id": vocal_track.id,
+                "accompaniment_track_id": accompaniment_track.id,
+                "vocal_path": str(vocals),
+                "accompaniment_path": str(accompaniment),
+                "engine": "explicit CI separation fixture" if self.fixture_mode else "Demucs htdemucs",
+            })
+            project.metadata["stem_separations"] = separations
+            self.store.save(project)
+            self._publish_project(project)
+            diagnostic = outdir / "diagnostic.png"
+            provenance = "OPENACE_CI_SYNTH_FIXTURE=1 — ORCHESTRATION TEST AUDIO, NOT DEMUCS OUTPUT" if self.fixture_mode else "Demucs htdemucs local stem separation"
+            await asyncio.to_thread(write_diagnostic, diagnostic, project, first_vocal_notes(project), vocal_audio, vocal_sr, None, provenance)
+            job.output_path = str(vocals)
+            job.diagnostic_path = str(diagnostic)
+            job.status = RenderJobStatus.COMPLETED
+            job.progress = 1.0
+            job.message = f"completed; added separated vocal/instrumental tracks for {source_name}"
             job.finished_at = time.time()
         except Exception as exc:
             job.status = RenderJobStatus.FAILED

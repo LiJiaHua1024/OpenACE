@@ -97,3 +97,20 @@ class FixtureMusicEngine:
             t = np.arange(end - start) / sr
             audio[start:end] = 0.12 * np.sin(2 * np.pi * 220 * t)
         return write_fixture_wav(output_path, audio, sr)
+
+def fixture_separate_stems(source_audio: Path, vocal_output: Path, accompaniment_output: Path) -> tuple[Path, Path]:
+    """Explicit CI-only two-stem orchestration fixture, never production separation."""
+    require_fixture_enabled()
+    data, sr = sf.read(str(source_audio), always_2d=False)
+    mono = np.asarray(data, dtype=np.float32)
+    if mono.ndim > 1:
+        mono = mono.mean(axis=1)
+    if len(mono) < 16:
+        raise ValueError("source audio is too short for fixture separation")
+    spectrum = np.fft.rfft(mono)
+    frequencies = np.fft.rfftfreq(len(mono), 1.0 / sr)
+    vocal = np.fft.irfft(spectrum * (frequencies >= 500.0), n=len(mono)).astype(np.float32)
+    accompaniment = np.fft.irfft(spectrum * (frequencies < 500.0), n=len(mono)).astype(np.float32)
+    write_fixture_wav(vocal_output, vocal, sr)
+    write_fixture_wav(accompaniment_output, accompaniment, sr)
+    return vocal_output, accompaniment_output

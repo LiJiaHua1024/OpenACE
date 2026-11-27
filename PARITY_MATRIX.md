@@ -2,7 +2,7 @@
 
 Status legend: **Done** (implemented and exercised end-to-end in this repository), **Partial** (real implementation exists but production depth or validation is incomplete), **Gap** (missing). This is an adversarial living audit, not marketing copy.
 
-Last audit iteration: 2026-11-27, after agent-native editing expansion and independent browser QA.
+Last audit iteration: 2026-11-27, after stem-separation/dry-wet iteration and independent browser QA.
 
 ## P0 — synthesis cores and acoustic invariants
 
@@ -51,7 +51,7 @@ Last audit iteration: 2026-11-27, after agent-native editing expansion and indep
 | OpenUtau `.ustx` | Bidirectional project interchange openable in OpenUtau | **Partial** | Rewritten against actual OpenUtau 0.10 source semantics with exact note keys/units, fixed 480-PPQ scaling, mandatory pitch defaults, vibrato/automation/track-unit conversion, arrangement audio clips as measured source-relative wave parts, bidirectional import of project/notes/curves/vibrato/automation/wave timing, secure packaged zip import with bundled wave media, browser export+import proof, and source-derived regressions. Still not launched inside the real OpenUtau GUI because .NET 10/host validation is unavailable in this sandbox. |
 | Synthesizer V `.svp` | Openable in SynthV | **Partial** | Corrected against OpenUtau’s real SVP importer contract: group UUID/mainRef voice references, blick timing, vibrato seconds, and flattened pitch/loudness/tension/breathiness automation are regression- and browser-verified. Still not opened in actual Synthesizer V. |
 | VOCALOID `.vpr` | Openable in VOCALOID5/6 | **Partial** | ZIP `Project/sequence.json` writer/test. Not validated in actual VOCALOID. |
-| Stem separation / dry-wet remix | ACE-like source separation workflow | **Gap** | No first-class stem separation workflow. |
+| Stem separation / dry-wet remix | ACE-like source separation workflow | **Partial** | Production Demucs `htdemucs` local subprocess path, optional GPU dependency, loud missing-runtime failure, durable separation jobs, MCP/CLI/API entry points, and arrangement-integrated separated vocal/instrumental tracks are implemented. Fixture browser QA proved no-reload clips, provenance, drag/trim, mute persistence, diagnostic, and quantitative master-export dry/wet difference. Real Demucs musical quality remains pending physical GPU/local validation. |
 
 ## P3 — agent-native operation
 

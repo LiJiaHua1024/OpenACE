@@ -310,6 +310,16 @@ async def render_repaint(project_id: str, request: RenderRequest, background: Ba
     return job.model_dump(mode="json")
 
 
+@app.post("/api/projects/{project_id}/render/separate")
+async def render_separation(project_id: str, request: RenderRequest, background: BackgroundTasks):
+    get_project(project_id)
+    if not request.source_audio:
+        raise HTTPException(400, "source_audio is required")
+    job = render_service.create_job(project_id, RenderMode.SEPARATE, request.track_id, source_audio=request.source_audio)
+    background.add_task(render_service.run_separation, job.id, request.source_audio)
+    return job.model_dump(mode="json")
+
+
 @app.post("/api/projects/{project_id}/render/svc")
 async def render_svc(project_id: str, request: RenderRequest, background: BackgroundTasks):
     get_project(project_id)

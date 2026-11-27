@@ -28,6 +28,7 @@ export const api = {
   renderVocal: (projectId: string, trackId: string) => request<RenderJob>(`/api/projects/${projectId}/render/vocal`, json({ method: 'POST', body: JSON.stringify({ track_id: trackId }) })),
   vocal2bgm: (projectId: string, sourceAudio: string, caption: string) => request<RenderJob>(`/api/projects/${projectId}/render/vocal2bgm`, json({ method: 'POST', body: JSON.stringify({ source_audio: sourceAudio, caption }) })),
   repaint: (projectId: string, sourceAudio: string, startS: number, endS: number, caption: string) => request<RenderJob>(`/api/projects/${projectId}/render/repaint`, json({ method: 'POST', body: JSON.stringify({ source_audio: sourceAudio, start_s: startS, end_s: endS, caption }) })),
+  separate: (projectId: string, sourceAudio: string) => request<RenderJob>(`/api/projects/${projectId}/render/separate`, json({ method: 'POST', body: JSON.stringify({ source_audio: sourceAudio }) })),
   svc: (projectId: string, sourceAudio: string, referenceVoice: string) => request<RenderJob>(`/api/projects/${projectId}/render/svc`, json({ method: 'POST', body: JSON.stringify({ source_audio: sourceAudio, reference_voice: referenceVoice }) })),
   listVoices: () => request<VoiceProfile[]>('/api/voices'),
   renameVoice: (voiceId: string, name: string) => request<VoiceProfile>(`/api/voices/${voiceId}`, json({ method: 'PATCH', body: JSON.stringify({ name }) })),
