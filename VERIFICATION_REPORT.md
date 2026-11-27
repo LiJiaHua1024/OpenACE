@@ -1186,3 +1186,9 @@ Validation after iteration 93: frontend production build passed; independent bro
 Implemented and verified: durable sidecar-backed media tags/folders with validation, partial PATCH preservation, SSE/list integration, folder filtering, metadata-aware search, chips, prompt editing, safe in-use deletion protection, and automatic metadata cleanup after file deletion. Browser QA verified upload/listing/chips/filter/search/reload/long-label rejection/clearing, drag-created arrangement clip, context-delete clip removal, fresh-file metadata assignment, UI deletion, and sidecar cleanup. Evidence: `artifacts/e2e_screenshots/media_organization/`.
 
 Validation after iteration 94: focused media-bin tests passed; frontend production build passed; independent browser QA and focused retest passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 95 — autosave status and failure recovery
+
+Implemented and verified: unified project persistence now exposes saving/saved/error state, readable failure detail, click-to-retry recovery, race-safe latest-save handling, and undo/redo failure surfacing instead of swallowed save errors. Browser QA verified normal and rapid-edit transitions, induced PUT failure, blocked retry, undo/redo failure visibility, successful retry persistence, reload state, contained transport layout, and clean console/network apart from intentional aborts. Evidence: `artifacts/e2e_screenshots/autosave_status/`.
+
+Validation after iteration 95: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

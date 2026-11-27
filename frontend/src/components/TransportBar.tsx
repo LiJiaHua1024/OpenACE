@@ -24,6 +24,9 @@ interface Props {
   onImportUstx(file: File): void
   onImportAudio(file: File): void
   importingAudio?: boolean
+  saveState: 'saved' | 'saving' | 'error'
+  saveError: string
+  onRetrySave(): void
   onOpenProject(projectId: string): void
   onNewProject(): void
   onDuplicateProject(projectId?: string): void
@@ -142,6 +145,7 @@ export default function TransportBar(props: Props) {
         <button className={props.loopEnabled ? 'icon-button loop-toggle active' : 'icon-button loop-toggle'} title="Loop playback" onClick={props.onLoopToggle}>Loop</button>
         <button className={`play-button ${props.playing ? 'playing' : ''}`} title="Space" onClick={props.onPlayToggle}>{props.playing ? '❚❚' : '▶'}</button>
       </div>
+      <button className={`save-state ${props.saveState}`} title={props.saveError || (props.saveState === 'saved' ? 'Project saved locally' : props.saveState === 'saving' ? 'Saving project…' : 'Save failed; click to retry')} onClick={props.saveState === 'error' ? props.onRetrySave : undefined}>{props.saveState === 'saved' ? 'Saved' : props.saveState === 'saving' ? 'Saving…' : 'Save failed — retry'}</button>
       <div className="position-readout">
         <strong>{bars}.{beats}.{subdivisions}</strong>
         <span>{formatTime(props.project, props.playheadTicks)}</span>

@@ -99,6 +99,8 @@ export default function App() {
   const [past, setPast] = useState<Project[]>([])
   const [future, setFuture] = useState<Project[]>([])
   const [error, setError] = useState('')
+  const [saveState, setSaveState] = useState<'saved'|'saving'|'error'>('saved')
+  const [saveError, setSaveError] = useState('')
   const [importingAudio, setImportingAudio] = useState(false)
   const projectRef = useRef<Project | null>(null)
   const transactionBase = useRef<Project | null>(null)
@@ -118,12 +120,29 @@ export default function App() {
     setProject(value)
   }, [])
 
+  const saveVersion = useRef(0)
+  const saveProjectNow = useCallback(async (next: Project) => {
+    const version = ++saveVersion.current
+    setSaveState('saving')
+    setSaveError('')
+    try {
+      await api.saveProject(next)
+      if (saveVersion.current === version) setSaveState('saved')
+    } catch (e: any) {
+      if (saveVersion.current === version) {
+        const raw = e?.message || String(e)
+        const readable = raw.match(/"detail":"([^"]+)"/)?.[1] || raw.replace(/^\d+: /, '')
+        setSaveState('error')
+        setSaveError(readable)
+        setError(`save failed: ${readable}`)
+      }
+    }
+  }, [])
+
   const scheduleSave = useCallback((next: Project) => {
     if (saveTimer.current) window.clearTimeout(saveTimer.current)
-    saveTimer.current = window.setTimeout(() => {
-      api.saveProject(next).catch(e => setError(`save failed: ${e.message || e}`))
-    }, 350)
-  }, [])
+    saveTimer.current = window.setTimeout(() => { void saveProjectNow(next) }, 350)
+  }, [saveProjectNow])
 
   const applyLoopFromProject = useCallback((target: Project) => {
     const raw = target.metadata?.playback_loop
@@ -282,8 +301,8 @@ export default function App() {
     setFuture(items => [...items, clone(current)])
     setProjectRef(previous)
     applyLoopFromProject(previous)
-    api.saveProject(previous).catch(() => {})
-  }, [past, setProjectRef, applyLoopFromProject])
+    void saveProjectNow(previous)
+  }, [past, setProjectRef, applyLoopFromProject, saveProjectNow])
 
   const redo = useCallback(() => {
     const current = projectRef.current
@@ -293,8 +312,8 @@ export default function App() {
     setPast(items => [...items, clone(current)])
     setProjectRef(next)
     applyLoopFromProject(next)
-    api.saveProject(next).catch(() => {})
-  }, [future, setProjectRef, applyLoopFromProject])
+    void saveProjectNow(next)
+  }, [future, setProjectRef, applyLoopFromProject, saveProjectNow])
 
 
   const openProject = useCallback(async (projectId: string) => {
@@ -750,6 +769,9 @@ export default function App() {
         onImportUstx={file => void handleImportedProject(importUstx(file))}
         onImportAudio={handleImportAudio}
         importingAudio={importingAudio}
+        saveState={saveState}
+        saveError={saveError}
+        onRetrySave={() => projectRef.current && void saveProjectNow(projectRef.current)}
       />
       <div className="workspace-grid">
         <TrackList

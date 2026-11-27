@@ -1,0 +1,54 @@
+{
+  "console": [
+    "Failed to load resource: net::ERR_FAILED",
+    "Failed to load resource: net::ERR_FAILED"
+  ],
+  "network": [],
+  "normal_sequence": [
+    "Saved",
+    "Saving…",
+    "Saved"
+  ],
+  "normal_saved_title": "Autosave Alpha",
+  "rapid_sequence": [
+    "Saved",
+    "Saving…",
+    "Saved"
+  ],
+  "rapid_put_count": 1,
+  "rapid_saved_title": "Rapid 123456789",
+  "blocked_sequence": [
+    "Saved",
+    "Save failed — retry"
+  ],
+  "error_text": "Save failed — retry",
+  "error_title": "Failed to fetch",
+  "top_error": "save failed: Failed to fetch",
+  "retry_while_blocked": "Save failed — retry",
+  "undo_failure_state": "Save failed — retry",
+  "redo_failure_state": "Save failed — retry",
+  "recovery_sequence": [
+    "Saving…",
+    "Saved"
+  ],
+  "recovered_backend_title": "Blocked Latest",
+  "layout": {
+    "save": {
+      "x": 765.140625,
+      "y": 16,
+      "width": 45.265625,
+      "height": 25
+    },
+    "header": {
+      "x": 0,
+      "y": 0,
+      "width": 1272,
+      "height": 58
+    },
+    "inside": true
+  },
+  "reload": {
+    "reload_title": "Blocked Latest",
+    "reload_state": "Saved"
+  }
+}
