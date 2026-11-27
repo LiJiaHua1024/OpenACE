@@ -7,6 +7,7 @@ interface TempoProject {
   ppq: number
   bpm: number
   tempo_map?: TempoPoint[]
+  time_signature?: { numerator: number; denominator: number }
 }
 
 export function normalizedTempoMap(project: TempoProject): TempoPoint[] {
@@ -69,4 +70,12 @@ export function tickDurationSeconds(project: TempoProject, startTicks: number, d
 
 export function secondsToTicksFrom(project: TempoProject, startTicks: number, seconds: number): number {
   return secondsToTicks(project, ticksToSeconds(project, startTicks) + seconds) - startTicks
+}
+
+export function beatUnitTicks(project: TempoProject): number {
+  return project.ppq * 4 / Math.max(1, project.time_signature?.denominator || 4)
+}
+
+export function barTicks(project: TempoProject): number {
+  return Math.max(1, project.time_signature?.numerator || 4) * beatUnitTicks(project)
 }

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Breath, BreathTimbre, EnvelopePoint, Note, Phoneme, Project, TimelineState, Track } from '../types'
-import { tickDurationSeconds } from '../tempo'
+import { barTicks as musicalBarTicks, tickDurationSeconds } from '../tempo'
 
 const LANE_HEIGHT = 148
 const KEY_WIDTH = 64
@@ -158,7 +158,7 @@ export default function AutomationLane(props: Props) {
       const height = rect.height
       ctx.fillStyle = '#11131d'
       ctx.fillRect(0, 0, width, height)
-      const barTicks = ppq * props.project.time_signature.numerator
+      const barTicks = musicalBarTicks(props.project)
       const endTick = props.timeline.scrollTicks + ((width - KEY_WIDTH) / props.timeline.pxPerBeat) * ppq + barTicks
       const firstTick = Math.floor(props.timeline.scrollTicks / (ppq / 4)) * (ppq / 4)
       for (let t = firstTick; t < endTick; t += ppq / 4) {

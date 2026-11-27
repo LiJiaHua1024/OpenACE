@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { api } from '../api'
 import type { Note, Project, TimelineState, Track } from '../types'
-import { tickDurationSeconds } from '../tempo'
+import { barTicks as musicalBarTicks, tickDurationSeconds } from '../tempo'
 
 const KEY_WIDTH = 64
 const RULER_HEIGHT = 30
@@ -167,7 +167,7 @@ export default function PianoRoll(props: Props) {
       }
 
       const beatTicks = ppq
-      const barTicks = ppq * props.project.time_signature.numerator
+      const barTicks = musicalBarTicks(props.project)
       const startTick = Math.floor(props.timeline.scrollTicks / (ppq / 4)) * (ppq / 4)
       const endTick = props.timeline.scrollTicks + ((width - KEY_WIDTH) / props.timeline.pxPerBeat) * ppq + ppq
       for (let tick = startTick; tick <= endTick; tick += ppq / 4) {

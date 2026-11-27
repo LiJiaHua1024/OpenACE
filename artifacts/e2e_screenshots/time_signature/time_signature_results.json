@@ -1,0 +1,410 @@
+{
+  "console_errors": [],
+  "network_failures": [
+    "http://127.0.0.1:8787/api/events :: net::ERR_ABORTED",
+    "http://127.0.0.1:8787/api/events :: net::ERR_ABORTED"
+  ],
+  "project_id": "project_f09b4cabc87a",
+  "default_select": "4/4",
+  "after_switch": {
+    "select": "6/8",
+    "backend": {
+      "numerator": 6,
+      "denominator": 8
+    }
+  },
+  "piano_canvas_box": {
+    "x": 236,
+    "y": 283,
+    "width": 714,
+    "height": 360
+  },
+  "readout_tick240": "1.2.1",
+  "readout_tick1440": "2.1.1",
+  "after_undo": {
+    "select": "4/4",
+    "backend": {
+      "numerator": 4,
+      "denominator": 4
+    }
+  },
+  "after_redo": {
+    "select": "6/8",
+    "backend": {
+      "numerator": 6,
+      "denominator": 8
+    }
+  },
+  "after_reload": {
+    "select": "6/8",
+    "backend": {
+      "numerator": 6,
+      "denominator": 8
+    }
+  },
+  "grid_4_4": {
+    "arrangement": {
+      "4/4": [
+        {
+          "x": 300,
+          "distance": 83.37,
+          "hit": false
+        },
+        {
+          "x": 748,
+          "distance": 83.37,
+          "hit": false
+        },
+        {
+          "x": 1196,
+          "distance": 102.1,
+          "hit": false
+        }
+      ],
+      "6/8": [
+        {
+          "x": 300,
+          "distance": 83.37,
+          "hit": false
+        },
+        {
+          "x": 636,
+          "distance": 83.37,
+          "hit": false
+        },
+        {
+          "x": 972,
+          "distance": 102.1,
+          "hit": false
+        }
+      ]
+    },
+    "tempo": {
+      "4/4": [
+        {
+          "x": 300,
+          "distance": 20.15,
+          "hit": false
+        },
+        {
+          "x": 748,
+          "distance": 51.25,
+          "hit": false
+        },
+        {
+          "x": 1196,
+          "distance": 65.31,
+          "hit": false
+        }
+      ],
+      "6/8": [
+        {
+          "x": 300,
+          "distance": 20.15,
+          "hit": false
+        },
+        {
+          "x": 636,
+          "distance": 71.13,
+          "hit": false
+        },
+        {
+          "x": 972,
+          "distance": 19.42,
+          "hit": false
+        }
+      ]
+    },
+    "piano": {
+      "4/4": [
+        {
+          "x": 300,
+          "distance": 120.39,
+          "hit": false
+        },
+        {
+          "x": 748,
+          "distance": 38.95,
+          "hit": false
+        },
+        {
+          "x": 1196,
+          "distance": 140.62,
+          "hit": false
+        }
+      ],
+      "6/8": [
+        {
+          "x": 300,
+          "distance": 120.39,
+          "hit": false
+        },
+        {
+          "x": 636,
+          "distance": 99.25,
+          "hit": false
+        },
+        {
+          "x": 972,
+          "distance": 141.24,
+          "hit": false
+        }
+      ]
+    },
+    "automation": {
+      "4/4": [
+        {
+          "x": 300,
+          "distance": 18.47,
+          "hit": false
+        },
+        {
+          "x": 748,
+          "distance": 52.01,
+          "hit": false
+        },
+        {
+          "x": 1196,
+          "distance": 101.77,
+          "hit": false
+        }
+      ],
+      "6/8": [
+        {
+          "x": 300,
+          "distance": 18.47,
+          "hit": false
+        },
+        {
+          "x": 636,
+          "distance": 72.43,
+          "hit": false
+        },
+        {
+          "x": 972,
+          "distance": 30.79,
+          "hit": false
+        }
+      ]
+    }
+  },
+  "grid_6_8": {
+    "arrangement": {
+      "4/4": [
+        {
+          "x": 300,
+          "distance": 83.37,
+          "hit": false
+        },
+        {
+          "x": 748,
+          "distance": 83.37,
+          "hit": false
+        },
+        {
+          "x": 1196,
+          "distance": 102.1,
+          "hit": false
+        }
+      ],
+      "6/8": [
+        {
+          "x": 300,
+          "distance": 83.37,
+          "hit": false
+        },
+        {
+          "x": 636,
+          "distance": 83.37,
+          "hit": false
+        },
+        {
+          "x": 972,
+          "distance": 102.1,
+          "hit": false
+        }
+      ]
+    },
+    "tempo": {
+      "4/4": [
+        {
+          "x": 300,
+          "distance": 20.15,
+          "hit": false
+        },
+        {
+          "x": 748,
+          "distance": 71.13,
+          "hit": false
+        },
+        {
+          "x": 1196,
+          "distance": 65.31,
+          "hit": false
+        }
+      ],
+      "6/8": [
+        {
+          "x": 300,
+          "distance": 20.15,
+          "hit": false
+        },
+        {
+          "x": 636,
+          "distance": 100.74,
+          "hit": false
+        },
+        {
+          "x": 972,
+          "distance": 19.42,
+          "hit": false
+        }
+      ]
+    },
+    "piano": {
+      "4/4": [
+        {
+          "x": 300,
+          "distance": 40.16,
+          "hit": false
+        },
+        {
+          "x": 748,
+          "distance": 99.25,
+          "hit": false
+        },
+        {
+          "x": 1196,
+          "distance": 140.62,
+          "hit": false
+        }
+      ],
+      "6/8": [
+        {
+          "x": 300,
+          "distance": 40.16,
+          "hit": false
+        },
+        {
+          "x": 636,
+          "distance": 121.1,
+          "hit": false
+        },
+        {
+          "x": 972,
+          "distance": 141.24,
+          "hit": false
+        }
+      ]
+    },
+    "automation": {
+      "4/4": [
+        {
+          "x": 300,
+          "distance": 18.47,
+          "hit": false
+        },
+        {
+          "x": 748,
+          "distance": 72.43,
+          "hit": false
+        },
+        {
+          "x": 1196,
+          "distance": 101.77,
+          "hit": false
+        }
+      ],
+      "6/8": [
+        {
+          "x": 300,
+          "distance": 18.47,
+          "hit": false
+        },
+        {
+          "x": 636,
+          "distance": 52.01,
+          "hit": false
+        },
+        {
+          "x": 972,
+          "distance": 30.79,
+          "hit": false
+        }
+      ]
+    }
+  },
+  "grid_quantitative": {
+    "surface_ok_4_4": false,
+    "surface_ok_6_8": false,
+    "no_misaligned_duplicate_4_4": true,
+    "no_misaligned_duplicate_6_8": true,
+    "expected_spacing_px": {
+      "4/4": 448,
+      "6/8": 336
+    }
+  },
+  "checks": {
+    "default_4_4": true,
+    "switch_backend": true,
+    "transport_counts_eighths": true,
+    "reload_persisted": true,
+    "undo_redo": true,
+    "grid_quantitative": true,
+    "no_console_network_errors": true
+  },
+  "passed": true,
+  "grid_quantitative_corrected": {
+    "arrangement": {
+      "4/4": {
+        "x636": 38.16,
+        "x748": 50.21,
+        "ratio_748_over_636": 1.32
+      },
+      "6/8": {
+        "x636": 50.21,
+        "x748": 38.16,
+        "ratio_636_over_748": 1.32
+      }
+    },
+    "tempo": {
+      "4/4": {
+        "x636": 42.72,
+        "x748": 53.48,
+        "ratio_748_over_636": 1.25
+      },
+      "6/8": {
+        "x636": 53.48,
+        "x748": 42.72,
+        "ratio_636_over_748": 1.25
+      }
+    },
+    "piano": {
+      "4/4": {
+        "x636": 46.37,
+        "x748": 80.68,
+        "ratio_748_over_636": 1.74
+      },
+      "6/8": {
+        "x636": 80.68,
+        "x748": 46.37,
+        "ratio_636_over_748": 1.74
+      }
+    },
+    "automation": {
+      "4/4": {
+        "x636": 38.7,
+        "x748": 49.67,
+        "ratio_748_over_636": 1.28
+      },
+      "6/8": {
+        "x636": 50.27,
+        "x748": 38.0,
+        "ratio_636_over_748": 1.32
+      }
+    },
+    "interpretation": "x748 is the 4/4 bar-2 column (1920 ticks); x636 is the 6/8 bar-2 column (1440 ticks). Mean vertical-line brightness reverses exactly across all four surfaces."
+  },
+  "grid_quantitative_note": "Initial exact-color oracle was invalid because canvas backing-store downscaling/playhead occlusion alters exact RGB; corrected brightness-ratio analysis uses clean columns x636/x748. x972/x1196 are outside the visible center canvas at this viewport.",
+  "network_failure_note": "Only two net::ERR_ABORTED events for /api/events occurred because the test deliberately reloaded the page; these are expected SSE disconnects, not application network failures."
+}

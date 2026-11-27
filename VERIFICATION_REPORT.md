@@ -613,3 +613,14 @@ Implemented and verified:
 - Backend regression verifies fixture-labeled stem content, exact durations/paths, arrangement tracks, metadata, and diagnostic creation. Independent visible-Chrome QA verified upload/job completion, no-reload appearance of both waveform tracks, metadata, vocal mute persistence, quantitative master high/low spectral ratio dropping `0.74930 → 0.000114` after vocal mute, clip drag `0→120` and trim `1920→1680`, CLI/MCP entry-point visibility, professional 1272×837 layout, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/stem_separation/`, especially `STEM_SEPARATION_QA_REPORT.md` and `04_final_layout.png`.
 
 Validation after iteration 39: frontend production build passed; Python compile passed; full automated suite reached 96 passed.
+
+## Iteration 40 — editable denominator-aware time signatures
+
+Implemented and verified:
+
+- Transport now exposes common time signatures (`2/4` through compound `12/8`) and persists validated numerator/denominator pairs. Schema rejects non-positive numerators and non-power-of-two denominators.
+- Arrangement, piano roll, automation, and tempo grids now derive bar spacing from `numerator * ppq * 4 / denominator` instead of hard-coding four quarter notes per bar. The transport readout counts denominator beat units, so 6/8 correctly exposes six eighth-note beats per bar.
+- Serialization regression verifies the same signature reaches MIDI meta events, USTX `beat_per_bar`/`beat_unit`, SVP meter, and VPR master-track time signatures.
+- Independent visible-Chrome QA at exact 1272×837 verified default 4/4, visible switch to 6/8, backend persistence, consistently narrowed arrangement/piano/automation/tempo grids with quantitative 448px→336px evidence, transport tick 1440 reading bar `2.1`, reload persistence, undo/redo, and zero console or meaningful network errors. Evidence: `artifacts/e2e_screenshots/time_signature/`.
+
+Validation after iteration 40: targeted time-signature tests passed; full automated suite reached 98 passed after final regression.

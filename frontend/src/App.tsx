@@ -408,6 +408,7 @@ export default function App() {
         onSeek={setPlayheadTicks}
         onTitleChange={title => updateProject(next => { next.title = title }, true)}
         onBpmChange={bpm => updateProject(next => { next.bpm = Math.max(30, Math.min(300, bpm)) }, false)}
+        onTimeSignatureChange={(numerator, denominator) => updateProject(next => { next.time_signature = { numerator, denominator } }, false)}
         onUndo={undo}
         onRedo={redo}
         onOpenProject={openProject}

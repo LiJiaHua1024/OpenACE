@@ -165,8 +165,15 @@ class Track(BaseModel):
 
 
 class TimeSignature(BaseModel):
-    numerator: int = 4
-    denominator: int = 4
+    numerator: int = Field(default=4, ge=1, le=32)
+    denominator: int = Field(default=4, ge=1, le=32)
+
+    @field_validator("denominator")
+    @classmethod
+    def denominator_is_power_of_two(cls, value: int) -> int:
+        if value & (value - 1):
+            raise ValueError("time signature denominator must be a power of two")
+        return value
 
 
 class TempoPoint(BaseModel):

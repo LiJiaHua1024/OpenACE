@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { bpmAt, normalizedTempoMap } from '../tempo'
+import { barTicks as musicalBarTicks, bpmAt, normalizedTempoMap } from '../tempo'
 import type { Project, TimelineState } from '../types'
 
 const HEIGHT = 54
@@ -91,7 +91,7 @@ export default function TempoLane(props: Props) {
       const width = rect.width
       ctx.fillStyle = '#0e111a'; ctx.fillRect(0, 0, width, HEIGHT)
       const visibleEnd = scrollTicks + ((width - LABEL_WIDTH) / pxPerBeat) * ppq + ppq
-      const barTicks = ppq * props.project.time_signature.numerator
+      const barTicks = musicalBarTicks(props.project)
       for (let t = Math.floor(scrollTicks / grid) * grid; t < visibleEnd; t += grid) {
         const x = xForTick(t)
         ctx.strokeStyle = t % barTicks === 0 ? '#3c4563' : t % ppq === 0 ? '#283046' : '#202638'

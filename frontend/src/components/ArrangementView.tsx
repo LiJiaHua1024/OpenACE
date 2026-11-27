@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { renderFileUrl } from '../api'
 import { crossfadeGainAt, crossfadeIntervals } from '../crossfade'
 import type { AudioClip, Project, TimelineState, Track } from '../types'
-import { secondsBetweenTicks, secondsToTicks, secondsToTicksFrom, tickDurationSeconds, ticksToSeconds } from '../tempo'
+import { barTicks as musicalBarTicks, secondsBetweenTicks, secondsToTicks, secondsToTicksFrom, tickDurationSeconds, ticksToSeconds } from '../tempo'
 
 const LABEL_WIDTH = 64
 const RULER_HEIGHT = 24
@@ -115,7 +115,7 @@ export default function ArrangementView(props: Props) {
       const width = rect.width
       const height = rect.height
       ctx.fillStyle = '#0f121c'; ctx.fillRect(0, 0, width, height)
-      const barTicks = ppq * props.project.time_signature.numerator
+      const barTicks = musicalBarTicks(props.project)
       const endTicks = scrollTicks + ((width - LABEL_WIDTH) / pxPerBeat) * ppq + barTicks
       for (let t = Math.floor(scrollTicks / (ppq / 4)) * (ppq / 4); t < endTicks; t += ppq / 4) {
         const x = xForTick(t)

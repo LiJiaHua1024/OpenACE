@@ -1,5 +1,5 @@
 import type { Project } from '../types'
-import { ticksToSeconds } from '../tempo'
+import { beatUnitTicks, ticksToSeconds } from '../tempo'
 
 interface ProjectSummary { id: string; title: string }
 interface Props {
@@ -14,6 +14,7 @@ interface Props {
   onSeek(ticks: number): void
   onTitleChange(title: string): void
   onBpmChange(bpm: number): void
+  onTimeSignatureChange(numerator: number, denominator: number): void
   onUndo(): void
   onRedo(): void
   onImportMidi(file: File): void
@@ -34,9 +35,12 @@ function formatTime(project: Project, ticks: number) {
 }
 
 export default function TransportBar(props: Props) {
-  const bars = Math.floor(props.playheadTicks / props.project.ppq / props.project.time_signature.numerator) + 1
-  const beats = Math.floor(props.playheadTicks / props.project.ppq) % props.project.time_signature.numerator + 1
-  const sixteenths = Math.floor((props.playheadTicks % props.project.ppq) / (props.project.ppq / 4)) + 1
+  const unitTicks = beatUnitTicks(props.project)
+  const numerator = props.project.time_signature.numerator
+  const bars = Math.floor(props.playheadTicks / (unitTicks * numerator)) + 1
+  const beatIndex = Math.floor(props.playheadTicks / unitTicks)
+  const beats = beatIndex % numerator + 1
+  const subdivisions = Math.floor((props.playheadTicks % unitTicks) / (unitTicks / 4)) + 1
   return (
     <header className="transport-bar">
       <div className="brand"><span className="brand-mark">OA</span><span>OpenACE Studio</span><span className="local-badge">LOCAL</span></div>
@@ -54,12 +58,23 @@ export default function TransportBar(props: Props) {
         <button className={`play-button ${props.playing ? 'playing' : ''}`} title="Space" onClick={props.onPlayToggle}>{props.playing ? '❚❚' : '▶'}</button>
       </div>
       <div className="position-readout">
-        <strong>{bars}.{beats}.{sixteenths}</strong>
+        <strong>{bars}.{beats}.{subdivisions}</strong>
         <span>{formatTime(props.project, props.playheadTicks)}</span>
       </div>
       <label className="tempo-box">BPM
         <input type="number" min="30" max="300" step="0.1" value={props.project.bpm} onChange={e => props.onBpmChange(Number(e.target.value) || props.project.bpm)} />
       </label>
+      <select
+        className="time-signature-select"
+        title="Time signature"
+        value={`${props.project.time_signature.numerator}/${props.project.time_signature.denominator}`}
+        onChange={event => {
+          const [numerator, denominator] = event.target.value.split('/').map(Number)
+          props.onTimeSignatureChange(numerator, denominator)
+        }}
+      >
+        {['2/4', '3/4', '4/4', '5/4', '6/8', '7/8', '9/8', '12/8'].map(value => <option key={value} value={value}>{value}</option>)}
+      </select>
       <label className="import-midi">Import MIDI
         <input type="file" accept=".mid,.midi" onChange={e => e.target.files?.[0] && props.onImportMidi(e.target.files[0])} />
       </label>
