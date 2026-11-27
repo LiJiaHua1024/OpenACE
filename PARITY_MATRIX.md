@@ -2,7 +2,7 @@
 
 Status legend: **Done** (implemented and exercised end-to-end in this repository), **Partial** (real implementation exists but production depth or validation is incomplete), **Gap** (missing). This is an adversarial living audit, not marketing copy.
 
-Last audit iteration: 2026-11-27, after full adversarial creative-loop audit and toolbar-overflow repair.
+Last audit iteration: 2026-11-28, after debounced automatic vocal rendering and concurrent-edit render-completion repair.
 
 ## P0 — synthesis cores and acoustic invariants
 
@@ -68,6 +68,7 @@ Last audit iteration: 2026-11-27, after full adversarial creative-loop audit and
 | Render-job cancellation | Mistaken queued/running jobs can be stopped without blocking the FIFO render queue | **Partial** | API/UI/CLI/MCP cancellation is implemented with durable canceled state. Queued jobs cancel before engine start; running jobs use cancellation tokens that terminate local engine subprocess process groups on Unix/Windows and publish truthful canceled state without adopting output. Production subprocess termination is unit-verified, and browser FIFO/UI recovery is verified with a cancellation-responsive explicit fixture. Physical-GPU engine cancellation still needs real-machine validation. |
 | Render-job durability | Jobs survive backend restart | **Done** | Job records persist atomically in `data/renders/jobs.json`; server jobs execute through one FIFO queue with no overlapping running jobs, queued/running jobs with durable inputs are automatically requeued after backend restart through the same worker, and legacy jobs missing inputs fail loudly rather than silently disappearing. Restart integration and browser/SSE FIFO proof passed. |
 | Vocal render freshness | Users can tell whether cached audio matches current score | **Done** | Vocal renders store deterministic input fingerprints covering notes/lyrics/phonemes/pitch curves, automation, breaths, tempo, language, and voice assignment. Browser-verified amber track badges and RenderPanel warnings appear when musical input changes or legacy fingerprint metadata is absent, clear after exact undo/rerender, ignore irrelevant mixer/name/color edits, survive reload, and truthfully state that old audio remains available until rerender. |
+| Automatic vocal render refresh | ACE Studio-like background refresh after score edits without pretending audio is instant | **Partial** | Explicit opt-in “Auto render edits” persists locally, debounces edits by 1.5s, detects stale/never-rendered vocal tracks through canonical input fingerprints, enqueues normal FIFO jobs, suppresses duplicate/parallel retries while active, and does not infinitely retry canceled/failed attempts until input changes. Browser QA verifies exactly one job for rapid edits, mid-render edit preservation, exactly one automatic follow-up, stale-state clearing after follow-up, cancel/manual-render regressions, contained layout, and clean console/network. Fine-grained incremental neural re-synthesis is not implemented; whole affected vocal tracks are honestly re-rendered. |
 
 ## P4 — tactile polish
 

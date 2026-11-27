@@ -351,12 +351,18 @@ class RenderService:
                 provenance += " + Falsetto lane spectral-tilt DSP (not neural conditioning)"
             self._report_job_progress(job_id, 0.92, "writing acoustic diagnostic")
             await asyncio.to_thread(write_diagnostic, diagnostic, project, track.sorted_notes(), audio, sr, actual_f0, provenance, track.automation.pitch_cents)
-            track.render_path = str(wav)
-            track.render_revision += 1
-            track.render_fingerprint = vocal_render_input_hash(project, track)
+            completed_fingerprint = vocal_render_input_hash(project, track)
             self.raise_if_cancelled(job_id)
-            self.store.save(project)
-            self._publish_project(project)
+            latest_project = self.store.get(project.id)
+            try:
+                latest_track = latest_project.track(job.track_id)
+            except KeyError as exc:
+                raise RuntimeError("vocal track was deleted before render completion; output was not adopted") from exc
+            latest_track.render_path = str(wav)
+            latest_track.render_revision += 1
+            latest_track.render_fingerprint = completed_fingerprint
+            self.store.save(latest_project)
+            self._publish_project(latest_project)
             job.output_path = str(wav)
             job.diagnostic_path = str(diagnostic)
             self.raise_if_cancelled(job_id)
@@ -390,7 +396,11 @@ class RenderService:
             outdir = self.output_dir(project.id, job.id)
             wav = outdir / "accompaniment.wav"
             duration = project.ticks_to_seconds(project.duration_ticks())
+            repaint_target_clip_id = None
             if job.mode == RenderMode.REPAINT:
+                source_accompaniment = next((t for t in project.tracks if t.type == TrackType.ACCOMPANIMENT), None)
+                if source_accompaniment is not None and source_accompaniment.clips:
+                    repaint_target_clip_id = source_accompaniment.clips[-1].id
                 if not source_audio:
                     raise ValueError("repaint requires source_audio")
                 await asyncio.to_thread(self.music_engine.repaint, Path(source_audio), wav, start_s, end_s, caption, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
@@ -402,19 +412,22 @@ class RenderService:
                 self.raise_if_cancelled(job_id)
             audio, sr = await asyncio.to_thread(read_audio, wav)
             self._report_job_progress(job_id, 0.84, "integrating accompaniment into arrangement")
-            duration_ticks = project.seconds_to_ticks(len(audio) / sr) if sr else None
-            accompaniment = next((t for t in project.tracks if t.type == TrackType.ACCOMPANIMENT), None)
+            completion_project = self.store.get(project.id)
+            duration_ticks = completion_project.seconds_to_ticks(len(audio) / sr) if sr else None
+            accompaniment = next((t for t in completion_project.tracks if t.type == TrackType.ACCOMPANIMENT), None)
             if accompaniment is None:
-                accompaniment = project.add_track(
+                accompaniment = completion_project.add_track(
                     Track(name="ACE-Step BGM", type=TrackType.ACCOMPANIMENT, color="#2fb996")
                 )
             self.raise_if_cancelled(job_id)
-            if job.mode == RenderMode.REPAINT and accompaniment.clips:
-                # Repaint returns a full-length revised accompaniment. Replacing the
-                # previous clip keeps arrangement, playback, and master export consistent.
-                accompaniment.clips[-1].path = str(wav)
-                accompaniment.clips[-1].duration_ticks = duration_ticks
-                accompaniment.clips[-1].label = "Repaint"
+            repaint_target = next((clip for clip in accompaniment.clips if clip.id == repaint_target_clip_id), None) if repaint_target_clip_id else None
+            if job.mode == RenderMode.REPAINT and repaint_target is not None:
+                # Repaint returns a full-length revised accompaniment. Replace only
+                # the clip captured at job start; never overwrite a different clip
+                # created or moved by the user while generation was running.
+                repaint_target.path = str(wav)
+                repaint_target.duration_ticks = duration_ticks
+                repaint_target.label = "Repaint"
             else:
                 accompaniment.clips.append(
                     AudioClip(
@@ -427,8 +440,8 @@ class RenderService:
             accompaniment.render_path = str(wav)
             accompaniment.render_revision += 1
             self.raise_if_cancelled(job_id)
-            self.store.save(project)
-            self._publish_project(project)
+            self.store.save(completion_project)
+            self._publish_project(completion_project)
             diagnostic = outdir / "diagnostic.png"
             notes = first_vocal_notes(project)
             self._report_job_progress(job_id, 0.92, "writing acoustic diagnostic")
@@ -467,15 +480,16 @@ class RenderService:
             self._report_job_progress(job_id, 0.84, "integrating separated stems into arrangement")
             self.raise_if_cancelled(job_id)
             source_name = Path(source_audio).stem or "source"
-            vocal_track = project.add_track(Track(name=f"Separated vocal — {source_name}", type=TrackType.AUDIO, color="#ff7b9c"))
-            vocal_track.clips.append(AudioClip(path=str(vocals), start_ticks=0, duration_ticks=project.seconds_to_ticks(len(vocal_audio) / vocal_sr), label="Separated vocal"))
+            completion_project = self.store.get(project.id)
+            vocal_track = completion_project.add_track(Track(name=f"Separated vocal — {source_name}", type=TrackType.AUDIO, color="#ff7b9c"))
+            vocal_track.clips.append(AudioClip(path=str(vocals), start_ticks=0, duration_ticks=completion_project.seconds_to_ticks(len(vocal_audio) / vocal_sr), label="Separated vocal"))
             vocal_track.render_path = str(vocals)
             vocal_track.render_revision += 1
-            accompaniment_track = project.add_track(Track(name=f"Separated instrumental — {source_name}", type=TrackType.AUDIO, color="#42c6a8"))
-            accompaniment_track.clips.append(AudioClip(path=str(accompaniment), start_ticks=0, duration_ticks=project.seconds_to_ticks(len(accompaniment_audio) / accompaniment_sr), label="Separated instrumental"))
+            accompaniment_track = completion_project.add_track(Track(name=f"Separated instrumental — {source_name}", type=TrackType.AUDIO, color="#42c6a8"))
+            accompaniment_track.clips.append(AudioClip(path=str(accompaniment), start_ticks=0, duration_ticks=completion_project.seconds_to_ticks(len(accompaniment_audio) / accompaniment_sr), label="Separated instrumental"))
             accompaniment_track.render_path = str(accompaniment)
             accompaniment_track.render_revision += 1
-            separations = list(project.metadata.get("stem_separations", []))
+            separations = list(completion_project.metadata.get("stem_separations", []))
             separations.append({
                 "job_id": job.id,
                 "source_audio": str(source_audio),
@@ -485,10 +499,10 @@ class RenderService:
                 "accompaniment_path": str(accompaniment),
                 "engine": "explicit CI separation fixture" if self.fixture_mode else "Demucs htdemucs",
             })
-            project.metadata["stem_separations"] = separations
+            completion_project.metadata["stem_separations"] = separations
             self.raise_if_cancelled(job_id)
-            self.store.save(project)
-            self._publish_project(project)
+            self.store.save(completion_project)
+            self._publish_project(completion_project)
             diagnostic = outdir / "diagnostic.png"
             provenance = "OPENACE_CI_SYNTH_FIXTURE=1 — ORCHESTRATION TEST AUDIO, NOT DEMUCS OUTPUT" if self.fixture_mode else "Demucs htdemucs local stem separation"
             self._report_job_progress(job_id, 0.92, "writing acoustic diagnostic")
@@ -524,12 +538,8 @@ class RenderService:
             # SVC output is arrangement media, not just a side-file in the job card.
             # Keep each conversion on its own audio track so users can mute/compare/move
             # alternatives without accidentally doubling the score-rendered vocal track.
-            duration_ticks = project.seconds_to_ticks(len(audio) / sr) if sr else None
             source_name = Path(source_audio).stem or "source"
             self.raise_if_cancelled(job_id)
-            conversion_track = project.add_track(
-                Track(name=f"SVC — {source_name}", type=TrackType.AUDIO, color="#ff8f5a")
-            )
             transcribed_lyrics: List[TimedLyric] = []
             lyric_language = None
             lyric_error = None
@@ -545,6 +555,11 @@ class RenderService:
                 # Missing optional ASR must never invent lyrics or invalidate an otherwise real conversion.
                 lyric_error = str(exc)
 
+            completion_project = self.store.get(project.id)
+            duration_ticks = completion_project.seconds_to_ticks(len(audio) / sr) if sr else None
+            conversion_track = completion_project.add_track(
+                Track(name=f"SVC — {source_name}", type=TrackType.AUDIO, color="#ff8f5a")
+            )
             conversion_track.clips.append(
                 AudioClip(
                     path=str(wav),
@@ -556,7 +571,7 @@ class RenderService:
             )
             conversion_track.render_path = str(wav)
             conversion_track.render_revision += 1
-            conversions = list(project.metadata.get("svc_conversions", []))
+            conversions = list(completion_project.metadata.get("svc_conversions", []))
             conversions.append(
                 {
                     "job_id": job.id,
@@ -569,10 +584,10 @@ class RenderService:
                     "lyric_transcription_error": lyric_error,
                 }
             )
-            project.metadata["svc_conversions"] = conversions
+            completion_project.metadata["svc_conversions"] = conversions
             self.raise_if_cancelled(job_id)
-            self.store.save(project)
-            self._publish_project(project)
+            self.store.save(completion_project)
+            self._publish_project(completion_project)
 
             diagnostic = outdir / "diagnostic.png"
             notes = first_vocal_notes(project)

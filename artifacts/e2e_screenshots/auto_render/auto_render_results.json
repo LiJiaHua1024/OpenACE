@@ -1,0 +1,232 @@
+{
+  "console_errors": [],
+  "page_errors": [],
+  "network_errors": [],
+  "events": {
+    "edits_for_first_auto": "lyric 啊→呜 plus two rapid +1 transposes",
+    "during_active_edit": "one additional +1 transpose while first auto job active"
+  },
+  "counts": {
+    "after_first_debounce": 1,
+    "during_active_after_edit": 1,
+    "after_first_completion_settle": 1,
+    "cancel_trigger_target": 2,
+    "after_cancel_trigger": 2,
+    "after_cancel_immediate": 2,
+    "after_cancel_wait": 2,
+    "after_post_cancel_input_change": 3,
+    "after_manual_click": 4,
+    "manual_expected_minimum": 4
+  },
+  "jobs": {
+    "first_auto": [
+      {
+        "id": "job_05ff23623dab",
+        "status": "running",
+        "mode": "svs_score",
+        "fixture": true,
+        "message": "fixture vocal synthesis stage",
+        "progress": 0.12,
+        "created_at": 1795816866.6351044
+      }
+    ],
+    "first_final": {
+      "id": "job_05ff23623dab",
+      "project_id": "project_4ca9232b530b",
+      "track_id": "track_4c77577f74a3",
+      "mode": "svs_score",
+      "status": "completed",
+      "progress": 1.0,
+      "message": "completed",
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_05ff23623dab/vocal.wav",
+      "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_05ff23623dab/diagnostic.png",
+      "created_at": 1795816866.6351044,
+      "finished_at": 1795816872.539818,
+      "error": null,
+      "engine": "explicit CI synthesis fixture",
+      "fixture": true,
+      "source_audio": null,
+      "reference_voice": null,
+      "caption": "",
+      "start_s": null,
+      "end_s": null
+    },
+    "after_first_completion_all": [
+      {
+        "id": "job_05ff23623dab",
+        "status": "completed",
+        "created_at": 1795816866.6351044,
+        "message": "completed"
+      }
+    ],
+    "canceled_auto": {
+      "id": "job_900fda2c17a1",
+      "status": "canceled",
+      "output_path": null,
+      "error": null,
+      "message": "cancelled",
+      "created_at": 1795816879.2355788,
+      "finished_at": 1795816879.6918843
+    },
+    "manual_latest": {
+      "id": "job_ee26e86b776b",
+      "status": "running",
+      "mode": "svs_score",
+      "fixture": true,
+      "message": "fixture vocal synthesis stage",
+      "created_at": 1795816887.6236467
+    }
+  },
+  "initial_checkbox_visible": true,
+  "initial_checkbox_checked": false,
+  "initial_stale_badge_count": 0,
+  "after_enable_noedit_count": 0,
+  "checkbox_after_enable": true,
+  "checkbox_after_reload": true,
+  "after_reload_noedit_count": 0,
+  "after_first_completion": {
+    "render_fingerprint": "887d156092bd4a15",
+    "current_backend_hash": "887d156092bd4a15",
+    "still_stale": false,
+    "render_revision": 2
+  },
+  "stale_badge_count_after_followup": 0,
+  "stale_warning_count_after_followup": 0,
+  "after_followup_state": {
+    "render_fingerprint": "887d156092bd4a15",
+    "current_backend_hash": "887d156092bd4a15",
+    "stale_by_hash": false,
+    "render_revision": 2
+  },
+  "layout": {
+    "left": 963,
+    "right": 1250,
+    "width": 287,
+    "panelRight": 1272,
+    "within": true,
+    "panelScrollWidth": 311,
+    "panelClientWidth": 311
+  },
+  "final_project": {
+    "render_revision": 2,
+    "render_fingerprint": "887d156092bd4a15",
+    "current_backend_hash": "5d16fdd7d2e5b13f",
+    "note_count": 3,
+    "pitches": [
+      64,
+      66,
+      68
+    ],
+    "lyrics": [
+      "呜",
+      "卡",
+      "萨"
+    ]
+  },
+  "final_jobs": [
+    {
+      "id": "job_ee26e86b776b",
+      "status": "running",
+      "mode": "svs_score",
+      "fixture": true,
+      "created_at": 1795816887.6236467,
+      "finished_at": null,
+      "output_path": null
+    },
+    {
+      "id": "job_9f7b5a227c9d",
+      "status": "canceled",
+      "mode": "svs_score",
+      "fixture": true,
+      "created_at": 1795816886.4322746,
+      "finished_at": 1795816886.9886987,
+      "output_path": null
+    },
+    {
+      "id": "job_900fda2c17a1",
+      "status": "canceled",
+      "mode": "svs_score",
+      "fixture": true,
+      "created_at": 1795816879.2355788,
+      "finished_at": 1795816879.6918843,
+      "output_path": null
+    },
+    {
+      "id": "job_05ff23623dab",
+      "status": "completed",
+      "mode": "svs_score",
+      "fixture": true,
+      "created_at": 1795816866.6351044,
+      "finished_at": 1795816872.539818,
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_05ff23623dab/vocal.wav"
+    }
+  ],
+  "focused_active_edit_followup": {
+    "before_count": 4,
+    "trigger_count": 5,
+    "trigger_job": {
+      "id": "job_ff1e1150f39d",
+      "status": "running",
+      "created_at": 1795816992.8453176
+    },
+    "status_before_mid_edit": "running",
+    "pre_midedit": {
+      "hash": "b4d3d5bbbc0f8994",
+      "render_fp": "5d16fdd7d2e5b13f",
+      "lyrics": [
+        "啦",
+        "卡",
+        "萨"
+      ]
+    },
+    "after_midedit": {
+      "hash": "11443f55aede7393",
+      "lyrics": [
+        "啦",
+        "喵",
+        "萨"
+      ],
+      "hash_changed": true
+    },
+    "count_while_active": 5,
+    "trigger_final": {
+      "id": "job_ff1e1150f39d",
+      "status": "completed",
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_ff1e1150f39d/vocal.wav",
+      "created_at": 1795816992.8453176,
+      "finished_at": 1795816998.8242428
+    },
+    "after_trigger_completion": {
+      "count": 5,
+      "render_fp": "b4d3d5bbbc0f8994",
+      "current_hash": "b4d3d5bbbc0f8994",
+      "still_stale": false,
+      "jobs": [
+        {
+          "id": "job_ff1e1150f39d",
+          "status": "completed",
+          "created_at": 1795816992.8453176
+        },
+        {
+          "id": "job_ee26e86b776b",
+          "status": "completed",
+          "created_at": 1795816887.6236467
+        },
+        {
+          "id": "job_9f7b5a227c9d",
+          "status": "canceled",
+          "created_at": 1795816886.4322746
+        }
+      ]
+    }
+  },
+  "manual_completion_check": {
+    "id": "job_ee26e86b776b",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_ee26e86b776b/vocal.wav",
+    "created_at": 1795816887.6236467,
+    "finished_at": 1795816894.36253,
+    "error": null
+  },
+  "final_job_count_excluding_initial": 5
+}

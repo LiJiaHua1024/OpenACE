@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { api, importAudioClip, renderFileUrl, uploadFile, uploadVoice, voiceAudioUrl } from '../api'
 import { barTicks, ticksToSeconds } from '../tempo'
 import type { MediaFile, Note, Project, RenderJob, Track, VoiceProfile } from '../types'
-import { vocalRenderIsStale } from '../renderFingerprint'
+import { vocalRenderInputHash, vocalRenderIsStale } from '../renderFingerprint'
 
 interface Props {
   project: Project
@@ -33,6 +33,8 @@ export default function RenderPanel(props: Props) {
   const [lyricsError, setLyricsError] = useState('')
   const [lyricScrollTop, setLyricScrollTop] = useState(0)
   const [clockNow, setClockNow] = useState(() => Date.now())
+  const [autoRender, setAutoRender] = useState(() => window.localStorage.getItem('openace.autoRender') === '1')
+  const autoRenderAttempts = useRef<Record<string, string>>({})
   const referenceInput = useRef<HTMLInputElement | null>(null)
   const lyricListRef = useRef<HTMLDivElement | null>(null)
   const audioInput = useRef<HTMLInputElement | null>(null)
@@ -70,6 +72,42 @@ export default function RenderPanel(props: Props) {
     return `${formatted}s total`
   }
   const staleRender = props.track ? vocalRenderIsStale(props.project, props.track) : false
+
+  useEffect(() => {
+    window.localStorage.setItem('openace.autoRender', autoRender ? '1' : '0')
+  }, [autoRender])
+
+  useEffect(() => {
+    if (!autoRender) return
+    const timer = window.setTimeout(() => {
+      void (async () => {
+        for (const track of props.project.tracks) {
+          if (track.type !== 'vocal' || !track.notes.length) continue
+          const fingerprint = vocalRenderInputHash(props.project, track)
+          const stale = !track.render_path || vocalRenderIsStale(props.project, track)
+          if (!stale) {
+            delete autoRenderAttempts.current[track.id]
+            continue
+          }
+          const active = props.jobs.some(job => job.project_id === props.project.id && job.track_id === track.id && job.mode === 'svs_score' && (job.status === 'queued' || job.status === 'running'))
+          if (active || autoRenderAttempts.current[track.id] === fingerprint) continue
+          autoRenderAttempts.current[track.id] = fingerprint
+          try {
+            props.onJobCreated(await api.renderVocal(props.project.id, track.id))
+          } catch (error: any) {
+            setError(`Auto render: ${readableError(error)}`)
+          }
+        }
+      })()
+    }, 1500)
+    return () => window.clearTimeout(timer)
+  }, [autoRender, props.project, props.jobs])
+
+  function renderVocalManually() {
+    if (!props.track) return
+    autoRenderAttempts.current[props.track.id] = vocalRenderInputHash(props.project, props.track)
+    void run('vocal', () => api.renderVocal(props.project.id, props.track!.id))
+  }
 
   async function run(name: string, fn: () => Promise<RenderJob>) {
     setBusy(name); setError('')
@@ -389,9 +427,13 @@ export default function RenderPanel(props: Props) {
               <button onClick={() => transposeNotes(12)}>+12</button>
             </div>
             {staleRender && <div className="stale-render-warning">Rendered audio is older than the current notes, expression, tempo, or voice. Playback/export still use the old render until you render again.</div>}
-            <button disabled={!props.track.notes.length || busy === 'vocal'} className="render-button" onClick={() => run('vocal', () => api.renderVocal(props.project.id, props.track!.id))}>
+            <button disabled={!props.track.notes.length || busy === 'vocal'} className="render-button" onClick={renderVocalManually}>
               {busy === 'vocal' ? 'Rendering…' : 'Render vocal'}
             </button>
+            <label className="auto-render-toggle" title="After edits settle for 1.5 seconds, queue stale or never-rendered vocal tracks through the normal FIFO render queue. Cancelled/failed jobs are not retried until the musical input changes.">
+              <input type="checkbox" checked={autoRender} onChange={event => setAutoRender(event.target.checked)} />
+              Auto render edits
+            </label>
           </>
         ) : <div className="empty-state">Select a track</div>}
       </section>
