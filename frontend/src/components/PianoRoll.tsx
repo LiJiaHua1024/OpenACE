@@ -443,6 +443,18 @@ export default function PianoRoll(props: Props) {
     }, transient)
   }
 
+  function resolveNoteOverlaps(track: Track) {
+    const ordered = [...track.notes].sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch || a.id.localeCompare(b.id))
+    for (let index = ordered.length - 2; index >= 0; index--) {
+      const note = ordered[index]
+      const next = ordered[index + 1]
+      if (note.start_ticks + note.duration_ticks > next.start_ticks) {
+        note.duration_ticks = Math.max(0, next.start_ticks - note.start_ticks)
+      }
+    }
+    track.notes = ordered.filter(note => note.duration_ticks > 0)
+  }
+
   function pointerPos(event: React.PointerEvent | React.MouseEvent) {
     const rect = canvasRef.current!.getBoundingClientRect()
     return { x: event.clientX - rect.left, y: event.clientY - rect.top }
@@ -751,6 +763,9 @@ export default function PianoRoll(props: Props) {
       window.setTimeout(() => setPitchReadout(null), 1600)
     }
     const hadDrag = dragRef.current
+    if (hadDrag && (hadDrag.mode === 'move' || hadDrag.mode === 'resize')) {
+      mutateTrack(track => resolveNoteOverlaps(track), true)
+    }
     if (hadDrag && hadDrag.mode !== 'marquee') props.endTransaction()
     dragRef.current = null
     setMarquee(null)
@@ -808,6 +823,7 @@ export default function PianoRoll(props: Props) {
     const anchor = targetStart ?? snap(props.playheadTicks, step)
     const delta = Math.max(anchor - minStart, -minStart)
     const newIds: string[] = []
+    let survivingIds: string[] = []
     mutateTrack(track => {
       for (const source of clipboard) {
         const note = cloneNote(source)
@@ -817,8 +833,10 @@ export default function PianoRoll(props: Props) {
         track.notes.push(note)
       }
       track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+      resolveNoteOverlaps(track)
+      survivingIds = track.notes.filter(note => newIds.includes(note.id)).map(note => note.id)
     }, true)
-    setSelectedNoteIds(newIds)
+    setSelectedNoteIds(survivingIds)
     props.endTransaction()
   }
 
@@ -896,6 +914,7 @@ export default function PianoRoll(props: Props) {
         note.duration_ticks = Math.max(step, snap(note.duration_ticks, step))
       }
       track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+      resolveNoteOverlaps(track)
     }, true)
     props.endTransaction()
   }
@@ -1011,6 +1030,7 @@ export default function PianoRoll(props: Props) {
           if (selectedSet.has(note.id)) note.start_ticks = Math.max(0, note.start_ticks + delta)
         }
         track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+        resolveNoteOverlaps(track)
       }, true)
     } else {
       const rawDelta = (direction === 'up' ? 1 : -1) * (octave ? 12 : 1)

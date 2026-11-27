@@ -1,0 +1,455 @@
+{
+  "pid": "project_341c8fd2cabf",
+  "console": [],
+  "network": [],
+  "legato": {
+    "notes": [
+      [
+        "note_79587d04-8ea",
+        240,
+        360,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ]
+    ],
+    "overlaps": []
+  },
+  "gap_after_move": {
+    "notes": [
+      [
+        "note_79587d04-8ea",
+        480,
+        360,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ]
+    ],
+    "overlaps": []
+  },
+  "new_collision_resolved": {
+    "notes": [
+      [
+        "note_4ee45a29-a60",
+        240,
+        240,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ],
+      [
+        "note_79587d04-8ea",
+        480,
+        360,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ]
+    ],
+    "overlaps": []
+  },
+  "move_collision_resolved": {
+    "notes": [
+      [
+        "note_4ee45a29-a60",
+        240,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ],
+      [
+        "note_79587d04-8ea",
+        360,
+        360,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ]
+    ],
+    "overlaps": []
+  },
+  "resize_collision_resolved": {
+    "notes": [
+      [
+        "note_79587d04-8ea",
+        360,
+        120,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ],
+      [
+        "note_4ee45a29-a60",
+        480,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ]
+    ],
+    "overlaps": []
+  },
+  "paste_collision_resolved": {
+    "notes": [
+      [
+        "note_b0f6dcee-229",
+        0,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ],
+      [
+        "note_79587d04-8ea",
+        360,
+        120,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ],
+      [
+        "note_4ee45a29-a60",
+        480,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ]
+    ],
+    "overlaps": [],
+    "before_count": 2,
+    "after_count": 3,
+    "new_ids": [
+      "note_b0f6dcee-229"
+    ],
+    "selection_text": "1 selected"
+  },
+  "after_quantize": {
+    "notes": [
+      [
+        "note_b0f6dcee-229",
+        0,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ],
+      [
+        "note_79587d04-8ea",
+        360,
+        120,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ],
+      [
+        "note_4ee45a29-a60",
+        480,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ]
+    ],
+    "overlaps": []
+  },
+  "after_nudge": {
+    "notes": [
+      [
+        "note_b0f6dcee-229",
+        0,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ],
+      [
+        "note_79587d04-8ea",
+        360,
+        120,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ],
+      [
+        "note_4ee45a29-a60",
+        480,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ]
+    ],
+    "overlaps": []
+  },
+  "nudge": {
+    "pre": [
+      [
+        "note_b0f6dcee-229",
+        0,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ],
+      [
+        "note_79587d04-8ea",
+        360,
+        120,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ],
+      [
+        "note_4ee45a29-a60",
+        480,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ]
+    ],
+    "post": [
+      [
+        "note_b0f6dcee-229",
+        0,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ],
+      [
+        "note_79587d04-8ea",
+        360,
+        120,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ],
+      [
+        "note_4ee45a29-a60",
+        480,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ]
+    ],
+    "undo_matches_pre": true,
+    "redo_matches_post": true,
+    "post_overlaps": []
+  },
+  "reload": {
+    "notes": [
+      [
+        "note_b0f6dcee-229",
+        0,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ],
+      [
+        "note_79587d04-8ea",
+        360,
+        120,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ]
+      ],
+      [
+        "note_4ee45a29-a60",
+        480,
+        120,
+        64,
+        "啦",
+        [
+          "l",
+          "a"
+        ]
+      ]
+    ],
+    "overlaps": []
+  },
+  "legato_nudge_supplement": {
+    "pid": "project_d746e4cc2048",
+    "console": [],
+    "network": [],
+    "legato_exact": {
+      "notes": [
+        [
+          "note_8a06eb2e-b6d",
+          0,
+          240,
+          "你"
+        ],
+        [
+          "note_c30686f3-7a9",
+          240,
+          240,
+          "好"
+        ]
+      ],
+      "overlaps": false
+    },
+    "nudge_collision": {
+      "pre": [
+        [
+          "note_8a06eb2e-b6d",
+          0,
+          240,
+          "你"
+        ],
+        [
+          "note_c30686f3-7a9",
+          240,
+          240,
+          "好"
+        ]
+      ],
+      "post": [
+        [
+          "note_8a06eb2e-b6d",
+          120,
+          120,
+          "你"
+        ],
+        [
+          "note_c30686f3-7a9",
+          240,
+          240,
+          "好"
+        ]
+      ],
+      "overlaps": false
+    },
+    "undo_redo": {
+      "undo_matches_pre": true,
+      "redo_matches_post": true,
+      "undo": [
+        [
+          "note_8a06eb2e-b6d",
+          0,
+          240,
+          "你"
+        ],
+        [
+          "note_c30686f3-7a9",
+          240,
+          240,
+          "好"
+        ]
+      ],
+      "redo": [
+        [
+          "note_8a06eb2e-b6d",
+          120,
+          120,
+          "你"
+        ],
+        [
+          "note_c30686f3-7a9",
+          240,
+          240,
+          "好"
+        ]
+      ]
+    }
+  },
+  "resize_supplement": {
+    "resize_collision": {
+      "notes": [
+        [
+          "note_8a06eb2e-b6d",
+          120,
+          120,
+          "你"
+        ],
+        [
+          "note_c30686f3-7a9",
+          240,
+          240,
+          "好"
+        ]
+      ],
+      "overlaps": false
+    }
+  }
+}

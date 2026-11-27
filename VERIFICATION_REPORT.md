@@ -1136,3 +1136,14 @@ Implemented and verified:
 - Evidence: `artifacts/e2e_screenshots/note_auto_lyric/`.
 
 Validation after iteration 89: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 90 — monophonic vocal-note overlap integrity
+
+Implemented and verified:
+
+- Overlapping vocal notes are now treated as invalid musical input instead of silently corrupting cumulative SoulX timing. Backend validation rejects overlapping notes loudly for workstation, CLI, MCP, and import paths; exact end=start legato remains valid.
+- Piano-roll editing resolves collisions deterministically at transaction boundaries: move/resize gestures, paste, quantize, and horizontal nudges trim earlier notes to the next onset and remove zero-length remnants. Lyrics/phonemes stay attached to the surviving trimmed note; no fake overlap crossfade or hidden timing shift is invented.
+- Independent visible-Chrome QA at exact 1272×837 verified exact legato acceptance, creation/move/resize/paste/nudge collision resolution, lyric/phoneme preservation, paste survivor selection, undo/redo exactness, reload/backend non-overlap persistence, zero save 422s, and clean console/network. Quantize shares the same resolver but a collision-specific browser scenario was not constructed.
+- Evidence: `artifacts/e2e_screenshots/note_overlap/`.
+
+Validation after iteration 90: focused backend overlap tests passed; frontend production build passed; independent browser QA passed with the stated quantize caveat; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

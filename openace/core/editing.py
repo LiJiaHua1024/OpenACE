@@ -13,6 +13,10 @@ AUTOMATION_KEYS = {"pitch_cents", "dynamic", "air", "falsetto", "tension", "ener
 
 def validate_project(project: Project) -> None:
     for track in project.vocal_tracks():
+        ordered = sorted(track.notes, key=lambda note: (note.start_ticks, note.pitch, note.id))
+        for previous, following in zip(ordered, ordered[1:]):
+            if following.start_ticks < previous.start_ticks + previous.duration_ticks:
+                raise ValueError("vocal notes may not overlap on a monophonic track; trim or move the conflicting note")
         for note in track.notes:
             if note.lyric.strip():
                 ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
