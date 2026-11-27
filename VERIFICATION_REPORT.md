@@ -1103,3 +1103,14 @@ Implemented and verified:
 - Subprocess CLI regression proves exact persistence for boundary-split vocal notes and source-offset-split audio clips; direct MCP regression proves exact downstream note movement and loud invalid-range failure. `skills/openace/SKILL.md` now documents the command, MCP tool, tick semantics, and destructive-editing caution.
 
 Validation after iteration 86: focused CLI/MCP ripple regressions passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 87 — piano-roll note audition preview
+
+Implemented and verified:
+
+- Piano-roll editing now has an ACE-like editor-only note audition preview. Creating a note, clicking/selecting an existing note, and vertically dragging pitch trigger short triangle-wave WebAudio tones at exact MIDI frequency; the control is explicitly labeled as editor audition, not vocal synthesis. A persistent `♪ Audition` toolbar toggle survives reload and fully suppresses new preview nodes when off.
+- Real-browser AudioContext/OscillatorNode instrumentation verified exact frequencies (`pitch62=293.6648Hz`, `pitch64=329.6276Hz`, controlled drag ending `pitch67=391.9954Hz`), toggle persistence, toggle-off suppression, undo/redo, playback, and clean console/network.
+- Initial QA exposed excessive oscillator pileup on very fast pitch drags. The audition throttle now applies globally rather than only per-pitch; retest reduced a fast pitch67→75 drag from 9 overlapping oscillators to 2 spaced 100.7ms, while controlled drags still audition correct ascending frequencies. Leading-edge throttling can skip transient intermediate/final pitches during extremely fast gestures; this is intentional preview behavior, not synthesis timing.
+- Evidence: `artifacts/e2e_screenshots/note_audition/`.
+
+Validation after iteration 87: frontend production build passed; independent browser audio-instrumentation QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

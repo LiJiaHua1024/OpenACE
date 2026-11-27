@@ -64,6 +64,30 @@ function noteName(pitch: number) {
   return `${names[pitch % 12]}${Math.floor(pitch / 12) - 1}`
 }
 
+let auditionContext: AudioContext | null = null
+
+function auditionNotePitch(pitch: number) {
+  const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
+  if (!AudioContextClass) return
+  if (!auditionContext || auditionContext.state === 'closed') auditionContext = new AudioContextClass() as AudioContext
+  if (auditionContext.state === 'suspended') void auditionContext.resume().catch(() => {})
+  const now = auditionContext.currentTime
+  const osc = auditionContext.createOscillator()
+  const gain = auditionContext.createGain()
+  osc.type = 'triangle'
+  osc.frequency.setValueAtTime(440 * Math.pow(2, (pitch - 69) / 12), now)
+  gain.gain.setValueAtTime(0.0001, now)
+  gain.gain.exponentialRampToValueAtTime(0.075, now + 0.012)
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22)
+  osc.connect(gain).connect(auditionContext.destination)
+  osc.start(now)
+  osc.stop(now + 0.24)
+  osc.onended = () => {
+    osc.disconnect()
+    gain.disconnect()
+  }
+}
+
 function cloneNote(note: Note): Note {
   return JSON.parse(JSON.stringify(note))
 }
@@ -74,6 +98,8 @@ export default function PianoRoll(props: Props) {
   const gradientCacheRef = useRef(new Map<string, CanvasGradient>())
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [tool, setTool] = useState<Tool>('pencil')
+  const [auditionEnabled, setAuditionEnabled] = useState(() => window.localStorage.getItem('openace_note_audition') !== 'off')
+  const lastAuditionRef = useRef<{ pitch: number; at: number } | null>(null)
   const [gridDivision, setGridDivision] = useState(4)
   const [view, setView] = useState<ViewState>({ rowHeight: 15, topPitch: 79 })
   const [selectedNoteIds, setSelectedNoteIds] = useState<string[]>([])
@@ -476,6 +502,24 @@ export default function PianoRoll(props: Props) {
     return best
   }
 
+
+  function audition(pitch: number, force = false) {
+    if (!auditionEnabled) return
+    const now = performance.now()
+    const last = lastAuditionRef.current
+    if (!force && last && now - last.at < 90) return
+    lastAuditionRef.current = { pitch, at: now }
+    auditionNotePitch(pitch)
+  }
+
+  function toggleAudition() {
+    setAuditionEnabled(current => {
+      const next = !current
+      window.localStorage.setItem('openace_note_audition', next ? 'on' : 'off')
+      return next
+    })
+  }
+
   function onPointerDown(event: React.PointerEvent) {
     if (!props.track || event.button === 2) return
     setMenu(null)
@@ -579,6 +623,7 @@ export default function PianoRoll(props: Props) {
         originalStart: start, originalDuration: duration, originalPitch: pitch,
         originals: { [id]: { start, duration, pitch } },
       }
+      audition(pitch, true)
       return
     }
 
@@ -606,6 +651,7 @@ export default function PianoRoll(props: Props) {
         originalPitch: hit.pitch,
         originals: snapshotsFor(nextSelection.length ? nextSelection : [hit.id]),
       }
+      audition(hit.pitch, true)
     } else if (tool === 'select') {
       if (!event.shiftKey) setSelectedNoteIds([])
       dragRef.current = {
@@ -678,6 +724,7 @@ export default function PianoRoll(props: Props) {
         const minPitch = Math.min(...ids.map(id => originals[id].pitch))
         const maxPitch = Math.max(...ids.map(id => originals[id].pitch))
         const allowedPitchDelta = Math.max(MIN_PITCH - minPitch, Math.min(MAX_PITCH - maxPitch, deltaPitch))
+        if (drag.noteId && originals[drag.noteId]) audition(originals[drag.noteId].pitch + allowedPitchDelta)
         for (const id of ids) {
           const note = track.notes.find(n => n.id === id)
           if (note) {
@@ -1037,6 +1084,7 @@ export default function PianoRoll(props: Props) {
           <button className={tool === 'pencil' ? 'tool active' : 'tool'} onClick={() => setTool('pencil')} title="Note brush (B)">✎</button>
           <button className={tool === 'erase' ? 'tool active' : 'tool'} onClick={() => setTool('erase')} title="Eraser (E)">⌫</button>
           <button className={tool === 'pitch' ? 'tool active' : 'tool'} onClick={() => setTool('pitch')} title="Per-note pitch handles (P); Alt+click deletes a handle">∿ Pitch</button>
+          <button className={auditionEnabled ? 'tool active' : 'tool'} onClick={toggleAudition} title="Editor note audition preview; not vocal synthesis">♪ Audition</button>
         </div>
         <label>Grid
           <select value={gridDivision} onChange={e => setGridDivision(Number(e.target.value))}>
