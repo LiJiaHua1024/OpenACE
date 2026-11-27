@@ -647,3 +647,19 @@ def test_ustx_export_uses_empty_host_singer_for_unmapped_openace_voice(tmp_path)
     data = yaml.safe_load(path.read_text(encoding="utf-8"))
     assert data["tracks"][0]["singer"] == ""
     assert "zero-shot-reference" in data["voice_parts"][0]["comment"]
+
+
+def test_ustx_host_singer_mapping_roundtrip_preserves_openace_voice(tmp_path):
+    project = sample_project()
+    track = project.tracks[0]
+    track.voice_id = "zero-shot-reference"
+    track.openutau_singer = "友人"
+    track.openutau_phonemizer = "OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer"
+    exported = export_ustx(project, tmp_path / "mapped.ustx")
+    data = yaml.safe_load(exported.read_text(encoding="utf-8"))
+    assert data["tracks"][0]["singer"] == "友人"
+    assert data["tracks"][0]["phonemizer"] == "OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer"
+    imported = import_ustx(exported)
+    assert imported.tracks[0].openutau_singer == "友人"
+    assert imported.tracks[0].openutau_phonemizer == "OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer"
+    assert imported.tracks[0].voice_id == track.voice_id

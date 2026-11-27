@@ -140,6 +140,23 @@ export default function TrackList(props: Props) {
                 <input title="Volume" type="range" min="0" max="1" step="0.01" value={track.volume} onChange={e => props.onPatchTrack(track.id, { volume: Number(e.target.value) })} />
                 <input title="Pan" type="range" min="-1" max="1" step="0.01" value={track.pan} onChange={e => props.onPatchTrack(track.id, { pan: Number(e.target.value) })} />
               </div>
+              {track.type === 'vocal' && (
+                <details className="host-interop" onClick={e => e.stopPropagation()}>
+                  <summary>OpenUtau host</summary>
+                  <input
+                    aria-label="OpenUtau singer id"
+                    placeholder="singer id (optional)"
+                    value={track.openutau_singer || ''}
+                    onChange={e => props.onPatchTrack(track.id, { openutau_singer: e.target.value })}
+                  />
+                  <input
+                    aria-label="OpenUtau phonemizer id"
+                    placeholder="phonemizer id (optional)"
+                    value={track.openutau_phonemizer || ''}
+                    onChange={e => props.onPatchTrack(track.id, { openutau_phonemizer: e.target.value })}
+                  />
+                </details>
+              )}
             </div>
           </div>
         ))}

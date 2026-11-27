@@ -162,12 +162,11 @@ def export_ustx(project: Project, output_path: Path) -> Path:
             {
                 "track_name": track.name,
                 "track_color": _nearest_openutau_color(track.color),
-                # OpenACE voice ids are not OpenUtau singer ids. Emit an empty
-                # singer so hosts show "Select Singer" instead of a broken
-                # missing-singer reference; the source voice id remains in the
-                # voice-part comment for round-trip diagnostics.
-                "singer": "",
-                "phonemizer": "OpenUtau.Core.DefaultPhonemizer",
+                # OpenACE voice ids are not OpenUtau singer ids. Only explicit
+                # host-interop mapping may populate these fields; otherwise the
+                # host safely shows Select Singer/default phonemizer.
+                "singer": track.openutau_singer,
+                "phonemizer": track.openutau_phonemizer or "OpenUtau.Core.DefaultPhonemizer",
                 "mute": track.mute,
                 "solo": track.solo,
                 "volume": _track_volume_db(track.volume),

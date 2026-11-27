@@ -140,6 +140,8 @@ class Track(BaseModel):
     color: str = "#7c5cff"
     voice_id: str = "zero-shot-reference"
     reference_voice_path: Optional[str] = None
+    openutau_singer: str = ""
+    openutau_phonemizer: str = ""
     language: str = "zh"
     notes: List[Note] = Field(default_factory=list)
     clips: List[AudioClip] = Field(default_factory=list)

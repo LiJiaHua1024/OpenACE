@@ -1,0 +1,81 @@
+{
+  "project_id": "project_b7da3a50c9ee",
+  "console_errors": [],
+  "network_errors": [],
+  "page_errors": [],
+  "values_after_fill": {
+    "singer": "友人",
+    "phonemizer": "OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer"
+  },
+  "values_after_undo": {
+    "singer": "友人",
+    "phonemizer": "",
+    "undo_disabled": false
+  },
+  "values_after_redo": {
+    "singer": "友人",
+    "phonemizer": "OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer"
+  },
+  "values_after_reload": {
+    "singer": "友人",
+    "phonemizer": "OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer"
+  },
+  "layout": {
+    "cardWidth": 219,
+    "detailsWidth": 194,
+    "detailsWithinCard": true,
+    "inputsWithinDetails": [
+      {
+        "width": 194,
+        "within": true
+      },
+      {
+        "width": 194,
+        "within": true
+      }
+    ],
+    "trackListScroll": {
+      "clientWidth": 235,
+      "scrollWidth": 235,
+      "overflowX": "visible"
+    },
+    "viewport": {
+      "w": 1272,
+      "h": 837
+    }
+  },
+  "save_state_text": "Saved",
+  "backend_track": {
+    "id": "track_ebfe7fce69db",
+    "name": "Lead Vocal",
+    "type": "vocal",
+    "voice_id": "zero-shot-reference",
+    "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/uploads/aspiration_reference.wav",
+    "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_072330103560/vocal.wav",
+    "openutau_singer": "友人",
+    "openutau_phonemizer": "OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer",
+    "language": "zh"
+  },
+  "export_status": 200,
+  "ustx_track0": {
+    "track_name": "Lead Vocal",
+    "singer": "友人",
+    "phonemizer": "OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer"
+  },
+  "ustx_voice_comment": "OpenACE voice_id: zero-shot-reference",
+  "voice_render_unchanged": {
+    "voice_id": true,
+    "reference_voice_path": true,
+    "render_path": true,
+    "before": {
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/uploads/aspiration_reference.wav",
+      "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_072330103560/vocal.wav"
+    },
+    "after": {
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/uploads/aspiration_reference.wav",
+      "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_072330103560/vocal.wav"
+    }
+  }
+}

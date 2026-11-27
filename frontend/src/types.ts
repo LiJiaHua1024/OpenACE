@@ -73,6 +73,8 @@ export interface Track {
   color: string
   voice_id: string
   reference_voice_path?: string | null
+  openutau_singer?: string
+  openutau_phonemizer?: string
   language: string
   notes: Note[]
   clips: AudioClip[]

@@ -137,13 +137,18 @@ def import_ustx(path: Path, title: str | None = None) -> Project:
             name=str(raw_track.get("track_name") or f"Track {index + 1}"),
             type=TrackType.VOCAL if voice_parts else TrackType.AUDIO,
             color=_color_hex(raw_track.get("track_color")),
-            voice_id=str(raw_track.get("singer") or "zero-shot-reference"),
+            voice_id="zero-shot-reference",
+            openutau_singer=str(raw_track.get("singer") or ""),
+            openutau_phonemizer=str(raw_track.get("phonemizer") or ""),
             mute=bool(raw_track.get("mute", False)),
             solo=bool(raw_track.get("solo", False)),
             volume=_linear_volume(float(raw_track.get("volume", 0.0))),
             pan=_clamp(float(raw_track.get("pan", 0.0)) / 100.0, -1.0, 1.0),
         )
         for part in sorted(voice_parts, key=lambda item: int(item.get("position", 0))):
+            comment = str(part.get("comment") or "")
+            if comment.startswith("OpenACE voice_id:"):
+                track.voice_id = comment.split(":", 1)[1].strip() or "zero-shot-reference"
             position = int(part.get("position", 0))
             for raw_note in part.get("notes") or []:
                 track.notes.append(_import_note(raw_note, position))
