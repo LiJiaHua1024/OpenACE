@@ -914,3 +914,13 @@ Implemented and verified:
 - Independent visible-Chrome QA verified exact snapped `480–960` selection from an off-grid drag, step-curve preservation, interpolated boundary values, collision replacement, repeated paste, delete, undo/redo/reload, lane-mismatch prevention, brush/line/erase regressions, breath/phoneme isolation, reserved-gutter layout, and clean console/network. Evidence: `artifacts/e2e_screenshots/automation_range_fixed/`.
 
 Validation after iteration 67: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 68 — per-project loop playback persistence
+
+Implemented and verified:
+
+- Loop range/enabled state is now stored in `project.metadata.playback_loop`, restored on boot/open/reload/SSE/project fallback, copied naturally with project duplication, isolated for new projects, and applied consistently after undo/redo without creating loop-only undo entries.
+- Loop metadata updates are transient project writes and do not trigger playback graph reconstruction; `playbackAudioSnapshot` remains limited to actual audio-routing/media state.
+- Independent visible-Chrome QA verified exact backend metadata `{start:0,end:480,enabled:true}`, enabled/disabled reload persistence, project isolation/switch-back/duplication/fallback behavior, SSE off/on application, note undo/redo independence, continued loop cycling (`mean 0.5021s`, stdev `0.0127s` for a `0.5s` loop), no metadata-only audio graph rebuild, exact layout, and clean console/network. Evidence: `artifacts/e2e_screenshots/loop_persistence/`.
+
+Validation after iteration 68: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

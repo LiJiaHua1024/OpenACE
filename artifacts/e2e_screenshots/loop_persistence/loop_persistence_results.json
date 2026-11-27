@@ -1,0 +1,330 @@
+{
+  "checks": [
+    {
+      "name": "exact viewport and rendered loop fixture loaded",
+      "passed": true,
+      "details": {
+        "viewport": {
+          "w": 1272,
+          "h": 837
+        },
+        "render": "/home/ubuntu/repos/OpenACE/data/renders/project_76a53c5e0868/job_fe1393a9e8a3/vocal.wav",
+        "meta": null
+      }
+    },
+    {
+      "name": "drag loop persists exact enabled range in backend metadata",
+      "passed": true,
+      "details": {
+        "metadata": {
+          "start": 0,
+          "end": 480,
+          "enabled": true
+        }
+      }
+    },
+    {
+      "name": "dragged loop cyan band is visible at exact snapped span",
+      "passed": true,
+      "details": {
+        "band": {
+          "kind": "fill",
+          "style": "rgba(85, 199, 255, 0.14)",
+          "x": 64,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 2398.7000000029802
+        }
+      }
+    },
+    {
+      "name": "reload restores exact loop range enabled state and cyan band",
+      "passed": true,
+      "details": {
+        "metadata": {
+          "start": 0,
+          "end": 480,
+          "enabled": true
+        },
+        "active": 1,
+        "band": {
+          "kind": "fill",
+          "style": "rgba(85, 199, 255, 0.14)",
+          "x": 64,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 856.7999999970198
+        }
+      }
+    },
+    {
+      "name": "toggle off persists disabled while retaining range across reload",
+      "passed": true,
+      "details": {
+        "metadata_after_toggle": {
+          "start": 0,
+          "end": 480,
+          "enabled": false
+        },
+        "metadata_after_reload": {
+          "start": 0,
+          "end": 480,
+          "enabled": false
+        },
+        "active": 0,
+        "band": {
+          "kind": "fill",
+          "style": "rgba(85, 199, 255, 0.063)",
+          "x": 64,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 857.0999999940395
+        }
+      }
+    },
+    {
+      "name": "toggle back on persists enabled across reload",
+      "passed": true,
+      "details": {
+        "metadata_after_toggle": {
+          "start": 0,
+          "end": 480,
+          "enabled": true
+        },
+        "metadata_after_reload": {
+          "start": 0,
+          "end": 480,
+          "enabled": true
+        },
+        "active": 1
+      }
+    },
+    {
+      "name": "new project does not inherit loop range or enabled state",
+      "passed": true,
+      "details": {
+        "new_project": "project_d15b145c4255",
+        "metadata": null,
+        "band": null,
+        "active": 0
+      }
+    },
+    {
+      "name": "switching back restores original project loop",
+      "passed": true,
+      "details": {
+        "metadata": {
+          "start": 0,
+          "end": 480,
+          "enabled": true
+        },
+        "band": {
+          "kind": "fill",
+          "style": "rgba(85, 199, 255, 0.14)",
+          "x": 64,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 2556.8999999910593
+        },
+        "active": 1
+      }
+    },
+    {
+      "name": "project duplication copies exact loop metadata and restores it in UI",
+      "passed": true,
+      "details": {
+        "duplicate": "project_79a0002ff348",
+        "metadata": {
+          "start": 0,
+          "end": 480,
+          "enabled": true
+        },
+        "band": {
+          "kind": "fill",
+          "style": "rgba(85, 199, 255, 0.14)",
+          "x": 64,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 3635.5
+        }
+      }
+    },
+    {
+      "name": "project fallback applies fallback project loop state rather than stale deleted loop",
+      "passed": true,
+      "details": {
+        "fallback": "project_f9ba61f1ca76",
+        "metadata": null,
+        "band": null,
+        "active": 0
+      }
+    },
+    {
+      "name": "note edit undo redo preserves loop and loop never creates undo entry",
+      "passed": false,
+      "details": {
+        "undo_disabled_after_loop_only": true,
+        "after_draw": 3,
+        "after_undo": 2,
+        "after_redo": 3,
+        "meta_undo": {
+          "start": 0,
+          "end": 480,
+          "enabled": true
+        },
+        "band": null
+      }
+    },
+    {
+      "name": "SSE project update applies loop enabled state without reload",
+      "passed": true,
+      "details": {
+        "off_active": 0,
+        "on_active": 1,
+        "band_off": {
+          "kind": "fill",
+          "style": "rgba(85, 199, 255, 0.063)",
+          "x": 64,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 10814.39999999106
+        },
+        "band_on": {
+          "kind": "fill",
+          "style": "rgba(85, 199, 255, 0.14)",
+          "x": 64,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 11881.59999999404
+        }
+      }
+    },
+    {
+      "name": "loop metadata toggles during playback do not immediately rebuild audio graph",
+      "passed": false,
+      "details": {
+        "play_ms": 13320.20000000298,
+        "toggle_off_ms": 13674.09999999404,
+        "toggle_on_ms": 13795.09999999404,
+        "starts": [],
+        "first_delay_after_play": null,
+        "first_delay_after_on": null
+      }
+    },
+    {
+      "name": "loop playback still cycles repeatedly without material drift",
+      "passed": true,
+      "details": {
+        "count": 5,
+        "when": [
+          0.0116,
+          0.5341,
+          1.0333,
+          1.5209,
+          2.0201
+        ],
+        "intervals": [
+          0.5224,
+          0.4992,
+          0.4876,
+          0.4992
+        ],
+        "offsets": [
+          0.0224,
+          0.0217,
+          0.0093,
+          0.0085
+        ],
+        "mean": 0.5021,
+        "stdev": 0.0127
+      }
+    },
+    {
+      "name": "layout exact viewport no overflow",
+      "passed": true,
+      "details": {
+        "innerWidth": 1272,
+        "innerHeight": 837,
+        "body": {
+          "sw": 1272,
+          "cw": 1272
+        },
+        "transport": {
+          "sw": 1272,
+          "cw": 1272,
+          "right": 1272
+        }
+      }
+    },
+    {
+      "name": "console network and HTTP clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "unexpected": [],
+        "http": [],
+        "network": [
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          }
+        ]
+      }
+    }
+  ],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http": []
+}

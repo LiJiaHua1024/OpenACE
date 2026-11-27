@@ -113,6 +113,17 @@ export default function App() {
     }, 350)
   }, [])
 
+  const applyLoopFromProject = useCallback((target: Project) => {
+    const raw = target.metadata?.playback_loop
+    if (raw && Number.isFinite(raw.start) && Number.isFinite(raw.end) && raw.end > raw.start) {
+      setLoopRange({ start: Math.round(raw.start), end: Math.round(raw.end) })
+      setLoopEnabled(Boolean(raw.enabled))
+    } else {
+      setLoopRange(null)
+      setLoopEnabled(false)
+    }
+  }, [])
+
   useEffect(() => {
     let cancelled = false
     async function boot() {
@@ -129,6 +140,7 @@ export default function App() {
         if (!cancelled) {
           setProjectList(list)
           setProjectRef(current)
+          applyLoopFromProject(current)
           setSelectedTrackId(current.tracks[0]?.id)
         }
         const initialJobs = await api.jobs()
@@ -139,7 +151,7 @@ export default function App() {
     }
     boot()
     return () => { cancelled = true }
-  }, [setProjectRef])
+  }, [setProjectRef, applyLoopFromProject])
 
   useEffect(() => {
     const source = new EventSource('/api/events')
@@ -167,6 +179,7 @@ export default function App() {
         }
         if (incoming && projectRef.current && incoming.id === projectRef.current.id && incoming.updated_at > projectRef.current.updated_at) {
           setProjectRef(incoming)
+          applyLoopFromProject(incoming)
         }
       } catch {}
     })
@@ -182,6 +195,7 @@ export default function App() {
             const next = list.length ? await api.getProject(list[0].id) : await api.createProject('Untitled OpenACE Project')
             setProjectList(list.length ? list : [{ id: next.id, title: next.title }])
             setProjectRef(next)
+            applyLoopFromProject(next)
             setSelectedTrackId(next.tracks[0]?.id)
             setPast([]); setFuture([]); setPlayheadTicks(0)
           })()
@@ -196,7 +210,7 @@ export default function App() {
       } catch {}
     })
     return () => source.close()
-  }, [setProjectRef])
+  }, [setProjectRef, applyLoopFromProject])
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -218,6 +232,18 @@ export default function App() {
     setProjectRef(next)
     scheduleSave(next)
   }, [scheduleSave, setProjectRef])
+
+  const persistLoopState = useCallback((range: { start: number; end: number } | null, enabled: boolean) => {
+    updateProject(next => {
+      const metadata = { ...(next.metadata || {}) }
+      if (range && range.end > range.start) {
+        metadata.playback_loop = { start: Math.round(range.start), end: Math.round(range.end), enabled }
+      } else {
+        delete metadata.playback_loop
+      }
+      next.metadata = metadata
+    }, true)
+  }, [updateProject])
 
   const beginTransaction = useCallback(() => {
     transactionBase.current = projectRef.current ? clone(projectRef.current) : null
@@ -242,8 +268,9 @@ export default function App() {
     setPast(items => items.slice(0, -1))
     setFuture(items => [...items, clone(current)])
     setProjectRef(previous)
+    applyLoopFromProject(previous)
     api.saveProject(previous).catch(() => {})
-  }, [past, setProjectRef])
+  }, [past, setProjectRef, applyLoopFromProject])
 
   const redo = useCallback(() => {
     const current = projectRef.current
@@ -252,8 +279,9 @@ export default function App() {
     setFuture(items => items.slice(0, -1))
     setPast(items => [...items, clone(current)])
     setProjectRef(next)
+    applyLoopFromProject(next)
     api.saveProject(next).catch(() => {})
-  }, [future, setProjectRef])
+  }, [future, setProjectRef, applyLoopFromProject])
 
 
   const openProject = useCallback(async (projectId: string) => {
@@ -265,10 +293,11 @@ export default function App() {
       setPlayheadTicks(0)
       const next = await api.getProject(projectId)
       setProjectRef(next)
+      applyLoopFromProject(next)
       setSelectedTrackId(next.tracks[0]?.id)
       setPast([]); setFuture([])
     } catch (e: any) { setError(e.message || String(e)) }
-  }, [setProjectRef])
+  }, [setProjectRef, applyLoopFromProject])
 
   const createNewProject = useCallback(async () => {
     try {
@@ -276,11 +305,12 @@ export default function App() {
       const list = await api.listProjects()
       setProjectList(list)
       setProjectRef(next)
+      applyLoopFromProject(next)
       setSelectedTrackId(next.tracks[0]?.id)
       setPlayheadTicks(0); setPast([]); setFuture([])
       locallyDeletingProjectId.current = null
     } catch (e: any) { setError(e.message || String(e)); locallyDeletingProjectId.current = null }
-  }, [setProjectRef])
+  }, [setProjectRef, applyLoopFromProject])
 
 
   const duplicateProjectById = useCallback(async (projectId?: string) => {
@@ -290,10 +320,11 @@ export default function App() {
       const next = await api.duplicateProject(sourceId)
       setProjectList(await api.listProjects())
       setProjectRef(next)
+      applyLoopFromProject(next)
       setSelectedTrackId(next.tracks[0]?.id)
       setPast([]); setFuture([])
     } catch (e: any) { setError(e.message || String(e)) }
-  }, [setProjectRef])
+  }, [setProjectRef, applyLoopFromProject])
 
   const deleteProjectById = useCallback(async (projectId?: string) => {
     const current = projectRef.current
@@ -317,33 +348,41 @@ export default function App() {
       }
       setProjectList(list)
       setProjectRef(next)
+      applyLoopFromProject(next)
       setSelectedTrackId(next.tracks[0]?.id)
       setPlayheadTicks(0); setPast([]); setFuture([])
     } catch (e: any) { setError(e.message || String(e)) }
-  }, [projectList, setProjectRef])
+  }, [projectList, setProjectRef, applyLoopFromProject])
 
   const setArrangementLoop = useCallback((range: { start: number; end: number } | null) => {
     if (range && range.end > range.start) {
       setLoopRange(range)
       setLoopEnabled(true)
+      persistLoopState(range, true)
     } else {
       setLoopRange(null)
       setLoopEnabled(false)
+      persistLoopState(null, false)
     }
-  }, [])
+  }, [persistLoopState])
 
   const toggleLoop = useCallback(() => {
-    if (loopRangeRef.current && loopRangeRef.current.end > loopRangeRef.current.start) {
-      setLoopEnabled(enabled => !enabled)
+    const existing = loopRangeRef.current
+    if (existing && existing.end > existing.start) {
+      const enabled = !loopEnabledRef.current
+      setLoopEnabled(enabled)
+      persistLoopState(existing, enabled)
       return
     }
     const current = projectRef.current
     if (!current) return
     const span = barTicks(current)
     const start = Math.floor(playheadTicks / span) * span
-    setLoopRange({ start, end: start + span })
+    const range = { start, end: start + span }
+    setLoopRange(range)
     setLoopEnabled(true)
-  }, [playheadTicks])
+    persistLoopState(range, true)
+  }, [playheadTicks, persistLoopState])
 
   const updateProjectOrganization = useCallback(async (projectId: string, patch: { pinned?: boolean; tags?: string[] }) => {
     try {
