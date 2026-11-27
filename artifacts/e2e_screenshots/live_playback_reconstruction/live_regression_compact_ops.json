@@ -1,0 +1,177 @@
+{
+  "reset_status": 200,
+  "reset_project": [
+    [
+      "A1",
+      480,
+      1440,
+      0,
+      0
+    ],
+    [
+      "A2",
+      3360,
+      1440,
+      0,
+      0
+    ],
+    [
+      "B1",
+      1920,
+      1440,
+      0,
+      0
+    ]
+  ],
+  "seek": "00:00.50",
+  "first_movement": "00:00.55",
+  "warm_wait_ms": 1820,
+  "warm_counts": {
+    "created": 24,
+    "start": 8,
+    "stop": 21,
+    "decode": 1,
+    "time": "00:00.55"
+  },
+  "after_drag": {
+    "created": 27,
+    "start": 11,
+    "stop": 24,
+    "decode": 1,
+    "time": "00:01.21"
+  },
+  "project_after_drag": [
+    [
+      "A1",
+      480,
+      1440,
+      0,
+      0
+    ],
+    [
+      "A2",
+      3360,
+      1440,
+      0,
+      0
+    ],
+    [
+      "B1",
+      2040,
+      1440,
+      0,
+      0
+    ]
+  ],
+  "after_trim": {
+    "created": 30,
+    "start": 14,
+    "stop": 27,
+    "decode": 1,
+    "time": "00:01.88"
+  },
+  "project_after_trim": [
+    [
+      "A1",
+      480,
+      1440,
+      0,
+      0
+    ],
+    [
+      "A2",
+      3360,
+      1440,
+      0,
+      0
+    ],
+    [
+      "B1",
+      2160,
+      1320,
+      120,
+      0
+    ]
+  ],
+  "after_undo": {
+    "created": 33,
+    "start": 16,
+    "stop": 30,
+    "decode": 1,
+    "time": "00:02.50"
+  },
+  "project_after_undo": [
+    [
+      "A1",
+      480,
+      1440,
+      0,
+      0
+    ],
+    [
+      "A2",
+      3360,
+      1440,
+      0,
+      0
+    ],
+    [
+      "B1",
+      2040,
+      1440,
+      0,
+      0
+    ]
+  ],
+  "after_redo": {
+    "created": 36,
+    "start": 18,
+    "stop": 33,
+    "decode": 1,
+    "time": "00:03.11"
+  },
+  "project_after_redo": [
+    [
+      "A1",
+      480,
+      1440,
+      0,
+      0
+    ],
+    [
+      "A2",
+      3360,
+      1440,
+      0,
+      0
+    ],
+    [
+      "B1",
+      2160,
+      1320,
+      120,
+      0
+    ]
+  ],
+  "after_rapid": {
+    "created": 40,
+    "start": 20,
+    "stop": 39,
+    "decode": 1,
+    "time": "00:04.19"
+  },
+  "paused": {
+    "created": 40,
+    "start": 20,
+    "stop": 40,
+    "decode": 1,
+    "time": "00:04.41"
+  },
+  "restarted": {
+    "created": 41,
+    "start": 20,
+    "stop": 40,
+    "decode": 1,
+    "time": "00:04.90"
+  }
+}

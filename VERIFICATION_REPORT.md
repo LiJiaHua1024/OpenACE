@@ -772,3 +772,14 @@ Implemented and verified:
 - Independent visible-Chrome QA verified all of the above quantitatively: group drag `(480,1920,960)→(720,2160,1200)`, zero clamp `(0,1440,480)`, duplicate span shift `2280`, paste `2520/3000/3840`, exact-ID undo/redo, clean 1272×837 layout, and zero console/network failures. Evidence: `artifacts/e2e_screenshots/arrangement_multiselect/`.
 
 Validation after iteration 53: frontend production build passed; browser QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green at 110 collected tests.
+
+## Iteration 54 — live playback reconstruction
+
+Implemented and verified:
+
+- Playback scheduling is now factored around a reusable graph builder. While transport is running, arrangement-affecting edits are fingerprinted (clip paths/timing/trim/fades/gain plus track volume/pan/mute/solo/render media and tempo), debounced through a persistent 120ms reconstruction timer, and rescheduled at the current audio-clock position instead of requiring manual stop/play.
+- Reconstruction preserves transport continuity: it accounts for decode/scheduling latency when computing source offsets, reuses cached decoded media, stops old sources before starting replacements, and does not reset or jump the playhead. Initial playback still waits for decode before anchoring its clock, so startup latency does not make playback begin ahead.
+- First adversarial QA exposed a real defect: same-snapshot transient/SSE project renders cleared the reconstruction timeout before it fired, so clip drags and undo/redo left stale audio. The timer is now independent of effect cleanup and only rescheduled when the audio fingerprint actually changes.
+- Regression QA in visible Chrome verified drag rebuild (`1920→2040` ticks, timer `126.8ms`), left trim rebuild (`offset 0→120`, timer `126.9ms`), undo/redo rebuild (`166.3/163.3ms`), exactly one rebuild for three rapid edits, zero unexpected playhead jumps, correct initial `0.5s` clip offset and `1.0s` future scheduling, one decode across repeated reconstructions, clean 1272×837 layout, and zero console/network failures. Evidence: `artifacts/e2e_screenshots/live_playback_reconstruction/`.
+
+Validation after iteration 54: frontend production build passed; browser regression QA passed. Backend behavior was unchanged; full automated suite is being rerun before commit.

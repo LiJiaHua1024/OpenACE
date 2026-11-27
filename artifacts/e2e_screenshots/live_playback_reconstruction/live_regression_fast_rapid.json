@@ -1,0 +1,334 @@
+{
+  "before": {
+    "created": 41,
+    "start": 20,
+    "stop": 40,
+    "decode": 1,
+    "time": "01:23.42"
+  },
+  "after": {
+    "created": 44,
+    "start": 20,
+    "stop": 41,
+    "decode": 1,
+    "time": "01:24.00"
+  },
+  "events": [
+    {
+      "type": "ended",
+      "id": 33,
+      "t": 265056.299999997,
+      "ctxTime": 167.97315192743764
+    },
+    {
+      "type": "mark",
+      "label": "reg_compact_rapid_start",
+      "t": 265510.299999997
+    },
+    {
+      "type": "stop",
+      "id": 34,
+      "t": 265687.59999999404,
+      "ctxTime": 168.60009070294785,
+      "when": 0
+    },
+    {
+      "type": "stop",
+      "id": 35,
+      "t": 265687.700000003,
+      "ctxTime": 168.60009070294785,
+      "when": 0
+    },
+    {
+      "type": "stop",
+      "id": 36,
+      "t": 265687.700000003,
+      "ctxTime": 168.60009070294785,
+      "when": 0
+    },
+    {
+      "type": "create",
+      "id": 37,
+      "t": 265687.799999997,
+      "ctxTime": 168.60009070294785
+    },
+    {
+      "type": "create",
+      "id": 38,
+      "t": 265687.89999999106,
+      "ctxTime": 168.60009070294785
+    },
+    {
+      "type": "start",
+      "id": 38,
+      "t": 265687.89999999106,
+      "ctxTime": 168.60009070294785,
+      "when": 168.60471655328797,
+      "offset": 0,
+      "duration": 1.5
+    },
+    {
+      "type": "create",
+      "id": 39,
+      "t": 265687.89999999106,
+      "ctxTime": 168.60009070294785
+    },
+    {
+      "type": "start",
+      "id": 39,
+      "t": 265688,
+      "ctxTime": 168.60009070294785,
+      "when": 168.60009070294785,
+      "offset": 1.370374149659881,
+      "duration": 0.1296258503401191
+    },
+    {
+      "type": "ended",
+      "id": 36,
+      "t": 265694.09999999404,
+      "ctxTime": 168.61170068027212
+    },
+    {
+      "type": "ended",
+      "id": 35,
+      "t": 265694.09999999404,
+      "ctxTime": 168.61170068027212
+    },
+    {
+      "type": "ended",
+      "id": 39,
+      "t": 265821.799999997,
+      "ctxTime": 168.739410430839
+    },
+    {
+      "type": "mark",
+      "label": "reg_compact_rapid_end",
+      "t": 265869
+    },
+    {
+      "type": "stop",
+      "id": 37,
+      "t": 265987.700000003,
+      "ctxTime": 168.9019501133787,
+      "when": 0
+    },
+    {
+      "type": "stop",
+      "id": 38,
+      "t": 265987.700000003,
+      "ctxTime": 168.9019501133787,
+      "when": 0
+    },
+    {
+      "type": "stop",
+      "id": 39,
+      "t": 265987.700000003,
+      "ctxTime": 168.9019501133787,
+      "when": 0
+    },
+    {
+      "type": "create",
+      "id": 40,
+      "t": 265987.89999999106,
+      "ctxTime": 168.9019501133787
+    },
+    {
+      "type": "ended",
+      "id": 38,
+      "t": 265995.89999999106,
+      "ctxTime": 168.91356009070296
+    },
+    {
+      "type": "mark",
+      "label": "reg_compact_pause",
+      "t": 266570.89999999106
+    },
+    {
+      "type": "stop",
+      "id": 40,
+      "t": 266613.39999999106,
+      "ctxTime": 169.5288888888889,
+      "when": 0
+    },
+    {
+      "type": "mark",
+      "label": "reg_compact_restart",
+      "t": 267050.09999999404
+    },
+    {
+      "type": "create",
+      "id": 41,
+      "t": 267079,
+      "ctxTime": 169.99328798185942
+    },
+    {
+      "type": "mark",
+      "label": "reg_compact_complete",
+      "t": 267771.700000003
+    },
+    {
+      "type": "mark",
+      "label": "reg_fast_rapid_start",
+      "t": 346086.09999999404
+    },
+    {
+      "type": "mark",
+      "label": "reg_fast_rapid_end",
+      "t": 346099.89999999106
+    },
+    {
+      "type": "stop",
+      "id": 41,
+      "t": 346218.59999999404,
+      "ctxTime": 249.13850340136054,
+      "when": 0
+    },
+    {
+      "type": "create",
+      "id": 42,
+      "t": 346218.59999999404,
+      "ctxTime": 249.13850340136054
+    },
+    {
+      "type": "create",
+      "id": 43,
+      "t": 346218.799999997,
+      "ctxTime": 249.13850340136054
+    },
+    {
+      "type": "create",
+      "id": 44,
+      "t": 346218.799999997,
+      "ctxTime": 249.13850340136054
+    }
+  ],
+  "timers": [
+    {
+      "id": 25,
+      "delay": 120,
+      "type": "schedule",
+      "t": 262811.700000003,
+      "src": "()=>{fe.current=null,(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current"
+    },
+    {
+      "id": 25,
+      "delay": 120,
+      "type": "fire",
+      "t": 262938.5
+    },
+    {
+      "id": 31,
+      "delay": 120,
+      "type": "schedule",
+      "t": 263660.799999997,
+      "src": "()=>{fe.current=null,(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current"
+    },
+    {
+      "id": 31,
+      "delay": 120,
+      "type": "fire",
+      "t": 263787.700000003
+    },
+    {
+      "id": 35,
+      "delay": 120,
+      "type": "schedule",
+      "t": 264315.59999999404,
+      "src": "()=>{fe.current=null,(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current"
+    },
+    {
+      "id": 35,
+      "delay": 120,
+      "type": "fire",
+      "t": 264437.59999999404
+    },
+    {
+      "id": 36,
+      "delay": 120,
+      "type": "schedule",
+      "t": 264931.200000003,
+      "src": "()=>{fe.current=null,(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current"
+    },
+    {
+      "id": 36,
+      "delay": 120,
+      "type": "fire",
+      "t": 265051.39999999106
+    },
+    {
+      "id": 38,
+      "delay": 120,
+      "type": "schedule",
+      "t": 265550.799999997,
+      "src": "()=>{fe.current=null,(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current"
+    },
+    {
+      "id": 38,
+      "type": "clear",
+      "t": 265567.59999999404
+    },
+    {
+      "id": 40,
+      "delay": 120,
+      "type": "schedule",
+      "t": 265567.59999999404,
+      "src": "()=>{fe.current=null,(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current"
+    },
+    {
+      "id": 40,
+      "delay": 120,
+      "type": "fire",
+      "t": 265687.59999999404
+    },
+    {
+      "id": 42,
+      "delay": 120,
+      "type": "schedule",
+      "t": 265832.39999999106,
+      "src": "()=>{fe.current=null,(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current"
+    },
+    {
+      "id": 42,
+      "type": "clear",
+      "t": 265864.700000003
+    },
+    {
+      "id": 44,
+      "delay": 120,
+      "type": "schedule",
+      "t": 265864.700000003,
+      "src": "()=>{fe.current=null,(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current"
+    },
+    {
+      "id": 44,
+      "delay": 120,
+      "type": "fire",
+      "t": 265987.700000003
+    },
+    {
+      "id": 46,
+      "delay": 120,
+      "type": "schedule",
+      "t": 346093.700000003,
+      "src": "()=>{fe.current=null,(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current"
+    },
+    {
+      "id": 46,
+      "type": "clear",
+      "t": 346098.299999997
+    },
+    {
+      "id": 48,
+      "delay": 120,
+      "type": "schedule",
+      "t": 346098.299999997,
+      "src": "()=>{fe.current=null,(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current"
+    },
+    {
+      "id": 48,
+      "delay": 120,
+      "type": "fire",
+      "t": 346218.59999999404
+    }
+  ]
+}

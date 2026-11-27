@@ -40,6 +40,30 @@ function decodePlaybackBuffer(ctx: AudioContext, url: string): Promise<AudioBuff
   return cached
 }
 
+function playbackAudioSnapshot(project: Project): string {
+  return JSON.stringify({
+    tempo_map: project.tempo_map,
+    tracks: project.tracks.map(track => ({
+      id: track.id,
+      mute: track.mute,
+      solo: track.solo,
+      volume: track.volume,
+      pan: track.pan,
+      render_path: track.render_path,
+      clips: (track.clips || []).map(clip => ({
+        id: clip.id,
+        path: clip.path,
+        start_ticks: clip.start_ticks,
+        offset_ticks: clip.offset_ticks,
+        duration_ticks: clip.duration_ticks,
+        fade_in_ticks: clip.fade_in_ticks,
+        fade_out_ticks: clip.fade_out_ticks,
+        gain_db: clip.gain_db,
+      })),
+    })),
+  })
+}
+
 export default function App() {
   const [project, setProject] = useState<Project | null>(null)
   const [selectedTrackId, setSelectedTrackId] = useState<string>()
@@ -57,7 +81,9 @@ export default function App() {
   const transactionBase = useRef<Project | null>(null)
   const locallyDeletingProjectId = useRef<string | null>(null)
   const saveTimer = useRef<number | null>(null)
-  const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext; starting?: boolean }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], starting: false })
+  const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext; starting?: boolean; generation: number }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], starting: false, generation: 0 })
+  const playbackSnapshotRef = useRef('')
+  const playbackRebuildTimer = useRef<number | null>(null)
 
   const setProjectRef = useCallback((value: Project | null) => {
     projectRef.current = value
@@ -273,23 +299,17 @@ export default function App() {
   const selectedTrack = project?.tracks.find(t => t.id === selectedTrackId) || project?.tracks[0]
 
   const stopPlaybackAudio = useCallback(() => {
+    playback.current.generation += 1
     playback.current.sources.forEach(source => { try { source.stop() } catch {} })
     playback.current.sources = []
     // Keep the context alive: decoder and node creation are reused across transport starts.
     playback.current.ctx = undefined
   }, [])
 
-  const playToggle = useCallback(async () => {
-    if (!project) return
-    if (playing) {
-      setPlaying(false)
-      stopPlaybackAudio()
-      cancelAnimationFrame(playback.current.raf)
-      return
-    }
-    if (playback.current.starting) return
-    playback.current.starting = true
-    const rendered = project.tracks
+  const schedulePlayback = useCallback(async (targetProject: Project, startTicks: number, continuous = false) => {
+    const generation = playback.current.generation + 1
+    playback.current.generation = generation
+    const rendered = targetProject.tracks
       .map(track => {
         const clipPaths = new Set((track.clips || []).map(clip => clip.path))
         const sources: { path: string; startTicks: number; offsetTicks: number; durationTicks: number | null; fadeInTicks: number; fadeOutTicks: number; gainDb: number; clip: AudioClip | null }[] = (track.clips || []).map(clip => ({
@@ -308,96 +328,156 @@ export default function App() {
       .filter(track => !track.mute && track.playbackSources.length)
     const anySolo = rendered.some(track => track.solo)
     const audible = rendered.filter(track => !anySolo || track.solo)
-    const offsetSeconds = ticksToSeconds(project, playheadTicks)
-    if (audible.length) {
-      const ctx = playbackContext()
-      playback.current.ctx = ctx
-      const tracksAndBuffers = await Promise.all(audible.flatMap(track => track.playbackSources.map(async sourceSpec => {
-        const url = renderFileUrl(sourceSpec.path)
-        if (!url) return null
-        try {
-          const buffer = await decodePlaybackBuffer(ctx, url)
-          return { track, buffer, sourceStartTicks: sourceSpec.startTicks, sourceOffsetTicks: sourceSpec.offsetTicks, sourceDurationTicks: sourceSpec.durationTicks, fadeInTicks: sourceSpec.fadeInTicks, fadeOutTicks: sourceSpec.fadeOutTicks, gainDb: sourceSpec.gainDb, clip: sourceSpec.clip }
-        } catch { return null }
-      })))
-      if (playback.current.ctx !== ctx) { playback.current.starting = false; return }
-      playback.current.sources = tracksAndBuffers.flatMap(item => {
-        if (!item) return []
-        const source = ctx.createBufferSource()
-        source.buffer = item.buffer
-        const gain = ctx.createGain()
-        const clipGain = Math.pow(10, (item.gainDb || 0) / 20)
-        const baseGain = item.track.volume * clipGain
-        gain.gain.value = baseGain
-        const pan = ctx.createStereoPanner()
-        pan.pan.value = item.track.pan
-        source.connect(gain).connect(pan).connect(ctx.destination)
-        const sourceStartSeconds = ticksToSeconds(project, item.sourceStartTicks)
-        const sourceOffsetSeconds = secondsBetweenTicks(project, item.sourceStartTicks - item.sourceOffsetTicks, item.sourceStartTicks)
-        const clipDurationSeconds = item.sourceDurationTicks
-          ? tickDurationSeconds(project, item.sourceStartTicks, item.sourceDurationTicks)
-          : Math.max(0, item.buffer.duration - sourceOffsetSeconds)
-        const localOffset = offsetSeconds - sourceStartSeconds
-        const clipStartClock = ctx.currentTime - localOffset
-        const fadeInSeconds = tickDurationSeconds(project, item.sourceStartTicks, item.fadeInTicks || 0)
-        const clipEndTicks = item.sourceStartTicks + (item.sourceDurationTicks || 0)
-        const fadeOutSeconds = item.sourceDurationTicks
-          ? tickDurationSeconds(project, clipEndTicks - (item.fadeOutTicks || 0), item.fadeOutTicks || 0)
-          : tickDurationSeconds(project, item.sourceStartTicks, item.fadeOutTicks || 0)
-        const positionNow = Math.max(0, localOffset)
-        const fadeGainAt = (position: number) => {
-          const manual = Math.min(
-            fadeInSeconds ? Math.max(0, Math.min(1, position / fadeInSeconds)) : 1,
-            fadeOutSeconds ? Math.max(0, Math.min(1, (clipDurationSeconds - position) / fadeOutSeconds)) : 1,
-          )
-          if (!item.clip) return manual
-          const timelinePosition = secondsToTicks(project, sourceStartSeconds + position)
-          return manual * crossfadeGainAt(item.track, item.clip, timelinePosition)
-        }
-        const automationPositions = new Set<number>([positionNow, clipDurationSeconds])
-        if (fadeInSeconds > 0.001) automationPositions.add(fadeInSeconds)
-        if (fadeOutSeconds > 0.001) automationPositions.add(clipDurationSeconds - fadeOutSeconds)
-        if (item.clip) {
-          for (const interval of crossfadeIntervals(item.track, item.clip)) {
-            for (let step = 0; step <= 12; step++) {
-              const ticks = interval.startTicks + (interval.endTicks - interval.startTicks) * step / 12
-              automationPositions.add(secondsBetweenTicks(project, item.sourceStartTicks, ticks))
-            }
+    const ctx = audible.length ? playbackContext() : undefined
+    playback.current.ctx = ctx
+    playback.current.startMs = performance.now()
+    playback.current.startTicks = startTicks
+    playback.current.startContextTime = ctx?.currentTime || 0
+    if (!audible.length) {
+      playback.current.sources = []
+      return true
+    }
+    const tracksAndBuffers = await Promise.all(audible.flatMap(track => track.playbackSources.map(async sourceSpec => {
+      const url = renderFileUrl(sourceSpec.path)
+      if (!url || !ctx) return null
+      try {
+        const buffer = await decodePlaybackBuffer(ctx, url)
+        return { track, buffer, sourceStartTicks: sourceSpec.startTicks, sourceOffsetTicks: sourceSpec.offsetTicks, sourceDurationTicks: sourceSpec.durationTicks, fadeInTicks: sourceSpec.fadeInTicks, fadeOutTicks: sourceSpec.fadeOutTicks, gainDb: sourceSpec.gainDb, clip: sourceSpec.clip }
+      } catch { return null }
+    })))
+    if (playback.current.generation !== generation) return false
+    if (!continuous) {
+      playback.current.startMs = performance.now()
+      playback.current.startTicks = startTicks
+      playback.current.startContextTime = ctx?.currentTime || 0
+    }
+    const scheduleOffsetSeconds = continuous && ctx
+      ? ticksToSeconds(targetProject, playback.current.startTicks) + (ctx.currentTime - playback.current.startContextTime)
+      : ticksToSeconds(targetProject, startTicks)
+    playback.current.sources = tracksAndBuffers.flatMap(item => {
+      if (!item || !ctx) return []
+      const source = ctx.createBufferSource()
+      source.buffer = item.buffer
+      const gain = ctx.createGain()
+      const clipGain = Math.pow(10, (item.gainDb || 0) / 20)
+      const baseGain = item.track.volume * clipGain
+      gain.gain.value = baseGain
+      const pan = ctx.createStereoPanner()
+      pan.pan.value = item.track.pan
+      source.connect(gain).connect(pan).connect(ctx.destination)
+      const sourceStartSeconds = ticksToSeconds(targetProject, item.sourceStartTicks)
+      const sourceOffsetSeconds = secondsBetweenTicks(targetProject, item.sourceStartTicks - item.sourceOffsetTicks, item.sourceStartTicks)
+      const clipDurationSeconds = item.sourceDurationTicks
+        ? tickDurationSeconds(targetProject, item.sourceStartTicks, item.sourceDurationTicks)
+        : Math.max(0, item.buffer.duration - sourceOffsetSeconds)
+      const localOffset = scheduleOffsetSeconds - sourceStartSeconds
+      const clipStartClock = ctx.currentTime - localOffset
+      const fadeInSeconds = tickDurationSeconds(targetProject, item.sourceStartTicks, item.fadeInTicks || 0)
+      const clipEndTicks = item.sourceStartTicks + (item.sourceDurationTicks || 0)
+      const fadeOutSeconds = item.sourceDurationTicks
+        ? tickDurationSeconds(targetProject, clipEndTicks - (item.fadeOutTicks || 0), item.fadeOutTicks || 0)
+        : tickDurationSeconds(targetProject, item.sourceStartTicks, item.fadeOutTicks || 0)
+      const positionNow = Math.max(0, localOffset)
+      const fadeGainAt = (position: number) => {
+        const manual = Math.min(
+          fadeInSeconds ? Math.max(0, Math.min(1, position / fadeInSeconds)) : 1,
+          fadeOutSeconds ? Math.max(0, Math.min(1, (clipDurationSeconds - position) / fadeOutSeconds)) : 1,
+        )
+        if (!item.clip) return manual
+        const timelinePosition = secondsToTicks(targetProject, sourceStartSeconds + position)
+        return manual * crossfadeGainAt(item.track, item.clip, timelinePosition)
+      }
+      const automationPositions = new Set<number>([positionNow, clipDurationSeconds])
+      if (fadeInSeconds > 0.001) automationPositions.add(fadeInSeconds)
+      if (fadeOutSeconds > 0.001) automationPositions.add(clipDurationSeconds - fadeOutSeconds)
+      if (item.clip) {
+        for (const interval of crossfadeIntervals(item.track, item.clip)) {
+          for (let step = 0; step <= 12; step++) {
+            const ticks = interval.startTicks + (interval.endTicks - interval.startTicks) * step / 12
+            automationPositions.add(secondsBetweenTicks(targetProject, item.sourceStartTicks, ticks))
           }
         }
-        const audibleStartClock = Math.max(ctx.currentTime, clipStartClock + positionNow)
-        gain.gain.setValueAtTime(Math.max(0.0001, baseGain * fadeGainAt(positionNow)), audibleStartClock)
-        let lastClock = audibleStartClock
-        for (const position of Array.from(automationPositions).sort((a, b) => a - b)) {
-          if (position <= positionNow + 0.0001 || position > clipDurationSeconds + 0.0001) continue
-          const clock = clipStartClock + position
-          if (clock <= ctx.currentTime + 0.001 || clock <= lastClock + 0.0005) continue
-          gain.gain.linearRampToValueAtTime(Math.max(0.0001, baseGain * fadeGainAt(position)), clock)
-          lastClock = clock
-        }
-        if (localOffset >= 0 && localOffset < clipDurationSeconds) {
-          const audioOffset = sourceOffsetSeconds + localOffset
-          const remaining = Math.max(0.01, clipDurationSeconds - localOffset)
-          source.start(ctx.currentTime, Math.min(Math.max(0, item.buffer.duration - 0.03), audioOffset), remaining)
-        } else if (localOffset < 0) {
-          source.start(ctx.currentTime - localOffset, sourceOffsetSeconds, Math.max(0.01, clipDurationSeconds))
-        }
-        return [source]
-      })
+      }
+      const audibleStartClock = Math.max(ctx.currentTime, clipStartClock + positionNow)
+      gain.gain.setValueAtTime(Math.max(0.0001, baseGain * fadeGainAt(positionNow)), audibleStartClock)
+      let lastClock = audibleStartClock
+      for (const position of Array.from(automationPositions).sort((a, b) => a - b)) {
+        if (position <= positionNow + 0.0001 || position > clipDurationSeconds + 0.0001) continue
+        const clock = clipStartClock + position
+        if (clock <= ctx.currentTime + 0.001 || clock <= lastClock + 0.0005) continue
+        gain.gain.linearRampToValueAtTime(Math.max(0.0001, baseGain * fadeGainAt(position)), clock)
+        lastClock = clock
+      }
+      if (localOffset >= 0 && localOffset < clipDurationSeconds) {
+        const audioOffset = sourceOffsetSeconds + localOffset
+        const remaining = Math.max(0.01, clipDurationSeconds - localOffset)
+        source.start(ctx.currentTime, Math.min(Math.max(0, item.buffer.duration - 0.03), audioOffset), remaining)
+      } else if (localOffset < 0) {
+        source.start(ctx.currentTime - localOffset, sourceOffsetSeconds, Math.max(0.01, clipDurationSeconds))
+      }
+      return [source]
+    })
+    return true
+  }, [])
+
+  useEffect(() => {
+    if (!playing || !project) {
+      playbackSnapshotRef.current = ''
+      if (playbackRebuildTimer.current) {
+        window.clearTimeout(playbackRebuildTimer.current)
+        playbackRebuildTimer.current = null
+      }
+      return
     }
+    const snapshot = playbackAudioSnapshot(project)
+    if (!playbackSnapshotRef.current) {
+      playbackSnapshotRef.current = snapshot
+      return
+    }
+    if (snapshot === playbackSnapshotRef.current) return
+    playbackSnapshotRef.current = snapshot
+    if (playbackRebuildTimer.current) window.clearTimeout(playbackRebuildTimer.current)
+    playbackRebuildTimer.current = window.setTimeout(() => {
+      playbackRebuildTimer.current = null
+      void (async () => {
+        const current = projectRef.current
+        if (!current || !playing) return
+        const elapsed = playback.current.ctx ? playback.current.ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
+        const ticks = secondsToTicks(current, ticksToSeconds(current, playback.current.startTicks) + elapsed)
+        stopPlaybackAudio()
+        await schedulePlayback(current, ticks, true)
+      })()
+    }, 120)
+  }, [project, playing, schedulePlayback, stopPlaybackAudio])
+
+  const playToggle = useCallback(async () => {
+    if (!project) return
+    if (playing) {
+      setPlaying(false)
+      stopPlaybackAudio()
+      cancelAnimationFrame(playback.current.raf)
+      return
+    }
+    if (playback.current.starting) return
+    playback.current.starting = true
+    playbackSnapshotRef.current = playbackAudioSnapshot(project)
+    await schedulePlayback(project, playheadTicks)
     playback.current.startMs = performance.now()
     playback.current.startTicks = playheadTicks
     playback.current.startContextTime = playback.current.ctx?.currentTime || 0
+    cancelAnimationFrame(playback.current.raf)
     const step = () => {
+      const current = projectRef.current
+      if (!current) return
       const elapsed = playback.current.ctx ? playback.current.ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
-      const ticks = secondsToTicks(project, ticksToSeconds(project, playback.current.startTicks) + elapsed)
+      const ticks = secondsToTicks(current, ticksToSeconds(current, playback.current.startTicks) + elapsed)
       setPlayheadTicks(Math.floor(ticks))
       playback.current.raf = requestAnimationFrame(step)
     }
     playback.current.raf = requestAnimationFrame(step)
     playback.current.starting = false
     setPlaying(true)
-  }, [project, playing, playheadTicks, stopPlaybackAudio])
+  }, [project, playing, playheadTicks, schedulePlayback, stopPlaybackAudio])
 
   const stop = useCallback(() => {
     setPlaying(false)

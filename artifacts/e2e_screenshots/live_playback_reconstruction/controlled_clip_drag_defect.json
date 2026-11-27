@@ -1,0 +1,173 @@
+{
+  "before_project": [
+    [
+      "A1",
+      480,
+      1440,
+      0
+    ],
+    [
+      "A2",
+      3360,
+      1440,
+      0
+    ],
+    [
+      "B1",
+      2400,
+      1320,
+      0
+    ]
+  ],
+  "before_counts": {
+    "created": 10,
+    "start": 6,
+    "stop": 9,
+    "ec": 55,
+    "playing": "\u275a\u275a",
+    "time": "04:07.94"
+  },
+  "after_project": [
+    [
+      "A1",
+      480,
+      1440,
+      0
+    ],
+    [
+      "A2",
+      3360,
+      1440,
+      0
+    ],
+    [
+      "B1",
+      2520,
+      1320,
+      0
+    ]
+  ],
+  "after_counts": {
+    "created": 10,
+    "start": 6,
+    "stop": 9,
+    "ec": 56,
+    "playing": "\u275a\u275a",
+    "time": "04:08.74",
+    "newEvents": [
+      {
+        "type": "start",
+        "id": 9,
+        "t": 307317.700000003,
+        "ctxTime": 136.8003628117914,
+        "when": 139.1753628117914,
+        "offset": 0.125,
+        "duration": 1.375
+      },
+      {
+        "type": "mark",
+        "label": "test_complete",
+        "t": 308164.299999997
+      },
+      {
+        "type": "ended",
+        "id": 9,
+        "t": 311063.799999997,
+        "ctxTime": 140.55038548752833
+      },
+      {
+        "type": "mark",
+        "label": "posttest_volume_probe",
+        "t": 416282.5
+      },
+      {
+        "type": "stop",
+        "id": 9,
+        "t": 416509.700000003,
+        "ctxTime": 245.93414965986395,
+        "when": 0
+      },
+      {
+        "type": "create",
+        "id": 10,
+        "t": 416509.89999999106,
+        "ctxTime": 245.93414965986395
+      },
+      {
+        "type": "mark",
+        "label": "controlled_drag_probe",
+        "t": 461010
+      },
+      {
+        "type": "mark",
+        "label": "clean_clip_drag_no_reconstruction",
+        "t": 555328
+      }
+    ]
+  },
+  "after_volume_control": {
+    "created": 11,
+    "start": 6,
+    "stop": 10,
+    "ec": 59,
+    "newEvents": [
+      {
+        "type": "mark",
+        "label": "test_complete",
+        "t": 308164.299999997
+      },
+      {
+        "type": "ended",
+        "id": 9,
+        "t": 311063.799999997,
+        "ctxTime": 140.55038548752833
+      },
+      {
+        "type": "mark",
+        "label": "posttest_volume_probe",
+        "t": 416282.5
+      },
+      {
+        "type": "stop",
+        "id": 9,
+        "t": 416509.700000003,
+        "ctxTime": 245.93414965986395,
+        "when": 0
+      },
+      {
+        "type": "create",
+        "id": 10,
+        "t": 416509.89999999106,
+        "ctxTime": 245.93414965986395
+      },
+      {
+        "type": "mark",
+        "label": "controlled_drag_probe",
+        "t": 461010
+      },
+      {
+        "type": "mark",
+        "label": "clean_clip_drag_no_reconstruction",
+        "t": 555328
+      },
+      {
+        "type": "mark",
+        "label": "control_volume_after_clip_drag",
+        "t": 556137.5
+      },
+      {
+        "type": "stop",
+        "id": 10,
+        "t": 556320.799999997,
+        "ctxTime": 385.7531065759637,
+        "when": 0
+      },
+      {
+        "type": "create",
+        "id": 11,
+        "t": 556320.8999999911,
+        "ctxTime": 385.7531065759637
+      }
+    ]
+  }
+}

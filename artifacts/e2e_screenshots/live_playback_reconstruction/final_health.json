@@ -1,0 +1,33 @@
+{
+  "layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "arr": {
+      "scrollWidth": 714,
+      "clientWidth": 714,
+      "rect": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 132,
+        "top": 58,
+        "right": 950,
+        "bottom": 190,
+        "left": 236
+      }
+    },
+    "transport": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    }
+  },
+  "console": [],
+  "network_failures": [],
+  "http_errors": [],
+  "title": "Live Playback Reconstruction QA",
+  "url": "http://127.0.0.1:8787/?livefinal=1795773544"
+}
