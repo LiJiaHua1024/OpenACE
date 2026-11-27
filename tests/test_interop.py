@@ -8,7 +8,7 @@ import pytest
 import yaml
 
 from openace.core.models import AudioClip, EnvelopePoint, Note, Phoneme, PitchPoint, Project, Track, Vibrato
-from openace.exporters.master import export_master_wav
+from openace.exporters.master import export_master_wav, export_lyrics_video
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.exporters.svp import export_svp
 from openace.exporters.ustx import export_ustx
@@ -386,6 +386,29 @@ def test_mp4_lyric_video_is_timed_and_matches_audio_duration(tmp_path):
     assert first_amber > 300
     assert first_amber > second_amber * 2
     assert second_neutral > 150
+
+
+def test_lyrics_video_separates_overlapping_multi_track_phrases(tmp_path):
+    from openace.core.audio import write_wav
+
+    project = Project(title="Layered Karaoke", bpm=120)
+    lead = Track(name="Lead")
+    lead.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="主"))
+    harmony = Track(name="Harmony")
+    harmony.add_note(Note(start_ticks=240, duration_ticks=480, pitch=64, lyric="和"))
+    project.add_track(lead)
+    project.add_track(harmony)
+    sr = 48000
+    wav = tmp_path / "master.wav"
+    write_wav(wav, np.zeros((sr, 2), dtype=np.float32), sr)
+    export_lyrics_video(project, wav, tmp_path / "layered.mp4")
+    ass_text = (tmp_path / "layered.ass").read_text(encoding="utf-8")
+    assert "Style: Lyrics,Noto Sans CJK SC,66" in ass_text
+    assert "Style: LyricsLane1,Noto Sans CJK SC,61" in ass_text
+    assert "100,100,96,1" in ass_text
+    assert "100,100,172,1" in ass_text
+    assert ",Lyrics,," in ass_text
+    assert ",LyricsLane1,," in ass_text
 
 
 def test_master_export_honors_clip_source_offset_and_duration(tmp_path):

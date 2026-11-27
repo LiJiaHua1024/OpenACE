@@ -832,3 +832,12 @@ Implemented and verified:
 - Regression coverage verifies channel 4/program 52 export+roundtrip and a mixed-channel same-pitch fixture splitting into two tracks with correct independent durations (`240/480` ticks).
 
 Validation after iteration 59: targeted MIDI interoperability tests passed; frontend production build passed. Full suite follows before commit.
+
+## Iteration 60 — multi-track karaoke collision handling
+
+Implemented and verified:
+
+- MP4 karaoke export now assigns overlapping lyric phrases to collision-aware vertical ASS lanes. Lane 0 retains the prior bottom-center typography; higher lanes use progressively smaller fonts and larger bottom margins, while non-overlapping phrases reuse lower lanes rather than wasting vertical space.
+- Regression coverage verifies generated `Lyrics`/`LyricsLane1` styles, distinct `96/172` margins, and correct per-phrase dialogue style assignment. A real rendered 1920×1080 frame at an overlapping timestamp visually shows simultaneous lead and harmony lyrics on separated lines without collision. Evidence: `artifacts/e2e_screenshots/karaoke_multitrack/overlap_frame.png` and `layered.ass`.
+
+Validation after iteration 60: targeted karaoke/MP4 interoperability tests passed; visual frame inspection passed. Full suite follows before commit.

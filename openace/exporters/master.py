@@ -235,6 +235,18 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
         if current:
             phrases.append((track.id, current))
     phrases.sort(key=lambda item: item[1][0][0])
+    lane_ends: list[float] = []
+    laned_phrases = []
+    for track_id, phrase in phrases:
+        phrase_start = phrase[0][0]
+        phrase_end = phrase[-1][1]
+        lane = next((index for index, end in enumerate(lane_ends) if end <= phrase_start + 0.001), len(lane_ends))
+        if lane == len(lane_ends):
+            lane_ends.append(phrase_end)
+        else:
+            lane_ends[lane] = phrase_end
+        laned_phrases.append((lane, track_id, phrase))
+    lane_count = max(1, max((lane for lane, _track_id, _phrase in laned_phrases), default=0) + 1)
 
     ass = output_path.with_suffix(".ass")
     lines = [
@@ -245,17 +257,23 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
         "",
         "[V4+ Styles]",
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-        "Style: Lyrics,Noto Sans CJK SC,66,&H0000BFFF,&H00D9D9D9,&HCC07101E,&H66000000,-1,0,0,0,100,100,1.2,0,1,4,1,2,100,100,96,1",
         "Style: Title,Noto Sans CJK SC,30,&H00E8EFFF,&H00E8EFFF,&HAA07101E,&H66000000,-1,0,0,0,100,100,1,0,1,2,0,7,72,72,44,1",
         "Style: Brand,Noto Sans CJK SC,22,&H00908EC8,&H00908EC8,&HAA07101E,&H66000000,0,0,0,0,100,100,1.5,0,1,1.5,0,9,72,72,42,1",
         "",
         "[Events]",
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
     ]
+    lyric_style_names = []
+    for lane in range(lane_count):
+        style_name = "Lyrics" if lane == 0 else f"LyricsLane{lane}"
+        lyric_style_names.append(style_name)
+        font_size = max(42, 66 - lane * 5)
+        margin_v = 96 + lane * 76
+        lines.insert(8 + lane, f"Style: {style_name},Noto Sans CJK SC,{font_size},&H0000BFFF,&H00D9D9D9,&HCC07101E,&H66000000,-1,0,0,0,100,100,1.2,0,1,4,1,2,100,100,{margin_v},1")
     video_end = _ass_timestamp(duration)
     lines.append(f"Dialogue: 0,0:00:00.00,{video_end},Title,,0,0,0,,{_ass_escape(project.title)}")
     lines.append(f"Dialogue: 0,0:00:00.00,{video_end},Brand,,0,0,0,,OPENACE")
-    for _track_id, phrase in phrases:
+    for lane, _track_id, phrase in laned_phrases:
         phrase_start = phrase[0][0]
         phrase_end = phrase[-1][1]
         chunks = ["{\\fad(160,140)}"]
@@ -263,7 +281,7 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
             duration_cs = max(1, int(round((note_end - note_start) * 100)))
             chunks.append(f"{{\\kf{duration_cs}}}{_ass_escape(lyric)}")
         lines.append(
-            f"Dialogue: 0,{_ass_timestamp(phrase_start)},{_ass_timestamp(phrase_end)},Lyrics,,0,0,0,,{''.join(chunks)}"
+            f"Dialogue: 0,{_ass_timestamp(phrase_start)},{_ass_timestamp(phrase_end)},{lyric_style_names[lane]},,0,0,0,,{''.join(chunks)}"
         )
     ass.write_text("\n".join(lines) + "\n", encoding="utf-8")
     filter_path = str(ass).replace("\\", "/").replace(":", "\\:").replace("'", "\\'")
