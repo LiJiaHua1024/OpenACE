@@ -84,6 +84,10 @@ export async function importUstx(file: File): Promise<Project> {
   return response.json()
 }
 
+export function voiceAudioUrl(voiceId?: string | null): string | null {
+  return voiceId ? `/api/voices/${encodeURIComponent(voiceId)}/audio` : null
+}
+
 export function renderFileUrl(path?: string | null): string | null {
   if (!path) return null
   const normalized = path.replace(/\\/g, '/')

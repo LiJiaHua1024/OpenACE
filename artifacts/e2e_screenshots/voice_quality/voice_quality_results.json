@@ -1,0 +1,310 @@
+{
+  "pid": "project_5bb00b345fd1",
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/voices",
+      "status": 422
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/voices",
+      "status": 422
+    }
+  ],
+  "clean_backend": {
+    "id": "voice_f13a7ab5e119",
+    "name": "clean_ref",
+    "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_f13a7ab5e119_clean_ref.wav",
+    "created_at": 1795807666.9745176,
+    "duration_seconds": 3.0,
+    "sample_rate": 48000,
+    "channels": 1,
+    "size_bytes": 288044,
+    "peak_level": 0.40002,
+    "clipping_ratio": 0.0,
+    "rms_dbfs": -10.97,
+    "silence_ratio": 0.0,
+    "voiced_seconds": 3.0,
+    "quality_warnings": []
+  },
+  "clean_ui": {
+    "metrics": "peak 0.40 · RMS -11.0dB · voiced 3.0s",
+    "warnings": [],
+    "audio": {
+      "left": 963,
+      "right": 1250,
+      "width": 287
+    },
+    "quality": {
+      "left": 963,
+      "right": 1250
+    },
+    "panel": {
+      "left": 950,
+      "right": 1272
+    },
+    "inside": true,
+    "scrollWorse": true
+  },
+  "audio_playback": {
+    "t0": 0,
+    "mid": {
+      "currentTime": 0.821874,
+      "paused": false,
+      "readyState": 4,
+      "src": "http://127.0.0.1:8787/api/voices/voice_f13a7ab5e119/audio"
+    },
+    "progressed": true
+  },
+  "short_backend": {
+    "id": "voice_6f10116ba67b",
+    "name": "short_ref",
+    "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_6f10116ba67b_short_ref.wav",
+    "created_at": 1795807669.705893,
+    "duration_seconds": 1.0,
+    "sample_rate": 48000,
+    "channels": 1,
+    "size_bytes": 96044,
+    "peak_level": 0.40002,
+    "clipping_ratio": 0.0,
+    "rms_dbfs": -10.97,
+    "silence_ratio": 0.0,
+    "voiced_seconds": 1.0,
+    "quality_warnings": [
+      "reference is shorter than 2s; zero-shot timbre may be unstable"
+    ]
+  },
+  "short_ui": {
+    "metrics": "peak 0.40 · RMS -11.0dB · voiced 1.0s",
+    "warnings": [
+      "reference is shorter than 2s; zero-shot timbre may be unstable"
+    ],
+    "audio": {
+      "left": 963,
+      "right": 1250,
+      "width": 287
+    },
+    "quality": {
+      "left": 963,
+      "right": 1250
+    },
+    "panel": {
+      "left": 950,
+      "right": 1272
+    },
+    "inside": true,
+    "scrollWorse": true
+  },
+  "clipped_backend": {
+    "id": "voice_0775072df1b4",
+    "name": "clipped_ref",
+    "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_0775072df1b4_clipped_ref.wav",
+    "created_at": 1795807671.2762651,
+    "duration_seconds": 3.0,
+    "sample_rate": 48000,
+    "channels": 1,
+    "size_bytes": 288044,
+    "peak_level": 1.0,
+    "clipping_ratio": 0.494167,
+    "rms_dbfs": -1.69,
+    "silence_ratio": 0.0,
+    "voiced_seconds": 3.0,
+    "quality_warnings": [
+      "reference appears clipped; use a cleaner non-distorted vocal take"
+    ]
+  },
+  "clipped_ui": {
+    "metrics": "peak 1.00 · RMS -1.7dB · voiced 3.0s",
+    "warnings": [
+      "reference appears clipped; use a cleaner non-distorted vocal take"
+    ],
+    "audio": {
+      "left": 963,
+      "right": 1250,
+      "width": 287
+    },
+    "quality": {
+      "left": 963,
+      "right": 1250
+    },
+    "panel": {
+      "left": 950,
+      "right": 1272
+    },
+    "inside": true,
+    "scrollWorse": true
+  },
+  "silent_backend": {
+    "id": "voice_cd60bbb4913a",
+    "name": "silent_ref",
+    "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_cd60bbb4913a_silent_ref.wav",
+    "created_at": 1795807672.841583,
+    "duration_seconds": 3.0,
+    "sample_rate": 48000,
+    "channels": 1,
+    "size_bytes": 288044,
+    "peak_level": 0.0,
+    "clipping_ratio": 0.0,
+    "rms_dbfs": -180.0,
+    "silence_ratio": 1.0,
+    "voiced_seconds": 0.0,
+    "quality_warnings": [
+      "reference is mostly silence or contains too little usable voiced material",
+      "reference level is very low; increase input gain without clipping"
+    ]
+  },
+  "silent_ui": {
+    "metrics": "peak 0.00 · RMS -180.0dB · voiced 0.0s",
+    "warnings": [
+      "reference is mostly silence or contains too little usable voiced material",
+      "reference level is very low; increase input gain without clipping"
+    ],
+    "audio": {
+      "left": 963,
+      "right": 1250,
+      "width": 287
+    },
+    "quality": {
+      "left": 963,
+      "right": 1250
+    },
+    "panel": {
+      "left": 950,
+      "right": 1272
+    },
+    "inside": true,
+    "scrollWorse": true
+  },
+  "too_short_reject": {
+    "uploaded": null,
+    "before_count": 7,
+    "after_count": 7,
+    "rejected": true,
+    "error": "{\"detail\":\"reference voice is too short\"}"
+  },
+  "corrupt_reject": {
+    "uploaded": null,
+    "before_count": 7,
+    "after_count": 7,
+    "rejected": true,
+    "error": "{\"detail\":\"reference voice is not readable audio\"}"
+  },
+  "rename": {
+    "backend_name": "QA Renamed Reference",
+    "ui_voice_name": "QA Renamed Reference",
+    "select_text": "QA Renamed Reference · 3.0s"
+  },
+  "reload_after_rename": {
+    "backend_name": "QA Renamed Reference",
+    "ui_voice_name": "QA Renamed Reference",
+    "list_contains": true
+  },
+  "delete": {
+    "backend_exists": false,
+    "ui_voice_name": "Zero-shot reference slot",
+    "track_voice_id": "",
+    "track_reference": null,
+    "list_contains": false
+  },
+  "readable_error_retest": {
+    "pid": "project_a7380794b127",
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+      }
+    ],
+    "network": [
+      {
+        "url": "http://127.0.0.1:8787/api/voices",
+        "status": 422
+      },
+      {
+        "url": "http://127.0.0.1:8787/api/voices",
+        "status": 422
+      }
+    ],
+    "clean": {
+      "id": "voice_7279345472bf",
+      "name": "clean_ref",
+      "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_7279345472bf_clean_ref.wav",
+      "created_at": 1795807852.600088,
+      "duration_seconds": 3.0,
+      "sample_rate": 48000,
+      "channels": 1,
+      "size_bytes": 288044,
+      "peak_level": 0.40002,
+      "clipping_ratio": 0.0,
+      "rms_dbfs": -10.97,
+      "silence_ratio": 0.0,
+      "voiced_seconds": 3.0,
+      "quality_warnings": []
+    },
+    "clean_ui": {
+      "metrics": "peak 0.40 · RMS -11.0dB · voiced 3.0s",
+      "warnings": [],
+      "inside": true,
+      "right": 1250,
+      "panelRight": 1272,
+      "noOverflow": true
+    },
+    "audio": {
+      "currentTime": 0.618509,
+      "paused": false,
+      "readyState": 4
+    },
+    "short": {
+      "id": "voice_398fc4991298",
+      "name": "short_ref",
+      "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_398fc4991298_short_ref.wav",
+      "created_at": 1795807854.62801,
+      "duration_seconds": 1.0,
+      "sample_rate": 48000,
+      "channels": 1,
+      "size_bytes": 96044,
+      "peak_level": 0.40002,
+      "clipping_ratio": 0.0,
+      "rms_dbfs": -10.97,
+      "silence_ratio": 0.0,
+      "voiced_seconds": 1.0,
+      "quality_warnings": [
+        "reference is shorter than 2s; zero-shot timbre may be unstable"
+      ]
+    },
+    "short_ui": {
+      "metrics": "peak 0.40 · RMS -11.0dB · voiced 1.0s",
+      "warnings": [
+        "reference is shorter than 2s; zero-shot timbre may be unstable"
+      ],
+      "inside": true,
+      "right": 1250,
+      "panelRight": 1272,
+      "noOverflow": true
+    },
+    "too_short": {
+      "uploaded": null,
+      "count_unchanged": true,
+      "error": "reference voice is too short",
+      "polished": true
+    },
+    "corrupt": {
+      "uploaded": null,
+      "count_unchanged": true,
+      "error": "reference voice is not readable audio",
+      "polished": true
+    }
+  }
+}

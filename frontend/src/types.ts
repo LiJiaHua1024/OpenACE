@@ -117,6 +117,12 @@ export interface VoiceProfile {
   sample_rate: number
   channels: number
   size_bytes: number
+  peak_level: number
+  clipping_ratio: number
+  rms_dbfs: number
+  silence_ratio: number
+  voiced_seconds: number
+  quality_warnings: string[]
 }
 
 export interface MediaFile {

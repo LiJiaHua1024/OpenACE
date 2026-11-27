@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { api, importAudioClip, renderFileUrl, uploadFile, uploadVoice } from '../api'
+import { api, importAudioClip, renderFileUrl, uploadFile, uploadVoice, voiceAudioUrl } from '../api'
 import { barTicks, ticksToSeconds } from '../tempo'
 import type { MediaFile, Note, Project, RenderJob, Track, VoiceProfile } from '../types'
 import { vocalRenderIsStale } from '../renderFingerprint'
@@ -55,7 +55,7 @@ export default function RenderPanel(props: Props) {
     try {
       props.onJobCreated(await fn())
     } catch (e: any) {
-      setError(e.message || String(e))
+      setError(readableError(e))
     } finally {
       setBusy(null)
     }
@@ -76,7 +76,7 @@ export default function RenderPanel(props: Props) {
       const voice = await uploadVoice(file)
       setVoices(current => [voice, ...current])
       props.onPatchTrack(props.track.id, { reference_voice_path: voice.path, voice_id: voice.id })
-    } catch (e: any) { setError(e.message || String(e)) }
+    } catch (e: any) { setError(readableError(e)) }
   }
 
   function assignVoice(voiceId: string) {
@@ -97,7 +97,7 @@ export default function RenderPanel(props: Props) {
     try {
       const updated = await api.renameVoice(voice.id, name)
       setVoices(current => current.map(item => item.id === updated.id ? updated : item))
-    } catch (e: any) { setError(e.message || String(e)) }
+    } catch (e: any) { setError(readableError(e)) }
   }
 
   async function deleteSelectedVoice() {
@@ -107,7 +107,7 @@ export default function RenderPanel(props: Props) {
     try {
       await api.deleteVoice(voice.id, true)
       setVoices(current => current.filter(item => item.id !== voice.id))
-    } catch (e: any) { setError(e.message || String(e)) }
+    } catch (e: any) { setError(readableError(e)) }
   }
 
   async function uploadSource(file: File) {
@@ -115,7 +115,7 @@ export default function RenderPanel(props: Props) {
     try {
       const result = await uploadFile(file)
       setSourceAudio(result.path)
-    } catch (e: any) { setError(e.message || String(e)) }
+    } catch (e: any) { setError(readableError(e)) }
   }
 
 
@@ -252,7 +252,7 @@ export default function RenderPanel(props: Props) {
     try {
       const targetTrackId = props.track && props.track.type !== 'vocal' ? props.track.id : undefined
       await importAudioClip(props.project.id, file, props.playheadTicks, targetTrackId)
-    } catch (e: any) { setError(e.message || String(e)) }
+    } catch (e: any) { setError(readableError(e)) }
   }
 
   const transcribedClips = props.track?.clips.filter(clip => (clip.transcribed_lyrics || []).length) || []
@@ -295,6 +295,15 @@ export default function RenderPanel(props: Props) {
               {voices.map(voice => <option key={voice.id} value={voice.id}>{voice.name} · {voice.duration_seconds.toFixed(1)}s</option>)}
             </select>
             <input ref={referenceInput} hidden type="file" accept="audio/*" onChange={e => { const file = e.target.files?.[0]; if (file) uploadReference(file); e.target.value = '' }} />
+            {selectedVoice && (
+              <div className="voice-quality">
+                <audio controls preload="none" src={voiceAudioUrl(selectedVoice.id) || undefined} />
+                <div className="voice-metrics">
+                  peak {selectedVoice.peak_level.toFixed(2)} · RMS {selectedVoice.rms_dbfs.toFixed(1)}dB · voiced {selectedVoice.voiced_seconds.toFixed(1)}s
+                </div>
+                {selectedVoice.quality_warnings.map((warning, index) => <div key={index} className="voice-warning">{warning}</div>)}
+              </div>
+            )}
             <div className="voice-actions">
               <button onClick={() => referenceInput.current?.click()}>Upload</button>
               <button disabled={!selectedVoice} onClick={renameSelectedVoice}>Rename</button>

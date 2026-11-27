@@ -6,6 +6,7 @@ import time
 from pathlib import Path
 from typing import BinaryIO, List, Optional
 
+import numpy as np
 import soundfile as sf
 from pydantic import BaseModel
 
@@ -23,7 +24,66 @@ class VoiceProfile(BaseModel):
     sample_rate: int = 0
     channels: int = 0
     size_bytes: int = 0
+    peak_level: float = 0.0
+    clipping_ratio: float = 0.0
+    rms_dbfs: float = -120.0
+    silence_ratio: float = 1.0
+    voiced_seconds: float = 0.0
+    quality_warnings: List[str] = []
 
+
+
+def analyze_voice_quality(path: Path, duration: float, sample_rate: int) -> dict:
+    """Measure conservative reference-audio quality signals without judging model output."""
+    try:
+        data, sr = sf.read(str(path), always_2d=True)
+        mono = np.asarray(data, dtype=np.float64).mean(axis=1)
+    except Exception:
+        return {
+            "peak_level": 0.0,
+            "clipping_ratio": 0.0,
+            "rms_dbfs": -120.0,
+            "silence_ratio": 1.0,
+            "voiced_seconds": 0.0,
+            "quality_warnings": ["audio quality analysis failed; verify the file manually before rendering"],
+        }
+    if mono.size == 0:
+        mono = np.zeros(1, dtype=np.float64)
+    peak = float(np.max(np.abs(mono)))
+    clipping_ratio = float(np.mean(np.abs(mono) >= 0.999))
+    rms = float(np.sqrt(np.mean(mono ** 2))) if mono.size else 0.0
+    rms_dbfs = 20.0 * np.log10(max(rms, 1e-9))
+    frame = max(1, int(round(sr * 0.02)))
+    usable_frames = mono.size // frame
+    if usable_frames:
+        trimmed = mono[:usable_frames * frame].reshape(usable_frames, frame)
+        frame_rms = np.sqrt(np.mean(trimmed ** 2, axis=1))
+    else:
+        frame_rms = np.array([rms])
+    nonsilent = frame_rms >= 10 ** (-45.0 / 20.0)
+    silence_ratio = float(1.0 - np.mean(nonsilent))
+    voiced_seconds = float(np.sum(nonsilent) * frame / sr)
+    warnings = []
+    if duration < 2.0:
+        warnings.append("reference is shorter than 2s; zero-shot timbre may be unstable")
+    elif duration > 30.0:
+        warnings.append("reference is longer than 30s; trim to the cleanest phrase for faster and more predictable zero-shot prompting")
+    if voiced_seconds < 1.0 or silence_ratio > 0.75:
+        warnings.append("reference is mostly silence or contains too little usable voiced material")
+    if peak >= 0.999 or clipping_ratio > 0.001:
+        warnings.append("reference appears clipped; use a cleaner non-distorted vocal take")
+    if rms_dbfs < -45.0:
+        warnings.append("reference level is very low; increase input gain without clipping")
+    if sample_rate < 16000:
+        warnings.append("sample rate is below 16kHz; use a cleaner vocal recording")
+    return {
+        "peak_level": round(peak, 5),
+        "clipping_ratio": round(clipping_ratio, 6),
+        "rms_dbfs": round(float(rms_dbfs), 2),
+        "silence_ratio": round(silence_ratio, 4),
+        "voiced_seconds": round(voiced_seconds, 3),
+        "quality_warnings": warnings,
+    }
 
 class VoiceLibrary:
     def __init__(self, root: Path):
@@ -84,6 +144,7 @@ class VoiceLibrary:
         if duration <= 0.05:
             destination.unlink(missing_ok=True)
             raise ValueError("reference voice is too short")
+        quality = analyze_voice_quality(destination, duration, sample_rate)
         voice = VoiceProfile(
             id=voice_id,
             name=Path(original).stem or "Reference voice",
@@ -93,6 +154,7 @@ class VoiceLibrary:
             sample_rate=sample_rate,
             channels=channels,
             size_bytes=destination.stat().st_size,
+            **quality,
         )
         voices = self._load()
         voices.append(voice)

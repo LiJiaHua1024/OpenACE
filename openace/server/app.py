@@ -441,6 +441,19 @@ async def create_voice(file: UploadFile = File(...)):
     return voice.model_dump(mode="json")
 
 
+@app.get("/api/voices/{voice_id}/audio")
+def voice_audio(voice_id: str):
+    try:
+        voice = voice_library.get(voice_id)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc)) from exc
+    path = Path(voice.path).resolve()
+    voices_root = VOICES.resolve()
+    if voices_root not in path.parents or not path.exists():
+        raise HTTPException(404, "voice audio not found")
+    return FileResponse(str(path), filename=path.name)
+
+
 @app.patch("/api/voices/{voice_id}")
 def rename_voice(voice_id: str, request: VoiceRenameRequest):
     try:

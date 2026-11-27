@@ -1114,3 +1114,15 @@ Implemented and verified:
 - Evidence: `artifacts/e2e_screenshots/note_audition/`.
 
 Validation after iteration 87: frontend production build passed; independent browser audio-instrumentation QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 88 — zero-shot reference voice quality guidance
+
+Implemented and verified:
+
+- Voice-library uploads now persist truthful local quality measurements in addition to duration/sample-rate metadata: peak level, clipping ratio, RMS dBFS, 20ms-frame silence ratio, usable voiced seconds, and conservative actionable warnings for very short/long, mostly silent, clipped, very low-level, or low-sample-rate references. These are guidance signals only; they do not claim to predict neural output quality.
+- RenderPanel now exposes native reference audition playback through a secure `/api/voices/{id}/audio` endpoint, a compact metrics line, and amber warnings before rendering. Valid but suboptimal references upload/assign without hard failure; corrupt or truly too-short audio still rejects loudly.
+- Independent visible-Chrome QA at exact 1272×837 verified a clean 3s reference (`peak 0.40002`, RMS `-10.97dBFS`, voiced `3.0s`, no warnings), native audio progression, exact warnings for short/clipped/silent fixtures, unchanged rejection of too-short/corrupt input, rename/delete/unassign/reload/SSE regressions, and contained panel layout.
+- QA exposed raw JSON upload errors; RenderPanel now uses the existing readable-detail extractor. Retest showed exact plain errors `reference voice is too short` and `reference voice is not readable audio` with all functional regressions still passing.
+- Evidence: `artifacts/e2e_screenshots/voice_quality/`.
+
+Validation after iteration 88: focused voice-library tests passed; frontend production build passed; independent browser QA and UX retest passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

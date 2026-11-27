@@ -46,3 +46,25 @@ def test_voice_library_rejects_non_audio_and_too_short_files(tmp_path):
         library.create("tiny.wav", wav_bytes(seconds=0.01))
     assert library.list() == []
     assert list((tmp_path / "voices").glob("*.wav")) == []
+
+
+def test_voice_library_quality_metrics_and_warnings_are_truthful(tmp_path):
+    library = VoiceLibrary(tmp_path / "voices")
+    clean = library.create("clean.wav", wav_bytes(seconds=3.0))
+    assert clean.peak_level == pytest.approx(0.1, abs=0.01)
+    assert clean.clipping_ratio == 0
+    assert clean.silence_ratio < 0.05
+    assert clean.voiced_seconds == pytest.approx(3.0, abs=0.05)
+    assert clean.quality_warnings == []
+
+    clipped_buffer = io.BytesIO()
+    t = np.arange(24000 * 3) / 24000
+    sf.write(clipped_buffer, np.sign(np.sin(2 * np.pi * 220 * t)), 24000, format="WAV", subtype="PCM_16")
+    clipped_buffer.seek(0)
+    clipped = library.create("clipped.wav", clipped_buffer)
+    assert clipped.peak_level >= 0.999
+    assert clipped.clipping_ratio > 0.001
+    assert any("clipped" in warning for warning in clipped.quality_warnings)
+
+    short = library.create("short.wav", wav_bytes(seconds=0.5))
+    assert any("shorter than 2s" in warning for warning in short.quality_warnings)
