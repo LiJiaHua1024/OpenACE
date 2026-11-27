@@ -27,6 +27,8 @@ export default function RenderPanel(props: Props) {
   const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([])
   const [mediaSearch, setMediaSearch] = useState('')
   const [batchLyrics, setBatchLyrics] = useState('')
+  const [trimStart, setTrimStart] = useState(0)
+  const [trimEnd, setTrimEnd] = useState(0)
   const [lyricsError, setLyricsError] = useState('')
   const [lyricScrollTop, setLyricScrollTop] = useState(0)
   const referenceInput = useRef<HTMLInputElement | null>(null)
@@ -97,6 +99,17 @@ export default function RenderPanel(props: Props) {
     try {
       const updated = await api.renameVoice(voice.id, name)
       setVoices(current => current.map(item => item.id === updated.id ? updated : item))
+    } catch (e: any) { setError(readableError(e)) }
+  }
+
+  async function trimSelectedVoice() {
+    const voice = selectedVoice
+    if (!voice || !props.track) return
+    setError('')
+    try {
+      const trimmed = await api.trimVoice(voice.id, trimStart, trimEnd)
+      setVoices(current => [trimmed, ...current.filter(item => item.id !== trimmed.id)])
+      props.onPatchTrack(props.track.id, { reference_voice_path: trimmed.path, voice_id: trimmed.id })
     } catch (e: any) { setError(readableError(e)) }
   }
 
@@ -258,6 +271,11 @@ export default function RenderPanel(props: Props) {
   const transcribedClips = props.track?.clips.filter(clip => (clip.transcribed_lyrics || []).length) || []
   const selectedVoice = voices.find(voice => voice.id === props.track?.voice_id) || voices.find(voice => voice.path === props.track?.reference_voice_path) || null
 
+  useEffect(() => {
+    setTrimStart(0)
+    setTrimEnd(selectedVoice?.duration_seconds || 0)
+  }, [selectedVoice?.id, selectedVoice?.duration_seconds])
+
   const karaokeStyle = {
     font_size: 66,
     lane_spacing: 76,
@@ -302,6 +320,12 @@ export default function RenderPanel(props: Props) {
                   peak {selectedVoice.peak_level.toFixed(2)} · RMS {selectedVoice.rms_dbfs.toFixed(1)}dB · voiced {selectedVoice.voiced_seconds.toFixed(1)}s
                 </div>
                 {selectedVoice.quality_warnings.map((warning, index) => <div key={index} className="voice-warning">{warning}</div>)}
+                <div className="voice-trim-row">
+                  <label>start<input type="number" min="0" max={selectedVoice.duration_seconds} step="0.05" value={trimStart} onChange={event => setTrimStart(Number(event.target.value))} /></label>
+                  <label>end<input type="number" min="0" max={selectedVoice.duration_seconds} step="0.05" value={trimEnd} onChange={event => setTrimEnd(Number(event.target.value))} /></label>
+                  <button disabled={trimEnd <= trimStart || trimEnd - trimStart <= 0.05} onClick={trimSelectedVoice}>Trim copy</button>
+                </div>
+                {selectedVoice.source_voice_id && <div className="voice-metrics">trimmed copy {selectedVoice.trim_start_seconds?.toFixed(2)}–{selectedVoice.trim_end_seconds?.toFixed(2)}s; original preserved</div>}
               </div>
             )}
             <div className="voice-actions">

@@ -123,6 +123,9 @@ export interface VoiceProfile {
   silence_ratio: number
   voiced_seconds: number
   quality_warnings: string[]
+  source_voice_id?: string | null
+  trim_start_seconds?: number | null
+  trim_end_seconds?: number | null
 }
 
 export interface MediaFile {

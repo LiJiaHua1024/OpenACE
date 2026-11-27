@@ -1147,3 +1147,14 @@ Implemented and verified:
 - Evidence: `artifacts/e2e_screenshots/note_overlap/`.
 
 Validation after iteration 90: focused backend overlap tests passed; frontend production build passed; independent browser QA passed with the stated quantize caveat; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 91 — zero-shot reference trimming workflow
+
+Implemented and verified:
+
+- Reference voices can now be trimmed into exact sample-based WAV copies from the Voice panel while preserving the original upload. Copies persist lineage (`source_voice_id`, trim range), are reanalyzed for duration/quality metrics, publish through SSE, and are automatically assigned to the current vocal track.
+- Backend validation rejects negative/reversed/tiny/out-of-duration ranges loudly without library growth; the endpoint serves only library-owned audio paths.
+- Independent visible-Chrome QA at exact 1272×837 verified a 5s source trimmed to exactly 72,000 frames/1.5s at 48kHz, automatic selection/assignment, correct quality warning, native audition duration/progress, unchanged original, reload persistence, readable invalid-range errors, rename/delete regressions, contained layout, and clean console/network apart from intentional 422s.
+- Evidence: `artifacts/e2e_screenshots/voice_trim/`.
+
+Validation after iteration 91: focused voice-library trim tests passed; frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

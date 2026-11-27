@@ -30,6 +30,9 @@ class VoiceProfile(BaseModel):
     silence_ratio: float = 1.0
     voiced_seconds: float = 0.0
     quality_warnings: List[str] = []
+    source_voice_id: Optional[str] = None
+    trim_start_seconds: Optional[float] = None
+    trim_end_seconds: Optional[float] = None
 
 
 
@@ -154,6 +157,54 @@ class VoiceLibrary:
             sample_rate=sample_rate,
             channels=channels,
             size_bytes=destination.stat().st_size,
+            **quality,
+        )
+        voices = self._load()
+        voices.append(voice)
+        self._save(voices)
+        return voice
+
+
+    def create_trimmed_copy(self, voice_id: str, start_seconds: float, end_seconds: float) -> VoiceProfile:
+        source_voice = self.get(voice_id)
+        if start_seconds < 0 or end_seconds <= start_seconds:
+            raise ValueError("trim requires 0 <= start < end")
+        if end_seconds - start_seconds <= 0.05:
+            raise ValueError("trimmed reference voice is too short")
+        if end_seconds > source_voice.duration_seconds + 0.02:
+            raise ValueError("trim end exceeds reference duration")
+        source_path = Path(source_voice.path).resolve()
+        root = self.root.resolve()
+        if root not in source_path.parents or not source_path.exists():
+            raise ValueError("reference voice audio not found")
+        try:
+            data, sample_rate = sf.read(str(source_path), always_2d=True)
+        except Exception as exc:
+            raise ValueError("reference voice is not readable audio") from exc
+        start_frame = int(round(start_seconds * sample_rate))
+        end_frame = min(len(data), int(round(end_seconds * sample_rate)))
+        if end_frame <= start_frame:
+            raise ValueError("trim range contains no audio")
+        trimmed = data[start_frame:end_frame]
+        new_voice_id = new_id("voice")
+        safe_stem = "".join(ch if ch.isalnum() or ch in {"-", "_"} else "_" for ch in source_voice.name).strip("_") or "reference"
+        destination = self.root / f"{new_voice_id}_{safe_stem}_trim.wav"
+        sf.write(str(destination), trimmed, sample_rate, format="WAV", subtype="PCM_16")
+        duration = len(trimmed) / float(sample_rate)
+        channels = int(trimmed.shape[1]) if trimmed.ndim == 2 else 1
+        quality = analyze_voice_quality(destination, duration, sample_rate)
+        voice = VoiceProfile(
+            id=new_voice_id,
+            name=f"{source_voice.name} trimmed",
+            path=str(destination),
+            created_at=time.time(),
+            duration_seconds=round(duration, 3),
+            sample_rate=int(sample_rate),
+            channels=channels,
+            size_bytes=destination.stat().st_size,
+            source_voice_id=source_voice.id,
+            trim_start_seconds=round(float(start_seconds), 3),
+            trim_end_seconds=round(float(end_seconds), 3),
             **quality,
         )
         voices = self._load()

@@ -430,6 +430,11 @@ class VoiceRenameRequest(BaseModel):
     name: str
 
 
+class VoiceTrimRequest(BaseModel):
+    start_seconds: float
+    end_seconds: float
+
+
 @app.get("/api/voices")
 def list_voices():
     return [voice.model_dump(mode="json") for voice in voice_library.list()]
@@ -456,6 +461,18 @@ def voice_audio(voice_id: str):
     if voices_root not in path.parents or not path.exists():
         raise HTTPException(404, "voice audio not found")
     return FileResponse(str(path), filename=path.name)
+
+
+@app.post("/api/voices/{voice_id}/trim")
+def trim_voice(voice_id: str, request: VoiceTrimRequest):
+    try:
+        voice = voice_library.create_trimmed_copy(voice_id, request.start_seconds, request.end_seconds)
+        event_bus.publish("voice_library", {"action": "created", "voice": voice.model_dump(mode="json")})
+        return voice.model_dump(mode="json")
+    except KeyError as exc:
+        raise HTTPException(404, str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
 
 
 @app.patch("/api/voices/{voice_id}")

@@ -35,6 +35,7 @@ export const api = {
   svc: (projectId: string, sourceAudio: string, referenceVoice: string) => request<RenderJob>(`/api/projects/${projectId}/render/svc`, json({ method: 'POST', body: JSON.stringify({ source_audio: sourceAudio, reference_voice: referenceVoice }) })),
   listVoices: () => request<VoiceProfile[]>('/api/voices'),
   renameVoice: (voiceId: string, name: string) => request<VoiceProfile>(`/api/voices/${voiceId}`, json({ method: 'PATCH', body: JSON.stringify({ name }) })),
+  trimVoice: (voiceId: string, startSeconds: number, endSeconds: number) => request<VoiceProfile>(`/api/voices/${voiceId}/trim`, json({ method: 'POST', body: JSON.stringify({ start_seconds: startSeconds, end_seconds: endSeconds }) })),
   deleteVoice: (voiceId: string, unassign = false) => request<any>(`/api/voices/${voiceId}${unassign ? '?unassign=true' : ''}`, { method: 'DELETE' }),
   timePhonemes: (symbols: string[], durationMs: number) => request<any[]>('/api/phonemes/time', json({ method: 'POST', body: JSON.stringify({ symbols, duration_ms: durationMs }) })),
   jobs: () => request<RenderJob[]>('/api/jobs'),

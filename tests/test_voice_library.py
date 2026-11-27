@@ -1,4 +1,5 @@
 import io
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -68,3 +69,30 @@ def test_voice_library_quality_metrics_and_warnings_are_truthful(tmp_path):
 
     short = library.create("short.wav", wav_bytes(seconds=0.5))
     assert any("shorter than 2s" in warning for warning in short.quality_warnings)
+
+
+def test_voice_library_trimmed_copy_preserves_source_and_reanalyzes(tmp_path):
+    library = VoiceLibrary(tmp_path / "voices")
+    source = library.create("source.wav", wav_bytes(seconds=3.0))
+    trimmed = library.create_trimmed_copy(source.id, 1.0, 2.5)
+    assert trimmed.id != source.id
+    assert trimmed.source_voice_id == source.id
+    assert trimmed.trim_start_seconds == pytest.approx(1.0)
+    assert trimmed.trim_end_seconds == pytest.approx(2.5)
+    assert trimmed.duration_seconds == pytest.approx(1.5, abs=0.02)
+    assert trimmed.sample_rate == source.sample_rate
+    assert trimmed.channels == source.channels
+    assert Path(trimmed.path).exists() and Path(source.path).exists()
+    data, sr = sf.read(trimmed.path)
+    assert sr == source.sample_rate
+    assert len(data) == pytest.approx(1.5 * source.sample_rate, abs=2)
+    assert [item.id for item in library.list()][:2] == [trimmed.id, source.id]
+
+
+def test_voice_library_trim_rejects_invalid_ranges(tmp_path):
+    library = VoiceLibrary(tmp_path / "voices")
+    source = library.create("source.wav", wav_bytes(seconds=1.0))
+    for start, end in [(-0.1, 0.5), (0.5, 0.5), (0.9, 1.2)]:
+        with pytest.raises(ValueError):
+            library.create_trimmed_copy(source.id, start, end)
+    assert len(library.list()) == 1
