@@ -14,6 +14,7 @@ from openace.exporters.svp import export_svp
 from openace.exporters.ustx import export_ustx
 from openace.exporters.vpr import export_vpr
 from openace.importers.midi import import_midi
+from openace.importers.ustx import import_ustx
 
 
 def sample_project():
@@ -128,6 +129,69 @@ def test_ustx_exports_audio_clips_as_source_derived_wave_parts(tmp_path):
     # OpenUtau derives visible duration as full source duration minus skip/trim.
     assert 960 - part["skip"] - part["trim"] == 480
     assert "_openace_duration_ticks" not in part
+
+
+def test_ustx_import_roundtrip_restores_notes_units_curves_and_wave_parts(tmp_path):
+    import soundfile as sf
+
+    source = tmp_path / "ustx-roundtrip.wav"
+    sr = 48000
+    sf.write(source, np.zeros((sr, 2), dtype=np.float32), sr, subtype="PCM_24")
+    project = sample_project()
+    track = project.tracks[0]
+    track.volume = 0.5
+    track.pan = 0.25
+    track.automation.dynamic = [EnvelopePoint(ticks=0, value=0.5), EnvelopePoint(ticks=480, value=1.0)]
+    track.automation.pitch_cents = [EnvelopePoint(ticks=0, value=-25), EnvelopePoint(ticks=480, value=50)]
+    track.notes[0].pitch_curve = [PitchPoint(offset_ms=12.5, cents=30.0)]
+    track.notes[0].vibrato = Vibrato(start_ratio=0.25, depth_cents=40, frequency_hz=4.0, phase=1.5707963267948966)
+    track.notes[0].phonemes = [Phoneme(symbol="n i", start_ms=0, duration_ms=100)]
+    track.clips.append(AudioClip(
+        path=str(source), start_ticks=480, offset_ticks=240, duration_ticks=480,
+        fade_in_ticks=48, fade_out_ticks=96, label="Hook",
+    ))
+    exported = export_ustx(project, tmp_path / "roundtrip.ustx")
+    imported = import_ustx(exported)
+    assert imported.title == project.title
+    assert imported.bpm == project.bpm
+    imported_track = imported.tracks[0]
+    assert imported_track.volume == pytest.approx(0.5, abs=0.001)
+    assert imported_track.pan == pytest.approx(0.25)
+    assert [(n.start_ticks, n.duration_ticks, n.pitch, n.lyric) for n in imported_track.notes] == [
+        (0, 480, 60, "你"), (480, 480, 62, "好"),
+    ]
+    assert imported_track.notes[0].pitch_curve[0].offset_ms == pytest.approx(12.5)
+    assert imported_track.notes[0].pitch_curve[0].cents == pytest.approx(30.0)
+    assert imported_track.notes[0].vibrato is not None
+    assert imported_track.notes[0].vibrato.start_ratio == pytest.approx(0.25)
+    assert imported_track.notes[0].vibrato.frequency_hz == pytest.approx(4.0)
+    assert imported_track.notes[0].phonemes[0].symbol == "n i"
+    assert [(p.ticks, p.value) for p in imported_track.automation.dynamic] == [(0, 0.5), (480, 1.0)]
+    assert [(p.ticks, p.value) for p in imported_track.automation.pitch_cents] == [(0, -25.0), (480, 50.0)]
+    assert len(imported_track.clips) == 1
+    clip = imported_track.clips[0]
+    assert (clip.start_ticks, clip.offset_ticks, clip.duration_ticks) == (480, 240, 480)
+    assert (clip.fade_in_ticks, clip.fade_out_ticks) == (48, 96)
+    assert Path(clip.path).resolve() == source.resolve()
+    assert clip.label == "Hook"
+    # Serializer-default untouched pitch points must not be mistaken for user curves.
+    assert imported_track.notes[1].pitch_curve == []
+
+
+def test_ustx_import_endpoint_returns_project(tmp_path, monkeypatch):
+    from fastapi.testclient import TestClient
+    import openace.server.app as app_module
+
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    client = TestClient(app_module.app)
+    exported = export_ustx(sample_project(), tmp_path / "endpoint.ustx")
+    with exported.open("rb") as handle:
+        response = client.post("/api/import/ustx", files={"file": ("endpoint.ustx", handle, "application/x-yaml")})
+    assert response.status_code == 200
+    project = response.json()
+    assert project["title"] == "Interop Test"
+    assert project["tracks"][0]["notes"][0]["lyric"] == "你"
+    assert project["tracks"][0]["notes"][0]["pitch_curve"] == []
 
 
 def test_ustx_scales_non480_project_ticks_to_openutau_resolution(tmp_path):

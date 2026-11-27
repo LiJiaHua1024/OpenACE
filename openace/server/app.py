@@ -26,6 +26,7 @@ from openace.exporters.ustx import export_ustx
 from openace.exporters.vpr import export_vpr
 from openace.importers.audio import assign_lyrics_to_notes, audio_to_midi_notes, transcribe_lyric_words
 from openace.importers.midi import import_midi
+from openace.importers.ustx import import_ustx
 from openace.engines.vram import vram_manager
 
 from .events import event_bus
@@ -330,6 +331,23 @@ async def import_midi_file(file: UploadFile = File(...)):
         store.save(project)
         publish_project(project)
         return project.model_dump(mode="json")
+    finally:
+        tmp_path.unlink(missing_ok=True)
+
+
+@app.post("/api/import/ustx")
+async def import_ustx_file(file: UploadFile = File(...)):
+    suffix = Path(file.filename or "input.ustx").suffix or ".ustx"
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+        shutil.copyfileobj(file.file, tmp)
+        tmp_path = Path(tmp.name)
+    try:
+        project = import_ustx(tmp_path)
+        store.save(project)
+        publish_project(project)
+        return project.model_dump(mode="json")
+    except RuntimeError as exc:
+        raise HTTPException(422, str(exc)) from exc
     finally:
         tmp_path.unlink(missing_ok=True)
 

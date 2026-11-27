@@ -56,6 +56,14 @@ export async function importMidi(file: File): Promise<Project> {
   return response.json()
 }
 
+export async function importUstx(file: File): Promise<Project> {
+  const body = new FormData()
+  body.append('file', file)
+  const response = await fetch('/api/import/ustx', { method: 'POST', body })
+  if (!response.ok) throw new Error(await response.text())
+  return response.json()
+}
+
 export function renderFileUrl(path?: string | null): string | null {
   if (!path) return null
   const normalized = path.replace(/\\/g, '/')

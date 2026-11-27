@@ -1,0 +1,77 @@
+{
+  "visible_import_control_project_ui": {
+    "ok": true,
+    "details": {
+      "method": "file_chooser",
+      "control_visible": true,
+      "status": 200,
+      "title": "ustx_import_roundtrip",
+      "imported_title": "ustx_import_roundtrip",
+      "arrangement_canvas": true,
+      "piano_canvas": true
+    },
+    "time": 1795749020.8608282
+  },
+  "backend_imported_contract": {
+    "ok": true,
+    "details": {
+      "checks": {
+        "transport": true,
+        "track_units_color_type": true,
+        "notes_lyrics": true,
+        "user_pitch_curve": true,
+        "default_pitch_ignored": true,
+        "vibrato": true,
+        "phoneme_override": true,
+        "automation": true,
+        "pitch_automation": true,
+        "clip_timing": true,
+        "clip_path_label": true
+      },
+      "track_type": "vocal",
+      "notes": [
+        [
+          0,
+          480,
+          60,
+          "你"
+        ],
+        [
+          480,
+          480,
+          62,
+          "好"
+        ]
+      ],
+      "clip": {
+        "id": "clip_260f691a9a6a",
+        "path": "/tmp/ustx_import_roundtrip.wav",
+        "start_ticks": 480,
+        "duration_ticks": 320,
+        "offset_ticks": 240,
+        "fade_in_ticks": 48,
+        "fade_out_ticks": 96,
+        "gain_db": 0.0,
+        "label": "Hook"
+      },
+      "source_wav": "/tmp/ustx_import_roundtrip.wav"
+    },
+    "time": 1795749020.8610964
+  },
+  "visual_notes_chinese_lyrics_render": {
+    "ok": true,
+    "details": {
+      "white_text_pixels_inside_notes": 341
+    },
+    "time": 1795749020.8953047
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795749020.8955083
+  },
+  "passed": true
+}

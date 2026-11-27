@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { api, importAudio, importMidi, renderFileUrl } from './api'
+import { api, importAudio, importMidi, importUstx, renderFileUrl } from './api'
 import ArrangementView from './components/ArrangementView'
 import AutomationLane from './components/AutomationLane'
 import PianoRoll from './components/PianoRoll'
@@ -344,9 +344,9 @@ export default function App() {
     finally { setImportingAudio(false) }
   }
 
-  async function handleImportMidi(file: File) {
+  async function handleImportedProject(promise: Promise<Project>) {
     try {
-      const imported = await importMidi(file)
+      const imported = await promise
       setProjectList(await api.listProjects())
       setProjectRef(imported)
       setSelectedTrackId(imported.tracks[0]?.id)
@@ -377,7 +377,8 @@ export default function App() {
         onRedo={redo}
         onOpenProject={openProject}
         onNewProject={createNewProject}
-        onImportMidi={handleImportMidi}
+        onImportMidi={file => void handleImportedProject(importMidi(file))}
+        onImportUstx={file => void handleImportedProject(importUstx(file))}
         onImportAudio={handleImportAudio}
         importingAudio={importingAudio}
       />

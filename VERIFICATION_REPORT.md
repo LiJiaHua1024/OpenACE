@@ -471,3 +471,17 @@ Implemented and verified:
 - Independent visible-Chrome QA clicked the real USTX export control and verified HTTP 200, UI health, exact wave-part schema, `position=480`, `skip=240`, `trim=240`, derived duration 480, fades, relative path, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/ustx_wave_parts/`.
 
 Validation after iteration 27: frontend production build passed; Python compile passed; full automated suite reached 64 passed.
+
+## Iteration 28 — Bidirectional USTX project import
+
+Implemented and verified:
+
+- Added a source-derived OpenUtau 0.10 importer covering project name, tempo/time signature, track color/type/mute/solo/volume/pan, voice notes and lyrics, intentional pitch curves, vibrato, phoneme overrides, dyn/pitd automation, and wave clips.
+- Importer follows inverse source semantics: OpenUtau pitch `y` units are converted back to cents; vibrato end-weighted `length` becomes OpenACE `start_ratio`; `period` becomes frequency; `dyn` decibel×10 becomes normalized automation; wave `skip/trim` reconstructs source offset and visible duration.
+- Mandatory untouched OpenUtau two-point pitch serializer defaults are not mistaken for user automation. Missing or malformed USTX structure fails loudly. Internal USTX project names are preserved rather than replaced by upload filenames.
+- The transport bar now exposes a working visible **Import USTX** control wired through `/api/import/ustx`, React project state, undo history reset, and SSE-compatible persistence.
+- Regression coverage round-trips notes, Chinese lyrics, user pitch curves, vibrato, phoneme override, dyn/pitd automation, track units, wave timing/fades/path/label, and the HTTP endpoint.
+- Independent visible-Chrome QA imported a full Chinese USTX fixture through the real file chooser and verified HTTP 200, internal title `USTX 导入验证`, notes/lyrics, 100 BPM, 3/4, track units/color/type, pitch/vibrato/phoneme/automation restoration, wave timing/fades/path/label, UI health, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/ustx_import/`.
+- Browser single-file upload cannot access arbitrary sibling media beside the original USTX; unresolved external relative wave media is now explicitly documented instead of silently fabricated.
+
+Validation after iteration 28: frontend production build passed; Python compile passed; full automated suite reached 66 passed.
