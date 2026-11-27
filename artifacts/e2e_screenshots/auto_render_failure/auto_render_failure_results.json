@@ -1,0 +1,80 @@
+{
+  "console_errors": [],
+  "network_errors": [],
+  "page_errors": [],
+  "precondition": {
+    "failure_file_exists": true,
+    "checkbox_initially": false
+  },
+  "job_count_after_enable": 0,
+  "baseline_count": 12,
+  "first_new_count": 1,
+  "first_seen": {
+    "id": "job_63b8b0b35991",
+    "status": "failed",
+    "created_at": 1795818431.4805672
+  },
+  "first_final": {
+    "id": "job_63b8b0b35991",
+    "status": "failed",
+    "error": "explicit CI vocal render failure requested",
+    "output_path": null,
+    "finished_at": 1795818431.4858296
+  },
+  "no_retry_count": 1,
+  "no_retry_jobs": [
+    {
+      "id": "job_63b8b0b35991",
+      "status": "failed",
+      "error": "explicit CI vocal render failure requested"
+    }
+  ],
+  "second_new_count": 1,
+  "second_jobs": [
+    {
+      "id": "job_70283e04b7dd",
+      "status": "running",
+      "created_at": 1795818438.8616676
+    }
+  ],
+  "second_final": {
+    "id": "job_70283e04b7dd",
+    "status": "completed",
+    "error": null,
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_70283e04b7dd/vocal.wav",
+    "finished_at": 1795818444.0838172
+  },
+  "after_success": {
+    "fp": "05c85c383bf5524e",
+    "hash": "05c85c383bf5524e",
+    "stale": false,
+    "badges": 0,
+    "lyrics": [
+      "呵",
+      "呀",
+      "呀"
+    ],
+    "render_revision": 10
+  },
+  "manual_count_after_click": 1,
+  "manual_jobs": [
+    {
+      "id": "job_f768c4a2ba8d",
+      "status": "running",
+      "created_at": 1795818445.5672512
+    }
+  ],
+  "manual_final": {
+    "id": "job_f768c4a2ba8d",
+    "status": "completed",
+    "error": null,
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_f768c4a2ba8d/vocal.wav"
+  },
+  "layout": {
+    "within": true,
+    "panelClientWidth": 311,
+    "panelScrollWidth": 311
+  },
+  "additional_retry_count_while_unchanged": 0,
+  "interpretation": "no_retry_count=1 is the original failed job only; no additional job was created while input fingerprint was unchanged"
+}

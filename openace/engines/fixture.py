@@ -45,6 +45,9 @@ class FixtureVocalEngine:
         require_fixture_enabled()
         delay = float(os.environ.get("OPENACE_CI_FIXTURE_DELAY_SECONDS", "0") or 0)
         if progress: progress(0.12, "fixture vocal synthesis stage")
+        failure_file = os.environ.get("OPENACE_CI_FIXTURE_FAIL_VOCAL_FILE", "")
+        if failure_file and Path(failure_file).exists():
+            raise RuntimeError("explicit CI vocal render failure requested")
         if delay > 0:
             deadline = time.time() + delay
             while time.time() < deadline:
