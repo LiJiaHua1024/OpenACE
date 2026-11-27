@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from openace.core.models import Note, Project
+from openace.core.models import Note, Project, Track
 from openace.core.phonemes import PhonemeError, ensure_note_phonemes
 from openace.core.pitch import correct_octave_errors, sanitize_f0, transpose_notes_preserve_intervals
 from openace.core.timing import validate_absolute_beat_anchor
@@ -173,3 +173,43 @@ def test_manual_phoneme_timing_rejects_gaps_and_unanchored_vowels():
     shifted_note.phonemes = [Phoneme(symbol="i", start_ms=5, duration_ms=100, is_vowel=True)]
     with pytest.raises(PhonemeError, match="beat anchor"):
         ensure_note_phonemes(shifted_note, "zh")
+
+def test_cantonese_jyutping_phonemes_and_soulx_tokens_are_validated():
+    import json
+    from openace.core.phonemes import cantonese_jyutping_syllables, phonemes_for_text
+    from openace.engines.soulx import lyric_to_soulx_tokens
+
+    assert cantonese_jyutping_syllables("我愛你") == ["ngo5", "oi3", "nei5"]
+    tokens = phonemes_for_text("我愛你", "yue")
+    assert [(token.symbol, token.is_vowel) for token in tokens] == [
+        ("ŋ", False), ("ɔː", True),
+        ("ɔː", True), ("i", False),
+        ("n", False), ("ɛː", True), ("i", False),
+    ]
+    syllabic = phonemes_for_text("唔", "yue")
+    assert [(token.symbol, token.is_vowel) for token in syllabic] == [("m̩", True)]
+    phoneset = set(json.loads(Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json").read_text(encoding="utf-8")))
+    assert lyric_to_soulx_tokens("我愛你", "yue", phoneset) == ["yue_ngo5", "yue_oi3", "yue_nei5"]
+
+
+def test_cantonese_unknown_or_non_cjk_lyrics_fail_loudly():
+    from openace.core.phonemes import phonemes_for_text
+
+    for lyric in ["A", "𠮷"]:
+        with pytest.raises(PhonemeError):
+            phonemes_for_text(lyric, "yue")
+
+
+def test_cantonese_soulx_metadata_uses_cantonese_language_and_yue_phones():
+    import json
+    from openace.engines.soulx import build_soulx_target_metadata
+
+    project = Project(bpm=120)
+    track = Track(name="Cantonese", language="yue")
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="我"))
+    project.add_track(track)
+    phoneset_path = Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json")
+    metadata = build_soulx_target_metadata(project, track, phoneset_path)[0]
+    assert metadata["language"] == "Cantonese"
+    assert "yue_ngo5" in metadata["phoneme"].split()
+    assert "zh_" not in metadata["phoneme"]

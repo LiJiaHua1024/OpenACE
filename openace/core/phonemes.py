@@ -80,11 +80,11 @@ KANA_ROMAJI = {
 VOWEL_CANONICAL = {
     "a", "e", "i", "o", "u", "y", "ɯ", "ɤ", "ə", "ɛ", "ʊ", "ɔ", "ɑ", "ʌ", "ɪ", "ɝ", "ɒ",
 }
-VOWEL_CHARS = set("aeiouyɯɤəɛʊɔɑʌɪɝɒ")
+VOWEL_CHARS = set("aeiouyɯɤəɛʊɔɑʌɪɝɒɐœɵ")
 
 
 def _is_vowel(symbol: str) -> bool:
-    return symbol in {"ʂɻ̩", "sɿ"} or any(ch in VOWEL_CHARS for ch in symbol)
+    return symbol in {"ʂɻ̩", "sɿ", "m̩", "ŋ̩"} or any(ch in VOWEL_CHARS for ch in symbol)
 
 
 def _is_cjk(char: str) -> bool:
@@ -241,6 +241,76 @@ def japanese_tokens(text: str) -> List[PhonemeToken]:
     return [PhonemeToken(symbol=s, is_vowel=_is_vowel(s)) for s in symbols]
 
 
+YUE_ONSETS = {
+    "b": "p", "p": "pʰ", "m": "m", "f": "f",
+    "d": "t", "t": "tʰ", "n": "n", "l": "l",
+    "g": "k", "k": "kʰ", "ng": "ŋ", "h": "h",
+    "gw": "kw", "kw": "kʰw", "w": "w",
+    "z": "ts", "c": "tsʰ", "s": "s", "j": "j",
+}
+YUE_NUCLEI = {
+    "aa": "aː", "a": "ɐ", "e": "ɛː", "i": "iː", "o": "ɔː", "u": "uː",
+    "oe": "œː", "eo": "ɵ", "yu": "yː", "m": "m̩", "ng": "ŋ̩",
+}
+YUE_CODAS = {
+    "i": "i", "u": "u", "m": "m", "n": "n", "ng": "ŋ",
+    "p": "p̚", "t": "t̚", "k": "k̚",
+}
+
+
+def cantonese_jyutping_syllables(text: str) -> List[str]:
+    """Return validated tone-bearing Jyutping syllables for Cantonese Han lyrics."""
+    try:
+        import pycantonese  # type: ignore
+    except ImportError as exc:
+        raise PhonemeError("Cantonese lyrics require the pycantonese package") from exc
+    syllables: List[str] = []
+    for char in text:
+        if char.isspace() or char in "，。！？、,.!?":
+            continue
+        if not _is_cjk(char):
+            raise PhonemeError(f"Cantonese lyrics contain unsupported character '{char}'")
+        entries = pycantonese.characters_to_jyutping(char)
+        if not entries or not entries[0][1]:
+            raise PhonemeError(f"no Cantonese Jyutping pronunciation found for '{char}'")
+        # Querying one character at a time avoids multiword grouping ambiguity. The
+        # lexicon can still choose context-independent heteronym readings; unknown or
+        # pronunciationless characters remain loud errors rather than placeholders.
+        syllable = str(entries[0][1]).strip().split()[0]
+        if not syllable or not syllable[-1].isdigit():
+            raise PhonemeError(f"invalid tone-bearing Jyutping pronunciation for '{char}'")
+        syllables.append(syllable)
+    if not syllables:
+        raise PhonemeError(f"no Cantonese phonemes could be derived from '{text}'")
+    return syllables
+
+
+def cantonese_tokens(text: str) -> List[PhonemeToken]:
+    """Decompose validated Jyutping syllables into explicit Cantonese phoneme tokens."""
+    try:
+        import pycantonese  # type: ignore
+    except ImportError as exc:
+        raise PhonemeError("Cantonese lyrics require the pycantonese package") from exc
+    tokens: List[PhonemeToken] = []
+    for syllable in cantonese_jyutping_syllables(text):
+        parsed = pycantonese.parse_jyutping(syllable)
+        if not parsed:
+            raise PhonemeError(f"invalid Cantonese Jyutping syllable '{syllable}'")
+        unit = parsed[0]
+        if unit.onset:
+            if unit.onset not in YUE_ONSETS:
+                raise PhonemeError(f"unsupported Cantonese onset '{unit.onset}' in '{syllable}'")
+            tokens.append(PhonemeToken(YUE_ONSETS[unit.onset], is_vowel=False))
+        if unit.nucleus not in YUE_NUCLEI:
+            raise PhonemeError(f"unsupported Cantonese nucleus '{unit.nucleus}' in '{syllable}'")
+        tokens.append(PhonemeToken(YUE_NUCLEI[unit.nucleus], is_vowel=True))
+        if unit.coda:
+            if unit.coda not in YUE_CODAS:
+                raise PhonemeError(f"unsupported Cantonese coda '{unit.coda}' in '{syllable}'")
+            tokens.append(PhonemeToken(YUE_CODAS[unit.coda], is_vowel=False))
+    return tokens
+
+
 def phonemes_for_text(text: str, language: str) -> List[PhonemeToken]:
     language = language.lower()
     if not text.strip():
@@ -252,9 +322,7 @@ def phonemes_for_text(text: str, language: str) -> List[PhonemeToken]:
     if language in {"ja", "jp", "japanese"}:
         return japanese_tokens(text)
     if language in {"yue", "cantonese", "zh-hk"}:
-        raise PhonemeError(
-            "Cantonese requires a validated Jyutping lexicon; no fallback syllable is allowed"
-        )
+        return cantonese_tokens(text)
     raise PhonemeError(f"unsupported lyric language: {language}")
 
 

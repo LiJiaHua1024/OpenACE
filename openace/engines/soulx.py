@@ -13,7 +13,7 @@ import numpy as np
 from pypinyin import Style, lazy_pinyin
 
 from openace.core.models import Note, Project, Track
-from openace.core.phonemes import PhonemeError, ensure_note_phonemes
+from openace.core.phonemes import PhonemeError, cantonese_jyutping_syllables, ensure_note_phonemes
 from openace.core.pitch import midi_to_hz, note_expression_cents
 from openace.core.timing import validate_absolute_beat_anchor
 
@@ -78,6 +78,25 @@ def _english_words(text: str, phoneset: set[str]) -> List[str]:
     return words
 
 
+def _canonical_language(language: str) -> str:
+    lowered = language.lower()
+    if lowered.startswith("en"):
+        return "English"
+    if lowered in {"yue", "cantonese", "zh-hk"}:
+        return "Cantonese"
+    return "Mandarin"
+
+
+def _cantonese_syllables(text: str, phoneset: set[str]) -> List[str]:
+    syllables = []
+    for syllable in cantonese_jyutping_syllables(text):
+        token = "yue_" + syllable
+        if token not in phoneset:
+            raise PhonemeError(f"Cantonese syllable '{token}' is not in SoulX-Singer phoneset")
+        syllables.append(token)
+    return syllables
+
+
 def lyric_to_soulx_tokens(text: str, language: str, phoneset: set[str]) -> List[str]:
     language = language.lower()
     if language in {"zh", "zh-cn", "mandarin", "cmn"}:
@@ -85,9 +104,7 @@ def lyric_to_soulx_tokens(text: str, language: str, phoneset: set[str]) -> List[
     if language in {"en", "en-us", "en-gb", "english"}:
         return _english_words(text, phoneset)
     if language in {"yue", "cantonese", "zh-hk"}:
-        raise PhonemeError(
-            "Cantonese score rendering requires a validated Jyutping frontend; automatic fallback is forbidden"
-        )
+        return _cantonese_syllables(text, phoneset)
     raise PhonemeError(f"SoulX-Singer score language unsupported by this adapter: {language}")
 
 
@@ -172,7 +189,7 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
     return [
         {
             "index": f"openace_{track.id}",
-            "language": "Mandarin" if track.language.startswith("zh") else "English",
+            "language": _canonical_language(track.language),
             "time": [0, end_ms],
             "duration": " ".join(f"{x:.3f}".rstrip("0").rstrip(".") for x in durations),
             "text": " ".join(text),
@@ -207,7 +224,7 @@ class SoulXSingerEngine:
 
     def preprocess_reference(self, reference_voice: Path, work_dir: Path, language: str = "Mandarin") -> Path:
         work_dir.mkdir(parents=True, exist_ok=True)
-        canonical_language = "English" if language.lower().startswith("en") else "Mandarin"
+        canonical_language = _canonical_language(language)
         cmd = [
             sys.executable,
             "-m",

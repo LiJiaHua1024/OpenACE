@@ -17,7 +17,7 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 | Transposition conservation | Adjacent semitone intervals exactly preserved | **Done** | Core function, CLI/MCP path, regression tests, and UI transpose controls use uniform semitone shift; no octave folding/clamping. |
 | F0 hygiene | No 0Hz filtering pollution or isolated octave jumps | **Done** | NaN masking and octave-error correction tests pass; diagnostics draw valid target/rendered F0. |
 | Absolute beat anchoring | Vowel onset exactly on beat; consonant preonset 40–90ms | **Done** | Strict phoneme timing validation and regression tests pass. |
-| Unknown lyric handling | Never silently replace unknown words with “la” | **Done** | Strict lexicon/CMUdict errors with HTTP 422; regression test. |
+| Unknown lyric handling | Never silently replace unknown words with “la” | **Done** | Strict lexicon/CMUdict errors with HTTP 422; regression test. Cantonese now uses pycantonese Jyutping validation rather than deliberate failure. |
 | Production anti-fake-audio rule | No sine/noise masquerading as synthesis | **Done** | Fixture is isolated, refuses unless `OPENACE_CI_SYNTH_FIXTURE=1`, and is visibly labeled in jobs/diagnostics. |
 
 ## P1 — DAW editing surface
@@ -42,6 +42,7 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 |---|---|---:|---|
 | Audio-to-MIDI import | Upload sung audio and edit extracted notes | **Partial** | `/api/import/audio`, UI control, librosa/pyin extraction, octave correction, explicit no-pitch failure, and local faster-whisper word-timestamp alignment are browser/API verified on a real vocal example. Empty unaligned notes remain blank rather than placeholder text. Monophonic extraction quality and lyric correction depth remain below a commercial editor. |
 | ASR lyrics | Real local transcription for cover/SVC | **Partial** | Local faster-whisper word timestamps are integrated into audio import with detected language, async execution, strict no-placeholder failure, and browser proof. A dedicated lyric-correction workflow and SVC-side lyric display remain absent. |
+| Cantonese lyrics | Validated Jyutping frontend and engine tokens | **Partial** | pycantonese-backed onset/nucleus/coda editor phonemes, syllabic nasals, loud unknown-character errors, exact `yue_*` SoulX phones, canonical Cantonese metadata, UI browser proof, and fixture render proof are implemented. Polyphonic character disambiguation and real GPU listening remain unvalidated. |
 | WAV master | Streaming-safe stereo mixdown | **Done** | Clip-aware mixing with offsets/duplicate-path suppression/volume/crossfades writes through transparent constant-gain normalization when possible, with two-pass ffmpeg loudnorm fallback for peaky material. Output is independently measured through ffmpeg EBU R128 loudness/true-peak statistics at about -14 LUFS and below -1 dBTP; non-conforming edge material fails loudly rather than silently exporting a false master. |
 | MP4 dynamic lyric video | Shareable synchronized lyric render | **Partial** | Rewritten to burn timed ASS subtitles and explicitly match audio duration; regression test passes. Karaoke highlighting/polished typography still absent; CJK rendering depends on host fonts. |
 | MIDI+LRC | Interoperable lyric MIDI export/import | **Partial** | UTF-8 roundtrip tests pass; tempo-map edge cases remain. |
@@ -78,4 +79,4 @@ Last audit iteration: 2026-11-26, after independent browser QA and defect-fix ro
 3. **Piano-roll professional depth**: advanced editing feel/visual parity can still deepen; large-project dense scrolling/playback at sustained 60FPS is now regression-verified, cross-track clipboard is verified, and vibrato/pitch-handle editing is engine-consumed.
 4. **Arrangement operational depth**: project/media management depth; independent dragging, trim, split, fades, clip gain, automatic equal-power crossfades, clip copy/paste/duplicate/delete, track duplicate/reorder/color/delete, and real waveform analysis are now implemented.
 5. **Commercial host validation**: open `.ustx`, `.svp`, `.vpr` in the real target applications and repair exact schemas.
-6. **Language coverage** (validated Cantonese/Japanese frontends).
+6. **Language coverage**: Cantonese is now validated end-to-end; Japanese remains unavailable because the current SoulX phone set has no Japanese inventory and must not be faked.

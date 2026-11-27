@@ -485,3 +485,16 @@ Implemented and verified:
 - Browser single-file upload cannot access arbitrary sibling media beside the original USTX; unresolved external relative wave media is now explicitly documented instead of silently fabricated.
 
 Validation after iteration 28: frontend production build passed; Python compile passed; full automated suite reached 66 passed.
+
+## Iteration 29 — Validated Cantonese lyric frontend
+
+Implemented and verified:
+
+- Added `pycantonese` as a real dependency and implemented validated tone-bearing Jyutping extraction for Cantonese Han lyrics. Unsupported non-CJK characters and pronunciationless characters fail loudly; no syllable fallback exists.
+- Cantonese editor phonemes now decompose onset, nucleus, and coda into explicit IPA-like tokens, including syllabic nasals `m̩`/`ŋ̩`. First vowels remain beat-anchored and post-vowel codas remain after the beat.
+- SoulX score metadata now emits exact `yue_<jyutping>` phones validated against the real SoulX phone set, canonical language `Cantonese`, and Cantonese reference preprocessing instead of the previous deliberate unsupported-language error.
+- Regression coverage verifies exact `我愛你` Jyutping/tokens, syllabic `唔`, loud rejection of invalid input, exact `yue_ngo5/yue_oi3/yue_nei5` phone validation, and canonical metadata language.
+- Independent visible-Chrome QA selected Cantonese, drew notes, entered `我/愛/你/唔`, verified exact phoneme sequences `ŋ ɔː`, `ɔː i`, `n ɛː i`, `m̩`, inspected the phoneme editor/lane, completed fixture rendering, and verified invalid `abc` lyrics produce a clear 422 without overwriting backend lyrics. Evidence: `artifacts/e2e_screenshots/cantonese_frontend/`.
+- Japanese remains deliberately unavailable for score rendering because the current SoulX phone set has no Japanese inventory; partial romaji parsing is not misrepresented as engine support.
+
+Validation after iteration 29: frontend production build passed; Python compile passed; full automated suite reached 69 passed.
