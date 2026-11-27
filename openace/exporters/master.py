@@ -208,20 +208,34 @@ def _ass_escape(text: str) -> str:
 
 
 def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -> Path:
-    """Render a real subtitle-burned lyric video rather than displaying raw LRC tags."""
+    """Render a subtitle-burned karaoke lyric video with timed lyric sweeps."""
     import subprocess
 
     from openace.core.audio import read_audio
 
-    events = []
+    audio, sr = read_audio(master_wav)
+    duration = len(audio) / sr
+
+    phrases = []
     for track in project.vocal_tracks():
+        current = []
+        previous_end = None
         for note in track.sorted_notes():
             if not note.lyric.strip():
                 continue
-            start = project.ticks_to_seconds(note.start_ticks)
-            end = project.ticks_to_seconds(note.end_ticks)
-            events.append((start, end, note.lyric.strip()))
-    events.sort()
+            note_start = project.ticks_to_seconds(note.start_ticks)
+            note_end = project.ticks_to_seconds(note.end_ticks)
+            if current and previous_end is not None and note_start - previous_end <= 0.02:
+                current.append((note_start, note_end, note.lyric.strip()))
+            else:
+                if current:
+                    phrases.append((track.id, current))
+                current = [(note_start, note_end, note.lyric.strip())]
+            previous_end = note_end
+        if current:
+            phrases.append((track.id, current))
+    phrases.sort(key=lambda item: item[1][0][0])
+
     ass = output_path.with_suffix(".ass")
     lines = [
         "[Script Info]",
@@ -231,25 +245,41 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
         "",
         "[V4+ Styles]",
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-        "Style: Lyrics,Noto Sans CJK SC,62,&H00FFFFFF,&H000000FF,&HAA111111,&H66000000,-1,0,0,0,100,100,0,0,1,3,0,2,90,90,92,1",
+        "Style: Lyrics,Noto Sans CJK SC,66,&H0000BFFF,&H00D9D9D9,&HCC07101E,&H66000000,-1,0,0,0,100,100,1.2,0,1,4,1,2,100,100,96,1",
+        "Style: Title,Noto Sans CJK SC,30,&H00E8EFFF,&H00E8EFFF,&HAA07101E,&H66000000,-1,0,0,0,100,100,1,0,1,2,0,7,72,72,44,1",
+        "Style: Brand,Noto Sans CJK SC,22,&H00908EC8,&H00908EC8,&HAA07101E,&H66000000,0,0,0,0,100,100,1.5,0,1,1.5,0,9,72,72,42,1",
         "",
         "[Events]",
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
     ]
-    for start, end, lyric in events:
-        lines.append(f"Dialogue: 0,{_ass_timestamp(start)},{_ass_timestamp(end)},Lyrics,,0,0,0,,{_ass_escape(lyric)}")
+    video_end = _ass_timestamp(duration)
+    lines.append(f"Dialogue: 0,0:00:00.00,{video_end},Title,,0,0,0,,{_ass_escape(project.title)}")
+    lines.append(f"Dialogue: 0,0:00:00.00,{video_end},Brand,,0,0,0,,OPENACE")
+    for _track_id, phrase in phrases:
+        phrase_start = phrase[0][0]
+        phrase_end = phrase[-1][1]
+        chunks = ["{\\fad(160,140)}"]
+        for note_start, note_end, lyric in phrase:
+            duration_cs = max(1, int(round((note_end - note_start) * 100)))
+            chunks.append(f"{{\\kf{duration_cs}}}{_ass_escape(lyric)}")
+        lines.append(
+            f"Dialogue: 0,{_ass_timestamp(phrase_start)},{_ass_timestamp(phrase_end)},Lyrics,,0,0,0,,{''.join(chunks)}"
+        )
     ass.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    audio, sr = read_audio(master_wav)
-    duration = len(audio) / sr
     filter_path = str(ass).replace("\\", "/").replace(":", "\\:").replace("'", "\\'")
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    gradient = (
+        "gradients=s=1920x1080:r=30:c0=0x080C18:c1=0x191536:c2=0x05070D:"
+        "nb_colors=3:x0=0:y0=0:x1=1920:y1=1080:speed=0.00001"
+    )
     cmd = [
         "ffmpeg", "-y",
-        "-f", "lavfi", "-i", "color=c=0x111118:s=1920x1080",
+        "-f", "lavfi", "-i", gradient,
         "-i", str(master_wav),
         "-t", f"{duration:.3f}",
         "-vf", f"subtitles='{filter_path}'",
         "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", "-movflags", "+faststart",
+        "-metadata", f"title={project.title}",
         str(output_path),
     ]
     try:

@@ -688,3 +688,13 @@ Passed highlights:
 The audit confirmed one implementation defect: the piano editor toolbar overflowed by 50px and truncated the selection readout. Responsive toolbar repair initially reduced overflow to 13px, then reached exact zero (`scrollWidth=clientWidth=714`) with full `1 selected` visible and controls still usable. Evidence: `artifacts/e2e_screenshots/full_adversarial_audit/`, especially `FULL_ADVERSARIAL_AUDIT_REPORT.md`, `SCREENSHOT_INDEX.md`, and `toolbar_fix2_zoom.png`.
 
 The audit's “key/scale-aware transpose” note is not treated as a confirmed ACE-parity blocker: the requested cover/翻调 mode was exercised through the implemented SVC conversion workflow, and interval-preserving semitone transposition already exists. No evidence was produced that ACE Studio requires a separate key/scale transposition mode for the user's stated loop.
+
+## Iteration 46 — karaoke dynamic lyric video
+
+Implemented and verified:
+
+- MP4 export now renders a professional gradient studio backdrop instead of a flat color field, with persistent project-title and OpenACE brand cards.
+- Contiguous lyric notes are grouped into karaoke phrases and each note contributes an exact ASS `\kf` sweep duration. Sung lyrics become high-contrast amber while unfilled lyrics remain neutral; fades are applied within the event duration rather than extending media length.
+- Regression now validates generated ASS karaoke tags/title/branding, exact ffprobe duration, and quantitative burned-frame pixels: at 0.6s the first syllable had 576 amber pixels versus 131 in the partially sweeping second syllable, with 482 neutral unfilled pixels in the second syllable. Evidence artifact: `artifacts/e2e_screenshots/karaoke_video/`.
+
+Validation after iteration 46: frontend production build passed; Python compile passed; full automated suite passed (104 collected tests).

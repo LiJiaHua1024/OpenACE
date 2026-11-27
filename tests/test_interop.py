@@ -311,6 +311,10 @@ def test_mp4_lyric_video_is_timed_and_matches_audio_duration(tmp_path):
     write_wav(wav, audio, sr)
     mp4 = export_lyrics_video(project, wav, tmp_path / "lyrics.mp4")
     assert mp4.exists() and mp4.stat().st_size > 1000
+    ass_text = (tmp_path / "lyrics.ass").read_text(encoding="utf-8")
+    assert "{\\kf50}你{\\kf50}好" in ass_text
+    assert "Style: Title" in ass_text
+    assert "OPENACE" in ass_text
     probe = subprocess.run(
         ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=nw=1:nk=1", str(mp4)],
         check=True,
@@ -318,6 +322,38 @@ def test_mp4_lyric_video_is_timed_and_matches_audio_duration(tmp_path):
         text=True,
     )
     assert abs(float(probe.stdout.strip()) - 1.0) < 0.15
+
+    frame = tmp_path / "karaoke-frame.png"
+    subprocess.run(
+        ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-ss", "0.6", "-i", str(mp4), "-frames:v", "1", str(frame)],
+        check=True,
+    )
+    import matplotlib.image as mpimg
+
+    image = mpimg.imread(frame)
+    if image.dtype != np.uint8:
+        image = (image[..., :3] * 255).astype(np.uint8)
+    else:
+        image = image[..., :3]
+    red, green, blue = image[..., 0], image[..., 1], image[..., 2]
+    y_coordinates = np.arange(image.shape[0])[:, None]
+    amber = (red > 180) & (green > 90) & (green < 210) & (blue < 100)
+    neutral = (
+        (red > 120)
+        & (np.abs(red.astype(int) - green.astype(int)) < 25)
+        & (np.abs(green.astype(int) - blue.astype(int)) < 25)
+    )
+    lyric_pixels = (amber | neutral) & (y_coordinates > 850)
+    _ys, xs = np.where(lyric_pixels)
+    assert len(xs) > 500
+    x_start, x_end = xs.min(), xs.max() + 1
+    midpoint = (x_start + x_end) // 2
+    first_amber = int(amber[:, x_start:midpoint].sum())
+    second_amber = int(amber[:, midpoint:x_end].sum())
+    second_neutral = int(neutral[:, midpoint:x_end].sum())
+    assert first_amber > 300
+    assert first_amber > second_amber * 2
+    assert second_neutral > 150
 
 
 def test_master_export_honors_clip_source_offset_and_duration(tmp_path):
