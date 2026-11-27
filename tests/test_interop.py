@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 import yaml
 
-from openace.core.models import AudioClip, Note, Project, Track
+from openace.core.models import AudioClip, EnvelopePoint, Note, Phoneme, PitchPoint, Project, Track, Vibrato
 from openace.exporters.master import export_master_wav
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.exporters.svp import export_svp
@@ -44,9 +44,74 @@ def test_lrc_contains_real_timed_lyrics(tmp_path):
 def test_ustx_is_yaml_with_openutau_note_structure(tmp_path):
     path = export_ustx(sample_project(), tmp_path / "song.ustx")
     data = yaml.safe_load(path.read_text(encoding="utf-8"))
-    assert data["resolution"] == 480
-    assert data["voice_parts"][0]["notes"][0]["tone"] == 60
-    assert data["voice_parts"][0]["notes"][0]["lyric"] == "你"
+    assert data["ustx_version"] == "0.10"
+    # OpenUtau 0.10 fixes resolution at 480 and marks the property YamlIgnore.
+    assert "resolution" not in data
+    note = data["voice_parts"][0]["notes"][0]
+    assert note["tone"] == 60
+    assert note["lyric"] == "你"
+    assert list(note) == [
+        "position", "duration", "tone", "lyric", "pitch", "vibrato", "tuning",
+        "phoneme_expressions", "phoneme_overrides",
+    ]
+    assert note["pitch"]["data"] == [
+        {"x": -40, "y": 0, "shape": "io"},
+        {"x": 40, "y": 0, "shape": "io"},
+    ]
+    assert note["vibrato"] == {
+        "length": 0, "period": 175, "depth": 25, "in": 10, "out": 10,
+        "shift": 0, "drift": 0, "vol_link": 0,
+    }
+
+
+def test_ustx_matches_source_derived_units_and_curve_schema(tmp_path):
+    project = sample_project()
+    track = project.tracks[0]
+    track.volume = 0.5
+    track.pan = 0.25
+    track.color = "#7c5cff"
+    track.automation.dynamic = [EnvelopePoint(ticks=0, value=0.5), EnvelopePoint(ticks=480, value=1.0)]
+    track.automation.pitch_cents = [EnvelopePoint(ticks=0, value=-25), EnvelopePoint(ticks=480, value=50)]
+    note = track.notes[0]
+    note.pitch_curve = [PitchPoint(offset_ms=12.5, cents=30.0)]
+    note.vibrato = Vibrato(start_ratio=0.25, depth_cents=40, frequency_hz=4.0, phase=1.5707963267948966)
+    note.phonemes = [Phoneme(symbol="n i", start_ms=0, duration_ms=100)]
+    path = export_ustx(project, tmp_path / "units.ustx")
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    exported_track = data["tracks"][0]
+    assert exported_track["volume"] == pytest.approx(-6.021, abs=0.001)
+    assert exported_track["pan"] == 25.0
+    assert exported_track["track_color"] == "Purple"
+    assert exported_track["phonemizer"] == "OpenUtau.Core.DefaultPhonemizer"
+    part = data["voice_parts"][0]
+    assert part["duration"] == 960
+    exported_note = part["notes"][0]
+    assert exported_note["pitch"]["data"] == [{"x": 12.5, "y": 3.0, "shape": "io"}]
+    assert exported_note["vibrato"]["length"] == 75.0
+    assert exported_note["vibrato"]["period"] == 250.0
+    assert exported_note["vibrato"]["depth"] == 40.0
+    assert exported_note["vibrato"]["shift"] == pytest.approx(25.0, abs=0.01)
+    assert exported_note["phoneme_overrides"] == [{"index": 0, "phoneme": "n i"}]
+    assert "offset" not in exported_note["phoneme_overrides"][0]
+    curves = {curve["abbr"]: curve for curve in part["curves"]}
+    assert curves["dyn"]["xs"] == [0, 480]
+    assert curves["dyn"]["ys"] == [0, 60]
+    assert curves["pitd"]["xs"] == [0, 480]
+    assert curves["pitd"]["ys"] == [-25, 50]
+
+
+def test_ustx_scales_non480_project_ticks_to_openutau_resolution(tmp_path):
+    project = sample_project()
+    project.ppq = 240
+    track = project.tracks[0]
+    track.notes = [Note(start_ticks=120, duration_ticks=240, pitch=60, lyric="你")]
+    track.automation.pitch_cents = [EnvelopePoint(ticks=120, value=10)]
+    data = yaml.safe_load(export_ustx(project, tmp_path / "scaled.ustx").read_text(encoding="utf-8"))
+    part = data["voice_parts"][0]
+    assert part["notes"][0]["position"] == 240
+    assert part["notes"][0]["duration"] == 480
+    assert part["curves"][0]["xs"] == [240]
+    assert part["duration"] == 960
 
 
 def test_svp_is_json_with_notes_and_render_config(tmp_path):

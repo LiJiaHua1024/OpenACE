@@ -85,6 +85,10 @@ In the arrangement canvas, hold **Alt** and drag across the timeline to draw the
 
 `Import audio` transcribes a monophonic vocal into editable notes with librosa/pYIN octave-error correction, then runs local faster-whisper with word-level timestamps. Each recognized word is assigned once to the overlapping note (or a near-onset note within 300ms), the detected language is stored on the imported track, and CPU-heavy transcription runs outside the FastAPI event loop. Unaligned notes stay visually blank; OpenACE never fills them with “la”, dash, or fabricated placeholder lyrics. If ASR cannot produce or align timestamped words, import fails loudly instead of pretending the lyrics are known. The default local model is `small`; override with `OPENACE_WHISPER_MODEL`, `OPENACE_WHISPER_DEVICE`, and `OPENACE_WHISPER_COMPUTE_TYPE` when needed.
 
+## OpenUtau USTX interoperability
+
+`.ustx` export follows the OpenUtau 0.10 source schema rather than a guessed YAML shape: exact `UNote` keys and mandatory two-point pitch defaults, scaling from any OpenACE PPQ to OpenUtau’s fixed 480 PPQ, OpenUtau pitch units (0.1 semitone), vibrato length/period/depth/shift conversion, beat-aligned voice-part durations, `xs`/`ys` automation curves, decibel track faders, -100..100 pan, named track colors, and the real default phonemizer id. Dynamic automation maps to OpenUtau `dyn` in decibel×10 units and pitch deviation maps to `pitd` cents. Manual phoneme symbols are exported as overrides, but OpenACE millisecond offsets are not misrepresented as OpenUtau tick deltas.
+
 ## Mastering and export
 
 Master WAV export is not approximate peak normalization: OpenACE first uses transparent constant-gain loudness normalization when peak headroom permits, falls back to two-pass ffmpeg `loudnorm` for peaky material, then independently measures the resulting file with ffmpeg EBU R128 loudness/true-peak statistics. Compliant masters are approximately `-14.0 LUFS` with true peak below `-1.0 dBTP`; material that cannot be validated fails loudly instead of silently shipping a false master. ffmpeg is therefore a required local runtime dependency for WAV/MP4 export.
