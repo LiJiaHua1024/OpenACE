@@ -48,6 +48,8 @@ function writePositivePoints(project: Project, points: { ticks: number; bpm: num
 export default function TempoLane(props: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const dragRef = useRef<DragState | null>(null)
+  const clipboardRef = useRef<{ bpm: number; curve: 'step' | 'linear' } | null>(null)
+  const [clipboardVersion, setClipboardVersion] = useState(0)
   const [selectedTick, setSelectedTick] = useState<number | null>(null)
   const ppq = props.project.ppq
   const scrollTicks = props.timeline.scrollTicks
@@ -239,6 +241,22 @@ export default function TempoLane(props: Props) {
     ? { ticks: 0, bpm: props.project.bpm }
     : sortedPositivePoints(props.project).find(point => point.ticks === selectedTick) || null
 
+  function copySelectedPoint() {
+    if (!selectedPoint || selectedPoint.ticks === 0) return
+    clipboardRef.current = { bpm: selectedPoint.bpm, curve: (selectedPoint as any).curve || 'step' }
+    setClipboardVersion(version => version + 1)
+  }
+
+  function pasteCopiedPoint() {
+    const clipboard = clipboardRef.current
+    if (!clipboard) return
+    const targetTick = Math.max(grid, snap(props.playheadTicks))
+    props.updateProject(project => {
+      upsertPoint(project, null, targetTick, clipboard.bpm, clipboard.curve)
+    }, false)
+    setSelectedTick(targetTick)
+  }
+
   function editSelectedCurve(curve: 'step' | 'linear') {
     if (!selectedPoint || selectedPoint.ticks === 0) return
     props.updateProject(project => {
@@ -299,6 +317,8 @@ export default function TempoLane(props: Props) {
               </select>
             </label>
           )}
+          {selectedPoint.ticks > 0 && <button onClick={copySelectedPoint}>Copy</button>}
+          {selectedPoint.ticks > 0 && <button disabled={!clipboardRef.current} onClick={pasteCopiedPoint}>Paste at playhead</button>}
           {selectedPoint.ticks > 0 && <button onClick={() => {
             props.updateProject(project => {
               writePositivePoints(project, sortedPositivePoints(project).filter(point => point.ticks !== selectedPoint.ticks))

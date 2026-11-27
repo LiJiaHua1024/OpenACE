@@ -804,3 +804,12 @@ Implemented and verified:
 - Arrangement height now grows with track count so all lanes are visible; context-menu clamping uses that dynamic height. Browser regression verified four full lanes, fourth-lane editing, reversal/horizontal path correction, top/bottom group clamps, paste spacing, exact-ID undo, live playback reconstruction (`202.6ms`), menu clamp exactly `166-130-1=35`, clean layout, and zero console/network failures. Evidence: `artifacts/e2e_screenshots/vertical_clip_drag/`.
 
 Validation after iteration 56: frontend production build passed; browser regression QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green at 110 collected tests.
+
+## Iteration 57 — tempo point copy/paste
+
+Implemented and verified:
+
+- Positive-tick tempo points now expose Copy and Paste-at-playhead actions in the tempo editor. Paste snaps to the musical grid, upserts the target tick without duplicates, preserves BPM plus step/linear curve metadata, selects the pasted point, and persists through undo/redo/reload.
+- Independent visible-Chrome QA verified step paste `480/150→240/150`, linear replacement `720/130 step→720/90 linear` with no duplicate, visible ramp/schema preservation, exact undo/redo restoration, reload persistence, clean lane layout, and zero console/HTTP failures. Evidence: `artifacts/e2e_screenshots/tempo_copy_paste/`.
+
+Validation after iteration 57: frontend production build passed; browser QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green at 110 collected tests.
