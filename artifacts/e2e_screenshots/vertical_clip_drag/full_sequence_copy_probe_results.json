@@ -1,0 +1,60 @@
+{
+  "run": 99,
+  "full_sequence": true,
+  "bottom": [
+    {
+      "id": "vd_a1",
+      "track_index": 2,
+      "start": 480,
+      "label": "A1"
+    },
+    {
+      "id": "vd_b1",
+      "track_index": 3,
+      "start": 1440,
+      "label": "B1"
+    }
+  ],
+  "top": [
+    {
+      "id": "vd_a1",
+      "track_index": 0,
+      "start": 480,
+      "label": "A1"
+    },
+    {
+      "id": "vd_b1",
+      "track_index": 2,
+      "start": 1440,
+      "label": "B1"
+    }
+  ],
+  "downagain": [
+    {
+      "id": "vd_a1",
+      "track_index": 2,
+      "start": 480,
+      "label": "A1"
+    },
+    {
+      "id": "vd_b1",
+      "track_index": 3,
+      "start": 1440,
+      "label": "B1"
+    }
+  ],
+  "pasted": [
+    {
+      "id": "clip_f5a0819b-126",
+      "track_index": 2,
+      "start": 1680,
+      "label": "A1"
+    },
+    {
+      "id": "clip_f833a6fc-c04",
+      "track_index": 3,
+      "start": 2640,
+      "label": "B1"
+    }
+  ]
+}

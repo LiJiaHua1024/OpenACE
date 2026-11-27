@@ -1,0 +1,60 @@
+{
+  "after_vertical_move": [
+    {
+      "id": "vd_a1",
+      "track_index": 2,
+      "track_name": "VD Audio B",
+      "start": 480,
+      "duration": 960,
+      "label": "A1"
+    },
+    {
+      "id": "vd_b1",
+      "track_index": 3,
+      "track_name": "VD BGM C",
+      "start": 1440,
+      "duration": 960,
+      "label": "B1"
+    }
+  ],
+  "paste_enabled": true,
+  "pasted": [
+    {
+      "id": "clip_58094988-8e5",
+      "track_index": 2,
+      "track_name": "VD Audio B",
+      "start": 1680,
+      "duration": 960,
+      "label": "A1"
+    },
+    {
+      "id": "clip_2a11eee4-c5c",
+      "track_index": 3,
+      "track_name": "VD BGM C",
+      "start": 2640,
+      "duration": 960,
+      "label": "B1"
+    }
+  ],
+  "paste_unique_ids": true,
+  "after_delete_remaining_clip_ids": [],
+  "after_undo": [
+    {
+      "id": "clip_58094988-8e5",
+      "track_index": 2,
+      "track_name": "VD Audio B",
+      "start": 1680,
+      "duration": 960,
+      "label": "A1"
+    },
+    {
+      "id": "clip_2a11eee4-c5c",
+      "track_index": 3,
+      "track_name": "VD BGM C",
+      "start": 2640,
+      "duration": 960,
+      "label": "B1"
+    }
+  ],
+  "after_redo_remaining_clip_ids": []
+}

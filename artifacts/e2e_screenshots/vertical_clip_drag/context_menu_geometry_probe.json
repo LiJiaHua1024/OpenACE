@@ -1,0 +1,32 @@
+{
+  "menu": {
+    "x": 524,
+    "y": 59,
+    "width": 204,
+    "height": 127
+  },
+  "canvas": {
+    "x": 236,
+    "y": 58,
+    "height": 166
+  },
+  "menuRelativeTop": 1,
+  "menuBottomRelative": 128,
+  "click": {
+    "x": 524.0,
+    "y": 167,
+    "relative_y": 109,
+    "clip": {
+      "id": "vd_a1",
+      "track_index": 2,
+      "track_name": "VD Audio B",
+      "track_type": "audio",
+      "start": 480,
+      "duration": 960,
+      "offset": 0,
+      "fade_in": 0,
+      "fade_out": 0,
+      "label": "A1"
+    }
+  }
+}

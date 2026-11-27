@@ -794,3 +794,13 @@ Implemented and verified:
 - Non-blocking cleanup debt observed by instrumentation: internally caught `source.stop()` calls can target already-ended/never-started sources. They do not surface in console or affect audio/metering; a future graph-hygiene pass can track source lifetimes more precisely.
 
 Validation after iteration 55: frontend production build passed; browser metering QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green at 110 collected tests.
+
+## Iteration 56 — vertical cross-track clip dragging
+
+Implemented and verified:
+
+- Arrangement clip dragging is now truly two-dimensional. Vertical pointer motion moves clips across compatible audio/accompaniment lanes while skipping vocal lanes; simultaneous horizontal motion remains quantized. Multi-clip groups use collective lane clamping, preserving relative vertical spacing instead of squashing clips at arrangement boundaries.
+- Held-drag state now follows clips after their first lane migration, so reversing direction before mouseup returns to the original lane and further horizontal adjustment remains live. Selection identities are remapped to the destination lanes on pointerup, preserving copy/delete/undo behavior.
+- Arrangement height now grows with track count so all lanes are visible; context-menu clamping uses that dynamic height. Browser regression verified four full lanes, fourth-lane editing, reversal/horizontal path correction, top/bottom group clamps, paste spacing, exact-ID undo, live playback reconstruction (`202.6ms`), menu clamp exactly `166-130-1=35`, clean layout, and zero console/network failures. Evidence: `artifacts/e2e_screenshots/vertical_clip_drag/`.
+
+Validation after iteration 56: frontend production build passed; browser regression QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green at 110 collected tests.

@@ -27,13 +27,15 @@ interface DragState {
   kind: 'clip' | 'notes' | 'trim-left' | 'trim-right' | 'fade-in' | 'fade-out'
   trackId: string
   startX: number
+  startY: number
   clipId?: string
   originalStart: number
   originalDuration?: number
   originalOffset?: number
   originalFade?: number
   noteOriginals?: Record<string, number>
-  clipOriginals?: { trackId: string; clipId: string; startTicks: number }[]
+  clipOriginals?: { trackId: string; trackIndex: number; clipId: string; startTicks: number }[]
+  clipAssignments?: Record<string, string>
 }
 
 interface WaveformData {
@@ -418,6 +420,7 @@ export default function ArrangementView(props: Props) {
         kind: fadeHit.edge === 'in' ? 'fade-in' : 'fade-out',
         trackId: track.id,
         startX: pos.x,
+        startY: pos.y,
         clipId: fadeHit.clip.id,
         originalStart: fadeHit.clip.start_ticks,
         originalDuration: clipDuration(fadeHit.clip),
@@ -433,6 +436,7 @@ export default function ArrangementView(props: Props) {
         kind: edgeHit.edge === 'left' ? 'trim-left' : 'trim-right',
         trackId: track.id,
         startX: pos.x,
+        startY: pos.y,
         clipId: edgeHit.clip.id,
         originalStart: edgeHit.clip.start_ticks,
         originalDuration: clipDuration(edgeHit.clip),
@@ -456,11 +460,21 @@ export default function ArrangementView(props: Props) {
       setSelectedClips(nextSelection)
       const clipOriginals = clipSelectionItems(nextSelection).map(item => ({
         trackId: item.trackId,
+        trackIndex: props.project.tracks.findIndex(trackItem => trackItem.id === item.trackId),
         clipId: item.clipId,
         startTicks: item.clip.start_ticks,
       }))
       props.beginTransaction()
-      dragRef.current = { kind: 'clip', trackId: track.id, startX: pos.x, clipId: clip.id, originalStart: clip.start_ticks, clipOriginals }
+      dragRef.current = {
+        kind: 'clip',
+        trackId: track.id,
+        startX: pos.x,
+        startY: pos.y,
+        clipId: clip.id,
+        originalStart: clip.start_ticks,
+        clipOriginals,
+        clipAssignments: Object.fromEntries(clipOriginals.map(item => [item.clipId, item.trackId])),
+      }
       canvasRef.current?.setPointerCapture(event.pointerId)
       return
     }
@@ -469,7 +483,7 @@ export default function ArrangementView(props: Props) {
       props.beginTransaction()
       const noteOriginals: Record<string, number> = {}
       for (const note of track.notes) if (group.noteIds.includes(note.id)) noteOriginals[note.id] = note.start_ticks
-      dragRef.current = { kind: 'notes', trackId: track.id, startX: pos.x, originalStart: group.start, noteOriginals }
+      dragRef.current = { kind: 'notes', trackId: track.id, startX: pos.x, startY: pos.y, originalStart: group.start, noteOriginals }
       canvasRef.current?.setPointerCapture(event.pointerId)
       return
     }
@@ -509,10 +523,35 @@ export default function ArrangementView(props: Props) {
       if (drag.kind === 'clip' && drag.clipOriginals?.length) {
         const minStart = Math.min(...drag.clipOriginals.map(item => item.startTicks))
         const allowedDelta = Math.max(deltaTicks, -minStart)
+        const rawTrackDelta = (pos.y - drag.startY) / ROW_HEIGHT
+        const requestedTrackDelta = rawTrackDelta >= 0 ? Math.floor(rawTrackDelta + 0.5) : Math.ceil(rawTrackDelta - 0.5)
+        const compatibleIndexes = project.tracks
+          .map((trackItem, index) => ({ trackItem, index }))
+          .filter(item => item.trackItem.type === 'audio' || item.trackItem.type === 'accompaniment')
+          .map(item => item.index)
+        const laneIndexes = compatibleIndexes.length ? compatibleIndexes : project.tracks.map((_, index) => index)
+        const lanePositions = drag.clipOriginals.map(item => laneIndexes.indexOf(item.trackIndex))
+        const movablePositions = lanePositions.filter(position => position >= 0)
+        const minLanePosition = movablePositions.length ? Math.min(...movablePositions) : 0
+        const maxLanePosition = movablePositions.length ? Math.max(...movablePositions) : 0
+        const trackDelta = movablePositions.length
+          ? Math.max(-minLanePosition, Math.min(laneIndexes.length - 1 - maxLanePosition, requestedTrackDelta))
+          : 0
         for (const original of drag.clipOriginals) {
-          const targetTrack = project.tracks.find(item => item.id === original.trackId)
-          const targetClip = targetTrack?.clips.find(item => item.id === original.clipId)
-          if (targetClip) targetClip.start_ticks = original.startTicks + allowedDelta
+          const currentTrackId = drag.clipAssignments?.[original.clipId] || original.trackId
+          const sourceTrack = project.tracks.find(item => item.id === currentTrackId)
+          const clipIndex = sourceTrack?.clips.findIndex(item => item.id === original.clipId) ?? -1
+          if (!sourceTrack || clipIndex < 0) continue
+          const originalLanePosition = laneIndexes.indexOf(original.trackIndex)
+          const targetTrack = originalLanePosition >= 0
+            ? project.tracks[laneIndexes[originalLanePosition + trackDelta]]
+            : sourceTrack
+          if (!targetTrack) continue
+          const [clip] = sourceTrack.clips.splice(clipIndex, 1)
+          clip.start_ticks = original.startTicks + allowedDelta
+          targetTrack.clips.push(clip)
+          targetTrack.clips.sort((a, b) => a.start_ticks - b.start_ticks)
+          if (drag.clipAssignments) drag.clipAssignments[clip.id] = targetTrack.id
         }
         return
       }
@@ -582,6 +621,10 @@ export default function ArrangementView(props: Props) {
     }
     repaintDragRef.current = null
     if (dragRef.current) {
+      const assignments = dragRef.current.clipAssignments
+      if (assignments) {
+        setSelectedClips(current => current.map(item => assignments[item.clipId] ? { trackId: assignments[item.clipId], clipId: item.clipId } : item))
+      }
       dragRef.current = null
       props.endTransaction()
     }
@@ -733,14 +776,15 @@ export default function ArrangementView(props: Props) {
     }
   }
 
+  const arrangementHeight = Math.max(132, RULER_HEIGHT + props.project.tracks.length * ROW_HEIGHT + 6)
   const menuWidth = 204
   const menuHeight = menu?.clipId ? 130 : 40
   const menuMargin = menu?.clipId ? 1 : 4
   const menuLeft = menu ? Math.max(4, Math.min(menu.x, (canvasRef.current?.clientWidth || 640) - menuWidth - 4)) : 0
-  const menuTop = menu ? Math.max(menuMargin, Math.min(menu.y, 132 - menuHeight - menuMargin)) : 0
+  const menuTop = menu ? Math.max(menuMargin, Math.min(menu.y, arrangementHeight - menuHeight - menuMargin)) : 0
 
   return (
-    <div className="arrangement-view" onClick={() => setMenu(null)}>
+    <div className="arrangement-view" style={{ height: arrangementHeight }} onClick={() => setMenu(null)}>
       <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onWheel={onWheel} onContextMenu={onContextMenu} />
       {menu && (
         <div className="piano-context-menu arrangement-context-menu" style={{ left: menuLeft, top: menuTop }} onClick={event => event.stopPropagation()}>

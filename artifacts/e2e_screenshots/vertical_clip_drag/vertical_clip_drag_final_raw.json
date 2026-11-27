@@ -1,0 +1,1182 @@
+{
+  "phases": {
+    "single_vertical": {
+      "track_names": [
+        "VD Audio A",
+        "VD Vocal Skip",
+        "VD Audio B",
+        "VD BGM C"
+      ],
+      "clips": {
+        "vd_a2": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 2400,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A2"
+        },
+        "vd_a1": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "vd_b1": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        },
+        "vd_b2": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 3360,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B2"
+        },
+        "vd_c1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 4800,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "C1"
+        }
+      },
+      "counts": [
+        1,
+        0,
+        3,
+        1
+      ]
+    },
+    "diagonal_reset_status": {
+      "status": 200
+    },
+    "diagonal_drag": {
+      "track_names": [
+        "VD Audio A",
+        "VD Vocal Skip",
+        "VD Audio B",
+        "VD BGM C"
+      ],
+      "clips": {
+        "vd_a1": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "vd_a2": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 2400,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A2"
+        },
+        "vd_b2": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 3360,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B2"
+        },
+        "vd_b1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1560,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        },
+        "vd_c1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 4800,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "C1"
+        }
+      },
+      "counts": [
+        2,
+        0,
+        1,
+        2
+      ]
+    },
+    "multi_reset_status": {
+      "status": 200
+    },
+    "multi_bottom_clamp": {
+      "track_names": [
+        "VD Audio A",
+        "VD Vocal Skip",
+        "VD Audio B",
+        "VD BGM C"
+      ],
+      "clips": {
+        "vd_a2": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 2400,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A2"
+        },
+        "vd_a1": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "vd_b2": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 3360,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B2"
+        },
+        "vd_b1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        },
+        "vd_c1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 4800,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "C1"
+        }
+      },
+      "counts": [
+        1,
+        0,
+        2,
+        2
+      ]
+    },
+    "multi_top_clamp": {
+      "track_names": [
+        "VD Audio A",
+        "VD Vocal Skip",
+        "VD Audio B",
+        "VD BGM C"
+      ],
+      "clips": {
+        "vd_a1": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "vd_a2": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 2400,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A2"
+        },
+        "vd_b2": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 3360,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B2"
+        },
+        "vd_b1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        },
+        "vd_c1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 4800,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "C1"
+        }
+      },
+      "counts": [
+        2,
+        0,
+        1,
+        2
+      ]
+    },
+    "multi_down_for_context": {
+      "track_names": [
+        "VD Audio A",
+        "VD Vocal Skip",
+        "VD Audio B",
+        "VD BGM C"
+      ],
+      "clips": {
+        "vd_a2": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 2400,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A2"
+        },
+        "vd_a1": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "vd_b2": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 3360,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B2"
+        },
+        "vd_b1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        },
+        "vd_c1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 4800,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "C1"
+        }
+      },
+      "counts": [
+        1,
+        0,
+        2,
+        2
+      ]
+    },
+    "after_group_paste": {
+      "track_names": [
+        "VD Audio A",
+        "VD Vocal Skip",
+        "VD Audio B",
+        "VD BGM C"
+      ],
+      "clips": {
+        "vd_a2": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 2400,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A2"
+        },
+        "vd_a1": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "clip_9a9d84e2-c32": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 1680,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "vd_b2": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 3360,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B2"
+        },
+        "vd_b1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        },
+        "vd_c1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 4800,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "C1"
+        }
+      },
+      "counts": [
+        1,
+        0,
+        3,
+        2
+      ]
+    },
+    "ops_reset_status": {
+      "status": 200
+    },
+    "horizontal_only": {
+      "track_names": [
+        "VD Audio A",
+        "VD Vocal Skip",
+        "VD Audio B",
+        "VD BGM C"
+      ],
+      "clips": {
+        "vd_a1": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 600,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "vd_a2": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 2400,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A2"
+        },
+        "vd_b1": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        },
+        "vd_b2": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 3360,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B2"
+        },
+        "vd_c1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 4800,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "C1"
+        }
+      },
+      "counts": [
+        2,
+        0,
+        2,
+        1
+      ]
+    },
+    "trim_left": {
+      "track_names": [
+        "VD Audio A",
+        "VD Vocal Skip",
+        "VD Audio B",
+        "VD BGM C"
+      ],
+      "clips": {
+        "vd_a1": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 720,
+          "duration": 840,
+          "offset": 120,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "vd_a2": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 2400,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A2"
+        },
+        "vd_b1": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        },
+        "vd_b2": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 3360,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B2"
+        },
+        "vd_c1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 4800,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "C1"
+        }
+      },
+      "counts": [
+        2,
+        0,
+        2,
+        1
+      ]
+    },
+    "fade_in": {
+      "track_names": [
+        "VD Audio A",
+        "VD Vocal Skip",
+        "VD Audio B",
+        "VD BGM C"
+      ],
+      "clips": {
+        "vd_a1": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 720,
+          "duration": 840,
+          "offset": 120,
+          "fade_in": 120,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "vd_a2": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 2400,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A2"
+        },
+        "vd_b1": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        },
+        "vd_b2": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 3360,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B2"
+        },
+        "vd_c1": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 4800,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "C1"
+        }
+      },
+      "counts": [
+        2,
+        0,
+        2,
+        1
+      ]
+    },
+    "reverse_path_reset_status": {
+      "status": 200
+    },
+    "vertical_then_horizontal_reset_status": {
+      "status": 200
+    },
+    "live_reset_status": {
+      "status": 200
+    }
+  },
+  "checks": [
+    {
+      "name": "all four arrangement lanes fit visibly",
+      "passed": false,
+      "details": {
+        "canvas_height": 132,
+        "required_height": 160
+      }
+    },
+    {
+      "name": "single vertical skips vocal lane",
+      "passed": true,
+      "details": {
+        "track_index": 2,
+        "track_name": "VD Audio B",
+        "track_type": "audio",
+        "start": 480,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "undo restores single vertical move",
+      "passed": true,
+      "details": {
+        "track_index": 0,
+        "track_name": "VD Audio A",
+        "track_type": "audio",
+        "start": 480,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "diagonal drag applies quantized x and vertical lane",
+      "passed": true,
+      "details": {
+        "track_index": 3,
+        "track_name": "VD BGM C",
+        "track_type": "accompaniment",
+        "start": 1560,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "B1"
+      }
+    },
+    {
+      "name": "bottom clamp moves group by one compatible lane without squashing",
+      "passed": true,
+      "details": {
+        "a": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "b": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        }
+      }
+    },
+    {
+      "name": "top clamp moves remapped group back without squashing",
+      "passed": false,
+      "details": {
+        "a": {
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "b": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        }
+      }
+    },
+    {
+      "name": "selection remap allows repeated group drag",
+      "passed": true,
+      "details": {
+        "a": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "b": {
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        }
+      }
+    },
+    {
+      "name": "copy paste after vertical move preserves remapped tracks and spacing",
+      "passed": false,
+      "details": {
+        "pasted": [
+          {
+            "id": "clip_9a9d84e2-c32",
+            "track_index": 2,
+            "track_name": "VD Audio B",
+            "track_type": "audio",
+            "start": 1680,
+            "duration": 960,
+            "offset": 0,
+            "fade_in": 0,
+            "fade_out": 0,
+            "label": "A1"
+          }
+        ],
+        "paste_enabled": true
+      }
+    },
+    {
+      "name": "context delete removes both selected pasted clips",
+      "passed": true,
+      "details": {
+        "remaining": [],
+        "counts": [
+          1,
+          0,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "name": "undo restores deleted pasted group",
+      "passed": false,
+      "details": {
+        "restored": [
+          "clip_9a9d84e2-c32"
+        ],
+        "counts": [
+          1,
+          0,
+          3,
+          2
+        ]
+      }
+    },
+    {
+      "name": "horizontal-only drag preserves lane and quantizes start",
+      "passed": true,
+      "details": {
+        "track_index": 0,
+        "track_name": "VD Audio A",
+        "track_type": "audio",
+        "start": 600,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "left trim still works after vertical-drag change",
+      "passed": true,
+      "details": {
+        "track_index": 0,
+        "track_name": "VD Audio A",
+        "track_type": "audio",
+        "start": 720,
+        "duration": 840,
+        "offset": 120,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "fade drag still creates fade without moving clip",
+      "passed": true,
+      "details": {
+        "track_index": 0,
+        "track_name": "VD Audio A",
+        "track_type": "audio",
+        "start": 720,
+        "duration": 840,
+        "offset": 120,
+        "fade_in": 120,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "vertical drag follows pointer back to original lane while held",
+      "passed": false,
+      "details": {
+        "track_index": 2,
+        "track_name": "VD Audio B",
+        "track_type": "audio",
+        "start": 480,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "horizontal delta remains adjustable after vertical lane move",
+      "passed": false,
+      "details": {
+        "track_index": 2,
+        "track_name": "VD Audio B",
+        "track_type": "audio",
+        "start": 480,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "live playback reconstruction survives vertical drag",
+      "passed": true,
+      "details": {
+        "before": {
+          "created": 5,
+          "start": 5,
+          "stop": 0,
+          "decode": 1,
+          "startErrors": 0,
+          "stopErrors": 0
+        },
+        "after": {
+          "created": 10,
+          "start": 10,
+          "stop": 5,
+          "decode": 1,
+          "startErrors": 0,
+          "stopErrors": 0
+        },
+        "latency": [
+          177.3,
+          177.5
+        ],
+        "clip": {
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        }
+      }
+    }
+  ],
+  "reset": 200,
+  "initial": {
+    "track_names": [
+      "VD Audio A",
+      "VD Vocal Skip",
+      "VD Audio B",
+      "VD BGM C"
+    ],
+    "clips": {
+      "vd_a1": {
+        "track_index": 0,
+        "track_name": "VD Audio A",
+        "track_type": "audio",
+        "start": 480,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      },
+      "vd_a2": {
+        "track_index": 0,
+        "track_name": "VD Audio A",
+        "track_type": "audio",
+        "start": 2400,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A2"
+      },
+      "vd_b1": {
+        "track_index": 2,
+        "track_name": "VD Audio B",
+        "track_type": "audio",
+        "start": 1440,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "B1"
+      },
+      "vd_b2": {
+        "track_index": 2,
+        "track_name": "VD Audio B",
+        "track_type": "audio",
+        "start": 3360,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "B2"
+      },
+      "vd_c1": {
+        "track_index": 3,
+        "track_name": "VD BGM C",
+        "track_type": "accompaniment",
+        "start": 4800,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "C1"
+      }
+    },
+    "counts": [
+      2,
+      0,
+      2,
+      1
+    ]
+  },
+  "initial_layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "canvas": {
+      "x": 236,
+      "y": 58,
+      "w": 714,
+      "h": 132
+    }
+  },
+  "paste_enabled_after_copy": true,
+  "live": {
+    "before": {
+      "created": 5,
+      "start": 5,
+      "stop": 0,
+      "decode": 1,
+      "startErrors": 0,
+      "stopErrors": 0
+    },
+    "after": {
+      "created": 10,
+      "start": 10,
+      "stop": 5,
+      "decode": 1,
+      "startErrors": 0,
+      "stopErrors": 0
+    },
+    "latency": [
+      177.3,
+      177.5
+    ],
+    "clip": {
+      "track_index": 2,
+      "track_name": "VD Audio B",
+      "track_type": "audio",
+      "start": 480,
+      "duration": 960,
+      "offset": 0,
+      "fade_in": 0,
+      "fade_out": 0,
+      "label": "A1"
+    }
+  },
+  "layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "sidebar": {
+      "scrollWidth": 235,
+      "clientWidth": 235,
+      "scrollHeight": 779,
+      "clientHeight": 779
+    },
+    "transport": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "canvas": {
+      "scrollWidth": 714,
+      "clientWidth": 714,
+      "rect": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 132,
+        "top": 58,
+        "right": 950,
+        "bottom": 190,
+        "left": 236
+      }
+    }
+  },
+  "console": [],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http_errors": [],
+  "final_counts": null,
+  "events": []
+}

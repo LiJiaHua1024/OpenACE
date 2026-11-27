@@ -1,0 +1,24 @@
+{
+  "reverse_path_final": {
+    "track_index": 2,
+    "track_name": "VD Audio B",
+    "track_type": "audio",
+    "start": 480,
+    "duration": 960,
+    "offset": 0,
+    "fade_in": 0,
+    "fade_out": 0,
+    "label": "A1"
+  },
+  "vertical_then_horizontal_final": {
+    "track_index": 2,
+    "track_name": "VD Audio B",
+    "track_type": "audio",
+    "start": 480,
+    "duration": 960,
+    "offset": 0,
+    "fade_in": 0,
+    "fade_out": 0,
+    "label": "A1"
+  }
+}
