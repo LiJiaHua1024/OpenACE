@@ -60,6 +60,28 @@ def main() -> int:
         run(cmd, cwd=ROOT)
         report["steps"].append({"model_download": "ok"})
 
+    required_files = {
+        "soulx_model": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer/model.pt",
+        "soulx_svc_model": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer/model-svc.pt",
+        "soulx_preprocess_rmvpe": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rmvpe/rmvpe.pt",
+        "acestep_base_config": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/config.json",
+        "acestep_base_weights": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/model.safetensors",
+    }
+    missing = {name: str(path) for name, path in required_files.items() if not path.exists()}
+    report["preflight"] = {
+        "required_files": {name: {"path": str(path), "exists": path.exists(), "size_mb": round(path.stat().st_size / 1024**2, 1) if path.exists() else 0} for name, path in required_files.items()},
+        "cuda_free_gb": round(torch.cuda.mem_get_info(0)[0] / 1024**3, 2),
+        "cuda_total_gb": round(torch.cuda.mem_get_info(0)[1] / 1024**3, 2),
+    }
+    if missing:
+        report["steps"].append({"preflight": "failed", "missing": missing})
+        (artifacts / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+        raise RuntimeError("required model files are missing after bootstrap: " + json.dumps(missing, indent=2))
+    if report["preflight"]["cuda_total_gb"] < 11.5:
+        report["steps"].append({"preflight": "warning", "message": "GPU is below the 12GB acceptance target; continuing but OOM risk is high"})
+    else:
+        report["steps"].append({"preflight": "ok"})
+
     # Real acceptance is implemented as subprocesses so CUDA memory is fully released
     # between the two large model families.
     vocal_out = artifacts / "soulx_real.wav"

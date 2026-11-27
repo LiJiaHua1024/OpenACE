@@ -213,3 +213,25 @@ def test_cantonese_soulx_metadata_uses_cantonese_language_and_yue_phones():
     assert metadata["language"] == "Cantonese"
     assert "yue_ngo5" in metadata["phoneme"].split()
     assert "zh_" not in metadata["phoneme"]
+
+
+
+def test_soulx_metadata_melisma_continuation_uses_type3_and_source_syllable():
+    import json
+    from openace.engines.soulx import build_soulx_target_metadata
+
+    project = Project(bpm=120)
+    track = Track(name="Melisma", language="zh")
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    track.add_note(Note(start_ticks=480, duration_ticks=480, pitch=62, lyric="-"))
+    project.add_track(track)
+    phoneset_path = Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json")
+    metadata = build_soulx_target_metadata(project, track, phoneset_path)[0]
+    phonemes = metadata["phoneme"].split()
+    text = metadata["text"].split()
+    types = [int(x) for x in metadata["note_type"].split()]
+    sung_indexes = [index for index, value in enumerate(types) if value in {2, 3}]
+    assert [types[index] for index in sung_indexes] == [2, 3]
+    assert [text[index] for index in sung_indexes] == ["你", "你"]
+    assert phonemes[sung_indexes[0]] == phonemes[sung_indexes[1]]
+    assert "-" not in text

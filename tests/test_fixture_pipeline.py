@@ -353,3 +353,22 @@ def test_fixture_stem_separation_adds_dry_wet_tracks_with_provenance(monkeypatch
     instrumental_array = np.asarray(instrumental_audio)
     assert float(np.max(np.abs(vocal_array))) > 0.01
     assert float(np.max(np.abs(instrumental_array))) > 0.01
+
+
+
+def test_acestep_bootstrap_syncs_checkpoint_model_code(tmp_path):
+    from openace.engines.downloader import sync_acestep_model_code
+
+    repo = tmp_path / "ace"
+    for variant, checkpoint in [("base", "acestep-v15-base"), ("turbo", "acestep-v15-turbo")]:
+        source = repo / "acestep/models" / variant
+        target = repo / "checkpoints" / checkpoint
+        source.mkdir(parents=True)
+        target.mkdir(parents=True)
+        (source / "modeling.py").write_text("correct = True\n")
+        (source / "__init__.py").write_text("skip = True\n")
+        (target / "modeling.py").write_text("correct = False\n")
+    synced = sync_acestep_model_code(repo)
+    assert sorted(synced) == ["acestep-v15-base/modeling.py", "acestep-v15-turbo/modeling.py"]
+    assert (repo / "checkpoints/acestep-v15-base/modeling.py").read_text() == "correct = True\n"
+    assert not (repo / "checkpoints/acestep-v15-base/__init__.py").exists()

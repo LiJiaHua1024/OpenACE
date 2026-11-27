@@ -150,7 +150,8 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
     if not notes:
         raise ValueError("cannot render an empty vocal track")
     for note in notes:
-        ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
+        if note.lyric.strip() != "-":
+            ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
     validate_absolute_beat_anchor(notes, project.ppq, project.bpm, project=project)
     phoneset = set(json.loads(phoneset_path.read_text(encoding="utf-8")))
 
@@ -170,18 +171,32 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
         pitches.append(0)
         types.append(1)
 
+    continuation_token = None
+    continuation_lyric = None
     for note in notes:
         start_s = project.ticks_to_seconds(note.start_ticks)
         duration_s = project.tick_duration_seconds(note.start_ticks, note.duration_ticks)
         spacer(start_s - cursor_s)
-        tokens = lyric_to_soulx_tokens(note.lyric, track.language, phoneset)
+        is_continuation = note.lyric.strip() == "-"
+        if is_continuation:
+            if continuation_token is None or continuation_lyric is None:
+                raise PhonemeError("melisma continuation '-' cannot appear before a sung lyric note")
+            tokens = [continuation_token]
+            text_value = continuation_lyric
+            note_type = 3
+        else:
+            tokens = lyric_to_soulx_tokens(note.lyric, track.language, phoneset)
+            text_value = note.lyric
+            note_type = 2
+            continuation_token = tokens[-1]
+            continuation_lyric = note.lyric
         each = duration_s / len(tokens)
         for token in tokens:
             durations.append(round(each, 3))
-            text.append(note.lyric)
+            text.append(text_value)
             phonemes.append(token)
             pitches.append(note.pitch)
-            types.append(2)
+            types.append(note_type)
         cursor_s = start_s + duration_s
 
     end_s = max(cursor_s + 0.25, project.ticks_to_seconds(project.duration_ticks()) + 0.05)

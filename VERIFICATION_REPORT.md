@@ -1060,3 +1060,14 @@ Implemented and verified:
 - Evidence: `artifacts/e2e_screenshots/openutau_host_validation/`. OpenUtau synthesis/playback remains unvalidated because no singer voicebank is installed in this sandbox; this is explicitly not claimed.
 
 Validation after iteration 82: targeted USTX regression passed; frontend production build remained green; real host visual validation passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 83 — real engine invocation contract audit
+
+Implemented and verified:
+
+- Statically audited the actual upstream SoulX-Singer `cli/inference.py`, `preprocess/pipeline.py`, `soulxsinger/utils/data_processor.py`, upstream example metadata, ACE-Step `cli.py`, `acestep/inference.py`, and checkpoint downloader contract without needing GPU execution. Invocation modes, checkpoint filenames, preprocess arguments, `complete`/`repaint` task fields, and 20 ms score-F0 hop assumptions were checked against source rather than guessed.
+- Found and fixed a genuine SVS contract defect: OpenACE note splitting uses lyric `-` for vowel/melisma continuation, but the SoulX adapter previously fed that literal hyphen into lyric pronunciation lookup, causing real split-note projects to fail before inference. The adapter now follows the upstream MIDI/metadata convention: continuation entries reuse the source sung lyric/token and emit `note_type=3`; leading continuation without a source note fails loudly.
+- Mirrored ACE-Step's own model-downloader contract by synchronizing authoritative checkpoint Python code from `acestep/models/base` and `acestep/models/turbo` into downloaded `acestep-v15-base`/`acestep-v15-turbo` checkpoint directories after bootstrap. A temp-tree regression test proves exact file replacement while excluding `__init__.py`.
+- `scripts/verify_local_gpu.py` now preflights required SoulX/SVC/RMVPE/ACE-Step base files with sizes plus CUDA free/total memory, writes that evidence to `artifacts/local_gpu/report.json`, fails before model launch when bootstrap artifacts are missing, and warns when the visible GPU is below the 12GB acceptance target.
+
+Validation after iteration 83: focused melisma/bootstrap-code-sync regressions passed; Python compilation passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0). No real GPU inference is claimed.

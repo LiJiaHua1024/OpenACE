@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 from pathlib import Path
 from typing import Iterable, Optional
@@ -58,3 +59,21 @@ def ensure_engine_sources(root: Optional[Path] = None) -> tuple[Path, Path]:
     soulx = clone_or_update(SOULX_REPO, root / "SoulX-Singer")
     acestep = clone_or_update(ACESTEP_REPO, root / "ACE-Step-1.5")
     return soulx, acestep
+
+
+def sync_acestep_model_code(acestep_repo: Path) -> list[str]:
+    """Mirror ACE-Step's own downloader contract: checkpoint Python code must match source."""
+    synced = []
+    variants = {"acestep-v15-base": "base", "acestep-v15-turbo": "turbo"}
+    checkpoints = acestep_repo / "checkpoints"
+    for directory, variant in variants.items():
+        source_dir = acestep_repo / "acestep/models" / variant
+        target_dir = checkpoints / directory
+        if not source_dir.exists() or not target_dir.exists():
+            continue
+        for source in source_dir.glob("*.py"):
+            if source.name == "__init__.py":
+                continue
+            shutil.copy2(source, target_dir / source.name)
+            synced.append(f"{directory}/{source.name}")
+    return synced
