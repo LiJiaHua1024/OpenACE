@@ -204,11 +204,11 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
             page.locator('button[title^="Per-note pitch handles"]').click()
             page.mouse.move(box["x"] + 170, box["y"] + 322)
             page.mouse.down()
-            page.mouse.move(box["x"] + 170, box["y"] + 313, steps=3)
+            page.mouse.move(box["x"] + 170, box["y"] + 307, steps=3)
             page.mouse.up()
             page.mouse.move(box["x"] + 190, box["y"] + 322)
             page.mouse.down()
-            page.mouse.move(box["x"] + 190, box["y"] + 330, steps=3)
+            page.mouse.move(box["x"] + 190, box["y"] + 337, steps=3)
             page.mouse.up()
             page.wait_for_timeout(700)
             project = httpx.get(f"{base}/api/projects/{project_id}").json()
@@ -223,7 +223,7 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
             note_w = (first["duration_ticks"] / project["ppq"]) * 112
             note_y = 30 + (79 - first["pitch"]) * 15
             handle_x = box["x"] + note_x + 2 + (point["offset_ms"] / duration_ms) * max(1, note_w - 4)
-            handle_y = box["y"] + note_y + 7.5 - point["cents"] / 100 * max(3, 7.5 - 2)
+            handle_y = box["y"] + note_y + 7.5 - point["cents"] / 100 * 15
             before_cents = point["cents"]
             page.mouse.move(handle_x, handle_y)
             page.mouse.down()

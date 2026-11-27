@@ -1168,4 +1168,4 @@ Implemented and verified:
 - Independent visible-Chrome QA at exact 1272×837 verified exact ±100/±200/±600-cent positive and negative mappings, multi-row rendering, point drag/delete, automation top/middle/bottom exact `+600/0/-600`, undo/redo, reload persistence, note-audition frequency, lyric/phoneme preservation, monophonic overlap regression, and clean console/network.
 - Evidence: `artifacts/e2e_screenshots/extended_pitch/`.
 
-Validation after iteration 92: focused editing tests passed; frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+Validation after iteration 92: focused editing tests passed; frontend production build passed; independent browser QA passed. The first full run exposed one stale piano-roll E2E coordinate expectation after the intentional absolute-pitch mapping change; the test was corrected and the final full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
