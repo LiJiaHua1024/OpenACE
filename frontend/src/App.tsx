@@ -841,6 +841,7 @@ export default function App() {
           repaintRange={repaintRange}
           onRepaintRange={setRepaintRange}
           onPatchTrack={patchTrack}
+          updateProject={updateProject}
           onJobCreated={job => setJobs(current => [job, ...current.filter(j => j.id !== job.id)])}
         />
       </div>

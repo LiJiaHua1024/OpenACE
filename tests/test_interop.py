@@ -591,3 +591,47 @@ def test_project_duplicate_and_delete_endpoints(tmp_path):
     deleted = client.delete(f"/api/projects/{copy['id']}")
     assert deleted.status_code == 200
     assert client.delete(f"/api/projects/{copy['id']}").status_code == 404
+
+
+def test_karaoke_style_customization_changes_ass_and_visibility(tmp_path):
+    from openace.core.audio import write_wav
+
+    project = sample_project()
+    project.metadata = {
+        "karaoke_style": {
+            "font_size": 80,
+            "lane_spacing": 100,
+            "sung_color": "#12ab34",
+            "unsung_color": "#eeeeee",
+            "background_theme": "ember",
+            "background_motion": False,
+            "show_title": False,
+            "show_brand": False,
+        }
+    }
+    harmony = Track(name="Harmony")
+    harmony.add_note(Note(start_ticks=0, duration_ticks=480, pitch=64, lyric="和"))
+    project.add_track(harmony)
+    sr = 48000
+    wav = tmp_path / "master.wav"
+    write_wav(wav, np.zeros((sr, 2), dtype=np.float32), sr)
+    export_lyrics_video(project, wav, tmp_path / "custom.mp4")
+    ass_text = (tmp_path / "custom.ass").read_text(encoding="utf-8")
+    assert "Style: Lyrics,Noto Sans CJK SC,80,&H0034AB12,&H00EEEEEE" in ass_text
+    assert "100,100,96,1" in ass_text
+    assert "100,100,196,1" in ass_text
+    assert "Style: Title" in ass_text  # style definition remains available
+    assert ",Title,," not in ass_text
+    assert ",Brand,," not in ass_text
+
+
+def test_karaoke_style_settings_clamp_invalid_metadata():
+    from openace.exporters.master import karaoke_style_settings
+
+    project = sample_project()
+    project.metadata = {"karaoke_style": {"font_size": "bad", "lane_spacing": 999, "sung_color": "red", "background_theme": "unknown"}}
+    style = karaoke_style_settings(project)
+    assert style["font_size"] == 66
+    assert style["lane_spacing"] == 112
+    assert style["sung_color"] == "#ffb000"
+    assert style["background_theme"] == "midnight"

@@ -12,6 +12,7 @@ interface Props {
   repaintRange: { start: number; end: number }
   onRepaintRange(range: { start: number; end: number }): void
   onPatchTrack(trackId: string, patch: Partial<Track>): void
+  updateProject(mutator: (project: Project) => void, transient?: boolean): void
   onJobCreated(job: RenderJob): void
 }
 
@@ -257,6 +258,25 @@ export default function RenderPanel(props: Props) {
   const transcribedClips = props.track?.clips.filter(clip => (clip.transcribed_lyrics || []).length) || []
   const selectedVoice = voices.find(voice => voice.id === props.track?.voice_id) || voices.find(voice => voice.path === props.track?.reference_voice_path) || null
 
+  const karaokeStyle = {
+    font_size: 66,
+    lane_spacing: 76,
+    sung_color: '#ffb000',
+    unsung_color: '#d9d9d9',
+    background_theme: 'midnight',
+    background_motion: true,
+    show_title: true,
+    show_brand: true,
+    ...((props.project.metadata?.karaoke_style && typeof props.project.metadata.karaoke_style === 'object') ? props.project.metadata.karaoke_style : {}),
+  }
+
+  function updateKaraokeStyle(patch: Record<string, unknown>) {
+    props.updateProject(project => {
+      project.metadata = { ...(project.metadata || {}) }
+      project.metadata.karaoke_style = { ...karaokeStyle, ...patch }
+    }, false)
+  }
+
   return (
     <aside className="right-panel">
       <section className="side-section">
@@ -443,6 +463,22 @@ export default function RenderPanel(props: Props) {
           {['wav', 'mp4', 'mid', 'lrc', 'ustx', 'svp', 'vpr'].map(fmt => (
             <a key={fmt} className="export-button" href={api.exportUrl(props.project.id, fmt)}>{fmt.toUpperCase()}</a>
           ))}
+        </div>
+        <div className="karaoke-style-editor">
+          <div className="panel-subtitle">Karaoke video style</div>
+          <label>Font size<input type="number" min="36" max="96" value={karaokeStyle.font_size} onChange={event => updateKaraokeStyle({ font_size: Number(event.target.value) })} /></label>
+          <label>Lane spacing<input type="number" min="52" max="112" value={karaokeStyle.lane_spacing} onChange={event => updateKaraokeStyle({ lane_spacing: Number(event.target.value) })} /></label>
+          <label>Sung<input type="color" value={karaokeStyle.sung_color} onChange={event => updateKaraokeStyle({ sung_color: event.target.value })} /></label>
+          <label>Unsung<input type="color" value={karaokeStyle.unsung_color} onChange={event => updateKaraokeStyle({ unsung_color: event.target.value })} /></label>
+          <label>Theme<select value={karaokeStyle.background_theme} onChange={event => updateKaraokeStyle({ background_theme: event.target.value })}>
+            <option value="midnight">Midnight</option>
+            <option value="ember">Ember</option>
+            <option value="forest">Forest</option>
+            <option value="monochrome">Monochrome</option>
+          </select></label>
+          <label className="check-row"><input type="checkbox" checked={karaokeStyle.background_motion} onChange={event => updateKaraokeStyle({ background_motion: event.target.checked })} /> Motion</label>
+          <label className="check-row"><input type="checkbox" checked={karaokeStyle.show_title} onChange={event => updateKaraokeStyle({ show_title: event.target.checked })} /> Title</label>
+          <label className="check-row"><input type="checkbox" checked={karaokeStyle.show_brand} onChange={event => updateKaraokeStyle({ show_brand: event.target.checked })} /> Brand</label>
         </div>
       </section>
       {error && <div className="error-banner">{error}</div>}

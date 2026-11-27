@@ -1041,3 +1041,12 @@ Implemented and verified:
 - Independent visible-Chrome QA at exact 1272×837 verified bottom-row menu containment, exact single ripple/undo/Ctrl+Y redo, verified white multi-selection, exact merge of intervals `960–1440`/`1200–1680`/`1440–1920` into `960–1920`, exact 960-tick downstream shifts, unchanged inside material, undo/redo/reload persistence, and clean console/network. Evidence: `artifacts/e2e_screenshots/cross_track_ripple/`.
 
 Validation after iteration 80: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 81 — customizable karaoke typography and scenes
+
+Implemented and verified:
+
+- MP4 karaoke export now reads per-project `karaoke_style` metadata with validated/clamped font size and lane spacing, custom sung/unsung lyric colors, midnight/ember/forest/monochrome animated gradient themes, background-motion toggle, and independent title/brand visibility. Backend regressions prove exact ASS typography/colors, multi-lane custom spacing, hidden title/brand events, and invalid-metadata clamping.
+- RenderPanel now exposes persistent karaoke style controls. Independent visible-Chrome QA at exact 1272×837 verified clean layout, editing, undo/redo/reload persistence, MP4/WAV downloads, exact ASS font/color output, boundary clamping, truthful red/green lyric pixels, ember-vs-forest scene differences, conditional title/brand pixels, quantitative motion differences (`0.0028` off vs `5.5988` on), and clean console/network. Evidence: `artifacts/e2e_screenshots/karaoke_style/`.
+
+Validation after iteration 81: targeted exporter regressions passed; frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

@@ -207,6 +207,53 @@ def _ass_escape(text: str) -> str:
     )
 
 
+KARAOKE_THEMES = {
+    "midnight": ("0x080C18", "0x191536", "0x05070D"),
+    "ember": ("0x160806", "0x3B1512", "0x070404"),
+    "forest": ("0x06130D", "0x123326", "0x030806"),
+    "monochrome": ("0x080808", "0x202020", "0x030303"),
+}
+
+
+def _hex_color(value: object, default: str) -> str:
+    text = str(value or "").strip()
+    if re.fullmatch(r"#[0-9a-fA-F]{6}", text):
+        return text.lower()
+    return default
+
+
+def _ass_color(hex_color: str) -> str:
+    red = int(hex_color[1:3], 16)
+    green = int(hex_color[3:5], 16)
+    blue = int(hex_color[5:7], 16)
+    return f"&H00{blue:02X}{green:02X}{red:02X}"
+
+
+def _bounded_int(value: object, default: int, minimum: int, maximum: int) -> int:
+    try:
+        number = int(value)  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        number = default
+    return max(minimum, min(maximum, number))
+
+
+def karaoke_style_settings(project: Project) -> dict[str, object]:
+    raw = (project.metadata or {}).get("karaoke_style") or {}
+    if not isinstance(raw, dict):
+        raw = {}
+    theme = str(raw.get("background_theme") or "midnight")
+    return {
+        "font_size": _bounded_int(raw.get("font_size", 66), 66, 36, 96),
+        "lane_spacing": _bounded_int(raw.get("lane_spacing", 76), 76, 52, 112),
+        "sung_color": _hex_color(raw.get("sung_color"), "#ffb000"),
+        "unsung_color": _hex_color(raw.get("unsung_color"), "#d9d9d9"),
+        "background_theme": theme if theme in KARAOKE_THEMES else "midnight",
+        "background_motion": bool(raw.get("background_motion", True)),
+        "show_title": bool(raw.get("show_title", True)),
+        "show_brand": bool(raw.get("show_brand", True)),
+    }
+
+
 def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -> Path:
     """Render a subtitle-burned karaoke lyric video with timed lyric sweeps."""
     import subprocess
@@ -247,6 +294,7 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
             lane_ends[lane] = phrase_end
         laned_phrases.append((lane, track_id, phrase))
     lane_count = max(1, max((lane for lane, _track_id, _phrase in laned_phrases), default=0) + 1)
+    style = karaoke_style_settings(project)
 
     ass = output_path.with_suffix(".ass")
     lines = [
@@ -257,8 +305,8 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
         "",
         "[V4+ Styles]",
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-        "Style: Title,Noto Sans CJK SC,30,&H00E8EFFF,&H00E8EFFF,&HAA07101E,&H66000000,-1,0,0,0,100,100,1,0,1,2,0,7,72,72,44,1",
-        "Style: Brand,Noto Sans CJK SC,22,&H00908EC8,&H00908EC8,&HAA07101E,&H66000000,0,0,0,0,100,100,1.5,0,1,1.5,0,9,72,72,42,1",
+        f"Style: Title,Noto Sans CJK SC,{max(20, int(style['font_size'] * 0.46))},&H00E8EFFF,&H00E8EFFF,&HAA07101E,&H66000000,-1,0,0,0,100,100,1,0,1,2,0,7,72,72,44,1",
+        f"Style: Brand,Noto Sans CJK SC,{max(16, int(style['font_size'] * 0.34))},&H00908EC8,&H00908EC8,&HAA07101E,&H66000000,0,0,0,0,100,100,1.5,0,1,1.5,0,9,72,72,42,1",
         "",
         "[Events]",
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
@@ -267,12 +315,14 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
     for lane in range(lane_count):
         style_name = "Lyrics" if lane == 0 else f"LyricsLane{lane}"
         lyric_style_names.append(style_name)
-        font_size = max(42, 66 - lane * 5)
-        margin_v = 96 + lane * 76
-        lines.insert(8 + lane, f"Style: {style_name},Noto Sans CJK SC,{font_size},&H0000BFFF,&H00D9D9D9,&HCC07101E,&H66000000,-1,0,0,0,100,100,1.2,0,1,4,1,2,100,100,{margin_v},1")
+        font_size = max(30, int(style['font_size']) - lane * 5)
+        margin_v = 96 + lane * int(style['lane_spacing'])
+        lines.insert(8 + lane, f"Style: {style_name},Noto Sans CJK SC,{font_size},{_ass_color(str(style['sung_color']))},{_ass_color(str(style['unsung_color']))},&HCC07101E,&H66000000,-1,0,0,0,100,100,1.2,0,1,4,1,2,100,100,{margin_v},1")
     video_end = _ass_timestamp(duration)
-    lines.append(f"Dialogue: 0,0:00:00.00,{video_end},Title,,0,0,0,,{_ass_escape(project.title)}")
-    lines.append(f"Dialogue: 0,0:00:00.00,{video_end},Brand,,0,0,0,,OPENACE")
+    if style["show_title"]:
+        lines.append(f"Dialogue: 0,0:00:00.00,{video_end},Title,,0,0,0,,{_ass_escape(project.title)}")
+    if style["show_brand"]:
+        lines.append(f"Dialogue: 0,0:00:00.00,{video_end},Brand,,0,0,0,,OPENACE")
     for lane, _track_id, phrase in laned_phrases:
         phrase_start = phrase[0][0]
         phrase_end = phrase[-1][1]
@@ -286,9 +336,10 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
     ass.write_text("\n".join(lines) + "\n", encoding="utf-8")
     filter_path = str(ass).replace("\\", "/").replace(":", "\\:").replace("'", "\\'")
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    c0, c1, c2 = KARAOKE_THEMES[str(style["background_theme"])]
     gradient = (
-        "gradients=s=1920x1080:r=30:c0=0x080C18:c1=0x191536:c2=0x05070D:"
-        "nb_colors=3:x0=0:y0=0:x1=1920:y1=1080:speed=0.00001"
+        f"gradients=s=1920x1080:r=30:c0={c0}:c1={c1}:c2={c2}:"
+        f"nb_colors=3:x0=0:y0=0:x1=1920:y1=1080:speed={0.025 if style['background_motion'] else 0.00001}"
     )
     cmd = [
         "ffmpeg", "-y",
