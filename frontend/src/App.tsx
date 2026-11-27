@@ -15,6 +15,31 @@ function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value))
 }
 
+const decodedPlaybackBuffers = new Map<string, Promise<AudioBuffer>>()
+let sharedPlaybackContext: AudioContext | null = null
+
+function playbackContext(): AudioContext {
+  const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
+  if (!sharedPlaybackContext || sharedPlaybackContext.state === 'closed') sharedPlaybackContext = new AudioContextClass() as AudioContext
+  if (sharedPlaybackContext.state === 'suspended') sharedPlaybackContext.resume().catch(() => {})
+  return sharedPlaybackContext
+}
+
+function decodePlaybackBuffer(ctx: AudioContext, url: string): Promise<AudioBuffer> {
+  let cached = decodedPlaybackBuffers.get(url)
+  if (!cached) {
+    cached = fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error(`audio fetch failed: ${response.status}`)
+        return response.arrayBuffer()
+      })
+      .then(bytes => ctx.decodeAudioData(bytes))
+    decodedPlaybackBuffers.set(url, cached)
+    cached.catch(() => decodedPlaybackBuffers.delete(url))
+  }
+  return cached
+}
+
 export default function App() {
   const [project, setProject] = useState<Project | null>(null)
   const [selectedTrackId, setSelectedTrackId] = useState<string>()
@@ -32,7 +57,7 @@ export default function App() {
   const transactionBase = useRef<Project | null>(null)
   const locallyDeletingProjectId = useRef<string | null>(null)
   const saveTimer = useRef<number | null>(null)
-  const playback = useRef<{ startMs: number; startTicks: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext; starting?: boolean }>({ startMs: 0, startTicks: 0, raf: 0, sources: [], starting: false })
+  const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext; starting?: boolean }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], starting: false })
 
   const setProjectRef = useCallback((value: Project | null) => {
     projectRef.current = value
@@ -243,7 +268,7 @@ export default function App() {
   const stopPlaybackAudio = useCallback(() => {
     playback.current.sources.forEach(source => { try { source.stop() } catch {} })
     playback.current.sources = []
-    playback.current.ctx?.close().catch(() => {})
+    // Keep the context alive: decoder and node creation are reused across transport starts.
     playback.current.ctx = undefined
   }, [])
 
@@ -278,15 +303,13 @@ export default function App() {
     const audible = rendered.filter(track => !anySolo || track.solo)
     const offsetSeconds = ticksToSeconds(project, playheadTicks)
     if (audible.length) {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
-      const ctx = new AudioContextClass() as AudioContext
+      const ctx = playbackContext()
       playback.current.ctx = ctx
       const tracksAndBuffers = await Promise.all(audible.flatMap(track => track.playbackSources.map(async sourceSpec => {
         const url = renderFileUrl(sourceSpec.path)
         if (!url) return null
         try {
-          const response = await fetch(url)
-          const buffer = await ctx.decodeAudioData(await response.arrayBuffer())
+          const buffer = await decodePlaybackBuffer(ctx, url)
           return { track, buffer, sourceStartTicks: sourceSpec.startTicks, sourceOffsetTicks: sourceSpec.offsetTicks, sourceDurationTicks: sourceSpec.durationTicks, fadeInTicks: sourceSpec.fadeInTicks, fadeOutTicks: sourceSpec.fadeOutTicks, gainDb: sourceSpec.gainDb, clip: sourceSpec.clip }
         } catch { return null }
       })))
@@ -357,8 +380,9 @@ export default function App() {
     }
     playback.current.startMs = performance.now()
     playback.current.startTicks = playheadTicks
-    const step = (now: number) => {
-      const elapsed = (now - playback.current.startMs) / 1000
+    playback.current.startContextTime = playback.current.ctx?.currentTime || 0
+    const step = () => {
+      const elapsed = playback.current.ctx ? playback.current.ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
       const ticks = secondsToTicks(project, ticksToSeconds(project, playback.current.startTicks) + elapsed)
       setPlayheadTicks(Math.floor(ticks))
       playback.current.raf = requestAnimationFrame(step)

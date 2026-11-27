@@ -1,0 +1,62 @@
+{
+  "before": {
+    "fetch": {},
+    "decode": 0,
+    "contexts": 0
+  },
+  "samples": [
+    {
+      "wall": 0.454,
+      "position": "1.1.4\n00:00.44"
+    },
+    {
+      "wall": 0.92,
+      "position": "1.2.4\n00:00.91"
+    },
+    {
+      "wall": 1.375,
+      "position": "1.3.3\n00:01.36"
+    },
+    {
+      "wall": 1.832,
+      "position": "1.4.3\n00:01.82"
+    },
+    {
+      "wall": 2.289,
+      "position": "2.1.3\n00:02.27"
+    }
+  ],
+  "mid": {
+    "fetch": {
+      "/uploads/svclyrics_words.wav": 1,
+      "/api/jobs": 1
+    },
+    "decode": 1,
+    "contexts": 1
+  },
+  "after_stop1": {
+    "fetch": {
+      "/uploads/svclyrics_words.wav": 1,
+      "/api/jobs": 1
+    },
+    "decode": 1,
+    "contexts": 1
+  },
+  "after_restart1": {
+    "fetch": {
+      "/uploads/svclyrics_words.wav": 2,
+      "/api/jobs": 2
+    },
+    "decode": 2,
+    "contexts": 2
+  },
+  "after_restart2": {
+    "fetch": {
+      "/uploads/svclyrics_words.wav": 3,
+      "/api/jobs": 2
+    },
+    "decode": 3,
+    "contexts": 3
+  },
+  "position_final": "1.2.2\n00:00.74"
+}

@@ -719,3 +719,13 @@ Implemented and verified:
 - Independent visible-Chrome QA at exact 1272×837 verified text edit persistence, start-time movement, reload, visible undo/redo, real-word add/delete, invalid-time atomic rejection, compact layout, and zero app console errors. Evidence: `artifacts/e2e_screenshots/svc_lyric_editing/`, especially `SVC_LYRIC_EDITING_QA_REPORT.md` and `02_edited_word_time_canvas.png`.
 
 Validation after iteration 48: frontend production build passed; Python compile passed; full automated suite passed (105 collected tests).
+
+## Iteration 49 — sample-accurate playback transport and media caching
+
+Implemented and verified:
+
+- Playback now uses a shared AudioContext instead of constructing/closing a context on every transport start. Fetch plus `decodeAudioData` work is cached per media URL and failed decodes evict themselves honestly.
+- Transport progression is driven by the audio-context clock when audio exists, with a silent-project performance-clock fallback. Fractional source offsets/durations continue to be passed to WebAudio scheduling while fade/crossfade gain automation remains sample-timeline oriented.
+- Independent visible-Chrome QA verified continuous playback, playhead/wall-clock agreement within about 0.04s over 2.3s, repeated stop/start with exactly one media fetch, exactly one decode, one AudioContext constructor, trimmed/faded/overlapping clips scheduling without errors, no layout overflow, and no console/network failures. Evidence: `artifacts/e2e_screenshots/playback_cache/`.
+
+Validation after iteration 49: frontend production build passed; browser playback QA passed. Backend code was unchanged; the immediately preceding full automated suite remained green at 105 collected tests.
