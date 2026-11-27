@@ -651,3 +651,14 @@ Implemented and verified:
 Additional hardening during final regression: dense-project performance exposed that rendering thousands of lyric-correction rows as DOM nodes would not scale. The lyric list is now virtualized (fixed-height windowing) so only the visible rows mount while large projects remain editable by scrolling. A separate stale Chrome renderer consuming sustained CPU was identified as environmental noise and terminated; the 3000-note 1400×900@2x performance regression then passed again. Browser adversarial recheck also caught stale virtual scroll state after project/track switching; scroll state now resets on project/track/note-count changes, and the exact blank-viewport repro passed with only 15 mounted rows for 1200 notes.
 
 Validation after iteration 42: frontend production build passed; Python compile passed; full automated suite passed (101 collected tests).
+
+## Iteration 43 — direct arrangement audio clip import
+
+Implemented and verified:
+
+- Added `POST /api/projects/{id}/clips/import` for first-class audio import: multipart media is persisted under uploads, validated/measured with SoundFile, converted from seconds through the project tempo map, inserted at the requested playhead tick, and placed on an existing or newly created audio track. Corrupt audio is rejected and temporary media removed.
+- Uploaded media is now statically served through `/uploads`; frontend media URL resolution supports both renders and uploads, so imported clips produce real waveform peaks and browser playback rather than remaining in `analyzing waveform…`.
+- RenderPanel exposes **Import audio as clip at playhead** using current transport position. Backend regression covers measured duration conversion, persistence, invalid-audio rejection, and static uploaded-byte serving.
+- Independent visible-Chrome QA verified nonzero-playhead import, live no-reload `Audio — clipimport` track creation, exact 1.0s→960-tick conversion at 120 BPM/480 PPQ, canvas position/width within 1–2px, drag/trim/reload persistence, corrupt-file rejection, and quantitative master-export inclusion (`RMS before=0.0`, inside=`0.17629`). Initial QA caught the missing uploaded-media URL path; after the fix, waveform bright pixels improved from 38/3 interior to 790/332 interior, uploaded WAV playback loaded and advanced the playhead, and reload retained the waveform. Evidence: `artifacts/e2e_screenshots/audio_clip_import/`.
+
+Validation after iteration 43: frontend production build passed; Python compile passed; full automated suite passed (103 collected tests).

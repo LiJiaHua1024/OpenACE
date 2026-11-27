@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { api, renderFileUrl, uploadFile, uploadVoice } from '../api'
+import { api, importAudioClip, renderFileUrl, uploadFile, uploadVoice } from '../api'
 import { barTicks, ticksToSeconds } from '../tempo'
 import type { Note, Project, RenderJob, Track, VoiceProfile } from '../types'
 
 interface Props {
   project: Project
   track?: Track
+  playheadTicks: number
   jobs: RenderJob[]
   repaintRange: { start: number; end: number }
   onRepaintRange(range: { start: number; end: number }): void
@@ -27,6 +28,7 @@ export default function RenderPanel(props: Props) {
   const referenceInput = useRef<HTMLInputElement | null>(null)
   const lyricListRef = useRef<HTMLDivElement | null>(null)
   const audioInput = useRef<HTMLInputElement | null>(null)
+  const clipInput = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     const refresh = () => api.listVoices().then(setVoices).catch(() => {})
@@ -161,6 +163,13 @@ export default function RenderPanel(props: Props) {
     setLyricsError('')
   }
 
+  async function importClipFile(file: File) {
+    setError('')
+    try {
+      await importAudioClip(props.project.id, file, props.playheadTicks)
+    } catch (e: any) { setError(e.message || String(e)) }
+  }
+
   const selectedVoice = voices.find(voice => voice.id === props.track?.voice_id) || voices.find(voice => voice.path === props.track?.reference_voice_path) || null
 
   return (
@@ -250,6 +259,8 @@ export default function RenderPanel(props: Props) {
         <div className="panel-title">ACE-Step music</div>
         <input ref={audioInput} hidden type="file" accept="audio/*" onChange={e => e.target.files?.[0] && uploadSource(e.target.files[0])} />
         <button className="wide-button" onClick={() => audioInput.current?.click()}>Upload vocal/audio source</button>
+        <input ref={clipInput} hidden type="file" accept="audio/*,.wav,.mp3,.flac,.ogg,.aiff,.aif" onChange={e => { const file = e.target.files?.[0]; if (file) void importClipFile(file); e.target.value = '' }} />
+        <button className="wide-action secondary" onClick={() => clipInput.current?.click()}>Import audio as clip at playhead</button>
         <div className="path-readout">{sourceAudio ? sourceAudio.split('/').pop() : 'no source selected'}</div>
         <label className="field-label">Style caption
           <textarea value={caption} onChange={e => setCaption(e.target.value)} rows={3} />

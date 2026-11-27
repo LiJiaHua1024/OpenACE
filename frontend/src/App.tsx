@@ -526,6 +526,7 @@ export default function App() {
         <RenderPanel
           project={project}
           track={selectedTrack}
+          playheadTicks={playheadTicks}
           jobs={jobs}
           repaintRange={repaintRange}
           onRepaintRange={setRepaintRange}

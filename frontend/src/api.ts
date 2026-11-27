@@ -1,4 +1,4 @@
-import type { Note, Project, RenderJob, Track, VoiceProfile } from './types'
+import type { AudioClip, Note, Project, RenderJob, Track, VoiceProfile } from './types'
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, init)
@@ -81,8 +81,19 @@ export async function importUstx(file: File): Promise<Project> {
 export function renderFileUrl(path?: string | null): string | null {
   if (!path) return null
   const normalized = path.replace(/\\/g, '/')
-  const marker = '/renders/'
-  const index = normalized.indexOf(marker)
-  if (index < 0) return null
-  return marker + normalized.slice(index + marker.length)
+  for (const marker of ['/renders/', '/uploads/']) {
+    const index = normalized.indexOf(marker)
+    if (index >= 0) return marker + normalized.slice(index + marker.length)
+  }
+  return null
+}
+
+export async function importAudioClip(projectId: string, file: File, startTicks: number, trackId?: string): Promise<{ project: Project; track: Track; clip: AudioClip }> {
+  const body = new FormData()
+  body.append('file', file)
+  body.append('start_ticks', String(Math.max(0, Math.round(startTicks))))
+  if (trackId) body.append('track_id', trackId)
+  const response = await fetch(`/api/projects/${projectId}/clips/import`, { method: 'POST', body })
+  if (!response.ok) throw new Error(await response.text())
+  return response.json()
 }

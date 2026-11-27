@@ -9,14 +9,15 @@ import zipfile
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+import soundfile as sf
 import uvicorn
-from fastapi import BackgroundTasks, FastAPI, File, HTTPException, UploadFile
+from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from openace.core.models import Note, Project, RenderMode, Track, TrackType, new_id
+from openace.core.models import AudioClip, Note, Project, RenderMode, Track, TrackType, new_id
 from openace.core.phonemes import PhonemeError, ensure_note_phonemes, timed_phonemes, tokens_from_symbols
 from openace.core.project_store import ProjectStore
 from openace.core.voice_library import VoiceLibrary
@@ -57,6 +58,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.mount("/renders", StaticFiles(directory=str(RENDERS)), name="renders")
+app.mount("/uploads", StaticFiles(directory=str(UPLOADS)), name="uploads")
 recovery_tasks: set[asyncio.Task] = set()
 
 
@@ -428,6 +430,37 @@ async def upload_file(file: UploadFile = File(...)):
     with destination.open("wb") as handle:
         shutil.copyfileobj(file.file, handle)
     return {"path": str(destination), "name": safe, "size": destination.stat().st_size}
+
+
+@app.post("/api/projects/{project_id}/clips/import")
+async def import_audio_clip(project_id: str, file: UploadFile = File(...), start_ticks: int = Form(0), track_id: Optional[str] = Form(None)):
+    project = get_project(project_id)
+    suffix = Path(file.filename or "clip.wav").suffix or ".wav"
+    safe = Path(file.filename or "clip.wav").name
+    destination = UPLOADS / f"{new_id('clip')}_{safe}"
+    with destination.open("wb") as handle:
+        shutil.copyfileobj(file.file, handle)
+    try:
+        info = sf.info(destination)
+        if not info.frames or info.samplerate <= 0:
+            raise ValueError("audio file has no samples")
+    except Exception as exc:
+        destination.unlink(missing_ok=True)
+        raise HTTPException(422, f"invalid audio clip: {exc}") from exc
+    if track_id:
+        try:
+            track = project.track(track_id)
+        except KeyError as exc:
+            raise HTTPException(404, str(exc)) from exc
+    else:
+        track = project.add_track(Track(name=f"Audio — {Path(safe).stem}", type=TrackType.AUDIO, color="#ff8f5a"))
+    duration_ticks = project.seconds_to_ticks(info.frames / info.samplerate)
+    clip = AudioClip(path=str(destination), start_ticks=max(0, start_ticks), duration_ticks=duration_ticks, label=Path(safe).stem)
+    track.clips.append(clip)
+    track.clips.sort(key=lambda item: item.start_ticks)
+    store.save(project)
+    publish_project(project)
+    return {"project": project.model_dump(mode="json"), "track": track.model_dump(mode="json"), "clip": clip.model_dump(mode="json")}
 
 
 @app.post("/api/import/midi")
