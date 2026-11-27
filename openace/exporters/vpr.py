@@ -5,6 +5,7 @@ import zipfile
 from pathlib import Path
 
 from openace.core.models import Project, TrackType
+from openace.core.timing import stepped_tempo_events
 
 TICKS_PER_QUARTER_VPR = 480
 
@@ -66,8 +67,8 @@ def export_vpr(project: Project, output_path: Path) -> Path:
             "samplingRate": 48000,
             "loop": {"isEnabled": False, "startTick": 0, "endTick": 0},
             "tempo": {"events": [
-                {"posTick": _vpr_ticks(project, point.ticks), "bpm": int(round(point.bpm * 100))}
-                for point in project.normalized_tempo_map()
+                {"posTick": _vpr_ticks(project, ticks), "bpm": int(round(bpm * 100))}
+                for ticks, bpm in stepped_tempo_events(project)
             ]},
             "timeSig": {"events": [{"posTick": 0, "numerator": project.time_signature.numerator, "denominator": project.time_signature.denominator}]},
             "volume": {"events": [{"posTick": 0, "value": 100}]},

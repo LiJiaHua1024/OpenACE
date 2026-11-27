@@ -97,7 +97,7 @@ export interface Project {
   title: string
   ppq: number
   bpm: number
-  tempo_map?: { ticks: number; bpm: number }[]
+  tempo_map?: { ticks: number; bpm: number; curve?: 'step' | 'linear' }[]
   time_signature: { numerator: number; denominator: number }
   tracks: Track[]
   created_at: number

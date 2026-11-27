@@ -7,6 +7,7 @@ import mido
 from mido.midifiles.meta import meta_charset
 
 from openace.core.models import Project, Track, TrackType
+from openace.core.timing import stepped_tempo_events
 
 
 def export_midi(project: Project, output_path: Path) -> Path:
@@ -21,14 +22,14 @@ def export_midi(project: Project, output_path: Path) -> Path:
             time=0,
         )
     )
-    tempo_points = project.normalized_tempo_map()
+    tempo_points = stepped_tempo_events(project)
     last_tempo_tick = 0
-    for tempo_point in tempo_points:
-        tick = max(0, int(round(tempo_point.ticks)))
+    for tick, bpm in tempo_points:
+        tick = max(0, int(round(tick)))
         tempo_track.append(
             mido.MetaMessage(
                 "set_tempo",
-                tempo=mido.bpm2tempo(tempo_point.bpm),
+                tempo=mido.bpm2tempo(bpm),
                 time=max(0, tick - last_tempo_tick),
             )
         )

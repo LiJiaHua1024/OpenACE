@@ -7,6 +7,7 @@ from pathlib import Path
 import yaml
 
 from openace.core.models import Note, Project, TrackType
+from openace.core.timing import stepped_tempo_events
 
 # OpenUtau's UI palette is name-based, not hex-based. Map OpenACE's freely colored
 # tracks to the closest real OpenUtau color instead of writing an invalid hex string.
@@ -237,8 +238,8 @@ def export_ustx(project: Project, output_path: Path) -> Path:
             }
         ],
         "tempos": [
-            {"position": int(round(point.ticks * tick_scale)), "bpm": point.bpm}
-            for point in project.normalized_tempo_map()
+            {"position": int(round(ticks * tick_scale)), "bpm": bpm}
+            for ticks, bpm in stepped_tempo_events(project)
         ],
         "tracks": tracks,
         "voice_parts": voice_parts,

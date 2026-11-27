@@ -739,3 +739,14 @@ Implemented and verified:
 - Focused browser QA confirmed visible continuous microtonal curve and multiple handles. Interaction coverage was incomplete because scripted hit testing did not mutate state and reload hit an SSE `networkidle` harness timeout; no implementation defect was confirmed, and pitch-handle edit/delete behavior itself was already covered by earlier piano-roll end-to-end evidence. Evidence: `artifacts/e2e_screenshots/audio_pitch_curve/`.
 
 Validation after iteration 50: targeted ASR/pitch regression passed; full automated suite passed (107 collected tests).
+
+## Iteration 51 — ramp-shaped tempo transitions
+
+Implemented and verified:
+
+- `TempoPoint.curve` now supports validated `step` and `linear` modes. A linear point ramps into its BPM across the preceding segment. Backend and frontend timing use the exact logarithmic integral/inverse of reciprocal linear BPM, so musical ticks and seconds remain bidirectionally consistent rather than approximated by fixed tempo chunks.
+- Tempo lane draws sloped ramps, exposes a Curve selector for positive-tick points, and preserves curve type across creation, dragging, undo/redo, and reload. The floating editor now moves to the opposite side of right-side endpoints after browser QA caught it covering the endpoint hit target.
+- MIDI/USTX/SVP/VPR exporters densify ramp segments into stepped tempo events with exact endpoints. This is intentionally documented as a lossy interchange approximation because those host formats do not carry OpenACE's continuous ramp metadata; no fake native-roundtrip claim is made.
+- Backend regression verifies exact midpoint BPM/time/inverse roundtrip, dense 90 BPM midpoint export at tick 480 of a 120→60 ramp, endpoint fidelity, schema rejection of unknown curves, and preservation of existing step behavior. Independent visible-Chrome QA verified flat-vs-sloped pixels, drag/undo/redo/reload persistence, measurably different transport progression (`step 1.2` vs `linear 2.1` after ~1.7s), clean layout, and the overlay repair (`1920/180 → 2040/174.8` direct drag stayed linear). Evidence: `artifacts/e2e_screenshots/tempo_ramps/`.
+
+Validation after iteration 51: frontend production build passed; tempo-map suite passed; full automated suite passed (110 collected tests).

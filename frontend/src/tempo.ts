@@ -1,6 +1,7 @@
 export interface TempoPoint {
   ticks: number
   bpm: number
+  curve?: 'step' | 'linear'
 }
 
 interface TempoProject {
@@ -11,36 +12,67 @@ interface TempoProject {
 }
 
 export function normalizedTempoMap(project: TempoProject): TempoPoint[] {
-  const deduped = new Map<number, number>()
+  const deduped = new Map<number, TempoPoint>()
   for (const point of project.tempo_map || []) {
-    if (point.ticks > 0 && point.bpm > 0) deduped.set(Math.round(point.ticks), point.bpm)
+    if (point.ticks > 0 && point.bpm > 0) deduped.set(Math.round(point.ticks), { ...point, ticks: Math.round(point.ticks), curve: point.curve || 'step' })
   }
-  const later = Array.from(deduped, ([ticks, bpm]) => ({ ticks, bpm })).sort((a, b) => a.ticks - b.ticks)
-  return [{ ticks: 0, bpm: Math.max(1, project.bpm || 120) }, ...later]
+  const later = Array.from(deduped.values()).sort((a, b) => a.ticks - b.ticks)
+  return [{ ticks: 0, bpm: Math.max(1, project.bpm || 120), curve: 'step' }, ...later]
 }
 
 export function bpmAt(project: TempoProject, ticks: number): number {
-  let active = normalizedTempoMap(project)[0].bpm
-  for (const point of normalizedTempoMap(project)) {
-    if (point.ticks <= ticks) active = point.bpm
-    else break
+  const points = normalizedTempoMap(project)
+  if (ticks <= points[0].ticks) return points[0].bpm
+  for (let index = 1; index < points.length; index++) {
+    const point = points[index]
+    if (ticks <= point.ticks) {
+      const previous = points[index - 1]
+      if (ticks < point.ticks) {
+        if (point.curve === 'linear' && point.ticks > previous.ticks) {
+          const ratio = Math.max(0, Math.min(1, (ticks - previous.ticks) / (point.ticks - previous.ticks)))
+          return previous.bpm + (point.bpm - previous.bpm) * ratio
+        }
+        return previous.bpm
+      }
+      return point.bpm
+    }
   }
-  return active
+  return points[points.length - 1].bpm
+}
+
+function segmentSeconds(project: TempoProject, startTicks: number, endTicks: number, startBpm: number, endBpm: number, linear: boolean): number {
+  const span = endTicks - startTicks
+  if (!span) return 0
+  if (!linear || Math.abs(endBpm - startBpm) < 1e-9) return span / project.ppq * 60 / startBpm
+  return 60 / project.ppq * span / (endBpm - startBpm) * Math.log(endBpm / startBpm)
+}
+
+function invertLinearSegment(project: TempoProject, seconds: number, startTicks: number, endTicks: number, startBpm: number, endBpm: number): number {
+  const span = endTicks - startTicks
+  if (Math.abs(endBpm - startBpm) < 1e-9) return startTicks + seconds * startBpm / 60 * project.ppq
+  const bpm = startBpm * Math.exp(seconds * project.ppq / 60 * (endBpm - startBpm) / span)
+  return startTicks + span * (bpm - startBpm) / (endBpm - startBpm)
 }
 
 export function ticksToSeconds(project: TempoProject, ticks: number): number {
   const points = normalizedTempoMap(project)
+  const first = points[0]
+  if (ticks <= first.ticks) return (ticks - first.ticks) / project.ppq * 60 / first.bpm
   let elapsed = 0
-  let cursorTicks = points[0].ticks
-  let cursorBpm = points[0].bpm
-  if (ticks <= cursorTicks) return (ticks - cursorTicks) / project.ppq * 60 / cursorBpm
+  let previous = first
   for (const point of points.slice(1)) {
-    if (ticks <= point.ticks) return elapsed + (ticks - cursorTicks) / project.ppq * 60 / cursorBpm
-    elapsed += (point.ticks - cursorTicks) / project.ppq * 60 / cursorBpm
-    cursorTicks = point.ticks
-    cursorBpm = point.bpm
+    if (ticks <= point.ticks) {
+      if (point.curve === 'linear') {
+        const ratio = (ticks - previous.ticks) / Math.max(1e-9, point.ticks - previous.ticks)
+        const endBpm = previous.bpm + (point.bpm - previous.bpm) * ratio
+        return elapsed + segmentSeconds(project, previous.ticks, ticks, previous.bpm, endBpm, true)
+      }
+      return elapsed + (ticks - previous.ticks) / project.ppq * 60 / previous.bpm
+    }
+    elapsed += segmentSeconds(project, previous.ticks, point.ticks, previous.bpm, point.bpm, point.curve === 'linear')
+    previous = point
   }
-  return elapsed + (ticks - cursorTicks) / project.ppq * 60 / cursorBpm
+  return elapsed + (ticks - previous.ticks) / project.ppq * 60 / previous.bpm
 }
 
 export function secondsToTicks(project: TempoProject, seconds: number): number {
@@ -48,16 +80,17 @@ export function secondsToTicks(project: TempoProject, seconds: number): number {
   const first = points[0]
   if (seconds <= 0) return first.ticks + seconds * first.bpm / 60 * project.ppq
   let elapsed = 0
-  let cursorTicks = first.ticks
-  let cursorBpm = first.bpm
+  let previous = first
   for (const point of points.slice(1)) {
-    const segmentSeconds = (point.ticks - cursorTicks) / project.ppq * 60 / cursorBpm
-    if (seconds <= elapsed + segmentSeconds) return cursorTicks + (seconds - elapsed) * cursorBpm / 60 * project.ppq
-    elapsed += segmentSeconds
-    cursorTicks = point.ticks
-    cursorBpm = point.bpm
+    const segment = segmentSeconds(project, previous.ticks, point.ticks, previous.bpm, point.bpm, point.curve === 'linear')
+    if (seconds <= elapsed + segment) {
+      if (point.curve === 'linear') return invertLinearSegment(project, seconds - elapsed, previous.ticks, point.ticks, previous.bpm, point.bpm)
+      return previous.ticks + (seconds - elapsed) * previous.bpm / 60 * project.ppq
+    }
+    elapsed += segment
+    previous = point
   }
-  return cursorTicks + (seconds - elapsed) * cursorBpm / 60 * project.ppq
+  return previous.ticks + (seconds - elapsed) * previous.bpm / 60 * project.ppq
 }
 
 export function secondsBetweenTicks(project: TempoProject, startTicks: number, endTicks: number): number {

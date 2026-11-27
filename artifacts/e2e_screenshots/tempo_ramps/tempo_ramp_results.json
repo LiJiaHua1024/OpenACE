@@ -1,0 +1,173 @@
+{
+  "verdict": "core ramp feature passed; one confirmed UI occlusion defect around selected endpoint dragging",
+  "viewport": "1272x837 exact, no body overflow",
+  "backend_restart_required": "yes; first stale backend stripped curve because Python server does not hot reload. After clean restart curve persisted.",
+  "step_vs_linear_pixels": {
+    "step_slope_px_per_x": -0.00019560965007607047,
+    "linear_slope_px_per_x": -0.0594447060622892,
+    "step_y_samples": [
+      [
+        70,
+        38.5
+      ],
+      [
+        190,
+        38.5
+      ],
+      [
+        310,
+        38.5
+      ],
+      [
+        430,
+        38.5
+      ]
+    ],
+    "linear_y_samples": [
+      [
+        70,
+        38.5
+      ],
+      [
+        190,
+        31.5
+      ],
+      [
+        310,
+        24
+      ],
+      [
+        430,
+        17
+      ]
+    ]
+  },
+  "backend_curve_persistence": {
+    "after_selecting_linear": [
+      {
+        "ticks": 1920,
+        "bpm": 180.0,
+        "curve": "linear"
+      }
+    ],
+    "after_real_drag": [
+      {
+        "ticks": 1080,
+        "bpm": 174.4,
+        "curve": "linear"
+      }
+    ],
+    "after_undo": "960/180 linear",
+    "after_redo": "1080/174.4 linear",
+    "after_final_reload": [
+      {
+        "ticks": 1080,
+        "bpm": 174.4,
+        "curve": "linear"
+      }
+    ]
+  },
+  "transport_comparison": {
+    "step": {
+      "wall": 1.7027077674865723,
+      "position": "1.4.2\n00:01.71"
+    },
+    "linear": {
+      "wall": 1.7037878036499023,
+      "position": "2.1.1\n00:01.69"
+    },
+    "interpretation": "same ~1.70s wall interval reaches bar 1 beat 4 in step mode but bar 2 beat 1 in ramp mode"
+  },
+  "confirmed_defect": {
+    "title": "Selected high-position tempo endpoint is hidden underneath the floating tempo editor",
+    "geometry": "original 1920-tick endpoint at canvas-relative x=512,y=13; editor spans x=443.73..706,y=6..52",
+    "observed": "direct drag grabbed the BPM input/spinner rather than the point; backend remained unchanged at 1920/180 linear",
+    "severity": "minor/moderate usability defect; drag works when endpoint is moved outside the overlay"
+  },
+  "unobscured_drag": {
+    "initial": "960/180 linear",
+    "final_backend": [
+      {
+        "ticks": 1080,
+        "bpm": 174.4,
+        "curve": "linear"
+      }
+    ],
+    "held_ui": "1080/174.4, linear visible",
+    "note": "real computer drag; endpoint had to be moved away from editor overlay first"
+  },
+  "final_layout_console_network": {
+    "backend": [
+      {
+        "ticks": 1080,
+        "bpm": 174.4,
+        "curve": "linear"
+      }
+    ],
+    "scan": {
+      "count": 214,
+      "slope": -0.06436681988711651,
+      "first": {
+        "x": 70,
+        "y": 38.5
+      },
+      "last": {
+        "x": 498,
+        "y": 12.5
+      },
+      "samples": [
+        {
+          "x": 70,
+          "y": 38.5
+        },
+        {
+          "x": 150,
+          "y": 30
+        },
+        {
+          "x": 230,
+          "y": 21.5
+        },
+        {
+          "x": 310,
+          "y": 13
+        },
+        {
+          "x": 392,
+          "y": 12.5
+        },
+        {
+          "x": 472,
+          "y": 12.5
+        }
+      ]
+    },
+    "layout": {
+      "innerWidth": 1272,
+      "innerHeight": 837,
+      "bodyOverflow": false
+    },
+    "console": [],
+    "network_failures": []
+  },
+  "harness_notes": [
+    "Canvas getImageData warning in early raw run was QA instrumentation, not application code.",
+    "SSE aborts in early raw run were deliberate reloads; final clean reload had zero network failures."
+  ],
+  "overlay_fix_regression": {
+    "status": "passed",
+    "initial_endpoint": "1920/180 linear at canvas-relative x=512,y=13",
+    "editor_class": "tempo-editor left",
+    "editor_canvas_relative": "x=72..334.27,y=6..52",
+    "overlap_original_endpoint": false,
+    "direct_drag_result": [
+      {
+        "ticks": 2040,
+        "bpm": 174.8,
+        "curve": "linear"
+      }
+    ],
+    "layout": "1272x837 exact, no body overflow",
+    "screenshot": "overlay_fix_regression.png"
+  }
+}

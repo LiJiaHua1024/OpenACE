@@ -6,6 +6,7 @@ import uuid
 from pathlib import Path
 
 from openace.core.models import Project, TrackType
+from openace.core.timing import stepped_tempo_events
 
 
 def _svp_curve(project: Project, points, mapper) -> dict:
@@ -125,8 +126,8 @@ def export_svp(project: Project, output_path: Path) -> Path:
                 }
             ],
             "tempo": [
-                {"position": _units(project, point.ticks), "bpm": point.bpm}
-                for point in project.normalized_tempo_map()
+                {"position": _units(project, ticks), "bpm": bpm}
+                for ticks, bpm in stepped_tempo_events(project)
             ],
         },
         "library": [],

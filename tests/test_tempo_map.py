@@ -134,3 +134,45 @@ def test_tempo_point_schema_rejects_invalid_positions_and_rates():
         TempoPoint(ticks=-1, bpm=120)
     with pytest.raises(Exception):
         TempoPoint(ticks=480, bpm=0)
+
+
+def test_linear_tempo_ramp_integrates_and_inverts_exactly():
+    project = Project(title="Ramp", bpm=120.0, ppq=480)
+    project.tempo_map = [TempoPoint(ticks=960, bpm=60.0, curve="linear")]
+    assert project.bpm_at(0) == pytest.approx(120.0)
+    assert project.bpm_at(480) == pytest.approx(90.0)
+    assert project.bpm_at(960) == pytest.approx(60.0)
+    assert project.ticks_to_seconds(480) == pytest.approx(0.5753641449)
+    assert project.ticks_to_seconds(960) == pytest.approx(1.3862943611)
+    for ticks in [1, 240, 480, 777, 960, 1200, 1440]:
+        seconds = project.ticks_to_seconds(ticks)
+        assert project.seconds_to_ticks_float(seconds) == pytest.approx(ticks, abs=1e-6)
+
+
+def test_linear_tempo_ramp_exports_dense_stepped_events_without_fake_native_support(tmp_path):
+    project = Project(title="Ramp", bpm=120.0, ppq=480)
+    project.tempo_map = [TempoPoint(ticks=960, bpm=60.0, curve="linear")]
+    midi_path = export_midi(project, tmp_path / "ramp.mid")
+    events = []
+    absolute = 0
+    for message in mido.merge_tracks(mido.MidiFile(str(midi_path)).tracks):
+        absolute += message.time
+        if message.type == "set_tempo":
+            events.append((absolute, mido.tempo2bpm(message.tempo)))
+    assert events[0] == pytest.approx((0, 120.0))
+    assert events[-1][0] == 960
+    assert events[-1][1] == pytest.approx(60.0)
+    midpoint = min(events, key=lambda item: abs(item[0] - 480))
+    assert midpoint[0] == 480
+    assert midpoint[1] == pytest.approx(90.0)
+    assert len(events) >= 8
+
+    ustx = yaml.safe_load(export_ustx(project, tmp_path / "ramp.ustx").read_text(encoding="utf-8"))
+    assert len(ustx["tempos"]) >= 8
+    assert ustx["tempos"][-1]["position"] == 960
+    assert ustx["tempos"][-1]["bpm"] == pytest.approx(60.0)
+
+
+def test_tempo_point_schema_rejects_unknown_curve():
+    with pytest.raises(Exception, match="curve"):
+        TempoPoint(ticks=480, bpm=120, curve="exponential")

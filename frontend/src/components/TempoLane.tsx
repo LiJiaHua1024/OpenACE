@@ -20,6 +20,7 @@ interface Props {
 interface DragState {
   originalTick: number
   originalBpm: number
+  originalCurve: 'step' | 'linear'
   startX: number
   startY: number
   anchor: boolean
@@ -32,16 +33,16 @@ function clampBpm(value: number) {
 function sortedPositivePoints(project: Project) {
   return (project.tempo_map || [])
     .filter(point => point.ticks > 0 && point.bpm > 0)
-    .map(point => ({ ticks: Math.round(point.ticks), bpm: point.bpm }))
+    .map(point => ({ ticks: Math.round(point.ticks), bpm: point.bpm, curve: point.curve || 'step' as const }))
     .sort((a, b) => a.ticks - b.ticks)
 }
 
-function writePositivePoints(project: Project, points: { ticks: number; bpm: number }[]) {
-  const deduped = new Map<number, number>()
+function writePositivePoints(project: Project, points: { ticks: number; bpm: number; curve?: 'step' | 'linear' }[]) {
+  const deduped = new Map<number, { ticks: number; bpm: number; curve: 'step' | 'linear' }>()
   for (const point of points) {
-    if (point.ticks > 0 && point.bpm > 0) deduped.set(Math.round(point.ticks), clampBpm(point.bpm))
+    if (point.ticks > 0 && point.bpm > 0) deduped.set(Math.round(point.ticks), { ticks: Math.round(point.ticks), bpm: clampBpm(point.bpm), curve: point.curve || 'step' })
   }
-  project.tempo_map = Array.from(deduped, ([ticks, bpm]) => ({ ticks, bpm })).sort((a, b) => a.ticks - b.ticks)
+  project.tempo_map = Array.from(deduped.values()).sort((a, b) => a.ticks - b.ticks)
 }
 
 export default function TempoLane(props: Props) {
@@ -109,12 +110,14 @@ export default function TempoLane(props: Props) {
       for (let index = 0; index < boundaries.length - 1; index++) {
         const segmentStart = boundaries[index]
         const segmentEnd = boundaries[index + 1]
-        const y = yForBpm(bpmAt(props.project, segmentStart + 0.001))
-        const x1 = xForTick(segmentStart)
-        const x2 = xForTick(segmentEnd)
-        if (index === 0) ctx.moveTo(x1, y)
-        else ctx.lineTo(x1, y)
-        ctx.lineTo(x2, y)
+        const steps = Math.max(2, Math.ceil((segmentEnd - segmentStart) / Math.max(1, ppq / 8)))
+        for (let step = 0; step <= steps; step++) {
+          const tick = segmentStart + (segmentEnd - segmentStart) * step / steps
+          const x = xForTick(tick)
+          const y = yForBpm(bpmAt(props.project, Math.min(tick, segmentEnd - 0.001)))
+          if (index === 0 && step === 0) ctx.moveTo(x, y)
+          else ctx.lineTo(x, y)
+        }
       }
       ctx.stroke()
       ctx.lineWidth = 1
@@ -158,17 +161,18 @@ export default function TempoLane(props: Props) {
   }
 
   function pointHit(x: number, y: number) {
-    let best: { ticks: number; bpm: number; distance: number } | null = null
+    let best: { ticks: number; bpm: number; curve: 'step' | 'linear'; distance: number } | null = null
     for (const point of normalizedTempoMap(props.project)) {
       const distance = Math.hypot(xForTick(point.ticks) - x, yForBpm(point.bpm) - y)
-      if (distance <= 9 && (!best || distance < best.distance)) best = { ticks: point.ticks, bpm: point.bpm, distance }
+      if (distance <= 9 && (!best || distance < best.distance)) best = { ticks: point.ticks, bpm: point.bpm, curve: point.curve || 'step', distance }
     }
     return best
   }
 
-  function upsertPoint(project: Project, originalTick: number | null, ticks: number, bpm: number) {
+  function upsertPoint(project: Project, originalTick: number | null, ticks: number, bpm: number, curve?: 'step' | 'linear') {
+    const prior = sortedPositivePoints(project).find(point => point.ticks === (originalTick ?? ticks))
     const next = sortedPositivePoints(project).filter(point => point.ticks !== originalTick && point.ticks !== ticks)
-    next.push({ ticks, bpm: clampBpm(bpm) })
+    next.push({ ticks, bpm: clampBpm(bpm), curve: curve || prior?.curve || 'step' })
     writePositivePoints(project, next)
   }
 
@@ -188,13 +192,13 @@ export default function TempoLane(props: Props) {
     if (event.button !== 0) return
     props.beginTransaction()
     if (hit) {
-      dragRef.current = { originalTick: hit.ticks, originalBpm: hit.bpm, startX: pos.x, startY: pos.y, anchor: hit.ticks === 0 }
+      dragRef.current = { originalTick: hit.ticks, originalBpm: hit.bpm, originalCurve: hit.curve, startX: pos.x, startY: pos.y, anchor: hit.ticks === 0 }
       setSelectedTick(hit.ticks)
     } else {
       const ticks = Math.max(grid, snap(tickForX(pos.x)))
       const bpm = clampBpm(bpmForY(pos.y))
       props.updateProject(project => upsertPoint(project, null, ticks, bpm), true)
-      dragRef.current = { originalTick: ticks, originalBpm: bpm, startX: pos.x, startY: pos.y, anchor: false }
+      dragRef.current = { originalTick: ticks, originalBpm: bpm, originalCurve: 'step', startX: pos.x, startY: pos.y, anchor: false }
       setSelectedTick(ticks)
     }
     canvasRef.current?.setPointerCapture(event.pointerId)
@@ -217,7 +221,7 @@ export default function TempoLane(props: Props) {
         writePositivePoints(project, sortedPositivePoints(project))
       } else {
         const ticks = Math.max(grid, snap(drag.originalTick + deltaTicks))
-        upsertPoint(project, drag.originalTick, ticks, nextBpm)
+        upsertPoint(project, drag.originalTick, ticks, nextBpm, drag.originalCurve)
         setSelectedTick(ticks)
       }
     }, true)
@@ -234,6 +238,13 @@ export default function TempoLane(props: Props) {
   const selectedPoint = selectedTick === 0
     ? { ticks: 0, bpm: props.project.bpm }
     : sortedPositivePoints(props.project).find(point => point.ticks === selectedTick) || null
+
+  function editSelectedCurve(curve: 'step' | 'linear') {
+    if (!selectedPoint || selectedPoint.ticks === 0) return
+    props.updateProject(project => {
+      upsertPoint(project, selectedPoint.ticks, selectedPoint.ticks, selectedPoint.bpm, curve)
+    }, false)
+  }
 
   function editSelected(ticks: number, bpm: number) {
     if (!selectedPoint) return
@@ -259,7 +270,7 @@ export default function TempoLane(props: Props) {
     <div className="tempo-lane" onContextMenu={event => event.preventDefault()}>
       <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onWheel={onWheel} />
       {selectedPoint && (
-        <div className="tempo-editor">
+        <div className={`tempo-editor ${xForTick(selectedPoint.ticks) > ((canvasRef.current?.parentElement?.clientWidth || 800) / 2) ? 'left' : ''}`}>
           <label>Tick
             <input
               type="number"
@@ -280,6 +291,14 @@ export default function TempoLane(props: Props) {
               onChange={event => editSelected(selectedPoint.ticks, Number(event.target.value) || selectedPoint.bpm)}
             />
           </label>
+          {selectedPoint.ticks > 0 && (
+            <label>Curve
+              <select value={(selectedPoint as any).curve || 'step'} onChange={event => editSelectedCurve(event.target.value as 'step' | 'linear')}>
+                <option value="step">step</option>
+                <option value="linear">linear ramp</option>
+              </select>
+            </label>
+          )}
           {selectedPoint.ticks > 0 && <button onClick={() => {
             props.updateProject(project => {
               writePositivePoints(project, sortedPositivePoints(project).filter(point => point.ticks !== selectedPoint.ticks))

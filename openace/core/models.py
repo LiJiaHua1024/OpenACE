@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import time
 import uuid
 from enum import Enum
@@ -186,6 +187,15 @@ class TimeSignature(BaseModel):
 class TempoPoint(BaseModel):
     ticks: int = Field(default=0, ge=0)
     bpm: float = Field(default=120.0, gt=0)
+    # `linear` means the tempo ramps into this point across the preceding segment.
+    curve: str = "step"
+
+    @field_validator("curve")
+    @classmethod
+    def supported_curve(cls, value: str) -> str:
+        if value not in {"step", "linear"}:
+            raise ValueError("tempo point curve must be 'step' or 'linear'")
+        return value
 
 
 class Project(BaseModel):
@@ -241,57 +251,83 @@ class Project(BaseModel):
         for point in points:
             bpm = max(1.0, float(point.bpm))
             if deduped and deduped[-1].ticks == point.ticks:
-                deduped[-1] = TempoPoint(ticks=int(point.ticks), bpm=bpm)
+                deduped[-1] = TempoPoint(ticks=int(point.ticks), bpm=bpm, curve=point.curve)
             else:
-                deduped.append(TempoPoint(ticks=int(point.ticks), bpm=bpm))
+                deduped.append(TempoPoint(ticks=int(point.ticks), bpm=bpm, curve=point.curve))
         # Project.bpm is the editing surface's canonical tick-zero tempo. Later
         # tempo points automate after that anchor; this preserves existing projects
         # whose default tempo map was not updated when the BPM transport changed.
         return [TempoPoint(ticks=0, bpm=max(1.0, float(self.bpm)))] + deduped
 
+    def _segment_seconds(self, start_ticks: float, end_ticks: float, start_bpm: float, end_bpm: float, linear: bool) -> float:
+        span = end_ticks - start_ticks
+        if span == 0:
+            return 0.0
+        if not linear or abs(end_bpm - start_bpm) < 1e-9:
+            return span / self.ppq * 60.0 / start_bpm
+        # Integrate 1/bpm while BPM itself interpolates linearly across ticks.
+        return (60.0 / self.ppq) * span / (end_bpm - start_bpm) * math.log(end_bpm / start_bpm)
+
+    def _invert_linear_segment(self, seconds: float, start_ticks: float, end_ticks: float, start_bpm: float, end_bpm: float) -> float:
+        span = end_ticks - start_ticks
+        if abs(end_bpm - start_bpm) < 1e-9:
+            return start_ticks + seconds * start_bpm / 60.0 * self.ppq
+        # Invert the exact logarithmic integral of reciprocal linear BPM.
+        bpm = start_bpm * math.exp(seconds * self.ppq / 60.0 * (end_bpm - start_bpm) / span)
+        return start_ticks + span * (bpm - start_bpm) / (end_bpm - start_bpm)
+
     def bpm_at(self, ticks: float) -> float:
-        """Return the active piecewise tempo at a musical timeline position."""
-        bpm = self.normalized_tempo_map()[0].bpm
-        for point in self.normalized_tempo_map():
-            if point.ticks <= ticks:
-                bpm = point.bpm
-            else:
-                break
-        return bpm
+        """Return active tempo, linearly interpolating across ramp segments."""
+        points = self.normalized_tempo_map()
+        if ticks <= points[0].ticks:
+            return points[0].bpm
+        for index, point in enumerate(points[1:], 1):
+            if ticks <= point.ticks:
+                previous = points[index - 1]
+                if ticks < point.ticks:
+                    if point.curve == "linear" and point.ticks > previous.ticks:
+                        ratio = (ticks - previous.ticks) / (point.ticks - previous.ticks)
+                        return float(previous.bpm + (point.bpm - previous.bpm) * max(0.0, min(1.0, ratio)))
+                    return float(previous.bpm)
+                return float(point.bpm)
+        return float(points[-1].bpm)
 
     def ticks_to_seconds(self, ticks: float) -> float:
-        """Convert absolute musical ticks to seconds through the piecewise tempo map."""
+        """Convert absolute musical ticks to seconds through step/linear tempo segments."""
         points = self.normalized_tempo_map()
+        first = points[0]
+        if ticks <= first.ticks:
+            return (ticks - first.ticks) / self.ppq * 60.0 / first.bpm
         elapsed = 0.0
-        cursor_ticks = points[0].ticks
-        cursor_bpm = points[0].bpm
-        if ticks <= cursor_ticks:
-            return (ticks - cursor_ticks) / self.ppq * 60.0 / cursor_bpm
+        previous = first
         for point in points[1:]:
             if ticks <= point.ticks:
-                return elapsed + (ticks - cursor_ticks) / self.ppq * 60.0 / cursor_bpm
-            elapsed += (point.ticks - cursor_ticks) / self.ppq * 60.0 / cursor_bpm
-            cursor_ticks = point.ticks
-            cursor_bpm = point.bpm
-        return elapsed + (ticks - cursor_ticks) / self.ppq * 60.0 / cursor_bpm
+                if point.curve == "linear":
+                    ratio = (ticks - previous.ticks) / max(1e-9, point.ticks - previous.ticks)
+                    end_bpm = previous.bpm + (point.bpm - previous.bpm) * ratio
+                    return elapsed + self._segment_seconds(previous.ticks, ticks, previous.bpm, end_bpm, True)
+                return elapsed + (ticks - previous.ticks) / self.ppq * 60.0 / previous.bpm
+            elapsed += self._segment_seconds(previous.ticks, point.ticks, previous.bpm, point.bpm, point.curve == "linear")
+            previous = point
+        return elapsed + (ticks - previous.ticks) / self.ppq * 60.0 / previous.bpm
 
     def seconds_to_ticks_float(self, seconds: float) -> float:
-        """Invert absolute seconds through the piecewise tempo map without rounding."""
+        """Invert absolute seconds through step/linear tempo segments without rounding."""
         points = self.normalized_tempo_map()
         first = points[0]
         if seconds <= 0.0:
             return first.ticks + seconds * first.bpm / 60.0 * self.ppq
         elapsed = 0.0
-        cursor_ticks = float(first.ticks)
-        cursor_bpm = first.bpm
+        previous = first
         for point in points[1:]:
-            segment_seconds = (point.ticks - cursor_ticks) / self.ppq * 60.0 / cursor_bpm
+            segment_seconds = self._segment_seconds(previous.ticks, point.ticks, previous.bpm, point.bpm, point.curve == "linear")
             if seconds <= elapsed + segment_seconds:
-                return cursor_ticks + (seconds - elapsed) * cursor_bpm / 60.0 * self.ppq
+                if point.curve == "linear":
+                    return float(self._invert_linear_segment(seconds - elapsed, previous.ticks, point.ticks, previous.bpm, point.bpm))
+                return previous.ticks + (seconds - elapsed) * previous.bpm / 60.0 * self.ppq
             elapsed += segment_seconds
-            cursor_ticks = float(point.ticks)
-            cursor_bpm = point.bpm
-        return cursor_ticks + (seconds - elapsed) * cursor_bpm / 60.0 * self.ppq
+            previous = point
+        return previous.ticks + (seconds - elapsed) * previous.bpm / 60.0 * self.ppq
 
     def seconds_to_ticks(self, seconds: float) -> int:
         return int(round(self.seconds_to_ticks_float(seconds)))
