@@ -119,6 +119,20 @@ export interface VoiceProfile {
   size_bytes: number
 }
 
+export interface MediaFile {
+  id: string
+  name: string
+  file_name: string
+  path: string
+  size: number
+  modified_at: number
+  valid: boolean
+  duration_seconds?: number
+  sample_rate?: number
+  channels?: number
+  error?: string
+}
+
 export interface RenderJob {
   id: string
   project_id: string

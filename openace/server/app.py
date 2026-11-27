@@ -92,6 +92,12 @@ class SplitNoteRequest(BaseModel):
     split_ticks: int
 
 
+class PlaceMediaClipRequest(BaseModel):
+    media_name: str
+    start_ticks: int = 0
+    track_id: Optional[str] = None
+
+
 class PhonemeTimingRequest(BaseModel):
     symbols: List[str]
     duration_ms: float
@@ -469,7 +475,112 @@ async def upload_file(file: UploadFile = File(...)):
     destination = UPLOADS / f"{new_id('upload')}_{safe}"
     with destination.open("wb") as handle:
         shutil.copyfileobj(file.file, handle)
+    entry = media_entry(destination) if destination.suffix.lower() in AUDIO_MEDIA_EXTENSIONS else {"id": destination.name, "name": safe, "path": str(destination)}
+    publish_media_library("created", entry)
     return {"path": str(destination), "name": safe, "size": destination.stat().st_size}
+
+
+AUDIO_MEDIA_EXTENSIONS = {".wav", ".flac", ".ogg", ".mp3", ".m4a", ".aac", ".aiff", ".aif"}
+
+
+def media_path_for(media_name: str) -> Path:
+    safe = Path(media_name).name
+    path = (UPLOADS / safe).resolve()
+    root = UPLOADS.resolve()
+    if path.parent != root or not path.exists() or not path.is_file():
+        raise HTTPException(404, "media file not found")
+    return path
+
+
+def media_entry(path: Path) -> Dict[str, Any]:
+    parts = path.name.split("_", 2)
+    display_name = parts[2] if len(parts) == 3 else path.name
+    entry: Dict[str, Any] = {
+        "id": path.name,
+        "name": display_name,
+        "file_name": path.name,
+        "path": str(path),
+        "size": path.stat().st_size,
+        "modified_at": path.stat().st_mtime,
+        "valid": False,
+    }
+    try:
+        info = sf.info(path)
+        entry.update({
+            "valid": bool(info.frames and info.samplerate > 0),
+            "duration_seconds": info.frames / info.samplerate if info.samplerate else 0.0,
+            "sample_rate": info.samplerate,
+            "channels": info.channels,
+        })
+    except Exception as exc:
+        entry["error"] = str(exc)
+    return entry
+
+
+def media_file_in_use(path: Path) -> List[str]:
+    target = str(path.resolve())
+    users = []
+    for summary in store.list():
+        try:
+            candidate = store.get(summary["id"])
+        except Exception:
+            continue
+        if any(str(Path(clip.path).resolve()) == target for track in candidate.tracks for clip in track.clips):
+            users.append(candidate.id)
+    return users
+
+
+def publish_media_library(action: str, media: Dict[str, Any]) -> None:
+    event_bus.publish("media_library", {"action": action, "media": media})
+
+
+@app.get("/api/media")
+def list_media_files():
+    files = []
+    for path in sorted(UPLOADS.iterdir(), key=lambda item: item.stat().st_mtime, reverse=True):
+        if path.is_file() and path.suffix.lower() in AUDIO_MEDIA_EXTENSIONS:
+            files.append(media_entry(path))
+    return files
+
+
+@app.delete("/api/media/{media_name}")
+def delete_media_file(media_name: str):
+    path = media_path_for(media_name)
+    entry = media_entry(path)
+    users = media_file_in_use(path)
+    if users:
+        raise HTTPException(409, f"media file is used by arrangement clips in {len(users)} project(s); remove those clips before deleting it")
+    path.unlink()
+    publish_media_library("deleted", entry)
+    return {"ok": True, "deleted": entry}
+
+
+@app.post("/api/projects/{project_id}/media/clip")
+def place_media_clip(project_id: str, request: PlaceMediaClipRequest):
+    project = get_project(project_id)
+    path = media_path_for(request.media_name)
+    try:
+        info = sf.info(path)
+        if not info.frames or info.samplerate <= 0:
+            raise ValueError("audio file has no samples")
+    except Exception as exc:
+        raise HTTPException(422, f"invalid audio clip: {exc}") from exc
+    if request.track_id:
+        try:
+            track = project.track(request.track_id)
+        except KeyError as exc:
+            raise HTTPException(404, str(exc)) from exc
+        if track.type == TrackType.VOCAL:
+            raise HTTPException(422, "imported audio clips cannot be placed on vocal note tracks; select an audio/accompaniment track or omit track_id")
+    else:
+        track = project.add_track(Track(name=f"Audio — {Path(media_entry(path)['name']).stem}", type=TrackType.AUDIO, color="#ff8f5a"))
+    duration_ticks = project.seconds_to_ticks(info.frames / info.samplerate)
+    clip = AudioClip(path=str(path), start_ticks=max(0, request.start_ticks), duration_ticks=duration_ticks, label=Path(media_entry(path)["name"]).stem)
+    track.clips.append(clip)
+    track.clips.sort(key=lambda item: item.start_ticks)
+    store.save(project)
+    publish_project(project)
+    return {"project": project.model_dump(mode="json"), "track": track.model_dump(mode="json"), "clip": clip.model_dump(mode="json")}
 
 
 @app.post("/api/projects/{project_id}/clips/import")
@@ -502,6 +613,7 @@ async def import_audio_clip(project_id: str, file: UploadFile = File(...), start
     track.clips.sort(key=lambda item: item.start_ticks)
     store.save(project)
     publish_project(project)
+    publish_media_library("created", media_entry(destination))
     return {"project": project.model_dump(mode="json"), "track": track.model_dump(mode="json"), "clip": clip.model_dump(mode="json")}
 
 

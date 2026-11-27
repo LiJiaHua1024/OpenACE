@@ -1,4 +1,4 @@
-import type { AudioClip, Note, Project, RenderJob, Track, VoiceProfile } from './types'
+import type { AudioClip, MediaFile, Note, Project, RenderJob, Track, VoiceProfile } from './types'
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, init)
@@ -37,6 +37,9 @@ export const api = {
   deleteVoice: (voiceId: string, unassign = false) => request<any>(`/api/voices/${voiceId}${unassign ? '?unassign=true' : ''}`, { method: 'DELETE' }),
   timePhonemes: (symbols: string[], durationMs: number) => request<any[]>('/api/phonemes/time', json({ method: 'POST', body: JSON.stringify({ symbols, duration_ms: durationMs }) })),
   jobs: () => request<RenderJob[]>('/api/jobs'),
+  listMedia: () => request<MediaFile[]>('/api/media'),
+  deleteMedia: (mediaName: string) => request<any>(`/api/media/${encodeURIComponent(mediaName)}`, { method: 'DELETE' }),
+  placeMediaClip: (projectId: string, mediaName: string, startTicks: number, trackId?: string) => request<{ project: Project; track: Track; clip: AudioClip }>(`/api/projects/${projectId}/media/clip`, json({ method: 'POST', body: JSON.stringify({ media_name: mediaName, start_ticks: Math.max(0, Math.round(startTicks)), track_id: trackId || null }) })),
   exportUrl: (projectId: string, fmt: string) => `/api/projects/${projectId}/export/${fmt}`,
 }
 

@@ -270,6 +270,7 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .empty-state { color: #65708e; font-size: 12px; padding: 12px 0; }
 .error-banner {
   margin-top: 10px; padding: 10px; border: 1px solid #8e3d4d; background: #3a1720; color: #ffd4db; border-radius: 8px; font-size: 11px;
+  position: sticky; bottom: 0; z-index: 6; box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.32);
 }
 .error-banner.global { position: fixed; right: 12px; bottom: 12px; z-index: 30; max-width: 520px; cursor: pointer; }
 
@@ -464,3 +465,88 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .automation-range-actions { position: absolute; left: 4px; top: 28px; z-index: 5; width: 56px; display: flex; flex-direction: column; gap: 3px; padding: 4px; border: 1px solid #31445d; border-radius: 6px; background: rgba(13, 17, 26, .94); }
 .automation-range-actions span { color: #8fe5ff; font-size: 8px; text-align: center; }
 .automation-range-actions button { height: 18px; border: 1px solid #3c4c68; border-radius: 4px; background: #182133; color: #cfe7ff; font-size: 8px; padding: 0; }
+
+.media-search {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+.media-list {
+  display: grid;
+  gap: 8px;
+  max-height: 245px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.media-row {
+  border: 1px solid #2c3448;
+  border-radius: 8px;
+  padding: 8px;
+  background: #151a27;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.media-row.invalid {
+  border-color: #66333d;
+  opacity: 0.72;
+}
+
+.media-row-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.media-row-head strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.media-row-head span {
+  color: #8e99b5;
+  white-space: nowrap;
+}
+
+.media-row audio {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 28px;
+  margin-bottom: 6px;
+}
+
+.media-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.media-actions button {
+  flex: 1;
+  border: 1px solid #384159;
+  border-radius: 6px;
+  background: #22293a;
+  color: #dfe5f5;
+  padding: 4px 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.media-actions button.danger {
+  flex: 0 0 auto;
+  color: #ff9daa;
+}
+
+.media-bin-section,
+.media-list {
+  min-width: 0;
+  overflow-x: hidden;
+}

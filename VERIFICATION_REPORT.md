@@ -1003,3 +1003,13 @@ Implemented and verified:
 - Independent visible-Chrome QA at exact 1272×837 verified exactly one initial fetch/decode, exact buffer reuse, no duplicate edit-triggered decode work, render-output preloading, realistic first-play source start `0.8ms`/playhead update `24.6ms`/clock lag `-0.0027s`, warm restart `0.3ms`, accurate seek and loop behavior, and clean console/network. A direct cold play as the very first browser gesture still pays the intrinsic ~1.8–2.1s Chrome/audio-device output initialization cost in this sandbox; this is documented honestly and is not a cache miss. Evidence: `artifacts/e2e_screenshots/playback_preload/`.
 
 Validation after iteration 76: frontend production build passed; independent browser/audio QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 77 — media bin audio library
+
+Implemented and verified:
+
+- Uploaded/imported audio files are now centrally indexed in a media bin with truthful duration, sample-rate, channel, validity, size, and modification metadata. Invalid audio is visibly labeled and cannot be placed as a clip.
+- The browser media bin supports search, native audio audition, add-at-playhead arrangement placement on a new measured audio track, SSE refreshes after upload/import/delete, and safe deletion: files referenced by arrangement clips return a readable HTTP409 explanation and remain on disk, while unused/invalid files can be deleted without reload.
+- Independent visible-Chrome QA at exact 1272×837 verified no-reload SSE appearance, truthful 2s/48kHz metadata, playback audition progress, exact tick960 placement and arrangement playback, used/unused deletion semantics, long-filename containment/ellipsizing, clickable controls, and sticky immediate error visibility. Evidence: `artifacts/e2e_screenshots/media_bin/`.
+
+Validation after iteration 77: frontend production build passed; media-bin backend regressions passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

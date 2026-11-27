@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { api, importAudioClip, renderFileUrl, uploadFile, uploadVoice } from '../api'
 import { barTicks, ticksToSeconds } from '../tempo'
-import type { Note, Project, RenderJob, Track, VoiceProfile } from '../types'
+import type { MediaFile, Note, Project, RenderJob, Track, VoiceProfile } from '../types'
 import { vocalRenderIsStale } from '../renderFingerprint'
 
 interface Props {
@@ -23,6 +23,8 @@ export default function RenderPanel(props: Props) {
   const [busy, setBusy] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [voices, setVoices] = useState<VoiceProfile[]>([])
+  const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([])
+  const [mediaSearch, setMediaSearch] = useState('')
   const [batchLyrics, setBatchLyrics] = useState('')
   const [lyricsError, setLyricsError] = useState('')
   const [lyricScrollTop, setLyricScrollTop] = useState(0)
@@ -32,10 +34,14 @@ export default function RenderPanel(props: Props) {
   const clipInput = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    const refresh = () => api.listVoices().then(setVoices).catch(() => {})
+    const refresh = () => {
+      api.listVoices().then(setVoices).catch(() => {})
+      api.listMedia().then(setMediaFiles).catch(() => {})
+    }
     refresh()
     const events = new EventSource('/api/events')
     events.addEventListener('voice_library', refresh)
+    events.addEventListener('media_library', refresh)
     return () => events.close()
   }, [])
 
@@ -111,6 +117,32 @@ export default function RenderPanel(props: Props) {
     } catch (e: any) { setError(e.message || String(e)) }
   }
 
+
+  const visibleMedia = mediaFiles.filter(item => {
+    const query = mediaSearch.trim().toLowerCase()
+    return !query || item.name.toLowerCase().includes(query) || item.file_name.toLowerCase().includes(query)
+  })
+
+  function readableError(error: unknown): string {
+    const raw = error instanceof Error ? error.message : String(error)
+    return raw.match(/"detail":"([^"]+)"/)?.[1] || raw.replace(/^\d+: /, '')
+  }
+
+  async function placeMedia(item: MediaFile) {
+    setError('')
+    try {
+      await api.placeMediaClip(props.project.id, item.file_name, props.playheadTicks)
+    } catch (e: any) { setError(readableError(e)) }
+  }
+
+  async function deleteMedia(item: MediaFile) {
+    if (!window.confirm(`Delete media file "${item.name}"?`)) return
+    setError('')
+    try {
+      await api.deleteMedia(item.file_name)
+      setMediaFiles(current => current.filter(candidate => candidate.file_name !== item.file_name))
+    } catch (e: any) { setError(readableError(e)) }
+  }
 
   const sortedNotes = props.track?.type === 'vocal' ? [...props.track.notes].sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch) : []
   const missingLyrics = sortedNotes.filter(note => !note.lyric.trim()).length
@@ -351,6 +383,30 @@ export default function RenderPanel(props: Props) {
         <button disabled={!sourceAudio || repaintEnd <= repaintStart || busy === 'repaint'} className="wide-action secondary" onClick={() => run('repaint', () => api.repaint(props.project.id, sourceAudio, repaintStart, repaintEnd, caption))}>Repaint selection</button>
         <button disabled={!sourceAudio || busy === 'separate'} className="wide-action secondary" onClick={() => run('separate', () => api.separate(props.project.id, sourceAudio))}>{busy === 'separate' ? 'Separating…' : 'Separate vocal/instrumental'}</button>
         <button disabled={!sourceAudio || !props.track?.reference_voice_path || busy === 'svc'} className="wide-action secondary" onClick={() => run('svc', () => api.svc(props.project.id, sourceAudio, props.track!.reference_voice_path!))}>SVC voice conversion</button>
+      </section>
+
+      <section className="side-section media-bin-section">
+        <div className="panel-title">Media bin</div>
+        <input className="media-search" placeholder="Search uploaded audio" value={mediaSearch} onChange={event => setMediaSearch(event.target.value)} />
+        {!visibleMedia.length && <div className="empty-state">No uploaded audio</div>}
+        <div className="media-list">
+          {visibleMedia.map(item => {
+            const url = renderFileUrl(item.path)
+            return (
+              <div className={`media-row ${item.valid ? '' : 'invalid'}`} key={item.file_name}>
+                <div className="media-row-head">
+                  <strong title={item.file_name}>{item.name}</strong>
+                  <span>{item.valid ? `${(item.duration_seconds || 0).toFixed(2)}s · ${Math.round((item.sample_rate || 0) / 100) / 10}k` : 'invalid'}</span>
+                </div>
+                {url && <audio controls preload="none" src={url} />}
+                <div className="media-actions">
+                  <button disabled={!item.valid} onClick={() => void placeMedia(item)}>Add at playhead</button>
+                  <button className="danger" onClick={() => void deleteMedia(item)}>Delete</button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </section>
 
       <section className="side-section jobs-section">

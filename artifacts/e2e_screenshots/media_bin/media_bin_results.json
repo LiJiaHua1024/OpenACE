@@ -1,0 +1,217 @@
+{
+  "viewport": [
+    1272,
+    837
+  ],
+  "project_id": "project_d6cc2dca39e1",
+  "long_row_count": 1,
+  "long_head": "Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav\n2.00s · 48k",
+  "long_meta_text": "Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav\n2.00s · 48k\nAdd at playhead\nDelete",
+  "audio_src": "/uploads/upload_72215f26b5ca_Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav",
+  "audition": {
+    "paused": false,
+    "currentTime": 0.310199,
+    "src": "http://127.0.0.1:8787/uploads/upload_72215f26b5ca_Media%20Bin%20QA%20VERY%20LONG%20filename%20%E2%80%94%20oscillator%20reference%20take%2001%20final%20final.wav",
+    "readyState": 4
+  },
+  "search_match_count": 1,
+  "empty_count": 3,
+  "empty_text": "Select a vocal track with notes",
+  "bad_row_count": 1,
+  "bad_text": "not_actually_audio.wav\ninvalid\nAdd at playhead\nDelete",
+  "bad_add_disabled": true,
+  "seek_position": "1.3.1 00:01.00",
+  "clips_after_add": [
+    {
+      "track_id": "track_e4223fce9283",
+      "track_name": "Audio — Media Bin QA VERY LONG filename — oscillator reference take 01 final final",
+      "track_type": "audio",
+      "start": 960,
+      "duration": 1920,
+      "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_72215f26b5ca_Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav",
+      "label": "Media Bin QA VERY LONG filename — oscillator reference take 01 final final"
+    }
+  ],
+  "track_count": 2,
+  "playback_sources": [
+    {
+      "perf": 7570.5999999940395,
+      "when": 4.31891156462585,
+      "offset": 0,
+      "duration": 2,
+      "ctxState": "running",
+      "ctxTime": 4.31891156462585,
+      "decodeId": 2,
+      "decodeCtor": "OfflineAudioContext"
+    }
+  ],
+  "playback_started": true,
+  "playback_position_nonzero": true,
+  "layout": {
+    "panelScroll": null,
+    "listScroll": [
+      513,
+      277
+    ],
+    "rowScroll": [
+      509,
+      509
+    ],
+    "rowInside": null,
+    "audioWidth": [
+      493.4140625,
+      493
+    ]
+  },
+  "used_delete_error": "409: {\"detail\":{\"detail\":\"media file is used by arrangement clips\",\"projects\":[\"project_d6cc2dca39e1\"]}}",
+  "used_row_after_delete_count": 1,
+  "used_file_exists_after_delete": true,
+  "clips_after_clip_delete": [],
+  "long_row_after_successful_delete": 0,
+  "long_file_exists_after_successful_delete": false,
+  "unused_row_count": 1,
+  "unused_row_after_delete": 0,
+  "bad_row_after_delete": 0,
+  "media_events": [
+    {
+      "t": 2597.2999999970198,
+      "data": {
+        "type": "media_library",
+        "time": 1795799311.5613382,
+        "payload": {
+          "action": "created",
+          "media": {
+            "id": "upload_72215f26b5ca_Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav",
+            "name": "Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav",
+            "file_name": "upload_72215f26b5ca_Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav",
+            "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_72215f26b5ca_Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav",
+            "size": 192044,
+            "modified_at": 1795799311.5601108,
+            "valid": true,
+            "duration_seconds": 2,
+            "sample_rate": 48000,
+            "channels": 1
+          }
+        }
+      }
+    },
+    {
+      "t": 4960.5999999940395,
+      "data": {
+        "type": "media_library",
+        "time": 1795799313.9243426,
+        "payload": {
+          "action": "created",
+          "media": {
+            "id": "upload_1c4242e84b3f_not_actually_audio.wav",
+            "name": "not_actually_audio.wav",
+            "file_name": "upload_1c4242e84b3f_not_actually_audio.wav",
+            "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_1c4242e84b3f_not_actually_audio.wav",
+            "size": 17,
+            "modified_at": 1795799313.923098,
+            "valid": false,
+            "error": "Error opening '/home/ubuntu/repos/OpenACE/data/uploads/upload_1c4242e84b3f_not_actually_audio.wav': Format not recognised."
+          }
+        }
+      }
+    },
+    {
+      "t": 11637.39999999106,
+      "data": {
+        "type": "media_library",
+        "time": 1795799320.601667,
+        "payload": {
+          "action": "deleted",
+          "media": {
+            "id": "upload_72215f26b5ca_Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav",
+            "name": "Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav",
+            "file_name": "upload_72215f26b5ca_Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav",
+            "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_72215f26b5ca_Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav",
+            "size": 192044,
+            "modified_at": 1795799311.5601108,
+            "valid": true,
+            "duration_seconds": 2,
+            "sample_rate": 48000,
+            "channels": 1
+          }
+        }
+      }
+    },
+    {
+      "t": 12535.20000000298,
+      "data": {
+        "type": "media_library",
+        "time": 1795799321.499437,
+        "payload": {
+          "action": "created",
+          "media": {
+            "id": "upload_e2c771e43e45_unused_media_bin_delete_test.wav",
+            "name": "unused_media_bin_delete_test.wav",
+            "file_name": "upload_e2c771e43e45_unused_media_bin_delete_test.wav",
+            "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_e2c771e43e45_unused_media_bin_delete_test.wav",
+            "size": 192044,
+            "modified_at": 1795799321.4980574,
+            "valid": true,
+            "duration_seconds": 2,
+            "sample_rate": 48000,
+            "channels": 1
+          }
+        }
+      }
+    },
+    {
+      "t": 13643.89999999106,
+      "data": {
+        "type": "media_library",
+        "time": 1795799322.60827,
+        "payload": {
+          "action": "deleted",
+          "media": {
+            "id": "upload_e2c771e43e45_unused_media_bin_delete_test.wav",
+            "name": "unused_media_bin_delete_test.wav",
+            "file_name": "upload_e2c771e43e45_unused_media_bin_delete_test.wav",
+            "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_e2c771e43e45_unused_media_bin_delete_test.wav",
+            "size": 192044,
+            "modified_at": 1795799321.4980574,
+            "valid": true,
+            "duration_seconds": 2,
+            "sample_rate": 48000,
+            "channels": 1
+          }
+        }
+      }
+    },
+    {
+      "t": 14512.20000000298,
+      "data": {
+        "type": "media_library",
+        "time": 1795799323.4765685,
+        "payload": {
+          "action": "deleted",
+          "media": {
+            "id": "upload_1c4242e84b3f_not_actually_audio.wav",
+            "name": "not_actually_audio.wav",
+            "file_name": "upload_1c4242e84b3f_not_actually_audio.wav",
+            "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_1c4242e84b3f_not_actually_audio.wav",
+            "size": 17,
+            "modified_at": 1795799313.923098,
+            "valid": false,
+            "error": "Error opening '/home/ubuntu/repos/OpenACE/data/uploads/upload_1c4242e84b3f_not_actually_audio.wav': Format not recognised."
+          }
+        }
+      }
+    }
+  ],
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/media/upload_72215f26b5ca_Media%20Bin%20QA%20VERY%20LONG%20filename%20%E2%80%94%20oscillator%20reference%20take%2001%20final%20final.wav",
+      "status": 409
+    }
+  ]
+}

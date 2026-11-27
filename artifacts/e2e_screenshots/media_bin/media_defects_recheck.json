@@ -1,0 +1,125 @@
+{
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/media/upload_f19ed92d9b6b_Media%20Bin%20QA%20VERY%20LONG%20filename%20%E2%80%94%20oscillator%20reference%20take%2001%20final%20final.wav",
+      "status": 409
+    }
+  ],
+  "geometry": {
+    "inner": [
+      1272,
+      837
+    ],
+    "list": {
+      "rect": {
+        "x": 963,
+        "y": 400.5,
+        "width": 287,
+        "right": 1250,
+        "bottom": 645.5
+      },
+      "clientWidth": 277,
+      "scrollWidth": 277
+    },
+    "row": {
+      "rect": {
+        "x": 963,
+        "y": 400.5,
+        "width": 275,
+        "right": 1238,
+        "bottom": 494.5
+      },
+      "clientWidth": 273,
+      "scrollWidth": 273,
+      "overflow": "hidden"
+    },
+    "strong": {
+      "rect": {
+        "x": 972,
+        "width": 190.40625,
+        "right": 1162.40625
+      },
+      "clientWidth": 190,
+      "scrollWidth": 427,
+      "textOverflow": "ellipsis",
+      "whiteSpace": "nowrap"
+    },
+    "audio": {
+      "rect": {
+        "x": 972,
+        "y": 428.5,
+        "width": 257,
+        "height": 28,
+        "right": 1229,
+        "bottom": 456.5
+      },
+      "clientWidth": 257,
+      "scrollWidth": 257,
+      "display": "block"
+    },
+    "buttons": [
+      {
+        "text": "Add at playhead",
+        "rect": {
+          "x": 972,
+          "y": 462.5,
+          "width": 203.6640625,
+          "height": 23,
+          "right": 1175.6640625,
+          "bottom": 485.5
+        },
+        "disabled": false
+      },
+      {
+        "text": "Delete",
+        "rect": {
+          "x": 1181.6640625,
+          "y": 462.5,
+          "width": 47.3359375,
+          "height": 23,
+          "right": 1229,
+          "bottom": 485.5
+        },
+        "disabled": false
+      }
+    ],
+    "inside": {
+      "rowInList": true,
+      "audioInRow": true,
+      "buttonsInRow": true
+    }
+  },
+  "audio_after_click": {
+    "paused": false,
+    "currentTime": 0.324664,
+    "readyState": 4,
+    "src": "/uploads/upload_f19ed92d9b6b_Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav"
+  },
+  "error_text": "media file is used by arrangement clips in 1 project(s); remove those clips before deleting it",
+  "error_visible": true,
+  "row_still_exists": 1,
+  "backend_hits": [
+    {
+      "project": "project_c1f0a1baa0cc",
+      "track": "track_5f14f7bb1ec7",
+      "track_type": "audio",
+      "clip": {
+        "id": "clip_67b820d7ff88",
+        "start_ticks": 0,
+        "duration_ticks": 1920,
+        "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_f19ed92d9b6b_Media Bin QA VERY LONG filename — oscillator reference take 01 final final.wav"
+      }
+    }
+  ],
+  "error_initial_viewport": {
+    "screenshot": "22_fix_used_delete_error.png",
+    "visible_without_scrolling": false,
+    "note": "error banner was below the exact 1272x837 viewport after the delete click; after manual right-panel scrolling it was visible at y769-bottom817"
+  }
+}
