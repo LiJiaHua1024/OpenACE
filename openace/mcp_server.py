@@ -11,6 +11,7 @@ from openace.core import editing
 from openace.core.models import Note, RenderMode, Track, new_id
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
+from openace.core.media_library import delete_media_file, list_media, place_media_clip
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.midi_lrc import export_lrc, export_midi
@@ -56,6 +57,16 @@ def notify_project_deleted(project_id: str) -> None:
             headers={"Content-Type": "application/json"},
             method="POST",
         )
+        urllib.request.urlopen(req, timeout=0.25).read()
+    except Exception:
+        pass
+
+
+def notify_media(media: dict, action: str) -> None:
+    try:
+        import urllib.request
+        body = json.dumps({"action": action, "media": media}).encode("utf-8")
+        req = urllib.request.Request("http://127.0.0.1:8787/api/internal/media-updated", data=body, headers={"Content-Type": "application/json"}, method="POST")
         urllib.request.urlopen(req, timeout=0.25).read()
     except Exception:
         pass
@@ -109,6 +120,23 @@ def delete_project(project_id: str) -> str:
         raise KeyError(f"project not found: {project_id}")
     notify_project_deleted(project_id)
     return dumps({"deleted": True, "project_id": project_id})
+
+
+def list_media_files() -> str:
+    return dumps(list_media(DATA / "uploads"))
+
+
+def place_media(project_id: str, media_name: str, start_ticks: int = 0, track_id: Optional[str] = None) -> str:
+    project = store.get(project_id)
+    track, clip = place_media_clip(store, project, DATA / "uploads", media_name, start_ticks, track_id)
+    notify_web(project)
+    return dumps({"track": track.model_dump(mode="json"), "clip": clip.model_dump(mode="json")})
+
+
+def delete_media(media_name: str) -> str:
+    entry = delete_media_file(store, DATA / "uploads", media_name)
+    notify_media(entry, "deleted")
+    return dumps({"deleted": True, "media": entry})
 
 
 def add_track(project_id: str, name: str, language: str = "zh") -> str:
@@ -305,6 +333,9 @@ def build_mcp_server():
     mcp.tool()(duplicate_project)
     mcp.tool()(organize_project)
     mcp.tool()(delete_project)
+    mcp.tool()(list_media_files)
+    mcp.tool()(place_media)
+    mcp.tool()(delete_media)
     mcp.tool()(add_track)
     mcp.tool()(add_note)
     mcp.tool()(transpose_track)

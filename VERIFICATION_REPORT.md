@@ -1023,3 +1023,12 @@ Implemented and verified:
 - Three focused reproduction/fix attempts improved normal diagonal indicator persistence and leave/drop clearing, but the indicator can still vanish on one narrow Alt lower-diagonal drag path even though placement remains exact. Per the 3-strike escape rule this minor visual-feedback limitation is documented in `KNOWN_ISSUES.md` rather than blocking the correct workflow.
 
 Validation after iteration 78: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 79 — agent media-library operations
+
+Implemented and verified:
+
+- Media-bin operations are now agent-native: CLI exposes `list-media`, `place-media-clip`, and safe `delete-media`; MCP exposes equivalent `list_media_files`, `place_media`, and `delete_media` tools. Placement reuses the same measured audio-clip semantics as the browser, deletion is blocked while arrangement clips reference the file, project edits emit SSE, and media deletion emits best-effort media-library SSE through the local loopback endpoint.
+- Regression coverage proves MCP listing/placement/in-use-delete/delete semantics and subprocess CLI listing/project placement/in-use-delete/delete behavior with isolated data directories. `skills/openace/SKILL.md` now documents the atomic media commands.
+
+Validation after iteration 79: targeted media-agent tests passed; frontend production build was already green for this branch state; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

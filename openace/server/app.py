@@ -153,6 +153,14 @@ def internal_project_updated(payload: Dict[str, Any]):
     return {"ok": True}
 
 
+@app.post("/api/internal/media-updated")
+def internal_media_updated(payload: Dict[str, Any]):
+    action = str(payload.get("action") or "updated")
+    media = payload.get("media") or {}
+    event_bus.publish("media_library", {"action": action, "media": media})
+    return {"ok": True}
+
+
 @app.post("/api/internal/project-deleted")
 def internal_project_deleted(payload: Dict[str, Any]):
     project_id = str(payload.get("project_id") or "")

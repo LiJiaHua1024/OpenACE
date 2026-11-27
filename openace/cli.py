@@ -12,6 +12,7 @@ from openace.core import editing
 from openace.core.models import Note, RenderMode, Track, new_id
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
+from openace.core.media_library import delete_media_file, list_media, place_media_clip
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_master_wav
@@ -63,6 +64,16 @@ def notify_project_deleted(project_id: str) -> None:
             headers={"Content-Type": "application/json"},
             method="POST",
         )
+        urllib.request.urlopen(request, timeout=0.25).read()
+    except Exception:
+        pass
+
+
+def notify_media(media: dict, action: str) -> None:
+    try:
+        import urllib.request
+        body = json.dumps({"action": action, "media": media}).encode("utf-8")
+        request = urllib.request.Request("http://127.0.0.1:8787/api/internal/media-updated", data=body, headers={"Content-Type": "application/json"}, method="POST")
         urllib.request.urlopen(request, timeout=0.25).read()
     except Exception:
         pass
@@ -310,6 +321,25 @@ def cmd_delete_breath(args) -> None:
     emit({"deleted": True, "breath": args.breath})
 
 
+def cmd_list_media(args) -> None:
+    emit(list_media(DATA / "uploads"))
+
+
+def cmd_place_media_clip(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    track, clip = place_media_clip(store, project, DATA / "uploads", args.media_name, args.start_ticks, args.track_id)
+    notify_web(project)
+    emit({"track": track.model_dump(mode="json"), "clip": clip.model_dump(mode="json")})
+
+
+def cmd_delete_media(args) -> None:
+    store, _ = services()
+    entry = delete_media_file(store, DATA / "uploads", args.media_name)
+    notify_media(entry, "deleted")
+    emit({"ok": True, "deleted": entry})
+
+
 def cmd_upsert_clip(args) -> None:
     store, _ = services()
     project = store.get(args.project)
@@ -442,6 +472,20 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("update-note")
     p.add_argument("project"); p.add_argument("track"); p.add_argument("note"); p.add_argument("patch_json")
     p.set_defaults(func=cmd_update_note)
+
+    p = sub.add_parser("list-media")
+    p.set_defaults(func=cmd_list_media)
+
+    p = sub.add_parser("place-media-clip")
+    p.add_argument("project")
+    p.add_argument("media_name")
+    p.add_argument("--start-ticks", type=int, default=0)
+    p.add_argument("--track-id")
+    p.set_defaults(func=cmd_place_media_clip)
+
+    p = sub.add_parser("delete-media")
+    p.add_argument("media_name")
+    p.set_defaults(func=cmd_delete_media)
 
     p = sub.add_parser("split-note")
     p.add_argument("project"); p.add_argument("track"); p.add_argument("note"); p.add_argument("split_ticks", type=int)
