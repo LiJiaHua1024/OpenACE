@@ -1,0 +1,185 @@
+{
+  "buttons": [
+    "WAV",
+    "MP3",
+    "FLAC",
+    "OGG",
+    "STEMS",
+    "MP4",
+    "MID",
+    "LRC",
+    "USTX",
+    "SVP",
+    "VPR"
+  ],
+  "mp3": {
+    "suggested": "Mix Automation QA.mp3",
+    "size": 82605,
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/codec_export/master.mp3",
+    "ffprobe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "bit_rate": "320000"
+        }
+      ],
+      "format": {
+        "duration": "2.040000",
+        "size": "82605"
+      }
+    }
+  },
+  "flac": {
+    "suggested": "Mix Automation QA.flac",
+    "size": 149029,
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/codec_export/master.flac",
+    "ffprobe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "flac",
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2
+        }
+      ],
+      "format": {
+        "duration": "2.000000",
+        "size": "149029"
+      }
+    }
+  },
+  "ogg": {
+    "suggested": "Mix Automation QA.ogg",
+    "size": 11669,
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/codec_export/master.ogg",
+    "ffprobe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "vorbis",
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "bit_rate": "192000"
+        }
+      ],
+      "format": {
+        "duration": "2.000000",
+        "size": "11669"
+      }
+    }
+  },
+  "wav": {
+    "suggested": "Mix Automation QA.wav",
+    "size": 576044,
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/codec_export/master.wav"
+  },
+  "stems": {
+    "suggested": "Mix Automation QA_stems.zip",
+    "size": 384877,
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/codec_export/stems.zip"
+  },
+  "layout": {
+    "panelClientWidth": 311,
+    "panelScrollWidth": 311,
+    "bodyScrollWidth": 1600,
+    "innerWidth": 1600,
+    "overflow": false,
+    "buttons": [
+      {
+        "text": "WAV",
+        "w": 91,
+        "h": 32,
+        "x": 1291,
+        "y": 652.5625
+      },
+      {
+        "text": "MP3",
+        "w": 91,
+        "h": 32,
+        "x": 1389,
+        "y": 652.5625
+      },
+      {
+        "text": "FLAC",
+        "w": 91,
+        "h": 32,
+        "x": 1487,
+        "y": 652.5625
+      },
+      {
+        "text": "OGG",
+        "w": 91,
+        "h": 32,
+        "x": 1291,
+        "y": 691.5625
+      },
+      {
+        "text": "STEMS",
+        "w": 91,
+        "h": 32,
+        "x": 1389,
+        "y": 691.5625
+      },
+      {
+        "text": "MP4",
+        "w": 91,
+        "h": 32,
+        "x": 1487,
+        "y": 691.5625
+      },
+      {
+        "text": "MID",
+        "w": 91,
+        "h": 32,
+        "x": 1291,
+        "y": 730.5625
+      },
+      {
+        "text": "LRC",
+        "w": 91,
+        "h": 32,
+        "x": 1389,
+        "y": 730.5625
+      },
+      {
+        "text": "USTX",
+        "w": 91,
+        "h": 32,
+        "x": 1487,
+        "y": 730.5625
+      },
+      {
+        "text": "SVP",
+        "w": 91,
+        "h": 32,
+        "x": 1291,
+        "y": 769.5625
+      },
+      {
+        "text": "VPR",
+        "w": 91,
+        "h": 32,
+        "x": 1389,
+        "y": 769.5625
+      }
+    ]
+  },
+  "console_errors": [],
+  "page_errors": [],
+  "network_errors": [],
+  "passed": {
+    "buttons_visible": true,
+    "mp3": true,
+    "flac": true,
+    "ogg": true,
+    "layout_clean": true,
+    "console_network_clean": true,
+    "wav_stems_present": true
+  }
+}

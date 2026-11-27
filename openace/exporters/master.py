@@ -275,6 +275,28 @@ def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48
     return write_standards_compliant_master(mixed, output_path, sample_rate)
 
 
+
+def export_compressed_master(project: Project, output_path: Path, fmt: str, sample_rate: int = 48000) -> Path:
+    """Encode the same standards-compliant master as a distribution audio file."""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    codec_args = {
+        "mp3": ["-codec:a", "libmp3lame", "-b:a", "320k"],
+        "flac": ["-codec:a", "flac", "-compression_level", "8"],
+        "ogg": ["-codec:a", "libvorbis", "-q:a", "6"],
+    }
+    if fmt not in codec_args:
+        raise ValueError(f"unsupported compressed master format: {fmt}")
+    with tempfile.TemporaryDirectory(prefix="openace-encode-", dir=output_path.parent) as temporary:
+        wav = Path(temporary) / "master.wav"
+        export_master_wav(project, wav, sample_rate=sample_rate)
+        cmd = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(wav), *codec_args[fmt], str(output_path)]
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if result.returncode != 0:
+            raise RuntimeError(f"ffmpeg {fmt.upper()} encode failed:\n{(result.stderr or result.stdout)[-4000:]}")
+    if not output_path.exists() or output_path.stat().st_size < 100:
+        raise RuntimeError(f"ffmpeg produced no valid {fmt.upper()} output at {output_path}")
+    return output_path
+
 def export_stems_zip(project: Project, output_path: Path, sample_rate: int = 48000) -> Path:
     """Export audible tracks as individual post-volume WAV stems plus a truthful manifest."""
     output_path.parent.mkdir(parents=True, exist_ok=True)

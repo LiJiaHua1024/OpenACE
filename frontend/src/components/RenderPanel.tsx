@@ -582,7 +582,7 @@ export default function RenderPanel(props: Props) {
       <section className="side-section">
         <div className="panel-title">Export</div>
         <div className="export-grid">
-          {['wav', 'stems', 'mp4', 'mid', 'lrc', 'ustx', 'svp', 'vpr'].map(fmt => (
+          {['wav', 'mp3', 'flac', 'ogg', 'stems', 'mp4', 'mid', 'lrc', 'ustx', 'svp', 'vpr'].map(fmt => (
             <a key={fmt} className="export-button" href={api.exportUrl(props.project.id, fmt)}>{fmt.toUpperCase()}</a>
           ))}
         </div>

@@ -15,7 +15,7 @@ from openace.core.pitch import transpose_notes_preserve_intervals
 from openace.core.media_library import delete_media_file, list_media, place_media_clip
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.timing import validate_absolute_beat_anchor
-from openace.exporters.master import export_master_wav, export_stems_zip
+from openace.exporters.master import export_compressed_master, export_master_wav, export_stems_zip
 from openace.importers.audio import project_from_audio
 from openace.importers.midi import import_midi
 from openace.exporters.midi_lrc import export_lrc, export_midi
@@ -292,6 +292,8 @@ def cmd_export(args) -> None:
         export_master_wav(project, output)
     elif args.format == "stems":
         export_stems_zip(project, output)
+    elif args.format in {"mp3", "flac", "ogg"}:
+        export_compressed_master(project, output, args.format)
     else:
         raise SystemExit(f"unsupported format {args.format}")
     emit({"output": str(output), "format": args.format, "bytes": output.stat().st_size})
@@ -585,7 +587,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("export")
     p.add_argument("project")
-    p.add_argument("format", choices=["mid", "lrc", "ustx", "svp", "vpr", "wav", "stems"])
+    p.add_argument("format", choices=["mid", "lrc", "ustx", "svp", "vpr", "wav", "stems", "mp3", "flac", "ogg"])
     p.add_argument("output")
     p.set_defaults(func=cmd_export)
     return parser
