@@ -38,6 +38,7 @@ openace-tool add-note <project-id> <track-id> --start 0 --duration 480 --pitch 6
 openace-tool batch-add-notes <project-id> <track-id> '[{"start_ticks":0,"duration_ticks":480,"pitch":60,"lyric":"你"}]'
 openace-tool update-note <project-id> <track-id> <note-id> '{"pitch":64}'
 openace-tool delete-note <project-id> <track-id> <note-id>
+openace-tool ripple-delete-range <project-id> <start-ticks> <end-ticks>
 openace-tool validate <project-id>
 openace-tool transpose <project-id> <track-id> 2
 openace-tool set-expression <project-id> <track-id> dynamic '[{"ticks":0,"value":0.5},{"ticks":960,"value":1.0}]'
@@ -62,7 +63,7 @@ openace-tool export <project-id> mid output.mid
 openace-tool export <project-id> wav output.wav
 ```
 
-JSON arguments may be inline JSON or paths to JSON files. Use exact musical ticks. Expression values are normalized 0–1 except `pitch_cents` (±100 cents). Breath intensity is 0–2 and timbre is `soft`, `natural`, or `strong`.
+JSON arguments may be inline JSON or paths to JSON files. Use exact musical ticks. `ripple-delete-range` destructively cuts that musical interval across all tracks, truthfully splitting boundary vocal notes/audio clips and shifting downstream material; confirm the user wants destructive ripple editing before using it. Expression values are normalized 0–1 except `pitch_cents` (±100 cents). Breath intensity is 0–2 and timbre is `soft`, `natural`, or `strong`.
 
 ## MCP reference
 
@@ -74,5 +75,5 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `organize_project`, `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, separation, conversion, repaint, and export.
+Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `ripple_delete_range`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `organize_project`, `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, separation, conversion, repaint, and export.
 Media-library atoms: `openace-tool list-media`, `openace-tool place-media-clip <project> <media_name> --start-ticks <ticks> [--track-id <id>]`, and `openace-tool delete-media <media_name>`. Deletion is safe and fails while arrangement clips reference the media.

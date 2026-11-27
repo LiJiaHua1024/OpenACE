@@ -287,6 +287,14 @@ def cmd_split_note(args) -> None:
     emit({"first": first.model_dump(mode="json"), "second": second.model_dump(mode="json")})
 
 
+def cmd_ripple_delete_range(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    result = editing.ripple_delete_time_range(project, args.start_ticks, args.end_ticks)
+    save_and_notify(store, project)
+    emit(result)
+
+
 def cmd_delete_note(args) -> None:
     store, _ = services()
     project = store.get(args.project)
@@ -490,6 +498,12 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("split-note")
     p.add_argument("project"); p.add_argument("track"); p.add_argument("note"); p.add_argument("split_ticks", type=int)
     p.set_defaults(func=cmd_split_note)
+
+    p = sub.add_parser("ripple-delete-range")
+    p.add_argument("project")
+    p.add_argument("start_ticks", type=int)
+    p.add_argument("end_ticks", type=int)
+    p.set_defaults(func=cmd_ripple_delete_range)
 
     p = sub.add_parser("delete-note")
     p.add_argument("project"); p.add_argument("track"); p.add_argument("note")

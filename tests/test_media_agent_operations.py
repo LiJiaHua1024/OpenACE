@@ -62,3 +62,25 @@ def test_cli_media_list_place_and_delete(tmp_path):
     deleted = subprocess.run(cmd + ["delete-media", media.name], cwd="/home/ubuntu/repos/OpenACE", env=env, text=True, capture_output=True)
     assert deleted.returncode == 0, deleted.stderr
     assert json.loads(deleted.stdout)["ok"] is True
+
+
+def test_mcp_ripple_delete_range_roundtrip(tmp_path, monkeypatch):
+    monkeypatch.setattr(mcp_server, "DATA", tmp_path)
+    store = ProjectStore(tmp_path / "projects")
+    monkeypatch.setattr(mcp_server, "store", store)
+    project = store.create("MCP ripple")
+    track = project.tracks[0]
+    from openace.core.models import Note
+    track.add_note(Note(start_ticks=0, duration_ticks=960, pitch=60, lyric="你"))
+    track.add_note(Note(start_ticks=1440, duration_ticks=480, pitch=62, lyric="好"))
+    store.save(project)
+
+    result = json.loads(mcp_server.ripple_delete_range(project.id, 480, 960))
+    assert result["removed"]["notes"] >= 1
+    stored = store.get(project.id)
+    assert [(note.start_ticks, note.duration_ticks) for note in stored.tracks[0].notes] == [(0, 480), (960, 480)]
+    try:
+        mcp_server.ripple_delete_range(project.id, 960, 480)
+        raise AssertionError("invalid range should fail")
+    except ValueError as exc:
+        assert "start_ticks" in str(exc)

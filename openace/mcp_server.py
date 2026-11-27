@@ -241,6 +241,13 @@ def split_note(project_id: str, track_id: str, note_id: str, split_ticks: int) -
     return dumps({"first": first.model_dump(mode="json"), "second": second.model_dump(mode="json")})
 
 
+def ripple_delete_range(project_id: str, start_ticks: int, end_ticks: int) -> str:
+    project = store.get(project_id)
+    result = editing.ripple_delete_time_range(project, start_ticks, end_ticks)
+    save_and_notify(project)
+    return dumps(result)
+
+
 def delete_note(project_id: str, track_id: str, note_id: str) -> str:
     project = store.get(project_id)
     deleted = editing.delete_note(project, track_id, note_id)
@@ -349,6 +356,7 @@ def build_mcp_server():
     mcp.tool()(update_note)
     mcp.tool()(delete_note)
     mcp.tool()(split_note)
+    mcp.tool()(ripple_delete_range)
     mcp.tool()(set_expression_lane)
     mcp.tool()(upsert_breath)
     mcp.tool()(delete_breath)

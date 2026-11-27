@@ -111,3 +111,22 @@ def test_cli_split_note_outputs_continuation(tmp_path):
     assert payload["second"]["start_ticks"] == 240
     assert payload["second"]["lyric"] == "-"
     assert "continuation" in payload["second"]["techniques"]
+
+
+def test_cli_ripple_delete_range_persists_cross_track_edit(tmp_path):
+    project = run_cli(tmp_path, "create-project", "--title", "CLI ripple")
+    track_id = project["tracks"][0]["id"]
+    run_cli(tmp_path, "batch-add-notes", project["id"], track_id, json.dumps([
+        {"start_ticks": 0, "duration_ticks": 960, "pitch": 60, "lyric": "你"},
+        {"start_ticks": 1440, "duration_ticks": 480, "pitch": 62, "lyric": "好"},
+    ]))
+    media = tmp_path / "ripple_clip.wav"
+    sf.write(media, np.zeros(24000, dtype=np.float32), 24000)
+    run_cli(tmp_path, "upsert-clip", project["id"], track_id, json.dumps({"path": str(media), "start_ticks": 0, "duration_ticks": 1920, "offset_ticks": 0}))
+
+    result = run_cli(tmp_path, "ripple-delete-range", project["id"], "480", "960")
+    assert result["ripple_ticks"] == 480
+    stored = ProjectStore(tmp_path / "projects").get(project["id"])
+    track = stored.track(track_id)
+    assert [(note.start_ticks, note.duration_ticks, note.lyric) for note in track.notes] == [(0, 480, "你"), (960, 480, "好")]
+    assert [(clip.start_ticks, clip.duration_ticks, clip.offset_ticks) for clip in track.clips] == [(0, 480, 0), (480, 960, 960)]

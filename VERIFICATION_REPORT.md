@@ -1094,3 +1094,12 @@ Implemented and verified:
 - Evidence: `artifacts/e2e_screenshots/time_range_ripple/`.
 
 Validation after iteration 85: focused core regressions passed; frontend production build passed; independent browser QA and defect retests passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 86 — agent-native time-range ripple editing
+
+Implemented and verified:
+
+- The destructive time-range ripple operation is now exposed as an atomic agent operation rather than being browser-only: CLI `ripple-delete-range <project> <start_ticks> <end_ticks>` and MCP `ripple_delete_range(project_id, start_ticks, end_ticks)` share the same validated core implementation as the server/UI, persist through the canonical project store, and use the existing best-effort SSE notification path.
+- Subprocess CLI regression proves exact persistence for boundary-split vocal notes and source-offset-split audio clips; direct MCP regression proves exact downstream note movement and loud invalid-range failure. `skills/openace/SKILL.md` now documents the command, MCP tool, tick semantics, and destructive-editing caution.
+
+Validation after iteration 86: focused CLI/MCP ripple regressions passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
