@@ -59,7 +59,7 @@ export default function TransportBar(props: Props) {
         <input type="file" accept=".mid,.midi" onChange={e => e.target.files?.[0] && props.onImportMidi(e.target.files[0])} />
       </label>
       <label className="import-midi">Import USTX
-        <input type="file" accept=".ustx" onChange={e => e.target.files?.[0] && props.onImportUstx(e.target.files[0])} />
+        <input type="file" accept=".ustx,.zip" onChange={e => e.target.files?.[0] && props.onImportUstx(e.target.files[0])} />
       </label>
       <label className={`import-midi ${props.importingAudio ? 'importing' : ''}`}>{props.importingAudio ? 'Transcribing audio…' : 'Import audio'}
         <input type="file" accept="audio/*,.wav,.mp3,.flac" disabled={props.importingAudio} onChange={e => e.target.files?.[0] && props.onImportAudio(e.target.files[0])} />

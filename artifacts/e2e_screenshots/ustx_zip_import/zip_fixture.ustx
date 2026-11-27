@@ -1,0 +1,29 @@
+name: Zip Wave Import QA
+ustx_version: '0.10'
+time_signatures:
+- bar_position: 0
+  beat_per_bar: 4
+  beat_unit: 4
+tempos:
+- position: 0
+  bpm: 120.0
+tracks:
+- track_name: Bundled Wave
+  track_color: Green
+  singer: ''
+  phonemizer: OpenUtau.Core.DefaultPhonemizer
+  mute: false
+  solo: false
+  volume: 0.0
+  pan: 0.0
+voice_parts: []
+wave_parts:
+- name: Hook
+  track_no: 0
+  position: 480
+  relative_path: media.wav
+  file_duration_ms: 1000.0
+  skip: 240
+  trim: 240
+  fadein: 48
+  fadeout: 96

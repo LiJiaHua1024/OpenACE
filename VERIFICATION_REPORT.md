@@ -498,3 +498,13 @@ Implemented and verified:
 - Japanese remains deliberately unavailable for score rendering because the current SoulX phone set has no Japanese inventory; partial romaji parsing is not misrepresented as engine support.
 
 Validation after iteration 29: frontend production build passed; Python compile passed; full automated suite reached 69 passed.
+
+## Iteration 30 — Packaged USTX media import
+
+Implemented and verified:
+
+- `.ustx` import now also accepts secure zip packages containing exactly one `.ustx` plus bundled relative audio media. Extraction rejects absolute paths, `..` traversal, and symlinks; packages are extracted persistently under `data/uploads/ustx_packages/` so imported clips do not point at deleted temp files.
+- Regression coverage verifies exact wave timing/fades/label restoration from bundled `media.wav`, persistent existing media paths, and loud HTTP 422 rejection of path traversal.
+- Independent visible-Chrome QA imported a zip through the real file chooser and verified HTTP 200, project open, visible `Hook` arrangement clip, exact start/offset/duration/fades, persistent bundled media, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/ustx_zip_import/`.
+
+Validation after iteration 30: frontend production build passed; Python compile passed; full automated suite reached 71 passed.

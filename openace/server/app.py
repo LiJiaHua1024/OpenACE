@@ -5,6 +5,7 @@ import json
 import os
 import shutil
 import tempfile
+import zipfile
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -342,7 +343,33 @@ async def import_ustx_file(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, tmp)
         tmp_path = Path(tmp.name)
     try:
-        project = import_ustx(tmp_path)
+        source_path = tmp_path
+        if suffix.lower() == ".zip":
+            package_dir = UPLOADS / "ustx_packages" / Path(tempfile.mkdtemp(prefix="pkg_")).name
+            package_dir.mkdir(parents=True, exist_ok=False)
+            try:
+                with zipfile.ZipFile(tmp_path) as archive:
+                    for member in archive.infolist():
+                        name = Path(member.filename)
+                        if name.is_absolute() or ".." in name.parts:
+                            raise RuntimeError(f"unsafe USTX package path: {member.filename}")
+                        mode = (member.external_attr >> 16) & 0o170000
+                        if mode == 0o120000:
+                            raise RuntimeError(f"unsafe USTX package symlink: {member.filename}")
+                        if member.is_dir():
+                            continue
+                        target = package_dir / name
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        with archive.open(member) as src, target.open("wb") as dst:
+                            shutil.copyfileobj(src, dst)
+                candidates = sorted(package_dir.rglob("*.ustx"))
+                if len(candidates) != 1:
+                    raise RuntimeError(f"USTX package must contain exactly one .ustx file, found {len(candidates)}")
+                source_path = candidates[0]
+            except Exception:
+                shutil.rmtree(package_dir, ignore_errors=True)
+                raise
+        project = import_ustx(source_path)
         store.save(project)
         publish_project(project)
         return project.model_dump(mode="json")

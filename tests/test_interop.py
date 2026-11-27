@@ -178,6 +178,50 @@ def test_ustx_import_roundtrip_restores_notes_units_curves_and_wave_parts(tmp_pa
     assert imported_track.notes[1].pitch_curve == []
 
 
+def test_ustx_zip_package_import_preserves_bundled_wave_media(tmp_path):
+    import soundfile as sf
+    from fastapi.testclient import TestClient
+    import openace.server.app as app_module
+
+    package_source = tmp_path / "package"
+    package_source.mkdir()
+    source = package_source / "media.wav"
+    sr = 48000
+    sf.write(source, np.zeros((sr, 2), dtype=np.float32), sr, subtype="PCM_24")
+    project = sample_project()
+    project.tracks[0].clips.append(AudioClip(
+        path=str(source), start_ticks=480, offset_ticks=240, duration_ticks=480,
+        fade_in_ticks=48, fade_out_ticks=96, label="Packaged Hook",
+    ))
+    ustx = export_ustx(project, package_source / "song.ustx")
+    archive = tmp_path / "song-package.zip"
+    with zipfile.ZipFile(archive, "w") as zipped:
+        zipped.write(ustx, "song.ustx")
+        zipped.write(source, "media.wav")
+    client = TestClient(app_module.app)
+    with archive.open("rb") as handle:
+        response = client.post("/api/import/ustx", files={"file": ("song-package.zip", handle, "application/zip")})
+    assert response.status_code == 200
+    clip = response.json()["tracks"][0]["clips"][0]
+    assert Path(clip["path"]).exists()
+    assert "ustx_packages" in clip["path"]
+    assert (clip["offset_ticks"], clip["duration_ticks"], clip["label"]) == (240, 480, "Packaged Hook")
+
+
+def test_ustx_zip_package_rejects_path_traversal(tmp_path):
+    from fastapi.testclient import TestClient
+    import openace.server.app as app_module
+
+    archive = tmp_path / "evil.zip"
+    with zipfile.ZipFile(archive, "w") as zipped:
+        zipped.writestr("../evil.ustx", "name: evil")
+    client = TestClient(app_module.app)
+    with archive.open("rb") as handle:
+        response = client.post("/api/import/ustx", files={"file": ("evil.zip", handle, "application/zip")})
+    assert response.status_code == 422
+    assert "unsafe USTX package path" in response.text
+
+
 def test_ustx_import_endpoint_returns_project(tmp_path, monkeypatch):
     from fastapi.testclient import TestClient
     import openace.server.app as app_module
