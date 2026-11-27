@@ -147,3 +147,23 @@ def transcribe_lyrics(audio_path: Path, language: str = "auto") -> str:
     """Transcribe real lyrics with faster-whisper; never returns placeholder syllables."""
     words, detected_language = transcribe_lyric_words(audio_path, language)
     return _joined_lyric([str(word["text"]) for word in words], detected_language)
+
+def project_from_audio(audio_path: Path, title: Optional[str] = None) -> Project:
+    """Build a vocal project from real monophonic audio and local ASR evidence.
+
+    Both pitch transcription and lyric alignment must succeed. Missing or unaligned
+    lyrics remain blank only at the note level when some words align; total alignment
+    failure is loud rather than substituted with placeholders.
+    """
+    project = Project(title=title or audio_path.stem or "Imported Audio")
+    track = project.add_track(Track(name="Imported Vocal", color="#7c5cff"))
+    track.notes = audio_to_midi_notes(audio_path, project)
+    track.notes.sort(key=lambda note: (note.start_ticks, note.pitch))
+    if not track.notes:
+        raise RuntimeError("no stable monophonic pitch contour found; refusing fabricated notes")
+    words, detected_language = transcribe_lyric_words(audio_path)
+    assigned = assign_lyrics_to_notes(track.notes, words, project, detected_language)
+    if not assigned:
+        raise RuntimeError("ASR lyrics could not be aligned to the transcribed melody; refusing fabricated lyric placement")
+    track.language = detected_language
+    return project
