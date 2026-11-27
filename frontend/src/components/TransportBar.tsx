@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { Project } from '../types'
 import { beatUnitTicks, ticksToSeconds } from '../tempo'
 
-interface ProjectSummary { id: string; title: string; bpm?: number; track_count?: number; updated_at?: number; pinned?: boolean; tags?: string[] }
+interface ProjectSummary { id: string; title: string; bpm?: number; track_count?: number; updated_at?: number; pinned?: boolean; tags?: string[]; folders?: string[] }
 interface Props {
   project: Project
   projects: ProjectSummary[]
@@ -28,7 +28,7 @@ interface Props {
   onNewProject(): void
   onDuplicateProject(projectId?: string): void
   onDeleteProject(projectId?: string): void
-  onUpdateProjectOrganization(projectId: string, patch: { pinned?: boolean; tags?: string[] }): void
+  onUpdateProjectOrganization(projectId: string, patch: { pinned?: boolean; tags?: string[]; folders?: string[] }): void
 }
 
 function formatTime(project: Project, ticks: number) {
@@ -42,6 +42,14 @@ export default function TransportBar(props: Props) {
   const [managerOpen, setManagerOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [tagEditor, setTagEditor] = useState<{ projectId: string; value: string } | null>(null)
+  const [folderEditor, setFolderEditor] = useState<{ projectId: string; value: string } | null>(null)
+  const [folderFilter, setFolderFilter] = useState('')
+  const allFolders = Array.from(new Set(props.projects.flatMap(item => item.folders || []))).sort((a, b) => a.localeCompare(b))
+  const visibleProjects = props.projects.filter(item => {
+    const query = search.trim().toLowerCase()
+    const matchesFolder = !folderFilter || (item.folders || []).includes(folderFilter)
+    return matchesFolder && (!query || item.title.toLowerCase().includes(query) || (item.tags || []).some(tag => tag.toLowerCase().includes(query)) || (item.folders || []).some(folder => folder.toLowerCase().includes(query)))
+  })
   const unitTicks = beatUnitTicks(props.project)
   const numerator = props.project.time_signature.numerator
   const bars = Math.floor(props.playheadTicks / (unitTicks * numerator)) + 1
@@ -61,20 +69,20 @@ export default function TransportBar(props: Props) {
           <div className="project-manager-backdrop" onClick={() => setManagerOpen(false)} />
           <div className="project-manager-popover">
           <input className="project-manager-search" autoFocus placeholder="Search projects…" value={search} onChange={event => setSearch(event.target.value)} />
+          <select className="project-folder-filter" value={folderFilter} onChange={event => setFolderFilter(event.target.value)} title="Filter by folder">
+            <option value="">All folders</option>
+            {allFolders.map(folder => <option key={folder} value={folder}>{folder}</option>)}
+          </select>
           <div className="project-manager-list">
-            {props.projects
-              .filter(item => {
-                const query = search.trim().toLowerCase()
-                return !query || item.title.toLowerCase().includes(query) || (item.tags || []).some(tag => tag.toLowerCase().includes(query))
-              })
-              .map(item => (
+            {visibleProjects.map(item => (
                 <div className={`project-manager-row ${item.id === props.project.id ? 'current' : ''}`} key={item.id}>
                   <button className="project-open-button" onClick={() => { props.onOpenProject(item.id); setManagerOpen(false) }}>
                     <strong>{item.pinned ? '★ ' : ''}{item.title}</strong>
-                    <span>{item.updated_at ? new Date(item.updated_at * 1000).toLocaleDateString() : 'recent'} · {item.track_count ?? '?'} tracks · {item.bpm ?? props.project.bpm} BPM{(item.tags || []).length ? ' · ' + (item.tags || []).map(tag => `#${tag}`).join(' ') : ''}</span>
+                    <span>{item.updated_at ? new Date(item.updated_at * 1000).toLocaleDateString() : 'recent'} · {item.track_count ?? '?'} tracks · {item.bpm ?? props.project.bpm} BPM{(item.tags || []).length ? ' · ' + (item.tags || []).map(tag => `#${tag}`).join(' ') : ''}{(item.folders || []).length ? ' · ' + (item.folders || []).map(folder => `▸${folder}`).join(' ') : ''}</span>
                   </button>
                   <button className={item.pinned ? 'pin active' : 'pin'} title={item.pinned ? 'Unpin project' : 'Pin project'} onClick={() => props.onUpdateProjectOrganization(item.id, { pinned: !item.pinned })}>{item.pinned ? '★' : '☆'}</button>
                   <button className={tagEditor?.projectId === item.id ? 'active' : ''} title="Edit tags" onClick={() => setTagEditor(tagEditor?.projectId === item.id ? null : { projectId: item.id, value: (item.tags || []).join(', ') })}>Tags</button>
+                  <button className={folderEditor?.projectId === item.id ? 'active' : ''} title="Edit folders" onClick={() => setFolderEditor(folderEditor?.projectId === item.id ? null : { projectId: item.id, value: (item.folders || []).join(', ') })}>Folders</button>
                   <button onClick={() => { props.onDuplicateProject(item.id); setManagerOpen(false) }}>Copy</button>
                   <button className="danger" onClick={() => props.onDeleteProject(item.id)}>Delete</button>
                   {tagEditor?.projectId === item.id && (
@@ -98,9 +106,30 @@ export default function TransportBar(props: Props) {
                       }}>Save</button>
                     </div>
                   )}
+                  {folderEditor?.projectId === item.id && (
+                    <div className="project-tag-editor project-folder-editor">
+                      <input
+                        autoFocus
+                        value={folderEditor.value}
+                        placeholder="comma-separated folders"
+                        onChange={event => setFolderEditor({ projectId: item.id, value: event.target.value })}
+                        onKeyDown={event => {
+                          if (event.key === 'Escape') setFolderEditor(null)
+                          if (event.key === 'Enter') {
+                            props.onUpdateProjectOrganization(item.id, { folders: folderEditor.value.split(',').map(folder => folder.trim()).filter(Boolean) })
+                            setFolderEditor(null)
+                          }
+                        }}
+                      />
+                      <button onClick={() => {
+                        props.onUpdateProjectOrganization(item.id, { folders: folderEditor.value.split(',').map(folder => folder.trim()).filter(Boolean) })
+                        setFolderEditor(null)
+                      }}>Save</button>
+                    </div>
+                  )}
                 </div>
               ))}
-            {!props.projects.length && <div className="empty-state">No projects</div>}
+            {!visibleProjects.length && <div className="empty-state">No projects</div>}
           </div>
           </div>
         </>

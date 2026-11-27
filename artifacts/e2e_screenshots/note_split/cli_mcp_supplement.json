@@ -1,0 +1,12 @@
+{
+  "cli": {
+    "passed": true,
+    "command": "openace-tool split-note project_307e49789681 track_357713b4f559 note_249134f4cfc6 960",
+    "result": "first 0+960 lyric 啊; second 960+960 lyric '-' continuation"
+  },
+  "mcp": {
+    "passed": true,
+    "function": "split_note(project, track, note, 480)",
+    "result": {"first_start": 0, "first_duration": 480, "second_start": 480, "second_duration": 480, "second_lyric": "-"}
+  }
+}

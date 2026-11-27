@@ -20,6 +20,19 @@ def normalize_project_tags(values) -> list[str]:
     return tags
 
 
+def normalize_project_folders(values) -> list[str]:
+    if isinstance(values, str):
+        values = values.split(",")
+    folders = []
+    for raw in values or []:
+        folder = str(raw).strip()[:48]
+        if folder and folder not in folders:
+            folders.append(folder)
+        if len(folders) >= 8:
+            break
+    return folders
+
+
 class ProjectStore:
     def __init__(self, root: Path):
         self.root = Path(root)
@@ -62,6 +75,7 @@ class ProjectStore:
                         "updated_at": project.updated_at,
                         "pinned": bool(metadata.get("pinned")),
                         "tags": tags,
+                        "folders": normalize_project_folders(metadata.get("folders", [])),
                     }
                 )
             except Exception:

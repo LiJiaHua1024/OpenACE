@@ -11,7 +11,7 @@ from openace.core import editing
 from openace.core.models import Note, RenderMode, Track, new_id
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
-from openace.core.project_store import ProjectStore, normalize_project_tags
+from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.importers.audio import project_from_audio
@@ -89,13 +89,15 @@ def duplicate_project(project_id: str, title: Optional[str] = None) -> str:
     return dumps(duplicate.model_dump(mode="json"))
 
 
-def organize_project(project_id: str, pinned: Optional[bool] = None, tags: Optional[List[str]] = None) -> str:
+def organize_project(project_id: str, pinned: Optional[bool] = None, tags: Optional[List[str]] = None, folders: Optional[List[str]] = None) -> str:
     project = store.get(project_id)
     metadata = dict(project.metadata or {})
     if pinned is not None:
         metadata["pinned"] = bool(pinned)
     if tags is not None:
         metadata["tags"] = normalize_project_tags(tags)
+    if folders is not None:
+        metadata["folders"] = normalize_project_folders(folders)
     project.metadata = metadata
     project.save(store.path_for(project.id))
     notify_web(project)
@@ -204,6 +206,13 @@ def update_note(project_id: str, track_id: str, note_id: str, patch: dict) -> st
     return dumps(note.model_dump(mode="json"))
 
 
+def split_note(project_id: str, track_id: str, note_id: str, split_ticks: int) -> str:
+    project = store.get(project_id)
+    first, second = editing.split_note(project, track_id, note_id, split_ticks)
+    save_and_notify(project)
+    return dumps({"first": first.model_dump(mode="json"), "second": second.model_dump(mode="json")})
+
+
 def delete_note(project_id: str, track_id: str, note_id: str) -> str:
     project = store.get(project_id)
     deleted = editing.delete_note(project, track_id, note_id)
@@ -308,6 +317,7 @@ def build_mcp_server():
     mcp.tool()(batch_add_notes)
     mcp.tool()(update_note)
     mcp.tool()(delete_note)
+    mcp.tool()(split_note)
     mcp.tool()(set_expression_lane)
     mcp.tool()(upsert_breath)
     mcp.tool()(delete_breath)

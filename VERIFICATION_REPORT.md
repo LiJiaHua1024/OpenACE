@@ -942,3 +942,24 @@ Implemented and verified:
 - Initial QA produced a duplicate-source hypothesis, then exact project/clip inspection plus controlled single-clip recheck retracted it as measurement contamination. Corrected visible-Chrome proof used a tempo-map project: initial playback exactly one source; forward/backward live seeks exactly one replacement start/stop; paused piano seek then play correct; overlapping two-clip fixture correctly schedules one source per independent clip; playhead/audio clock agreement errors `-0.01346s` and `-0.01606s`; console/network clean. Evidence: `artifacts/e2e_screenshots/live_seek/`.
 
 Validation after iteration 70: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 71 — project folder organization
+
+Implemented and verified:
+
+- Project metadata now supports normalized custom folders (trim/dedupe/max8/48 characters) alongside pinning and tags. List summaries expose folders; organization PATCH accepts list or comma-string input; duplication copies folders while unpinned; CLI `--folders` and MCP `organize_project(..., folders=...)` share the same normalization.
+- The Projects popover now displays folder annotations, provides comma-separated inline folder editing, searches folder names, and includes an All-folders/filter select. Filtered empty states truthfully show `No projects`; SSE updates rows and folder filters while the popover remains open.
+- Independent visible-Chrome QA at exact 1272×837 verified assignment/removal, normalization, filtering, search, reload/SSE persistence, duplicate/pin ordering/open/copy/delete fallback, CLI/MCP behavior, empty-state fixes, layout bounds, and clean console/network. Evidence: `artifacts/e2e_screenshots/project_folders/`.
+
+Validation after iteration 71: frontend production build passed; focused backend/CLI/MCP tests passed; independent browser QA passed; full automated suite result is recorded with iteration 72 below.
+
+## Iteration 72 — truthful piano-roll note splitting
+
+Implemented and verified:
+
+- Notes can be split from the piano-roll context menu at the exact right-click position, at the playhead from context/toolbar, or with Ctrl+E. Splitting preserves adjacency/duration, rescales first-note vibrato start ratio, continues second-note vibrato phase by elapsed real time, interpolates pitch handles exactly at the boundary, and marks the continuation lyric `-` with a `continuation` technique.
+- Timed phonemes are split truthfully: the second note restarts the sustained vowel at beat anchor 0ms and shifts coda consonants contiguously. Splits inside consonant-only tails are explicitly rejected rather than fabricating a vowel. Backend endpoint, CLI `split-note`, and MCP `split_note` share the same validated core operation.
+- Browser integration deduplicates SSE/response state, supports undo/redo/reload persistence, marks prior renders stale, compresses the dense toolbar without clipping, and surfaces readable validation errors as an in-editor overlay.
+- Independent visible-Chrome QA at exact 1272×837 verified Chinese sustained-vowel splitting, exact phoneme/pitch/vibrato math, context/toolbar/Ctrl+E chains without duplicate notes, undo/redo/reload, invalid-position immutability, English `cat` tail rejection, CLI/MCP behavior, exact toolbar geometry, and clean console/network. Evidence: `artifacts/e2e_screenshots/note_split/`.
+
+Validation after iteration 72: frontend production build passed; focused backend/endpoint/CLI tests passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

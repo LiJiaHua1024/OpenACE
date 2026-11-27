@@ -1,0 +1,419 @@
+{
+  "direct_simple": {
+    "track_c203db5863b4": {
+      "name": "Lead Vocal",
+      "language": "zh",
+      "notes": [
+        {
+          "id": "note_90c30d106a3c",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "pitch": 70,
+          "lyric": "啊",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 1000.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        },
+        {
+          "id": "note_2ec3d8b7d905",
+          "start_ticks": 960,
+          "duration_ticks": 960,
+          "pitch": 70,
+          "lyric": "-",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 1000.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": [
+            "continuation"
+          ]
+        }
+      ]
+    }
+  },
+  "browser_run_final": {
+    "track_ee82bdf3886a": {
+      "name": "Lead Vocal",
+      "language": "zh",
+      "notes": [
+        {
+          "id": "note_6be45235-05d",
+          "start_ticks": 0,
+          "duration_ticks": 480,
+          "pitch": 70,
+          "lyric": "啊",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [
+            {
+              "offset_ms": 495.0,
+              "cents": 82.0
+            },
+            {
+              "offset_ms": 500.0,
+              "cents": 79.11462450592886
+            }
+          ],
+          "vibrato": null,
+          "techniques": []
+        },
+        {
+          "id": "note_930e60df0541",
+          "start_ticks": 480,
+          "duration_ticks": 480,
+          "pitch": 70,
+          "lyric": "-",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [
+            {
+              "offset_ms": 0.0,
+              "cents": 79.11462450592886
+            },
+            {
+              "offset_ms": 248.0,
+              "cents": -64.0
+            },
+            {
+              "offset_ms": 500.0,
+              "cents": -9.5
+            }
+          ],
+          "vibrato": {
+            "start_ratio": 0.32000000000000006,
+            "depth_cents": 35.0,
+            "frequency_hz": 5.2,
+            "phase": 0.0
+          },
+          "techniques": [
+            "continuation"
+          ]
+        },
+        {
+          "id": "note_930e60df0541",
+          "start_ticks": 480,
+          "duration_ticks": 480,
+          "pitch": 70,
+          "lyric": "-",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [
+            {
+              "offset_ms": 0.0,
+              "cents": 79.11462450592886
+            },
+            {
+              "offset_ms": 248.0,
+              "cents": -64.0
+            },
+            {
+              "offset_ms": 500.0,
+              "cents": -9.5
+            }
+          ],
+          "vibrato": {
+            "start_ratio": 0.32000000000000006,
+            "depth_cents": 35.0,
+            "frequency_hz": 5.2,
+            "phase": 0.0
+          },
+          "techniques": [
+            "continuation"
+          ]
+        },
+        {
+          "id": "note_80d89056ffe3",
+          "start_ticks": 960,
+          "duration_ticks": 480,
+          "pitch": 70,
+          "lyric": "-",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [
+            {
+              "offset_ms": 0.0,
+              "cents": -9.5
+            },
+            {
+              "offset_ms": 252.0,
+              "cents": 45.0
+            },
+            {
+              "offset_ms": 500.0,
+              "cents": 45.0
+            }
+          ],
+          "vibrato": {
+            "start_ratio": 0.0,
+            "depth_cents": 35.0,
+            "frequency_hz": 5.2,
+            "phase": 11.108671623093509
+          },
+          "techniques": [
+            "continuation"
+          ]
+        },
+        {
+          "id": "note_84e8afbc1876",
+          "start_ticks": 1440,
+          "duration_ticks": 480,
+          "pitch": 70,
+          "lyric": "-",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [
+            {
+              "offset_ms": 0.0,
+              "cents": 45.0
+            }
+          ],
+          "vibrato": {
+            "start_ratio": 0.0,
+            "depth_cents": 35.0,
+            "frequency_hz": 5.2,
+            "phase": 27.44495342176043
+          },
+          "techniques": [
+            "continuation"
+          ]
+        },
+        {
+          "id": "note_84e8afbc1876",
+          "start_ticks": 1440,
+          "duration_ticks": 480,
+          "pitch": 70,
+          "lyric": "-",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [
+            {
+              "offset_ms": 0.0,
+              "cents": 45.0
+            }
+          ],
+          "vibrato": {
+            "start_ratio": 0.0,
+            "depth_cents": 35.0,
+            "frequency_hz": 5.2,
+            "phase": 27.44495342176043
+          },
+          "techniques": [
+            "continuation"
+          ]
+        }
+      ]
+    },
+    "track_ee1e65c5bb8e": {
+      "name": "English Split Vocal",
+      "language": "en",
+      "notes": [
+        {
+          "id": "note_a01308c7d148",
+          "start_ticks": 0,
+          "duration_ticks": 1920,
+          "pitch": 74,
+          "lyric": "cat",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "k",
+              "start_ms": -45.0,
+              "duration_ms": 45.0,
+              "is_vowel": false,
+              "locked": false
+            },
+            {
+              "symbol": "ae",
+              "start_ms": 0.0,
+              "duration_ms": 1930.0,
+              "is_vowel": true,
+              "locked": false
+            },
+            {
+              "symbol": "t",
+              "start_ms": 1930.0,
+              "duration_ms": 70.0,
+              "is_vowel": false,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        },
+        {
+          "id": "note_767360716369",
+          "start_ticks": 0,
+          "duration_ticks": 1920,
+          "pitch": 76,
+          "lyric": "cat",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "k",
+              "start_ms": -45.0,
+              "duration_ms": 45.0,
+              "is_vowel": false,
+              "locked": false
+            },
+            {
+              "symbol": "ae",
+              "start_ms": 0.0,
+              "duration_ms": 1930.0,
+              "is_vowel": true,
+              "locked": false
+            },
+            {
+              "symbol": "t",
+              "start_ms": 1930.0,
+              "duration_ms": 70.0,
+              "is_vowel": false,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        }
+      ]
+    }
+  },
+  "cli_mcp_probe": {
+    "track_357713b4f559": {
+      "name": "Lead Vocal",
+      "language": "zh",
+      "notes": [
+        {
+          "id": "note_249134f4cfc6",
+          "start_ticks": 0,
+          "duration_ticks": 480,
+          "pitch": 70,
+          "lyric": "啊",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        },
+        {
+          "id": "note_e4d5512e0e3f",
+          "start_ticks": 480,
+          "duration_ticks": 480,
+          "pitch": 70,
+          "lyric": "-",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": [
+            "continuation"
+          ]
+        },
+        {
+          "id": "note_dea9ec698999",
+          "start_ticks": 960,
+          "duration_ticks": 960,
+          "pitch": 70,
+          "lyric": "-",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "a",
+              "start_ms": 0.0,
+              "duration_ms": 1000.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": [
+            "continuation"
+          ]
+        }
+      ]
+    }
+  }
+}

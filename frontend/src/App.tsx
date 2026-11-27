@@ -83,7 +83,7 @@ export default function App() {
   const [loopRange, setLoopRange] = useState<{ start: number; end: number } | null>(null)
   const [loopEnabled, setLoopEnabled] = useState(false)
   const [jobs, setJobs] = useState<RenderJob[]>([])
-  const [projectList, setProjectList] = useState<{ id: string; title: string; bpm?: number; track_count?: number; updated_at?: number; pinned?: boolean; tags?: string[] }[]>([])
+  const [projectList, setProjectList] = useState<{ id: string; title: string; bpm?: number; track_count?: number; updated_at?: number; pinned?: boolean; tags?: string[]; folders?: string[] }[]>([])
   const [past, setPast] = useState<Project[]>([])
   const [future, setFuture] = useState<Project[]>([])
   const [error, setError] = useState('')
@@ -170,6 +170,7 @@ export default function App() {
               updated_at: incoming.updated_at,
               pinned: Boolean(metadata.pinned),
               tags: Array.isArray(metadata.tags) ? metadata.tags : [],
+              folders: Array.isArray(metadata.folders) ? metadata.folders : [],
             }
             const next = current.some(item => item.id === incoming.id)
               ? current.map(item => item.id === incoming.id ? summary : item)
@@ -384,7 +385,7 @@ export default function App() {
     persistLoopState(range, true)
   }, [playheadTicks, persistLoopState])
 
-  const updateProjectOrganization = useCallback(async (projectId: string, patch: { pinned?: boolean; tags?: string[] }) => {
+  const updateProjectOrganization = useCallback(async (projectId: string, patch: { pinned?: boolean; tags?: string[]; folders?: string[] }) => {
     try {
       const updated = await api.updateProjectOrganization(projectId, patch)
       setProjectList(await api.listProjects())

@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, Project, TempoPoint
+from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, Phoneme, PitchPoint, Project, TempoPoint, Vibrato, new_id
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.timing import validate_absolute_beat_anchor
 
@@ -38,6 +38,133 @@ def update_note(project: Project, track_id: str, note_id: str, patch: Dict[str, 
     track.notes.sort(key=lambda item: (item.start_ticks, item.pitch))
     validate_project(project)
     return updated
+
+
+def _pitch_cents_at(points: List[PitchPoint], offset_ms: float) -> float:
+    if not points:
+        return 0.0
+    ordered = sorted(points, key=lambda point: point.offset_ms)
+    if offset_ms <= ordered[0].offset_ms:
+        return float(ordered[0].cents)
+    if offset_ms >= ordered[-1].offset_ms:
+        return float(ordered[-1].cents)
+    for left, right in zip(ordered, ordered[1:]):
+        if left.offset_ms <= offset_ms <= right.offset_ms:
+            ratio = (offset_ms - left.offset_ms) / max(1e-9, right.offset_ms - left.offset_ms)
+            return float(left.cents + (right.cents - left.cents) * ratio)
+    return float(ordered[-1].cents)
+
+
+def _split_pitch_curve(points: List[PitchPoint], split_ms: float) -> tuple[List[PitchPoint], List[PitchPoint]]:
+    if not points:
+        return [], []
+    boundary = _pitch_cents_at(points, split_ms)
+    first = [point.model_copy(deep=True) for point in sorted(points, key=lambda item: item.offset_ms) if point.offset_ms < split_ms]
+    first.append(PitchPoint(offset_ms=split_ms, cents=boundary))
+    second = [PitchPoint(offset_ms=0.0, cents=boundary)]
+    for point in sorted(points, key=lambda item: item.offset_ms):
+        if point.offset_ms > split_ms:
+            second.append(PitchPoint(offset_ms=point.offset_ms - split_ms, cents=point.cents))
+    return first, second
+
+
+def _split_phonemes_at_vowel(phonemes: List[Phoneme], split_ms: float) -> tuple[List[Phoneme], List[Phoneme]]:
+    if not phonemes:
+        return [], []
+    ordered = [item.model_copy(deep=True) for item in sorted(phonemes, key=lambda point: point.start_ms)]
+    split_index = None
+    for index, phoneme in enumerate(ordered):
+        end_ms = phoneme.start_ms + phoneme.duration_ms
+        if phoneme.is_vowel and phoneme.start_ms <= split_ms < end_ms:
+            split_index = index
+            break
+    if split_index is None:
+        raise ValueError("split point must fall inside a sustained vowel; consonant-only tails cannot become independent sung notes")
+
+    first: List[Phoneme] = []
+    for index, phoneme in enumerate(ordered):
+        end_ms = phoneme.start_ms + phoneme.duration_ms
+        if end_ms <= split_ms:
+            first.append(phoneme.model_copy(deep=True))
+        elif index == split_index:
+            part = phoneme.model_copy(deep=True)
+            part.duration_ms = split_ms - phoneme.start_ms
+            if part.duration_ms > 0.75:
+                first.append(part)
+        if index >= split_index:
+            break
+
+    source = ordered[split_index]
+    vowel_end = source.start_ms + source.duration_ms
+    second = [Phoneme(symbol=source.symbol, start_ms=0.0, duration_ms=vowel_end - split_ms, is_vowel=True)]
+    cursor = second[0].duration_ms
+    for phoneme in ordered[split_index + 1:]:
+        continuation = phoneme.model_copy(deep=True)
+        continuation.start_ms = cursor
+        second.append(continuation)
+        cursor += continuation.duration_ms
+    return first, second
+
+
+def split_note(project: Project, track_id: str, note_id: str, split_ticks: int) -> tuple[Note, Note]:
+    """Split a note while preserving vowel continuity and expressive timing truthfully."""
+    track = project.track(track_id)
+    note = track.note(note_id)
+    split_ticks = int(split_ticks)
+    if split_ticks <= note.start_ticks or split_ticks >= note.start_ticks + note.duration_ticks:
+        raise ValueError("split position must be inside the selected note")
+    left_ticks = split_ticks - note.start_ticks
+    right_ticks = note.start_ticks + note.duration_ticks - split_ticks
+    original_duration_ms = project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0
+    if note.lyric.strip() or note.phonemes:
+        ensure_note_phonemes(note, track.language, original_duration_ms)
+    split_ms = project.tick_duration_seconds(note.start_ticks, left_ticks) * 1000.0
+    first_phonemes, second_phonemes = _split_phonemes_at_vowel(note.phonemes, split_ms) if note.phonemes else ([], [])
+    first_pitch, second_pitch = _split_pitch_curve(note.pitch_curve, split_ms)
+
+    first = note.model_copy(deep=True)
+    first.duration_ticks = left_ticks
+    first.phonemes = first_phonemes
+    first.pitch_curve = first_pitch
+
+    second = note.model_copy(deep=True)
+    second.id = new_id("note")
+    second.start_ticks = split_ticks
+    second.duration_ticks = right_ticks
+    second.phonemes = second_phonemes
+    second.pitch_curve = second_pitch
+    if second_phonemes:
+        second.lyric = "-"
+        if "continuation" not in second.techniques:
+            second.techniques.append("continuation")
+
+    if note.vibrato:
+        split_ratio = left_ticks / note.duration_ticks
+        vibrato_start = note.vibrato.start_ratio
+        if vibrato_start < split_ratio:
+            first.vibrato = note.vibrato.model_copy(deep=True)
+            first.vibrato.start_ratio = vibrato_start / split_ratio
+            vibrato_start_ms = note.vibrato.start_ratio * original_duration_ms
+            elapsed_seconds = max(0.0, split_ms - vibrato_start_ms) / 1000.0
+            continuation_phase = note.vibrato.phase + 2.0 * 3.141592653589793 * note.vibrato.frequency_hz * elapsed_seconds
+            second.vibrato = Vibrato(
+                start_ratio=0.0,
+                depth_cents=note.vibrato.depth_cents,
+                frequency_hz=note.vibrato.frequency_hz,
+                phase=continuation_phase,
+            )
+        else:
+            first.vibrato = None
+            second.vibrato = note.vibrato.model_copy(deep=True)
+            second.vibrato.start_ratio = max(0.0, (vibrato_start - split_ratio) / (right_ticks / note.duration_ticks))
+    else:
+        first.vibrato = None
+        second.vibrato = None
+
+    track.notes = [item for item in track.notes if item.id != note.id] + [first, second]
+    track.notes.sort(key=lambda item: (item.start_ticks, item.pitch))
+    validate_project(project)
+    return first, second
 
 
 def delete_note(project: Project, track_id: str, note_id: str) -> bool:

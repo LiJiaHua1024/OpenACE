@@ -7,7 +7,7 @@ import shutil
 import tempfile
 import zipfile
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 import soundfile as sf
 import uvicorn
@@ -19,7 +19,8 @@ from pydantic import BaseModel
 
 from openace.core.models import AudioClip, Note, Project, RenderMode, Track, TrackType, new_id
 from openace.core.phonemes import PhonemeError, ensure_note_phonemes, timed_phonemes, tokens_from_symbols
-from openace.core.project_store import ProjectStore, normalize_project_tags
+from openace.core.editing import split_note as split_note_operation
+from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.voice_library import VoiceLibrary
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_lyrics_video, export_master_wav
@@ -77,6 +78,7 @@ class CreateProjectRequest(BaseModel):
 class ProjectOrganizationRequest(BaseModel):
     pinned: Optional[bool] = None
     tags: Optional[List[str]] = None
+    folders: Optional[Union[List[str], str]] = None
 
 
 class CreateTrackRequest(BaseModel):
@@ -84,6 +86,10 @@ class CreateTrackRequest(BaseModel):
     type: TrackType = TrackType.VOCAL
     language: str = "zh"
     color: str = "#7c5cff"
+
+
+class SplitNoteRequest(BaseModel):
+    split_ticks: int
 
 
 class PhonemeTimingRequest(BaseModel):
@@ -217,6 +223,8 @@ def update_project_organization(project_id: str, request: ProjectOrganizationReq
         metadata["pinned"] = bool(request.pinned)
     if request.tags is not None:
         metadata["tags"] = normalize_project_tags(request.tags)
+    if request.folders is not None:
+        metadata["folders"] = normalize_project_folders(request.folders)
     project.metadata = metadata
     project.save(store.path_for(project.id))
     publish_project(project)
@@ -288,6 +296,20 @@ def update_note(project_id: str, track_id: str, note_id: str, payload: Dict[str,
     store.save(project)
     publish_project(project)
     return updated.model_dump(mode="json")
+
+
+@app.post("/api/projects/{project_id}/tracks/{track_id}/notes/{note_id}/split")
+def split_note(project_id: str, track_id: str, note_id: str, request: SplitNoteRequest):
+    project = get_project(project_id)
+    try:
+        first, second = split_note_operation(project, track_id, note_id, request.split_ticks)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc)) from exc
+    except (ValueError, PhonemeError) as exc:
+        raise HTTPException(422, str(exc)) from exc
+    store.save(project)
+    publish_project(project)
+    return {"first": first.model_dump(mode="json"), "second": second.model_dump(mode="json")}
 
 
 @app.delete("/api/projects/{project_id}/tracks/{track_id}/notes/{note_id}")

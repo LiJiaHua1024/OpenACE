@@ -79,7 +79,8 @@ export default function PianoRoll(props: Props) {
   const [selectedNoteIds, setSelectedNoteIds] = useState<string[]>([])
   const [editing, setEditing] = useState<{ note: Note; x: number; y: number; value: string } | null>(null)
   const [marquee, setMarquee] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null)
-  const [menu, setMenu] = useState<{ x: number; y: number } | null>(null)
+  const [menu, setMenu] = useState<{ x: number; y: number; noteId?: string; splitTicks?: number } | null>(null)
+  const [splitError, setSplitError] = useState<string | null>(null)
   const [vibratoEditor, setVibratoEditor] = useState<{ noteId: string; x: number; y: number } | null>(null)
   const [phonemeEditor, setPhonemeEditor] = useState<{ noteId: string; x: number; y: number; value: string; error?: string } | null>(null)
   const dragRef = useRef<DragState | null>(null)
@@ -772,6 +773,51 @@ export default function PianoRoll(props: Props) {
     pasteClipboard(end)
   }
 
+  async function splitNoteAtTick(noteId: string, splitTicks: number) {
+    if (!props.track) return
+    const note = props.track.notes.find(item => item.id === noteId)
+    if (!note) return
+    if (splitTicks <= note.start_ticks || splitTicks >= note.start_ticks + note.duration_ticks) {
+      setSplitError('Split position must be inside the note')
+      window.setTimeout(() => setSplitError(null), 2400)
+      return
+    }
+    setSplitError(null)
+    props.beginTransaction()
+    try {
+      await api.saveProject(props.project)
+      const result = await api.splitNote(props.project.id, props.track.id, noteId, Math.round(splitTicks))
+      props.updateProject(project => {
+        const track = project.tracks.find(item => item.id === props.track?.id)
+        if (!track) return
+        track.notes = track.notes.filter(item => item.id !== noteId && item.id !== result.second.id)
+        track.notes.push(result.first, result.second)
+        track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+      }, true)
+      setSelectedNoteIds([result.first.id, result.second.id])
+    } catch (error) {
+      const raw = error instanceof Error ? error.message : String(error)
+      const detail = raw.match(/"detail":"([^"]+)"/)?.[1] || raw.replace(/^\d+: /, '')
+      setSplitError(detail.includes('sustained vowel') ? 'Split must land inside a sustained vowel' : detail)
+      window.setTimeout(() => setSplitError(null), 3200)
+    } finally {
+      props.endTransaction()
+    }
+  }
+
+  function splitSelectedAtPlayhead() {
+    if (selectedNoteIds.length !== 1 || !props.track) return
+    const note = props.track.notes.find(item => item.id === selectedNoteIds[0])
+    if (!note) return
+    void splitNoteAtTick(note.id, props.playheadTicks)
+  }
+
+  function selectedNoteContainsPlayhead() {
+    if (selectedNoteIds.length !== 1 || !props.track) return false
+    const note = props.track.notes.find(item => item.id === selectedNoteIds[0])
+    return !!note && props.playheadTicks > note.start_ticks && props.playheadTicks < note.start_ticks + note.duration_ticks
+  }
+
   function deleteSelection() {
     if (!selectedNoteIds.length) return
     props.beginTransaction()
@@ -900,6 +946,9 @@ export default function PianoRoll(props: Props) {
       setSelectedNoteIds(props.track?.notes.map(note => note.id) || [])
       return
     }
+    if ((event.ctrlKey || event.metaKey) && key === 'e') {
+      event.preventDefault(); splitSelectedAtPlayhead(); return
+    }
     if ((event.ctrlKey || event.metaKey) && key === 'c') {
       event.preventDefault(); copySelection(); return
     }
@@ -932,7 +981,7 @@ export default function PianoRoll(props: Props) {
     const { x, y } = pointerPos(event)
     const hit = hitNote(x, y)
     if (hit && !selectedSet.has(hit.id)) selectOnly(hit.id)
-    setMenu({ x, y })
+    setMenu({ x, y, noteId: hit?.id, splitTicks: hit ? Math.round(tickForX(x)) : undefined })
   }
 
   function menuAction(action: () => void) {
@@ -961,13 +1010,15 @@ export default function PianoRoll(props: Props) {
           <button className="tool" onClick={() => pasteClipboard()} disabled={!clipboardCount} title="Paste at playhead (Ctrl+V)">Paste</button>
           <button className="tool" onClick={duplicateSelection} disabled={!selectedNoteIds.length} title="Duplicate (Ctrl+D)">Dup</button>
           <button className="tool" onClick={quantizeSelection} title="Quantize selection/all (Q)">Quant</button>
+          <button className="tool" onClick={splitSelectedAtPlayhead} disabled={!selectedNoteContainsPlayhead()} title="Split selected note at playhead (Ctrl+E)">Split</button>
           <button className="tool" onClick={() => openVibratoEditor()} disabled={selectedNoteIds.length !== 1} title="Edit vibrato for selected note">Vibrato</button>
         </div>
         <div className="selection-count">{selectedNoteIds.length ? `${selectedNoteIds.length} selected` : ''}</div>
         <div className="pitch-readout">{pitchReadout || ''}</div>
-        <div className="editor-hint">V/B/E/P · Ctrl+C/V/D</div>
+        <div className="editor-hint">V/B/E/P · Ctrl+C/V/D/E</div>
       </div>
       <div className="piano-roll-wrap" ref={wrapRef} tabIndex={0}>
+        {splitError && <div className="split-error">{splitError}</div>}
         <canvas
           ref={canvasRef}
           className="piano-roll-canvas"
@@ -981,6 +1032,8 @@ export default function PianoRoll(props: Props) {
         <canvas ref={playheadCanvasRef} className="piano-playhead-overlay" />
         {menu && (
           <div className="piano-context-menu" style={{ left: menu.x, top: menu.y }}>
+            <button disabled={!menu.noteId || menu.splitTicks === undefined} onClick={() => menuAction(() => { if (menu.noteId && menu.splitTicks !== undefined) void splitNoteAtTick(menu.noteId, menu.splitTicks) })}>Split here</button>
+            <button disabled={!selectedNoteContainsPlayhead()} onClick={() => menuAction(splitSelectedAtPlayhead)}>Split at playhead</button>
             <button disabled={!selectedNoteIds.length} onClick={() => menuAction(copySelection)}>Copy</button>
             <button disabled={!clipboardCount} onClick={() => menuAction(() => pasteClipboard())}>Paste at playhead</button>
             <button disabled={!selectedNoteIds.length} onClick={() => menuAction(duplicateSelection)}>Duplicate</button>

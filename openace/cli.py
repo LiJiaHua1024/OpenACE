@@ -12,7 +12,7 @@ from openace.core import editing
 from openace.core.models import Note, RenderMode, Track, new_id
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
-from openace.core.project_store import ProjectStore, normalize_project_tags
+from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_master_wav
 from openace.importers.audio import project_from_audio
@@ -111,6 +111,8 @@ def cmd_organize_project(args) -> None:
         metadata["pinned"] = args.pinned == "true"
     if args.tags is not None:
         metadata["tags"] = normalize_project_tags(args.tags.split(","))
+    if args.folders is not None:
+        metadata["folders"] = normalize_project_folders(args.folders.split(","))
     project.metadata = metadata
     project.save(store.path_for(project.id))
     notify_web(project)
@@ -266,6 +268,14 @@ def cmd_update_note(args) -> None:
     emit(note.model_dump(mode="json"))
 
 
+def cmd_split_note(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    first, second = editing.split_note(project, args.track, args.note, args.split_ticks)
+    save_and_notify(store, project)
+    emit({"first": first.model_dump(mode="json"), "second": second.model_dump(mode="json")})
+
+
 def cmd_delete_note(args) -> None:
     store, _ = services()
     project = store.get(args.project)
@@ -358,6 +368,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("project")
     p.add_argument("--pinned", choices=["true", "false"])
     p.add_argument("--tags", help="comma-separated project tags")
+    p.add_argument("--folders", help="comma-separated project folders")
     p.set_defaults(func=cmd_organize_project)
 
     p = sub.add_parser("delete-project")
@@ -431,6 +442,10 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("update-note")
     p.add_argument("project"); p.add_argument("track"); p.add_argument("note"); p.add_argument("patch_json")
     p.set_defaults(func=cmd_update_note)
+
+    p = sub.add_parser("split-note")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("note"); p.add_argument("split_ticks", type=int)
+    p.set_defaults(func=cmd_split_note)
 
     p = sub.add_parser("delete-note")
     p.add_argument("project"); p.add_argument("track"); p.add_argument("note")

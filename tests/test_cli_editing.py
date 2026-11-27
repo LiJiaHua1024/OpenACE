@@ -87,13 +87,27 @@ def test_cli_project_duplicate_and_delete_roundtrip(tmp_path):
 
 def test_cli_project_organization_and_duplicate_unpinned(tmp_path):
     project = run_cli(tmp_path, "create-project", "--title", "Organize CLI")
-    organized = run_cli(tmp_path, "organize-project", project["id"], "--pinned", "true", "--tags", "lead, lead, draft")
+    organized = run_cli(tmp_path, "organize-project", project["id"], "--pinned", "true", "--tags", "lead, lead, draft", "--folders", "songs, songs, demos")
     assert organized["metadata"]["pinned"] is True
     assert organized["metadata"]["tags"] == ["lead", "draft"]
+    assert organized["metadata"]["folders"] == ["songs", "demos"]
     listing = ProjectStore(tmp_path / "projects").list()
     assert listing[0]["id"] == project["id"]
     assert listing[0]["pinned"] is True
     assert listing[0]["tags"] == ["lead", "draft"]
+    assert listing[0]["folders"] == ["songs", "demos"]
     duplicate = run_cli(tmp_path, "duplicate-project", project["id"])
     assert duplicate["metadata"]["tags"] == ["lead", "draft"]
+    assert duplicate["metadata"]["folders"] == ["songs", "demos"]
     assert duplicate["metadata"]["pinned"] is False
+
+
+def test_cli_split_note_outputs_continuation(tmp_path):
+    project = run_cli(tmp_path, "create-project", "--title", "CLI split")
+    track_id = project["tracks"][0]["id"]
+    notes = run_cli(tmp_path, "batch-add-notes", project["id"], track_id, '[{"start_ticks":0,"duration_ticks":480,"pitch":60,"lyric":"你"}]')
+    payload = run_cli(tmp_path, "split-note", project["id"], track_id, notes[0]["id"], "240")
+    assert payload["first"]["duration_ticks"] == 240
+    assert payload["second"]["start_ticks"] == 240
+    assert payload["second"]["lyric"] == "-"
+    assert "continuation" in payload["second"]["techniques"]
