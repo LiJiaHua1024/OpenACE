@@ -1,0 +1,188 @@
+{
+  "checks": [
+    {
+      "name": "controlled fixture exact clip and tempo map",
+      "passed": true,
+      "details": {
+        "project": "project_05ddbf3d48f2",
+        "clip": {
+          "id": "sticky_b2",
+          "path": "/uploads/svclyrics_words.wav",
+          "start_ticks": 600,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "B2",
+          "transcribed_lyrics": []
+        },
+        "tempo": [
+          {
+            "ticks": 480,
+            "bpm": 104.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 600,
+            "bpm": 112.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 120.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 840,
+            "bpm": 128.0,
+            "curve": "step"
+          }
+        ]
+      }
+    },
+    {
+      "name": "initial single-clip playback scheduled exactly one source",
+      "passed": true,
+      "details": {
+        "initial": 1
+      }
+    },
+    {
+      "name": "single-clip live forward seek exact one replacement at tempo-correct offset",
+      "passed": false,
+      "details": {
+        "expected_offset": 0.3725997373343868,
+        "target_time": 1.053458670217681,
+        "position": 1.7,
+        "new": [
+          {
+            "when": 0.08126984126984127,
+            "offset": 0.3725997373343868,
+            "duration": 0.6266506854393454,
+            "ms": 1029.5999999940395,
+            "ct": 0.08126984126984127,
+            "bd": 1.9999773242630385
+          }
+        ],
+        "stops": [
+          {
+            "when": 0,
+            "ms": 1027.3999999910593,
+            "ct": 0.06965986394557823
+          }
+        ]
+      }
+    },
+    {
+      "name": "single-clip live backward seek exact one replacement at clip start",
+      "passed": false,
+      "details": {
+        "target_time": 0.6808589328832941,
+        "position": 1.34,
+        "new": [
+          {
+            "when": 0.8475283446712019,
+            "offset": 0,
+            "duration": 0.9992504227737322,
+            "ms": 1808.8999999910593,
+            "ct": 0.8475283446712019,
+            "bd": 1.9999773242630385
+          }
+        ],
+        "stops": [
+          {
+            "when": 0,
+            "ms": 1807.8999999910593,
+            "ct": 0.8475283446712019
+          }
+        ]
+      }
+    },
+    {
+      "name": "paused piano seek then play starts exactly one source at clip start",
+      "passed": true,
+      "details": {
+        "paused": 0.68,
+        "starts": [
+          {
+            "when": 1.9736961451247166,
+            "offset": 0,
+            "duration": 0.9992504227737322,
+            "ms": 2932.7999999970198,
+            "ct": 1.9736961451247166,
+            "bd": 1.9999773242630385
+          }
+        ]
+      }
+    },
+    {
+      "name": "overlapping fixture two starts correspond to two independent clips and are cleanly stopped",
+      "passed": true,
+      "details": {
+        "initial": 2,
+        "replacement": [
+          {
+            "when": 3.575873015873016,
+            "offset": 0.3725997373343868,
+            "duration": 0.6266506854393454,
+            "ms": 4530.79999999702,
+            "ct": 3.575873015873016,
+            "bd": 1.9999773242630385
+          },
+          {
+            "when": 3.575873015873016,
+            "offset": 0.3725997373343868,
+            "duration": 0.6266506854393454,
+            "ms": 4531,
+            "ct": 3.575873015873016,
+            "bd": 1.9999773242630385
+          }
+        ],
+        "stops": [
+          {
+            "when": 0,
+            "ms": 4529.5,
+            "ct": 3.575873015873016
+          },
+          {
+            "when": 0,
+            "ms": 4529.5,
+            "ct": 3.575873015873016
+          }
+        ],
+        "clips": [
+          [
+            "sticky_2",
+            "Sticky Lane 3",
+            "sticky_b2",
+            600,
+            0,
+            960
+          ],
+          [
+            "sticky_3",
+            "Sticky Lane 4",
+            "sticky_b3",
+            600,
+            0,
+            960
+          ]
+        ]
+      }
+    },
+    {
+      "name": "console network HTTP clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "network": [],
+        "http": []
+      }
+    }
+  ],
+  "console": [],
+  "network": [],
+  "http": [],
+  "single_project": "project_05ddbf3d48f2"
+}

@@ -933,3 +933,12 @@ Implemented and verified:
 - Independent visible-Chrome QA verified exact x/width alignment before and after scroll/zoom, enabled/disabled alpha distinction, note selection/dragging over the band, marquee/ruler seek/velocity regressions, continued loop playback, reload persistence, clean new projects, exact layout, and clean console/network. Evidence: `artifacts/e2e_screenshots/piano_loop_visual/`.
 
 Validation after iteration 69: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 70 — live playback seeking
+
+Implemented and verified:
+
+- Ruler/transport seeks during playback now stop the current source graph and reschedule audio from the exact target tick instead of moving only the visual playhead. Paused seeking remains visual until playback starts.
+- Initial QA produced a duplicate-source hypothesis, then exact project/clip inspection plus controlled single-clip recheck retracted it as measurement contamination. Corrected visible-Chrome proof used a tempo-map project: initial playback exactly one source; forward/backward live seeks exactly one replacement start/stop; paused piano seek then play correct; overlapping two-clip fixture correctly schedules one source per independent clip; playhead/audio clock agreement errors `-0.01346s` and `-0.01606s`; console/network clean. Evidence: `artifacts/e2e_screenshots/live_seek/`.
+
+Validation after iteration 70: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

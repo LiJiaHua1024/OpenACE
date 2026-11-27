@@ -546,6 +546,16 @@ export default function App() {
     return true
   }, [])
 
+  const seekTransport = useCallback((ticks: number) => {
+    const target = Math.max(0, Math.floor(ticks))
+    setPlayheadTicks(target)
+    if (!playing) return
+    const current = projectRef.current
+    if (!current) return
+    stopPlaybackAudio()
+    void schedulePlayback(current, target)
+  }, [playing, schedulePlayback, stopPlaybackAudio])
+
   useEffect(() => {
     if (!playing || !project) {
       playbackSnapshotRef.current = ''
@@ -681,7 +691,7 @@ export default function App() {
         canRedo={future.length > 0}
         onPlayToggle={playToggle}
         onStop={stop}
-        onSeek={setPlayheadTicks}
+        onSeek={seekTransport}
         loopEnabled={loopEnabled}
         onLoopToggle={toggleLoop}
         onTitleChange={title => updateProject(next => { next.title = title }, true)}
@@ -737,7 +747,7 @@ export default function App() {
             selectedTrackId={selectedTrack?.id}
             playheadTicks={playheadTicks}
             onSelect={setSelectedTrackId}
-            onSeek={setPlayheadTicks}
+            onSeek={seekTransport}
             beginTransaction={beginTransaction}
             endTransaction={endTransaction}
             updateProject={updateProject}
@@ -762,7 +772,7 @@ export default function App() {
             project={project}
             track={selectedTrack}
             playheadTicks={playheadTicks}
-            onSeek={setPlayheadTicks}
+            onSeek={seekTransport}
             beginTransaction={beginTransaction}
             endTransaction={endTransaction}
             updateProject={updateProject}
