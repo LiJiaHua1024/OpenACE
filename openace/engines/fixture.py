@@ -9,6 +9,7 @@ API plumbing, and UI behavior without pretending to be SoulX-Singer or ACE-Step.
 """
 
 import os
+import time
 import wave
 from pathlib import Path
 from typing import Optional
@@ -41,6 +42,9 @@ def write_fixture_wav(path: Path, samples: np.ndarray, sample_rate: int = 24000)
 class FixtureVocalEngine:
     def render_score(self, project: Project, track: Track, output_path: Path, reference_voice=None) -> Path:
         require_fixture_enabled()
+        delay = float(os.environ.get("OPENACE_CI_FIXTURE_DELAY_SECONDS", "0") or 0)
+        if delay > 0:
+            time.sleep(delay)
         sr = 24000
         total = max(1, int(project.ticks_to_seconds(project.duration_ticks() + project.ppq) * sr))
         out = np.zeros(total, dtype=np.float32)

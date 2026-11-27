@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional
 
 import soundfile as sf
 import uvicorn
-from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -59,21 +59,15 @@ app.add_middleware(
 )
 app.mount("/renders", StaticFiles(directory=str(RENDERS)), name="renders")
 app.mount("/uploads", StaticFiles(directory=str(UPLOADS)), name="uploads")
-recovery_tasks: set[asyncio.Task] = set()
-
-
 @app.on_event("startup")
 async def recover_interrupted_render_jobs():
-    recovered = render_service.recover_interrupted_jobs()
+    for recovered_job in render_service.recover_interrupted_jobs():
+        render_service.enqueue_job(recovered_job.id)
 
-    async def run_recovered_jobs():
-        for recovered_job in recovered:
-            await render_service.recovery_coro(recovered_job)
 
-    if recovered:
-        task = asyncio.create_task(run_recovered_jobs())
-        recovery_tasks.add(task)
-        task.add_done_callback(recovery_tasks.discard)
+@app.on_event("shutdown")
+async def shutdown_render_queue():
+    await render_service.shutdown()
 
 
 class CreateProjectRequest(BaseModel):
@@ -320,46 +314,46 @@ def time_manual_phonemes(request: PhonemeTimingRequest):
 
 
 @app.post("/api/projects/{project_id}/render/vocal")
-async def render_vocal(project_id: str, request: RenderRequest, background: BackgroundTasks):
+async def render_vocal(project_id: str, request: RenderRequest):
     if not request.track_id:
         raise HTTPException(400, "track_id is required")
     get_project(project_id)
     job = render_service.create_job(project_id, RenderMode.SVS_SCORE, request.track_id)
-    background.add_task(render_service.run_vocal_render, job.id)
+    render_service.enqueue_job(job.id)
     return job.model_dump(mode="json")
 
 
 @app.post("/api/projects/{project_id}/render/vocal2bgm")
-async def render_vocal2bgm(project_id: str, request: RenderRequest, background: BackgroundTasks):
+async def render_vocal2bgm(project_id: str, request: RenderRequest):
     get_project(project_id)
     job = render_service.create_job(project_id, RenderMode.VOCAL2BGM, request.track_id, source_audio=request.source_audio, caption=request.caption)
-    background.add_task(render_service.run_music_generation, job.id, request.source_audio, request.caption)
+    render_service.enqueue_job(job.id)
     return job.model_dump(mode="json")
 
 
 @app.post("/api/projects/{project_id}/render/repaint")
-async def render_repaint(project_id: str, request: RenderRequest, background: BackgroundTasks):
+async def render_repaint(project_id: str, request: RenderRequest):
     get_project(project_id)
     job = render_service.create_job(project_id, RenderMode.REPAINT, request.track_id, source_audio=request.source_audio, caption=request.caption, start_s=request.start_s, end_s=request.end_s)
-    background.add_task(render_service.run_music_generation, job.id, request.source_audio, request.caption, request.start_s, request.end_s)
+    render_service.enqueue_job(job.id)
     return job.model_dump(mode="json")
 
 
 @app.post("/api/projects/{project_id}/render/separate")
-async def render_separation(project_id: str, request: RenderRequest, background: BackgroundTasks):
+async def render_separation(project_id: str, request: RenderRequest):
     get_project(project_id)
     if not request.source_audio:
         raise HTTPException(400, "source_audio is required")
     job = render_service.create_job(project_id, RenderMode.SEPARATE, request.track_id, source_audio=request.source_audio)
-    background.add_task(render_service.run_separation, job.id, request.source_audio)
+    render_service.enqueue_job(job.id)
     return job.model_dump(mode="json")
 
 
 @app.post("/api/projects/{project_id}/render/svc")
-async def render_svc(project_id: str, request: RenderRequest, background: BackgroundTasks):
+async def render_svc(project_id: str, request: RenderRequest):
     get_project(project_id)
     job = render_service.create_job(project_id, RenderMode.SVC, request.track_id, source_audio=request.source_audio, reference_voice=request.reference_voice)
-    background.add_task(render_service.run_svc, job.id, request.source_audio, request.reference_voice)
+    render_service.enqueue_job(job.id)
     return job.model_dump(mode="json")
 
 

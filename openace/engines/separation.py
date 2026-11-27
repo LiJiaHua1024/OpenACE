@@ -10,6 +10,7 @@ from pathlib import Path
 import soundfile as sf
 
 from openace.engines.base import EngineUnavailable
+from openace.engines.vram import VRAMManager, vram_manager
 
 
 class DemucsStemSeparator:
@@ -20,8 +21,9 @@ class DemucsStemSeparator:
     fixture environment variable is set.
     """
 
-    def __init__(self, model: str = "htdemucs"):
+    def __init__(self, model: str = "htdemucs", vram: VRAMManager | None = None):
         self.model = model
+        self.vram = vram or vram_manager
 
     def separate(self, source_audio: Path, output_dir: Path) -> tuple[Path, Path]:
         if importlib.util.find_spec("demucs") is None:
@@ -44,7 +46,8 @@ class DemucsStemSeparator:
             str(output_dir),
             str(source_audio),
         ]
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=3600)
+        with self.vram.acquire("demucs-htdemucs", estimated_gb=2.0):
+            result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=3600)
         if result.returncode != 0:
             raise RuntimeError("Demucs separation failed:\n" + result.stdout[-3000:])
         stem_dir = output_dir / self.model / Path(source_audio).stem

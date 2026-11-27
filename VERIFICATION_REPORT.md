@@ -861,3 +861,14 @@ Implemented and verified:
 - Independent visible-Chrome QA verified three-project ordering, pin/unpin reordering, normalization/max-12/32-character rules, reload and SSE persistence, search isolation, duplicate semantics, normal project operations, exact 1272×837 layout without overflow, and zero console/unexpected network failures. Evidence: `artifacts/e2e_screenshots/project_pin_tags/`.
 
 Validation after iteration 62: frontend production build passed; targeted API/CLI/MCP tests passed; browser QA passed; full automated suite passed with 116 tests collected.
+
+## Iteration 63 — serialized render queue and cross-process VRAM exclusion
+
+Implemented and verified:
+
+- Server-triggered vocal, Vocal2BGM, repaint, separation, and SVC jobs no longer launch independent concurrent `BackgroundTasks`. They enter one process-wide FIFO asyncio worker, so heavy model stages execute one at a time and unexpected runner failure marks only that job failed without blocking later queued work.
+- Backend restart recovery now requeues durable interrupted jobs into the same worker instead of using a separate recovery path. CLI single-job synchronous behavior remains unchanged.
+- `VRAMManager` now waits instead of overlapping in-process reservations and holds an `openace-vram.lock` cross-process file lock for the entire engine subprocess lifetime. Independent OpenACE server/CLI processes therefore serialize cooperating heavy-engine launches instead of merely detecting collisions after the fact; the production Demucs separator now participates in the same reservation.
+- Automated regression proves FIFO serialization, failure isolation, in-process non-overlap, and independent-process lock ordering. Browser/API QA with a fixture-only 0.8s delay proved two rapid waves in exact FIFO order: second jobs transitioned from queued to running only after first completion; continuous polling never saw more than one running job. Evidence: `artifacts/e2e_screenshots/render_queue/`.
+
+Validation after iteration 63: targeted queue/VRAM tests passed; browser/API QA passed with zero console/unexpected network failures. Full automated suite passed with 120 tests collected.

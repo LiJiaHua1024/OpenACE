@@ -3,9 +3,46 @@ from __future__ import annotations
 import os
 import threading
 import time
+import tempfile
+from pathlib import Path
 from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import Dict, Iterator, Optional
+
+
+def _acquire_file_lock(handle) -> None:
+    if os.fstat(handle.fileno()).st_size == 0:
+        handle.write(b"\0")
+        handle.flush()
+    if os.name == "nt":
+        import msvcrt
+
+        handle.seek(0)
+        while True:
+            try:
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+                return
+            except OSError:
+                time.sleep(0.2)
+    else:
+        import fcntl
+
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+
+
+def _release_file_lock(handle) -> None:
+    try:
+        if os.name == "nt":
+            import msvcrt
+
+            handle.seek(0)
+            msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+        else:
+            import fcntl
+
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+    except OSError:
+        pass
 
 
 @dataclass
@@ -44,23 +81,40 @@ class VRAMManager:
 
     @contextmanager
     def acquire(self, engine: str, estimated_gb: float) -> Iterator[VRAMReservation]:
+        """Reserve the GPU stage locally and across cooperating OpenACE processes.
+
+        The lock is intentionally held for the whole engine subprocess lifetime. Waiting is
+        safer than failing a queued render: two heavy model families must never become
+        co-resident on a 12GB card.
+        """
         if estimated_gb > self.budget_gb:
             raise RuntimeError(
                 f"{engine} requires {estimated_gb:.1f}GB, above configured {self.budget_gb:.1f}GB budget"
             )
-        with self._lock:
-            if self._active is not None:
-                raise RuntimeError(f"VRAM already reserved by {self._active.engine}")
+        while True:
+            with self._lock:
+                if self._active is None:
+                    reservation = VRAMReservation(engine=engine, estimated_gb=estimated_gb, device="cuda", acquired_at=time.time())
+                    self._active = reservation
+                    break
+            time.sleep(0.05)
+
+        lock_path = Path(os.environ.get("OPENACE_VRAM_LOCK_PATH", Path(tempfile.gettempdir()) / "openace-vram.lock"))
+        lock_path.parent.mkdir(parents=True, exist_ok=True)
+        handle = None
+        try:
+            handle = lock_path.open("a+b")
+            _acquire_file_lock(handle)
             if estimated_gb > self.available_gb() + 0.25:
                 raise RuntimeError(
                     f"insufficient free VRAM for {engine}: need {estimated_gb:.1f}GB, "
                     f"available {self.available_gb():.1f}GB"
                 )
-            reservation = VRAMReservation(engine=engine, estimated_gb=estimated_gb, device="cuda", acquired_at=time.time())
-            self._active = reservation
-        try:
             yield reservation
         finally:
+            if handle is not None:
+                _release_file_lock(handle)
+                handle.close()
             with self._lock:
                 self._last_engine = self._active.engine if self._active else engine
                 self._active = None

@@ -41,6 +41,10 @@ class RenderService:
         self.jobs_path = self.render_root / "jobs.json"
         self.jobs: Dict[str, RenderJob] = self._load_jobs()
         self.recovery_pending: set[str] = set()
+        self._job_queue: Optional[asyncio.Queue[str]] = None
+        self._job_queue_loop: Optional[asyncio.AbstractEventLoop] = None
+        self._queue_worker: Optional[asyncio.Task] = None
+        self._enqueued_jobs: set[str] = set()
         if fixture_enabled():
             self.vocal_engine = FixtureVocalEngine()
             self.music_engine = FixtureMusicEngine()
@@ -142,6 +146,50 @@ class RenderService:
             "project_updated",
             {"project_id": project.id, "project": project.model_dump(mode="json")},
         )
+
+    def enqueue_job(self, job_id: str) -> None:
+        """Serialize server-triggered jobs so heavy engines never contend for VRAM."""
+        if job_id not in self.jobs:
+            raise KeyError(f"render job not found: {job_id}")
+        if job_id in self._enqueued_jobs:
+            return
+        loop = asyncio.get_running_loop()
+        if self._job_queue is None or self._job_queue_loop is not loop:
+            self._job_queue = asyncio.Queue()
+            self._job_queue_loop = loop
+            self._queue_worker = None
+        self._enqueued_jobs.add(job_id)
+        self._job_queue.put_nowait(job_id)
+        if self._queue_worker is None or self._queue_worker.done():
+            self._queue_worker = loop.create_task(self._drain_job_queue())
+
+    async def _drain_job_queue(self) -> None:
+        assert self._job_queue is not None
+        while True:
+            job_id = await self._job_queue.get()
+            self._enqueued_jobs.discard(job_id)
+            try:
+                job = self.jobs.get(job_id)
+                if job is not None and job.status == RenderJobStatus.QUEUED:
+                    await self.recovery_coro(job)
+            except Exception as exc:
+                job = self.jobs.get(job_id)
+                if job is not None:
+                    job.status = RenderJobStatus.FAILED
+                    job.error = str(exc)
+                    job.message = str(exc)
+                    job.finished_at = time.time()
+                    self._publish_job(job)
+            finally:
+                self._job_queue.task_done()
+
+    async def shutdown(self) -> None:
+        if self._queue_worker is not None and not self._queue_worker.done():
+            self._queue_worker.cancel()
+            try:
+                await self._queue_worker
+            except asyncio.CancelledError:
+                pass
 
     def create_job(
         self,
