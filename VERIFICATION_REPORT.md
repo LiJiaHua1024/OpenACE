@@ -317,3 +317,20 @@ Browser/audio QA evidence:
 - Key evidence: `06_energy_tension_job_card.png`, `evidence_isolated_audio_comparison.png`, `evidence_diagnostic_provenance_crop.png`, `ENERGY_TENSION_QA_REPORT.md`, and `energy_tension_results.json`.
 
 Validation after iteration 16: frontend production build passed; full automated suite reached 43 passed.
+
+## Iteration 17 — Falsetto spectral-tilt DSP
+
+Implemented and verified:
+
+- Falsetto automation now affects rendered vocals as explicitly labeled post-render spectral-tilt DSP. Positive values thin the ≤650 Hz chest-resonance band and reinforce existing >2.2 kHz vocal residue; negative values create a chestier/pressed tilt. It intentionally does not shift F0 and injects no synthetic noise.
+- RenderService applies Falsetto after the other expression lanes, exposes it in job messages, and writes `Falsetto lane spectral-tilt DSP (not neural conditioning)` into diagnostic provenance.
+- Unit coverage proves positive tilt decreases low/high spectral ratio without moving the dominant pitch, negative tilt increases chest ratio, and empty lanes remain transparent. Fixture integration verifies the completed job message.
+
+Browser/audio QA evidence:
+
+- Independent visible-Chrome QA in `artifacts/e2e_screenshots/expression_falsetto_qa/` restarted a current fixture backend, drew exact neutral→high Falsetto curves, verified undo/redo/reload persistence, job text `completed with Falsetto post-processing`, diagnostic non-neural provenance, playback, and zero console/network errors.
+- Positive measured late-window chest band fell to `0.802×` and upper/chest tilt rose to `1.148×`; negative chest band rose to `1.177×` and upper/chest tilt fell to `0.911×`. Dominant F0 remained exactly `260.87 Hz` in neutral, positive, and negative renders.
+- Fixture limitation is explicitly recorded: the CI fixture has almost no pre-existing >2.2 kHz residue, so absolute upper-residue reinforcement is not meaningfully measurable in fixture mode even though directional tilt is verified.
+- Key evidence: `05_falsetto_job_card.png`, `evidence_falsetto_audio_analysis.png`, `evidence_diagnostic_provenance_crop.png`, `FALSETTO_QA_REPORT.md`, and `falsetto_results.json`.
+
+Validation after iteration 17: frontend production build passed; full automated suite reached 47 passed.

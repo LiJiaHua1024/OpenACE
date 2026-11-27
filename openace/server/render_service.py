@@ -11,7 +11,7 @@ import soundfile as sf
 
 from openace.core.audio import read_audio
 from openace.core.diagnostics import extract_f0, write_diagnostic
-from openace.core.expression import apply_air_envelope, apply_dynamic_envelope, apply_energy_envelope, apply_tension_envelope
+from openace.core.expression import apply_air_envelope, apply_dynamic_envelope, apply_energy_envelope, apply_falsetto_envelope, apply_tension_envelope
 from openace.core.models import AudioClip, Project, RenderJob, RenderJobStatus, RenderMode, Track, TrackType
 from openace.core.project_store import ProjectStore
 from openace.engines.acestep import ACEStepEngine
@@ -111,6 +111,7 @@ class RenderService:
             audio, air_applied = apply_air_envelope(audio, sr, project, track)
             audio, energy_applied = apply_energy_envelope(audio, sr, project, track)
             audio, tension_applied = apply_tension_envelope(audio, sr, project, track)
+            audio, falsetto_applied = apply_falsetto_envelope(audio, sr, project, track)
             applied_lanes = [
                 name
                 for name, applied in (
@@ -118,6 +119,7 @@ class RenderService:
                     ("Air", air_applied),
                     ("Energy", energy_applied),
                     ("Tension", tension_applied),
+                    ("Falsetto", falsetto_applied),
                 )
                 if applied
             ]
@@ -137,6 +139,8 @@ class RenderService:
                 provenance += " + Energy lane harmonic-density DSP (not neural conditioning)"
             if tension_applied:
                 provenance += " + Tension lane presence-band DSP (not neural conditioning)"
+            if falsetto_applied:
+                provenance += " + Falsetto lane spectral-tilt DSP (not neural conditioning)"
             await asyncio.to_thread(write_diagnostic, diagnostic, project, track.sorted_notes(), audio, sr, actual_f0, provenance, track.automation.pitch_cents)
             track.render_path = str(wav)
             track.render_revision += 1

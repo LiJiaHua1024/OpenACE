@@ -177,3 +177,52 @@ def apply_tension_envelope(audio: np.ndarray, sample_rate: int, project: Project
     if peak > 0.98:
         processed *= 0.98 / peak
     return processed, True
+
+
+def apply_falsetto_envelope(audio: np.ndarray, sample_rate: int, project: Project, track: Track) -> tuple[np.ndarray, bool]:
+    """Apply Falsetto as spectral-tilt DSP without changing the note pitch.
+
+    Positive values thin the low chest-resonance band and reinforce existing upper
+    vocal residue; negative values do the opposite for a chestier/pressed tone. This
+    is a transparent post-render approximation, not neural register conditioning,
+    and it intentionally does not shift F0.
+    """
+    points = list(track.automation.falsetto)
+    if not points or not len(audio):
+        return audio, False
+    from scipy import signal
+
+    if audio.ndim == 1:
+        audio = audio[:, None]
+    source = np.asarray(audio, dtype=np.float32)
+    chest_cut = min(650.0, sample_rate * 0.12)
+    upper_cut = min(2200.0, sample_rate * 0.35)
+    chest_sos = signal.butter(2, chest_cut, btype="lowpass", fs=sample_rate, output="sos")
+    upper_sos = signal.butter(2, upper_cut, btype="lowpass", fs=sample_rate, output="sos")
+    chest = signal.sosfiltfilt(chest_sos, source, axis=0)
+    lowpassed_upper = signal.sosfiltfilt(upper_sos, source, axis=0)
+    upper = source - lowpassed_upper
+    seconds_per_tick = 60.0 / project.bpm / project.ppq
+    ordered = sorted(points, key=lambda point: point.ticks)
+    point_ticks = np.asarray([point.ticks for point in ordered], dtype=np.float64)
+    point_values = np.clip(np.asarray([point.value for point in ordered], dtype=np.float64), 0.0, 1.0)
+    processed = np.array(source, dtype=np.float32, copy=True)
+    chunk_size = 262144
+    for start in range(0, len(processed), chunk_size):
+        end = min(len(processed), start + chunk_size)
+        sample_ticks = (start + np.arange(end - start, dtype=np.float64)) / sample_rate / seconds_per_tick
+        values = np.interp(sample_ticks, point_ticks, point_values, left=point_values[0], right=point_values[-1])
+        bipolar = (values - _NEUTRAL) * 2.0
+        positive = np.clip(bipolar, 0.0, 1.0)[:, None].astype(np.float32)
+        negative = np.clip(-bipolar, 0.0, 1.0)[:, None].astype(np.float32)
+        processed[start:end] = (
+            source[start:end]
+            - chest[start:end] * positive * 0.28
+            + upper[start:end] * positive * 0.45
+            + chest[start:end] * negative * 0.25
+            - upper[start:end] * negative * 0.25
+        )
+    peak = float(np.max(np.abs(processed))) if processed.size else 0.0
+    if peak > 0.98:
+        processed *= 0.98 / peak
+    return processed, True

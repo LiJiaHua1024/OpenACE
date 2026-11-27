@@ -119,3 +119,65 @@ def test_empty_energy_and_tension_are_transparent():
         processed, applied = apply(audio, 48000, Project(), Track(name="Lead"))
         assert not applied
         assert np.array_equal(processed, audio)
+
+
+def test_falsetto_envelope_tilts_spectrum_without_shifting_pitch():
+    from openace.core.expression import apply_falsetto_envelope
+    from scipy import signal
+
+    sr = 48000
+    t = np.arange(sr) / sr
+    audio = (0.16 * np.sin(2 * np.pi * 220 * t) + 0.025 * np.sin(2 * np.pi * 3200 * t))[:, None].astype(np.float32)
+    project = Project(title="falsetto", bpm=120)
+    track = Track(name="Lead")
+    track.automation.falsetto = [EnvelopePoint(ticks=0, value=0.5), EnvelopePoint(ticks=960, value=1.0)]
+    processed, applied = apply_falsetto_envelope(audio, sr, project, track)
+    assert applied
+    low_sos = signal.butter(2, 650, btype="lowpass", fs=sr, output="sos")
+    high_sos = signal.butter(2, 2200, btype="highpass", fs=sr, output="sos")
+
+    def tilt(chunk):
+        low = signal.sosfiltfilt(low_sos, chunk)
+        high = signal.sosfiltfilt(high_sos, chunk)
+        return np.sqrt(np.mean(low ** 2)) / max(1e-9, np.sqrt(np.mean(high ** 2)))
+
+    first_tilt = tilt(processed[sr // 8 : sr // 4, 0])
+    last_tilt = tilt(processed[-sr // 4 :, 0])
+    assert last_tilt < first_tilt * 0.75
+    segment = processed[-sr // 4 :, 0]
+    spectrum = np.abs(np.fft.rfft(segment * np.hanning(len(segment))))
+    frequencies = np.fft.rfftfreq(len(segment), 1 / sr)
+    dominant = frequencies[np.argmax(spectrum)]
+    assert abs(dominant - 220) < 12
+
+
+def test_negative_falsetto_increases_chest_tilt():
+    from openace.core.expression import apply_falsetto_envelope
+    from scipy import signal
+
+    sr = 48000
+    t = np.arange(sr) / sr
+    audio = (0.12 * np.sin(2 * np.pi * 220 * t) + 0.04 * np.sin(2 * np.pi * 3200 * t))[:, None].astype(np.float32)
+    project = Project(title="chest", bpm=120)
+    track = Track(name="Lead")
+    track.automation.falsetto = [EnvelopePoint(ticks=0, value=0.5), EnvelopePoint(ticks=960, value=0.0)]
+    processed, applied = apply_falsetto_envelope(audio, sr, project, track)
+    assert applied
+    low_sos = signal.butter(2, 650, btype="lowpass", fs=sr, output="sos")
+    high_sos = signal.butter(2, 2200, btype="highpass", fs=sr, output="sos")
+
+    def tilt(chunk):
+        low = signal.sosfiltfilt(low_sos, chunk)
+        high = signal.sosfiltfilt(high_sos, chunk)
+        return np.sqrt(np.mean(low ** 2)) / max(1e-9, np.sqrt(np.mean(high ** 2)))
+
+    assert tilt(processed[-sr // 4 :, 0]) > tilt(processed[sr // 8 : sr // 4, 0]) * 1.1
+
+
+def test_empty_falsetto_is_transparent():
+    from openace.core.expression import apply_falsetto_envelope
+
+    audio = np.ones((256, 2), dtype=np.float32) * 0.1
+    processed, applied = apply_falsetto_envelope(audio, 48000, Project(), Track(name="Lead"))
+    assert not applied
+    assert np.array_equal(processed, audio)

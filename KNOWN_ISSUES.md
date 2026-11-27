@@ -7,7 +7,7 @@
 
 ## Current product gaps after the independent browser QA fix round
 
-- Pitch automation affects SoulX target F0; Dynamic and Air automation are applied as explicitly labeled post-render DSP. The falsetto lane still persists without affecting sound.
+- Pitch automation affects SoulX target F0; Dynamic, Air, Energy, Tension, and Falsetto automation are applied as explicitly labeled post-render DSP. Breath events still persist without affecting sound.
 - Piano roll now has marquee/multi-select/copy-paste/duplicate/quantize/context menu/velocity lane, per-note vibrato editing, and per-note pitch handles, and cross-track clipboard is regression-verified, but large-project performance proof is still absent.
 - Arrangement now uses decoded waveform peaks and supports independent audio-clip/grouped-note dragging, edge trim, split-at-cursor, linear fade endpoints, and clip gain, but still lacks automatic crossfade creation and richer context operations.
 - Repaint region selection is implemented via Alt-drag plus numeric seconds; the underlying ACE-Step repaint output has not been validated on GPU.
