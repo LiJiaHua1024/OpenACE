@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { Project, Track } from '../types'
+import LevelMeter from './LevelMeter'
 
 interface Props {
   project: Project
@@ -8,6 +9,8 @@ interface Props {
   onAddTrack(type: 'vocal' | 'accompaniment'): void
   onPatchTrack(trackId: string, patch: Partial<Track>): void
   updateProject(mutator: (project: Project) => void, transient?: boolean): void
+  getTrackLevel?(trackId: string): number
+  getMasterLevel?(): number
 }
 
 interface MenuState {
@@ -126,6 +129,7 @@ export default function TrackList(props: Props) {
                 <button className="track-menu-button" title="Track operations" onClick={event => openMenu(event, track.id)}>⋯</button>
               </div>
               <div className="track-meta">{track.type} · {track.language} · {track.notes.length} notes</div>
+              {props.getTrackLevel && <LevelMeter compact getLevel={() => props.getTrackLevel!(track.id)} />}
               <div className="track-controls" onClick={e => e.stopPropagation()}>
                 <button className={track.mute ? 'toggle active' : 'toggle'} onClick={() => props.onPatchTrack(track.id, { mute: !track.mute })}>M</button>
                 <button className={track.solo ? 'toggle active solo' : 'toggle solo'} onClick={() => props.onPatchTrack(track.id, { solo: !track.solo })}>S</button>
@@ -136,6 +140,12 @@ export default function TrackList(props: Props) {
           </div>
         ))}
       </div>
+      {props.getMasterLevel && (
+        <div className="master-meter-row">
+          <span>Master</span>
+          <LevelMeter getLevel={props.getMasterLevel} />
+        </div>
+      )}
       {menu && menuTrack && (
         <div
           className="track-context-menu"

@@ -64,6 +64,15 @@ function playbackAudioSnapshot(project: Project): string {
   })
 }
 
+function analyserPeakLevel(analyser?: AnalyserNode): number {
+  if (!analyser) return 0
+  const data = new Uint8Array(analyser.fftSize)
+  analyser.getByteTimeDomainData(data)
+  let peak = 0
+  for (const value of data) peak = Math.max(peak, Math.abs(value - 128) / 128)
+  return peak
+}
+
 export default function App() {
   const [project, setProject] = useState<Project | null>(null)
   const [selectedTrackId, setSelectedTrackId] = useState<string>()
@@ -81,7 +90,7 @@ export default function App() {
   const transactionBase = useRef<Project | null>(null)
   const locallyDeletingProjectId = useRef<string | null>(null)
   const saveTimer = useRef<number | null>(null)
-  const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext; starting?: boolean; generation: number }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], starting: false, generation: 0 })
+  const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext; starting?: boolean; generation: number; analysers: Record<string, AnalyserNode>; masterAnalyser?: AnalyserNode }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], starting: false, generation: 0, analysers: {} })
   const playbackSnapshotRef = useRef('')
   const playbackRebuildTimer = useRef<number | null>(null)
 
@@ -302,9 +311,14 @@ export default function App() {
     playback.current.generation += 1
     playback.current.sources.forEach(source => { try { source.stop() } catch {} })
     playback.current.sources = []
+    playback.current.analysers = {}
+    playback.current.masterAnalyser = undefined
     // Keep the context alive: decoder and node creation are reused across transport starts.
     playback.current.ctx = undefined
   }, [])
+
+  const getTrackLevel = useCallback((trackId: string) => analyserPeakLevel(playback.current.analysers[trackId]), [])
+  const getMasterLevel = useCallback(() => analyserPeakLevel(playback.current.masterAnalyser), [])
 
   const schedulePlayback = useCallback(async (targetProject: Project, startTicks: number, continuous = false) => {
     const generation = playback.current.generation + 1
@@ -335,6 +349,8 @@ export default function App() {
     playback.current.startContextTime = ctx?.currentTime || 0
     if (!audible.length) {
       playback.current.sources = []
+      playback.current.analysers = {}
+      playback.current.masterAnalyser = undefined
       return true
     }
     const tracksAndBuffers = await Promise.all(audible.flatMap(track => track.playbackSources.map(async sourceSpec => {
@@ -354,17 +370,39 @@ export default function App() {
     const scheduleOffsetSeconds = continuous && ctx
       ? ticksToSeconds(targetProject, playback.current.startTicks) + (ctx.currentTime - playback.current.startContextTime)
       : ticksToSeconds(targetProject, startTicks)
+    playback.current.analysers = {}
+    const masterInput = ctx.createGain()
+    const masterAnalyser = ctx.createAnalyser()
+    masterAnalyser.fftSize = 512
+    masterInput.connect(masterAnalyser)
+    masterAnalyser.connect(ctx.destination)
+    playback.current.masterAnalyser = masterAnalyser
+    const trackInputs = new Map<string, GainNode>()
+    const inputForTrack = (track: Track) => {
+      const existing = trackInputs.get(track.id)
+      if (existing) return existing
+      const input = ctx.createGain()
+      const volume = ctx.createGain()
+      volume.gain.value = track.volume
+      const panner = ctx.createStereoPanner()
+      panner.pan.value = track.pan
+      const analyser = ctx.createAnalyser()
+      analyser.fftSize = 512
+      input.connect(volume).connect(panner).connect(analyser)
+      analyser.connect(masterInput)
+      playback.current.analysers[track.id] = analyser
+      trackInputs.set(track.id, input)
+      return input
+    }
     playback.current.sources = tracksAndBuffers.flatMap(item => {
       if (!item || !ctx) return []
       const source = ctx.createBufferSource()
       source.buffer = item.buffer
       const gain = ctx.createGain()
       const clipGain = Math.pow(10, (item.gainDb || 0) / 20)
-      const baseGain = item.track.volume * clipGain
+      const baseGain = clipGain
       gain.gain.value = baseGain
-      const pan = ctx.createStereoPanner()
-      pan.pan.value = item.track.pan
-      source.connect(gain).connect(pan).connect(ctx.destination)
+      source.connect(gain).connect(inputForTrack(item.track))
       const sourceStartSeconds = ticksToSeconds(targetProject, item.sourceStartTicks)
       const sourceOffsetSeconds = secondsBetweenTicks(targetProject, item.sourceStartTicks - item.sourceOffsetTicks, item.sourceStartTicks)
       const clipDurationSeconds = item.sourceDurationTicks
@@ -589,6 +627,8 @@ export default function App() {
           }, false)}
           onPatchTrack={patchTrack}
           updateProject={updateProject}
+          getTrackLevel={getTrackLevel}
+          getMasterLevel={getMasterLevel}
         />
         <main className="center-workspace">
           <ArrangementView

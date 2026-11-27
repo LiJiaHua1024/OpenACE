@@ -783,3 +783,14 @@ Implemented and verified:
 - Regression QA in visible Chrome verified drag rebuild (`1920→2040` ticks, timer `126.8ms`), left trim rebuild (`offset 0→120`, timer `126.9ms`), undo/redo rebuild (`166.3/163.3ms`), exactly one rebuild for three rapid edits, zero unexpected playhead jumps, correct initial `0.5s` clip offset and `1.0s` future scheduling, one decode across repeated reconstructions, clean 1272×837 layout, and zero console/network failures. Evidence: `artifacts/e2e_screenshots/live_playback_reconstruction/`.
 
 Validation after iteration 54: frontend production build passed; browser regression QA passed. Backend behavior was unchanged; full automated suite is being rerun before commit.
+
+## Iteration 55 — live track and master metering
+
+Implemented and verified:
+
+- Playback now uses explicit per-track bus nodes: clip fade/gain chains feed a shared track input, track volume and stereo pan are applied once per track, and each track passes through a real `AnalyserNode` into a summed master analyser. This preserves the previous audible routing while making metering quantitative rather than decorative.
+- Track cards render compact live meters and the track sidebar includes a Master meter. Meters use requestAnimationFrame smoothing with fast attack/exponential decay and a stable callback ref, so normal playhead re-renders do not reset or flicker them.
+- Independent visible-Chrome QA verified nonzero animated levels for two audible tracks, exact zero for an empty track, correct summed master ratios, volume reduction (`0.8→0.05` lowering track/master), mute and solo semantics, pause/stop decay to zero, restart recovery, continued live reconstruction after clip drag, unchanged decode caching, and clean 1272×837 layout with zero console/network failures. Evidence: `artifacts/e2e_screenshots/live_metering/`.
+- Non-blocking cleanup debt observed by instrumentation: internally caught `source.stop()` calls can target already-ended/never-started sources. They do not surface in console or affect audio/metering; a future graph-hygiene pass can track source lifetimes more precisely.
+
+Validation after iteration 55: frontend production build passed; browser metering QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green at 110 collected tests.

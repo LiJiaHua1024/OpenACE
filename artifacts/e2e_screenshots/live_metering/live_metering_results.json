@@ -1,0 +1,103 @@
+{
+  "task": "live_track_master_metering",
+  "project_id": "project_d152f8c8ae7d",
+  "viewport": {"width": 1272, "height": 837},
+  "implementation_modified": false,
+  "overall": "passed_with_nonblocking_graph_hygiene_observation",
+  "fixture": {
+    "audible_tracks": ["Meter Audio A", "Meter Audio B"],
+    "silent_track": "Meter Silent",
+    "clips_per_audible_track": 14,
+    "clip_duration_ticks": 1440,
+    "audio_path": "/uploads/svclyrics_words.wav",
+    "initial_volume_each_audible_track": 0.8
+  },
+  "playback_start": {
+    "result": "passed",
+    "created_sources": 28,
+    "started_sources": 28,
+    "decode_audio_data_calls": 1,
+    "analyser_nodes": 3,
+    "start_errors": 0,
+    "first_dom_levels": {"track_a": 0.243164, "track_b": 0.243164, "silent": 0, "master": 0.389582}
+  },
+  "baseline": {
+    "result": "passed",
+    "analyser_peak_mean": {"master": 0.26875, "track_a": 0.13594, "track_b": 0.13594},
+    "dom_width_mean": {"master": 0.39995, "track_a": 0.25152, "track_b": 0.25152, "silent": 0},
+    "dom_width_ranges_showing_animation": {"master": [0.36777, 0.41406], "track_a": [0.23399, 0.26344], "track_b": [0.23399, 0.26344], "silent": [0, 0]},
+    "zero_or_reset_samples_in_stable_baseline": 0
+  },
+  "solo_semantics": {
+    "result": "passed",
+    "action": "solo Meter Audio B",
+    "active_analyser_count": 2,
+    "master_equals_audible_b": true,
+    "analyser_peak_mean_master_and_b": 0.13086,
+    "dom_width_mean": {"track_a": 0.00021, "track_b": 0.23258, "master": 0.23258, "silent": 0},
+    "baseline_master_dom_mean": 0.39995,
+    "rebuild_stop_create_latency_ms": [188.0, 188.2]
+  },
+  "volume_reduction": {
+    "result": "passed",
+    "action": "real click on Meter Audio A volume slider",
+    "resulting_volume_a": 0.05,
+    "analyser_peak_mean": {"master": 0.14323, "track_a": 0.01302, "track_b": 0.13542},
+    "dom_width_mean": {"master": 0.26344, "track_a": 0.04907, "track_b": 0.2534, "silent": 0},
+    "master_decreased_from_baseline": true,
+    "track_a_decreased": true,
+    "rebuild_stop_create_latency_ms": [153.1, 153.5]
+  },
+  "mute": {
+    "result": "passed",
+    "action": "mute Meter Audio A",
+    "active_analyser_count": 2,
+    "master_equals_audible_b": true,
+    "dom_width_mean": {"track_a": 0.00011, "track_b": 0.23481, "master": 0.23481, "silent": 0},
+    "rebuild_stop_create_latency_ms": [283.9, 284.1]
+  },
+  "live_reconstruction_clip_drag": {
+    "result": "passed",
+    "project_change": "meter_a2 start_ticks 1440 -> 1560",
+    "click_to_stop_create_latency_ms": [237.7, 237.9],
+    "counts_before": {"created": 140, "start": 119, "stop": 112, "decode": 1},
+    "counts_after": {"created": 168, "start": 137, "stop": 140, "decode": 1},
+    "old_sources_stopped_before_new_sources": true,
+    "decode_cache_reused": true,
+    "note": "Only 18 of 28 recreated sources started because clips entirely in the past are created by the scheduler but not started."
+  },
+  "pause_stop_decay": {
+    "result": "passed",
+    "pause_master_widths": [0.21561, 0.11918, 0.06588, 0.03235, 0.01411, 0.0078, 0.00383, 0.00188, 0.00092, 0.00051, 0.00025, 0.00014, 0.00007],
+    "stop_master_widths": [0.20783, 0.10204, 0.0445, 0.02185, 0.01073, 0.00593, 0.00291, 0.00143, 0.00062, 0.00027, 0.00011],
+    "stop_reset_readout": "00:00.00",
+    "restart_returned_to_nonzero": true
+  },
+  "flicker_and_rerender_stability": {
+    "result": "passed",
+    "stable_baseline_dom_minimums": {"track_a": 0.23399, "track_b": 0.23399, "master": 0.36777},
+    "silent_track_remained_zero": true,
+    "evidence": "No zero/reset samples occurred during stable playback despite continuous playhead re-renders. Drops occurred only during intentional reconstruction or transport stop."
+  },
+  "layout_console_network": {
+    "result": "passed",
+    "layout": {"innerWidth": 1272, "innerHeight": 837, "body_scrollWidth": 1272, "body_clientWidth": 1272, "sidebar_scrollWidth": 235, "sidebar_clientWidth": 235, "transport_scrollWidth": 1272, "transport_clientWidth": 1272},
+    "console_messages": 0,
+    "network_failures": 0,
+    "http_errors": 0
+  },
+  "nonblocking_observation": {
+    "severity": "minor/pre-existing graph hygiene",
+    "summary": "Instrumentation counted 43 caught source.stop() exceptions by the end of the run. They did not surface in the console and did not cause double audio or metering failures, but they indicate the playback graph repeatedly calls stop() on already-ended or never-started sources.",
+    "uncaught_graph_or_console_errors": 0,
+    "start_errors": 0
+  },
+  "artifacts": {
+    "recording": "/home/ubuntu/screencasts/live-metering-qa/live-metering-qa-edited.mp4",
+    "raw_data": "artifacts/e2e_screenshots/live_metering/live_metering_raw.json",
+    "active_screenshot": "artifacts/e2e_screenshots/live_metering/01_playback_meters_active.png",
+    "mute_screenshot": "artifacts/e2e_screenshots/live_metering/04_mute_a.png",
+    "drag_screenshot": "artifacts/e2e_screenshots/live_metering/05_clip_drag_held.png",
+    "final_layout": "artifacts/e2e_screenshots/live_metering/10_final_layout.png"
+  }
+}
