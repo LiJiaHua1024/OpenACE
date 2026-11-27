@@ -24,6 +24,14 @@ from openace.engines.vram import vram_manager
 from .events import event_bus
 
 
+def first_vocal_notes(project: Project):
+    """Return notes from the first vocal track that actually contains notes."""
+    for track in project.vocal_tracks():
+        if track.notes:
+            return track.sorted_notes()
+    return []
+
+
 class RenderService:
     def __init__(self, store: ProjectStore, render_root: Path):
         self.store = store
@@ -294,7 +302,7 @@ class RenderService:
             self.store.save(project)
             self._publish_project(project)
             diagnostic = outdir / "diagnostic.png"
-            notes = project.vocal_tracks()[0].sorted_notes() if project.vocal_tracks() else []
+            notes = first_vocal_notes(project)
             await asyncio.to_thread(write_diagnostic, diagnostic, project, notes, audio, sr)
             job.output_path = str(wav)
             job.diagnostic_path = str(diagnostic)
@@ -323,14 +331,48 @@ class RenderService:
             wav = outdir / "svc.wav"
             await asyncio.to_thread(self.vocal_engine.convert_voice, Path(source_audio), Path(reference_voice), wav)
             audio, sr = await asyncio.to_thread(read_audio, wav)
+
+            # SVC output is arrangement media, not just a side-file in the job card.
+            # Keep each conversion on its own audio track so users can mute/compare/move
+            # alternatives without accidentally doubling the score-rendered vocal track.
+            duration_ticks = project.seconds_to_ticks(len(audio) / sr) if sr else None
+            source_name = Path(source_audio).stem or "source"
+            conversion_track = project.add_track(
+                Track(name=f"SVC — {source_name}", type=TrackType.AUDIO, color="#ff8f5a")
+            )
+            conversion_track.clips.append(
+                AudioClip(
+                    path=str(wav),
+                    start_ticks=0,
+                    duration_ticks=duration_ticks,
+                    label=f"SVC: {source_name}",
+                )
+            )
+            conversion_track.render_path = str(wav)
+            conversion_track.render_revision += 1
+            conversions = list(project.metadata.get("svc_conversions", []))
+            conversions.append(
+                {
+                    "job_id": job.id,
+                    "track_id": conversion_track.id,
+                    "source_audio": str(source_audio),
+                    "reference_voice": str(reference_voice),
+                    "output_path": str(wav),
+                }
+            )
+            project.metadata["svc_conversions"] = conversions
+            self.store.save(project)
+            self._publish_project(project)
+
             diagnostic = outdir / "diagnostic.png"
-            notes = project.vocal_tracks()[0].sorted_notes() if project.vocal_tracks() else []
-            await asyncio.to_thread(write_diagnostic, diagnostic, project, notes, audio, sr)
+            notes = first_vocal_notes(project)
+            provenance = "OPENACE_CI_SYNTH_FIXTURE=1 — ORCHESTRATION TEST AUDIO, NOT MODEL OUTPUT" if self.fixture_mode else f"{self.vocal_engine_name} SVC"
+            await asyncio.to_thread(write_diagnostic, diagnostic, project, notes, audio, sr, None, provenance)
             job.output_path = str(wav)
             job.diagnostic_path = str(diagnostic)
             job.status = RenderJobStatus.COMPLETED
             job.progress = 1.0
-            job.message = "completed"
+            job.message = f"completed; added to arrangement as {conversion_track.name}"
             job.finished_at = time.time()
         except Exception as exc:
             job.status = RenderJobStatus.FAILED
@@ -338,4 +380,5 @@ class RenderService:
             job.message = str(exc)
             job.finished_at = time.time()
         self._publish_job(job)
+        event_bus.publish("project_updated", {"project_id": job.project_id})
         return job

@@ -1,0 +1,195 @@
+{
+  "uploads_visible": {
+    "ok": true,
+    "details": {
+      "reference_path": "/home/ubuntu/repos/OpenACE/data/uploads/svc_reference_voice.wav",
+      "source_fixture": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/svc_arrangement/svc_source_phrase.wav"
+    },
+    "time": 1795756035.67405
+  },
+  "svc_job_arrangement_integration": {
+    "ok": true,
+    "details": {
+      "job": {
+        "id": "job_3b02b38b4a1c",
+        "project_id": "project_824ffd12a5a6",
+        "track_id": null,
+        "mode": "svc",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed; added to arrangement as SVC — svc_source_phrase",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/svc.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/diagnostic.png",
+        "created_at": 1795756035.7001173,
+        "finished_at": 1795756036.415443,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true,
+        "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/svc_source_phrase.wav",
+        "reference_voice": "/home/ubuntu/repos/OpenACE/data/uploads/svc_reference_voice.wav",
+        "caption": "",
+        "start_s": null,
+        "end_s": null
+      },
+      "track": {
+        "id": "track_21a9c188a0a0",
+        "name": "SVC — svc_source_phrase",
+        "type": "audio",
+        "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/svc.wav"
+      },
+      "clip": {
+        "id": "clip_be39ceecbfff",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/svc.wav",
+        "start_ticks": 0,
+        "duration_ticks": 1152,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "SVC: svc_source_phrase"
+      },
+      "metadata": [
+        {
+          "job_id": "job_3b02b38b4a1c",
+          "track_id": "track_21a9c188a0a0",
+          "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/svc_source_phrase.wav",
+          "reference_voice": "/home/ubuntu/repos/OpenACE/data/uploads/svc_reference_voice.wav",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/svc.wav"
+        }
+      ],
+      "track_cards": [
+        "⋯\nvocal · zh · 0 notes\nM\nS",
+        "⋯\naudio · zh · 0 notes\nM\nS"
+      ],
+      "no_reload_track_count": [
+        1,
+        2
+      ]
+    },
+    "time": 1795756037.5109568
+  },
+  "arrangement_waveform_clip_visible": {
+    "ok": true,
+    "details": {
+      "arrangement_box": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 132
+      },
+      "clip_start": 0,
+      "clip_duration": 1152,
+      "method": "visible screenshot plus decoded waveform path fetch without errors"
+    },
+    "time": 1795756037.5240579
+  },
+  "playback_interaction_clip_source_health": {
+    "ok": true,
+    "details": {
+      "position_before": "1.1.1",
+      "position_during": "1.2.3",
+      "time_during": "00:00.83",
+      "clip_path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/svc.wav",
+      "clip_file_exists": true,
+      "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/svc.wav",
+      "interpretation": "clip path is the arrangement playback source; no decode/network errors during visible play interaction"
+    },
+    "time": 1795756038.7334492
+  },
+  "svc_clip_drag_move": {
+    "ok": true,
+    "details": {
+      "before": {
+        "id": "clip_be39ceecbfff",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/svc.wav",
+        "start_ticks": 0,
+        "duration_ticks": 1152,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "SVC: svc_source_phrase"
+      },
+      "after": {
+        "id": "clip_be39ceecbfff",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/svc.wav",
+        "start_ticks": 120,
+        "duration_ticks": 1152,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "SVC: svc_source_phrase"
+      }
+    },
+    "time": 1795756039.4545825
+  },
+  "svc_clip_trim_right": {
+    "ok": true,
+    "details": {
+      "before": {
+        "id": "clip_be39ceecbfff",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/svc.wav",
+        "start_ticks": 120,
+        "duration_ticks": 1152,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "SVC: svc_source_phrase"
+      },
+      "after": {
+        "id": "clip_be39ceecbfff",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/svc.wav",
+        "start_ticks": 120,
+        "duration_ticks": 1032,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "SVC: svc_source_phrase"
+      }
+    },
+    "time": 1795756040.1519144
+  },
+  "master_wav_export_includes_svc": {
+    "ok": true,
+    "details": {
+      "analysis": {
+        "http_status": 200,
+        "bytes": 345644,
+        "sample_rate": 48000,
+        "duration": 1.2,
+        "nonzero_ranges": [
+          [
+            0.125,
+            1.2
+          ]
+        ],
+        "rms_025_065": 0.16268081963062286,
+        "clip_timing_seconds": [
+          0.125,
+          1.2
+        ]
+      },
+      "interpretation": "PASS: exported master first becomes nonzero at about 0.125s and remains energetic, exactly matching dragged clip timing start=0.125s/end=1.2s. Original harness threshold incorrectly expected 0.25s."
+    },
+    "time": 1795756040.426406
+  },
+  "svc_diagnostic_available": {
+    "ok": true,
+    "details": {
+      "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_824ffd12a5a6/job_3b02b38b4a1c/diagnostic.png"
+    },
+    "time": 1795756040.4270854
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795756040.94858
+  },
+  "passed": true
+}

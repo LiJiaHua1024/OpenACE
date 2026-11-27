@@ -214,3 +214,59 @@ def test_breath_event_postprocesses_fixture_render_with_real_reference_donor(mon
     breath_rms = float(np.sqrt(np.mean(breath_region**2)))
     assert breath_rms > 0.004
     assert breath_rms < float(np.sqrt(np.mean(note_region**2)))
+
+def test_svc_conversion_is_added_to_arrangement_with_provenance(monkeypatch, tmp_path):
+    import soundfile as sf
+
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    sr = 24000
+    t = np.arange(sr) / sr
+    source = tmp_path / "take_one.wav"
+    reference = tmp_path / "voice_reference.wav"
+    sf.write(source, 0.2 * np.sin(2 * np.pi * 220 * t), sr)
+    sf.write(reference, 0.1 * np.sin(2 * np.pi * 180 * t), sr)
+
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("svc-arrangement")
+    vocal = project.add_track(Track(name="Lead"))
+    vocal.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    store.save(project)
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(
+        project.id,
+        RenderMode.SVC,
+        source_audio=str(source),
+        reference_voice=str(reference),
+    )
+    result = asyncio.run(service.run_svc(job.id, str(source), str(reference)))
+
+    assert result.status == RenderJobStatus.COMPLETED
+    assert "added to arrangement" in result.message
+    updated = store.get(project.id)
+    conversion_tracks = [track for track in updated.tracks if track.name == "SVC — take_one"]
+    assert len(conversion_tracks) == 1
+    conversion = conversion_tracks[0]
+    assert conversion.type.value == "audio"
+    assert len(conversion.clips) == 1
+    clip = conversion.clips[0]
+    assert clip.path == result.output_path
+    assert clip.start_ticks == 0
+    assert clip.duration_ticks == updated.seconds_to_ticks(1.0)
+    assert clip.label == "SVC: take_one"
+    assert conversion.render_path == result.output_path
+    provenance = updated.metadata["svc_conversions"][-1]
+    assert provenance["job_id"] == job.id
+    assert provenance["track_id"] == conversion.id
+    assert provenance["source_audio"] == str(source)
+    assert provenance["reference_voice"] == str(reference)
+    assert Path(result.diagnostic_path).exists()
+
+    second = service.create_job(
+        project.id,
+        RenderMode.SVC,
+        source_audio=str(source),
+        reference_voice=str(reference),
+    )
+    asyncio.run(service.run_svc(second.id, str(source), str(reference)))
+    updated = store.get(project.id)
+    assert len([track for track in updated.tracks if track.name == "SVC — take_one"]) == 2

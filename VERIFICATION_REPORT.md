@@ -552,3 +552,15 @@ Implemented and verified:
 - Independent visible-Chrome QA verified lane alignment/professional visibility, empty creation, horizontal/vertical drag persistence, exact numeric `{tick:960,bpm:60}` editing, transport tick 1440 reading `1.4.1 / 00:02.00`, undo/redo, panel delete, tick-zero BPM editing to 125 with tick 480 reading `00:00.48`, wheel scroll/Ctrl+zoom synchronization, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/tempo_editing/`, especially `TEMPO_EDITING_QA_REPORT.md` and `04_numeric_exact_960_60.png`.
 
 Validation after iteration 34: frontend production build passed; Python compile passed; full automated suite reached 85 passed.
+
+## Iteration 35 — SVC conversion arrangement integration
+
+Implemented and verified:
+
+- SVC conversion output is no longer only a standalone job-card file. Successful conversion now creates a dedicated `SVC — <source stem>` audio track with the converted wav as a normal arrangement clip at tick zero, so existing waveform rendering, playback, drag/trim/split/fades/gain, persistence, and master export all apply without special-case frontend code.
+- Each conversion keeps its own track for non-destructive comparison instead of silently stacking alternatives on the score-rendered vocal track. `project.metadata['svc_conversions']` records job id, track id, source audio, reference voice, and output path.
+- The backend publishes the updated arrangement over SSE when conversion completes; the job message explicitly says the result was added to the arrangement. Diagnostics now select the first vocal track that actually has notes and gracefully render a no-notes state instead of crashing on an empty stem plot.
+- Backend regression verifies converted clip path/placement/duration/label, render path deduplication semantics, provenance metadata, diagnostic creation, and repeated conversions as independent comparison tracks.
+- Independent visible-Chrome QA generated real local source/reference WAVs, uploaded both through the UI, ran conversion, verified no-reload track appearance, visible waveform clip, healthy playback interaction, drag `0→120` and trim `1152→1032` persistence, master export energy at the edited `0.125–1.2s` placement, diagnostic generation, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/svc_arrangement/`, especially `SVC_ARRANGEMENT_QA_REPORT.md`, `02_svc_track_no_reload.png`, and `master_export_analysis.png`.
+
+Validation after iteration 35: frontend production build passed; Python compile passed; full automated suite reached 86 passed.

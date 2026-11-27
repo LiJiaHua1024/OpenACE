@@ -2,7 +2,7 @@
 
 Status legend: **Done** (implemented and exercised end-to-end in this repository), **Partial** (real implementation exists but production depth or validation is incomplete), **Gap** (missing). This is an adversarial living audit, not marketing copy.
 
-Last audit iteration: 2026-11-27, after visual tempo-map editing iteration and independent browser QA.
+Last audit iteration: 2026-11-27, after SVC arrangement-integration iteration and independent browser QA.
 
 ## P0 — synthesis cores and acoustic invariants
 
@@ -10,7 +10,7 @@ Last audit iteration: 2026-11-27, after visual tempo-map editing iteration and i
 |---|---|---:|---|
 | Score-to-singing neural SVS | Commercial-grade singing from notes+lyrics | **Partial** | Real SoulX-Singer subprocess adapter, score metadata builder, strict phone validation, zero-shot preprocessing entrypoint, and local GPU verifier implemented. Not yet run on physical GPU in this sandbox. |
 | Zero-shot reference voice | Upload reference and synthesize in that voice | **Partial** | Upload slot, persistence, preprocess invocation, render wiring implemented. Voice library/mixing/browser still primitive. |
-| SVC hot-song conversion | Convert an existing performance | **Partial** | SoulX-Singer-SVC module invocation and F0 extraction path implemented; not GPU-verified. |
+| SVC hot-song conversion | Convert an existing performance and use it in the arrangement | **Partial** | SoulX-Singer-SVC module invocation and F0 extraction path implemented; conversion output now becomes a dedicated editable audio track/clip with provenance, browser-visible no-reload arrangement update, playback interaction, drag/trim persistence, diagnostic, and master-export inclusion. Real conversion quality is not GPU-verified and SVC-side lyric display/correction remains absent. |
 | Vocal2BGM | Generate musical accompaniment around a vocal | **Partial** | Correct upstream ACE-Step `complete` task semantics wired with `src_audio`; fixture/browser orchestration verified. Real musical quality not GPU-verified. |
 | Interval repaint | Box-select a region and regenerate locally | **Partial** | ACE-Step `repaint` backend plus visible Alt-drag arrangement region selection and rounded numeric seconds controls implemented; regression screenshot verifies the overlay. Masking semantics/real output validation pending GPU. |
 | 12GB VRAM scheduling | Never co-resident large models | **Partial** | Process-local `VRAMManager`, CPU offload config, and subprocess serialization designed. Needs local physical memory telemetry validation. |

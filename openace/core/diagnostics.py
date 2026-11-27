@@ -121,8 +121,11 @@ def write_diagnostic(
     ax = axes[1]
     offsets = beat_offsets_ms(project, notes)
     x = [project.ticks_to_seconds(n.start_ticks) for n in notes]
-    ax.stem(x, offsets, linefmt="#f2cc60", markerfmt="o", basefmt=" ")
-    ax.axhline(0, color="#79b8ff", linewidth=0.8)
+    if x:
+        ax.stem(x, offsets, linefmt="#f2cc60", markerfmt="o", basefmt=" ")
+        ax.axhline(0, color="#79b8ff", linewidth=0.8)
+    else:
+        ax.text(0.5, 0.5, "No vocal notes in project", transform=ax.transAxes, ha="center", color="#8ea0c9")
     ax.set_ylabel("ms", color="#c9d1e3")
     ax.set_title("Per-note beat offset (vowel onset anchor)", color="white")
 
