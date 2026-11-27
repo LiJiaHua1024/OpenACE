@@ -2,7 +2,7 @@
 
 Status legend: **Done** (implemented and exercised end-to-end in this repository), **Partial** (real implementation exists but production depth or validation is incomplete), **Gap** (missing). This is an adversarial living audit, not marketing copy.
 
-Last audit iteration: 2026-11-27, after editable time-signature iteration and independent browser QA.
+Last audit iteration: 2026-11-27, after dedicated lyric-correction iteration and independent browser QA.
 
 ## P0 — synthesis cores and acoustic invariants
 
@@ -41,7 +41,7 @@ Last audit iteration: 2026-11-27, after editable time-signature iteration and in
 | Capability | Requirement | Status | Evidence and remaining gap |
 |---|---|---:|---|
 | Audio-to-MIDI import | Upload sung audio and edit extracted notes | **Partial** | `/api/import/audio`, UI control, librosa/pyin extraction, octave correction, explicit no-pitch failure, and local faster-whisper word-timestamp alignment are browser/API verified on a real vocal example. Empty unaligned notes remain blank rather than placeholder text. Monophonic extraction quality and lyric correction depth remain below a commercial editor. |
-| ASR lyrics | Real local transcription for cover/SVC | **Partial** | Local faster-whisper word timestamps are integrated into audio import with detected language, async execution, strict no-placeholder failure, and browser proof. A dedicated lyric-correction workflow and SVC-side lyric display remain absent. |
+| ASR lyrics | Real local transcription for cover/SVC | **Partial** | Local faster-whisper word timestamps are integrated into audio import with detected language, async execution, strict no-placeholder failure, and browser proof. A dedicated browser-verified lyric-correction workflow now provides per-note editing, position/phoneme feedback, missing counts, exact-count batch distribution, atomic mismatch rejection, undo/redo, persistence, and phoneme regeneration. SVC-side lyric display remains absent. |
 | Cantonese lyrics | Validated Jyutping frontend and engine tokens | **Partial** | pycantonese-backed onset/nucleus/coda editor phonemes, syllabic nasals, loud unknown-character errors, exact `yue_*` SoulX phones, canonical Cantonese metadata, UI browser proof, and fixture render proof are implemented. Polyphonic character disambiguation and real GPU listening remain unvalidated. |
 | Piecewise tempo timing | Musical ticks and audio seconds stay correct across tempo changes | **Done** | Core bidirectional tick/second conversion integrates tempo segments; SoulX metadata/F0, expression DSP, master clip offsets/fades/crossfades, diagnostics, USTX/SVP/VPR/MIDI/LRC export/import, frontend transport/waveform/repaint/playback all use shared piecewise conversion. Regression and live browser playback proof exists. |
 | WAV master | Streaming-safe stereo mixdown | **Done** | Clip-aware mixing with offsets/duplicate-path suppression/volume/crossfades writes through transparent constant-gain normalization when possible, with two-pass ffmpeg loudnorm fallback for peaky material. Output is independently measured through ffmpeg EBU R128 loudness/true-peak statistics at about -14 LUFS and below -1 dBTP; non-conforming edge material fails loudly rather than silently exporting a false master. |

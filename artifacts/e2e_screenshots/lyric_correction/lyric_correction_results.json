@@ -1,0 +1,225 @@
+{
+  "console_errors": [],
+  "network_failures": [
+    "http://127.0.0.1:8787/api/events :: net::ERR_ABORTED",
+    "http://127.0.0.1:8787/api/events :: net::ERR_ABORTED"
+  ],
+  "project_id": "project_2e49d9bbd148",
+  "added_notes": 4,
+  "section_visible": true,
+  "summary_initial": "4 notes \u00b7 4 missing lyrics",
+  "mismatch": {
+    "error": "Lyric token count 3 does not match note count 4; nothing was changed.",
+    "before": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "after": [
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "after_batch": {
+    "lyrics": [
+      "\u6625",
+      "\u98ce",
+      "\u7b11",
+      "\u9765"
+    ],
+    "phoneme_counts": [
+      2,
+      2,
+      2,
+      1
+    ],
+    "summary": "4 notes \u00b7 0 missing lyrics",
+    "input_values": [
+      "\u6625",
+      "\u98ce",
+      "\u7b11",
+      "\u9765"
+    ],
+    "phoneme_text": [
+      "\u0288\u0282\u02b0 u\u0259n",
+      "f \u0259\u014b",
+      "\u0255 iau",
+      "i\u025b"
+    ]
+  },
+  "after_reload": {
+    "lyrics": [
+      "\u6625",
+      "\u98ce",
+      "\u7b11",
+      "\u9765"
+    ],
+    "phoneme_counts": [
+      2,
+      2,
+      2,
+      1
+    ],
+    "summary": "4 notes \u00b7 0 missing lyrics"
+  },
+  "undo_enabled_after_reload": false,
+  "after_row_edit": {
+    "lyrics": [
+      "\u732b",
+      "\u98ce",
+      "\u7b11",
+      "\u9765"
+    ],
+    "phoneme_counts": [
+      2,
+      2,
+      2,
+      1
+    ],
+    "first_feedback": "m au"
+  },
+  "after_undo_edit": {
+    "lyrics": [
+      "\u6625",
+      "\u98ce",
+      "\u7b11",
+      "\u9765"
+    ],
+    "select_enabled": true
+  },
+  "after_redo_edit": {
+    "lyrics": [
+      "\u732b",
+      "\u98ce",
+      "\u7b11",
+      "\u9765"
+    ]
+  },
+  "layout": {
+    "panel": {
+      "x": 950,
+      "y": 58,
+      "width": 322,
+      "height": 779
+    },
+    "rows": [
+      {
+        "row": {
+          "x": 963,
+          "y": 537,
+          "width": 285,
+          "height": 32
+        },
+        "input": {
+          "x": 1048,
+          "y": 541,
+          "width": 100,
+          "height": 24
+        },
+        "phonemes": {
+          "x": 1153,
+          "y": 547.5,
+          "width": 90,
+          "height": 11
+        }
+      },
+      {
+        "row": {
+          "x": 963,
+          "y": 572,
+          "width": 285,
+          "height": 32
+        },
+        "input": {
+          "x": 1048,
+          "y": 576,
+          "width": 100,
+          "height": 24
+        },
+        "phonemes": {
+          "x": 1153,
+          "y": 582.5,
+          "width": 90,
+          "height": 11
+        }
+      },
+      {
+        "row": {
+          "x": 963,
+          "y": 607,
+          "width": 285,
+          "height": 32
+        },
+        "input": {
+          "x": 1048,
+          "y": 611,
+          "width": 100,
+          "height": 24
+        },
+        "phonemes": {
+          "x": 1153,
+          "y": 617.5,
+          "width": 90,
+          "height": 11
+        }
+      },
+      {
+        "row": {
+          "x": 963,
+          "y": 642,
+          "width": 285,
+          "height": 32
+        },
+        "input": {
+          "x": 1048,
+          "y": 646,
+          "width": 100,
+          "height": 24
+        },
+        "phonemes": {
+          "x": 1153,
+          "y": 652.5,
+          "width": 90,
+          "height": 11
+        }
+      }
+    ],
+    "input_overflow": [],
+    "phoneme_overlap_input": []
+  },
+  "checks": {
+    "section_and_initial_summary": true,
+    "mismatch_no_mutation": true,
+    "batch_exact_phonemes": true,
+    "reload_persistence": true,
+    "row_edit_phoneme_persist": true,
+    "undo_redo_row_edit": true,
+    "layout_no_overlap": true,
+    "no_console_network_errors": true,
+    "batch_undo_redo": true
+  },
+  "passed": true,
+  "batch_undo_redo": {
+    "after_second_batch": [
+      "\u661f",
+      "\u8fb0",
+      "\u5927",
+      "\u6d77"
+    ],
+    "after_undo": [
+      "\u732b",
+      "\u98ce",
+      "\u7b11",
+      "\u9765"
+    ],
+    "after_redo": [
+      "\u661f",
+      "\u8fb0",
+      "\u5927",
+      "\u6d77"
+    ]
+  }
+}

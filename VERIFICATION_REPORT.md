@@ -624,3 +624,15 @@ Implemented and verified:
 - Independent visible-Chrome QA at exact 1272×837 verified default 4/4, visible switch to 6/8, backend persistence, consistently narrowed arrangement/piano/automation/tempo grids with quantitative 448px→336px evidence, transport tick 1440 reading bar `2.1`, reload persistence, undo/redo, and zero console or meaningful network errors. Evidence: `artifacts/e2e_screenshots/time_signature/`.
 
 Validation after iteration 40: targeted time-signature tests passed; full automated suite reached 98 passed after final regression.
+
+## Iteration 41 — dedicated lyric correction workflow
+
+Implemented and verified:
+
+- Added a compact right-panel **Lyric correction** workflow for vocal tracks with accurate total/missing counts, bar·pitch positions, per-note editable rows, missing-state styling, and regenerated phoneme feedback.
+- Batch paste supports continuous CJK one-character-per-note correction while whitespace-separated chunks can force multi-letter/romanized syllables onto one note. Count mismatches fail atomically with an explicit error rather than partially overwriting lyrics.
+- Lyric commits clear stale phonemes, use normal project persistence/undo, and let backend validation regenerate language-correct timed phonemes. Per-row edits commit on blur/Enter without creating one undo item per keystroke.
+- Independent visible-Chrome QA verified continuous CJK batch mapping (`春风笑靥` → four per-note lyrics), mismatch atomicity, regenerated Mandarin phonemes, reload persistence, per-note correction (`猫` → `m au`), independent undo/redo for row and batch edits, compact 1272×837 layout, and zero console/meaningful network errors. Evidence: `artifacts/e2e_screenshots/lyric_correction/`.
+- Fixed the incidental CLI robustness defect found by QA: long inline JSON no longer crashes in `Path.exists()` with `Errno 36`; regression coverage proves >4096-byte inline JSON parses as payload rather than a path.
+
+Validation after iteration 41: frontend production build passed; Python compile passed; full automated suite passed (99 collected tests).

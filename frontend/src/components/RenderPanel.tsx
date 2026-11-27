@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { api, renderFileUrl, uploadFile, uploadVoice } from '../api'
-import type { Project, RenderJob, Track, VoiceProfile } from '../types'
+import { barTicks, ticksToSeconds } from '../tempo'
+import type { Note, Project, RenderJob, Track, VoiceProfile } from '../types'
 
 interface Props {
   project: Project
@@ -20,6 +21,8 @@ export default function RenderPanel(props: Props) {
   const [busy, setBusy] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [voices, setVoices] = useState<VoiceProfile[]>([])
+  const [batchLyrics, setBatchLyrics] = useState('')
+  const [lyricsError, setLyricsError] = useState('')
   const referenceInput = useRef<HTMLInputElement | null>(null)
   const audioInput = useRef<HTMLInputElement | null>(null)
 
@@ -102,6 +105,50 @@ export default function RenderPanel(props: Props) {
     } catch (e: any) { setError(e.message || String(e)) }
   }
 
+
+  const sortedNotes = props.track?.type === 'vocal' ? [...props.track.notes].sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch) : []
+  const missingLyrics = sortedNotes.filter(note => !note.lyric.trim()).length
+
+  function lyricTokens(text: string): string[] {
+    return text.trim().split(/\s+/).filter(Boolean).flatMap(chunk => {
+      // Continuous CJK input is one syllable per character; whitespace can still be
+      // used to force a multi-character word/romanized syllable onto one note.
+      return /[\u3400-\u9fff\uf900-\ufaff]/.test(chunk) ? Array.from(chunk) : [chunk]
+    })
+  }
+
+  function commitLyric(note: Note, value: string) {
+    if (!props.track || value.trim() === note.lyric) return
+    const noteId = note.id
+    const lyric = value.trim()
+    props.onPatchTrack(props.track.id, {
+      notes: props.track.notes.map(item => item.id === noteId ? { ...item, lyric, phonemes: [] } : item),
+    })
+    setLyricsError('')
+  }
+
+  function applyBatchLyrics() {
+    if (!props.track) return
+    const tokens = lyricTokens(batchLyrics)
+    if (!tokens.length) {
+      setLyricsError('Paste lyrics before applying batch correction.')
+      return
+    }
+    if (tokens.length !== sortedNotes.length) {
+      setLyricsError(`Lyric token count ${tokens.length} does not match note count ${sortedNotes.length}; nothing was changed.`)
+      return
+    }
+    const trackId = props.track.id
+    props.onPatchTrack(trackId, {
+      notes: props.track.notes.map(note => {
+        const index = sortedNotes.findIndex(item => item.id === note.id)
+        return index >= 0 ? { ...note, lyric: tokens[index], phonemes: [] } : note
+      }),
+    })
+    setBatchLyrics('')
+    setLyricsError('')
+  }
+
   const selectedVoice = voices.find(voice => voice.id === props.track?.voice_id) || voices.find(voice => voice.path === props.track?.reference_voice_path) || null
 
   return (
@@ -144,6 +191,42 @@ export default function RenderPanel(props: Props) {
             </button>
           </>
         ) : <div className="empty-state">Select a track</div>}
+      </section>
+
+      <section className="side-section lyric-correction-section">
+        <div className="panel-title">Lyric correction</div>
+        {props.track?.type === 'vocal' && sortedNotes.length ? (
+          <>
+            <div className="lyric-summary"><strong>{sortedNotes.length}</strong> notes · <strong>{missingLyrics}</strong> missing lyrics</div>
+            <textarea
+              className="batch-lyrics-input"
+              rows={2}
+              value={batchLyrics}
+              placeholder="Paste lyrics: continuous Chinese maps one character per note; use spaces for multi-letter syllables"
+              onChange={event => setBatchLyrics(event.target.value)}
+            />
+            <button className="wide-action secondary" onClick={applyBatchLyrics}>Apply batch lyrics</button>
+            {lyricsError && <div className="inline-error">{lyricsError}</div>}
+            <div className="lyric-correction-list">
+              {sortedNotes.map((note, index) => {
+                const bar = Math.floor(note.start_ticks / barTicks(props.project)) + 1
+                return (
+                  <div key={`${note.id}:${note.lyric}`} className={`lyric-correction-row ${note.lyric.trim() ? '' : 'missing'}`}>
+                    <span className="lyric-index">{index + 1}</span>
+                    <span className="lyric-position" title={`${ticksToSeconds(props.project, note.start_ticks).toFixed(2)}s`}>{bar} · {note.pitch}</span>
+                    <input
+                      defaultValue={note.lyric}
+                      placeholder="missing"
+                      onBlur={event => commitLyric(note, event.target.value)}
+                      onKeyDown={event => { if (event.key === 'Enter') (event.target as HTMLInputElement).blur() }}
+                    />
+                    <span className="lyric-phonemes">{note.phonemes.map(item => item.symbol).join(' ')}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </>
+        ) : <div className="empty-state">Select a vocal track with notes</div>}
       </section>
 
       <section className="side-section">

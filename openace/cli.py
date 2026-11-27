@@ -58,8 +58,12 @@ def save_and_notify(store: ProjectStore, project) -> None:
 
 def json_payload(raw: str):
     candidate = Path(raw)
-    if candidate.exists():
-        return json.loads(candidate.read_text(encoding="utf-8"))
+    try:
+        if candidate.exists():
+            return json.loads(candidate.read_text(encoding="utf-8"))
+    except OSError:
+        # Inline JSON can exceed host filename limits; it is payload text, not a path.
+        pass
     return json.loads(raw)
 
 

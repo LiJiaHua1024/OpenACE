@@ -6,6 +6,7 @@ import sys
 import numpy as np
 import soundfile as sf
 
+from openace.cli import json_payload
 from openace.core.project_store import ProjectStore
 
 
@@ -63,3 +64,10 @@ def test_cli_agent_editing_commands_roundtrip(tmp_path):
     assert stored_track.clips[0].label == ""
     assert stored.tempo_map[0].bpm == 65
     assert stored_track.voice_id == "voice_cli"
+
+
+def test_long_inline_json_is_not_mistaken_for_a_path():
+    raw = json.dumps([{"ticks": index * 480, "value": 0.5} for index in range(500)])
+    assert len(raw) > 4096
+    payload = json_payload(raw)
+    assert len(payload) == 500 and payload[-1]["ticks"] == 499 * 480

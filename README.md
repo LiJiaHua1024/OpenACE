@@ -91,6 +91,10 @@ In the arrangement canvas, hold **Alt** and drag across the timeline to draw the
 
 `Import audio` transcribes a monophonic vocal into editable notes with librosa/pYIN octave-error correction, then runs local faster-whisper with word-level timestamps. Each recognized word is assigned once to the overlapping note (or a near-onset note within 300ms), the detected language is stored on the imported track, and CPU-heavy transcription runs outside the FastAPI event loop. Unaligned notes stay visually blank; OpenACE never fills them with “la”, dash, or fabricated placeholder lyrics. If ASR cannot produce or align timestamped words, import fails loudly instead of pretending the lyrics are known. The default local model is `small`; override with `OPENACE_WHISPER_MODEL`, `OPENACE_WHISPER_DEVICE`, and `OPENACE_WHISPER_COMPUTE_TYPE` when needed.
 
+## Lyric correction
+
+The right-hand **Lyric correction** panel exposes a compact per-note correction workflow for imported or manually written vocal tracks. It shows note/missing counts, bar·pitch position, editable lyric rows, and regenerated phoneme feedback. Batch paste maps continuous CJK text one Unicode character per note while whitespace-separated chunks stay together for romanized/multi-letter syllables; a count mismatch is rejected atomically rather than partially overwriting the melody. Per-note commits and batch application use normal persistence/undo, and changing a lyric clears stale phonemes so the strict backend validator regenerates timing for the new language-specific lyric.
+
 ## Multilingual lyric validation
 
 Mandarin uses strict pinyin decomposition, English uses CMUdict-backed phones, and Cantonese uses `pycantonese` tone-bearing Jyutping. Cantonese editor phonemes decompose onset/nucleus/coda explicitly (including syllabic `m̩`/`ŋ̩`), while SoulX metadata emits validated `yue_<jyutping>` phones with canonical language `Cantonese`. Unsupported characters or missing pronunciations fail loudly; Japanese remains unavailable rather than fake because the current SoulX phone set has no Japanese inventory.
