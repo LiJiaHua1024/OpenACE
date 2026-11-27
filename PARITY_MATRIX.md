@@ -2,7 +2,7 @@
 
 Status legend: **Done** (implemented and exercised end-to-end in this repository), **Partial** (real implementation exists but production depth or validation is incomplete), **Gap** (missing). This is an adversarial living audit, not marketing copy.
 
-Last audit iteration: 2026-11-27, after direct arrangement clip-import iteration and independent browser QA.
+Last audit iteration: 2026-11-27, after full adversarial creative-loop audit and toolbar-overflow repair.
 
 ## P0 — synthesis cores and acoustic invariants
 
@@ -34,7 +34,7 @@ Last audit iteration: 2026-11-27, after direct arrangement clip-import iteration
 | WebAudio playback | Transport plays rendered vocal/accompaniment | **Partial** | Decoded playback with volume/pan/mute/solo and moving playhead; now schedules all clips as well as latest render. No sample-accurate crossfade/live caching. |
 | Undo/redo | Reliable DAW history | **Partial** | Project snapshots and transactions work for common editing. Needs coalescing and edge-case hardening. |
 | Keyboard shortcuts | DAW-grade editing speed | **Partial** | Space, delete, Ctrl/Cmd+Z/Y, Ctrl+A/C/V/D and V/B/E/Q tool/edit hotkeys implemented. Additional ACE-specific hotkey mapping can be deepened. |
-| Professional dark UI | ACE/Ableton-like density and polish | **Partial** | Dark multi-pane workstation, responsive transport fixes, project selector, no dead primary controls. Still below commercial visual depth. |
+| Professional dark UI | ACE/Ableton-like density and polish | **Partial** | Dark multi-pane workstation, responsive transport fixes, project selector, no dead primary controls. Full adversarial 1272×837 creative-loop audit found no blank panes/dead primary controls; a real toolbar overflow was caught and repaired to exact zero overflow. Still below commercial visual depth. |
 
 ## P2 — audio/project production workflows
 

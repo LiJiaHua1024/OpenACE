@@ -672,3 +672,19 @@ Implemented and verified:
 - Regression covers vocal-target rejection and upload-name uniqueness. Independent visible-Chrome QA verified insertion into an existing selected audio track without duplicate track creation, vocal-selection fallback to a separate `Audio — vocaltarget` track, clean layout, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/audio_clip_import/target_semantics.png`.
 
 Validation after iteration 44: frontend production build passed; Python compile passed; full automated suite passed (104 collected tests).
+
+## Iteration 45 — full adversarial creative-loop audit
+
+Executed the complete user-required browser loop in real visible Chrome at exact 1272×837 against the fixture backend: new project → piano-roll note draw/drag/zoom/lyrics/phonemes → pitch/air/tension curves → reference voice upload → vocal render + Vocal2BGM → Alt-drag repaint region and repaint → SVC conversion → playback → WAV/MP4/MID/LRC/USTX/SVP/VPR export → MCP mutation with live SSE update.
+
+Passed highlights:
+
+- Exact transport fit, note editing/transposition/zoom, lyric correction and phoneme regeneration, 13 automation points in each tested lane, persistent reference voice `voice_9d0507989312`.
+- Vocal render, Vocal2BGM arrangement integration, numeric/visible repaint region `0.32→1.09`, repaint replacement clip, and SVC arrangement integration.
+- Playback advanced with expected media URLs loaded; MCP `add_note` updated the open UI live from 2→3 notes without reload.
+- All seven export controls produced nonzero files. Structural validation: WAV 3.125s/48kHz/stereo, MP4 3.125s/1920×1080 plus audio, valid format-1 MIDI with notes, timed LRC, parseable USTX/SVP/VPR with expected lead notes/phonemes.
+- No console errors, warnings, or unexpected network failures.
+
+The audit confirmed one implementation defect: the piano editor toolbar overflowed by 50px and truncated the selection readout. Responsive toolbar repair initially reduced overflow to 13px, then reached exact zero (`scrollWidth=clientWidth=714`) with full `1 selected` visible and controls still usable. Evidence: `artifacts/e2e_screenshots/full_adversarial_audit/`, especially `FULL_ADVERSARIAL_AUDIT_REPORT.md`, `SCREENSHOT_INDEX.md`, and `toolbar_fix2_zoom.png`.
+
+The audit's “key/scale-aware transpose” note is not treated as a confirmed ACE-parity blocker: the requested cover/翻调 mode was exercised through the implemented SVC conversion workflow, and interval-preserving semitone transposition already exists. No evidence was produced that ACE Studio requires a separate key/scale transposition mode for the user's stated loop.

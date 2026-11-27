@@ -408,3 +408,10 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .lyric-position { color: #8ea0c9; font-size: 10px; white-space: nowrap; }
 .lyric-phonemes { color: #68a88f; font-size: 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .inline-error { color: #ff9c9c; font-size: 10px; line-height: 1.35; }
+
+@media (max-width: 1400px) {
+  .editor-hint { display: none; }
+  .editor-toolbar { gap: 5px; padding: 0 7px; }
+  .editor-toolbar input[type="range"] { width: 42px; }
+  .edit-actions .tool { min-width: 39px; padding: 0 4px; }
+}
