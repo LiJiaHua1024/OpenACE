@@ -94,3 +94,86 @@ def apply_air_envelope(audio: np.ndarray, sample_rate: int, project: Project, tr
     if peak > 0.98:
         processed *= 0.98 / peak
     return processed, True
+
+
+def apply_energy_envelope(audio: np.ndarray, sample_rate: int, project: Project, track: Track) -> tuple[np.ndarray, bool]:
+    """Apply Energy as time-varying harmonic-density DSP.
+
+    Positive values add harmonics through parallel soft saturation of the rendered
+    vocal; negative values blend toward a softened low-passed version. This is an
+    explicit post-render approximation, not neural energy conditioning.
+    """
+    points = list(track.automation.energy)
+    if not points or not len(audio):
+        return audio, False
+    from scipy import signal
+
+    if audio.ndim == 1:
+        audio = audio[:, None]
+    source = np.asarray(audio, dtype=np.float32)
+    drive = 2.4
+    excited = np.tanh(source * drive) / np.tanh(drive)
+    harmonic = excited - source
+    cutoff = min(5200.0, sample_rate * 0.38)
+    sos = signal.butter(2, cutoff, btype="lowpass", fs=sample_rate, output="sos")
+    softened = signal.sosfiltfilt(sos, source, axis=0)
+    seconds_per_tick = 60.0 / project.bpm / project.ppq
+    ordered = sorted(points, key=lambda point: point.ticks)
+    point_ticks = np.asarray([point.ticks for point in ordered], dtype=np.float64)
+    point_values = np.clip(np.asarray([point.value for point in ordered], dtype=np.float64), 0.0, 1.0)
+    processed = np.array(source, dtype=np.float32, copy=True)
+    chunk_size = 262144
+    for start in range(0, len(processed), chunk_size):
+        end = min(len(processed), start + chunk_size)
+        sample_ticks = (start + np.arange(end - start, dtype=np.float64)) / sample_rate / seconds_per_tick
+        values = np.interp(sample_ticks, point_ticks, point_values, left=point_values[0], right=point_values[-1])
+        bipolar = (values - _NEUTRAL) * 2.0
+        positive = np.clip(bipolar, 0.0, 1.0)[:, None].astype(np.float32)
+        negative = np.clip(-bipolar, 0.0, 1.0)[:, None].astype(np.float32)
+        softened_mix = source[start:end] * (1.0 - negative * 0.55) + softened[start:end] * negative * 0.55
+        processed[start:end] = softened_mix + harmonic[start:end] * positive * 1.4
+    peak = float(np.max(np.abs(processed))) if processed.size else 0.0
+    if peak > 0.98:
+        processed *= 0.98 / peak
+    return processed, True
+
+
+def apply_tension_envelope(audio: np.ndarray, sample_rate: int, project: Project, track: Track) -> tuple[np.ndarray, bool]:
+    """Apply Tension as time-varying vocal presence-band DSP.
+
+    The 0.9–5.5 kHz articulation/presence band extracted from the actual vocal is
+    reinforced or attenuated according to the lane. This is distinct from Air's
+    breathy 3 kHz+ residue and is explicitly not neural tension conditioning.
+    """
+    points = list(track.automation.tension)
+    if not points or not len(audio):
+        return audio, False
+    from scipy import signal
+
+    if audio.ndim == 1:
+        audio = audio[:, None]
+    source = np.asarray(audio, dtype=np.float32)
+    low_cut = min(900.0, sample_rate * 0.12)
+    high_cut = min(5500.0, sample_rate * 0.42)
+    low_sos = signal.butter(2, low_cut, btype="lowpass", fs=sample_rate, output="sos")
+    high_sos = signal.butter(2, high_cut, btype="lowpass", fs=sample_rate, output="sos")
+    low = signal.sosfiltfilt(low_sos, source, axis=0)
+    high = signal.sosfiltfilt(high_sos, source, axis=0)
+    presence = high - low
+    seconds_per_tick = 60.0 / project.bpm / project.ppq
+    ordered = sorted(points, key=lambda point: point.ticks)
+    point_ticks = np.asarray([point.ticks for point in ordered], dtype=np.float64)
+    point_values = np.clip(np.asarray([point.value for point in ordered], dtype=np.float64), 0.0, 1.0)
+    processed = np.array(source, dtype=np.float32, copy=True)
+    chunk_size = 262144
+    for start in range(0, len(processed), chunk_size):
+        end = min(len(processed), start + chunk_size)
+        sample_ticks = (start + np.arange(end - start, dtype=np.float64)) / sample_rate / seconds_per_tick
+        values = np.interp(sample_ticks, point_ticks, point_values, left=point_values[0], right=point_values[-1])
+        bipolar = (values - _NEUTRAL) * 2.0
+        amounts = (bipolar * 0.75)[:, None].astype(np.float32)
+        processed[start:end] += presence[start:end] * amounts
+    peak = float(np.max(np.abs(processed))) if processed.size else 0.0
+    if peak > 0.98:
+        processed *= 0.98 / peak
+    return processed, True

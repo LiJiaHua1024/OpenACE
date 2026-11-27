@@ -74,3 +74,48 @@ def test_air_envelope_is_transparent_when_empty():
     processed, applied = apply_air_envelope(audio, 48000, Project(), Track(name="Lead"))
     assert not applied
     assert np.array_equal(processed, audio)
+
+
+def test_energy_envelope_increases_existing_harmonic_density():
+    from openace.core.expression import apply_energy_envelope
+    from scipy import signal
+
+    sr = 48000
+    t = np.arange(sr) / sr
+    audio = (0.18 * np.sin(2 * np.pi * 220 * t))[:, None].astype(np.float32)
+    project = Project(title="energy", bpm=120)
+    track = Track(name="Lead")
+    track.automation.energy = [EnvelopePoint(ticks=0, value=0.5), EnvelopePoint(ticks=960, value=1.0)]
+    processed, applied = apply_energy_envelope(audio, sr, project, track)
+    assert applied
+    sos = signal.butter(2, 1000, btype="highpass", fs=sr, output="sos")
+    harmonic = signal.sosfiltfilt(sos, processed[:, 0])
+    first_ratio = np.sqrt(np.mean(harmonic[: sr // 4] ** 2)) / np.sqrt(np.mean(processed[: sr // 4, 0] ** 2))
+    last_ratio = np.sqrt(np.mean(harmonic[-sr // 4 :] ** 2)) / np.sqrt(np.mean(processed[-sr // 4 :, 0] ** 2))
+    assert last_ratio > first_ratio * 1.25
+
+
+def test_tension_envelope_modulates_presence_band():
+    from openace.core.expression import apply_tension_envelope
+
+    sr = 48000
+    t = np.arange(sr) / sr
+    audio = (0.12 * np.sin(2 * np.pi * 2200 * t))[:, None].astype(np.float32)
+    project = Project(title="tension", bpm=120)
+    track = Track(name="Lead")
+    track.automation.tension = [EnvelopePoint(ticks=0, value=0.5), EnvelopePoint(ticks=960, value=1.0)]
+    processed, applied = apply_tension_envelope(audio, sr, project, track)
+    assert applied
+    first = np.sqrt(np.mean(processed[: sr // 4, 0] ** 2))
+    last = np.sqrt(np.mean(processed[-sr // 4 :, 0] ** 2))
+    assert last > first * 1.35
+
+
+def test_empty_energy_and_tension_are_transparent():
+    from openace.core.expression import apply_energy_envelope, apply_tension_envelope
+
+    audio = np.ones((256, 2), dtype=np.float32) * 0.1
+    for apply in (apply_energy_envelope, apply_tension_envelope):
+        processed, applied = apply(audio, 48000, Project(), Track(name="Lead"))
+        assert not applied
+        assert np.array_equal(processed, audio)

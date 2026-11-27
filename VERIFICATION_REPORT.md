@@ -300,3 +300,20 @@ Browser QA evidence:
 - Key evidence: `rerun_01_phonemes_before.png`, `rerun_05_after_three_drags.png`, `PHONEME_BOUNDARIES_RERUN_REPORT.md`, and `phoneme_rerun_results.json`.
 
 Validation after iteration 15: frontend production build passed; full automated suite reached 39 passed.
+
+## Iteration 16 — Energy/Tension expression DSP
+
+Implemented and verified:
+
+- Energy automation now affects rendered vocals as explicitly labeled post-render harmonic-density DSP. Positive values add harmonics through parallel soft saturation of the actual vocal; negative values blend toward a softened low-passed version. Peak protection prevents clipping.
+- Tension automation now reinforces or attenuates the 0.9–5.5 kHz articulation/presence band extracted from the actual vocal. It is distinct from Air's breathy 3 kHz+ residue and explicitly labeled as non-neural DSP.
+- RenderService applies Energy/Tension after Dynamic/Air, rewrites the WAV when any lane is active, and exposes lane names in final job messages plus explicit provenance in `diagnostic.png`.
+- Unit coverage proves positive Energy increases harmonic density, positive Tension increases presence-band level, and empty lanes remain transparent. Fixture integration verifies the completed job message.
+
+Browser/audio QA evidence:
+
+- Independent visible-Chrome QA in `artifacts/e2e_screenshots/expression_energy_tension_qa/` restarted a current fixture backend, drew exact neutral→high Energy/Tension curves, rendered, verified undo/redo/reload persistence, job text `completed with Energy/Tension post-processing`, diagnostic non-neural provenance, playback, and zero console/network errors.
+- Isolated positive late-window measurements versus neutral: Energy-only total RMS `2.109×` and 0.9–5.5k RMS `3.394×`; Tension-only total RMS `1.020×` and 0.9–5.5k RMS `1.202×`; combined total RMS `2.149×` and 0.9–5.5k RMS `4.677×`. Negative curves reduced the late presence band to `0.799×` without clipping.
+- Key evidence: `06_energy_tension_job_card.png`, `evidence_isolated_audio_comparison.png`, `evidence_diagnostic_provenance_crop.png`, `ENERGY_TENSION_QA_REPORT.md`, and `energy_tension_results.json`.
+
+Validation after iteration 16: frontend production build passed; full automated suite reached 43 passed.

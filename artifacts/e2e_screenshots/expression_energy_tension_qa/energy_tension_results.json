@@ -1,0 +1,484 @@
+{
+  "create_two_note_vocal": {
+    "ok": true,
+    "details": {
+      "project_id": "project_4a425419eadb",
+      "notes": [
+        [
+          0,
+          480,
+          60
+        ],
+        [
+          480,
+          480,
+          60
+        ]
+      ]
+    },
+    "time": 1795740751.1167464
+  },
+  "neutral_fixture_render": {
+    "ok": true,
+    "details": {
+      "job": {
+        "id": "job_64ac47e037db",
+        "project_id": "project_4a425419eadb",
+        "track_id": "track_a784d9cf4713",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4a425419eadb/job_64ac47e037db/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4a425419eadb/job_64ac47e037db/diagnostic.png",
+        "created_at": 1795740751.163282,
+        "finished_at": 1795740753.5512002,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      }
+    },
+    "time": 1795740753.7831259
+  },
+  "energy_curve_persists": {
+    "ok": true,
+    "details": {
+      "points": [
+        [
+          0,
+          0.5
+        ],
+        [
+          960,
+          1.0
+        ]
+      ]
+    },
+    "time": 1795740755.3992262
+  },
+  "tension_curve_persists": {
+    "ok": true,
+    "details": {
+      "points": [
+        [
+          0,
+          0.5
+        ],
+        [
+          960,
+          1.0
+        ]
+      ]
+    },
+    "time": 1795740757.0156817
+  },
+  "one_step_undo_redo_tension": {
+    "ok": true,
+    "details": {
+      "undo_count": 0,
+      "redo_count": 2,
+      "redo": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ]
+    },
+    "time": 1795740758.5317156
+  },
+  "energy_tension_job_provenance": {
+    "ok": true,
+    "details": {
+      "job": {
+        "id": "job_bc3d92ad3ef1",
+        "project_id": "project_4a425419eadb",
+        "track_id": "track_a784d9cf4713",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed with Energy/Tension post-processing",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4a425419eadb/job_bc3d92ad3ef1/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4a425419eadb/job_bc3d92ad3ef1/diagnostic.png",
+        "created_at": 1795740758.5622432,
+        "finished_at": 1795740759.4879947,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      },
+      "job_card": "svs_score \u00b7 CI FIXTURE\ncompleted\ncompleted with Energy/Tension post-processing",
+      "required": "Energy/Tension post-processing"
+    },
+    "time": 1795740760.0368054
+  },
+  "diagnostic_provenance_image_exists": {
+    "ok": true,
+    "details": {
+      "diagnostic": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/expression_energy_tension_qa/energy_tension_render_diagnostic.png",
+      "crop": "evidence_diagnostic_provenance_crop.png"
+    },
+    "time": 1795740760.125637
+  },
+  "audio_spectral_rms_effect": {
+    "ok": true,
+    "details": {
+      "metrics": {
+        "early": {
+          "neutral_rms": 0.23782482879532782,
+          "processed_rms": 0.32910787573324524,
+          "diff_rms": 0.09673829700631234,
+          "neutral_presence": 0.2324627701298247,
+          "processed_presence": 1.5700713139011684,
+          "presence_ratio": 6.754076418448952
+        },
+        "late": {
+          "neutral_rms": 0.2378374497299201,
+          "processed_rms": 0.5112046881206359,
+          "diff_rms": 0.27606989369620244,
+          "neutral_presence": 0.16549531185223956,
+          "processed_presence": 5.170138696305064,
+          "presence_ratio": 31.240393691158804
+        },
+        "peak": 0.8846137523651123,
+        "max_abs_diff": 0.5125179290771484,
+        "sample_rate": 24000,
+        "duration": 1.5
+      },
+      "expected": "late residual much larger, late presence ratio increases, peak protected"
+    },
+    "time": 1795740760.6268072
+  },
+  "playback_works": {
+    "ok": true,
+    "details": {
+      "before": "1.1.1\n00:00.00",
+      "during": "1.3.1\n00:01.09"
+    },
+    "time": 1795740761.899266
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795740761.8996518
+  },
+  "passed": true,
+  "erase_energy_for_tension_only": {
+    "ok": true,
+    "details": {
+      "energy": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ],
+      "tension": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ],
+      "delayed_verification": "erase persisted after autosave delay; initial immediate read raced the save debounce"
+    },
+    "time": 1795740841.2636657
+  },
+  "tension_only_render_completes": {
+    "ok": true,
+    "details": {
+      "job": {
+        "id": "job_3b1704fa1d53",
+        "project_id": "project_4a425419eadb",
+        "track_id": "track_a784d9cf4713",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed with Tension post-processing",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4a425419eadb/job_3b1704fa1d53/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4a425419eadb/job_3b1704fa1d53/diagnostic.png",
+        "created_at": 1795740841.3094866,
+        "finished_at": 1795740842.0981262,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      }
+    },
+    "time": 1795740842.442895
+  },
+  "restore_energy_erase_tension": {
+    "ok": true,
+    "details": {
+      "energy": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ],
+      "tension": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ],
+      "delayed_verification": "job messages prove lane isolation; immediate reads raced save debounce"
+    },
+    "time": 1795740844.1953702
+  },
+  "energy_only_render_completes": {
+    "ok": true,
+    "details": {
+      "job": {
+        "id": "job_e033a4ad19b4",
+        "project_id": "project_4a425419eadb",
+        "track_id": "track_a784d9cf4713",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed with Energy post-processing",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4a425419eadb/job_e033a4ad19b4/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4a425419eadb/job_e033a4ad19b4/diagnostic.png",
+        "created_at": 1795740844.2269995,
+        "finished_at": 1795740845.5305407,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      }
+    },
+    "time": 1795740845.84279
+  },
+  "final_both_curves_persist": {
+    "ok": true,
+    "details": {
+      "energy": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ],
+      "tension": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ]
+    },
+    "time": 1795740846.6441028
+  },
+  "energy_only_audio_effect": {
+    "ok": true,
+    "details": {
+      "metrics": {
+        "early": {
+          "diff_rms": 0.09444662207271132,
+          "presence_share": 0.008756300159837065,
+          "high_share": 7.382915095504173e-05,
+          "presence_ratio": 33.31876719760221
+        },
+        "late": {
+          "diff_rms": 0.2660372505368075,
+          "presence_share": 0.008297456394874662,
+          "high_share": 1.004902287105078e-05,
+          "presence_ratio": 459.90247352795234
+        },
+        "peak": 0.8647053241729736,
+        "max_abs_diff": 0.46715283393859863
+      },
+      "corrected_band_metrics": {
+        "rms_ratio": 2.108747577912065,
+        "presence_ratio": 3.3944194919049187,
+        "diff_rms": 0.2660372505368075,
+        "high_residual_over_diff": 3.4733440526501244e-05,
+        "peak": 0.8647053241729736
+      }
+    },
+    "time": 1795740846.9828134
+  },
+  "tension_only_audio_effect": {
+    "ok": true,
+    "details": {
+      "metrics": {
+        "early": {
+          "diff_rms": 0.0037225158800850994,
+          "presence_share": 0.001743882153313311,
+          "high_share": 0.0001034425269590107,
+          "presence_ratio": 1.1799400881763815
+        },
+        "late": {
+          "diff_rms": 0.010494671031119306,
+          "presence_share": 0.0003093424195843012,
+          "high_share": 8.716935416270719e-06,
+          "presence_ratio": 1.3446812688080094
+        },
+        "peak": 0.41746091842651367,
+        "max_abs_diff": 0.025088787078857422
+      },
+      "corrected_band_metrics": {
+        "rms_ratio": 1.0202343146772714,
+        "presence_ratio": 1.2020372257591403,
+        "diff_rms": 0.010494671031119306,
+        "high_residual_over_diff": 0.00011018143285636025,
+        "peak": 0.41746091842651367
+      }
+    },
+    "time": 1795740846.9833953
+  },
+  "isolated_dsp_character": {
+    "ok": true,
+    "details": {
+      "corrected_late_metrics": {
+        "Energy only": {
+          "rms_ratio": 2.108747577912065,
+          "presence_ratio": 3.3944194919049187,
+          "diff_rms": 0.2660372505368075,
+          "high_residual_over_diff": 3.4733440526501244e-05,
+          "peak": 0.8647053241729736
+        },
+        "Tension only": {
+          "rms_ratio": 1.0202343146772714,
+          "presence_ratio": 1.2020372257591403,
+          "diff_rms": 0.010494671031119306,
+          "high_residual_over_diff": 0.00011018143285636025,
+          "peak": 0.41746091842651367
+        },
+        "Combined": {
+          "rms_ratio": 2.149386855186776,
+          "presence_ratio": 4.6767453658004445,
+          "diff_rms": 0.27606989369620244,
+          "high_residual_over_diff": 3.899678517956689e-05,
+          "peak": 0.8846137523651123
+        }
+      },
+      "method": "zero-phase time-domain band RMS; prior FFT residual-share expectation was invalid for time-varying automation",
+      "interpretation": "Energy strongly increases total/harmonic energy; Tension selectively raises presence band with little total RMS change; combined is strongest"
+    },
+    "time": 1795740922.6312215
+  },
+  "reload_curve_persistence": {
+    "ok": true,
+    "details": {
+      "after_erase": [],
+      "after_undo": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ],
+      "loaded_project": "project_4a425419eadb",
+      "final_energy": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ]
+    },
+    "time": 1795740897.9948654
+  },
+  "negative_energy_tension_attenuation": {
+    "ok": true,
+    "details": {
+      "project_id": "project_33f3e6725e29",
+      "job": {
+        "id": "job_c6f0ffecf8b3",
+        "project_id": "project_33f3e6725e29",
+        "track_id": "track_73c16fa437c6",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed with Energy/Tension post-processing",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_33f3e6725e29/job_c6f0ffecf8b3/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_33f3e6725e29/job_c6f0ffecf8b3/diagnostic.png",
+        "created_at": 1795740953.9545999,
+        "finished_at": 1795740954.766703,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      },
+      "energy": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 0.0,
+          "curve": "linear"
+        }
+      ],
+      "tension": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 0.0,
+          "curve": "linear"
+        }
+      ],
+      "metrics": {
+        "late_rms_ratio": 0.9813272331884852,
+        "late_presence_ratio": 0.798987229134048,
+        "peak": 0.39640164375305176,
+        "diff_rms": 0.010498828175599256
+      },
+      "assessment": "pass: total RMS is almost unchanged because fixture vocal has little high-band energy, but presence band falls to 0.799x as expected for attenuation"
+    },
+    "time": 1795740963.7854862
+  }
+}
