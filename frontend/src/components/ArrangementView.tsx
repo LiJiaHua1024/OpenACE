@@ -21,6 +21,9 @@ interface Props {
   onTimelineChange(timeline: TimelineState): void
   repaintRange: { start: number; end: number }
   onRepaintRange(range: { start: number; end: number }): void
+  loopRange?: { start: number; end: number } | null
+  loopEnabled?: boolean
+  onLoopRange(range: { start: number; end: number } | null): void
 }
 
 interface DragState {
@@ -51,6 +54,7 @@ export default function ArrangementView(props: Props) {
   const pxPerBeat = props.timeline.pxPerBeat
   const dragRef = useRef<DragState | null>(null)
   const repaintDragRef = useRef<{ anchorTicks: number; currentTicks: number } | null>(null)
+  const loopDragRef = useRef<{ anchorTicks: number; startX: number; moved: boolean } | null>(null)
   const [waveforms, setWaveforms] = useState<Record<string, WaveformData>>({})
   const [menu, setMenu] = useState<{ x: number; y: number; trackId: string; clipId: string | null; ticks: number } | null>(null)
   const [selectedClips, setSelectedClips] = useState<{ trackId: string; clipId: string }[]>([])
@@ -291,6 +295,20 @@ export default function ArrangementView(props: Props) {
       for (let t = Math.floor(scrollTicks / barTicks) * barTicks; t < endTicks; t += barTicks) {
         ctx.fillText(String(Math.floor(t / barTicks) + 1), xForTick(t) + 4, arrangementScrollTop + 16)
       }
+      if (props.loopRange && props.loopRange.end > props.loopRange.start) {
+        const sx = xForTick(props.loopRange.start)
+        const ex = xForTick(props.loopRange.end)
+        if (ex >= LABEL_WIDTH && sx < width) {
+          ctx.fillStyle = props.loopEnabled ? '#55c7ff24' : '#55c7ff10'
+          ctx.fillRect(sx, RULER_HEIGHT, ex - sx, height - RULER_HEIGHT)
+          ctx.strokeStyle = props.loopEnabled ? '#61d5ff' : '#61d5ff66'
+          ctx.lineWidth = 1.5
+          ctx.strokeRect(sx, RULER_HEIGHT, ex - sx, height - RULER_HEIGHT)
+          ctx.fillStyle = '#a8eaff'
+          ctx.font = '10px Inter'
+          ctx.fillText(props.loopEnabled ? 'loop' : 'loop off', Math.max(LABEL_WIDTH + 5, sx + 5), RULER_HEIGHT + 26)
+        }
+      }
       if (props.repaintRange.end > props.repaintRange.start) {
         const startTicks = secondsToTicks(props.project, props.repaintRange.start)
         const endTicks = secondsToTicks(props.project, props.repaintRange.end)
@@ -318,7 +336,7 @@ export default function ArrangementView(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(parent)
     return () => observer.disconnect()
-  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, waveforms, selectedClips, marquee, arrangementScrollTop, scrollTicks, pxPerBeat, ppq])
+  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, props.loopRange, props.loopEnabled, waveforms, selectedClips, marquee, arrangementScrollTop, scrollTicks, pxPerBeat, ppq])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -440,7 +458,11 @@ export default function ArrangementView(props: Props) {
       canvasRef.current?.setPointerCapture(event.pointerId)
       return
     }
-    if (pos.y >= arrangementScrollTop && pos.y < arrangementScrollTop + RULER_HEIGHT && pos.x >= LABEL_WIDTH) { props.onSeek(tickForX(pos.x)); return }
+    if (pos.y >= arrangementScrollTop && pos.y < arrangementScrollTop + RULER_HEIGHT && pos.x >= LABEL_WIDTH) {
+      loopDragRef.current = { anchorTicks: tickForX(pos.x), startX: pos.x, moved: false }
+      canvasRef.current?.setPointerCapture(event.pointerId)
+      return
+    }
     const track = trackAt(pos.y)
     if (!track) return
     props.onSelect(track.id)
@@ -527,6 +549,19 @@ export default function ArrangementView(props: Props) {
 
   function onPointerMove(event: React.PointerEvent) {
     const pos = pointer(event)
+    const loopDrag = loopDragRef.current
+    if (loopDrag) {
+      if (Math.abs(pos.x - loopDrag.startX) > 4) {
+        loopDrag.moved = true
+        const snap = (ticks: number) => Math.max(0, Math.round(ticks / (ppq / 4)) * (ppq / 4))
+        const currentTicks = snap(tickForX(pos.x))
+        const anchorTicks = snap(loopDrag.anchorTicks)
+        const start = Math.min(anchorTicks, currentTicks)
+        const end = Math.max(anchorTicks, currentTicks)
+        if (end - start >= ppq / 4) props.onLoopRange({ start, end })
+      }
+      return
+    }
     if (marquee) {
       setMarquee(current => current ? { ...current, currentX: pos.x, currentY: pos.y } : current)
       return
@@ -629,6 +664,13 @@ export default function ArrangementView(props: Props) {
   }
 
   function onPointerUp(event: React.PointerEvent) {
+    const loopDrag = loopDragRef.current
+    if (loopDrag) {
+      if (!loopDrag.moved) props.onSeek(loopDrag.anchorTicks)
+      loopDragRef.current = null
+      canvasRef.current?.releasePointerCapture(event.pointerId)
+      return
+    }
     if (marquee) {
       const x1 = Math.min(marquee.startX, marquee.currentX)
       const x2 = Math.max(marquee.startX, marquee.currentX)

@@ -8,11 +8,13 @@ interface Props {
   projects: ProjectSummary[]
   playing: boolean
   playheadTicks: number
+  loopEnabled?: boolean
   canUndo: boolean
   canRedo: boolean
   onPlayToggle(): void
   onStop(): void
   onSeek(ticks: number): void
+  onLoopToggle?(): void
   onTitleChange(title: string): void
   onBpmChange(bpm: number): void
   onTimeSignatureChange(numerator: number, denominator: number): void
@@ -108,6 +110,7 @@ export default function TransportBar(props: Props) {
         <button className="icon-button" title="Undo Ctrl+Z" disabled={!props.canUndo} onClick={props.onUndo}>↶</button>
         <button className="icon-button" title="Redo Ctrl+Y" disabled={!props.canRedo} onClick={props.onRedo}>↷</button>
         <button className="icon-button" title="Stop" onClick={props.onStop}>■</button>
+        <button className={props.loopEnabled ? 'icon-button loop-toggle active' : 'icon-button loop-toggle'} title="Loop playback" onClick={props.onLoopToggle}>Loop</button>
         <button className={`play-button ${props.playing ? 'playing' : ''}`} title="Space" onClick={props.onPlayToggle}>{props.playing ? '❚❚' : '▶'}</button>
       </div>
       <div className="position-readout">

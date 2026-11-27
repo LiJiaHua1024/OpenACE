@@ -883,3 +883,14 @@ Implemented and verified:
 - Independent visible-Chrome QA verified fresh-clean state, pitch/lyric/automation/breath/tempo/voice edits, exact undo clearing, reload persistence, rerender clearing, irrelevant mixer/name/color edits remaining clean, legacy missing-fingerprint behavior, playback/export truthfulness, clean 1272×837 layout, and zero console/unexpected network failures. Evidence: `artifacts/e2e_screenshots/stale_render_detection/`.
 
 Validation after iteration 64: frontend production build passed; targeted fingerprint/render tests passed; browser QA passed. Full automated suite passed with 123 tests collected.
+
+## Iteration 65 — loop playback region
+
+Implemented and verified:
+
+- Transport now includes a non-dead Loop control and `L` shortcut. With no existing range it creates an enabled current-bar loop; with a range it toggles loop playback without destroying the region.
+- Dragging horizontally on the arrangement ruler creates a sixteenth-note-snapped loop range with a minimum musical length, while plain ruler clicks still seek. The arrangement draws a cyan loop band/label independently from the orange repaint region and remains compatible with sticky-ruler vertical scrolling.
+- Playback restart is phase-correct: when the audio clock crosses loop end, the next source graph starts at `loop.start + overshoot modulo span`, preventing cumulative musical drift rather than snapping late back to the exact boundary. Loop state is currently session transport state, not project-persistent metadata.
+- Independent visible-Chrome QA verified default current-bar creation, keyboard toggling, snapped ruler drag, two-plus cycles, mean measured interval `0.5025s` for a `0.5s` loop with population stdev `0.0052s`, nonzero phase-correct source offsets, loop-off continuation, pause/stop/seek behavior, repaint separation, sticky scrolling regression, clean exact layout, and zero console/unexpected network failures. Evidence: `artifacts/e2e_screenshots/loop_playback/`.
+
+Validation after iteration 65: frontend production build passed; independent browser/API instrumentation QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

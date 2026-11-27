@@ -8,7 +8,7 @@ import TrackList from './components/TrackList'
 import TempoLane from './components/TempoLane'
 import TransportBar from './components/TransportBar'
 import { crossfadeGainAt, crossfadeIntervals } from './crossfade'
-import { secondsBetweenTicks, secondsToTicks, tickDurationSeconds, ticksToSeconds } from './tempo'
+import { barTicks, secondsBetweenTicks, secondsToTicks, tickDurationSeconds, ticksToSeconds } from './tempo'
 import type { AudioClip, Project, RenderJob, TimelineState, Track } from './types'
 
 function clone<T>(value: T): T {
@@ -80,6 +80,8 @@ export default function App() {
   const [playing, setPlaying] = useState(false)
   const [timeline, setTimeline] = useState<TimelineState>({ scrollTicks: 0, pxPerBeat: 112 })
   const [repaintRange, setRepaintRange] = useState({ start: 0, end: 0 })
+  const [loopRange, setLoopRange] = useState<{ start: number; end: number } | null>(null)
+  const [loopEnabled, setLoopEnabled] = useState(false)
   const [jobs, setJobs] = useState<RenderJob[]>([])
   const [projectList, setProjectList] = useState<{ id: string; title: string; bpm?: number; track_count?: number; updated_at?: number; pinned?: boolean; tags?: string[] }[]>([])
   const [past, setPast] = useState<Project[]>([])
@@ -93,6 +95,11 @@ export default function App() {
   const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext; starting?: boolean; generation: number; analysers: Record<string, AnalyserNode>; masterAnalyser?: AnalyserNode }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], starting: false, generation: 0, analysers: {} })
   const playbackSnapshotRef = useRef('')
   const playbackRebuildTimer = useRef<number | null>(null)
+  const loopRestarting = useRef(false)
+  const loopRangeRef = useRef<{ start: number; end: number } | null>(null)
+  const loopEnabledRef = useRef(false)
+  loopRangeRef.current = loopRange
+  loopEnabledRef.current = loopEnabled
 
   const setProjectRef = useCallback((value: Project | null) => {
     projectRef.current = value
@@ -315,6 +322,29 @@ export default function App() {
     } catch (e: any) { setError(e.message || String(e)) }
   }, [projectList, setProjectRef])
 
+  const setArrangementLoop = useCallback((range: { start: number; end: number } | null) => {
+    if (range && range.end > range.start) {
+      setLoopRange(range)
+      setLoopEnabled(true)
+    } else {
+      setLoopRange(null)
+      setLoopEnabled(false)
+    }
+  }, [])
+
+  const toggleLoop = useCallback(() => {
+    if (loopRangeRef.current && loopRangeRef.current.end > loopRangeRef.current.start) {
+      setLoopEnabled(enabled => !enabled)
+      return
+    }
+    const current = projectRef.current
+    if (!current) return
+    const span = barTicks(current)
+    const start = Math.floor(playheadTicks / span) * span
+    setLoopRange({ start, end: start + span })
+    setLoopEnabled(true)
+  }, [playheadTicks])
+
   const updateProjectOrganization = useCallback(async (projectId: string, patch: { pinned?: boolean; tags?: string[] }) => {
     try {
       const updated = await api.updateProjectOrganization(projectId, patch)
@@ -527,7 +557,16 @@ export default function App() {
       const current = projectRef.current
       if (!current) return
       const elapsed = playback.current.ctx ? playback.current.ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
-      const ticks = secondsToTicks(current, ticksToSeconds(current, playback.current.startTicks) + elapsed)
+      let ticks = secondsToTicks(current, ticksToSeconds(current, playback.current.startTicks) + elapsed)
+      const activeLoop = loopEnabledRef.current ? loopRangeRef.current : null
+      if (activeLoop && ticks >= activeLoop.end && !loopRestarting.current) {
+        loopRestarting.current = true
+        const span = Math.max(1, activeLoop.end - activeLoop.start)
+        const restartTicks = activeLoop.start + ((ticks - activeLoop.end) % span)
+        ticks = restartTicks
+        stopPlaybackAudio()
+        void schedulePlayback(current, restartTicks).finally(() => { loopRestarting.current = false })
+      }
       setPlayheadTicks(Math.floor(ticks))
       playback.current.raf = requestAnimationFrame(step)
     }
@@ -548,12 +587,13 @@ export default function App() {
       const target = event.target as HTMLElement
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') return
       if (event.code === 'Space') { event.preventDefault(); playToggle() }
+      if (!event.ctrlKey && !event.metaKey && !event.altKey && event.key.toLowerCase() === 'l') { event.preventDefault(); toggleLoop() }
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') { event.preventDefault(); undo() }
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'y') { event.preventDefault(); redo() }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [playToggle, undo, redo])
+  }, [playToggle, toggleLoop, undo, redo])
 
   function patchTrack(trackId: string, patch: Partial<Track>) {
     updateProject(next => {
@@ -603,6 +643,8 @@ export default function App() {
         onPlayToggle={playToggle}
         onStop={stop}
         onSeek={setPlayheadTicks}
+        loopEnabled={loopEnabled}
+        onLoopToggle={toggleLoop}
         onTitleChange={title => updateProject(next => { next.title = title }, true)}
         onBpmChange={bpm => updateProject(next => { next.bpm = Math.max(30, Math.min(300, bpm)) }, false)}
         onTimeSignatureChange={(numerator, denominator) => updateProject(next => { next.time_signature = { numerator, denominator } }, false)}
@@ -664,6 +706,9 @@ export default function App() {
             onTimelineChange={setTimeline}
             repaintRange={repaintRange}
             onRepaintRange={setRepaintRange}
+            loopRange={loopRange}
+            loopEnabled={loopEnabled}
+            onLoopRange={setArrangementLoop}
           />
           <TempoLane
             project={project}
