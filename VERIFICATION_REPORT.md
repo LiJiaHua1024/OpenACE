@@ -397,3 +397,15 @@ Implemented and verified:
 - End-to-end restart proof launched the real FastAPI service with `OPENACE_CI_SYNTH_FIXTURE=1`, created a project/note/job, killed the backend, restored the job to a simulated power-loss running state in `jobs.json`, restarted the backend on the same data directory, and observed the job automatically complete with real output and diagnostic files. Evidence: `artifacts/e2e_screenshots/render_recovery_proof.json`.
 
 Validation after iteration 21: frontend production build passed; Python compile passed; full automated suite reached 53 passed, including the real FastAPI restart/requeue regression.
+
+## Iteration 22 — track-level context operations
+
+Implemented and verified:
+
+- Track cards now provide both right-click and visible `⋯` entry points to a real context menu: duplicate, move up/down, six color swatches, and delete.
+- Duplicate performs a deep copy with fresh track/note/clip/breath IDs, inserts immediately after the source, and selects the copy. Delete/reorder/color are undoable project operations persisted through the existing project API.
+- Menu geometry clamps inside narrow and short viewports; Escape/outside click close it. Zero-track deletion is safe and undoable rather than crashing the workstation.
+- `tests/test_track_operations_e2e.py` verifies exact backend persistence for duplicate content/fresh note IDs, reorder, color, delete, undo/redo, menu close behavior, and zero console errors. Evidence: `artifacts/e2e_screenshots/track_operations/`.
+- Independent visible-Chrome QA in `artifacts/e2e_screenshots/track_operations_qa/` verified top/bottom/narrow clamping, duplicate fresh IDs/selection, arrangement color propagation, delete/undo/redo, reload persistence, single-track delete-all recovery, and rename/mute/solo/volume/pan/add-track regressions with zero console/network failures.
+
+Validation after iteration 22: frontend production build passed; Python compile passed; full automated suite reached 54 passed.

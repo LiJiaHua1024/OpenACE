@@ -405,6 +405,7 @@ export default function App() {
             })
           }, false)}
           onPatchTrack={patchTrack}
+          updateProject={updateProject}
         />
         <main className="center-workspace">
           <ArrangementView
