@@ -1158,3 +1158,14 @@ Implemented and verified:
 - Evidence: `artifacts/e2e_screenshots/voice_trim/`.
 
 Validation after iteration 91: focused voice-library trim tests passed; frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 92 — musically useful ±600-cent pitch editing
+
+Implemented and verified:
+
+- Pitch automation and per-note pitch handles now support ±600 cents instead of the previous ±100/120-cent toy range. Backend validation accepts the full six-semitone range and rejects only values beyond it.
+- Per-note pitch curves are now drawn in absolute piano-pitch space rather than being squashed inside the source note rectangle, so deliberate slides visibly cross multiple rows; inverse mouse mapping is continuous-pitch based and quantitatively exact.
+- Independent visible-Chrome QA at exact 1272×837 verified exact ±100/±200/±600-cent positive and negative mappings, multi-row rendering, point drag/delete, automation top/middle/bottom exact `+600/0/-600`, undo/redo, reload persistence, note-audition frequency, lyric/phoneme preservation, monophonic overlap regression, and clean console/network.
+- Evidence: `artifacts/e2e_screenshots/extended_pitch/`.
+
+Validation after iteration 92: focused editing tests passed; frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

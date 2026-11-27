@@ -35,8 +35,8 @@ def test_automation_breath_tempo_and_voice_validation(tmp_path):
     assert [point.ticks for point in points] == [0, 480]
     with pytest.raises(ValueError, match="normalized"):
         editing.set_automation_lane(project, track.id, "dynamic", [{"ticks": 0, "value": 1.2}])
-    with pytest.raises(ValueError, match="±100"):
-        editing.set_automation_lane(project, track.id, "pitch_cents", [{"ticks": 0, "value": 101}])
+    with pytest.raises(ValueError, match="±600"):
+        editing.set_automation_lane(project, track.id, "pitch_cents", [{"ticks": 0, "value": 601}])
 
     breath = editing.upsert_breath(project, track.id, {"start_ticks": 480, "duration_ticks": 120, "intensity": 1.4, "timbre": "strong"})
     updated = editing.upsert_breath(project, track.id, {"intensity": 0.6, "timbre": "soft"}, breath.id)
@@ -72,3 +72,12 @@ def test_audio_clip_upsert_requires_real_file_and_preserves_edits(tmp_path):
     assert updated.label == "take"
     assert updated.gain_db == -3
     assert editing.delete_audio_clip(project, track.id, clip.id) is True
+
+
+def test_pitch_automation_accepts_musical_six_semitone_range():
+    from openace.core.models import Project, Track
+
+    project = Project(title="pitch range")
+    track = project.add_track(Track(name="Lead"))
+    points = editing.set_automation_lane(project, track.id, "pitch_cents", [{"ticks": 0, "value": -600}, {"ticks": 480, "value": 600}])
+    assert [point.value for point in points] == [-600, 600]

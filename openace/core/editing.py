@@ -184,8 +184,8 @@ def set_automation_lane(project: Project, track_id: str, lane: str, points: List
     track = project.track(track_id)
     parsed = sorted((EnvelopePoint.model_validate(point) for point in points), key=lambda point: point.ticks)
     if lane == "pitch_cents":
-        if any(point.value < -100 or point.value > 100 for point in parsed):
-            raise ValueError("pitch_cents values must be within ±100 cents")
+        if any(point.value < -600 or point.value > 600 for point in parsed):
+            raise ValueError("pitch_cents values must be within ±600 cents")
     elif any(point.value < 0 or point.value > 1 for point in parsed):
         raise ValueError(f"{lane} values must be normalized in [0, 1]")
     setattr(track.automation, lane, parsed)

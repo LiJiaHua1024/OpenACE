@@ -55,8 +55,8 @@ export default function AutomationLane(props: Props) {
 
   const xForTick = useCallback((ticks: number) => KEY_WIDTH + ((ticks - props.timeline.scrollTicks) / ppq) * props.timeline.pxPerBeat, [props.timeline, ppq])
   const tickForX = useCallback((x: number) => Math.max(0, Math.round(props.timeline.scrollTicks + ((x - KEY_WIDTH) / props.timeline.pxPerBeat) * ppq)), [props.timeline, ppq])
-  const maxValue = lane === 'pitch_cents' ? 100 : 1
-  const minValue = lane === 'pitch_cents' ? -100 : 0
+  const maxValue = lane === 'pitch_cents' ? 600 : 1
+  const minValue = lane === 'pitch_cents' ? -600 : 0
 
   function pointsFor(track: Track, key: LaneKey): EnvelopePoint[] {
     return (track.automation as any)[key] || []
@@ -286,7 +286,7 @@ export default function AutomationLane(props: Props) {
           ctx.fillStyle = '#65708e'; ctx.font = '12px Inter'; ctx.fillText('AUTO', KEY_WIDTH + 18, neutral - 10)
         }
         const yForValue = (value: number) => {
-          if (lane === 'pitch_cents') return height / 2 - (value / 100) * (height * 0.38)
+          if (lane === 'pitch_cents') return height / 2 - (value / 600) * (height * 0.38)
           return height - 18 - value * (height - 42)
         }
         ctx.strokeStyle = '#64e3ff'; ctx.lineWidth = 1.8
@@ -316,7 +316,7 @@ export default function AutomationLane(props: Props) {
   }
 
   function valueForY(y: number, height: number) {
-    if (lane === 'pitch_cents') return Math.max(minValue, Math.min(maxValue, ((height / 2 - y) / (height * 0.38)) * 100))
+    if (lane === 'pitch_cents') return Math.max(minValue, Math.min(maxValue, ((height / 2 - y) / (height * 0.38)) * 600))
     return Math.max(0, Math.min(1, (height - 18 - y) / (height - 42)))
   }
 

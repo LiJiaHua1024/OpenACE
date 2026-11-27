@@ -486,9 +486,8 @@ export default function PianoRoll(props: Props) {
     const rect = noteRect(note)
     const durationMs = Math.max(1, noteDurationMs(note))
     const x = rect.x + 2 + Math.max(0, Math.min(1, point.offset_ms / durationMs)) * Math.max(1, rect.w - 4)
-    const center = rect.y + rect.h / 2
-    const half = Math.max(3, rect.h / 2 - 2)
-    const y = center - Math.max(-120, Math.min(120, point.cents)) / 100 * half
+    const cents = Math.max(-600, Math.min(600, point.cents))
+    const y = yForPitch(note.pitch + cents / 100) + view.rowHeight / 2
     return { x, y }
   }
 
@@ -496,9 +495,8 @@ export default function PianoRoll(props: Props) {
     const rect = noteRect(note)
     const durationMs = Math.max(1, noteDurationMs(note))
     const ratio = Math.max(0, Math.min(1, (x - rect.x - 2) / Math.max(1, rect.w - 4)))
-    const center = rect.y + rect.h / 2
-    const half = Math.max(3, rect.h / 2 - 2)
-    const cents = Math.max(-120, Math.min(120, ((center - y) / half) * 100))
+    const continuousPitch = view.topPitch - (y - RULER_HEIGHT - view.rowHeight / 2) / view.rowHeight
+    const cents = Math.max(-600, Math.min(600, (continuousPitch - note.pitch) * 100))
     return { offset_ms: Math.round(ratio * durationMs), cents: Math.round(cents) }
   }
 
