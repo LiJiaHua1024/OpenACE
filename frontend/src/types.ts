@@ -37,6 +37,12 @@ export interface VocalAutomation {
 }
 
 
+export interface TimedLyric {
+  text: string
+  start: number
+  end: number
+}
+
 export interface AudioClip {
   id: string
   path: string
@@ -47,6 +53,7 @@ export interface AudioClip {
   fade_out_ticks?: number
   gain_db?: number
   label?: string
+  transcribed_lyrics?: TimedLyric[]
 }
 
 export type BreathTimbre = 'soft' | 'natural' | 'strong'

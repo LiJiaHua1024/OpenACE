@@ -13,7 +13,7 @@ from openace.core.audio import read_audio
 from openace.core.breath import apply_breath_events, load_reference_audio
 from openace.core.diagnostics import extract_f0, write_diagnostic
 from openace.core.expression import apply_air_envelope, apply_dynamic_envelope, apply_energy_envelope, apply_falsetto_envelope, apply_tension_envelope
-from openace.core.models import AudioClip, Project, RenderJob, RenderJobStatus, RenderMode, Track, TrackType
+from openace.core.models import AudioClip, Project, RenderJob, RenderJobStatus, RenderMode, TimedLyric, Track, TrackType
 from openace.core.project_store import ProjectStore
 from openace.engines.acestep import ACEStepEngine
 from openace.engines.base import EngineUnavailable
@@ -404,12 +404,28 @@ class RenderService:
             conversion_track = project.add_track(
                 Track(name=f"SVC — {source_name}", type=TrackType.AUDIO, color="#ff8f5a")
             )
+            transcribed_lyrics: List[TimedLyric] = []
+            lyric_language = None
+            lyric_error = None
+            try:
+                from openace.importers.audio import transcribe_lyric_words
+
+                words, lyric_language = await asyncio.to_thread(transcribe_lyric_words, wav)
+                transcribed_lyrics = [
+                    TimedLyric(text=str(word["text"]), start=float(word["start"]), end=float(word["end"]))
+                    for word in words
+                ]
+            except Exception as exc:
+                # Missing optional ASR must never invent lyrics or invalidate an otherwise real conversion.
+                lyric_error = str(exc)
+
             conversion_track.clips.append(
                 AudioClip(
                     path=str(wav),
                     start_ticks=0,
                     duration_ticks=duration_ticks,
                     label=f"SVC: {source_name}",
+                    transcribed_lyrics=transcribed_lyrics,
                 )
             )
             conversion_track.render_path = str(wav)
@@ -422,6 +438,9 @@ class RenderService:
                     "source_audio": str(source_audio),
                     "reference_voice": str(reference_voice),
                     "output_path": str(wav),
+                    "lyric_language": lyric_language,
+                    "lyric_word_count": len(transcribed_lyrics),
+                    "lyric_transcription_error": lyric_error,
                 }
             )
             project.metadata["svc_conversions"] = conversions

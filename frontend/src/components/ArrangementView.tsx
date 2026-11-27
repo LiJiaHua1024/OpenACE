@@ -198,6 +198,26 @@ export default function ArrangementView(props: Props) {
           } else if (w > 74) {
             ctx.fillStyle = '#b9fff088'; ctx.font = '8px Inter'; ctx.fillText('analyzing waveform…', x + 6, y + ROW_HEIGHT - 9)
           }
+          const transcribedLyrics = clip.transcribed_lyrics || []
+          if (transcribedLyrics.length) {
+            const lyricSourceOffset = secondsBetweenTicks(props.project, clip.start_ticks - (clip.offset_ticks || 0), clip.start_ticks)
+            const lyricVisibleDuration = tickDurationSeconds(props.project, clip.start_ticks, duration)
+            const lyricVisibleEnd = lyricSourceOffset + lyricVisibleDuration
+            ctx.font = '8px Inter'
+            let lastLyricX = -Infinity
+            for (const word of transcribedLyrics) {
+              if (word.end < lyricSourceOffset || word.start > lyricVisibleEnd) continue
+              const localStart = Math.max(0, word.start - lyricSourceOffset)
+              const tickPosition = clip.start_ticks + secondsToTicksFrom(props.project, clip.start_ticks, localStart)
+              const lyricX = xForTick(tickPosition)
+              if (lyricX < x - 1 || lyricX > x + w - 4) continue
+              const drawX = Math.max(lyricX, x + 4)
+              if (drawX - lastLyricX < 18) continue
+              ctx.fillStyle = '#fff0a8e6'
+              ctx.fillText(word.text, drawX, y + ROW_HEIGHT - 7, Math.max(18, x + w - drawX - 5))
+              lastLyricX = drawX
+            }
+          }
           const fadeInWidth = Math.min(w / 2, ((clip.fade_in_ticks || 0) / ppq) * pxPerBeat)
           const fadeOutWidth = Math.min(w / 2, ((clip.fade_out_ticks || 0) / ppq) * pxPerBeat)
           ctx.strokeStyle = '#ffffffb8'

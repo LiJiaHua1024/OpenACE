@@ -698,3 +698,14 @@ Implemented and verified:
 - Regression now validates generated ASS karaoke tags/title/branding, exact ffprobe duration, and quantitative burned-frame pixels: at 0.6s the first syllable had 576 amber pixels versus 131 in the partially sweeping second syllable, with 482 neutral unfilled pixels in the second syllable. Evidence artifact: `artifacts/e2e_screenshots/karaoke_video/`.
 
 Validation after iteration 46: frontend production build passed; Python compile passed; full automated suite passed (104 collected tests).
+
+## Iteration 47 — SVC arrangement lyric display
+
+Implemented and verified:
+
+- `AudioClip` now persists `transcribed_lyrics` as real timed words. After SoulX-Singer-SVC conversion, the output audio itself is transcribed with local faster-whisper word timestamps; resulting words are stored on the arrangement clip and provenance records language, word count, or the explicit ASR failure. Missing ASR never invents or substitutes placeholder lyrics and does not invalidate an otherwise real conversion.
+- Arrangement audio clips draw the timed lyric words along the bottom of the clip, mapped from source seconds through the project tempo map. Trimming uses the clip source offset/duration so fully outside words disappear while boundary-overlapping words remain clamped visibly at the clip edge.
+- Backend regression verifies persisted word timings, language/count provenance, and explicit ASR-failure behavior. Independent visible-Chrome QA verified source-time x positions within about 0.7px, reload persistence, left/right trim visibility, exact 1272×837 layout, and zero app console errors. Initial QA caught a real left-boundary defect (`are` spanning `0.45–0.8s` disappeared after a 0.5s trim); after repair, focused regression passed with `are` visible at x `180.5–191`, `you` absent, and later words unchanged. Evidence: `artifacts/e2e_screenshots/svc_lyrics/`, especially `SVC_LYRICS_QA_REPORT.md` and `boundary_fix_left_trim_zoom.png`.
+- Harness limitation recorded: the long-running Chrome instance rendered CJK canvas glyphs as narrow tofu despite installed fonts, so QA used ASCII words for reliable pixel evidence. This is a test-environment font limitation, not a lyric-data substitution path.
+
+Validation after iteration 47: frontend production build passed; Python compile passed; full automated suite passed (105 collected tests).

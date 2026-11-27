@@ -231,6 +231,10 @@ def test_svc_conversion_is_added_to_arrangement_with_provenance(monkeypatch, tmp
     vocal = project.add_track(Track(name="Lead"))
     vocal.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
     store.save(project)
+    monkeypatch.setattr(
+        "openace.importers.audio.transcribe_lyric_words",
+        lambda _path: ([{"text": "你", "start": 0.1, "end": 0.4}, {"text": "好", "start": 0.45, "end": 0.8}], "zh"),
+    )
     service = RenderService(store, tmp_path / "renders")
     job = service.create_job(
         project.id,
@@ -253,12 +257,16 @@ def test_svc_conversion_is_added_to_arrangement_with_provenance(monkeypatch, tmp
     assert clip.start_ticks == 0
     assert clip.duration_ticks == updated.seconds_to_ticks(1.0)
     assert clip.label == "SVC: take_one"
+    assert [(word.text, word.start, word.end) for word in clip.transcribed_lyrics] == [("你", 0.1, 0.4), ("好", 0.45, 0.8)]
     assert conversion.render_path == result.output_path
     provenance = updated.metadata["svc_conversions"][-1]
     assert provenance["job_id"] == job.id
     assert provenance["track_id"] == conversion.id
     assert provenance["source_audio"] == str(source)
     assert provenance["reference_voice"] == str(reference)
+    assert provenance["lyric_language"] == "zh"
+    assert provenance["lyric_word_count"] == 2
+    assert provenance["lyric_transcription_error"] is None
     assert Path(result.diagnostic_path).exists()
 
     second = service.create_job(
@@ -270,6 +278,34 @@ def test_svc_conversion_is_added_to_arrangement_with_provenance(monkeypatch, tmp
     asyncio.run(service.run_svc(second.id, str(source), str(reference)))
     updated = store.get(project.id)
     assert len([track for track in updated.tracks if track.name == "SVC — take_one"]) == 2
+
+
+def test_svc_transcription_failure_is_explicit_but_does_not_invent_lyrics(monkeypatch, tmp_path):
+    import soundfile as sf
+
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    sr = 24000
+    audio = np.zeros(sr, dtype=np.float32)
+    source = tmp_path / "source.wav"
+    reference = tmp_path / "reference.wav"
+    sf.write(source, audio, sr)
+    sf.write(reference, audio, sr)
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("svc-asr-failure")
+    store.save(project)
+    monkeypatch.setattr(
+        "openace.importers.audio.transcribe_lyric_words",
+        lambda _path: (_ for _ in ()).throw(RuntimeError("ASR unavailable")),
+    )
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(project.id, RenderMode.SVC, source_audio=str(source), reference_voice=str(reference))
+    result = asyncio.run(service.run_svc(job.id, str(source), str(reference)))
+    assert result.status == RenderJobStatus.COMPLETED
+    conversion = store.get(project.id).tracks[-1]
+    assert conversion.clips[0].transcribed_lyrics == []
+    provenance = store.get(project.id).metadata["svc_conversions"][-1]
+    assert provenance["lyric_word_count"] == 0
+    assert "ASR unavailable" in provenance["lyric_transcription_error"]
 
 def test_fixture_stem_separation_adds_dry_wet_tracks_with_provenance(monkeypatch, tmp_path):
     import soundfile as sf

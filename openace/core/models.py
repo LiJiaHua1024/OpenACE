@@ -113,6 +113,12 @@ class Breath(BaseModel):
     timbre: Literal["soft", "natural", "strong"] = "natural"
 
 
+class TimedLyric(BaseModel):
+    text: str
+    start: float = Field(ge=0)
+    end: float = Field(gt=0)
+
+
 class AudioClip(BaseModel):
     id: str = Field(default_factory=lambda: new_id("clip"))
     path: str
@@ -123,6 +129,7 @@ class AudioClip(BaseModel):
     fade_out_ticks: int = 0
     gain_db: float = 0.0
     label: str = ""
+    transcribed_lyrics: List[TimedLyric] = Field(default_factory=list)
 
 
 class Track(BaseModel):
