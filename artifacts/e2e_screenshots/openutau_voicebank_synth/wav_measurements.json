@@ -1,0 +1,12 @@
+{
+  "path": "/home/ubuntu/.cache/OpenUtau/wdl-v10-fb08d7f099260031.wav",
+  "exists": true,
+  "seconds": 4.85,
+  "frames": 213885,
+  "sample_rate": 44100,
+  "channels": 1,
+  "rms": 0.20173467434802655,
+  "peak": 0.732666015625,
+  "nonzero": true,
+  "size": 427816
+}
