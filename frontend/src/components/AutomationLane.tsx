@@ -37,6 +37,13 @@ export default function AutomationLane(props: Props) {
     pxPerMs: number
     durationMs: number
   } | null>(null)
+  const breathDragRef = useRef<{
+    id: string
+    mode: 'move' | 'resize-start' | 'resize-end'
+    startX: number
+    originalStart: number
+    originalDuration: number
+  } | null>(null)
   const [phonemeReadout, setPhonemeReadout] = useState('')
   const ppq = props.project.ppq
 
@@ -57,6 +64,22 @@ export default function AutomationLane(props: Props) {
     const x = xForTick(note.start_ticks)
     const w = Math.max(14, (note.duration_ticks / ppq) * props.timeline.pxPerBeat)
     return { x, w, durationMs: noteDurationMs(note), pxPerMs: w / noteDurationMs(note) }
+  }
+
+  function breathHit(x: number, y: number) {
+    if (!props.track || y < 28 || y > 68) return null
+    for (let index = props.track.breaths.length - 1; index >= 0; index--) {
+      const breath = props.track.breaths[index]
+      const bx = xForTick(breath.start_ticks)
+      const bw = Math.max(10, (breath.duration_ticks / ppq) * props.timeline.pxPerBeat)
+      if (x < bx || x > bx + bw) continue
+      const edgeDistance = Math.min(Math.abs(x - bx), Math.abs(x - (bx + bw)))
+      return {
+        breath,
+        mode: edgeDistance <= 5 ? (Math.abs(x - bx) < Math.abs(x - (bx + bw)) ? 'resize-start' as const : 'resize-end' as const) : 'move' as const,
+      }
+    }
+    return null
   }
 
   function phonemeBoundaryHit(x: number, y: number) {
@@ -156,7 +179,7 @@ export default function AutomationLane(props: Props) {
         ctx.fillStyle = '#aeb7d4'; ctx.font = '11px Inter'; ctx.fillText('Breath / Phoneme', 10, 18)
         for (const breath of props.track.breaths) {
           const x = xForTick(breath.start_ticks)
-          const w = Math.max(12, breath.duration_ticks / 2)
+          const w = Math.max(10, (breath.duration_ticks / ppq) * props.timeline.pxPerBeat)
           ctx.fillStyle = '#7c4dffaa'
           ctx.beginPath(); ctx.roundRect(x, 34, w, 28, 4); ctx.fill()
           ctx.fillStyle = 'white'; ctx.font = '10px Inter'; ctx.fillText('BR.', x + 5, 52)
@@ -276,6 +299,26 @@ export default function AutomationLane(props: Props) {
         canvasRef.current?.setPointerCapture(event.pointerId)
         return
       }
+      const hit = breathHit(pos.x, pos.y)
+      if (hit && event.button === 2) {
+        props.updateProject(project => {
+          const track = project.tracks.find(t => t.id === props.track!.id)
+          if (track) track.breaths = track.breaths.filter(item => item.id !== hit.breath.id)
+        }, true)
+        props.endTransaction()
+        return
+      }
+      if (hit && event.button === 0) {
+        breathDragRef.current = {
+          id: hit.breath.id,
+          mode: hit.mode,
+          startX: pos.x,
+          originalStart: hit.breath.start_ticks,
+          originalDuration: hit.breath.duration_ticks,
+        }
+        canvasRef.current?.setPointerCapture(event.pointerId)
+        return
+      }
       if (event.button === 0 && pos.y > 28 && pos.y < 68) {
         props.updateProject(project => {
           const track = project.tracks.find(t => t.id === props.track!.id)
@@ -333,7 +376,32 @@ export default function AutomationLane(props: Props) {
       return
     }
     if (tab === 'breath') {
-      if (canvasRef.current) canvasRef.current.style.cursor = phonemeBoundaryHit(pos.x, pos.y) ? 'col-resize' : 'default'
+      const breathDrag = breathDragRef.current
+      if (breathDrag) {
+        const deltaTicks = ((pos.x - breathDrag.startX) / props.timeline.pxPerBeat) * ppq
+        const grid = Math.max(1, ppq / 16)
+        const snap = (value: number) => Math.max(0, Math.round(value / grid) * grid)
+        props.updateProject(project => {
+          const track = project.tracks.find(t => t.id === props.track?.id)
+          const breath = track?.breaths.find(item => item.id === breathDrag.id)
+          if (!breath) return
+          const originalEnd = breathDrag.originalStart + breathDrag.originalDuration
+          if (breathDrag.mode === 'move') {
+            breath.start_ticks = snap(breathDrag.originalStart + deltaTicks)
+          } else if (breathDrag.mode === 'resize-start') {
+            breath.start_ticks = Math.min(snap(breathDrag.originalStart + deltaTicks), originalEnd - grid)
+            breath.duration_ticks = Math.max(grid, originalEnd - breath.start_ticks)
+          } else {
+            breath.duration_ticks = Math.max(grid, snap(breathDrag.originalDuration + deltaTicks))
+          }
+        }, true)
+        if (canvasRef.current) canvasRef.current.style.cursor = breathDrag.mode === 'move' ? 'grabbing' : 'col-resize'
+        return
+      }
+      const hit = breathHit(pos.x, pos.y)
+      if (canvasRef.current) {
+        canvasRef.current.style.cursor = hit ? (hit.mode === 'move' ? 'grab' : 'col-resize') : phonemeBoundaryHit(pos.x, pos.y) ? 'col-resize' : 'default'
+      }
       return
     }
     if (!dragRef.current.drawing) return
@@ -346,6 +414,10 @@ export default function AutomationLane(props: Props) {
       phonemeDragRef.current = null
       props.endTransaction()
       window.setTimeout(() => setPhonemeReadout(''), 1600)
+    }
+    if (breathDragRef.current) {
+      breathDragRef.current = null
+      props.endTransaction()
     }
     if (dragRef.current.drawing && tool === 'line' && dragRef.current.lineStart) {
       const pos = pointer(event)

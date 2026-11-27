@@ -10,6 +10,7 @@ import numpy as np
 import soundfile as sf
 
 from openace.core.audio import read_audio
+from openace.core.breath import apply_breath_events, load_reference_audio
 from openace.core.diagnostics import extract_f0, write_diagnostic
 from openace.core.expression import apply_air_envelope, apply_dynamic_envelope, apply_energy_envelope, apply_falsetto_envelope, apply_tension_envelope
 from openace.core.models import AudioClip, Project, RenderJob, RenderJobStatus, RenderMode, Track, TrackType
@@ -170,6 +171,16 @@ class RenderService:
             diagnostic = outdir / "diagnostic.png"
             await asyncio.to_thread(self.vocal_engine.render_score, project, track, wav)
             audio, sr = await asyncio.to_thread(read_audio, wav)
+            reference_audio, reference_sr = await asyncio.to_thread(load_reference_audio, track.reference_voice_path)
+            audio, breath_result = await asyncio.to_thread(
+                apply_breath_events,
+                audio,
+                sr,
+                project,
+                track,
+                reference_audio,
+                reference_sr,
+            )
             audio, dynamic_applied = apply_dynamic_envelope(audio, sr, project, track)
             audio, air_applied = apply_air_envelope(audio, sr, project, track)
             audio, energy_applied = apply_energy_envelope(audio, sr, project, track)
@@ -186,7 +197,7 @@ class RenderService:
                 )
                 if applied
             ]
-            if applied_lanes:
+            if applied_lanes or breath_result.applied:
                 await asyncio.to_thread(sf.write, str(wav), audio, sr, subtype="PCM_24")
                 job.message = f"rendered vocal with {'/'.join(applied_lanes)} post-processing"
             try:
@@ -194,6 +205,10 @@ class RenderService:
             except RuntimeError:
                 actual_f0 = None
             provenance = "OPENACE_CI_SYNTH_FIXTURE=1 — ORCHESTRATION TEST AUDIO, NOT MODEL OUTPUT" if self.fixture_mode else self.vocal_engine_name
+            if breath_result.applied:
+                provenance += " + Breath events real donor-noise overlays (post-render DSP, not neural conditioning)"
+            elif track.breaths:
+                provenance += " + Breath events requested but no real donor noise was available; no synthetic noise inserted"
             if dynamic_applied:
                 provenance += " + Dynamic lane gain post-processing (not neural conditioning)"
             if air_applied:
@@ -213,7 +228,16 @@ class RenderService:
             job.diagnostic_path = str(diagnostic)
             job.status = RenderJobStatus.COMPLETED
             job.progress = 1.0
-            job.message = f"completed with {'/'.join(applied_lanes)} post-processing" if applied_lanes else "completed"
+            if applied_lanes and breath_result.applied:
+                job.message = f"completed with {'/'.join(applied_lanes)} post-processing and {breath_result.applied} breath overlay(s)"
+            elif applied_lanes:
+                job.message = f"completed with {'/'.join(applied_lanes)} post-processing"
+            elif breath_result.applied:
+                job.message = f"completed with {breath_result.applied} real-donor breath overlay(s)"
+            elif track.breaths:
+                job.message = "completed; breath donor unavailable, no synthetic noise inserted"
+            else:
+                job.message = "completed"
             job.finished_at = time.time()
         except Exception as exc:
             job.status = RenderJobStatus.FAILED

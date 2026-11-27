@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 
 from openace.core.audio import read_audio
-from openace.core.models import EnvelopePoint, Note, RenderJobStatus, RenderMode, Track
+from openace.core.models import Breath, EnvelopePoint, Note, RenderJobStatus, RenderMode, Track
 from openace.core.project_store import ProjectStore
 from openace.engines.fixture import FixtureVocalEngine
 from openace.server.render_service import RenderService
@@ -182,3 +182,35 @@ def test_falsetto_automation_postprocesses_fixture_render(monkeypatch, tmp_path)
     assert result.status == "completed"
     assert result.message == "completed with Falsetto post-processing"
     assert Path(result.output_path).exists()
+
+
+def test_breath_event_postprocesses_fixture_render_with_real_reference_donor(monkeypatch, tmp_path):
+    import soundfile as sf
+
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    sr = 24000
+    reference = np.zeros(sr * 2, dtype=np.float32)
+    rng = np.random.default_rng(11)
+    reference[int(0.15 * sr):int(0.75 * sr)] = rng.normal(0.0, 0.08, int(0.60 * sr)).astype(np.float32)
+    reference_path = tmp_path / "reference.wav"
+    sf.write(reference_path, reference, sr)
+
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("fixture")
+    track = project.add_track(Track(name="Lead"))
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    track.breaths.append(Breath(start_ticks=480, duration_ticks=240))
+    track.reference_voice_path = str(reference_path)
+    store.save(project)
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(project.id, RenderMode.SVS_SCORE, track.id)
+    result = asyncio.run(service.run_vocal_render(job.id))
+    assert result.status == "completed"
+    assert result.message == "completed with 1 real-donor breath overlay(s)"
+    audio, out_sr = read_audio(Path(result.output_path))
+    # The fixture note occupies 0-0.5s; the authored breath begins exactly after it.
+    breath_region = audio[int(0.56 * out_sr):int(0.70 * out_sr), 0]
+    note_region = audio[int(0.10 * out_sr):int(0.40 * out_sr), 0]
+    breath_rms = float(np.sqrt(np.mean(breath_region**2)))
+    assert breath_rms > 0.004
+    assert breath_rms < float(np.sqrt(np.mean(note_region**2)))

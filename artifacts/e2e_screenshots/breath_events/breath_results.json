@@ -1,0 +1,132 @@
+{
+  "reference_upload": {
+    "ok": true,
+    "details": {
+      "reference_path": "/home/ubuntu/repos/OpenACE/data/uploads/aspiration_reference.wav"
+    },
+    "time": 1795754823.7228446
+  },
+  "note_drawn": {
+    "ok": true,
+    "details": {
+      "note": {
+        "start_ticks": 0,
+        "duration_ticks": 480,
+        "pitch": 60,
+        "lyric": ""
+      }
+    },
+    "time": 1795754824.410974
+  },
+  "breath_empty_click_add": {
+    "ok": true,
+    "details": {
+      "breath": {
+        "id": "br_d159920c",
+        "start_ticks": 480,
+        "duration_ticks": 120
+      }
+    },
+    "time": 1795754825.2236726
+  },
+  "breath_drag_move": {
+    "ok": true,
+    "details": {
+      "breath": {
+        "id": "br_d159920c",
+        "start_ticks": 600,
+        "duration_ticks": 120
+      }
+    },
+    "time": 1795754825.9131334
+  },
+  "breath_edge_resize": {
+    "ok": true,
+    "details": {
+      "breath": {
+        "id": "br_d159920c",
+        "start_ticks": 600,
+        "duration_ticks": 240
+      }
+    },
+    "time": 1795754826.5946834
+  },
+  "render_job_real_donor_message": {
+    "ok": true,
+    "details": {
+      "job": {
+        "id": "job_0b9390fa2c4c",
+        "project_id": "project_782575894882",
+        "track_id": "track_14e945698551",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed with 1 real-donor breath overlay(s)",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_782575894882/job_0b9390fa2c4c/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_782575894882/job_0b9390fa2c4c/diagnostic.png",
+        "created_at": 1795754826.7173064,
+        "finished_at": 1795754828.6720865,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true,
+        "source_audio": null,
+        "reference_voice": null,
+        "caption": "",
+        "start_s": null,
+        "end_s": null
+      },
+      "render_posts": [
+        {
+          "url": "http://127.0.0.1:8787/api/projects/project_782575894882/render/vocal",
+          "status": 200
+        }
+      ]
+    },
+    "time": 1795754829.4394898
+  },
+  "output_audio_breath_energy": {
+    "ok": true,
+    "details": {
+      "analysis": {
+        "breath_rms": 0.03392777219414711,
+        "breath_high1500": 1.192733454097695,
+        "harmonic_high1500": 0.0003462251522156714,
+        "late_silence_rms": 0.0,
+        "pre_breath_silence_rms": 0.0,
+        "length_seconds": 1.0,
+        "sample_rate": 24000,
+        "high_vs_harmonic_ratio": 3444.9647764317097
+      },
+      "breath_interval_seconds": [
+        0.625,
+        0.875
+      ],
+      "interpretation": "breath event occupies 0.625–0.875s after the 0–0.5s harmonic fixture note; surrounding timeline is silent"
+    },
+    "time": 1795754829.439814
+  },
+  "diagnostic_provenance_file_generated": {
+    "ok": true,
+    "details": {
+      "diagnostic": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/breath_events/diagnostic.png",
+      "visually_verified": "OPENACE_CI_SYNTH_FIXTURE=1 ... + Breath events real donor-noise overlays (post-render DSP, not neural conditioning)"
+    },
+    "time": 1795754857.0982623
+  },
+  "breath_right_click_delete": {
+    "ok": true,
+    "details": {
+      "breaths": []
+    },
+    "time": 1795754858.1367743
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795754858.6398282
+  },
+  "passed": true
+}

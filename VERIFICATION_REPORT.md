@@ -528,3 +528,15 @@ Implemented and verified:
 - Independent visible-Chrome QA generated/imported a real MIDI fixture through the file chooser. It verified HTTP 200, backend tempo points exactly `[0:120, 960:60]`, notes/lyrics, tick 1440 transport reading `1.4.1 / 00:02.00` rather than constant-BPM `00:01.50`, live playback progression into the slower section, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/tempo_map/`, especially `TEMPO_MAP_QA_REPORT.md` and `03_seek_1440_piecewise_time.png`.
 
 Validation after iteration 32: frontend production build passed; Python compile passed; full automated suite reached 79 passed.
+
+## Iteration 33 — honest audible breath events
+
+Implemented and verified:
+
+- Added `openace/core/breath.py`, an explicitly honest post-render processor. SoulX exposes no neural breath conditioning, so OpenACE never synthesizes white noise and calls it a breath. The processor extracts broad-band aperiodic aspiration that already exists in the uploaded reference voice (preferred) or rendered vocal, high-passes/time-fits that real donor noise, and overlays it at breath markers with tempo-aware positions and clipping protection. If no usable real donor exists, the render reports that no synthetic noise was inserted.
+- Integrated breath processing into vocal rendering before expression-lane DSP. Job messages distinguish real-donor overlays from donor-unavailable no-ops, and diagnostics carry provenance text stating that breath overlays are post-render DSP rather than neural conditioning.
+- Upgraded the Breath & Phoneme lane from mostly decorative markers to zoom-correct editable blocks: empty-click add, horizontal drag move, edge resize with grid snapping, and right-click delete, all undo-safe through existing project transactions.
+- Regression coverage proves donor extraction rejects a pure tone, extracts broad-band noise, places overlays exactly in timeline silence, follows a piecewise tempo map, honestly no-ops without real donor noise, and completes a fixture render with `1 real-donor breath overlay(s)`.
+- Independent visible-Chrome QA generated an aspiration-bearing reference fixture, uploaded it through the real file chooser, drew a note, added/moved/resized a breath with backend persistence, rendered, and analyzed output audio. The exact 0.625–0.875s breath interval had RMS `0.03393` while surrounding silence was exactly `0.0`; high-band energy was about `3445×` the harmonic fixture floor. Diagnostic provenance visibly states real donor-noise post-render DSP; right-click deletion and console/network health passed. Evidence: `artifacts/e2e_screenshots/breath_events/`, especially `BREATH_EVENTS_QA_REPORT.md` and `audio_analysis.png`.
+
+Validation after iteration 33: frontend production build passed; Python compile passed; full automated suite reached 84 passed.

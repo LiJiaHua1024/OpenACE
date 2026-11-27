@@ -9,7 +9,7 @@
 
 - Tempo maps now import/export and drive timing correctly across MIDI/LRC/USTX/SVP/VPR, rendering metadata, expression DSP, clip fades/crossfades, transport time, waveform mapping, and WebAudio playback, but there is still no dedicated visual tempo-point editing lane.
 
-- Pitch automation affects SoulX target F0; Dynamic, Air, Energy, Tension, and Falsetto automation are applied as explicitly labeled post-render DSP. Breath events still persist without affecting sound.
+- Pitch automation affects SoulX target F0; Dynamic, Air, Energy, Tension, and Falsetto automation are applied as explicitly labeled post-render DSP. Breath events now overlay real donor aspiration extracted from reference/rendered audio and are explicitly labeled post-render DSP, but if no suitable real donor noise exists they honestly no-op; intensity/type editing and true neural breath conditioning remain absent.
 - Piano roll now has marquee/multi-select/copy-paste/duplicate/quantize/context menu/velocity lane, per-note vibrato editing, and per-note pitch handles, cross-track clipboard is regression-verified, and dense 3000-note 60FPS playback/scroll proof exists at 1400×900@2x.
 - Arrangement now uses decoded waveform peaks and supports independent audio-clip/grouped-note dragging, edge trim, split-at-cursor, linear fade endpoints, clip gain, and automatic equal-power crossfades, clip copy/paste/duplicate/delete, and track duplicate/reorder/color/delete context operations, but still lacks recent-files organization and deeper media-library management.
 - Repaint region selection is implemented via Alt-drag plus numeric seconds; the underlying ACE-Step repaint output has not been validated on GPU.
