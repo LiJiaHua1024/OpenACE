@@ -160,3 +160,20 @@ export interface RenderJob {
   created_at: number
   finished_at?: number | null
 }
+
+export interface LoudnessHistoryPoint {
+  time: number
+  momentary: number
+  shortTerm: number
+}
+
+export interface LoudnessReading {
+  available: boolean
+  exact48k: boolean
+  sampleRate: number
+  momentary: number
+  shortTerm: number
+  maxMomentary: number
+  maxShortTerm: number
+  history: LoudnessHistoryPoint[]
+}

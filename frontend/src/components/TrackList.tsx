@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import type { Project, Track } from '../types'
+import type { LoudnessReading, Project, Track } from '../types'
 import LevelMeter from './LevelMeter'
+import LoudnessMeter from './LoudnessMeter'
 import { vocalRenderIsStale } from '../renderFingerprint'
 
 interface Props {
@@ -12,6 +13,8 @@ interface Props {
   updateProject(mutator: (project: Project) => void, transient?: boolean): void
   getTrackLevel?(trackId: string): number
   getMasterLevel?(): number
+  getLoudness?(): LoudnessReading
+  onResetLoudness?(): void
 }
 
 interface MenuState {
@@ -147,6 +150,7 @@ export default function TrackList(props: Props) {
           <LevelMeter getLevel={props.getMasterLevel} />
         </div>
       )}
+      {props.getLoudness && props.onResetLoudness && <LoudnessMeter getReading={props.getLoudness} onReset={props.onResetLoudness} />}
       {menu && menuTrack && (
         <div
           className="track-context-menu"

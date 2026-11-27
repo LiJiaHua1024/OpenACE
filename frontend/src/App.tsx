@@ -9,7 +9,7 @@ import TempoLane from './components/TempoLane'
 import TransportBar from './components/TransportBar'
 import { crossfadeGainAt, crossfadeIntervals } from './crossfade'
 import { barTicks, secondsBetweenTicks, secondsToTicks, tickDurationSeconds, ticksToSeconds } from './tempo'
-import type { AudioClip, Project, RenderJob, TimelineState, Track } from './types'
+import type { AudioClip, LoudnessReading, Project, RenderJob, TimelineState, Track } from './types'
 
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value))
@@ -76,6 +76,10 @@ function playbackAudioSnapshot(project: Project): string {
   })
 }
 
+function emptyLoudnessReading(): LoudnessReading {
+  return { available: false, exact48k: false, sampleRate: 0, momentary: -120, shortTerm: -120, maxMomentary: -120, maxShortTerm: -120, history: [] }
+}
+
 function analyserPeakLevel(analyser?: AnalyserNode): number {
   if (!analyser) return 0
   const data = new Uint8Array(analyser.fftSize)
@@ -106,7 +110,7 @@ export default function App() {
   const transactionBase = useRef<Project | null>(null)
   const locallyDeletingProjectId = useRef<string | null>(null)
   const saveTimer = useRef<number | null>(null)
-  const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; transitionGains: GainNode[]; ctx?: AudioContext; starting?: boolean; generation: number; analysers: Record<string, AnalyserNode>; masterAnalyser?: AnalyserNode }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], transitionGains: [], starting: false, generation: 0, analysers: {} })
+  const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; transitionGains: GainNode[]; ctx?: AudioContext; starting?: boolean; generation: number; analysers: Record<string, AnalyserNode>; masterAnalyser?: AnalyserNode; loudnessNode?: AudioWorkletNode; loudnessSink?: GainNode; loudnessFeed?: GainNode; loudness: LoudnessReading }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], transitionGains: [], starting: false, generation: 0, analysers: {}, loudness: emptyLoudnessReading() })
   const playbackSnapshotRef = useRef('')
   const playbackRebuildTimer = useRef<number | null>(null)
   const loopRestarting = useRef(false)
@@ -434,15 +438,28 @@ export default function App() {
     playback.current.sources = []
     playback.current.transitionGains = []
     const oldMasterAnalyser = playback.current.masterAnalyser
+    const loudnessFeed = playback.current.loudnessFeed
+    const loudnessNode = playback.current.loudnessNode
+    if (loudnessFeed && loudnessNode) {
+      try { loudnessFeed.disconnect(loudnessNode) } catch {}
+    }
+    playback.current.loudnessFeed = undefined
     playback.current.analysers = {}
     playback.current.masterAnalyser = undefined
-    window.setTimeout(() => { try { oldMasterAnalyser?.disconnect() } catch {} }, 30)
+    window.setTimeout(() => {
+      try { oldMasterAnalyser?.disconnect() } catch {}
+    }, 30)
     // Keep the context alive: decoder and node creation are reused across transport starts.
     playback.current.ctx = undefined
   }, [])
 
   const getTrackLevel = useCallback((trackId: string) => analyserPeakLevel(playback.current.analysers[trackId]), [])
   const getMasterLevel = useCallback(() => analyserPeakLevel(playback.current.masterAnalyser), [])
+  const getLoudness = useCallback(() => playback.current.loudness, [])
+  const resetLoudness = useCallback(() => {
+    playback.current.loudnessNode?.port.postMessage({ type: 'reset' })
+    playback.current.loudness = { ...emptyLoudnessReading(), available: playback.current.loudness.available, exact48k: playback.current.loudness.exact48k, sampleRate: playback.current.loudness.sampleRate }
+  }, [])
 
 
   const preloadPlaybackMedia = useCallback((targetProject: Project) => {
@@ -478,9 +495,22 @@ export default function App() {
     const oldSources = playback.current.sources
     const oldGains = playback.current.transitionGains
     const oldMasterAnalyser = playback.current.masterAnalyser
+    const oldLoudnessFeed = playback.current.loudnessFeed
+    const persistentLoudnessNode = playback.current.loudnessNode
     playback.current.sources = []
     playback.current.transitionGains = []
-    if (!ctx || !oldSources.length) return
+    playback.current.loudnessFeed = undefined
+    const cleanup = () => {
+      oldGains.forEach(gain => { try { gain.disconnect() } catch {} })
+      try { oldMasterAnalyser?.disconnect() } catch {}
+      if (oldLoudnessFeed && persistentLoudnessNode) {
+        try { oldLoudnessFeed.disconnect(persistentLoudnessNode) } catch {}
+      }
+    }
+    if (!ctx || !oldSources.length) {
+      cleanup()
+      return
+    }
     const now = ctx.currentTime
     oldSources.forEach((source, index) => {
       const gain = oldGains[index]
@@ -496,10 +526,7 @@ export default function App() {
         source.stop(now + fadeSeconds + 0.03)
       } catch {}
     })
-    window.setTimeout(() => {
-      oldGains.forEach(gain => { try { gain.disconnect() } catch {} })
-      try { oldMasterAnalyser?.disconnect() } catch {}
-    }, Math.ceil((fadeSeconds + 0.08) * 1000))
+    window.setTimeout(cleanup, Math.ceil((fadeSeconds + 0.08) * 1000))
   }, [])
 
   const schedulePlayback = useCallback(async (targetProject: Project, startTicks: number, continuous = false, transitionFadeInSeconds = 0) => {
@@ -524,18 +551,11 @@ export default function App() {
       .filter(track => !track.mute && track.playbackSources.length)
     const anySolo = rendered.some(track => track.solo)
     const audible = rendered.filter(track => !anySolo || track.solo)
-    const ctx = audible.length ? playbackContext() : undefined
+    const ctx = playbackContext()
     playback.current.ctx = ctx
     playback.current.startMs = performance.now()
     playback.current.startTicks = startTicks
     playback.current.startContextTime = ctx?.currentTime || 0
-    if (!audible.length) {
-      playback.current.sources = []
-      playback.current.transitionGains = []
-      playback.current.analysers = {}
-      playback.current.masterAnalyser = undefined
-      return true
-    }
     const tracksAndBuffers = await Promise.all(audible.flatMap(track => track.playbackSources.map(async sourceSpec => {
       const url = renderFileUrl(sourceSpec.path)
       if (!url || !ctx) return null
@@ -560,6 +580,41 @@ export default function App() {
     masterInput.connect(masterAnalyser)
     masterAnalyser.connect(ctx.destination)
     playback.current.masterAnalyser = masterAnalyser
+    try {
+      if (ctx.audioWorklet) {
+        await ctx.audioWorklet.addModule('/loudness-worklet.js')
+        if (playback.current.generation !== generation) return false
+        let loudnessNode = playback.current.loudnessNode
+        let loudnessSink = playback.current.loudnessSink
+        if (!loudnessNode || !loudnessSink) {
+          loudnessNode = new AudioWorkletNode(ctx, 'openace-loudness', { numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [2] })
+          loudnessSink = ctx.createGain()
+          loudnessSink.gain.value = 0
+          loudnessNode.connect(loudnessSink)
+          loudnessSink.connect(ctx.destination)
+          loudnessNode.port.onmessage = event => {
+            if (playback.current.loudnessNode !== loudnessNode) return
+            const data = event.data || {}
+            const reading = playback.current.loudness
+            reading.available = true
+            reading.exact48k = Boolean(data.exact48k)
+            reading.sampleRate = Number(data.sampleRate || ctx.sampleRate)
+            reading.momentary = Number(data.momentary ?? -120)
+            reading.shortTerm = Number(data.shortTerm ?? -120)
+            reading.maxMomentary = Math.max(reading.maxMomentary, reading.momentary)
+            reading.maxShortTerm = Math.max(reading.maxShortTerm, reading.shortTerm)
+            reading.history.push({ time: performance.now() / 1000, momentary: reading.momentary, shortTerm: reading.shortTerm })
+            if (reading.history.length > 180) reading.history.splice(0, reading.history.length - 180)
+          }
+          playback.current.loudnessNode = loudnessNode
+          playback.current.loudnessSink = loudnessSink
+        }
+        masterInput.connect(loudnessNode)
+        playback.current.loudnessFeed = masterInput
+      }
+    } catch {
+      playback.current.loudness.available = false
+    }
     const trackInputs = new Map<string, GainNode>()
     const inputForTrack = (track: Track) => {
       const existing = trackInputs.get(track.id)
@@ -851,6 +906,8 @@ export default function App() {
           updateProject={updateProject}
           getTrackLevel={getTrackLevel}
           getMasterLevel={getMasterLevel}
+          getLoudness={getLoudness}
+          onResetLoudness={resetLoudness}
         />
         <main className="center-workspace">
           <ArrangementView
