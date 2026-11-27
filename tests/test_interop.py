@@ -483,3 +483,20 @@ def test_master_export_applies_automatic_overlap_crossfade(tmp_path):
     middle = rms_at(0.375)
     assert boundary / outside < 1.15
     assert 1.25 < middle / outside < 1.55
+
+def test_project_duplicate_and_delete_endpoints(tmp_path):
+    from fastapi.testclient import TestClient
+    import openace.server.app as app_module
+
+    client = TestClient(app_module.app)
+    created = client.post("/api/projects", json={"title": "Project Ops"})
+    assert created.status_code == 200
+    project_id = created.json()["id"]
+    duplicated = client.post(f"/api/projects/{project_id}/duplicate")
+    assert duplicated.status_code == 200
+    copy = duplicated.json()
+    assert copy["id"] != project_id
+    assert copy["title"] == "Project Ops Copy"
+    deleted = client.delete(f"/api/projects/{copy['id']}")
+    assert deleted.status_code == 200
+    assert client.delete(f"/api/projects/{copy['id']}").status_code == 404

@@ -508,3 +508,9 @@ Implemented and verified:
 - Independent visible-Chrome QA imported a zip through the real file chooser and verified HTTP 200, project open, visible `Hook` arrangement clip, exact start/offset/duration/fades, persistent bundled media, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/ustx_zip_import/`.
 
 Validation after iteration 30: frontend production build passed; Python compile passed; full automated suite reached 71 passed.
+
+## Iteration 31 — Project duplicate/delete management
+
+Implemented and verified: persistent project duplication with fresh project id/` Copy` title; confirmed deletion with fallback to first or new project; visible transport controls use legible `Copy`/`×` labels after QA caught an unsupported glyph. Backend regression covers duplicate identity/title, deletion, and 404. Independent visible-Chrome QA verified duplicate creation/selector/backend persistence, confirmation, fallback, disappearance, fixed glyph legibility, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/project_operations/`.
+
+Validation after iteration 31: frontend production build passed; Python compile passed; full automated suite reached 72 passed.

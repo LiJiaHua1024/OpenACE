@@ -21,6 +21,8 @@ interface Props {
   importingAudio?: boolean
   onOpenProject(projectId: string): void
   onNewProject(): void
+  onDuplicateProject(): void
+  onDeleteProject(): void
 }
 
 function formatTime(project: Project, ticks: number) {
@@ -41,6 +43,8 @@ export default function TransportBar(props: Props) {
         {props.projects.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}
       </select>
       <button className="new-project" onClick={props.onNewProject} title="New project">＋ New</button>
+      <button className="icon-button project-action" onClick={props.onDuplicateProject} title="Duplicate project">Copy</button>
+      <button className="icon-button project-action danger" onClick={props.onDeleteProject} title="Delete project">×</button>
       <input className="title-input" value={props.project.title} onChange={e => props.onTitleChange(e.target.value)} />
       <div className="transport-controls">
         <button className="icon-button" title="Undo Ctrl+Z" disabled={!props.canUndo} onClick={props.onUndo}>↶</button>

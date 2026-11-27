@@ -176,6 +176,37 @@ export default function App() {
     } catch (e: any) { setError(e.message || String(e)) }
   }, [setProjectRef])
 
+
+  const duplicateCurrentProject = useCallback(async () => {
+    if (!projectRef.current) return
+    try {
+      const next = await api.duplicateProject(projectRef.current.id)
+      setProjectList(await api.listProjects())
+      setProjectRef(next)
+      setSelectedTrackId(next.tracks[0]?.id)
+      setPast([]); setFuture([])
+    } catch (e: any) { setError(e.message || String(e)) }
+  }, [setProjectRef])
+
+  const deleteCurrentProject = useCallback(async () => {
+    const current = projectRef.current
+    if (!current || !window.confirm(`Delete project “${current.title}”? This cannot be undone.`)) return
+    try {
+      await api.deleteProject(current.id)
+      let list = await api.listProjects()
+      let next: Project
+      if (list.length) next = await api.getProject(list[0].id)
+      else {
+        next = await api.createProject('Untitled OpenACE Project')
+        list = await api.listProjects()
+      }
+      setProjectList(list)
+      setProjectRef(next)
+      setSelectedTrackId(next.tracks[0]?.id)
+      setPlayheadTicks(0); setPast([]); setFuture([])
+    } catch (e: any) { setError(e.message || String(e)) }
+  }, [setProjectRef])
+
   const selectedTrack = project?.tracks.find(t => t.id === selectedTrackId) || project?.tracks[0]
 
   const stopPlaybackAudio = useCallback(() => {
@@ -377,6 +408,8 @@ export default function App() {
         onRedo={redo}
         onOpenProject={openProject}
         onNewProject={createNewProject}
+        onDuplicateProject={duplicateCurrentProject}
+        onDeleteProject={deleteCurrentProject}
         onImportMidi={file => void handleImportedProject(importMidi(file))}
         onImportUstx={file => void handleImportedProject(importUstx(file))}
         onImportAudio={handleImportAudio}

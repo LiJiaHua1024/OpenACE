@@ -16,7 +16,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from openace.core.models import Note, Project, RenderMode, Track, TrackType
+from openace.core.models import Note, Project, RenderMode, Track, TrackType, new_id
 from openace.core.phonemes import PhonemeError, ensure_note_phonemes, timed_phonemes, tokens_from_symbols
 from openace.core.project_store import ProjectStore
 from openace.core.timing import validate_absolute_beat_anchor
@@ -191,6 +191,21 @@ def update_project(project_id: str, payload: Dict[str, Any]):
     store.save(project)
     publish_project(project)
     return project.model_dump(mode="json")
+
+
+@app.post("/api/projects/{project_id}/duplicate")
+def duplicate_project(project_id: str):
+    try:
+        source = store.get(project_id)
+    except KeyError as exc:
+        raise HTTPException(404, "project not found") from exc
+    duplicate = Project.model_validate(source.model_dump())
+    duplicate.id = new_id("project")
+    duplicate.title = f"{source.title} Copy"
+    duplicate.touch()
+    store.save(duplicate)
+    publish_project(duplicate)
+    return duplicate.model_dump(mode="json")
 
 
 @app.delete("/api/projects/{project_id}")
