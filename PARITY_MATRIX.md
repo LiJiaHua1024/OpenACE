@@ -2,14 +2,14 @@
 
 Status legend: **Done** (implemented and exercised end-to-end in this repository), **Partial** (real implementation exists but production depth or validation is incomplete), **Gap** (missing). This is an adversarial living audit, not marketing copy.
 
-Last audit iteration: 2026-11-27, after breath intensity/timbre shaping iteration and independent browser QA.
+Last audit iteration: 2026-11-27, after persistent voice-library iteration and independent browser QA.
 
 ## P0 — synthesis cores and acoustic invariants
 
 | Capability | ACE Studio / OpenACE requirement | Status | Evidence and remaining gap |
 |---|---|---:|---|
 | Score-to-singing neural SVS | Commercial-grade singing from notes+lyrics | **Partial** | Real SoulX-Singer subprocess adapter, score metadata builder, strict phone validation, zero-shot preprocessing entrypoint, and local GPU verifier implemented. Not yet run on physical GPU in this sandbox. |
-| Zero-shot reference voice | Upload reference and synthesize in that voice | **Partial** | Upload slot, persistence, preprocess invocation, render wiring implemented. Voice library/mixing/browser still primitive. |
+| Zero-shot reference voice | Upload/reference/manage voices and synthesize in that voice | **Partial** | Persistent voice library upload/list/rename/delete, measured duration/sample-rate metadata, exact track `voice_id`+path assignment, reload persistence, safe in-use deletion plus explicit unassigning delete, no-reload SSE updates, and render proof are browser-verified. Voice mixing/browser-grade singer management and real GPU quality remain absent. |
 | SVC hot-song conversion | Convert an existing performance and use it in the arrangement | **Partial** | SoulX-Singer-SVC module invocation and F0 extraction path implemented; conversion output now becomes a dedicated editable audio track/clip with provenance, browser-visible no-reload arrangement update, playback interaction, drag/trim persistence, diagnostic, and master-export inclusion. Real conversion quality is not GPU-verified and SVC-side lyric display/correction remains absent. |
 | Vocal2BGM | Generate musical accompaniment around a vocal | **Partial** | Correct upstream ACE-Step `complete` task semantics wired with `src_audio`; fixture/browser orchestration verified. Real musical quality not GPU-verified. |
 | Interval repaint | Box-select a region and regenerate locally | **Partial** | ACE-Step `repaint` backend plus visible Alt-drag arrangement region selection and rounded numeric seconds controls implemented; regression screenshot verifies the overlay. Masking semantics/real output validation pending GPU. |

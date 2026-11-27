@@ -19,6 +19,7 @@ from pydantic import BaseModel
 from openace.core.models import Note, Project, RenderMode, Track, TrackType, new_id
 from openace.core.phonemes import PhonemeError, ensure_note_phonemes, timed_phonemes, tokens_from_symbols
 from openace.core.project_store import ProjectStore
+from openace.core.voice_library import VoiceLibrary
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_lyrics_video, export_master_wav
 from openace.exporters.midi_lrc import export_lrc, export_midi
@@ -38,12 +39,14 @@ DATA = Path(os.environ.get("OPENACE_DATA_DIR", ROOT / "data"))
 PROJECTS = DATA / "projects"
 RENDERS = DATA / "renders"
 UPLOADS = DATA / "uploads"
+VOICES = DATA / "voices"
 EXPORTS = DATA / "exports"
-for directory in (PROJECTS, RENDERS, UPLOADS, EXPORTS):
+for directory in (PROJECTS, RENDERS, UPLOADS, VOICES, EXPORTS):
     directory.mkdir(parents=True, exist_ok=True)
 
 store = ProjectStore(PROJECTS)
 render_service = RenderService(store, RENDERS)
+voice_library = VoiceLibrary(VOICES)
 
 app = FastAPI(title="OpenACE", version="0.1.0")
 app.add_middleware(
@@ -325,6 +328,78 @@ def read_job(job_id: str):
 @app.get("/api/jobs")
 def list_jobs():
     return [job.model_dump(mode="json") for job in sorted(render_service.jobs.values(), key=lambda j: j.created_at, reverse=True)]
+
+
+class VoiceRenameRequest(BaseModel):
+    name: str
+
+
+@app.get("/api/voices")
+def list_voices():
+    return [voice.model_dump(mode="json") for voice in voice_library.list()]
+
+
+@app.post("/api/voices")
+async def create_voice(file: UploadFile = File(...)):
+    try:
+        voice = voice_library.create(file.filename or "reference.wav", file.file)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    event_bus.publish("voice_library", {"action": "created", "voice": voice.model_dump(mode="json")})
+    return voice.model_dump(mode="json")
+
+
+@app.patch("/api/voices/{voice_id}")
+def rename_voice(voice_id: str, request: VoiceRenameRequest):
+    try:
+        updated = voice_library.rename(voice_id, request.name)
+        event_bus.publish("voice_library", {"action": "renamed", "voice": updated.model_dump(mode="json")})
+        return updated.model_dump(mode="json")
+    except KeyError as exc:
+        raise HTTPException(404, str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+
+
+@app.delete("/api/voices/{voice_id}")
+def delete_voice(voice_id: str, unassign: bool = False):
+    try:
+        voice = voice_library.get(voice_id)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc)) from exc
+    usages = []
+    projects = []
+    for path in PROJECTS.glob("*.openace.json"):
+        try:
+            project = Project.load(path)
+        except Exception:
+            continue
+        projects.append(project)
+        for track in project.tracks:
+            if track.voice_id == voice_id or track.reference_voice_path == voice.path:
+                usages.append((project, track))
+    if usages and not unassign:
+        project, track = usages[0]
+        raise HTTPException(409, f"voice is in use by project '{project.title}' track '{track.name}'")
+    if usages:
+        for project in projects:
+            changed = False
+            for track in project.tracks:
+                if track.voice_id == voice_id:
+                    track.voice_id = ""
+                    changed = True
+                if track.reference_voice_path == voice.path:
+                    track.reference_voice_path = None
+                    changed = True
+            if changed:
+                store.save(project)
+                publish_project(project)
+    try:
+        deleted = voice_library.delete(voice_id)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc)) from exc
+    event_bus.publish("voice_library", {"action": "deleted", "voice_id": voice_id, "unassigned": len(usages)})
+    return {"ok": True, "deleted": deleted.model_dump(mode="json"), "unassigned": len(usages)}
 
 
 @app.post("/api/upload")

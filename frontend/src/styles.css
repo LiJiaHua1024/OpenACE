@@ -219,6 +219,12 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 }
 .voice-name { font-size: 13px; font-weight: 750; color: white; }
 .voice-sub { font-size: 10px; color: #79849f; margin-top: 2px; }
+.voice-select { width: 100%; margin: 7px 0 6px; background: #151927; color: #dfe7ff; border: 1px solid #333b54; border-radius: 6px; padding: 6px; font-size: 11px; }
+.voice-actions { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+.voice-actions button { height: 27px; border: 1px solid #333b55; border-radius: 6px; background: #181c2a; color: #b8c3df; cursor: pointer; font-size: 11px; }
+.voice-actions button:hover:not(:disabled) { background: #252c41; color: #fff; }
+.voice-actions button:disabled { opacity: .42; cursor: default; }
+
 .wide-button, .render-button, .wide-action {
   width: 100%; border-radius: 8px; padding: 9px 10px; border: 1px solid #3a435e; background: #1a1f2f; color: #d5dcef; margin-top: 8px;
 }

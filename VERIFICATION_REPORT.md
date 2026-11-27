@@ -576,3 +576,15 @@ Implemented and verified:
 - Independent visible-Chrome QA verified exact slider persistence at 0/50/150%, undo/redo, timbre persistence, add-all defaults, move/resize/delete interactions, inspector disappearance after delete, four successful honest renders, measured RMS ratio `2.99999989×`, spectral ratios soft `0.41265` < natural `2.66856` < strong `5.91521`, and zero console/network errors. A targeted second pass verified real-mouse `Add all breaths` hit-testing and the unobstructed compact inspector layout. Evidence: `artifacts/e2e_screenshots/breath_shaping/`, especially `BREATH_SHAPING_QA_REPORT.md`, `quantitative_breath_analysis.png`, and `layout_recheck_final_strong.png`.
 
 Validation after iteration 36: frontend production build passed; Python compile passed; full automated suite reached 89 passed.
+
+## Iteration 37 — persistent zero-shot voice library
+
+Implemented and verified:
+
+- Added a persistent reference-voice library backed by `data/voices/voices.json` and copied audio files. Uploads are validated as readable audio, reject unsupported/corrupt/too-short files, and persist name, exact path, duration, sample rate, channel count, size, and creation time.
+- Added list/upload/rename/delete API. Safe deletion returns HTTP 409 while a voice is in use; explicit `unassign=true` deletion first clears matching `voice_id`/path references across saved projects, persists and publishes those projects, then removes the voice file and metadata.
+- Reworked the Voice panel around the library: users can assign a saved voice from a select, upload new references directly into the library, see selected voice name/duration/sample rate, rename through a prompt, and delete with explicit unassign confirmation. Track patches persist both `voice_id` and `reference_voice_path` for engine-compatible rendering. Backend voice create/rename/delete publishes `voice_library` SSE events and the open panel refreshes external/API changes without reload.
+- Core regressions cover metadata persistence, rename, delete, sanitization, corrupt audio rejection, unsupported suffix rejection, and too-short audio rejection.
+- Independent visible-Chrome QA verified visible upload metadata (`1.2s`, 44.1kHz, mono), exact assignment persistence across reload, rename to `Studio Voice Alpha`, HTTP 409 safe deletion while in use, confirmed deletion with no-reload assignment clearing, second-voice reassignment, successful render with a library voice, compact unobstructed 1272×837 layout, external API create/rename/delete live-refresh through SSE without stale entries, and zero final console/network errors. Evidence: `artifacts/e2e_screenshots/voice_library/`, especially `VOICE_LIBRARY_QA_REPORT.md` and `08_exact_1272x837_layout.png`.
+
+Validation after iteration 37: frontend production build passed; Python compile passed; full automated suite reached 91 passed.

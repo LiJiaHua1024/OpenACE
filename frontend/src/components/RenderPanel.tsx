@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { api, renderFileUrl, uploadFile } from '../api'
-import type { Project, RenderJob, Track } from '../types'
+import { api, renderFileUrl, uploadFile, uploadVoice } from '../api'
+import type { Project, RenderJob, Track, VoiceProfile } from '../types'
 
 interface Props {
   project: Project
@@ -19,8 +19,17 @@ export default function RenderPanel(props: Props) {
   const repaintEnd = props.repaintRange.end
   const [busy, setBusy] = useState<string | null>(null)
   const [error, setError] = useState('')
+  const [voices, setVoices] = useState<VoiceProfile[]>([])
   const referenceInput = useRef<HTMLInputElement | null>(null)
   const audioInput = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    const refresh = () => api.listVoices().then(setVoices).catch(() => {})
+    refresh()
+    const events = new EventSource('/api/events')
+    events.addEventListener('voice_library', refresh)
+    return () => events.close()
+  }, [])
 
   const activeJobs = props.jobs.filter(j => j.project_id === props.project.id).slice(0, 8)
   const latestDiagnostic = activeJobs.find(j => j.diagnostic_path)?.diagnostic_path
@@ -48,8 +57,40 @@ export default function RenderPanel(props: Props) {
     if (!props.track) return
     setError('')
     try {
-      const result = await uploadFile(file)
-      props.onPatchTrack(props.track.id, { reference_voice_path: result.path })
+      const voice = await uploadVoice(file)
+      setVoices(current => [voice, ...current])
+      props.onPatchTrack(props.track.id, { reference_voice_path: voice.path, voice_id: voice.id })
+    } catch (e: any) { setError(e.message || String(e)) }
+  }
+
+  function assignVoice(voiceId: string) {
+    if (!props.track) return
+    const voice = voices.find(item => item.id === voiceId)
+    props.onPatchTrack(props.track.id, {
+      reference_voice_path: voice?.path || null,
+      voice_id: voice?.id || '',
+    })
+  }
+
+  async function renameSelectedVoice() {
+    const voice = selectedVoice
+    if (!voice) return
+    const name = window.prompt('Rename reference voice', voice.name)?.trim()
+    if (!name) return
+    setError('')
+    try {
+      const updated = await api.renameVoice(voice.id, name)
+      setVoices(current => current.map(item => item.id === updated.id ? updated : item))
+    } catch (e: any) { setError(e.message || String(e)) }
+  }
+
+  async function deleteSelectedVoice() {
+    const voice = selectedVoice
+    if (!voice || !window.confirm(`Delete reference voice "${voice.name}" and unassign it from projects?`)) return
+    setError('')
+    try {
+      await api.deleteVoice(voice.id, true)
+      setVoices(current => current.filter(item => item.id !== voice.id))
     } catch (e: any) { setError(e.message || String(e)) }
   }
 
@@ -61,6 +102,8 @@ export default function RenderPanel(props: Props) {
     } catch (e: any) { setError(e.message || String(e)) }
   }
 
+  const selectedVoice = voices.find(voice => voice.id === props.track?.voice_id) || voices.find(voice => voice.path === props.track?.reference_voice_path) || null
+
   return (
     <aside className="right-panel">
       <section className="side-section">
@@ -68,14 +111,22 @@ export default function RenderPanel(props: Props) {
         {props.track ? (
           <>
             <div className="voice-card">
-              <div className="voice-avatar">{props.track.name.slice(0, 1).toUpperCase()}</div>
+              <div className="voice-avatar">{(selectedVoice?.name || props.track.name).slice(0, 1).toUpperCase()}</div>
               <div>
-                <div className="voice-name">Zero-shot reference slot</div>
-                <div className="voice-sub">{props.track.reference_voice_path ? 'custom reference loaded' : 'no reference uploaded'}</div>
+                <div className="voice-name">{selectedVoice?.name || 'Zero-shot reference slot'}</div>
+                <div className="voice-sub">{selectedVoice ? `${selectedVoice.duration_seconds.toFixed(1)}s · ${(selectedVoice.sample_rate / 1000).toFixed(1)}kHz` : props.track.reference_voice_path ? 'project-local reference loaded' : 'no reference assigned'}</div>
               </div>
             </div>
-            <input ref={referenceInput} hidden type="file" accept="audio/*" onChange={e => e.target.files?.[0] && uploadReference(e.target.files[0])} />
-            <button className="wide-button" onClick={() => referenceInput.current?.click()}>Upload reference voice</button>
+            <select className="voice-select" value={selectedVoice?.id || ''} onChange={event => assignVoice(event.target.value)}>
+              <option value="">No reference assigned</option>
+              {voices.map(voice => <option key={voice.id} value={voice.id}>{voice.name} · {voice.duration_seconds.toFixed(1)}s</option>)}
+            </select>
+            <input ref={referenceInput} hidden type="file" accept="audio/*" onChange={e => { const file = e.target.files?.[0]; if (file) uploadReference(file); e.target.value = '' }} />
+            <div className="voice-actions">
+              <button onClick={() => referenceInput.current?.click()}>Upload</button>
+              <button disabled={!selectedVoice} onClick={renameSelectedVoice}>Rename</button>
+              <button disabled={!selectedVoice} onClick={deleteSelectedVoice}>Delete</button>
+            </div>
             <label className="field-label">Language
               <select value={props.track.language} onChange={e => props.onPatchTrack(props.track!.id, { language: e.target.value })}>
                 <option value="zh">Mandarin</option><option value="en">English</option><option value="yue">Cantonese</option>

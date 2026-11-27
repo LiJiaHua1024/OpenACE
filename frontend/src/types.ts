@@ -98,6 +98,17 @@ export interface Project {
   metadata: Record<string, any>
 }
 
+export interface VoiceProfile {
+  id: string
+  name: string
+  path: string
+  created_at: number
+  duration_seconds: number
+  sample_rate: number
+  channels: number
+  size_bytes: number
+}
+
 export interface RenderJob {
   id: string
   project_id: string
