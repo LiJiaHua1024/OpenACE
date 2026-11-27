@@ -635,3 +635,14 @@ def test_karaoke_style_settings_clamp_invalid_metadata():
     assert style["lane_spacing"] == 112
     assert style["sung_color"] == "#ffb000"
     assert style["background_theme"] == "midnight"
+
+
+
+def test_ustx_export_uses_empty_host_singer_for_unmapped_openace_voice(tmp_path):
+    import yaml
+
+    project = sample_project()
+    path = export_ustx(project, tmp_path / "host_singer.ustx")
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    assert data["tracks"][0]["singer"] == ""
+    assert "zero-shot-reference" in data["voice_parts"][0]["comment"]

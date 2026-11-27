@@ -1050,3 +1050,13 @@ Implemented and verified:
 - RenderPanel now exposes persistent karaoke style controls. Independent visible-Chrome QA at exact 1272×837 verified clean layout, editing, undo/redo/reload persistence, MP4/WAV downloads, exact ASS font/color output, boundary clamping, truthful red/green lyric pixels, ember-vs-forest scene differences, conditional title/brand pixels, quantitative motion differences (`0.0028` off vs `5.5988` on), and clean console/network. Evidence: `artifacts/e2e_screenshots/karaoke_style/`.
 
 Validation after iteration 81: targeted exporter regressions passed; frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 82 — real OpenUtau host validation
+
+Implemented and verified:
+
+- Downloaded and launched the official Linux x64 OpenUtau `v0.1.576.0` release in the visible session desktop. An OpenACE-exported vocal `.ustx` opened directly: arrangement track/part loaded, and double-clicking the part showed both Chinese lyric notes (`你`, `好`) at distinct pitch rows with visible pitch/deviation and dynamics curves. An audio `.ustx` also opened directly and showed the wave part at the expected arrangement position with its source filename label.
+- Real host inspection exposed a genuine interoperability defect: OpenACE incorrectly serialized its internal `zero-shot-reference` voice id as an OpenUtau singer id, causing `[Missing] zero-shot-reference`. The exporter now emits an empty singer reference so OpenUtau truthfully shows `Select Singer`; the OpenACE voice id remains only in round-trip diagnostics. A regression test locks this behavior.
+- Evidence: `artifacts/e2e_screenshots/openutau_host_validation/`. OpenUtau synthesis/playback remains unvalidated because no singer voicebank is installed in this sandbox; this is explicitly not claimed.
+
+Validation after iteration 82: targeted USTX regression passed; frontend production build remained green; real host visual validation passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
