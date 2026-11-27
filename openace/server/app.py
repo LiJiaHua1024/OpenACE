@@ -26,7 +26,7 @@ from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.exporters.svp import export_svp
 from openace.exporters.ustx import export_ustx
 from openace.exporters.vpr import export_vpr
-from openace.importers.audio import assign_lyrics_to_notes, audio_to_midi_notes, transcribe_lyric_words
+from openace.importers.audio import project_from_audio
 from openace.importers.midi import import_midi
 from openace.importers.ustx import import_ustx
 from openace.engines.vram import vram_manager
@@ -137,6 +137,15 @@ def internal_project_updated(payload: Dict[str, Any]):
     # loopback by default; exposing it publicly is an operator-level network decision.
     project = Project.model_validate(payload)
     publish_project(project)
+    return {"ok": True}
+
+
+@app.post("/api/internal/project-deleted")
+def internal_project_deleted(payload: Dict[str, Any]):
+    project_id = str(payload.get("project_id") or "")
+    if not project_id:
+        raise HTTPException(400, "project_id is required")
+    event_bus.publish("project_deleted", {"project_id": project_id})
     return {"ok": True}
 
 
@@ -486,17 +495,7 @@ async def import_audio_file(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, tmp)
         tmp_path = Path(tmp.name)
     try:
-        project = Project(title=Path(file.filename or "Imported Audio").stem)
-        track = project.add_track(Track(name="Imported Vocal", color="#7c5cff"))
-        track.notes = await asyncio.to_thread(audio_to_midi_notes, tmp_path, project)
-        track.notes.sort(key=lambda n: (n.start_ticks, n.pitch))
-        if not track.notes:
-            raise HTTPException(422, "no stable monophonic pitch contour found; refusing fabricated notes")
-        words, detected_language = await asyncio.to_thread(transcribe_lyric_words, tmp_path)
-        assigned = assign_lyrics_to_notes(track.notes, words, project, detected_language)
-        if not assigned:
-            raise RuntimeError("ASR lyrics could not be aligned to the transcribed melody; refusing fabricated lyric placement")
-        track.language = detected_language
+        project = await asyncio.to_thread(project_from_audio, tmp_path, Path(file.filename or "Imported Audio").stem)
         store.save(project)
         publish_project(project)
         return project.model_dump(mode="json")

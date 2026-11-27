@@ -30,6 +30,7 @@ export default function App() {
   const [importingAudio, setImportingAudio] = useState(false)
   const projectRef = useRef<Project | null>(null)
   const transactionBase = useRef<Project | null>(null)
+  const locallyDeletingProjectId = useRef<string | null>(null)
   const saveTimer = useRef<number | null>(null)
   const playback = useRef<{ startMs: number; startTicks: number; raf: number; sources: AudioBufferSourceNode[]; ctx?: AudioContext; starting?: boolean }>({ startMs: 0, startTicks: 0, raf: 0, sources: [], starting: false })
 
@@ -79,8 +80,34 @@ export default function App() {
       try {
         const data = JSON.parse((event as MessageEvent).data)
         const incoming = data.payload?.project
+        if (incoming) {
+          setProjectList(current => {
+            const summary = { id: incoming.id, title: incoming.title }
+            return current.some(item => item.id === incoming.id)
+              ? current.map(item => item.id === incoming.id ? summary : item)
+              : [summary, ...current]
+          })
+        }
         if (incoming && projectRef.current && incoming.id === projectRef.current.id && incoming.updated_at > projectRef.current.updated_at) {
           setProjectRef(incoming)
+        }
+      } catch {}
+    })
+    source.addEventListener('project_deleted', event => {
+      try {
+        const data = JSON.parse((event as MessageEvent).data)
+        const deletedId = data.payload?.project_id
+        if (!deletedId) return
+        setProjectList(current => current.filter(item => item.id !== deletedId))
+        if (projectRef.current?.id === deletedId && locallyDeletingProjectId.current !== deletedId) {
+          void (async () => {
+            const list = await api.listProjects()
+            const next = list.length ? await api.getProject(list[0].id) : await api.createProject('Untitled OpenACE Project')
+            setProjectList(list.length ? list : [{ id: next.id, title: next.title }])
+            setProjectRef(next)
+            setSelectedTrackId(next.tracks[0]?.id)
+            setPast([]); setFuture([]); setPlayheadTicks(0)
+          })()
         }
       } catch {}
     })
@@ -175,7 +202,8 @@ export default function App() {
       setProjectRef(next)
       setSelectedTrackId(next.tracks[0]?.id)
       setPlayheadTicks(0); setPast([]); setFuture([])
-    } catch (e: any) { setError(e.message || String(e)) }
+      locallyDeletingProjectId.current = null
+    } catch (e: any) { setError(e.message || String(e)); locallyDeletingProjectId.current = null }
   }, [setProjectRef])
 
 
@@ -194,6 +222,7 @@ export default function App() {
     const current = projectRef.current
     if (!current || !window.confirm(`Delete project “${current.title}”? This cannot be undone.`)) return
     try {
+      locallyDeletingProjectId.current = current.id
       await api.deleteProject(current.id)
       let list = await api.listProjects()
       let next: Project

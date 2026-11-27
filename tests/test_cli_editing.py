@@ -71,3 +71,15 @@ def test_long_inline_json_is_not_mistaken_for_a_path():
     assert len(raw) > 4096
     payload = json_payload(raw)
     assert len(payload) == 500 and payload[-1]["ticks"] == 499 * 480
+
+
+def test_cli_project_duplicate_and_delete_roundtrip(tmp_path):
+    project = run_cli(tmp_path, "create-project", "--title", "Project ops")
+    duplicate = run_cli(tmp_path, "duplicate-project", project["id"], "--title", "Project ops copy")
+    assert duplicate["id"] != project["id"]
+    assert duplicate["title"] == "Project ops copy"
+    deleted = run_cli(tmp_path, "delete-project", duplicate["id"])
+    assert deleted["deleted"] is True
+    store = ProjectStore(tmp_path / "projects")
+    assert not store.path_for(duplicate["id"]).exists()
+    assert store.path_for(project["id"]).exists()

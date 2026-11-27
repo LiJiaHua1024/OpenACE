@@ -8,12 +8,13 @@ from pathlib import Path
 from typing import Optional
 
 from openace.core import editing
-from openace.core.models import Note, RenderMode, Track
+from openace.core.models import Note, RenderMode, Track, new_id
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
 from openace.core.project_store import ProjectStore
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.midi_lrc import export_lrc, export_midi
+from openace.importers.audio import project_from_audio
 from openace.importers.midi import import_midi
 from openace.exporters.svp import export_svp
 from openace.exporters.master import export_master_wav
@@ -44,6 +45,22 @@ def notify_web(project) -> None:
         pass
 
 
+def notify_project_deleted(project_id: str) -> None:
+    try:
+        import urllib.request
+
+        body = json.dumps({"project_id": project_id}).encode("utf-8")
+        req = urllib.request.Request(
+            "http://127.0.0.1:8787/api/internal/project-deleted",
+            data=body,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(req, timeout=0.25).read()
+    except Exception:
+        pass
+
+
 def dumps(value) -> str:
     return json.dumps(value, ensure_ascii=False, indent=2, default=str)
 
@@ -58,6 +75,23 @@ def list_projects() -> str:
 
 def get_project(project_id: str) -> str:
     return dumps(store.get(project_id).model_dump(mode="json"))
+
+
+def duplicate_project(project_id: str, title: Optional[str] = None) -> str:
+    source = store.get(project_id)
+    duplicate = type(source).model_validate(source.model_dump())
+    duplicate.id = new_id("project")
+    duplicate.title = title or f"{source.title} Copy"
+    store.save(duplicate)
+    notify_web(duplicate)
+    return dumps(duplicate.model_dump(mode="json"))
+
+
+def delete_project(project_id: str) -> str:
+    if not store.delete(project_id):
+        raise KeyError(f"project not found: {project_id}")
+    notify_project_deleted(project_id)
+    return dumps({"deleted": True, "project_id": project_id})
 
 
 def add_track(project_id: str, name: str, language: str = "zh") -> str:
@@ -94,30 +128,35 @@ def transpose_track(project_id: str, track_id: str, semitones: int) -> str:
 async def render_vocal(project_id: str, track_id: str) -> str:
     job = render_service.create_job(project_id, RenderMode.SVS_SCORE, track_id)
     result = await render_service.run_vocal_render(job.id)
+    notify_web(store.get(project_id))
     return dumps(result.model_dump(mode="json"))
 
 
 async def vocal2bgm(project_id: str, source_audio: str, caption: str = "professional instrumental accompaniment") -> str:
     job = render_service.create_job(project_id, RenderMode.VOCAL2BGM, source_audio=source_audio, caption=caption)
     result = await render_service.run_music_generation(job.id, source_audio, caption)
+    notify_web(store.get(project_id))
     return dumps(result.model_dump(mode="json"))
 
 
 async def repaint(project_id: str, source_audio: str, start_s: float, end_s: float, caption: str = "") -> str:
     job = render_service.create_job(project_id, RenderMode.REPAINT, source_audio=source_audio, caption=caption, start_s=start_s, end_s=end_s)
     result = await render_service.run_music_generation(job.id, source_audio, caption, start_s, end_s)
+    notify_web(store.get(project_id))
     return dumps(result.model_dump(mode="json"))
 
 
 async def separate_stems(project_id: str, source_audio: str) -> str:
     job = render_service.create_job(project_id, RenderMode.SEPARATE, source_audio=source_audio)
     result = await render_service.run_separation(job.id, source_audio)
+    notify_web(store.get(project_id))
     return dumps(result.model_dump(mode="json"))
 
 
 async def svc_convert(project_id: str, source_audio: str, reference_voice: str) -> str:
     job = render_service.create_job(project_id, RenderMode.SVC, source_audio=source_audio, reference_voice=reference_voice)
     result = await render_service.run_svc(job.id, source_audio, reference_voice)
+    notify_web(store.get(project_id))
     return dumps(result.model_dump(mode="json"))
 
 
@@ -212,6 +251,16 @@ def assign_voice(project_id: str, track_id: str, voice_id: str, reference_voice_
     return dumps(result)
 
 
+async def import_audio_project(path: str, title: Optional[str] = None) -> str:
+    source = Path(path)
+    if not source.exists():
+        raise ValueError(f"audio file does not exist: {source}")
+    project = await asyncio.to_thread(project_from_audio, source, title)
+    store.save(project)
+    notify_web(project)
+    return dumps(project.model_dump(mode="json"))
+
+
 def import_midi_project(path: str, title: Optional[str] = None) -> str:
     project = import_midi(Path(path), title=title)
     store.save(project)
@@ -229,6 +278,8 @@ def build_mcp_server():
     mcp.tool()(create_project)
     mcp.tool()(list_projects)
     mcp.tool()(get_project)
+    mcp.tool()(duplicate_project)
+    mcp.tool()(delete_project)
     mcp.tool()(add_track)
     mcp.tool()(add_note)
     mcp.tool()(transpose_track)
@@ -248,6 +299,7 @@ def build_mcp_server():
     mcp.tool()(delete_audio_clip)
     mcp.tool()(set_tempo_map)
     mcp.tool()(assign_voice)
+    mcp.tool()(import_audio_project)
     mcp.tool()(import_midi_project)
     return mcp
 

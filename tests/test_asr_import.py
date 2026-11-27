@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 
 from openace.core.models import Note, Project
 from openace.importers.audio import assign_lyrics_to_notes
+import openace.importers.audio as audio_importer
 import openace.server.app as app_module
 
 
@@ -36,12 +37,12 @@ def test_asr_words_join_english_with_spaces_and_near_onset_tolerance():
 
 def test_audio_import_endpoint_assigns_real_asr_words(monkeypatch, tmp_path):
     monkeypatch.setattr(
-        app_module,
+        audio_importer,
         "audio_to_midi_notes",
         lambda path, project: [Note(start_ticks=0, duration_ticks=480, pitch=60)],
     )
     monkeypatch.setattr(
-        app_module,
+        audio_importer,
         "transcribe_lyric_words",
         lambda path: ([{"text": "你", "start": 0.02, "end": 0.35}], "zh"),
     )
@@ -58,12 +59,12 @@ def test_audio_import_endpoint_assigns_real_asr_words(monkeypatch, tmp_path):
 
 def test_audio_import_fails_loudly_when_asr_cannot_align(monkeypatch, tmp_path):
     monkeypatch.setattr(
-        app_module,
+        audio_importer,
         "audio_to_midi_notes",
         lambda path, project: [Note(start_ticks=0, duration_ticks=480, pitch=60)],
     )
     monkeypatch.setattr(
-        app_module,
+        audio_importer,
         "transcribe_lyric_words",
         lambda path: ([{"text": "unrelated", "start": 8.0, "end": 8.4}], "en"),
     )
@@ -74,3 +75,20 @@ def test_audio_import_fails_loudly_when_asr_cannot_align(monkeypatch, tmp_path):
         response = client.post("/api/import/audio", files={"file": ("vocal.wav", handle, "audio/wav")})
     assert response.status_code == 422
     assert "could not be aligned" in response.json()["detail"]
+
+
+def test_shared_audio_project_builder_matches_server_semantics(monkeypatch, tmp_path):
+    monkeypatch.setattr(
+        audio_importer,
+        "audio_to_midi_notes",
+        lambda path, project: [Note(start_ticks=0, duration_ticks=480, pitch=60)],
+    )
+    monkeypatch.setattr(
+        audio_importer,
+        "transcribe_lyric_words",
+        lambda path: ([{"text": "hello", "start": 0.02, "end": 0.35}], "en"),
+    )
+    project = audio_importer.project_from_audio(tmp_path / "take.wav", "Agent import")
+    assert project.title == "Agent import"
+    assert project.tracks[0].language == "en"
+    assert project.tracks[0].notes[0].lyric == "hello"

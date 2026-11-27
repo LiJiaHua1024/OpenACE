@@ -2,7 +2,7 @@
 
 Status legend: **Done** (implemented and exercised end-to-end in this repository), **Partial** (real implementation exists but production depth or validation is incomplete), **Gap** (missing). This is an adversarial living audit, not marketing copy.
 
-Last audit iteration: 2026-11-27, after dedicated lyric-correction iteration and independent browser QA.
+Last audit iteration: 2026-11-27, after agent-native project/audio-import iteration and independent browser QA.
 
 ## P0 — synthesis cores and acoustic invariants
 
@@ -57,10 +57,10 @@ Last audit iteration: 2026-11-27, after dedicated lyric-correction iteration and
 
 | Capability | Requirement | Status | Evidence and remaining gap |
 |---|---|---:|---|
-| Atomic CLI | Complete agent operation without keys | **Partial** | Project/track/note/transpose/render/export plus validated batch note update/delete, expression lanes, breaths, audio clips, tempo maps, voice assignment, and MIDI import commands are implemented with persisted-state subprocess regression and live browser SSE proof. Audio import/batch clip operations and complete project-management coverage remain incomplete. |
+| Atomic CLI | Complete agent operation without keys | **Partial** | Project/track/note/transpose/render/export plus validated batch note update/delete, expression lanes, breaths, audio clips, tempo maps, voice assignment, and MIDI import commands are implemented with persisted-state subprocess regression and live browser SSE proof. Real audio import, project duplicate/delete, and batch clip operations are now exposed; deeper project-management organization remains incomplete. |
 | MCP stdio | Standard agent integration | **Done** | Real MCP client protocol smoke test passes: initialize, list tools, create project, add validated note. |
 | MCP streamable HTTP | HTTP agent transport | **Done** | Real MCP streamable HTTP client smoke test passes. |
-| MCP→UI live synchronization | External agent edits appear in workstation | **Done** | MCP writes persist then issue best-effort loopback publish into the FastAPI SSE bus; browser verification showed 4→5 notes without manual reload. |
+| MCP→UI live synchronization | External agent edits appear in workstation | **Done** | MCP/CLI writes persist then issue best-effort loopback publish into the FastAPI SSE bus; browser verification showed note edits, externally created/duplicated/imported projects, and external deletion fallback without manual reload. |
 | Agent skill | Drop-in instructions | **Partial** | `skills/openace/SKILL.md` now documents accurate atomic editing/render/export commands, JSON payload semantics, MCP editing tools, validation constraints, and anti-fake rules; broader real-agent installation/use evidence remains limited. |
 | Acoustic X-ray diagnostics | Every render emits inspectable diagnostic | **Done** | Target/rendered F0, beat offsets, spectrogram, fixture provenance labels; browser/API verified. |
 | Render-job durability | Jobs survive backend restart | **Done** | Job records persist atomically in `data/renders/jobs.json`; queued/running jobs with durable inputs are automatically requeued after backend restart and serially rerun, while legacy jobs missing inputs fail loudly rather than silently disappearing. Restart integration proof passed. |

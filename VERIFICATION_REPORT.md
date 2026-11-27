@@ -636,3 +636,18 @@ Implemented and verified:
 - Fixed the incidental CLI robustness defect found by QA: long inline JSON no longer crashes in `Path.exists()` with `Errno 36`; regression coverage proves >4096-byte inline JSON parses as payload rather than a path.
 
 Validation after iteration 41: frontend production build passed; Python compile passed; full automated suite passed (99 collected tests).
+
+## Iteration 42 — agent-native project operations and audio import
+
+Implemented and verified:
+
+- Refactored real monophonic audio + faster-whisper lyric alignment into shared `project_from_audio` semantics used by the FastAPI importer, CLI, and MCP rather than divergent copies. Total ASR/pitch-alignment failure still fails loudly; no placeholder lyric path exists.
+- Added CLI `import-audio`, `duplicate-project`, and `delete-project`; MCP `import_audio_project`, `duplicate_project`, and `delete_project`. Project duplication receives a fresh project id and persisted copy.
+- Completed best-effort loopback SSE notification for CLI/MCP project creation/import/duplication, deletion, simple mutations, and render-produced arrangement updates. The workstation project selector now incorporates externally created/imported/duplicated projects without reload and handles external deletion by switching to a remaining/new project; a reentrancy guard prevents local UI delete from creating duplicate fallback projects.
+- Regressions cover shared audio-import semantics, CLI long-inline JSON, CLI duplicate/delete persistence, MCP tool exposure, MCP duplicate/delete roundtrip, and existing ASR endpoint behavior.
+- Independent visible-Chrome QA drove the real CLI against the same data directory: external create/duplicate appeared live, external deletion removed the selected duplicate and switched the workspace without duplicate fallback creation, local UI delete remained exactly-once, and real `import-audio` using the existing cached faster-whisper tiny model created/opened a project live with 4 notes and 3 nonempty ASR-derived lyrics. No console/network errors. Evidence: `artifacts/e2e_screenshots/agent_project_ops/`.
+
+
+Additional hardening during final regression: dense-project performance exposed that rendering thousands of lyric-correction rows as DOM nodes would not scale. The lyric list is now virtualized (fixed-height windowing) so only the visible rows mount while large projects remain editable by scrolling. A separate stale Chrome renderer consuming sustained CPU was identified as environmental noise and terminated; the 3000-note 1400×900@2x performance regression then passed again. Browser adversarial recheck also caught stale virtual scroll state after project/track switching; scroll state now resets on project/track/note-count changes, and the exact blank-viewport repro passed with only 15 mounted rows for 1200 notes.
+
+Validation after iteration 42: frontend production build passed; Python compile passed; full automated suite passed (101 collected tests).

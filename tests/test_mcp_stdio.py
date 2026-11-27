@@ -24,7 +24,7 @@ async def test_mcp_stdio_create_project_and_add_note(tmp_path, monkeypatch):
             await session.initialize()
             tools = await session.list_tools()
             names = {tool.name for tool in tools.tools}
-            assert {"create_project", "add_note", "export_project"}.issubset(names)
+            assert {"create_project", "add_note", "export_project", "import_audio_project", "duplicate_project", "delete_project"}.issubset(names)
             created = await session.call_tool("create_project", {"title": "MCP Smoke"})
             project = json.loads(created.content[0].text)
             track_id = project["tracks"][0]["id"]
@@ -95,3 +95,9 @@ async def test_mcp_stdio_create_project_and_add_note(tmp_path, monkeypatch):
             assert fetched_track["clips"][0]["path"] == str(media)
             assert fetched_project["bpm"] == 130
             assert fetched_project["tempo_map"][0]["ticks"] == 960
+            duplicate = await session.call_tool("duplicate_project", {"project_id": project["id"], "title": "MCP Smoke Copy"})
+            duplicate_project = json.loads(duplicate.content[0].text)
+            assert duplicate_project["id"] != project["id"]
+            assert duplicate_project["title"] == "MCP Smoke Copy"
+            deleted = await session.call_tool("delete_project", {"project_id": duplicate_project["id"]})
+            assert json.loads(deleted.content[0].text)["deleted"] is True

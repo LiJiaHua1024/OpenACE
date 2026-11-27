@@ -9,12 +9,13 @@ from pathlib import Path
 from typing import Any
 
 from openace.core import editing
-from openace.core.models import Note, RenderMode, Track
+from openace.core.models import Note, RenderMode, Track, new_id
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
 from openace.core.project_store import ProjectStore
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_master_wav
+from openace.importers.audio import project_from_audio
 from openace.importers.midi import import_midi
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.exporters.svp import export_svp
@@ -51,6 +52,22 @@ def notify_web(project) -> None:
         pass
 
 
+def notify_project_deleted(project_id: str) -> None:
+    try:
+        import urllib.request
+
+        body = json.dumps({"project_id": project_id}).encode("utf-8")
+        request = urllib.request.Request(
+            "http://127.0.0.1:8787/api/internal/project-deleted",
+            data=body,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(request, timeout=0.25).read()
+    except Exception:
+        pass
+
+
 def save_and_notify(store: ProjectStore, project) -> None:
     store.save(project)
     notify_web(project)
@@ -69,14 +86,44 @@ def json_payload(raw: str):
 
 def cmd_create_project(args) -> None:
     store, _ = services()
-    emit(store.create(args.title).model_dump(mode="json"))
+    project = store.create(args.title)
+    notify_web(project)
+    emit(project.model_dump(mode="json"))
+
+
+def cmd_duplicate_project(args) -> None:
+    store, _ = services()
+    source = store.get(args.project)
+    duplicate = type(source).model_validate(source.model_dump())
+    duplicate.id = new_id("project")
+    duplicate.title = args.title or f"{source.title} Copy"
+    save_and_notify(store, duplicate)
+    emit(duplicate.model_dump(mode="json"))
+
+
+def cmd_delete_project(args) -> None:
+    store, _ = services()
+    if not store.delete(args.project):
+        raise SystemExit("project not found")
+    notify_project_deleted(args.project)
+    emit({"deleted": True, "project": args.project})
+
+
+def cmd_import_audio(args) -> None:
+    store, _ = services()
+    source = Path(args.path)
+    if not source.exists():
+        raise SystemExit(f"audio file does not exist: {source}")
+    project = project_from_audio(source, args.title)
+    save_and_notify(store, project)
+    emit(project.model_dump(mode="json"))
 
 
 def cmd_add_track(args) -> None:
     store, _ = services()
     project = store.get(args.project)
     track = project.add_track(Track(name=args.name, language=args.language))
-    store.save(project)
+    save_and_notify(store, project)
     emit(track.model_dump(mode="json"))
 
 
@@ -96,7 +143,7 @@ def cmd_add_note(args) -> None:
     if args.lyric:
         ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
     validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm, project=project)
-    store.save(project)
+    save_and_notify(store, project)
     emit(note.model_dump(mode="json"))
 
 
@@ -122,38 +169,48 @@ def cmd_transpose(args) -> None:
     lookup = dict(mapping)
     for note in track.notes:
         note.pitch = lookup[note.id]
-    store.save(project)
+    save_and_notify(store, project)
     emit({"updated": len(mapping), "intervals": "preserved"})
 
 
 def cmd_render_vocal(args) -> None:
     store, service = services()
     job = service.create_job(args.project, RenderMode.SVS_SCORE, args.track)
-    emit(asyncio.run(service.run_vocal_render(job.id)).model_dump(mode="json"))
+    result = asyncio.run(service.run_vocal_render(job.id))
+    notify_web(store.get(args.project))
+    emit(result.model_dump(mode="json"))
 
 
 def cmd_vocal2bgm(args) -> None:
     store, service = services()
     job = service.create_job(args.project, RenderMode.VOCAL2BGM, args.track, source_audio=args.source_audio, caption=args.caption)
-    emit(asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption)).model_dump(mode="json"))
+    result = asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption))
+    notify_web(store.get(args.project))
+    emit(result.model_dump(mode="json"))
 
 
 def cmd_repaint(args) -> None:
     store, service = services()
     job = service.create_job(args.project, RenderMode.REPAINT, args.track, source_audio=args.source_audio, caption=args.caption, start_s=args.start, end_s=args.end)
-    emit(asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption, args.start, args.end)).model_dump(mode="json"))
+    result = asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption, args.start, args.end))
+    notify_web(store.get(args.project))
+    emit(result.model_dump(mode="json"))
 
 
 def cmd_separate(args) -> None:
     store, service = services()
     job = service.create_job(args.project, RenderMode.SEPARATE, args.track, source_audio=args.source_audio)
-    emit(asyncio.run(service.run_separation(job.id, args.source_audio)).model_dump(mode="json"))
+    result = asyncio.run(service.run_separation(job.id, args.source_audio))
+    notify_web(store.get(args.project))
+    emit(result.model_dump(mode="json"))
 
 
 def cmd_svc(args) -> None:
     store, service = services()
     job = service.create_job(args.project, RenderMode.SVC, args.track, source_audio=args.source_audio, reference_voice=args.reference_voice)
-    emit(asyncio.run(service.run_svc(job.id, args.source_audio, args.reference_voice)).model_dump(mode="json"))
+    result = asyncio.run(service.run_svc(job.id, args.source_audio, args.reference_voice))
+    notify_web(store.get(args.project))
+    emit(result.model_dump(mode="json"))
 
 
 def cmd_export(args) -> None:
@@ -276,6 +333,15 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--title", default="Untitled OpenACE Project")
     p.set_defaults(func=cmd_create_project)
 
+    p = sub.add_parser("duplicate-project")
+    p.add_argument("project")
+    p.add_argument("--title")
+    p.set_defaults(func=cmd_duplicate_project)
+
+    p = sub.add_parser("delete-project")
+    p.add_argument("project")
+    p.set_defaults(func=cmd_delete_project)
+
     p = sub.add_parser("add-track")
     p.add_argument("project")
     p.add_argument("--name", required=True)
@@ -375,6 +441,10 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("assign-voice")
     p.add_argument("project"); p.add_argument("track"); p.add_argument("voice_id"); p.add_argument("--reference-voice")
     p.set_defaults(func=cmd_assign_voice)
+
+    p = sub.add_parser("import-audio")
+    p.add_argument("path"); p.add_argument("--title")
+    p.set_defaults(func=cmd_import_audio)
 
     p = sub.add_parser("import-midi")
     p.add_argument("path"); p.add_argument("--title")

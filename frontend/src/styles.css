@@ -399,8 +399,9 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 
 .lyric-correction-section textarea, .batch-lyrics-input { width: 100%; box-sizing: border-box; resize: vertical; background: #111522; color: #dfe7ff; border: 1px solid #30384f; border-radius: 6px; padding: 6px; font-size: 11px; }
 .lyric-summary { color: #aeb7d4; font-size: 11px; }
-.lyric-correction-list { max-height: 220px; overflow: auto; display: flex; flex-direction: column; gap: 3px; padding-right: 2px; }
-.lyric-correction-row { display: grid; grid-template-columns: 22px 48px minmax(48px, 1fr) minmax(50px, .9fr); gap: 5px; align-items: center; padding: 3px 4px; border: 1px solid #252c41; border-radius: 5px; background: #151927; }
+.lyric-correction-list { height: 220px; overflow: auto; padding-right: 2px; }
+.lyric-correction-window { display: flex; flex-direction: column; gap: 3px; }
+.lyric-correction-row { display: grid; height: 31px; box-sizing: border-box; grid-template-columns: 22px 48px minmax(48px, 1fr) minmax(50px, .9fr); gap: 5px; align-items: center; padding: 3px 4px; border: 1px solid #252c41; border-radius: 5px; background: #151927; }
 .lyric-correction-row.missing { border-color: #6d4a34; background: #1e1a22; }
 .lyric-correction-row input { min-width: 0; height: 24px; background: #0f1320; color: #f0f4ff; border: 1px solid #30384f; border-radius: 4px; padding: 0 5px; font-size: 11px; }
 .lyric-index { color: #6f7da5; font-size: 10px; text-align: right; }

@@ -23,7 +23,9 @@ export default function RenderPanel(props: Props) {
   const [voices, setVoices] = useState<VoiceProfile[]>([])
   const [batchLyrics, setBatchLyrics] = useState('')
   const [lyricsError, setLyricsError] = useState('')
+  const [lyricScrollTop, setLyricScrollTop] = useState(0)
   const referenceInput = useRef<HTMLInputElement | null>(null)
+  const lyricListRef = useRef<HTMLDivElement | null>(null)
   const audioInput = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
@@ -108,6 +110,16 @@ export default function RenderPanel(props: Props) {
 
   const sortedNotes = props.track?.type === 'vocal' ? [...props.track.notes].sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch) : []
   const missingLyrics = sortedNotes.filter(note => !note.lyric.trim()).length
+  const lyricRowHeight = 34
+  const lyricViewportHeight = 220
+  const lyricStart = Math.max(0, Math.floor(lyricScrollTop / lyricRowHeight) - 4)
+  const lyricEnd = Math.min(sortedNotes.length, lyricStart + Math.ceil(lyricViewportHeight / lyricRowHeight) + 8)
+  const visibleLyricNotes = sortedNotes.slice(lyricStart, lyricEnd)
+
+  useEffect(() => {
+    setLyricScrollTop(0)
+    if (lyricListRef.current) lyricListRef.current.scrollTop = 0
+  }, [props.project.id, props.track?.id, sortedNotes.length])
 
   function lyricTokens(text: string): string[] {
     return text.trim().split(/\s+/).filter(Boolean).flatMap(chunk => {
@@ -207,23 +219,28 @@ export default function RenderPanel(props: Props) {
             />
             <button className="wide-action secondary" onClick={applyBatchLyrics}>Apply batch lyrics</button>
             {lyricsError && <div className="inline-error">{lyricsError}</div>}
-            <div className="lyric-correction-list">
-              {sortedNotes.map((note, index) => {
-                const bar = Math.floor(note.start_ticks / barTicks(props.project)) + 1
-                return (
-                  <div key={`${note.id}:${note.lyric}`} className={`lyric-correction-row ${note.lyric.trim() ? '' : 'missing'}`}>
-                    <span className="lyric-index">{index + 1}</span>
-                    <span className="lyric-position" title={`${ticksToSeconds(props.project, note.start_ticks).toFixed(2)}s`}>{bar} · {note.pitch}</span>
-                    <input
-                      defaultValue={note.lyric}
-                      placeholder="missing"
-                      onBlur={event => commitLyric(note, event.target.value)}
-                      onKeyDown={event => { if (event.key === 'Enter') (event.target as HTMLInputElement).blur() }}
-                    />
-                    <span className="lyric-phonemes">{note.phonemes.map(item => item.symbol).join(' ')}</span>
-                  </div>
-                )
-              })}
+            <div ref={lyricListRef} className="lyric-correction-list" onScroll={event => setLyricScrollTop((event.target as HTMLDivElement).scrollTop)}>
+              <div style={{ height: sortedNotes.length * lyricRowHeight, position: 'relative' }}>
+                <div className="lyric-correction-window" style={{ transform: `translateY(${lyricStart * lyricRowHeight}px)` }}>
+                  {visibleLyricNotes.map((note, visibleIndex) => {
+                    const index = lyricStart + visibleIndex
+                    const bar = Math.floor(note.start_ticks / barTicks(props.project)) + 1
+                    return (
+                      <div key={`${note.id}:${note.lyric}`} className={`lyric-correction-row ${note.lyric.trim() ? '' : 'missing'}`}>
+                        <span className="lyric-index">{index + 1}</span>
+                        <span className="lyric-position" title={`${ticksToSeconds(props.project, note.start_ticks).toFixed(2)}s`}>{bar} · {note.pitch}</span>
+                        <input
+                          defaultValue={note.lyric}
+                          placeholder="missing"
+                          onBlur={event => commitLyric(note, event.target.value)}
+                          onKeyDown={event => { if (event.key === 'Enter') (event.target as HTMLInputElement).blur() }}
+                        />
+                        <span className="lyric-phonemes">{note.phonemes.map(item => item.symbol).join(' ')}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
             </div>
           </>
         ) : <div className="empty-state">Select a vocal track with notes</div>}

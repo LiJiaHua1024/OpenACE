@@ -45,6 +45,9 @@ openace-tool upsert-breath <project-id> <track-id> '{"start_ticks":960,"duration
 openace-tool upsert-clip <project-id> <track-id> '{"path":"/path/audio.wav","start_ticks":0,"duration_ticks":960}'
 openace-tool set-tempo <project-id> --bpm 120 --points-json '[{"ticks":960,"bpm":60}]'
 openace-tool assign-voice <project-id> <track-id> <voice-id> --reference-voice /path/reference.wav
+openace-tool duplicate-project <project-id> --title "Copy"
+openace-tool delete-project <project-id>
+openace-tool import-audio vocal.wav --title "Imported Vocal"
 openace-tool import-midi input.mid --title "Imported Song"
 openace-tool render-vocal <project-id> <track-id>
 openace-tool vocal2bgm <project-id> <source.wav> --caption "professional instrumental accompaniment"
