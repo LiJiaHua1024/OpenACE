@@ -33,6 +33,7 @@ interface DragState {
   originalOffset?: number
   originalFade?: number
   noteOriginals?: Record<string, number>
+  clipOriginals?: { trackId: string; clipId: string; startTicks: number }[]
 }
 
 interface WaveformData {
@@ -48,7 +49,9 @@ export default function ArrangementView(props: Props) {
   const repaintDragRef = useRef<{ anchorTicks: number; currentTicks: number } | null>(null)
   const [waveforms, setWaveforms] = useState<Record<string, WaveformData>>({})
   const [menu, setMenu] = useState<{ x: number; y: number; trackId: string; clipId: string | null; ticks: number } | null>(null)
-  const clipClipboardRef = useRef<AudioClip | null>(null)
+  const [selectedClips, setSelectedClips] = useState<{ trackId: string; clipId: string }[]>([])
+  const [marquee, setMarquee] = useState<{ startX: number; startY: number; currentX: number; currentY: number; additive: boolean } | null>(null)
+  const clipClipboardRef = useRef<{ trackId: string; clip: AudioClip; relativeStart: number }[]>([])
   const [, setClipClipboardVersion] = useState(0)
   const waveformCache = useRef(new Map<string, Promise<WaveformData>>())
   const audioContextRef = useRef<AudioContext | null>(null)
@@ -165,7 +168,11 @@ export default function ArrangementView(props: Props) {
           const w = Math.max(14, (duration / ppq) * pxPerBeat)
           ctx.fillStyle = '#25b995aa'
           ctx.beginPath(); ctx.roundRect(x, y + 6, w, ROW_HEIGHT - 12, 4); ctx.fill()
-          ctx.strokeStyle = '#55e7c5'; ctx.stroke()
+          const clipSelected = selectedClips.some(item => item.trackId === track.id && item.clipId === clip.id)
+          ctx.strokeStyle = clipSelected ? '#ffffff' : '#55e7c5'
+          ctx.lineWidth = clipSelected ? 2 : 1
+          ctx.stroke()
+          ctx.lineWidth = 1
           ctx.fillStyle = '#eafff86e'
           ctx.fillRect(x + 1, y + 8, 2, ROW_HEIGHT - 16)
           ctx.fillRect(x + w - 3, y + 8, 2, ROW_HEIGHT - 16)
@@ -257,6 +264,18 @@ export default function ArrangementView(props: Props) {
           }
         }
       })
+      if (marquee) {
+        const x1 = Math.min(marquee.startX, marquee.currentX)
+        const x2 = Math.max(marquee.startX, marquee.currentX)
+        const y1 = Math.min(marquee.startY, marquee.currentY)
+        const y2 = Math.max(marquee.startY, marquee.currentY)
+        ctx.fillStyle = '#7c8cff18'
+        ctx.fillRect(x1, y1, x2 - x1, y2 - y1)
+        ctx.strokeStyle = '#aab6ffcc'
+        ctx.setLineDash([4, 3])
+        ctx.strokeRect(x1 + .5, y1 + .5, x2 - x1, y2 - y1)
+        ctx.setLineDash([])
+      }
       if (props.repaintRange.end > props.repaintRange.start) {
         const startTicks = secondsToTicks(props.project, props.repaintRange.start)
         const endTicks = secondsToTicks(props.project, props.repaintRange.end)
@@ -284,7 +303,7 @@ export default function ArrangementView(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(parent)
     return () => observer.disconnect()
-  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, waveforms, scrollTicks, pxPerBeat, ppq])
+  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, waveforms, selectedClips, marquee, scrollTicks, pxPerBeat, ppq])
 
   function pointer(event: React.PointerEvent) {
     const rect = canvasRef.current!.getBoundingClientRect()
@@ -363,6 +382,18 @@ export default function ArrangementView(props: Props) {
     })
   }
 
+  function selectionHas(trackId: string, clipId: string) {
+    return selectedClips.some(item => item.trackId === trackId && item.clipId === clipId)
+  }
+
+  function clipSelectionItems(selection = selectedClips) {
+    return selection.flatMap(item => {
+      const track = props.project.tracks.find(trackItem => trackItem.id === item.trackId)
+      const clip = track?.clips.find(clipItem => clipItem.id === item.clipId)
+      return track && clip ? [{ trackId: item.trackId, clipId: item.clipId, clip }] : []
+    })
+  }
+
   function onPointerDown(event: React.PointerEvent) {
     const pos = pointer(event)
     if (event.altKey && pos.x >= LABEL_WIDTH) {
@@ -412,8 +443,24 @@ export default function ArrangementView(props: Props) {
     }
     const clip = clipAt(track, pos.x)
     if (clip) {
+      const additive = event.ctrlKey || event.metaKey
+      if (additive) {
+        setSelectedClips(current => selectionHas(track.id, clip.id)
+          ? current.filter(item => !(item.trackId === track.id && item.clipId === clip.id))
+          : [...current, { trackId: track.id, clipId: clip.id }])
+        return
+      }
+      const nextSelection = selectionHas(track.id, clip.id) && selectedClips.length > 1
+        ? selectedClips
+        : [{ trackId: track.id, clipId: clip.id }]
+      setSelectedClips(nextSelection)
+      const clipOriginals = clipSelectionItems(nextSelection).map(item => ({
+        trackId: item.trackId,
+        clipId: item.clipId,
+        startTicks: item.clip.start_ticks,
+      }))
       props.beginTransaction()
-      dragRef.current = { kind: 'clip', trackId: track.id, startX: pos.x, clipId: clip.id, originalStart: clip.start_ticks }
+      dragRef.current = { kind: 'clip', trackId: track.id, startX: pos.x, clipId: clip.id, originalStart: clip.start_ticks, clipOriginals }
       canvasRef.current?.setPointerCapture(event.pointerId)
       return
     }
@@ -424,11 +471,20 @@ export default function ArrangementView(props: Props) {
       for (const note of track.notes) if (group.noteIds.includes(note.id)) noteOriginals[note.id] = note.start_ticks
       dragRef.current = { kind: 'notes', trackId: track.id, startX: pos.x, originalStart: group.start, noteOriginals }
       canvasRef.current?.setPointerCapture(event.pointerId)
+      return
     }
+    const additive = event.ctrlKey || event.metaKey
+    if (!additive) setSelectedClips([])
+    setMarquee({ startX: pos.x, startY: pos.y, currentX: pos.x, currentY: pos.y, additive })
+    canvasRef.current?.setPointerCapture(event.pointerId)
   }
 
   function onPointerMove(event: React.PointerEvent) {
     const pos = pointer(event)
+    if (marquee) {
+      setMarquee(current => current ? { ...current, currentX: pos.x, currentY: pos.y } : current)
+      return
+    }
     const repaintDrag = repaintDragRef.current
     if (repaintDrag) {
       repaintDrag.currentTicks = tickForX(pos.x)
@@ -450,6 +506,16 @@ export default function ArrangementView(props: Props) {
     }
     const deltaTicks = Math.round(((pos.x - drag.startX) / pxPerBeat) * ppq / (ppq / 4)) * (ppq / 4)
     props.updateProject(project => {
+      if (drag.kind === 'clip' && drag.clipOriginals?.length) {
+        const minStart = Math.min(...drag.clipOriginals.map(item => item.startTicks))
+        const allowedDelta = Math.max(deltaTicks, -minStart)
+        for (const original of drag.clipOriginals) {
+          const targetTrack = project.tracks.find(item => item.id === original.trackId)
+          const targetClip = targetTrack?.clips.find(item => item.id === original.clipId)
+          if (targetClip) targetClip.start_ticks = original.startTicks + allowedDelta
+        }
+        return
+      }
       const track = project.tracks.find(t => t.id === drag.trackId)
       if (!track) return
       if (drag.kind === 'clip') {
@@ -492,6 +558,28 @@ export default function ArrangementView(props: Props) {
   }
 
   function onPointerUp(event: React.PointerEvent) {
+    if (marquee) {
+      const x1 = Math.min(marquee.startX, marquee.currentX)
+      const x2 = Math.max(marquee.startX, marquee.currentX)
+      const y1 = Math.min(marquee.startY, marquee.currentY)
+      const y2 = Math.max(marquee.startY, marquee.currentY)
+      if (x2 - x1 > 4 && y2 - y1 > 4) {
+        const hits: { trackId: string; clipId: string }[] = []
+        props.project.tracks.forEach((track, trackIndex) => {
+          const rowTop = RULER_HEIGHT + trackIndex * ROW_HEIGHT + 6
+          const rowBottom = rowTop + ROW_HEIGHT - 12
+          if (rowBottom < y1 || rowTop > y2) return
+          for (const clip of track.clips) {
+            const duration = clipDuration(clip)
+            const clipX1 = xForTick(clip.start_ticks)
+            const clipX2 = clipX1 + Math.max(14, (duration / ppq) * pxPerBeat)
+            if (clipX2 >= x1 && clipX1 <= x2) hits.push({ trackId: track.id, clipId: clip.id })
+          }
+        })
+        setSelectedClips(current => marquee.additive ? Array.from(new Map([...current, ...hits].map(item => [`${item.trackId}:${item.clipId}`, item])).values()) : hits)
+      }
+      setMarquee(null)
+    }
     repaintDragRef.current = null
     if (dragRef.current) {
       dragRef.current = null
@@ -505,55 +593,88 @@ export default function ArrangementView(props: Props) {
     return JSON.parse(JSON.stringify(clip))
   }
 
-  function copyClip(menuItem: { trackId: string; clipId: string | null }) {
+  function operationClips(menuItem: { trackId: string; clipId: string | null }) {
+    const useSelection = menuItem.clipId && selectionHas(menuItem.trackId, menuItem.clipId) && selectedClips.length > 1
+    if (useSelection) return clipSelectionItems()
     const track = props.project.tracks.find(item => item.id === menuItem.trackId)
     const clip = track?.clips.find(item => item.id === menuItem.clipId)
-    if (!clip) return
-    clipClipboardRef.current = cloneClip(clip)
+    return track && clip ? [{ trackId: track.id, clipId: clip.id, clip }] : []
+  }
+
+  function copyClip(menuItem: { trackId: string; clipId: string | null }) {
+    const items = operationClips(menuItem)
+    if (!items.length) return
+    const minStart = Math.min(...items.map(item => item.clip.start_ticks))
+    clipClipboardRef.current = items.map(item => ({
+      trackId: item.trackId,
+      clip: cloneClip(item.clip),
+      relativeStart: item.clip.start_ticks - minStart,
+    }))
     setClipClipboardVersion(version => version + 1)
     setMenu(null)
   }
 
   function pasteClip(menuItem: { trackId: string; ticks: number }) {
     const clipboard = clipClipboardRef.current
-    if (!clipboard) return
-    const start = Math.max(0, Math.round(menuItem.ticks / (ppq / 4)) * (ppq / 4))
+    if (!clipboard.length) return
+    const groupStart = Math.max(0, Math.round(menuItem.ticks / (ppq / 4)) * (ppq / 4))
+    const nextSelection: { trackId: string; clipId: string }[] = []
     props.updateProject(project => {
-      const track = project.tracks.find(item => item.id === menuItem.trackId)
-      if (!track) return
-      track.clips.push({
-        ...cloneClip(clipboard),
-        id: `clip_${crypto.randomUUID().slice(0, 12)}`,
-        start_ticks: start,
-      })
-      track.clips.sort((a, b) => a.start_ticks - b.start_ticks)
+      const fallbackTrack = project.tracks.find(item => item.id === menuItem.trackId)
+      if (!fallbackTrack) return
+      for (const item of clipboard) {
+        const track = project.tracks.find(trackItem => trackItem.id === item.trackId) || fallbackTrack
+        const id = `clip_${crypto.randomUUID().slice(0, 12)}`
+        track.clips.push({
+          ...cloneClip(item.clip),
+          id,
+          start_ticks: groupStart + item.relativeStart,
+        })
+        track.clips.sort((a, b) => a.start_ticks - b.start_ticks)
+        nextSelection.push({ trackId: track.id, clipId: id })
+      }
     }, false)
+    setSelectedClips(nextSelection)
     setMenu(null)
   }
 
   function duplicateClip(menuItem: { trackId: string; clipId: string | null }) {
+    const items = operationClips(menuItem)
+    if (!items.length) return
+    const minStart = Math.min(...items.map(item => item.clip.start_ticks))
+    const groupEnd = Math.max(...items.map(item => item.clip.start_ticks + clipDuration(item.clip)))
+    const shift = Math.max(ppq / 4, groupEnd - minStart)
+    const nextSelection: { trackId: string; clipId: string }[] = []
     props.updateProject(project => {
-      const track = project.tracks.find(item => item.id === menuItem.trackId)
-      if (!track) return
-      const index = track.clips.findIndex(item => item.id === menuItem.clipId)
-      if (index < 0) return
-      const clip = track.clips[index]
-      const duration = clipDuration(clip)
-      track.clips.splice(index + 1, 0, {
-        ...cloneClip(clip),
-        id: `clip_${crypto.randomUUID().slice(0, 12)}`,
-        start_ticks: clip.start_ticks + duration,
-      })
+      for (const item of items) {
+        const track = project.tracks.find(trackItem => trackItem.id === item.trackId)
+        if (!track) continue
+        const index = track.clips.findIndex(clipItem => clipItem.id === item.clipId)
+        if (index < 0) continue
+        const id = `clip_${crypto.randomUUID().slice(0, 12)}`
+        track.clips.splice(index + 1, 0, {
+          ...cloneClip(track.clips[index]),
+          id,
+          start_ticks: track.clips[index].start_ticks + shift,
+        })
+        track.clips.sort((a, b) => a.start_ticks - b.start_ticks)
+        nextSelection.push({ trackId: track.id, clipId: id })
+      }
     }, false)
+    setSelectedClips(nextSelection)
     setMenu(null)
   }
 
   function deleteClip(menuItem: { trackId: string; clipId: string | null }) {
+    const items = operationClips(menuItem)
+    if (!items.length) return
     props.updateProject(project => {
-      const track = project.tracks.find(item => item.id === menuItem.trackId)
-      if (!track) return
-      track.clips = track.clips.filter(item => item.id !== menuItem.clipId)
+      for (const item of items) {
+        const track = project.tracks.find(trackItem => trackItem.id === item.trackId)
+        if (track) track.clips = track.clips.filter(clipItem => clipItem.id !== item.clipId)
+      }
     }, false)
+    setSelectedClips([])
     setMenu(null)
   }
 
@@ -600,6 +721,7 @@ export default function ArrangementView(props: Props) {
     const track = trackAt(pos.y)
     if (!track || pos.x < LABEL_WIDTH) return
     const clip = clipAt(track, pos.x)
+    if (clip && !selectionHas(track.id, clip.id)) setSelectedClips([{ trackId: track.id, clipId: clip.id }])
     setMenu({ x: pos.x, y: pos.y, trackId: track.id, clipId: clip?.id || null, ticks: tickForX(pos.x) })
   }
 
@@ -624,7 +746,7 @@ export default function ArrangementView(props: Props) {
         <div className="piano-context-menu arrangement-context-menu" style={{ left: menuLeft, top: menuTop }} onClick={event => event.stopPropagation()}>
           {menu.clipId && <button onClick={() => splitClip(menu)}>Split at cursor</button>}
           {menu.clipId && <button onClick={() => copyClip(menu)}>Copy</button>}
-          <button disabled={!clipClipboardRef.current} onClick={() => pasteClip(menu)}>Paste at cursor</button>
+          <button disabled={!clipClipboardRef.current.length} onClick={() => pasteClip(menu)}>Paste at cursor</button>
           {menu.clipId && <button onClick={() => duplicateClip(menu)}>Duplicate</button>}
           {menu.clipId && <button onClick={() => deleteClip(menu)}>Delete</button>}
           {menu.clipId && (() => {

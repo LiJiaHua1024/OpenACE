@@ -761,3 +761,14 @@ Implemented and verified:
 - Independent visible-Chrome QA verified metadata rows, search, open/copy/delete flows, current fallback stability with zero accidental create posts, click-outside close, zero toolbar/body overflow, and zero final console/network failures. Evidence: `artifacts/e2e_screenshots/project_manager/`.
 
 Validation after iteration 52: frontend production build passed; browser QA passed. Backend behavior was unchanged apart from existing list metadata consumption; the immediately preceding full automated suite remained green at 110 collected tests.
+
+## Iteration 53 — arrangement multi-clip selection
+
+Implemented and verified:
+
+- Arrangement clips now support DAW-style selection: click select with a bright outline, Ctrl/Cmd additive toggling across tracks, and rubber-band marquee selection including additive Ctrl marquees.
+- Dragging any selected clip moves the entire selected group by one quantized horizontal delta, preserving relative spacing and track membership with collective zero-time clamping. Trim/fade handles still operate only on their target clip rather than accidentally group-moving.
+- Context operations operate on the selected group when invoked from a selected clip: copy/paste preserves spacing and original tracks, duplicate shifts the group by its full span, delete removes the group, and undo/redo restore exact clip identity/state.
+- Independent visible-Chrome QA verified all of the above quantitatively: group drag `(480,1920,960)→(720,2160,1200)`, zero clamp `(0,1440,480)`, duplicate span shift `2280`, paste `2520/3000/3840`, exact-ID undo/redo, clean 1272×837 layout, and zero console/network failures. Evidence: `artifacts/e2e_screenshots/arrangement_multiselect/`.
+
+Validation after iteration 53: frontend production build passed; browser QA passed. Backend behavior was unchanged; the immediately preceding full automated suite remained green at 110 collected tests.
