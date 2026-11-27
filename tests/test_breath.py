@@ -76,3 +76,50 @@ def test_breath_event_without_real_donor_is_honest_noop():
     assert result.applied == 0
     assert "no synthetic noise inserted" in result.detail
     assert np.allclose(processed, audio)
+
+def rms_region(audio, sr, start, end):
+    region = audio[int(start * sr):int(end * sr), 0]
+    return float(np.sqrt(np.mean(region**2)))
+
+
+def test_breath_intensity_scales_real_donor_overlay():
+    sr = 24000
+    project = Project(bpm=120, ppq=480)
+    reference = noise_reference(sr)
+    outputs = {}
+    for intensity in (0.0, 0.5, 1.5):
+        track = Track(name="Lead")
+        track.breaths.append(Breath(start_ticks=480, duration_ticks=240, intensity=intensity))
+        audio = np.zeros((sr, 1), dtype=np.float32)
+        processed, result = apply_breath_events(audio, sr, project, track, reference, sr)
+        assert result.applied == 1
+        outputs[intensity] = rms_region(processed, sr, 0.56, 0.70)
+    assert outputs[0.0] == pytest.approx(0.0, abs=1e-7)
+    assert outputs[1.5] / outputs[0.5] == pytest.approx(3.0, rel=0.08)
+
+
+def test_breath_timbre_spectrally_shapes_real_donor_without_new_material():
+    sr = 24000
+    project = Project(bpm=120, ppq=480)
+    reference = noise_reference(sr)
+    high_ratios = {}
+    for timbre in ("soft", "natural", "strong"):
+        track = Track(name="Lead")
+        track.breaths.append(Breath(start_ticks=480, duration_ticks=240, timbre=timbre))
+        audio = np.zeros((sr, 1), dtype=np.float32)
+        processed, result = apply_breath_events(audio, sr, project, track, reference, sr)
+        assert result.applied == 1
+        region = processed[int(0.56 * sr):int(0.70 * sr), 0]
+        spectrum = np.abs(np.fft.rfft(region * np.hanning(len(region)))) ** 2
+        frequencies = np.fft.rfftfreq(len(region), 1.0 / sr)
+        high_ratios[timbre] = float(spectrum[frequencies >= 3000].sum() / (spectrum.sum() + 1e-12))
+    assert high_ratios["soft"] < high_ratios["natural"] < high_ratios["strong"]
+
+
+def test_breath_schema_rejects_invalid_intensity_and_timbre():
+    with pytest.raises(Exception):
+        Breath(start_ticks=0, intensity=-0.1)
+    with pytest.raises(Exception):
+        Breath(start_ticks=0, intensity=2.1)
+    with pytest.raises(Exception):
+        Breath(start_ticks=0, timbre="airy")

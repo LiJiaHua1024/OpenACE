@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { EnvelopePoint, Note, Phoneme, Project, TimelineState, Track } from '../types'
+import type { Breath, BreathTimbre, EnvelopePoint, Note, Phoneme, Project, TimelineState, Track } from '../types'
 import { tickDurationSeconds } from '../tempo'
 
 const LANE_HEIGHT = 148
@@ -45,6 +45,7 @@ export default function AutomationLane(props: Props) {
     originalDuration: number
   } | null>(null)
   const [phonemeReadout, setPhonemeReadout] = useState('')
+  const [selectedBreathId, setSelectedBreathId] = useState<string | null>(null)
   const ppq = props.project.ppq
 
   const xForTick = useCallback((ticks: number) => KEY_WIDTH + ((ticks - props.timeline.scrollTicks) / ppq) * props.timeline.pxPerBeat, [props.timeline, ppq])
@@ -180,9 +181,22 @@ export default function AutomationLane(props: Props) {
         for (const breath of props.track.breaths) {
           const x = xForTick(breath.start_ticks)
           const w = Math.max(10, (breath.duration_ticks / ppq) * props.timeline.pxPerBeat)
-          ctx.fillStyle = '#7c4dffaa'
+          const intensity = Math.max(0, Math.min(2, breath.intensity ?? 1))
+          const timbre = breath.timbre || 'natural'
+          const color = timbre === 'soft' ? '96, 181, 255' : timbre === 'strong' ? '255, 143, 90' : '124, 77, 255'
+          const selected = selectedBreathId === breath.id
+          ctx.fillStyle = `rgba(${color}, ${0.42 + intensity * 0.18})`
           ctx.beginPath(); ctx.roundRect(x, 34, w, 28, 4); ctx.fill()
-          ctx.fillStyle = 'white'; ctx.font = '10px Inter'; ctx.fillText('BR.', x + 5, 52)
+          if (selected) {
+            ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5
+            ctx.beginPath(); ctx.roundRect(x + 0.5, 34.5, w - 1, 27, 4); ctx.stroke()
+            ctx.lineWidth = 1
+          }
+          const meterHeight = Math.max(2, intensity * 8)
+          ctx.fillStyle = '#ffffffcc'; ctx.fillRect(x + w - 3, 57 - meterHeight, 2, meterHeight)
+          ctx.fillStyle = 'white'; ctx.font = '10px Inter'
+          if (w > 34) ctx.fillText(`BR ${Math.round(intensity * 100)}%`, x + 5, 52)
+          else ctx.fillText('BR.', x + 4, 52)
         }
         const y = 82
         for (const note of props.track.notes) {
@@ -265,7 +279,7 @@ export default function AutomationLane(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(parent)
     return () => observer.disconnect()
-  }, [props.project, props.track, props.timeline, tab, lane, ppq, xForTick])
+  }, [props.project, props.track, props.timeline, tab, lane, ppq, xForTick, selectedBreathId])
 
   function pointer(event: React.PointerEvent) {
     const rect = canvasRef.current!.getBoundingClientRect()
@@ -305,10 +319,12 @@ export default function AutomationLane(props: Props) {
           const track = project.tracks.find(t => t.id === props.track!.id)
           if (track) track.breaths = track.breaths.filter(item => item.id !== hit.breath.id)
         }, true)
+        if (selectedBreathId === hit.breath.id) setSelectedBreathId(null)
         props.endTransaction()
         return
       }
       if (hit && event.button === 0) {
+        setSelectedBreathId(hit.breath.id)
         breathDragRef.current = {
           id: hit.breath.id,
           mode: hit.mode,
@@ -320,10 +336,12 @@ export default function AutomationLane(props: Props) {
         return
       }
       if (event.button === 0 && pos.y > 28 && pos.y < 68) {
+        const id = `br_${crypto.randomUUID().slice(0, 8)}`
         props.updateProject(project => {
           const track = project.tracks.find(t => t.id === props.track!.id)
-          track?.breaths.push({ id: `br_${crypto.randomUUID().slice(0, 8)}`, start_ticks: tick, duration_ticks: ppq / 4 })
+          track?.breaths.push({ id, start_ticks: tick, duration_ticks: ppq / 4, intensity: 1, timbre: 'natural' })
         }, true)
+        setSelectedBreathId(id)
       }
       props.endTransaction()
       return
@@ -431,6 +449,20 @@ export default function AutomationLane(props: Props) {
     canvasRef.current?.releasePointerCapture(event.pointerId)
   }
 
+  const selectedBreath = props.track?.breaths.find(breath => breath.id === selectedBreathId) || null
+
+  function updateSelectedBreath(mutator: (breath: Breath) => void, transient = true) {
+    if (!props.track || !selectedBreath) return
+    props.updateProject(project => {
+      const breath = project.tracks.find(t => t.id === props.track!.id)?.breaths.find(item => item.id === selectedBreath.id)
+      if (breath) mutator(breath)
+    }, transient)
+  }
+
+  function setSelectedTimbre(timbre: BreathTimbre) {
+    updateSelectedBreath(breath => { breath.timbre = timbre }, false)
+  }
+
   function addAllBreaths() {
     if (!props.track) return
     props.beginTransaction()
@@ -441,7 +473,7 @@ export default function AutomationLane(props: Props) {
       let previousEnd = 0
       for (const note of track.notes) {
         if (note.start_ticks - previousEnd >= ppq) {
-          track.breaths.push({ id: `br_${crypto.randomUUID().slice(0, 8)}`, start_ticks: previousEnd + Math.floor((note.start_ticks - previousEnd) / 2), duration_ticks: ppq / 4 })
+          track.breaths.push({ id: `br_${crypto.randomUUID().slice(0, 8)}`, start_ticks: previousEnd + Math.floor((note.start_ticks - previousEnd) / 2), duration_ticks: ppq / 4, intensity: 1, timbre: 'natural' })
         }
         previousEnd = Math.max(previousEnd, note.start_ticks + note.duration_ticks)
       }
@@ -480,6 +512,27 @@ export default function AutomationLane(props: Props) {
       </div>
       <div className="automation-canvas-wrap">
         <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onContextMenu={e => e.preventDefault()} />
+        {tab === 'breath' && selectedBreath && (
+          <div className="breath-inspector" title="Honest post-render shaping of real donor aspiration; not neural breath synthesis">
+            <span>Intensity</span>
+            <input
+              type="range"
+              min="0"
+              max="2"
+              step="0.05"
+              value={selectedBreath.intensity ?? 1}
+              onPointerDown={props.beginTransaction}
+              onPointerUp={props.endTransaction}
+              onChange={event => updateSelectedBreath(breath => { breath.intensity = Number(event.target.value) })}
+            />
+            <span className="breath-value">{Math.round((selectedBreath.intensity ?? 1) * 100)}%</span>
+            <select value={selectedBreath.timbre || 'natural'} onChange={event => setSelectedTimbre(event.target.value as BreathTimbre)}>
+              <option value="soft">Soft</option>
+              <option value="natural">Natural</option>
+              <option value="strong">Strong</option>
+            </select>
+          </div>
+        )}
       </div>
     </section>
   )

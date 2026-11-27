@@ -564,3 +564,15 @@ Implemented and verified:
 - Independent visible-Chrome QA generated real local source/reference WAVs, uploaded both through the UI, ran conversion, verified no-reload track appearance, visible waveform clip, healthy playback interaction, drag `0→120` and trim `1152→1032` persistence, master export energy at the edited `0.125–1.2s` placement, diagnostic generation, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/svc_arrangement/`, especially `SVC_ARRANGEMENT_QA_REPORT.md`, `02_svc_track_no_reload.png`, and `master_export_analysis.png`.
 
 Validation after iteration 35: frontend production build passed; Python compile passed; full automated suite reached 86 passed.
+
+## Iteration 36 — breath intensity and timbre shaping
+
+Implemented and verified:
+
+- `Breath` events now carry backward-compatible `intensity` (0–200%) and `timbre` (`soft`/`natural`/`strong`) fields with schema validation. Existing projects without these fields load with natural 100% defaults.
+- Rendering remains honest donor processing: intensity scales the real extracted aspiration overlay, while timbre spectrally shapes that same donor (soft damps the brittle top octave; strong emphasizes existing broad-band hiss and cuts rumble). No synthetic noise or neural-conditioning claim was added.
+- The Breath & Phoneme lane visually encodes intensity/timbre, shows per-breath percentages and a small intensity meter, and exposes a compact selected-breath inspector with slider/timbre controls. The inspector is overlaid inside the automation canvas so it does not push `Add all breaths` under the right panel at narrow widths.
+- Backend regressions prove zero intensity is silent, 150%/50% scaling is approximately 3×, spectral ratio ordering is soft < natural < strong, and invalid intensity/timbre values are rejected.
+- Independent visible-Chrome QA verified exact slider persistence at 0/50/150%, undo/redo, timbre persistence, add-all defaults, move/resize/delete interactions, inspector disappearance after delete, four successful honest renders, measured RMS ratio `2.99999989×`, spectral ratios soft `0.41265` < natural `2.66856` < strong `5.91521`, and zero console/network errors. A targeted second pass verified real-mouse `Add all breaths` hit-testing and the unobstructed compact inspector layout. Evidence: `artifacts/e2e_screenshots/breath_shaping/`, especially `BREATH_SHAPING_QA_REPORT.md`, `quantitative_breath_analysis.png`, and `layout_recheck_final_strong.png`.
+
+Validation after iteration 36: frontend production build passed; Python compile passed; full automated suite reached 89 passed.

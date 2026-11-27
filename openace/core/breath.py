@@ -125,6 +125,31 @@ def extract_breath_donor(audio: np.ndarray, sample_rate: int, max_seconds: float
     return donor / rms
 
 
+def _shape_breath_timbre(samples: np.ndarray, sample_rate: int, timbre: str) -> np.ndarray:
+    """Shape real donor noise spectrally without introducing synthetic material."""
+    if timbre == "natural" or len(samples) < 8:
+        return np.asarray(samples, dtype=np.float32)
+    spectrum = np.fft.rfft(samples)
+    frequencies = np.fft.rfftfreq(len(samples), 1.0 / sample_rate)
+    if timbre == "soft":
+        # Soft breaths keep the donor's low/mid aspiration but progressively damp
+        # the brittle top octave instead of substituting generated noise.
+        gain = 1.0 - 0.72 * np.clip((frequencies - 2200.0) / 4300.0, 0.0, 1.0)
+    elif timbre == "strong":
+        # Strong breaths emphasize the donor's existing broad-band hiss and reduce
+        # low-frequency rumble; the underlying material remains the extracted donor.
+        high_boost = 1.0 + 1.15 * np.clip((frequencies - 1400.0) / 3600.0, 0.0, 1.0)
+        low_cut = 0.72 + 0.28 * np.clip(frequencies / 850.0, 0.0, 1.0)
+        gain = high_boost * low_cut
+    else:
+        raise ValueError(f"unsupported breath timbre: {timbre}")
+    shaped = np.fft.irfft(spectrum * gain, n=len(samples)).astype(np.float32)
+    rms = float(np.sqrt(np.mean(np.square(shaped)))) if len(shaped) else 0.0
+    if rms < 1e-6:
+        return np.asarray(samples, dtype=np.float32)
+    return shaped / rms
+
+
 def _join_with_crossfade(left: np.ndarray, right: np.ndarray, overlap: int) -> np.ndarray:
     if overlap <= 0 or len(left) <= overlap or len(right) <= overlap:
         return np.concatenate([left, right])
@@ -216,11 +241,12 @@ def apply_breath_events(
             continue
         length = last - first
         fitted = _fit_donor(donor, length, sample_rate)
+        fitted = _shape_breath_timbre(fitted, sample_rate, breath.timbre)
         edge = min(length // 3, max(1, int(round(0.025 * sample_rate))))
         envelope = np.ones(length, dtype=np.float32)
         envelope[:edge] = np.sin(np.linspace(0.0, np.pi / 2.0, edge, dtype=np.float32)) ** 0.8
         envelope[-edge:] = np.sin(np.linspace(np.pi / 2.0, 0.0, edge, dtype=np.float32)) ** 0.8
-        target_rms = max(0.004, vocal_rms * 0.20 * 0.7)
+        target_rms = max(0.004, vocal_rms * 0.20 * 0.7) * float(breath.intensity)
         fitted *= target_rms
         processed[first:last] += (fitted * envelope)[:, None]
         applied += 1

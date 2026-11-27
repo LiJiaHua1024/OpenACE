@@ -205,7 +205,7 @@ button:disabled { cursor: not-allowed; opacity: .42; }
   height: 27px; border: 1px solid #333b55; background: #171b28; color: #98a3c0; border-radius: 6px; padding: 0 10px; font-size: 11px;
 }
 .param-tab.active { background: #2d3760; color: white; border-color: #6475c5; }
-.automation-canvas-wrap { flex: 1; min-height: 0; }
+.automation-canvas-wrap { flex: 1; min-height: 0; position: relative; }
 .automation-canvas-wrap canvas { display: block; width: 100%; height: 100%; touch-action: none; }
 
 .right-panel {
@@ -383,4 +383,10 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .phoneme-actions { display: flex; gap: 7px; margin-top: 8px; }
 .phoneme-actions button { background: #29314d; color: #e8eeff; border: 1px solid #47506f; border-radius: 5px; padding: 5px 9px; cursor: pointer; }
 .breath-actions { display: flex; align-items: center; gap: 8px; }
+.breath-inspector { position: absolute; right: 8px; top: 5px; z-index: 6; display: flex; align-items: center; gap: 6px; padding: 3px 7px; border: 1px solid #333b54; border-radius: 6px; background: rgba(21, 25, 39, 0.94); color: #aeb7d4; font-size: 10px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28); }
+.breath-inspector input[type="range"] { width: 82px; accent-color: #9d8cff; }
+.breath-inspector select { background: #0e111a; color: #dfe7ff; border: 1px solid #333b54; border-radius: 4px; font-size: 10px; padding: 2px 4px; }
+.breath-value { min-width: 32px; color: #eef3ff; text-align: right; }
+
+.phoneme-readout:empty { display: none; }
 .phoneme-readout { min-width: 110px; text-align: right; color: #8be5c7; font-size: 10px; font-variant-numeric: tabular-nums; }

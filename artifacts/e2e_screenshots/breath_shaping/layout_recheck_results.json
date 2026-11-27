@@ -1,0 +1,35 @@
+{
+  "inspector_inside_canvas": true,
+  "inspector_box": {
+    "x": 684.703125,
+    "y": 689,
+    "width": 257.296875,
+    "height": 28
+  },
+  "canvas_box": {
+    "x": 236,
+    "y": 684,
+    "width": 714,
+    "height": 153
+  },
+  "breath_horizontal_overlap_px": 0,
+  "add_all_real_click": true,
+  "click_error": "",
+  "after_add_all": {
+    "id": "br_ca372f0f",
+    "start_ticks": 1680,
+    "duration_ticks": 120,
+    "intensity": 1.0,
+    "timbre": "natural"
+  },
+  "final_breath": {
+    "id": "br_ca372f0f",
+    "start_ticks": 1680,
+    "duration_ticks": 120,
+    "intensity": 1.5,
+    "timbre": "strong"
+  },
+  "slider_select_persist": true,
+  "console_errors": [],
+  "passed": true
+}

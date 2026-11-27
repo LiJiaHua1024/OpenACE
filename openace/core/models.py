@@ -4,7 +4,7 @@ import time
 import uuid
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -108,6 +108,8 @@ class Breath(BaseModel):
     id: str = Field(default_factory=lambda: new_id("br"))
     start_ticks: int
     duration_ticks: int = 120
+    intensity: float = Field(default=1.0, ge=0.0, le=2.0)
+    timbre: Literal["soft", "natural", "strong"] = "natural"
 
 
 class AudioClip(BaseModel):

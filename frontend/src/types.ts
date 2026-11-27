@@ -49,6 +49,16 @@ export interface AudioClip {
   label?: string
 }
 
+export type BreathTimbre = 'soft' | 'natural' | 'strong'
+
+export interface Breath {
+  id: string
+  start_ticks: number
+  duration_ticks: number
+  intensity: number
+  timbre: BreathTimbre
+}
+
 export interface Track {
   id: string
   name: string
@@ -60,7 +70,7 @@ export interface Track {
   notes: Note[]
   clips: AudioClip[]
   automation: VocalAutomation
-  breaths: any[]
+  breaths: Breath[]
   mute: boolean
   solo: boolean
   volume: number
