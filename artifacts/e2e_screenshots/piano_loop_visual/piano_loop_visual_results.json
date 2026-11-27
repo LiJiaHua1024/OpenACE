@@ -1,0 +1,342 @@
+{
+  "checks": [
+    {
+      "name": "exact viewport and loop fixture loaded",
+      "passed": true,
+      "details": {
+        "viewport": {
+          "w": 1272,
+          "h": 837
+        },
+        "notes": [
+          [
+            0,
+            60
+          ],
+          [
+            480,
+            64
+          ]
+        ],
+        "meta": null
+      }
+    },
+    {
+      "name": "arrangement drag creates enabled persistent loop metadata",
+      "passed": true,
+      "details": {
+        "meta": {
+          "start": 480,
+          "end": 960,
+          "enabled": true
+        }
+      }
+    },
+    {
+      "name": "piano loop band exactly aligns with arrangement band",
+      "passed": true,
+      "details": {
+        "arrangement": {
+          "kind": "fill",
+          "owner": "arr",
+          "style": "rgba(85, 199, 255, 0.14)",
+          "x": 176,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 1498.2000000029802
+        },
+        "piano": {
+          "kind": "fill",
+          "owner": "piano",
+          "style": "rgba(85, 199, 255, 0.094)",
+          "x": 176,
+          "y": 30,
+          "w": 112,
+          "h": 251,
+          "ms": 1498.4000000059605
+        }
+      }
+    },
+    {
+      "name": "disabled loop uses subdued but retained piano and arrangement bands",
+      "passed": true,
+      "details": {
+        "meta": {
+          "start": 480,
+          "end": 960,
+          "enabled": false
+        },
+        "arr": {
+          "kind": "fill",
+          "owner": "arr",
+          "style": "rgba(85, 199, 255, 0.063)",
+          "x": 176,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 2747.800000011921
+        },
+        "piano": {
+          "kind": "fill",
+          "owner": "piano",
+          "style": "rgba(85, 199, 255, 0.04)",
+          "x": 176,
+          "y": 30,
+          "w": 112,
+          "h": 251,
+          "ms": 2748.1000000089407
+        },
+        "enabled_style": {
+          "kind": "fill",
+          "owner": "piano",
+          "style": "rgba(85, 199, 255, 0.094)",
+          "x": 176,
+          "y": 30,
+          "w": 112,
+          "h": 251,
+          "ms": 1498.4000000059605
+        }
+      }
+    },
+    {
+      "name": "horizontal scroll keeps piano and arrangement loop bands aligned",
+      "passed": true,
+      "details": {
+        "before_x": 176,
+        "arr": {
+          "kind": "fill",
+          "owner": "arr",
+          "style": "rgba(85, 199, 255, 0.14)",
+          "x": -48,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 4181.4000000059605
+        },
+        "piano": {
+          "kind": "fill",
+          "owner": "piano",
+          "style": "rgba(85, 199, 255, 0.094)",
+          "x": -48,
+          "y": 30,
+          "w": 112,
+          "h": 251,
+          "ms": 4181.5
+        },
+        "zoom": 112.0
+      }
+    },
+    {
+      "name": "shared zoom keeps piano and arrangement loop bands aligned",
+      "passed": true,
+      "details": {
+        "zoom_before": 112.0,
+        "zoom_after": 114.0,
+        "arr": {
+          "kind": "fill",
+          "owner": "arr",
+          "style": "rgba(85, 199, 255, 0.14)",
+          "x": -50,
+          "y": 24,
+          "w": 114,
+          "h": 312,
+          "ms": 5390.20000000298
+        },
+        "piano": {
+          "kind": "fill",
+          "owner": "piano",
+          "style": "rgba(85, 199, 255, 0.094)",
+          "x": -50,
+          "y": 30,
+          "w": 114,
+          "h": 251,
+          "ms": 5390.4000000059605
+        }
+      }
+    },
+    {
+      "name": "notes remain visible selectable and editable over loop band",
+      "passed": false,
+      "details": {
+        "selection": "1 selected",
+        "before": [
+          [
+            0,
+            60
+          ],
+          [
+            480,
+            64
+          ]
+        ],
+        "after": [
+          [
+            0,
+            60
+          ],
+          [
+            480,
+            64
+          ]
+        ],
+        "note_click": {
+          "x": 471.0,
+          "y": 624
+        }
+      }
+    },
+    {
+      "name": "marquee inside loop band does not create notes or clear loop",
+      "passed": true,
+      "details": {
+        "count": 2,
+        "meta": {
+          "start": 480,
+          "end": 960,
+          "enabled": true
+        }
+      }
+    },
+    {
+      "name": "piano ruler click still seeks inside loop band",
+      "passed": true,
+      "details": {
+        "before": "1.1.1",
+        "after": "1.2.3",
+        "meta": {
+          "start": 480,
+          "end": 960,
+          "enabled": true
+        }
+      }
+    },
+    {
+      "name": "velocity editing remains functional over loop band",
+      "passed": true,
+      "details": {
+        "before": [
+          [
+            0,
+            95
+          ],
+          [
+            480,
+            36
+          ]
+        ],
+        "after": [
+          [
+            0,
+            95
+          ],
+          [
+            480,
+            127
+          ]
+        ],
+        "meta": {
+          "start": 480,
+          "end": 960,
+          "enabled": true
+        }
+      }
+    },
+    {
+      "name": "playback still loops correctly with piano visualization enabled",
+      "passed": false,
+      "details": {
+        "count": 2,
+        "when": [
+          0.012,
+          0.279
+        ],
+        "intervals": [
+          0.267
+        ],
+        "offsets": [
+          0.75,
+          0.5054
+        ]
+      }
+    },
+    {
+      "name": "reload restores same enabled piano loop visualization",
+      "passed": true,
+      "details": {
+        "meta": {
+          "start": 480,
+          "end": 960,
+          "enabled": true
+        },
+        "arr": {
+          "kind": "fill",
+          "owner": "arr",
+          "style": "rgba(85, 199, 255, 0.14)",
+          "x": 176,
+          "y": 24,
+          "w": 112,
+          "h": 312,
+          "ms": 854
+        },
+        "piano": {
+          "kind": "fill",
+          "owner": "piano",
+          "style": "rgba(85, 199, 255, 0.094)",
+          "x": 176,
+          "y": 30,
+          "w": 112,
+          "h": 251,
+          "ms": 854.2999999970198
+        }
+      }
+    },
+    {
+      "name": "new project has clean piano roll with no loop visualization",
+      "passed": true,
+      "details": {
+        "new_project": "project_c48c70d8d2fe",
+        "meta": null,
+        "piano_band": null,
+        "active": 0
+      }
+    },
+    {
+      "name": "layout exact viewport no overflow",
+      "passed": true,
+      "details": {
+        "innerWidth": 1272,
+        "innerHeight": 837,
+        "body": {
+          "sw": 1272,
+          "cw": 1272
+        },
+        "transport": {
+          "sw": 1272,
+          "cw": 1272
+        }
+      }
+    },
+    {
+      "name": "console network and HTTP clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "unexpected": [],
+        "http": []
+      }
+    }
+  ],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http": []
+}

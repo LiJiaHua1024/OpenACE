@@ -42,6 +42,8 @@ interface Props {
   endTransaction(): void
   updateProject(mutator: (project: Project) => void, transient?: boolean): void
   timeline: TimelineState
+  loopRange?: { start: number; end: number } | null
+  loopEnabled?: boolean
   onTimelineChange(timeline: TimelineState): void
 }
 
@@ -213,6 +215,25 @@ export default function PianoRoll(props: Props) {
       ctx.font = '9px Inter, sans-serif'
       ctx.fillText('VEL', 22, velocityTop + 15)
 
+      if (props.loopRange && props.loopRange.end > props.loopRange.start) {
+        const sx = xForTick(props.loopRange.start)
+        const ex = xForTick(props.loopRange.end)
+        if (ex >= KEY_WIDTH && sx < width) {
+          ctx.fillStyle = props.loopEnabled ? '#55c7ff18' : '#55c7ff0a'
+          ctx.fillRect(sx, RULER_HEIGHT, ex - sx, height - RULER_HEIGHT)
+          ctx.strokeStyle = props.loopEnabled ? '#61d5ffcc' : '#61d5ff66'
+          ctx.lineWidth = 1.4
+          ctx.beginPath()
+          ctx.moveTo(sx, RULER_HEIGHT); ctx.lineTo(sx, height)
+          ctx.moveTo(ex, RULER_HEIGHT); ctx.lineTo(ex, height)
+          ctx.stroke()
+          ctx.lineWidth = 1
+          ctx.fillStyle = props.loopEnabled ? '#a8eaff' : '#6ba9bd'
+          ctx.font = '9px Inter, sans-serif'
+          ctx.fillText(props.loopEnabled ? 'loop' : 'loop off', Math.max(KEY_WIDTH + 4, sx + 4), 12)
+        }
+      }
+
       if (props.track) {
         let visibleNoteCount = 0
         for (const note of props.track.notes) {
@@ -339,7 +360,7 @@ export default function PianoRoll(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(wrap)
     return () => observer.disconnect()
-  }, [props.project, props.track, props.timeline, view, selectedNoteIds, marquee, xForTick, yForPitch, ppq])
+  }, [props.project, props.track, props.timeline, props.loopRange, props.loopEnabled, view, selectedNoteIds, marquee, xForTick, yForPitch, ppq])
 
   useEffect(() => {
     const canvas = playheadCanvasRef.current

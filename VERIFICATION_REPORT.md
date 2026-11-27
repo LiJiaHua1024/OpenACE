@@ -924,3 +924,12 @@ Implemented and verified:
 - Independent visible-Chrome QA verified exact backend metadata `{start:0,end:480,enabled:true}`, enabled/disabled reload persistence, project isolation/switch-back/duplication/fallback behavior, SSE off/on application, note undo/redo independence, continued loop cycling (`mean 0.5021s`, stdev `0.0127s` for a `0.5s` loop), no metadata-only audio graph rebuild, exact layout, and clean console/network. Evidence: `artifacts/e2e_screenshots/loop_persistence/`.
 
 Validation after iteration 68: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 69 — piano-roll loop visualization
+
+Implemented and verified:
+
+- The persistent loop range now renders inside the piano roll as the same cyan enabled/subdued disabled band across piano and velocity lanes, with ruler label and boundaries behind editable notes. It shares exact tick alignment with arrangement through zoom/scroll and reloads from project metadata.
+- Independent visible-Chrome QA verified exact x/width alignment before and after scroll/zoom, enabled/disabled alpha distinction, note selection/dragging over the band, marquee/ruler seek/velocity regressions, continued loop playback, reload persistence, clean new projects, exact layout, and clean console/network. Evidence: `artifacts/e2e_screenshots/piano_loop_visual/`.
+
+Validation after iteration 69: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

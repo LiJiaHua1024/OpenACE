@@ -767,6 +767,8 @@ export default function App() {
             endTransaction={endTransaction}
             updateProject={updateProject}
             timeline={timeline}
+            loopRange={loopRange}
+            loopEnabled={loopEnabled}
             onTimelineChange={setTimeline}
           />
           <AutomationLane
