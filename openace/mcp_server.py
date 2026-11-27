@@ -7,13 +7,16 @@ import os
 from pathlib import Path
 from typing import Optional
 
+from openace.core import editing
 from openace.core.models import Note, RenderMode, Track
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
 from openace.core.project_store import ProjectStore
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.midi_lrc import export_lrc, export_midi
+from openace.importers.midi import import_midi
 from openace.exporters.svp import export_svp
+from openace.exporters.master import export_master_wav
 from openace.exporters.ustx import export_ustx
 from openace.exporters.vpr import export_vpr
 from openace.server.render_service import RenderService
@@ -115,11 +118,99 @@ async def svc_convert(project_id: str, source_audio: str, reference_voice: str) 
 def export_project(project_id: str, fmt: str, output_path: str) -> str:
     project = store.get(project_id)
     output = Path(output_path)
-    exporters = {"mid": export_midi, "lrc": export_lrc, "ustx": export_ustx, "svp": export_svp, "vpr": export_vpr}
+    exporters = {"mid": export_midi, "lrc": export_lrc, "ustx": export_ustx, "svp": export_svp, "vpr": export_vpr, "wav": export_master_wav}
     if fmt not in exporters:
         raise ValueError(f"unsupported format: {fmt}")
     exporters[fmt](project, output)
     return dumps({"output": str(output), "bytes": output.stat().st_size})
+
+
+def save_and_notify(project) -> None:
+    store.save(project)
+    notify_web(project)
+
+
+def batch_add_notes(project_id: str, track_id: str, notes: list[dict]) -> str:
+    project = store.get(project_id)
+    added = editing.add_notes(project, track_id, notes)
+    save_and_notify(project)
+    return dumps([note.model_dump(mode="json") for note in added])
+
+
+def update_note(project_id: str, track_id: str, note_id: str, patch: dict) -> str:
+    project = store.get(project_id)
+    note = editing.update_note(project, track_id, note_id, patch)
+    save_and_notify(project)
+    return dumps(note.model_dump(mode="json"))
+
+
+def delete_note(project_id: str, track_id: str, note_id: str) -> str:
+    project = store.get(project_id)
+    deleted = editing.delete_note(project, track_id, note_id)
+    if not deleted:
+        raise KeyError(f"note not found: {note_id}")
+    save_and_notify(project)
+    return dumps({"deleted": True, "note_id": note_id})
+
+
+def set_expression_lane(project_id: str, track_id: str, lane: str, points: list[dict]) -> str:
+    project = store.get(project_id)
+    parsed = editing.set_automation_lane(project, track_id, lane, points)
+    save_and_notify(project)
+    return dumps([point.model_dump(mode="json") for point in parsed])
+
+
+def upsert_breath(project_id: str, track_id: str, breath: dict, breath_id: Optional[str] = None) -> str:
+    project = store.get(project_id)
+    item = editing.upsert_breath(project, track_id, breath, breath_id)
+    save_and_notify(project)
+    return dumps(item.model_dump(mode="json"))
+
+
+def delete_breath(project_id: str, track_id: str, breath_id: str) -> str:
+    project = store.get(project_id)
+    deleted = editing.delete_breath(project, track_id, breath_id)
+    if not deleted:
+        raise KeyError(f"breath not found: {breath_id}")
+    save_and_notify(project)
+    return dumps({"deleted": True, "breath_id": breath_id})
+
+
+def upsert_audio_clip(project_id: str, track_id: str, clip: dict, clip_id: Optional[str] = None) -> str:
+    project = store.get(project_id)
+    item = editing.upsert_audio_clip(project, track_id, clip, clip_id)
+    save_and_notify(project)
+    return dumps(item.model_dump(mode="json"))
+
+
+def delete_audio_clip(project_id: str, track_id: str, clip_id: str) -> str:
+    project = store.get(project_id)
+    deleted = editing.delete_audio_clip(project, track_id, clip_id)
+    if not deleted:
+        raise KeyError(f"clip not found: {clip_id}")
+    save_and_notify(project)
+    return dumps({"deleted": True, "clip_id": clip_id})
+
+
+def set_tempo_map(project_id: str, bpm: Optional[float] = None, points: Optional[list[dict]] = None) -> str:
+    project = store.get(project_id)
+    tempo_map = editing.set_tempo_map(project, bpm, points or [])
+    save_and_notify(project)
+    return dumps({"bpm": project.bpm, "tempo_map": [point.model_dump(mode="json") for point in tempo_map]})
+
+
+def assign_voice(project_id: str, track_id: str, voice_id: str, reference_voice_path: Optional[str] = None) -> str:
+    project = store.get(project_id)
+    result = editing.assign_voice(project, track_id, voice_id, reference_voice_path)
+    save_and_notify(project)
+    return dumps(result)
+
+
+def import_midi_project(path: str, title: Optional[str] = None) -> str:
+    project = import_midi(Path(path), title=title)
+    store.save(project)
+    notify_web(project)
+    return dumps(project.model_dump(mode="json"))
 
 
 def build_mcp_server():
@@ -140,6 +231,17 @@ def build_mcp_server():
     mcp.tool()(repaint)
     mcp.tool()(svc_convert)
     mcp.tool()(export_project)
+    mcp.tool()(batch_add_notes)
+    mcp.tool()(update_note)
+    mcp.tool()(delete_note)
+    mcp.tool()(set_expression_lane)
+    mcp.tool()(upsert_breath)
+    mcp.tool()(delete_breath)
+    mcp.tool()(upsert_audio_clip)
+    mcp.tool()(delete_audio_clip)
+    mcp.tool()(set_tempo_map)
+    mcp.tool()(assign_voice)
+    mcp.tool()(import_midi_project)
     return mcp
 
 

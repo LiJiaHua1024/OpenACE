@@ -588,3 +588,16 @@ Implemented and verified:
 - Independent visible-Chrome QA verified visible upload metadata (`1.2s`, 44.1kHz, mono), exact assignment persistence across reload, rename to `Studio Voice Alpha`, HTTP 409 safe deletion while in use, confirmed deletion with no-reload assignment clearing, second-voice reassignment, successful render with a library voice, compact unobstructed 1272×837 layout, external API create/rename/delete live-refresh through SSE without stale entries, and zero final console/network errors. Evidence: `artifacts/e2e_screenshots/voice_library/`, especially `VOICE_LIBRARY_QA_REPORT.md` and `08_exact_1272x837_layout.png`.
 
 Validation after iteration 37: frontend production build passed; Python compile passed; full automated suite reached 91 passed.
+
+## Iteration 38 — agent-native editing expansion
+
+Implemented and verified:
+
+- Added shared validated editing operations for batch note creation, note update/delete, expression-lane replacement, breath upsert/delete, audio-clip upsert/delete, tempo-map replacement, voice assignment, and MIDI project import. Operations validate phoneme/beat invariants, automation ranges, breath schema, existing media paths, and positive tempo values before persistence.
+- Exposed these operations as MCP tools: `batch_add_notes`, `update_note`, `delete_note`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `assign_voice`, and `import_midi_project`; MCP project export now also supports WAV master export.
+- Exposed equivalent atomic CLI commands with inline-or-file JSON payloads and best-effort loopback SSE publication, so external agents can edit a running workstation without manual reload.
+- Updated `skills/openace/SKILL.md` with accurate command syntax, JSON payload semantics, MCP editing tool names, validation constraints, and anti-fake rules.
+- Regressions prove editing validation and persistence directly, MCP stdio tool invocation end-to-end, and CLI subprocess persistence for notes/expression/breath/clips/tempo/voice assignment.
+- Independent visible-Chrome QA drove external `openace-tool` edits against the running backend data directory and verified no-reload SSE appearance of batch notes, dynamic curve, strong 180% breath, real arrangement waveform clip, live 120→60 tempo step, correct tick-1440 transport `1.1 / 00:02.00`, and external pitch revision `64→69`; no console/network errors. Evidence: `artifacts/e2e_screenshots/agent_editing/`, especially `AGENT_EDITING_QA_REPORT.md` and `09_final_clean_state.png`.
+
+Validation after iteration 38: frontend production build passed; Python compile passed; full automated suite reached 95 passed.

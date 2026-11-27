@@ -35,17 +35,29 @@ Use OpenACE when the user asks to write, tune, synthesize, convert, repaint, or 
 openace-tool create-project --title "Song Title"
 openace-tool add-track <project-id> --name "Lead" --language zh
 openace-tool add-note <project-id> <track-id> --start 0 --duration 480 --pitch 60 --lyric 你
+openace-tool batch-add-notes <project-id> <track-id> '[{"start_ticks":0,"duration_ticks":480,"pitch":60,"lyric":"你"}]'
+openace-tool update-note <project-id> <track-id> <note-id> '{"pitch":64}'
+openace-tool delete-note <project-id> <track-id> <note-id>
 openace-tool validate <project-id>
-openace-tool transpose <project-id> --semitones 2
+openace-tool transpose <project-id> <track-id> 2
+openace-tool set-expression <project-id> <track-id> dynamic '[{"ticks":0,"value":0.5},{"ticks":960,"value":1.0}]'
+openace-tool upsert-breath <project-id> <track-id> '{"start_ticks":960,"duration_ticks":120,"intensity":1.2,"timbre":"natural"}'
+openace-tool upsert-clip <project-id> <track-id> '{"path":"/path/audio.wav","start_ticks":0,"duration_ticks":960}'
+openace-tool set-tempo <project-id> --bpm 120 --points-json '[{"ticks":960,"bpm":60}]'
+openace-tool assign-voice <project-id> <track-id> <voice-id> --reference-voice /path/reference.wav
+openace-tool import-midi input.mid --title "Imported Song"
 openace-tool render-vocal <project-id> <track-id>
-openace-tool vocal2bgm <project-id> --source-audio reference.wav
-openace-tool repaint <project-id> --start-ms 1000 --end-ms 5000 --prompt "warmer rock backing"
+openace-tool vocal2bgm <project-id> <source.wav> --caption "professional instrumental accompaniment"
+openace-tool repaint <project-id> <source.wav> --start 1.0 --end 5.0 --caption "warmer rock backing"
+openace-tool svc <project-id> <source.wav> <reference.wav>
 openace-tool export <project-id> svp output.svp
 openace-tool export <project-id> ustx output.ustx
 openace-tool export <project-id> vpr output.vpr
 openace-tool export <project-id> mid output.mid
 openace-tool export <project-id> wav output.wav
 ```
+
+JSON arguments may be inline JSON or paths to JSON files. Use exact musical ticks. Expression values are normalized 0–1 except `pitch_cents` (±100 cents). Breath intensity is 0–2 and timbre is `soft`, `natural`, or `strong`.
 
 ## MCP reference
 
@@ -57,4 +69,4 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact.
+Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, conversion, repaint, and export.

@@ -8,12 +8,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from openace.core import editing
 from openace.core.models import Note, RenderMode, Track
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
 from openace.core.project_store import ProjectStore
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_master_wav
+from openace.importers.midi import import_midi
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.exporters.svp import export_svp
 from openace.exporters.ustx import export_ustx
@@ -31,6 +33,34 @@ def emit(value: Any) -> None:
 def services() -> tuple[ProjectStore, RenderService]:
     store = ProjectStore(DATA / "projects")
     return store, RenderService(store, DATA / "renders")
+
+
+def notify_web(project) -> None:
+    try:
+        import urllib.request
+
+        body = json.dumps(project.model_dump(mode="json")).encode("utf-8")
+        request = urllib.request.Request(
+            "http://127.0.0.1:8787/api/internal/project-updated",
+            data=body,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(request, timeout=0.25).read()
+    except Exception:
+        pass
+
+
+def save_and_notify(store: ProjectStore, project) -> None:
+    store.save(project)
+    notify_web(project)
+
+
+def json_payload(raw: str):
+    candidate = Path(raw)
+    if candidate.exists():
+        return json.loads(candidate.read_text(encoding="utf-8"))
+    return json.loads(raw)
 
 
 def cmd_create_project(args) -> None:
@@ -137,6 +167,97 @@ def cmd_export(args) -> None:
     emit({"output": str(output), "format": args.format, "bytes": output.stat().st_size})
 
 
+def cmd_batch_add_notes(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    added = editing.add_notes(project, args.track, json_payload(args.notes_json))
+    save_and_notify(store, project)
+    emit([note.model_dump(mode="json") for note in added])
+
+
+def cmd_update_note(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    note = editing.update_note(project, args.track, args.note, json_payload(args.patch_json))
+    save_and_notify(store, project)
+    emit(note.model_dump(mode="json"))
+
+
+def cmd_delete_note(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    if not editing.delete_note(project, args.track, args.note):
+        raise SystemExit("note not found")
+    save_and_notify(store, project)
+    emit({"deleted": True, "note": args.note})
+
+
+def cmd_set_expression(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    points = editing.set_automation_lane(project, args.track, args.lane, json_payload(args.points_json))
+    save_and_notify(store, project)
+    emit([point.model_dump(mode="json") for point in points])
+
+
+def cmd_upsert_breath(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    breath = editing.upsert_breath(project, args.track, json_payload(args.breath_json), args.breath_id)
+    save_and_notify(store, project)
+    emit(breath.model_dump(mode="json"))
+
+
+def cmd_delete_breath(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    if not editing.delete_breath(project, args.track, args.breath):
+        raise SystemExit("breath not found")
+    save_and_notify(store, project)
+    emit({"deleted": True, "breath": args.breath})
+
+
+def cmd_upsert_clip(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    clip = editing.upsert_audio_clip(project, args.track, json_payload(args.clip_json), args.clip_id)
+    save_and_notify(store, project)
+    emit(clip.model_dump(mode="json"))
+
+
+def cmd_delete_clip(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    if not editing.delete_audio_clip(project, args.track, args.clip):
+        raise SystemExit("clip not found")
+    save_and_notify(store, project)
+    emit({"deleted": True, "clip": args.clip})
+
+
+def cmd_set_tempo(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    points = json_payload(args.points_json) if args.points_json else []
+    tempo_map = editing.set_tempo_map(project, args.bpm, points)
+    save_and_notify(store, project)
+    emit({"bpm": project.bpm, "tempo_map": [point.model_dump(mode="json") for point in tempo_map]})
+
+
+def cmd_assign_voice(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    result = editing.assign_voice(project, args.track, args.voice_id, args.reference_voice)
+    save_and_notify(store, project)
+    emit(result)
+
+
+def cmd_import_midi(args) -> None:
+    store, _ = services()
+    project = import_midi(Path(args.path), title=args.title)
+    save_and_notify(store, project)
+    emit(project.model_dump(mode="json"))
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="openace-tool", description="OpenACE atomic local CLI")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -198,6 +319,50 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("reference_voice")
     p.add_argument("--track", default=None)
     p.set_defaults(func=cmd_svc)
+
+    p = sub.add_parser("batch-add-notes")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("notes_json")
+    p.set_defaults(func=cmd_batch_add_notes)
+
+    p = sub.add_parser("update-note")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("note"); p.add_argument("patch_json")
+    p.set_defaults(func=cmd_update_note)
+
+    p = sub.add_parser("delete-note")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("note")
+    p.set_defaults(func=cmd_delete_note)
+
+    p = sub.add_parser("set-expression")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("lane", choices=sorted(editing.AUTOMATION_KEYS)); p.add_argument("points_json")
+    p.set_defaults(func=cmd_set_expression)
+
+    p = sub.add_parser("upsert-breath")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("breath_json"); p.add_argument("--breath-id")
+    p.set_defaults(func=cmd_upsert_breath)
+
+    p = sub.add_parser("delete-breath")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("breath")
+    p.set_defaults(func=cmd_delete_breath)
+
+    p = sub.add_parser("upsert-clip")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("clip_json"); p.add_argument("--clip-id")
+    p.set_defaults(func=cmd_upsert_clip)
+
+    p = sub.add_parser("delete-clip")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("clip")
+    p.set_defaults(func=cmd_delete_clip)
+
+    p = sub.add_parser("set-tempo")
+    p.add_argument("project"); p.add_argument("--bpm", type=float); p.add_argument("--points-json")
+    p.set_defaults(func=cmd_set_tempo)
+
+    p = sub.add_parser("assign-voice")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("voice_id"); p.add_argument("--reference-voice")
+    p.set_defaults(func=cmd_assign_voice)
+
+    p = sub.add_parser("import-midi")
+    p.add_argument("path"); p.add_argument("--title")
+    p.set_defaults(func=cmd_import_midi)
 
     p = sub.add_parser("export")
     p.add_argument("project")
