@@ -1,0 +1,44 @@
+{
+  "sample_rate": 48000,
+  "format": "pcm_s24le wav",
+  "processing": "track volume/pan, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization",
+  "tracks": [
+    {
+      "track_id": "track_pan_left",
+      "track_name": "Left Vocal",
+      "type": "vocal",
+      "file": "01_Left_Vocal.wav",
+      "peak": 0.39776611328125,
+      "rms": 0.15339291095733643,
+      "volume": 1.0,
+      "pan": -1.0,
+      "solo": false,
+      "mute": false
+    },
+    {
+      "track_id": "track_pan_right",
+      "track_name": "Right Vocal",
+      "type": "vocal",
+      "file": "02_Right_Vocal.wav",
+      "peak": 0.39776611328125,
+      "rms": 0.1534472405910492,
+      "volume": 1.0,
+      "pan": 1.0,
+      "solo": false,
+      "mute": false
+    },
+    {
+      "track_id": "track_pan_center",
+      "track_name": "Center Stereo",
+      "type": "vocal",
+      "file": "03_Center_Stereo.wav",
+      "peak": 0.39776611328125,
+      "rms": 0.21696874499320984,
+      "volume": 1.0,
+      "pan": 0.0,
+      "solo": false,
+      "mute": false
+    }
+  ],
+  "skipped": []
+}

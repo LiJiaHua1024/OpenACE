@@ -64,3 +64,27 @@ def test_master_export_honors_solo_semantics(tmp_path, monkeypatch):
     export_master_wav(project, tmp_path / "master.wav", sample_rate=sr)
     peak = float(np.max(np.abs(captured["samples"])))
     assert 0.09 < peak < 0.11
+
+
+def test_export_pan_matches_webaudio_stereo_panner_semantics(tmp_path):
+    sr = 24000
+    stereo_path = tmp_path / "stereo.wav"
+    mono_path = tmp_path / "mono.wav"
+    sf.write(stereo_path, np.ones((sr // 2, 2), dtype=np.float32) * 0.2, sr)
+    sf.write(mono_path, np.ones(sr // 2, dtype=np.float32) * 0.2, sr)
+    project = Project(title="Pan", bpm=120)
+    right = project.add_track(Track(name="Right", pan=1.0))
+    right.clips.append(AudioClip(path=str(stereo_path), start_ticks=0, duration_ticks=480))
+    mono_right = project.add_track(Track(name="MonoRight", pan=1.0))
+    mono_right.clips.append(AudioClip(path=str(mono_path), start_ticks=0, duration_ticks=480))
+    out = tmp_path / "pan_stems.zip"
+    export_stems_zip(project, out, sample_rate=sr)
+    extract = tmp_path / "pan_extract"
+    with zipfile.ZipFile(out) as archive:
+        archive.extractall(extract)
+    stereo_data, _ = sf.read(extract / "01_Right.wav", always_2d=True)
+    assert np.max(np.abs(stereo_data[:, 0])) == 0
+    assert np.max(np.abs(stereo_data[:, 1])) > 0.3  # stereo hard-right sums both input channels after default 0.8 track volume
+    mono_data, _ = sf.read(extract / "02_MonoRight.wav", always_2d=True)
+    assert np.max(np.abs(mono_data[:, 0])) == 0
+    assert 0.14 < np.max(np.abs(mono_data[:, 1])) <= 0.17

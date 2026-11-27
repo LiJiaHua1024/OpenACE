@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import json
+import math
 import re
 import subprocess
 import tempfile
@@ -152,6 +153,26 @@ def audible_tracks(project: Project):
     return [track for track in project.tracks if not track.mute and (not soloed or track.solo)]
 
 
+
+def _apply_stereo_panner(data: np.ndarray, pan_value: float) -> np.ndarray:
+    """Apply the WebAudio StereoPannerNode algorithm to mono or stereo samples."""
+    if not len(data):
+        return data
+    pan = max(-1.0, min(1.0, float(pan_value)))
+    mono = data.ndim == 1 or data.shape[1] == 1
+    x = (pan + 1.0) / 2.0 if mono else (pan + 1.0 if pan <= 0.0 else pan)
+    gain_left = math.cos(x * math.pi / 2.0)
+    gain_right = math.sin(x * math.pi / 2.0)
+    if mono:
+        source = data if data.ndim == 1 else data[:, 0]
+        return np.stack([source * gain_left, source * gain_right], axis=1).astype(np.float32)
+    stereo = np.array(data[:, :2], dtype=np.float32, copy=True)
+    left = stereo[:, 0]
+    right = stereo[:, 1]
+    if pan <= 0.0:
+        return np.stack([left + right * gain_left, right * gain_right], axis=1).astype(np.float32)
+    return np.stack([left * gain_left, right + left * gain_right], axis=1).astype(np.float32)
+
 def _track_audio_buffers(project: Project, track, sample_rate: int) -> List[Tuple[np.ndarray, int]]:
     """Decode one track's render/clips into timeline-positioned export buffers."""
     buffers: List[Tuple[np.ndarray, int]] = []
@@ -171,6 +192,7 @@ def _track_audio_buffers(project: Project, track, sample_rate: int) -> List[Tupl
             sr = sample_rate
         if data.ndim == 1:
             data = data[:, None]
+        data = _apply_stereo_panner(data, track.pan)
         start_ticks = getattr(clip, "start_ticks", 0) if clip is not None else 0
         source_offset_ticks = getattr(clip, "offset_ticks", 0) if clip is not None else 0
         duration_ticks = getattr(clip, "duration_ticks", None) if clip is not None else None
@@ -207,7 +229,7 @@ def export_stems_zip(project: Project, output_path: Path, sample_rate: int = 480
     output_path.parent.mkdir(parents=True, exist_ok=True)
     temporary = tempfile.TemporaryDirectory(prefix="openace-stems-", dir=output_path.parent)
     stem_dir = Path(temporary.name)
-    manifest = {"sample_rate": sample_rate, "format": "pcm_s24le wav", "processing": "track volume, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization", "tracks": [], "skipped": []}
+    manifest = {"sample_rate": sample_rate, "format": "pcm_s24le wav", "processing": "track volume/pan, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization", "tracks": [], "skipped": []}
     used_names: set[str] = set()
     for index, track in enumerate(audible_tracks(project), 1):
         buffers = _track_audio_buffers(project, track, sample_rate)

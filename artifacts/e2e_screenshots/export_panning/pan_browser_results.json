@@ -1,0 +1,217 @@
+{
+  "stems_download": {
+    "suggested": "Export Panning QA_stems.zip",
+    "size": 478780
+  },
+  "master_download": {
+    "suggested": "Export Panning QA.wav",
+    "size": 288044
+  },
+  "project_pans": [
+    {
+      "id": "track_pan_left",
+      "name": "Left Vocal",
+      "type": "vocal",
+      "color": "#7367ff",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "openutau_singer": "",
+      "openutau_phonemizer": "",
+      "language": "zh",
+      "notes": [],
+      "clips": [
+        {
+          "id": "left_clip",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "left_clip",
+          "transcribed_lyrics": [],
+          "created_by_job_id": null
+        }
+      ],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 1.0,
+      "pan": -1.0,
+      "midi_channel": null,
+      "midi_program": null,
+      "created_by_job_id": null,
+      "render_path": null,
+      "render_revision": 0,
+      "render_fingerprint": null
+    },
+    {
+      "id": "track_pan_right",
+      "name": "Right Vocal",
+      "type": "vocal",
+      "color": "#7367ff",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "openutau_singer": "",
+      "openutau_phonemizer": "",
+      "language": "zh",
+      "notes": [],
+      "clips": [
+        {
+          "id": "right_clip",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_05ff23623dab/vocal.wav",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "right_clip",
+          "transcribed_lyrics": [],
+          "created_by_job_id": null
+        }
+      ],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 1.0,
+      "pan": 1.0,
+      "midi_channel": null,
+      "midi_program": null,
+      "created_by_job_id": null,
+      "render_path": null,
+      "render_revision": 0,
+      "render_fingerprint": null
+    },
+    {
+      "id": "track_pan_center",
+      "name": "Center Stereo",
+      "type": "vocal",
+      "color": "#7367ff",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "openutau_singer": "",
+      "openutau_phonemizer": "",
+      "language": "zh",
+      "notes": [],
+      "clips": [
+        {
+          "id": "center_clip",
+          "path": "/tmp/export_pan_center_stereo.wav",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "center_clip",
+          "transcribed_lyrics": [],
+          "created_by_job_id": null
+        }
+      ],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 1.0,
+      "pan": 0.0,
+      "midi_channel": null,
+      "midi_program": null,
+      "created_by_job_id": null,
+      "render_path": null,
+      "render_revision": 0,
+      "render_fingerprint": null
+    }
+  ],
+  "layout": {
+    "panelClientWidth": 311,
+    "panelScrollWidth": 311,
+    "bodyScrollWidth": 1600,
+    "innerWidth": 1600,
+    "buttons": [
+      {
+        "text": "WAV",
+        "w": 91,
+        "h": 32,
+        "x": 1291,
+        "y": 657
+      },
+      {
+        "text": "STEMS",
+        "w": 91,
+        "h": 32,
+        "x": 1389,
+        "y": 657
+      },
+      {
+        "text": "MP4",
+        "w": 91,
+        "h": 32,
+        "x": 1487,
+        "y": 657
+      },
+      {
+        "text": "MID",
+        "w": 91,
+        "h": 32,
+        "x": 1291,
+        "y": 696
+      },
+      {
+        "text": "LRC",
+        "w": 91,
+        "h": 32,
+        "x": 1389,
+        "y": 696
+      },
+      {
+        "text": "USTX",
+        "w": 91,
+        "h": 32,
+        "x": 1487,
+        "y": 696
+      },
+      {
+        "text": "SVP",
+        "w": 91,
+        "h": 32,
+        "x": 1291,
+        "y": 735
+      },
+      {
+        "text": "VPR",
+        "w": 91,
+        "h": 32,
+        "x": 1389,
+        "y": 735
+      }
+    ]
+  },
+  "console_errors": [],
+  "page_errors": [],
+  "network_errors": []
+}

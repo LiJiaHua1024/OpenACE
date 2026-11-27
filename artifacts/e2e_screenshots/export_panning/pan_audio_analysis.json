@@ -1,0 +1,106 @@
+{
+  "zip_names": [
+    "stems_manifest.json",
+    "01_Left_Vocal.wav",
+    "02_Right_Vocal.wav",
+    "03_Center_Stereo.wav"
+  ],
+  "manifest_tracks": [
+    {
+      "track_id": "track_pan_left",
+      "track_name": "Left Vocal",
+      "type": "vocal",
+      "file": "01_Left_Vocal.wav",
+      "peak": 0.39776611328125,
+      "rms": 0.15339291095733643,
+      "volume": 1.0,
+      "pan": -1.0,
+      "solo": false,
+      "mute": false
+    },
+    {
+      "track_id": "track_pan_right",
+      "track_name": "Right Vocal",
+      "type": "vocal",
+      "file": "02_Right_Vocal.wav",
+      "peak": 0.39776611328125,
+      "rms": 0.1534472405910492,
+      "volume": 1.0,
+      "pan": 1.0,
+      "solo": false,
+      "mute": false
+    },
+    {
+      "track_id": "track_pan_center",
+      "track_name": "Center Stereo",
+      "type": "vocal",
+      "file": "03_Center_Stereo.wav",
+      "peak": 0.39776611328125,
+      "rms": 0.21696874499320984,
+      "volume": 1.0,
+      "pan": 0.0,
+      "solo": false,
+      "mute": false
+    }
+  ],
+  "stem_metrics": {
+    "01_Left_Vocal.wav": {
+      "frames": 48000,
+      "seconds": 1.0,
+      "channels": 2,
+      "rms_left": 0.2169303481885418,
+      "rms_right": 0.0,
+      "peak_left": 0.39776611328125,
+      "peak_right": 0.0,
+      "sr": 48000
+    },
+    "02_Right_Vocal.wav": {
+      "frames": 48000,
+      "seconds": 1.0,
+      "channels": 2,
+      "rms_left": 0.0,
+      "rms_right": 0.2170071642562644,
+      "peak_left": 0.0,
+      "peak_right": 0.39776611328125,
+      "sr": 48000
+    },
+    "03_Center_Stereo.wav": {
+      "frames": 48000,
+      "seconds": 1.0,
+      "channels": 2,
+      "rms_left": 0.2169303481885418,
+      "rms_right": 0.2170071642562644,
+      "peak_left": 0.39776611328125,
+      "peak_right": 0.39776611328125,
+      "sr": 48000
+    }
+  },
+  "exact": {
+    "left_matches_source_left_diff": 5.285702431301331e-15,
+    "left_right_peak": 0.0,
+    "left_wrong_channel_peak": 0.0,
+    "right_matches_source_right_diff": 0.0,
+    "right_wrong_channel_peak": 0.0,
+    "center_stereo_diff": 5.285702431301331e-15,
+    "center_lr_rms_ratio": 0.9996460205911364
+  },
+  "master": {
+    "frames": 48000,
+    "seconds": 1.0,
+    "rms_left": 0.15147826089676503,
+    "rms_right": 0.15153189996655284,
+    "left_vs_A_corr": 0.9999998478134909,
+    "right_vs_B_corr": 0.9999997489734059,
+    "left_vs_B_corr": -0.0006488037981851005,
+    "right_vs_A_corr": -0.000648802929979668,
+    "nonzero": true
+  },
+  "passed": {
+    "hard_left_stem_energy": true,
+    "hard_right_stem_energy": true,
+    "center_stereo_unchanged": true,
+    "master_channel_shapes": true,
+    "center_regression_non_silent": true,
+    "zip_manifest_count": true
+  }
+}
