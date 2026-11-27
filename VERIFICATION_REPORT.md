@@ -973,3 +973,13 @@ Implemented and verified:
 - Independent visible-Chrome QA at exact 1272×837 verified exact grid movement, horizontal spacing, zero clamp, semitone/octave shifts, upper/lower collective clamps with exact `+2,-5` interval preservation, lyric-input isolation, Grid-select/form-control isolation, undo/redo/reload, toolbar geometry, and clean console/network. Evidence: `artifacts/e2e_screenshots/keyboard_nudge/`.
 
 Validation after iteration 73: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 74 — arrangement clip ripple delete
+
+Implemented and verified:
+
+- Arrangement audio clips now expose `Ripple delete` in the context menu. The operation deletes the clicked clip or active multi-selection, merges contiguous/overlapping selected intervals independently per track, and shifts later clips on each affected track left by the exact union duration without double-counting overlaps. Earlier clips and unselected tracks remain unchanged.
+- The operation is transaction-based, selection-aware, multi-track independent, undo/redo-safe, and reload-persistent. Context-menu geometry was adjusted and re-measured for top, bottom, and one-row arrangements.
+- Independent visible-Chrome QA at exact 1272×837 with real uploaded audio clips verified exact single/contiguous/overlapping/multi-track ripple math, sync preservation, undo/redo/reload, menu containment, and clean console/network. Evidence: `artifacts/e2e_screenshots/ripple_delete/`.
+
+Validation after iteration 74: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

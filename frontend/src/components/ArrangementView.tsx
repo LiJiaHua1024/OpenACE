@@ -795,6 +795,41 @@ export default function ArrangementView(props: Props) {
     setMenu(null)
   }
 
+  function rippleDeleteClip(menuItem: { trackId: string; clipId: string | null }) {
+    const items = operationClips(menuItem)
+    if (!items.length) return
+    props.updateProject(project => {
+      const byTrack = new Map<string, typeof items>()
+      for (const item of items) {
+        byTrack.set(item.trackId, [...(byTrack.get(item.trackId) || []), item])
+      }
+      for (const [trackId, trackItems] of byTrack) {
+        const track = project.tracks.find(item => item.id === trackId)
+        if (!track) continue
+        const ordered = [...trackItems].sort((a, b) => a.clip.start_ticks - b.clip.start_ticks)
+        const intervals: { start: number; end: number }[] = []
+        for (const item of ordered) {
+          const startTick = item.clip.start_ticks
+          const endTick = item.clip.start_ticks + clipDuration(item.clip)
+          const last = intervals[intervals.length - 1]
+          if (last && startTick <= last.end) last.end = Math.max(last.end, endTick)
+          else intervals.push({ start: startTick, end: endTick })
+        }
+        const selectedIds = new Set(trackItems.map(item => item.clipId))
+        track.clips = track.clips.filter(candidate => !selectedIds.has(candidate.id))
+        for (const interval of [...intervals].reverse()) {
+          const ripple = interval.end - interval.start
+          for (const later of track.clips) {
+            if (later.start_ticks >= interval.end) later.start_ticks = Math.max(0, later.start_ticks - ripple)
+          }
+        }
+        track.clips.sort((a, b) => a.start_ticks - b.start_ticks)
+      }
+    }, false)
+    setSelectedClips([])
+    setMenu(null)
+  }
+
   function splitClip(menuItem: { trackId: string; clipId: string | null; ticks: number }) {
     props.updateProject(project => {
       const track = project.tracks.find(item => item.id === menuItem.trackId)
@@ -845,7 +880,7 @@ export default function ArrangementView(props: Props) {
   const arrangementContentHeight = Math.max(132, RULER_HEIGHT + props.project.tracks.length * ROW_HEIGHT + 6)
   const arrangementViewportHeight = Math.min(arrangementContentHeight, 210)
   const menuWidth = 204
-  const menuHeight = menu?.clipId ? 130 : 40
+  const menuHeight = menu?.clipId ? 150 : 40
   const menuMargin = menu?.clipId ? 1 : 4
   const menuLeft = menu ? Math.max(4, Math.min(menu.x, (canvasRef.current?.clientWidth || 640) - menuWidth - 4)) : 0
   const menuTop = menu ? Math.max(menuMargin, Math.min(menu.y, arrangementContentHeight - menuHeight - menuMargin)) : 0
@@ -861,6 +896,7 @@ export default function ArrangementView(props: Props) {
           <button disabled={!clipClipboardRef.current.length} onClick={() => pasteClip(menu)}>Paste at cursor</button>
           {menu.clipId && <button onClick={() => duplicateClip(menu)}>Duplicate</button>}
           {menu.clipId && <button onClick={() => deleteClip(menu)}>Delete</button>}
+          {menu.clipId && <button onClick={() => rippleDeleteClip(menu)}>Ripple delete</button>}
           {menu.clipId && (() => {
             const track = props.project.tracks.find(item => item.id === menu.trackId)
             const clip = track?.clips.find(item => item.id === menu.clipId)

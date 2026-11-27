@@ -295,7 +295,7 @@ def test_arrangement_decodes_waveform_and_drags_audio_clip_independently(tmp_pat
             assert clips[-1]["start_ticks"] == 2880
 
             page.mouse.click(box["x"] + 792, box["y"] + 75, button="right")
-            page.locator(".arrangement-context-menu button", has_text="Delete").click()
+            page.locator(".arrangement-context-menu").get_by_role("button", name="Delete", exact=True).click()
             page.wait_for_timeout(650)
             saved = httpx.get(f"{base}/api/projects/{project.id}").json()
             assert len(saved["tracks"][1]["clips"]) == 3
