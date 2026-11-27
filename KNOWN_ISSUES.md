@@ -7,7 +7,7 @@
 
 ## Current product gaps after the independent browser QA fix round
 
-- Tempo maps now import/export and drive timing correctly across MIDI/LRC/USTX/SVP/VPR, rendering metadata, expression DSP, clip fades/crossfades, transport time, waveform mapping, and WebAudio playback, but there is still no dedicated visual tempo-point editing lane.
+- Tempo maps now import/export, drive timing correctly across MIDI/LRC/USTX/SVP/VPR/rendering/playback, and have a browser-verified visual editing lane with drag/numeric/delete/undo support. Ramp-shaped tempo transitions, tempo copy/paste, and visual time-signature editing remain absent.
 
 - Pitch automation affects SoulX target F0; Dynamic, Air, Energy, Tension, and Falsetto automation are applied as explicitly labeled post-render DSP. Breath events now overlay real donor aspiration extracted from reference/rendered audio and are explicitly labeled post-render DSP, but if no suitable real donor noise exists they honestly no-op; intensity/type editing and true neural breath conditioning remain absent.
 - Piano roll now has marquee/multi-select/copy-paste/duplicate/quantize/context menu/velocity lane, per-note vibrato editing, and per-note pitch handles, cross-track clipboard is regression-verified, and dense 3000-note 60FPS playback/scroll proof exists at 1400×900@2x.

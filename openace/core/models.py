@@ -167,8 +167,8 @@ class TimeSignature(BaseModel):
 
 
 class TempoPoint(BaseModel):
-    ticks: int = 0
-    bpm: float = 120.0
+    ticks: int = Field(default=0, ge=0)
+    bpm: float = Field(default=120.0, gt=0)
 
 
 class Project(BaseModel):

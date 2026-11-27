@@ -5,6 +5,7 @@ import AutomationLane from './components/AutomationLane'
 import PianoRoll from './components/PianoRoll'
 import RenderPanel from './components/RenderPanel'
 import TrackList from './components/TrackList'
+import TempoLane from './components/TempoLane'
 import TransportBar from './components/TransportBar'
 import { crossfadeGainAt, crossfadeIntervals } from './crossfade'
 import { secondsBetweenTicks, secondsToTicks, tickDurationSeconds, ticksToSeconds } from './tempo'
@@ -462,6 +463,15 @@ export default function App() {
             onTimelineChange={setTimeline}
             repaintRange={repaintRange}
             onRepaintRange={setRepaintRange}
+          />
+          <TempoLane
+            project={project}
+            timeline={timeline}
+            playheadTicks={playheadTicks}
+            onTimelineChange={setTimeline}
+            beginTransaction={beginTransaction}
+            endTransaction={endTransaction}
+            updateProject={updateProject}
           />
           <PianoRoll
             project={project}

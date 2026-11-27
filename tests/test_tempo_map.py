@@ -128,3 +128,9 @@ def test_midi_import_uses_standard_default_tempo_before_first_late_tempo_event(t
 
     imported = import_midi(path)
     assert [(point.ticks, point.bpm) for point in imported.tempo_map] == [(0, 120.0), (960, 60.0)]
+
+def test_tempo_point_schema_rejects_invalid_positions_and_rates():
+    with pytest.raises(Exception):
+        TempoPoint(ticks=-1, bpm=120)
+    with pytest.raises(Exception):
+        TempoPoint(ticks=480, bpm=0)

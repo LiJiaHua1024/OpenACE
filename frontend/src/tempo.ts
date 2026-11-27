@@ -18,6 +18,15 @@ export function normalizedTempoMap(project: TempoProject): TempoPoint[] {
   return [{ ticks: 0, bpm: Math.max(1, project.bpm || 120) }, ...later]
 }
 
+export function bpmAt(project: TempoProject, ticks: number): number {
+  let active = normalizedTempoMap(project)[0].bpm
+  for (const point of normalizedTempoMap(project)) {
+    if (point.ticks <= ticks) active = point.bpm
+    else break
+  }
+  return active
+}
+
 export function ticksToSeconds(project: TempoProject, ticks: number): number {
   const points = normalizedTempoMap(project)
   let elapsed = 0

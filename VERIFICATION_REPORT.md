@@ -540,3 +540,15 @@ Implemented and verified:
 - Independent visible-Chrome QA generated an aspiration-bearing reference fixture, uploaded it through the real file chooser, drew a note, added/moved/resized a breath with backend persistence, rendered, and analyzed output audio. The exact 0.625–0.875s breath interval had RMS `0.03393` while surrounding silence was exactly `0.0`; high-band energy was about `3445×` the harmonic fixture floor. Diagnostic provenance visibly states real donor-noise post-render DSP; right-click deletion and console/network health passed. Evidence: `artifacts/e2e_screenshots/breath_events/`, especially `BREATH_EVENTS_QA_REPORT.md` and `audio_analysis.png`.
 
 Validation after iteration 33: frontend production build passed; Python compile passed; full automated suite reached 84 passed.
+
+## Iteration 34 — visual tempo-map editing lane
+
+Implemented and verified:
+
+- Added a dedicated `TempoLane` between arrangement and piano roll. It shares horizontal scroll/zoom with the other editors, draws the piecewise step-tempo curve and markers against the musical grid, shows the playhead, and keeps tick-zero BPM visually distinct from later tempo points.
+- Users can create snapped positive-tick tempo points by clicking the lane, drag them horizontally/vertically to edit position and BPM, vertically drag the tick-zero anchor to edit base project BPM, right-click delete positive-tick points, and use a compact numeric editor for exact tick/BPM values. Edits persist through `Project.tempo_map` and are undo/redo-safe.
+- `TempoPoint` schema now rejects negative tick positions and nonpositive BPM. Canonical semantics remain explicit: `Project.bpm` is the tick-zero tempo while positive-tick `tempo_map` entries automate later changes.
+- Regression coverage now includes invalid tempo-point schema rejection in addition to the 79 passing tempo/interoperability tests from iteration 32.
+- Independent visible-Chrome QA verified lane alignment/professional visibility, empty creation, horizontal/vertical drag persistence, exact numeric `{tick:960,bpm:60}` editing, transport tick 1440 reading `1.4.1 / 00:02.00`, undo/redo, panel delete, tick-zero BPM editing to 125 with tick 480 reading `00:00.48`, wheel scroll/Ctrl+zoom synchronization, and zero console/network errors. Evidence: `artifacts/e2e_screenshots/tempo_editing/`, especially `TEMPO_EDITING_QA_REPORT.md` and `04_numeric_exact_960_60.png`.
+
+Validation after iteration 34: frontend production build passed; Python compile passed; full automated suite reached 85 passed.
