@@ -417,7 +417,7 @@ class RenderService:
             accompaniment = next((t for t in completion_project.tracks if t.type == TrackType.ACCOMPANIMENT), None)
             if accompaniment is None:
                 accompaniment = completion_project.add_track(
-                    Track(name="ACE-Step BGM", type=TrackType.ACCOMPANIMENT, color="#2fb996")
+                    Track(name="ACE-Step BGM", type=TrackType.ACCOMPANIMENT, color="#2fb996", created_by_job_id=job.id)
                 )
             self.raise_if_cancelled(job_id)
             repaint_target = next((clip for clip in accompaniment.clips if clip.id == repaint_target_clip_id), None) if repaint_target_clip_id else None
@@ -435,6 +435,7 @@ class RenderService:
                         start_ticks=0,
                         duration_ticks=duration_ticks,
                         label="Repaint" if job.mode == RenderMode.REPAINT else "Vocal2BGM",
+                        created_by_job_id=job.id,
                     )
                 )
             accompaniment.render_path = str(wav)
@@ -481,12 +482,12 @@ class RenderService:
             self.raise_if_cancelled(job_id)
             source_name = Path(source_audio).stem or "source"
             completion_project = self.store.get(project.id)
-            vocal_track = completion_project.add_track(Track(name=f"Separated vocal — {source_name}", type=TrackType.AUDIO, color="#ff7b9c"))
-            vocal_track.clips.append(AudioClip(path=str(vocals), start_ticks=0, duration_ticks=completion_project.seconds_to_ticks(len(vocal_audio) / vocal_sr), label="Separated vocal"))
+            vocal_track = completion_project.add_track(Track(name=f"Separated vocal — {source_name}", type=TrackType.AUDIO, color="#ff7b9c", created_by_job_id=job.id))
+            vocal_track.clips.append(AudioClip(path=str(vocals), start_ticks=0, duration_ticks=completion_project.seconds_to_ticks(len(vocal_audio) / vocal_sr), label="Separated vocal", created_by_job_id=job.id))
             vocal_track.render_path = str(vocals)
             vocal_track.render_revision += 1
-            accompaniment_track = completion_project.add_track(Track(name=f"Separated instrumental — {source_name}", type=TrackType.AUDIO, color="#42c6a8"))
-            accompaniment_track.clips.append(AudioClip(path=str(accompaniment), start_ticks=0, duration_ticks=completion_project.seconds_to_ticks(len(accompaniment_audio) / accompaniment_sr), label="Separated instrumental"))
+            accompaniment_track = completion_project.add_track(Track(name=f"Separated instrumental — {source_name}", type=TrackType.AUDIO, color="#42c6a8", created_by_job_id=job.id))
+            accompaniment_track.clips.append(AudioClip(path=str(accompaniment), start_ticks=0, duration_ticks=completion_project.seconds_to_ticks(len(accompaniment_audio) / accompaniment_sr), label="Separated instrumental", created_by_job_id=job.id))
             accompaniment_track.render_path = str(accompaniment)
             accompaniment_track.render_revision += 1
             separations = list(completion_project.metadata.get("stem_separations", []))
@@ -558,7 +559,7 @@ class RenderService:
             completion_project = self.store.get(project.id)
             duration_ticks = completion_project.seconds_to_ticks(len(audio) / sr) if sr else None
             conversion_track = completion_project.add_track(
-                Track(name=f"SVC — {source_name}", type=TrackType.AUDIO, color="#ff8f5a")
+                Track(name=f"SVC — {source_name}", type=TrackType.AUDIO, color="#ff8f5a", created_by_job_id=job.id)
             )
             conversion_track.clips.append(
                 AudioClip(
@@ -567,6 +568,7 @@ class RenderService:
                     duration_ticks=duration_ticks,
                     label=f"SVC: {source_name}",
                     transcribed_lyrics=transcribed_lyrics,
+                    created_by_job_id=job.id,
                 )
             )
             conversion_track.render_path = str(wav)

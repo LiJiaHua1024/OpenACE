@@ -55,6 +55,7 @@ export interface AudioClip {
   gain_db?: number
   label?: string
   transcribed_lyrics?: TimedLyric[]
+  created_by_job_id?: string | null
 }
 
 export type BreathTimbre = 'soft' | 'natural' | 'strong'
@@ -87,6 +88,7 @@ export interface Track {
   pan: number
   midi_channel?: number | null
   midi_program?: number | null
+  created_by_job_id?: string | null
   render_path?: string | null
   render_revision: number
   render_fingerprint?: string | null

@@ -5,6 +5,7 @@ import json
 import os
 import shutil
 import tempfile
+import time
 import zipfile
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
@@ -148,6 +149,72 @@ def validate_project_editing_invariants(project: Project) -> None:
         raise HTTPException(422, str(exc)) from exc
 
 
+
+def _render_job_id_for_path(raw_path: str, project_id: str) -> Optional[str]:
+    parts = Path(raw_path).parts
+    try:
+        index = parts.index(project_id)
+    except ValueError:
+        return None
+    if index + 1 < len(parts) and parts[index + 1].startswith("job_"):
+        return parts[index + 1]
+    return None
+
+
+def _unacknowledged_render_job(job_id: Optional[str], awareness_timestamp: float) -> bool:
+    if not job_id:
+        return False
+    job = render_service.jobs.get(job_id)
+    if job is None or job.status not in {"running", "completed"}:
+        return False
+    completed_at = job.finished_at
+    if completed_at is None and job.status == "running":
+        # Project integration happens immediately before final job completion. Treat
+        # already-integrated output from that tiny window as fresh rather than losing it.
+        completed_at = time.time()
+    return bool(completed_at and completed_at > awareness_timestamp)
+
+
+def merge_unacknowledged_render_outputs(current: Project, incoming: Project) -> Project:
+    """Merge job-generated output into a stale whole-project autosave.
+
+    Whole-project saves cannot express intent per object. Render metadata is not
+    user-editable, so current output state is always authoritative for a track that
+    still exists. Fresh job-created tracks/clips are preserved only when the incoming
+    project's last-edit timestamp predates job completion; once the client knew about
+    them, deleting them is honored.
+    """
+    awareness = float(incoming.updated_at or 0)
+    incoming_tracks = {track.id: track for track in incoming.tracks}
+    for current_track in current.tracks:
+        incoming_track = incoming_tracks.get(current_track.id)
+        if incoming_track is None:
+            if _unacknowledged_render_job(current_track.created_by_job_id, awareness):
+                incoming.tracks.append(current_track.model_copy(deep=True))
+            continue
+
+        incoming_track.render_path = current_track.render_path
+        incoming_track.render_revision = current_track.render_revision
+        incoming_track.render_fingerprint = current_track.render_fingerprint
+
+        incoming_clips = {clip.id: clip for clip in incoming_track.clips}
+        for current_clip in current_track.clips:
+            job_id = current_clip.created_by_job_id or _render_job_id_for_path(current_clip.path, current.id)
+            if not _unacknowledged_render_job(job_id, awareness):
+                continue
+            incoming_clip = incoming_clips.get(current_clip.id)
+            if incoming_clip is None:
+                if current_clip.created_by_job_id:
+                    incoming_track.clips.append(current_clip.model_copy(deep=True))
+                continue
+            incoming_clip.path = current_clip.path
+            incoming_clip.duration_ticks = current_clip.duration_ticks
+            incoming_clip.label = current_clip.label
+            incoming_clip.created_by_job_id = current_clip.created_by_job_id
+            if current_clip.transcribed_lyrics and not incoming_clip.transcribed_lyrics:
+                incoming_clip.transcribed_lyrics = [item.model_copy(deep=True) for item in current_clip.transcribed_lyrics]
+    return incoming
+
 def publish_project(project: Project) -> None:
     event_bus.publish("project_updated", {"project_id": project.id, "project": project.model_dump(mode="json")})
 
@@ -230,6 +297,11 @@ def update_project(project_id: str, payload: Dict[str, Any]):
     if project.id != project_id:
         raise HTTPException(400, "project id mismatch")
     validate_project_editing_invariants(project)
+    try:
+        current = store.get(project_id)
+        project = merge_unacknowledged_render_outputs(current, project)
+    except KeyError:
+        pass
     store.save(project)
     publish_project(project)
     return project.model_dump(mode="json")
