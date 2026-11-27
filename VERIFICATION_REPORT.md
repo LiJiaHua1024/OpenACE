@@ -368,3 +368,20 @@ Browser QA evidence:
 - Key evidence: `evidence_clip_ops_montage.png`, `evidence_menu_overflow_recheck_montage.png`, `evidence_menu_overflow_recheck2_montage.png`, `ARRANGEMENT_CLIP_OPS_QA_REPORT.md`, both menu addenda, and `clip_ops_results.json`.
 
 Validation after iteration 19: frontend production build passed; arrangement browser regression passed; full automated suite remains 49 passed.
+
+## Iteration 20 — large-project piano-roll performance architecture
+
+Implemented and verified:
+
+- The piano-roll static scene and moving playhead are now separate stacked canvases. Playback no longer repaints thousands of notes/grid rows every frame; the overlay is pointer-transparent and the static canvas remains interactive.
+- Canvas backing stores in PianoRoll, ArrangementView, and AutomationLane resize only when dimensions actually change. Per-note gradients are cached.
+- Dense views use honest level-of-detail rendering: when more than 220 notes are visible, unreadable overlapping labels/strokes are elided and solid fills replace gradients. Sparse projects retain full labels, phonemes, gradients, strokes, vibrato, and pitch-handle detail.
+- `tests/test_performance_e2e.py` seeds 3000 dense overlapping notes, continuously scrolls within the dense region at 1400×900@2x, and asserts at least 55 FPS with p95 frame time ≤22ms.
+
+Performance evidence:
+
+- Automated regression evidence in `artifacts/e2e_screenshots/performance_large_project/performance_metrics.json`: playback `60.002 FPS`, p95 `16.7ms`; continuous dense scrolling `60.002 FPS`, p95 `16.7ms` with 3000 notes at 1400×900@2x.
+- Independent visible-Chrome QA in `artifacts/e2e_screenshots/piano_performance_qa/` verified sparse labels/phonemes/gradients/handles, selection/marquee/move/zoom/scroll/static redraw, playhead alignment, dense LOD rendering, dense click/drag/undo, playback `59.34 FPS` p95 `16.8ms`, continuous dense scrolling `60.00 FPS` p95 `16.7ms`, and zero console/network errors.
+- Key evidence: `dense_project_dpr2.png`, `performance_metrics.json`, `01_sparse_initial.png`, `14_dense_playhead_late.png`, `PIANO_PERFORMANCE_QA_REPORT.md`, and `piano_performance_results.json`.
+
+Validation after iteration 20: frontend production build passed; performance regression passed; full automated suite reached 50 passed.

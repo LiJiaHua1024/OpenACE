@@ -111,6 +111,8 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .tool.active { background: #6655d9; color: white; border-color: #8b7cff; box-shadow: 0 0 10px #715cff30; }
 .editor-hint { margin-left: auto; color: #59647f; }
 .piano-roll-wrap { flex: 1; min-height: 0; position: relative; outline: none; }
+.piano-roll-wrap canvas { position: absolute; inset: 0; }
+.piano-playhead-overlay { pointer-events: none; z-index: 2; }
 .piano-roll-canvas { width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: none; }
 .lyric-editor {
   position: absolute; z-index: 4; min-width: 94px; background: #f8faff; color: #11131d; border: 2px solid #7568ff;

@@ -75,7 +75,7 @@ The `∿` pitch-handle tool creates draggable per-note pitch points directly on 
 
 The note context menu also exposes manual phoneme overrides: enter space-separated symbols, OpenACE times pre-vowel consonants before the beat and post-vowel consonants in sequence, validates against placeholder/empty/no-vowel input, and can reset to automatic lyric-derived phonemes. In the Breath & Phoneme lane, visible onset/end and internal boundaries can be dragged with millisecond accuracy; neighboring segments remain contiguous, durations stay positive, and the first vowel is locked to the 0ms beat anchor.
 
-The canvas piano roll supports brush/select/erase tools, marquee multi-select, multi-note move/resize with interval-preserving pitch deltas, copy/paste/duplicate, quantize, a right-click edit menu, and a bottom velocity lane whose values round-trip through MIDI/VPR export.
+The canvas piano roll supports brush/select/erase tools, marquee multi-select, multi-note move/resize with interval-preserving pitch deltas, copy/paste/duplicate, quantize, a right-click edit menu, and a bottom velocity lane whose values round-trip through MIDI/VPR export. Static notes/grid and the moving playhead are separate stacked canvases, gradients are cached, and dense views use level-of-detail fills/label elision; regression evidence sustains 60FPS playback and continuous scrolling with 3000 dense notes at 1400×900@2x.
 
 ## Repaint region selection
 

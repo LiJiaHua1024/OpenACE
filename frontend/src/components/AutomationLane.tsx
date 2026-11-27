@@ -119,10 +119,12 @@ export default function AutomationLane(props: Props) {
     const draw = () => {
       const rect = parent.getBoundingClientRect()
       const dpr = window.devicePixelRatio || 1
-      canvas.width = Math.floor(rect.width * dpr)
-      canvas.height = Math.floor(rect.height * dpr)
-      canvas.style.width = `${rect.width}px`
-      canvas.style.height = `${rect.height}px`
+      const pixelWidth = Math.max(1, Math.floor(rect.width * dpr))
+      const pixelHeight = Math.max(1, Math.floor(rect.height * dpr))
+      if (canvas.width !== pixelWidth) canvas.width = pixelWidth
+      if (canvas.height !== pixelHeight) canvas.height = pixelHeight
+      if (canvas.style.width !== `${rect.width}px`) canvas.style.width = `${rect.width}px`
+      if (canvas.style.height !== `${rect.height}px`) canvas.style.height = `${rect.height}px`
       const ctx = canvas.getContext('2d')
       if (!ctx) return
       ctx.save()

@@ -67,6 +67,8 @@ function cloneNote(note: Note): Note {
 
 export default function PianoRoll(props: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const playheadCanvasRef = useRef<HTMLCanvasElement | null>(null)
+  const gradientCacheRef = useRef(new Map<string, CanvasGradient>())
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [tool, setTool] = useState<Tool>('pencil')
   const [gridDivision, setGridDivision] = useState(4)
@@ -129,10 +131,12 @@ export default function PianoRoll(props: Props) {
     const draw = () => {
       const rect = wrap.getBoundingClientRect()
       const dpr = window.devicePixelRatio || 1
-      canvas.width = Math.max(1, Math.floor(rect.width * dpr))
-      canvas.height = Math.max(1, Math.floor(rect.height * dpr))
-      canvas.style.width = `${rect.width}px`
-      canvas.style.height = `${rect.height}px`
+      const pixelWidth = Math.max(1, Math.floor(rect.width * dpr))
+      const pixelHeight = Math.max(1, Math.floor(rect.height * dpr))
+      if (canvas.width !== pixelWidth) canvas.width = pixelWidth
+      if (canvas.height !== pixelHeight) canvas.height = pixelHeight
+      if (canvas.style.width !== `${rect.width}px`) canvas.style.width = `${rect.width}px`
+      if (canvas.style.height !== `${rect.height}px`) canvas.style.height = `${rect.height}px`
       const ctx = canvas.getContext('2d')
       if (!ctx) return
       ctx.save()
@@ -209,22 +213,42 @@ export default function PianoRoll(props: Props) {
       ctx.fillText('VEL', 22, velocityTop + 15)
 
       if (props.track) {
+        let visibleNoteCount = 0
+        for (const note of props.track.notes) {
+          const x = xForTick(note.start_ticks)
+          const w = Math.max(5, (note.duration_ticks / ppq) * props.timeline.pxPerBeat)
+          const y = yForPitch(note.pitch)
+          if (!(x + w < KEY_WIDTH || x > width || y > velocityTop || y + view.rowHeight < RULER_HEIGHT)) visibleNoteCount++
+        }
+        const drawDenseLabels = visibleNoteCount <= 220
         for (const note of props.track.notes) {
           const x = xForTick(note.start_ticks)
           const w = Math.max(5, (note.duration_ticks / ppq) * props.timeline.pxPerBeat)
           const y = yForPitch(note.pitch)
           if (x + w < KEY_WIDTH || x > width || y > velocityTop || y + view.rowHeight < RULER_HEIGHT) continue
           const selected = selectedSet.has(note.id)
-          const grad = ctx.createLinearGradient(x, y, x, y + view.rowHeight)
-          grad.addColorStop(0, selected ? '#b5a8ff' : props.track.color)
-          grad.addColorStop(1, selected ? '#684fff' : '#342e78')
-          ctx.fillStyle = grad
+          const denseView = visibleNoteCount > 220
+          if (denseView) {
+            ctx.fillStyle = selected ? '#9d8cff' : props.track.color
+          } else {
+            const gradientKey = `${note.pitch}:${view.rowHeight}:${selected ? 1 : 0}:${props.track.color}`
+            let grad = gradientCacheRef.current.get(gradientKey)
+            if (!grad) {
+              grad = ctx.createLinearGradient(x, y, x, y + view.rowHeight)
+              grad.addColorStop(0, selected ? '#b5a8ff' : props.track.color)
+              grad.addColorStop(1, selected ? '#684fff' : '#342e78')
+              gradientCacheRef.current.set(gradientKey, grad)
+            }
+            ctx.fillStyle = grad
+          }
           ctx.beginPath()
-          ctx.roundRect(x + 0.5, y + 1, w - 1, Math.max(4, view.rowHeight - 2), 3)
+          ctx.roundRect(x + 0.5, y + 1, w - 1, Math.max(4, view.rowHeight - 2), denseView ? 1 : 3)
           ctx.fill()
-          ctx.strokeStyle = selected ? '#ffffff' : '#786cff'
-          ctx.lineWidth = selected ? 1.5 : 0.8
-          ctx.stroke()
+          if (!denseView || selected) {
+            ctx.strokeStyle = selected ? '#ffffff' : '#786cff'
+            ctx.lineWidth = selected ? 1.5 : 0.8
+            ctx.stroke()
+          }
           if (selected) {
             ctx.fillStyle = '#ffffff'
             ctx.fillRect(x + w - 3, y + 2, 2, view.rowHeight - 4)
@@ -244,12 +268,12 @@ export default function PianoRoll(props: Props) {
             }
             ctx.stroke()
           }
-          if (w > 24) {
+          if (drawDenseLabels && w > 24) {
             ctx.fillStyle = '#f7f8ff'
             ctx.font = `${Math.min(12, Math.max(9, view.rowHeight - 3))}px Inter, sans-serif`
             ctx.fillText(note.lyric || '—', x + 5, y + view.rowHeight * 0.68)
           }
-          if (note.phonemes?.length && w > 48 && view.rowHeight >= 13) {
+          if (drawDenseLabels && note.phonemes?.length && w > 48 && view.rowHeight >= 13) {
             ctx.fillStyle = '#9cc8ff'
             ctx.font = '9px Inter, sans-serif'
             ctx.fillText(note.phonemes.map(p => p.symbol).join(' '), x + 5, y + view.rowHeight + 9)
@@ -308,6 +332,34 @@ export default function PianoRoll(props: Props) {
         ctx.setLineDash([])
       }
 
+      ctx.restore()
+    }
+    draw()
+    const observer = new ResizeObserver(draw)
+    observer.observe(wrap)
+    return () => observer.disconnect()
+  }, [props.project, props.track, props.timeline, view, selectedNoteIds, marquee, xForTick, yForPitch, ppq])
+
+  useEffect(() => {
+    const canvas = playheadCanvasRef.current
+    const wrap = wrapRef.current
+    if (!canvas || !wrap) return
+    const draw = () => {
+      const rect = wrap.getBoundingClientRect()
+      const dpr = window.devicePixelRatio || 1
+      const pixelWidth = Math.max(1, Math.floor(rect.width * dpr))
+      const pixelHeight = Math.max(1, Math.floor(rect.height * dpr))
+      if (canvas.width !== pixelWidth) canvas.width = pixelWidth
+      if (canvas.height !== pixelHeight) canvas.height = pixelHeight
+      if (canvas.style.width !== `${rect.width}px`) canvas.style.width = `${rect.width}px`
+      if (canvas.style.height !== `${rect.height}px`) canvas.style.height = `${rect.height}px`
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+      ctx.save()
+      ctx.scale(dpr, dpr)
+      const width = canvas.width / dpr
+      const height = canvas.height / dpr
+      ctx.clearRect(0, 0, width, height)
       const px = xForTick(props.playheadTicks)
       if (px >= KEY_WIDTH && px <= width) {
         ctx.strokeStyle = '#ff4f78'
@@ -330,7 +382,7 @@ export default function PianoRoll(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(wrap)
     return () => observer.disconnect()
-  }, [props.project, props.track, props.playheadTicks, props.timeline, view, selectedNoteIds, marquee, xForTick, yForPitch, ppq])
+  }, [props.playheadTicks, xForTick])
 
   function mutateTrack(mutator: (track: Track) => void, transient = true) {
     if (!props.track) return
@@ -904,6 +956,7 @@ export default function PianoRoll(props: Props) {
           onWheel={onWheel}
           onContextMenu={onContextMenu}
         />
+        <canvas ref={playheadCanvasRef} className="piano-playhead-overlay" />
         {menu && (
           <div className="piano-context-menu" style={{ left: menu.x, top: menu.y }}>
             <button disabled={!selectedNoteIds.length} onClick={() => menuAction(copySelection)}>Copy</button>
