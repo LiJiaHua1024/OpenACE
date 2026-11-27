@@ -1,0 +1,1451 @@
+{
+  "pid": "project_cb1be4b6e904",
+  "console": [],
+  "network": [],
+  "canonical": {
+    "clips": [
+      [
+        "acc_downstream",
+        1920,
+        480,
+        0,
+        0,
+        0
+      ],
+      [
+        "acc_inside",
+        480,
+        240,
+        0,
+        0,
+        0
+      ],
+      [
+        "acc_overlap_right",
+        720,
+        480,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_before",
+        0,
+        240,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_cross",
+        240,
+        1200,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_downstream",
+        1440,
+        480,
+        0,
+        0,
+        0
+      ]
+    ],
+    "notes": [
+      [
+        "n_main",
+        0,
+        960,
+        "你"
+      ],
+      [
+        "n_after",
+        1440,
+        480,
+        "好"
+      ]
+    ],
+    "breaths": [
+      [
+        "br_before",
+        240
+      ],
+      [
+        "br_inside",
+        600
+      ],
+      [
+        "br_after",
+        1440
+      ]
+    ],
+    "dyn": [
+      [
+        0,
+        0.4
+      ],
+      [
+        480,
+        0.6
+      ],
+      [
+        960,
+        0.8
+      ],
+      [
+        1440,
+        1.0
+      ]
+    ],
+    "pitch": [
+      [
+        0,
+        0.0
+      ],
+      [
+        480,
+        20.0
+      ],
+      [
+        960,
+        40.0
+      ],
+      [
+        1440,
+        0.0
+      ]
+    ]
+  },
+  "canvas": {
+    "x": 236,
+    "y": 58,
+    "width": 704,
+    "height": 132
+  },
+  "zero_menu": {
+    "rect": {
+      "left": 732,
+      "right": 936,
+      "top": 59,
+      "bottom": 215,
+      "width": 204,
+      "height": 156
+    },
+    "viewport": {
+      "left": 236,
+      "right": 950,
+      "top": 58,
+      "bottom": 190
+    },
+    "inside": false,
+    "buttonDisabled": true,
+    "buttonText": "Ripple delete time range"
+  },
+  "zero_no_mutation": true,
+  "menu": {
+    "rect": {
+      "left": 732,
+      "right": 936,
+      "top": 59,
+      "bottom": 215,
+      "width": 204,
+      "height": 156
+    },
+    "viewport": {
+      "left": 236,
+      "right": 950,
+      "top": 58,
+      "bottom": 190
+    },
+    "inside": false,
+    "buttonDisabled": false,
+    "buttonText": "Ripple delete time range"
+  },
+  "post": {
+    "clips": [
+      [
+        "acc_downstream",
+        1440,
+        480,
+        0,
+        0,
+        0
+      ],
+      [
+        "acc_overlap_right",
+        480,
+        240,
+        240,
+        0,
+        0
+      ],
+      [
+        "clip_30fe500213d2",
+        480,
+        480,
+        720,
+        0,
+        0
+      ],
+      [
+        "clip_before",
+        0,
+        240,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_cross",
+        240,
+        240,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_downstream",
+        960,
+        480,
+        0,
+        0,
+        0
+      ]
+    ],
+    "notes": [
+      [
+        "n_main",
+        0,
+        480,
+        "你"
+      ],
+      [
+        "n_after",
+        960,
+        480,
+        "好"
+      ]
+    ],
+    "breaths": [
+      [
+        "br_before",
+        240
+      ],
+      [
+        "br_after",
+        960
+      ]
+    ],
+    "dyn": [
+      [
+        0,
+        0.4
+      ],
+      [
+        480,
+        0.8
+      ],
+      [
+        960,
+        1.0
+      ]
+    ],
+    "pitch": [
+      [
+        0,
+        0.0
+      ],
+      [
+        480,
+        40.0
+      ],
+      [
+        960,
+        0.0
+      ]
+    ]
+  },
+  "exact": {
+    "notes": [
+      [
+        "n_main",
+        0,
+        480,
+        "你"
+      ],
+      [
+        "n_after",
+        960,
+        480,
+        "好"
+      ]
+    ],
+    "breaths": [
+      [
+        "br_before",
+        240
+      ],
+      [
+        "br_after",
+        960
+      ]
+    ],
+    "clips": [
+      [
+        "acc_downstream",
+        1440,
+        480,
+        0,
+        0,
+        0
+      ],
+      [
+        "acc_overlap_right",
+        480,
+        240,
+        240,
+        0,
+        0
+      ],
+      [
+        "clip_30fe500213d2",
+        480,
+        480,
+        720,
+        0,
+        0
+      ],
+      [
+        "clip_before",
+        0,
+        240,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_cross",
+        240,
+        240,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_downstream",
+        960,
+        480,
+        0,
+        0,
+        0
+      ]
+    ],
+    "cross_right_fragment_count": 1,
+    "static_and_downstream_present": true,
+    "inside_removed": true
+  },
+  "undo_sig": {
+    "clips": [
+      [
+        "acc_downstream",
+        1440,
+        480,
+        0,
+        0,
+        0
+      ],
+      [
+        "acc_overlap_right",
+        480,
+        240,
+        240,
+        0,
+        0
+      ],
+      [
+        "clip_30fe500213d2",
+        480,
+        480,
+        720,
+        0,
+        0
+      ],
+      [
+        "clip_before",
+        0,
+        240,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_cross",
+        240,
+        240,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_downstream",
+        960,
+        480,
+        0,
+        0,
+        0
+      ]
+    ],
+    "notes": [
+      [
+        "n_main",
+        0,
+        480,
+        "你"
+      ],
+      [
+        "n_after",
+        960,
+        480,
+        "好"
+      ]
+    ],
+    "breaths": [
+      [
+        "br_before",
+        240
+      ],
+      [
+        "br_after",
+        960
+      ]
+    ],
+    "dyn": [
+      [
+        0,
+        0.4
+      ],
+      [
+        480,
+        0.8
+      ],
+      [
+        960,
+        1.0
+      ]
+    ],
+    "pitch": [
+      [
+        0,
+        0.0
+      ],
+      [
+        480,
+        40.0
+      ],
+      [
+        960,
+        0.0
+      ]
+    ]
+  },
+  "undo_matches_canonical": false,
+  "redo_sig": {
+    "clips": [
+      [
+        "acc_downstream",
+        1440,
+        480,
+        0,
+        0,
+        0
+      ],
+      [
+        "acc_overlap_right",
+        480,
+        240,
+        240,
+        0,
+        0
+      ],
+      [
+        "clip_30fe500213d2",
+        480,
+        480,
+        720,
+        0,
+        0
+      ],
+      [
+        "clip_before",
+        0,
+        240,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_cross",
+        240,
+        240,
+        0,
+        0,
+        0
+      ],
+      [
+        "clip_downstream",
+        960,
+        480,
+        0,
+        0,
+        0
+      ]
+    ],
+    "notes": [
+      [
+        "n_main",
+        0,
+        480,
+        "你"
+      ],
+      [
+        "n_after",
+        960,
+        480,
+        "好"
+      ]
+    ],
+    "breaths": [
+      [
+        "br_before",
+        240
+      ],
+      [
+        "br_after",
+        960
+      ]
+    ],
+    "dyn": [
+      [
+        0,
+        0.4
+      ],
+      [
+        480,
+        0.8
+      ],
+      [
+        960,
+        1.0
+      ]
+    ],
+    "pitch": [
+      [
+        0,
+        0.0
+      ],
+      [
+        480,
+        40.0
+      ],
+      [
+        960,
+        0.0
+      ]
+    ]
+  },
+  "redo_matches_post": true,
+  "reload_matches_post": true,
+  "playback": {
+    "before": "1.1.1\n00:00.00",
+    "during": "1.2.4\n00:00.94",
+    "playing_class_count": 1,
+    "advanced": true
+  },
+  "api_zero": {
+    "status": 422,
+    "body": "{\"detail\":\"ripple delete requires 0 <= start_ticks < end_ticks\"}",
+    "unchanged": true
+  },
+  "defect_retest_after_fixes": {
+    "pid": "project_cca733ac0871",
+    "console": [],
+    "network": [],
+    "canonical": {
+      "clips": [
+        [
+          "acc_downstream",
+          1920,
+          480,
+          0,
+          0,
+          0
+        ],
+        [
+          "acc_inside",
+          480,
+          240,
+          0,
+          0,
+          0
+        ],
+        [
+          "acc_overlap_right",
+          720,
+          480,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_before",
+          0,
+          240,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_cross",
+          240,
+          1200,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_downstream",
+          1440,
+          480,
+          0,
+          0,
+          0
+        ]
+      ],
+      "notes": [
+        [
+          "n_main",
+          0,
+          960,
+          "你"
+        ],
+        [
+          "n_after",
+          1440,
+          480,
+          "好"
+        ]
+      ],
+      "breaths": [
+        [
+          "br_before",
+          240
+        ],
+        [
+          "br_inside",
+          600
+        ],
+        [
+          "br_after",
+          1440
+        ]
+      ],
+      "dyn": [
+        [
+          0,
+          0.4
+        ],
+        [
+          480,
+          0.6
+        ],
+        [
+          960,
+          0.8
+        ],
+        [
+          1440,
+          1.0
+        ]
+      ],
+      "pitch": [
+        [
+          0,
+          0.0
+        ],
+        [
+          480,
+          20.0
+        ],
+        [
+          960,
+          40.0
+        ],
+        [
+          1440,
+          0.0
+        ]
+      ]
+    },
+    "bottom_clip_menu": {
+      "rect": {
+        "left": 732,
+        "right": 936,
+        "top": 59,
+        "bottom": 215,
+        "width": 204,
+        "height": 156
+      },
+      "viewport": {
+        "left": 236,
+        "right": 950,
+        "top": 58,
+        "bottom": 190
+      },
+      "inside": false,
+      "buttonDisabled": false
+    },
+    "post": {
+      "clips": [
+        [
+          "acc_downstream",
+          1440,
+          480,
+          0,
+          0,
+          0
+        ],
+        [
+          "acc_overlap_right",
+          480,
+          240,
+          240,
+          0,
+          0
+        ],
+        [
+          "clip_before",
+          0,
+          240,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_cross",
+          240,
+          240,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_downstream",
+          960,
+          480,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_e27e047ffe49",
+          480,
+          480,
+          720,
+          0,
+          0
+        ]
+      ],
+      "notes": [
+        [
+          "n_main",
+          0,
+          480,
+          "你"
+        ],
+        [
+          "n_after",
+          960,
+          480,
+          "好"
+        ]
+      ],
+      "breaths": [
+        [
+          "br_before",
+          240
+        ],
+        [
+          "br_after",
+          960
+        ]
+      ],
+      "dyn": [
+        [
+          0,
+          0.4
+        ],
+        [
+          480,
+          0.8
+        ],
+        [
+          960,
+          1.0
+        ]
+      ],
+      "pitch": [
+        [
+          0,
+          0.0
+        ],
+        [
+          480,
+          40.0
+        ],
+        [
+          960,
+          0.0
+        ]
+      ]
+    },
+    "core_exact": {
+      "notes": [
+        [
+          "n_main",
+          0,
+          480,
+          "你"
+        ],
+        [
+          "n_after",
+          960,
+          480,
+          "好"
+        ]
+      ],
+      "breaths": [
+        [
+          "br_before",
+          240
+        ],
+        [
+          "br_after",
+          960
+        ]
+      ],
+      "clip_cross_right_fragment_count": 1,
+      "clip_before": true,
+      "clip_cross_left": true,
+      "clip_downstream": true,
+      "acc_inside_removed": true,
+      "acc_overlap_right": true,
+      "acc_downstream": true,
+      "dyn": [
+        [
+          0,
+          0.4
+        ],
+        [
+          480,
+          0.8
+        ],
+        [
+          960,
+          1.0
+        ]
+      ],
+      "pitch": [
+        [
+          0,
+          0.0
+        ],
+        [
+          480,
+          40.0
+        ],
+        [
+          960,
+          0.0
+        ]
+      ]
+    },
+    "undo_matches_canonical": true,
+    "undo_sig": {
+      "clips": [
+        [
+          "acc_downstream",
+          1920,
+          480,
+          0,
+          0,
+          0
+        ],
+        [
+          "acc_inside",
+          480,
+          240,
+          0,
+          0,
+          0
+        ],
+        [
+          "acc_overlap_right",
+          720,
+          480,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_before",
+          0,
+          240,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_cross",
+          240,
+          1200,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_downstream",
+          1440,
+          480,
+          0,
+          0,
+          0
+        ]
+      ],
+      "notes": [
+        [
+          "n_main",
+          0,
+          960,
+          "你"
+        ],
+        [
+          "n_after",
+          1440,
+          480,
+          "好"
+        ]
+      ],
+      "breaths": [
+        [
+          "br_before",
+          240
+        ],
+        [
+          "br_inside",
+          600
+        ],
+        [
+          "br_after",
+          1440
+        ]
+      ],
+      "dyn": [
+        [
+          0,
+          0.4
+        ],
+        [
+          480,
+          0.6
+        ],
+        [
+          960,
+          0.8
+        ],
+        [
+          1440,
+          1.0
+        ]
+      ],
+      "pitch": [
+        [
+          0,
+          0.0
+        ],
+        [
+          480,
+          20.0
+        ],
+        [
+          960,
+          40.0
+        ],
+        [
+          1440,
+          0.0
+        ]
+      ]
+    },
+    "redo_matches_post": true,
+    "redo_sig": {
+      "clips": [
+        [
+          "acc_downstream",
+          1440,
+          480,
+          0,
+          0,
+          0
+        ],
+        [
+          "acc_overlap_right",
+          480,
+          240,
+          240,
+          0,
+          0
+        ],
+        [
+          "clip_before",
+          0,
+          240,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_cross",
+          240,
+          240,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_downstream",
+          960,
+          480,
+          0,
+          0,
+          0
+        ],
+        [
+          "clip_e27e047ffe49",
+          480,
+          480,
+          720,
+          0,
+          0
+        ]
+      ],
+      "notes": [
+        [
+          "n_main",
+          0,
+          480,
+          "你"
+        ],
+        [
+          "n_after",
+          960,
+          480,
+          "好"
+        ]
+      ],
+      "breaths": [
+        [
+          "br_before",
+          240
+        ],
+        [
+          "br_after",
+          960
+        ]
+      ],
+      "dyn": [
+        [
+          0,
+          0.4
+        ],
+        [
+          480,
+          0.8
+        ],
+        [
+          960,
+          1.0
+        ]
+      ],
+      "pitch": [
+        [
+          0,
+          0.0
+        ],
+        [
+          480,
+          40.0
+        ],
+        [
+          960,
+          0.0
+        ]
+      ]
+    }
+  },
+  "final_menu_css_retest": {
+    "pid": "project_839f57352a45",
+    "console": [],
+    "network": [],
+    "menu_initial": {
+      "rect": {
+        "left": 732,
+        "right": 936,
+        "top": 59,
+        "bottom": 187,
+        "width": 204,
+        "height": 128
+      },
+      "viewport": {
+        "left": 236,
+        "right": 950,
+        "top": 58,
+        "bottom": 190
+      },
+      "inside": true,
+      "clientHeight": 116,
+      "scrollHeight": 154,
+      "scrollTop": 0,
+      "scrollable": true,
+      "buttons": [
+        {
+          "text": "Split at cursor",
+          "disabled": false,
+          "visible": true,
+          "top": 65,
+          "bottom": 92
+        },
+        {
+          "text": "Copy",
+          "disabled": false,
+          "visible": true,
+          "top": 65,
+          "bottom": 92
+        },
+        {
+          "text": "Paste at cursor",
+          "disabled": true,
+          "visible": true,
+          "top": 94,
+          "bottom": 121
+        },
+        {
+          "text": "Ripple delete time range",
+          "disabled": false,
+          "visible": true,
+          "top": 94,
+          "bottom": 121
+        },
+        {
+          "text": "Duplicate",
+          "disabled": false,
+          "visible": true,
+          "top": 123,
+          "bottom": 150
+        },
+        {
+          "text": "Delete",
+          "disabled": false,
+          "visible": true,
+          "top": 123,
+          "bottom": 150
+        },
+        {
+          "text": "Ripple delete",
+          "disabled": false,
+          "visible": true,
+          "top": 152,
+          "bottom": 179
+        },
+        {
+          "text": "Ripple delete across tracks",
+          "disabled": false,
+          "visible": true,
+          "top": 152,
+          "bottom": 179
+        }
+      ]
+    },
+    "menu_after_scroll": {
+      "rect": {
+        "left": 732,
+        "right": 936,
+        "top": 59,
+        "bottom": 187,
+        "width": 204,
+        "height": 128
+      },
+      "viewport": {
+        "left": 236,
+        "right": 950,
+        "top": 58,
+        "bottom": 190
+      },
+      "inside": true,
+      "clientHeight": 116,
+      "scrollHeight": 154,
+      "scrollTop": 38,
+      "scrollable": true,
+      "buttons": [
+        {
+          "text": "Split at cursor",
+          "disabled": false,
+          "visible": false,
+          "top": 27,
+          "bottom": 54
+        },
+        {
+          "text": "Copy",
+          "disabled": false,
+          "visible": false,
+          "top": 27,
+          "bottom": 54
+        },
+        {
+          "text": "Paste at cursor",
+          "disabled": true,
+          "visible": false,
+          "top": 56,
+          "bottom": 83
+        },
+        {
+          "text": "Ripple delete time range",
+          "disabled": false,
+          "visible": false,
+          "top": 56,
+          "bottom": 83
+        },
+        {
+          "text": "Duplicate",
+          "disabled": false,
+          "visible": true,
+          "top": 85,
+          "bottom": 112
+        },
+        {
+          "text": "Delete",
+          "disabled": false,
+          "visible": true,
+          "top": 85,
+          "bottom": 112
+        },
+        {
+          "text": "Ripple delete",
+          "disabled": false,
+          "visible": true,
+          "top": 114,
+          "bottom": 141
+        },
+        {
+          "text": "Ripple delete across tracks",
+          "disabled": false,
+          "visible": true,
+          "top": 114,
+          "bottom": 141
+        }
+      ]
+    },
+    "menu_back_top": {
+      "rect": {
+        "left": 732,
+        "right": 936,
+        "top": 59,
+        "bottom": 187,
+        "width": 204,
+        "height": 128
+      },
+      "viewport": {
+        "left": 236,
+        "right": 950,
+        "top": 58,
+        "bottom": 190
+      },
+      "inside": true,
+      "clientHeight": 116,
+      "scrollHeight": 154,
+      "scrollTop": 0,
+      "scrollable": true,
+      "buttons": [
+        {
+          "text": "Split at cursor",
+          "disabled": false,
+          "visible": true,
+          "top": 65,
+          "bottom": 92
+        },
+        {
+          "text": "Copy",
+          "disabled": false,
+          "visible": true,
+          "top": 65,
+          "bottom": 92
+        },
+        {
+          "text": "Paste at cursor",
+          "disabled": true,
+          "visible": true,
+          "top": 94,
+          "bottom": 121
+        },
+        {
+          "text": "Ripple delete time range",
+          "disabled": false,
+          "visible": true,
+          "top": 94,
+          "bottom": 121
+        },
+        {
+          "text": "Duplicate",
+          "disabled": false,
+          "visible": true,
+          "top": 123,
+          "bottom": 150
+        },
+        {
+          "text": "Delete",
+          "disabled": false,
+          "visible": true,
+          "top": 123,
+          "bottom": 150
+        },
+        {
+          "text": "Ripple delete",
+          "disabled": false,
+          "visible": true,
+          "top": 152,
+          "bottom": 179
+        },
+        {
+          "text": "Ripple delete across tracks",
+          "disabled": false,
+          "visible": true,
+          "top": 152,
+          "bottom": 179
+        }
+      ]
+    },
+    "post": {
+      "clips": [
+        [
+          "acc_downstream",
+          1440,
+          480,
+          0
+        ],
+        [
+          "acc_overlap_right",
+          480,
+          240,
+          240
+        ],
+        [
+          "clip_30ce431c39b7",
+          480,
+          480,
+          720
+        ],
+        [
+          "clip_before",
+          0,
+          240,
+          0
+        ],
+        [
+          "clip_cross",
+          240,
+          240,
+          0
+        ],
+        [
+          "clip_downstream",
+          960,
+          480,
+          0
+        ]
+      ],
+      "notes": [
+        [
+          "n_main",
+          0,
+          480,
+          "你"
+        ],
+        [
+          "n_after",
+          960,
+          480,
+          "好"
+        ]
+      ],
+      "breaths": [
+        [
+          "br_before",
+          240
+        ],
+        [
+          "br_after",
+          960
+        ]
+      ],
+      "dyn": [
+        [
+          0,
+          0.4
+        ],
+        [
+          480,
+          0.8
+        ],
+        [
+          960,
+          1.0
+        ]
+      ],
+      "pitch": [
+        [
+          0,
+          0.0
+        ],
+        [
+          480,
+          40.0
+        ],
+        [
+          960,
+          0.0
+        ]
+      ]
+    },
+    "ripple_once_exact": {
+      "notes_exact": true,
+      "breaths_exact": true,
+      "cross_right_fragment_count": 1,
+      "clip_downstream_exact": true,
+      "acc_overlap_exact": true,
+      "acc_downstream_exact": true,
+      "inside_removed": true
+    },
+    "summary": {
+      "menu_inside_viewport": true,
+      "scrollable": true,
+      "scroll_top_after_wheel": 38,
+      "all_action_buttons_reachable_across_scroll_positions": true,
+      "button_count": 8,
+      "ripple_once_all_exact": true,
+      "console_error_count": 0,
+      "network_error_count": 0,
+      "minor_visual_observation": "Long button labels are horizontally clipped in the two-column 204px menu, though reachable/clickable."
+    }
+  }
+}

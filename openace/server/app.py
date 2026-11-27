@@ -19,7 +19,7 @@ from pydantic import BaseModel
 
 from openace.core.models import AudioClip, Note, Project, RenderMode, Track, TrackType, new_id
 from openace.core.phonemes import PhonemeError, ensure_note_phonemes, timed_phonemes, tokens_from_symbols
-from openace.core.editing import split_note as split_note_operation
+from openace.core.editing import ripple_delete_time_range, split_note as split_note_operation
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.voice_library import VoiceLibrary
 from openace.core.timing import validate_absolute_beat_anchor
@@ -90,6 +90,11 @@ class CreateTrackRequest(BaseModel):
 
 class SplitNoteRequest(BaseModel):
     split_ticks: int
+
+
+class RippleDeleteRangeRequest(BaseModel):
+    start_ticks: int
+    end_ticks: int
 
 
 class PlaceMediaClipRequest(BaseModel):
@@ -310,6 +315,18 @@ def update_note(project_id: str, track_id: str, note_id: str, payload: Dict[str,
     store.save(project)
     publish_project(project)
     return updated.model_dump(mode="json")
+
+
+@app.post("/api/projects/{project_id}/editing/ripple-delete-range")
+def ripple_delete_range(project_id: str, request: RippleDeleteRangeRequest):
+    project = get_project(project_id)
+    try:
+        result = ripple_delete_time_range(project, request.start_ticks, request.end_ticks)
+    except (ValueError, PhonemeError) as exc:
+        raise HTTPException(422, str(exc)) from exc
+    store.save(project)
+    publish_project(project)
+    return result
 
 
 @app.post("/api/projects/{project_id}/tracks/{track_id}/notes/{note_id}/split")

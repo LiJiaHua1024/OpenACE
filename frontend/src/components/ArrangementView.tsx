@@ -904,6 +904,24 @@ export default function ArrangementView(props: Props) {
     setMenu(null)
   }
 
+
+  async function rippleDeleteSelectedTimeRange() {
+    const startTicks = secondsToTicks(props.project, props.repaintRange.start)
+    const endTicks = secondsToTicks(props.project, props.repaintRange.end)
+    if (endTicks <= startTicks) return
+    props.beginTransaction()
+    try {
+      await api.rippleDeleteRange(props.project.id, startTicks, endTicks)
+      const updated = await api.getProject(props.project.id)
+      props.updateProject(project => {
+        project.tracks = updated.tracks
+        project.tempo_map = updated.tempo_map
+      }, true)
+    } catch {}
+    props.endTransaction()
+    setMenu(null)
+  }
+
   function updateClipGain(menuItem: { trackId: string; clipId: string }, gainDb: number) {
     props.updateProject(project => {
       const track = project.tracks.find(item => item.id === menuItem.trackId)
@@ -974,7 +992,7 @@ export default function ArrangementView(props: Props) {
   const arrangementContentHeight = Math.max(132, RULER_HEIGHT + props.project.tracks.length * ROW_HEIGHT + 6)
   const arrangementViewportHeight = Math.min(arrangementContentHeight, 210)
   const menuWidth = 204
-  const menuHeight = menu?.clipId ? 164 : 40
+  const menuHeight = menu?.clipId ? 156 : 74
   const menuMargin = menu?.clipId ? 1 : 4
   const menuLeft = menu ? Math.max(4, Math.min(menu.x, (canvasRef.current?.clientWidth || 640) - menuWidth - 4)) : 0
   const visibleMenuTop = arrangementScrollTop + menuMargin
@@ -991,10 +1009,11 @@ export default function ArrangementView(props: Props) {
           {menu.clipId && <button onClick={() => splitClip(menu)}>Split at cursor</button>}
           {menu.clipId && <button onClick={() => copyClip(menu)}>Copy</button>}
           <button disabled={!clipClipboardRef.current.length} onClick={() => pasteClip(menu)}>Paste at cursor</button>
+          <button className="wide-menu-action" disabled={!(props.repaintRange.end > props.repaintRange.start)} onClick={() => { void rippleDeleteSelectedTimeRange() }}>Ripple delete time range</button>
           {menu.clipId && <button onClick={() => duplicateClip(menu)}>Duplicate</button>}
           {menu.clipId && <button onClick={() => deleteClip(menu)}>Delete</button>}
           {menu.clipId && <button onClick={() => rippleDeleteClip(menu)}>Ripple delete</button>}
-          {menu.clipId && <button onClick={() => rippleDeleteAcrossTracks(menu)}>Ripple delete across tracks</button>}
+          {menu.clipId && <button className="wide-menu-action" onClick={() => rippleDeleteAcrossTracks(menu)}>Ripple delete across tracks</button>}
           {menu.clipId && (() => {
             const track = props.project.tracks.find(item => item.id === menu.trackId)
             const clip = track?.clips.find(item => item.id === menu.clipId)

@@ -1082,3 +1082,15 @@ Implemented and verified:
 - Evidence: `artifacts/e2e_screenshots/openutau_svp_validation/`, including `HOST_VALIDATION.md`, fixed parse summary, input copies, and host-saved round-trip USTX. This validates OpenUtau's SVP importer only; it is not Synthesizer V validation. Remaining host/format limitations: OpenUtau retains an empty default Track1, does not preserve mixer gain/pan/color, and the SVP fixture carries no project-title field.
 
 Validation after iteration 84: focused SVP regressions passed; real host revalidation passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).
+
+## Iteration 85 — arrangement time-range ripple delete
+
+Implemented and verified:
+
+- Alt-dragged arrangement time ranges are now destructive ripple-edit ranges, not only repaint selections. `Ripple delete time range` cuts the exact musical tick range across every track and shifts downstream material left once while preserving cross-track synchronization.
+- Backend/core semantics are truthful rather than visual-only: vocal notes crossing range boundaries reuse the validated vowel-continuation note splitter and reject impossible consonant-only continuations; audio clips overlapping the range are trimmed/split with exact source offsets; notes, breaths, automation points, and positive-tick tempo points inside the range are removed while downstream material shifts. Automation receives the end-of-range interpolated value at the new boundary rather than silently dropping curve shape.
+- Browser QA at exact 1272×837 verified a 480–960 range: long `你` note `0+960 → 0+480`, downstream `好` `1440 → 960`, inside breath removed, downstream breath shifted, crossing clip `240+1200 offset0` split into `240+240 offset0` plus generated `480+480 offset720`, fully inside accompaniment removed, overlapping/downstream accompaniment clips cut/shifted exactly, reload persistence exact, zero-length range safe, playback clean.
+- Initial QA exposed two integration defects: undo captured the post-delete state because backend SSE could arrive before history recording, and the tall bottom-row clip menu overflowed a 132px arrangement viewport. Both were fixed and independently retested: Ctrl+Z now restores canonical pre-delete notes/clips/breaths/automation exactly, Ctrl+Y reapplies exact post-delete state, and the menu is contained/scrollable at `204×128` with all actions reachable. Long ripple labels were then widened to full menu columns.
+- Evidence: `artifacts/e2e_screenshots/time_range_ripple/`.
+
+Validation after iteration 85: focused core regressions passed; frontend production build passed; independent browser QA and defect retests passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q tests`, exit 0).

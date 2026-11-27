@@ -264,3 +264,162 @@ def assign_voice(project: Project, track_id: str, voice_id: str, reference_voice
     track.voice_id = voice_id
     track.reference_voice_path = reference_voice_path
     return {"track_id": track.id, "voice_id": track.voice_id, "reference_voice_path": track.reference_voice_path}
+
+
+def _clip_duration(project: Project, clip: AudioClip) -> int:
+    return int(clip.duration_ticks or project.ppq * 8)
+
+
+def _envelope_value(points: List[EnvelopePoint], ticks: int) -> float | None:
+    if not points:
+        return None
+    ordered = sorted(points, key=lambda point: point.ticks)
+    if ticks <= ordered[0].ticks:
+        return float(ordered[0].value)
+    if ticks >= ordered[-1].ticks:
+        return float(ordered[-1].value)
+    for left, right in zip(ordered, ordered[1:]):
+        if left.ticks <= ticks <= right.ticks:
+            ratio = (ticks - left.ticks) / max(1, right.ticks - left.ticks)
+            return float(left.value + (right.value - left.value) * ratio)
+    return float(ordered[-1].value)
+
+
+def ripple_delete_time_range(project: Project, start_ticks: int, end_ticks: int) -> dict:
+    """Destructively ripple-delete a musical time range across every track.
+
+    Vocal notes crossing either boundary are split with the same vowel-continuity
+    rules as manual note splitting; invalid boundary positions fail loudly rather
+    than creating lyrically impossible notes. Audio clips are cut source-accurately.
+    """
+    start_ticks = int(start_ticks)
+    end_ticks = int(end_ticks)
+    if start_ticks < 0 or end_ticks <= start_ticks:
+        raise ValueError("ripple delete requires 0 <= start_ticks < end_ticks")
+    ripple = end_ticks - start_ticks
+    candidate = project.model_copy(deep=True)
+
+    # Boundary-split vocal notes atomically. split_note validates invariants and
+    # refuses consonant-only continuations, so a failed attempt must not partially
+    # mutate the user's project.
+    before_split = candidate.model_copy(deep=True)
+    try:
+        for boundary in (start_ticks, end_ticks):
+            for track in candidate.tracks:
+                for note in list(track.notes):
+                    if note.start_ticks < boundary < note.start_ticks + note.duration_ticks:
+                        split_note(candidate, track.id, note.id, boundary)
+    except Exception:
+        candidate = before_split
+        raise
+
+    removed = {"clips": 0, "notes": 0, "breaths": 0, "automation_points": 0, "tempo_points": 0}
+    for track in candidate.tracks:
+        new_clips: List[AudioClip] = []
+        for original in sorted(track.clips, key=lambda item: item.start_ticks):
+            clip = original.model_copy(deep=True)
+            duration = _clip_duration(candidate, clip)
+            clip_start = clip.start_ticks
+            clip_end = clip_start + duration
+            if duration <= 0:
+                continue
+            if clip_end <= start_ticks:
+                new_clips.append(clip)
+            elif clip_start >= end_ticks:
+                clip.start_ticks = max(0, clip.start_ticks - ripple)
+                new_clips.append(clip)
+            elif clip_start >= start_ticks and clip_end <= end_ticks:
+                removed["clips"] += 1
+            elif clip_start < start_ticks and clip_end <= end_ticks:
+                clip.duration_ticks = start_ticks - clip_start
+                clip.fade_out_ticks = 0
+                if clip.duration_ticks > 0:
+                    new_clips.append(clip)
+                    removed["clips"] += 1
+            elif clip_start >= start_ticks and clip_end > end_ticks:
+                cut = end_ticks - clip_start
+                clip.offset_ticks += cut
+                clip.duration_ticks = clip_end - end_ticks
+                clip.start_ticks = start_ticks
+                clip.fade_in_ticks = 0
+                new_clips.append(clip)
+                removed["clips"] += 1
+            else:  # crosses the whole deletion range
+                right = clip.model_copy(deep=True)
+                right.id = new_id("clip")
+                right.start_ticks = start_ticks
+                right.duration_ticks = clip_end - end_ticks
+                right.offset_ticks += end_ticks - clip_start
+                right.fade_in_ticks = 0
+                clip.duration_ticks = start_ticks - clip_start
+                clip.fade_out_ticks = 0
+                if clip.duration_ticks > 0:
+                    new_clips.append(clip)
+                if right.duration_ticks > 0:
+                    new_clips.append(right)
+                removed["clips"] += 1
+        track.clips = sorted(new_clips, key=lambda item: item.start_ticks)
+
+        kept_notes = []
+        for note in track.notes:
+            note_end = note.start_ticks + note.duration_ticks
+            if note_end <= start_ticks:
+                kept_notes.append(note)
+            elif note.start_ticks >= end_ticks:
+                note.start_ticks = max(0, note.start_ticks - ripple)
+                kept_notes.append(note)
+            else:
+                removed["notes"] += 1
+        track.notes = sorted(kept_notes, key=lambda item: (item.start_ticks, item.pitch))
+
+        kept_breaths = []
+        for breath in track.breaths:
+            breath_end = breath.start_ticks + breath.duration_ticks
+            if breath_end <= start_ticks:
+                kept_breaths.append(breath)
+            elif breath.start_ticks >= end_ticks:
+                breath.start_ticks = max(0, breath.start_ticks - ripple)
+                kept_breaths.append(breath)
+            else:
+                removed["breaths"] += 1
+        track.breaths = sorted(kept_breaths, key=lambda item: item.start_ticks)
+
+        for lane_name in AUTOMATION_KEYS:
+            lane = getattr(track.automation, lane_name)
+            end_value = _envelope_value(lane, end_ticks)
+            kept = []
+            for point in lane:
+                if point.ticks < start_ticks:
+                    kept.append(point)
+                elif point.ticks >= end_ticks:
+                    point.ticks = max(0, point.ticks - ripple)
+                    kept.append(point)
+                else:
+                    removed["automation_points"] += 1
+            if end_value is not None and not any(point.ticks == start_ticks for point in kept):
+                kept.append(EnvelopePoint(ticks=start_ticks, value=end_value))
+            setattr(track.automation, lane_name, sorted(kept, key=lambda point: point.ticks))
+
+    if candidate.tempo_map:
+        kept_tempo = []
+        for point in candidate.tempo_map:
+            if point.ticks == 0 or point.ticks < start_ticks:
+                kept_tempo.append(point)
+            elif point.ticks >= end_ticks:
+                point.ticks = max(0, point.ticks - ripple)
+                kept_tempo.append(point)
+            else:
+                removed["tempo_points"] += 1
+        deduped = []
+        seen = set()
+        for point in sorted(kept_tempo, key=lambda item: item.ticks):
+            if point.ticks in seen:
+                continue
+            seen.add(point.ticks)
+            deduped.append(point)
+        candidate.tempo_map = deduped
+
+    validate_project(candidate)
+    project.tracks = candidate.tracks
+    project.tempo_map = candidate.tempo_map
+    return {"start_ticks": start_ticks, "end_ticks": end_ticks, "ripple_ticks": ripple, "removed": removed}
