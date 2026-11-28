@@ -394,38 +394,39 @@ class SoulXSingerEngine:
             tmpdir = Path(tmp)
             target_path = tmpdir / "target.json"
             target_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
-            prompt_meta = self.preprocess_reference(reference, tmpdir / "prompt", track.language, cancellation, progress)
-            if progress: progress(0.28, "waiting for SoulX-Singer VRAM slot")
-            save_dir = tmpdir / "generated"
-            env = os.environ.copy()
-            env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
-            cmd = [
-                sys.executable,
-                "-m",
-                "cli.inference",
-                "--device",
-                self.device,
-                "--model_path",
-                str(model),
-                "--config",
-                "soulxsinger/config/soulxsinger.yaml",
-                "--prompt_wav_path",
-                str(reference),
-                "--prompt_metadata_path",
-                str(prompt_meta),
-                "--target_metadata_path",
-                str(target_path),
-                "--phoneset_path",
-                "soulxsinger/utils/phoneme/phone_set.json",
-                "--save_dir",
-                str(save_dir),
-                "--pitch_shift",
-                "0",
-                "--control",
-                "melody",
-                "--fp16",
-            ]
+            if progress: progress(0.08, "waiting for SoulX-Singer VRAM slot")
             with self.vram.acquire("soulx-singer", estimated_gb=5.5):
+                prompt_meta = self.preprocess_reference(reference, tmpdir / "prompt", track.language, cancellation, progress)
+                if progress: progress(0.28, "preparing SoulX-Singer inference")
+                save_dir = tmpdir / "generated"
+                env = os.environ.copy()
+                env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
+                cmd = [
+                    sys.executable,
+                    "-m",
+                    "cli.inference",
+                    "--device",
+                    self.device,
+                    "--model_path",
+                    str(model),
+                    "--config",
+                    "soulxsinger/config/soulxsinger.yaml",
+                    "--prompt_wav_path",
+                    str(reference),
+                    "--prompt_metadata_path",
+                    str(prompt_meta),
+                    "--target_metadata_path",
+                    str(target_path),
+                    "--phoneset_path",
+                    "soulxsinger/utils/phoneme/phone_set.json",
+                    "--save_dir",
+                    str(save_dir),
+                    "--pitch_shift",
+                    "0",
+                    "--control",
+                    "melody",
+                    "--fp16",
+                ]
                 if progress: progress(0.34, "running SoulX-Singer inference")
                 _run_checked(cmd, cancellation, self.repo, env, "SoulX-Singer inference")
                 if progress: progress(0.78, "collecting SoulX-Singer output")
@@ -471,39 +472,40 @@ class SoulXSingerEngine:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="openace-svc-") as tmp:
             tmpdir = Path(tmp)
-            if progress: progress(0.12, "extracting reference-voice F0")
-            prompt_f0 = self._extract_f0_with_preprocess(reference_voice, tmpdir / "prompt", cancellation)
-            if progress: progress(0.26, "extracting source-voice F0")
-            target_f0 = self._extract_f0_with_preprocess(source_audio, tmpdir / "target", cancellation)
-            if progress: progress(0.40, "waiting for SoulX-Singer-SVC VRAM slot")
-            save_dir = tmpdir / "generated"
-            env = os.environ.copy()
-            env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
-            cmd = [
-                sys.executable,
-                "-m",
-                "cli.inference_svc",
-                "--device",
-                self.device,
-                "--model_path",
-                str(model),
-                "--config",
-                "soulxsinger/config/soulxsinger.yaml",
-                "--prompt_wav_path",
-                str(reference_voice),
-                "--target_wav_path",
-                str(source_audio),
-                "--prompt_f0_path",
-                str(prompt_f0),
-                "--target_f0_path",
-                str(target_f0),
-                "--save_dir",
-                str(save_dir),
-                "--pitch_shift",
-                "0",
-                "--fp16",
-            ]
+            if progress: progress(0.08, "waiting for SoulX-Singer-SVC VRAM slot")
             with self.vram.acquire("soulx-singer-svc", estimated_gb=5.5):
+                if progress: progress(0.12, "extracting reference-voice F0")
+                prompt_f0 = self._extract_f0_with_preprocess(reference_voice, tmpdir / "prompt", cancellation)
+                if progress: progress(0.26, "extracting source-voice F0")
+                target_f0 = self._extract_f0_with_preprocess(source_audio, tmpdir / "target", cancellation)
+                if progress: progress(0.40, "preparing SoulX-Singer-SVC inference")
+                save_dir = tmpdir / "generated"
+                env = os.environ.copy()
+                env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
+                cmd = [
+                    sys.executable,
+                    "-m",
+                    "cli.inference_svc",
+                    "--device",
+                    self.device,
+                    "--model_path",
+                    str(model),
+                    "--config",
+                    "soulxsinger/config/soulxsinger.yaml",
+                    "--prompt_wav_path",
+                    str(reference_voice),
+                    "--target_wav_path",
+                    str(source_audio),
+                    "--prompt_f0_path",
+                    str(prompt_f0),
+                    "--target_f0_path",
+                    str(target_f0),
+                    "--save_dir",
+                    str(save_dir),
+                    "--pitch_shift",
+                    "0",
+                    "--fp16",
+                ]
                 if progress: progress(0.46, "running SoulX-Singer-SVC inference")
                 _run_checked(cmd, cancellation, self.repo, env, "SoulX-Singer-SVC inference")
                 if progress: progress(0.78, "collecting SoulX-Singer-SVC output")

@@ -217,3 +217,82 @@ def test_invalid_reference_cache_is_recomputed_and_cache_write_failure_is_nonfat
     assert len(commands) == 3
     assert fallback == fallback_workdir / "metadata.json"
     assert fallback.exists()
+
+
+def test_score_preprocess_and_inference_share_one_vram_reservation(tmp_path, monkeypatch):
+    from contextlib import contextmanager
+
+    repo = _fake_repo(tmp_path)
+    engine = SoulXSingerEngine(repo_path=repo)
+    events = []
+
+    class RecordingVRAM:
+        @contextmanager
+        def acquire(self, engine_name, estimated_gb):
+            events.append("vram-enter")
+            yield
+            events.append("vram-exit")
+
+    engine.vram = RecordingVRAM()
+    project = Project(bpm=120)
+    track = Track(name="Lead", language="zh")
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    project.add_track(track)
+    reference = tmp_path / "reference.wav"
+    reference.write_bytes(b"wav")
+
+    def preprocess(*args, **kwargs):
+        events.append("preprocess")
+        return tmp_path / "prompt.json"
+
+    def infer(cmd, cancellation, **kwargs):
+        events.append("inference")
+        save_dir = Path(cmd[cmd.index("--save_dir") + 1])
+        save_dir.mkdir(parents=True, exist_ok=True)
+        (save_dir / "generated.wav").write_bytes(b"generated")
+        return SimpleNamespace(returncode=0, stdout="")
+
+    monkeypatch.setattr(SoulXSingerEngine, "preprocess_reference", preprocess)
+    monkeypatch.setattr("openace.engines.soulx.run_cancellable", infer)
+    engine.render_score(project, track, tmp_path / "out.wav", reference_voice=reference)
+
+    assert events == ["vram-enter", "preprocess", "inference", "vram-exit"]
+
+
+def test_svc_f0_extraction_and_inference_share_one_vram_reservation(tmp_path, monkeypatch):
+    from contextlib import contextmanager
+
+    repo = _fake_repo(tmp_path)
+    (repo / "pretrained_models/SoulX-Singer/model-svc.pt").write_bytes(b"checkpoint")
+    engine = SoulXSingerEngine(repo_path=repo)
+    events = []
+
+    class RecordingVRAM:
+        @contextmanager
+        def acquire(self, engine_name, estimated_gb):
+            events.append("vram-enter")
+            yield
+            events.append("vram-exit")
+
+    engine.vram = RecordingVRAM()
+    source = tmp_path / "source.wav"
+    reference = tmp_path / "reference.wav"
+    source.write_bytes(b"source")
+    reference.write_bytes(b"reference")
+
+    def extract(self, audio, work_dir, *args, **kwargs):
+        events.append(f"f0:{audio.stem}")
+        return tmp_path / f"{audio.stem}.npy"
+
+    def infer(cmd, cancellation, **kwargs):
+        events.append("inference")
+        save_dir = Path(cmd[cmd.index("--save_dir") + 1])
+        save_dir.mkdir(parents=True, exist_ok=True)
+        (save_dir / "generated.wav").write_bytes(b"generated")
+        return SimpleNamespace(returncode=0, stdout="")
+
+    monkeypatch.setattr(SoulXSingerEngine, "_extract_f0_with_preprocess", extract)
+    monkeypatch.setattr("openace.engines.soulx.run_cancellable", infer)
+    engine.convert_voice(source, reference, tmp_path / "converted.wav")
+
+    assert events == ["vram-enter", "f0:reference", "f0:source", "inference", "vram-exit"]
