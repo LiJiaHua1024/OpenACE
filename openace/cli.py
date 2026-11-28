@@ -236,7 +236,7 @@ def cmd_separate(args) -> None:
 
 def cmd_svc(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.SVC, args.track, source_audio=args.source_audio, reference_voice=args.reference_voice)
+    job = service.create_job(args.project, RenderMode.SVC, args.track, source_audio=args.source_audio, reference_voice=args.reference_voice, clip_id=args.clip_id)
     result = asyncio.run(service.run_svc(job.id, args.source_audio, args.reference_voice))
     notify_web(store.get(args.project))
     emit(result.model_dump(mode="json"))
@@ -508,6 +508,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("project")
     p.add_argument("source_audio")
     p.add_argument("reference_voice")
+    p.add_argument("--clip-id", default=None, help="arrangement clip whose visible segment is the conversion input")
     p.add_argument("--track", default=None)
     p.set_defaults(func=cmd_svc)
 

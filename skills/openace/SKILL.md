@@ -60,7 +60,7 @@ openace-tool vocal2bgm <project-id> <source.wav> [--clip-id <clip-id>] --caption
 openace-tool repaint <project-id> <source.wav> --start 1.0 --end 5.0 [--clip-id <clip-id>] --caption "warmer rock backing"
 # start/end are arrangement seconds; the source must exist as an intersecting arrangement clip
 openace-tool separate <project-id> <source.wav>
-openace-tool svc <project-id> <source.wav> <reference.wav>
+openace-tool svc <project-id> <source.wav> <reference.wav> [--clip-id <clip-id>]
 openace-tool export <project-id> svp output.svp
 openace-tool export <project-id> ustx output.ustx
 openace-tool export <project-id> vpr output.vpr

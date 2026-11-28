@@ -14,6 +14,9 @@ interface Props {
   onPatchTrack(trackId: string, patch: Partial<Track>): void
   updateProject(mutator: (project: Project) => void, transient?: boolean): void
   onJobCreated(job: RenderJob): void
+  sourceAudio: string
+  sourceClipId?: string
+  onSourceAudioChange(path: string, clipId?: string): void
 }
 
 function sourceClipForPath(project: Project, path: string, playheadTicks: number) {
@@ -43,7 +46,7 @@ function overlappingRepaintClip(project: Project, startS: number, endS: number, 
 }
 
 export default function RenderPanel(props: Props) {
-  const [sourceAudio, setSourceAudio] = useState('')
+  const sourceAudio = props.sourceAudio
   const [caption, setCaption] = useState('lush modern pop accompaniment, tight drums, warm bass, cinematic polish')
   const repaintStart = props.repaintRange.start
   const repaintEnd = props.repaintRange.end
@@ -102,7 +105,8 @@ export default function RenderPanel(props: Props) {
   const selectedVocalRender = props.track?.type === 'vocal' ? (props.track.render_path || '') : ''
   const usesSelectedVocalRender = !sourceAudio && Boolean(selectedVocalRender)
   const effectiveSourceAudio = sourceAudio || selectedVocalRender
-  const vocal2bgmClip = sourceAudio ? sourceClipForPath(props.project, sourceAudio, props.playheadTicks) : null
+  const explicitSourceClip = props.sourceClipId ? props.project.tracks.flatMap(track => track.clips).find(clip => clip.id === props.sourceClipId) || null : null
+  const vocal2bgmClip = explicitSourceClip || (sourceAudio ? sourceClipForPath(props.project, sourceAudio, props.playheadTicks) : null)
 
   useEffect(() => {
     window.localStorage.setItem('openace.autoRender', autoRender ? '1' : '0')
@@ -215,7 +219,7 @@ export default function RenderPanel(props: Props) {
     setError('')
     try {
       const result = await uploadFile(file)
-      setSourceAudio(result.path)
+      props.onSourceAudioChange(result.path)
     } catch (e: any) { setError(readableError(e)) }
   }
 
@@ -376,7 +380,8 @@ export default function RenderPanel(props: Props) {
     setError('')
     try {
       const targetTrackId = props.track && props.track.type !== 'vocal' ? props.track.id : undefined
-      await importAudioClip(props.project.id, file, props.playheadTicks, targetTrackId)
+      const imported = await importAudioClip(props.project.id, file, props.playheadTicks, targetTrackId)
+      props.onSourceAudioChange(imported.clip.path, imported.clip.id)
     } catch (e: any) { setError(readableError(e)) }
   }
 
@@ -545,7 +550,7 @@ export default function RenderPanel(props: Props) {
         </label>
         <button disabled={!effectiveSourceAudio || (usesSelectedVocalRender && staleRender) || busy === 'bgm'} className="wide-action" title={usesSelectedVocalRender && staleRender ? 'Selected vocal render is stale; render it first' : usesSelectedVocalRender ? 'Use the selected vocal track render as input' : (vocal2bgmClip ? 'Use the matching arrangement clip segment as input' : 'Use the uploaded source file as input')} onClick={() => run('bgm', () => api.vocal2bgm(props.project.id, effectiveSourceAudio, caption, usesSelectedVocalRender ? props.track?.id : undefined, vocal2bgmClip?.id))}>Vocal2BGM</button>
         {usesSelectedVocalRender && <div className="hint vocal2bgm-source">input: selected vocal render</div>}
-        {vocal2bgmClip && <div className="hint vocal2bgm-source">input: visible clip segment · aligned to clip start</div>}
+        {vocal2bgmClip && <div className="hint vocal2bgm-source">Vocal2BGM/SVC input: visible clip segment · aligned to clip start</div>}
         <p className="hint">Alt-drag on the arrangement timeline to draw the repaint region.</p>
         <div className="repaint-grid">
           <label>Start<input type="number" min="0" step="0.1" value={Number(repaintStart.toFixed(2))} onChange={e => props.onRepaintRange({ start: Number(e.target.value), end: repaintEnd })} /></label>
@@ -554,7 +559,13 @@ export default function RenderPanel(props: Props) {
         <button disabled={!repaintClip || repaintEnd <= repaintStart || busy === 'repaint'} className="wide-action secondary" title={repaintClip ? `Repaint ${repaintClip.label || repaintClip.path.split('/').pop()} using source-file timing` : 'Draw a region overlapping an accompaniment clip'} onClick={() => repaintClip && run('repaint', () => api.repaint(props.project.id, repaintClip.path, repaintStart, repaintEnd, caption, repaintClip.id))}>Repaint selection</button>
         {repaintClip && <div className="hint repaint-target">target: {repaintClip.label || repaintClip.path.split('/').pop()}</div>}
         <button disabled={!sourceAudio || busy === 'separate'} className="wide-action secondary" onClick={() => run('separate', () => api.separate(props.project.id, sourceAudio))}>{busy === 'separate' ? 'Separating…' : 'Separate vocal/instrumental'}</button>
-        <button disabled={!sourceAudio || !props.track?.reference_voice_path || busy === 'svc'} className="wide-action secondary" onClick={() => run('svc', () => api.svc(props.project.id, sourceAudio, props.track!.reference_voice_path!))}>SVC voice conversion</button>
+        <button disabled={!sourceAudio || busy === 'svc'} className="wide-action secondary" title={vocal2bgmClip ? 'Convert the exact visible arrangement clip segment' : 'Convert the uploaded source file'} onClick={() => {
+          if (!props.track?.reference_voice_path) {
+            setError('Select a vocal track with an uploaded reference voice before SVC conversion')
+            return
+          }
+          void run('svc', () => api.svc(props.project.id, sourceAudio, props.track!.reference_voice_path!, vocal2bgmClip?.id))
+        }}>SVC voice conversion</button>
       </section>
 
       <section className="side-section media-bin-section">

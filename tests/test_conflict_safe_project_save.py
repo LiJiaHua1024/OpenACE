@@ -121,3 +121,8 @@ def test_vocal2bgm_input_validation_returns_actionable_422(tmp_path, monkeypatch
     response = client.post(f"/api/projects/{project.id}/render/vocal2bgm", json={"track_id": vocal.id})
     assert response.status_code == 422
     assert "stale" in response.json()["detail"]
+
+
+    response = client.post(f"/api/projects/{project.id}/render/svc", json={"source_audio": "/tmp/shared.wav", "reference_voice": "/tmp/ref.wav"})
+    assert response.status_code == 422
+    assert "clip_id" in response.json()["detail"]

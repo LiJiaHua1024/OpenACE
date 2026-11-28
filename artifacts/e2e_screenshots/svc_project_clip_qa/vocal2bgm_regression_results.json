@@ -1,0 +1,47 @@
+{
+  "job": {
+    "id": "job_0e84c5f915cb",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "vocal2bgm",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_0e84c5f915cb/accompaniment.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_0e84c5f915cb/diagnostic.png",
+    "created_at": 1795844903.7830281,
+    "finished_at": 1795844904.2043746,
+    "error": null,
+    "engine": "explicit CI music fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav",
+    "reference_voice": null,
+    "caption": "lush modern pop accompaniment, tight drums, warm bass, cinematic polish",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_e32e014fd922",
+    "source_start_s": 0.5,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 960
+  },
+  "generated_clips": [
+    {
+      "track_id": "track_9fdd38e54fb2",
+      "track_name": "ACE-Step BGM",
+      "clip": {
+        "id": "clip_5c9b6a761225",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_0e84c5f915cb/accompaniment.wav",
+        "start_ticks": 960,
+        "duration_ticks": 1920,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "Vocal2BGM",
+        "transcribed_lyrics": [],
+        "created_by_job_id": "job_0e84c5f915cb",
+        "updated_by_job_id": null
+      }
+    }
+  ]
+}

@@ -111,7 +111,33 @@ def resolve_vocal2bgm_source(project: Project, source_audio: Optional[str], trac
     return source_audio, 0, None, None, None
 
 
-def prepare_vocal2bgm_input(source_audio: Path, workdir: Path, source_start_s: Optional[float], source_end_s: Optional[float]) -> tuple[Path, float]:
+def resolve_svc_source(project: Project, source_audio: Optional[str], clip_id: Optional[str]) -> tuple[str, int, Optional[float], Optional[float], Optional[str]]:
+    """Resolve an SVC input clip without inventing arrangement context."""
+    def anchored_clip(clip: AudioClip) -> tuple[str, int, float, float, str]:
+        clip_start, clip_end = clip_timeline_span_seconds(project, clip)
+        offset = clip_source_offset_seconds(project, clip)
+        visible = max(0.0, clip_end - clip_start)
+        if visible <= 0:
+            raise ValueError("SVC source clip has no visible audio duration")
+        return clip.path, clip.start_ticks, offset, offset + visible, clip.id
+
+    if clip_id:
+        _, clip = find_clip(project, clip_id)
+        if clip is None:
+            raise ValueError(f"SVC source clip not found: {clip_id}")
+        return anchored_clip(clip)
+    if not source_audio:
+        raise ValueError("SVC requires source_audio or clip_id")
+    wanted = _path_identity(source_audio)
+    matches = [clip for track in project.tracks for clip in track.clips if _path_identity(clip.path) == wanted]
+    if len(matches) == 1:
+        return anchored_clip(matches[0])
+    if len(matches) > 1:
+        raise ValueError("multiple arrangement clips use this source audio; pass clip_id explicitly")
+    return source_audio, 0, None, None, None
+
+
+def prepare_source_segment_input(source_audio: Path, workdir: Path, source_start_s: Optional[float], source_end_s: Optional[float]) -> tuple[Path, float]:
     """Materialize the exact visible source segment and return its truthful duration."""
     if source_start_s is None and source_end_s is None:
         info = sf.info(str(source_audio))
@@ -121,8 +147,8 @@ def prepare_vocal2bgm_input(source_audio: Path, workdir: Path, source_start_s: O
     start = max(0.0, float(source_start_s or 0.0))
     end = total if source_end_s is None else min(total, float(source_end_s))
     if end <= start:
-        raise ValueError("Vocal2BGM source clip resolves to an empty audio segment")
-    excerpt = workdir / "vocal2bgm_source_excerpt.wav"
+        raise ValueError("source clip resolves to an empty audio segment")
+    excerpt = workdir / "source_segment_excerpt.wav"
     workdir.mkdir(parents=True, exist_ok=True)
     segment = data[int(round(start * sample_rate)):int(round(end * sample_rate))]
     sf.write(str(excerpt), segment, sample_rate, subtype="PCM_24")
@@ -429,6 +455,13 @@ class RenderService:
                 track_id,
                 clip_id,
             )
+        elif mode == RenderMode.SVC:
+            project = self.store.get(project_id)
+            source_audio, arrangement_start_ticks, source_start_s, source_end_s, clip_id = resolve_svc_source(
+                project,
+                source_audio,
+                clip_id,
+            )
         job = RenderJob(
             project_id=project_id,
             track_id=track_id,
@@ -578,7 +611,7 @@ class RenderService:
                 if not source_audio:
                     raise ValueError("vocal2bgm requires source_audio")
                 engine_source, source_duration_s = await asyncio.to_thread(
-                    prepare_vocal2bgm_input,
+                    prepare_source_segment_input,
                     Path(source_audio),
                     outdir,
                     job.source_start_s,
@@ -718,10 +751,19 @@ class RenderService:
         job.progress = 0.05
         self._publish_job(job)
         try:
+            source_audio = job.source_audio or source_audio
+            reference_voice = job.reference_voice or reference_voice
             project = self.store.get(job.project_id)
             outdir = self.output_dir(project.id, job.id)
             wav = outdir / "svc.wav"
-            await asyncio.to_thread(self.vocal_engine.convert_voice, Path(source_audio), Path(reference_voice), wav, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
+            engine_source, _ = await asyncio.to_thread(
+                prepare_source_segment_input,
+                Path(source_audio),
+                outdir,
+                job.source_start_s,
+                job.source_end_s,
+            )
+            await asyncio.to_thread(self.vocal_engine.convert_voice, engine_source, Path(reference_voice), wav, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
             self.raise_if_cancelled(job_id)
             audio, sr = await asyncio.to_thread(read_audio, wav)
             self._report_job_progress(job_id, 0.84, "transcribing and integrating converted vocal")
@@ -751,10 +793,15 @@ class RenderService:
             conversion_track = completion_project.add_track(
                 Track(name=f"SVC — {source_name}", type=TrackType.AUDIO, color="#ff8f5a", created_by_job_id=job.id)
             )
+            arrangement_start_ticks = job.arrangement_start_ticks or 0
+            if job.clip_id:
+                _, source_clip = find_clip(completion_project, job.clip_id)
+                if source_clip is not None:
+                    arrangement_start_ticks = source_clip.start_ticks
             conversion_track.clips.append(
                 AudioClip(
                     path=str(wav),
-                    start_ticks=0,
+                    start_ticks=arrangement_start_ticks,
                     duration_ticks=duration_ticks,
                     label=f"SVC: {source_name}",
                     transcribed_lyrics=transcribed_lyrics,
@@ -770,6 +817,9 @@ class RenderService:
                     "track_id": conversion_track.id,
                     "source_audio": str(source_audio),
                     "reference_voice": str(reference_voice),
+                    "clip_id": job.clip_id,
+                    "source_start_s": job.source_start_s,
+                    "source_end_s": job.source_end_s,
                     "output_path": str(wav),
                     "lyric_language": lyric_language,
                     "lyric_word_count": len(transcribed_lyrics),

@@ -198,8 +198,8 @@ async def separate_stems(project_id: str, source_audio: str) -> str:
     return dumps(result.model_dump(mode="json"))
 
 
-async def svc_convert(project_id: str, source_audio: str, reference_voice: str) -> str:
-    job = render_service.create_job(project_id, RenderMode.SVC, source_audio=source_audio, reference_voice=reference_voice)
+async def svc_convert(project_id: str, source_audio: str, reference_voice: str, clip_id: str = "") -> str:
+    job = render_service.create_job(project_id, RenderMode.SVC, source_audio=source_audio, reference_voice=reference_voice, clip_id=clip_id or None)
     result = await render_service.run_svc(job.id, source_audio, reference_voice)
     notify_web(store.get(project_id))
     return dumps(result.model_dump(mode="json"))

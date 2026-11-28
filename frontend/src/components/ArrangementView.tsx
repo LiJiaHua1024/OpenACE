@@ -25,6 +25,7 @@ interface Props {
   loopRange?: { start: number; end: number } | null
   loopEnabled?: boolean
   onLoopRange(range: { start: number; end: number } | null): void
+  onSelectClip?(clip: AudioClip): void
 }
 
 interface DragState {
@@ -490,6 +491,7 @@ export default function ArrangementView(props: Props) {
     }
     const edgeHit = clipEdgeAt(track, pos.x)
     if (edgeHit) {
+      props.onSelectClip?.(edgeHit.clip)
       props.beginTransaction()
       dragRef.current = {
         kind: edgeHit.edge === 'left' ? 'trim-left' : 'trim-right',
@@ -517,6 +519,7 @@ export default function ArrangementView(props: Props) {
         ? selectedClips
         : [{ trackId: track.id, clipId: clip.id }]
       setSelectedClips(nextSelection)
+      props.onSelectClip?.(clip)
       const clipOriginals = clipSelectionItems(nextSelection).map(item => ({
         trackId: item.trackId,
         trackIndex: props.project.tracks.findIndex(trackItem => trackItem.id === item.trackId),

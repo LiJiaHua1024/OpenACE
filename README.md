@@ -91,6 +91,10 @@ The canvas piano roll supports brush/select/erase tools, marquee multi-select, m
 
 Vocal2BGM can use the selected vocal track's fresh render directly; stale renders are rejected instead of silently arranging accompaniment around old audio. If the input file is present as an arrangement clip, OpenACE uses the clip's exact visible source segment (including trim/source offset), passes the measured segment duration to ACE-Step `complete`, and places the generated accompaniment at the clip's current arrangement position. Arbitrary uploaded audio outside the arrangement remains supported and is placed at zero without invented timeline context.
 
+## Project-aware SVC conversion
+
+SVC uses the same truthful arrangement semantics: importing or selecting an audio clip makes that clip the conversion source, and OpenACE converts exactly its visible trimmed source segment rather than the whole file. The generated conversion clip is aligned to the source clip's current arrangement position; if the source clip moves while conversion is running, integration re-reads its completion-time position. When several arrangement clips share the same file, pass/choose an exact clip instead of guessing; unanchored uploaded files still convert as arbitrary inputs and are placed at zero.
+
 ## Repaint region selection
 
 In the arrangement canvas, hold **Alt** and drag across the timeline to draw the yellow repaint region over an accompaniment clip. The panel resolves the overlapping target clip, clamps the region to that clip, converts it into source-file time using the clip start/offset, and passes only that source interval to the ACE-Step repaint job.

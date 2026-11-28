@@ -233,6 +233,8 @@ export default function App() {
   const [playing, setPlaying] = useState(false)
   const [timeline, setTimeline] = useState<TimelineState>({ scrollTicks: 0, pxPerBeat: 112, gridDivision: Number(window.localStorage.getItem('openace_grid_division') || 4) })
   const [repaintRange, setRepaintRange] = useState({ start: 0, end: 0 })
+  const [sourceAudio, setSourceAudio] = useState('')
+  const [sourceClipId, setSourceClipId] = useState<string | undefined>()
   const [loopRange, setLoopRange] = useState<{ start: number; end: number } | null>(null)
   const [loopEnabled, setLoopEnabled] = useState(false)
   const [followPlayback, setFollowPlayback] = useState(() => window.localStorage.getItem('openace_follow_playback') !== 'off')
@@ -491,6 +493,11 @@ export default function App() {
   }, [future, setProjectRef, applyLoopFromProject, saveProjectNow, rememberUndoSignature])
 
 
+  const changeSourceAudio = useCallback((path: string, clipId?: string) => {
+    setSourceAudio(path)
+    setSourceClipId(clipId)
+  }, [])
+
   const openProject = useCallback(async (projectId: string) => {
     try {
       playback.current.sources.forEach(source => { try { source.stop() } catch {} })
@@ -499,6 +506,8 @@ export default function App() {
       cancelAnimationFrame(playback.current.raf)
       setPlaying(false)
       setPlayheadTicks(0)
+      setSourceAudio('')
+      setSourceClipId(undefined)
       const next = await api.getProject(projectId)
       setProjectRef(next)
       applyLoopFromProject(next)
@@ -516,6 +525,8 @@ export default function App() {
       applyLoopFromProject(next)
       setSelectedTrackId(next.tracks[0]?.id)
       setPlayheadTicks(0); setPast([]); setFuture([])
+      setSourceAudio('')
+      setSourceClipId(undefined)
       locallyDeletingProjectId.current = null
     } catch (e: any) { setError(e.message || String(e)); locallyDeletingProjectId.current = null }
   }, [setProjectRef, applyLoopFromProject])
@@ -1349,6 +1360,7 @@ export default function App() {
             loopRange={loopRange}
             loopEnabled={loopEnabled}
             onLoopRange={setArrangementLoop}
+            onSelectClip={clip => changeSourceAudio(clip.path, clip.id)}
           />
           <TempoLane
             project={project}
@@ -1390,6 +1402,9 @@ export default function App() {
           jobs={jobs}
           repaintRange={repaintRange}
           onRepaintRange={setRepaintRange}
+          sourceAudio={sourceAudio}
+          sourceClipId={sourceClipId}
+          onSourceAudioChange={changeSourceAudio}
           onPatchTrack={patchTrack}
           updateProject={updateProject}
           onJobCreated={job => setJobs(current => [job, ...current.filter(j => j.id !== job.id)])}

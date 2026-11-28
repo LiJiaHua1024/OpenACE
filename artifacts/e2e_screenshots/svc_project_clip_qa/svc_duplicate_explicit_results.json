@@ -1,0 +1,35 @@
+{
+  "ui": {
+    "path": "clip_d275beb12e77_svc_clip_control_source.wav",
+    "svcDisabled": false,
+    "svcTitle": "Convert the exact visible arrangement clip segment",
+    "hints": [
+      "Vocal2BGM/SVC input: visible clip segment \u00b7 aligned to clip start"
+    ]
+  },
+  "job": {
+    "id": "job_d2709f0cb582",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "svc",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed; added to arrangement as SVC \u2014 clip_d275beb12e77_svc_clip_control_source",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_d2709f0cb582/svc.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_d2709f0cb582/diagnostic.png",
+    "created_at": 1795844861.1364708,
+    "finished_at": 1795844865.1101649,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav",
+    "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_34959253571a_svc_reference_voice.wav",
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_dup_svc_probe",
+    "source_start_s": 1.0,
+    "source_end_s": 1.5,
+    "arrangement_start_ticks": 48
+  }
+}

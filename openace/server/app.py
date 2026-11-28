@@ -496,7 +496,10 @@ async def render_separation(project_id: str, request: RenderRequest):
 @app.post("/api/projects/{project_id}/render/svc")
 async def render_svc(project_id: str, request: RenderRequest):
     get_project(project_id)
-    job = render_service.create_job(project_id, RenderMode.SVC, request.track_id, source_audio=request.source_audio, reference_voice=request.reference_voice)
+    try:
+        job = render_service.create_job(project_id, RenderMode.SVC, request.track_id, source_audio=request.source_audio, reference_voice=request.reference_voice, clip_id=request.clip_id)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
     render_service.enqueue_job(job.id)
     return job.model_dump(mode="json")
 

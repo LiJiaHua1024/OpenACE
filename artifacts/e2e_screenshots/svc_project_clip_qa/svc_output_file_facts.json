@@ -1,0 +1,42 @@
+{
+  "job_d2709f0cb582": {
+    "seconds": 0.5,
+    "samples": 12000,
+    "clip_id": "clip_dup_svc_probe",
+    "source_start_s": 1.0,
+    "source_end_s": 1.5,
+    "arrangement_start_ticks": 48
+  },
+  "job_006aa4e224fa": {
+    "seconds": 1.5,
+    "samples": 36000,
+    "clip_id": null,
+    "source_start_s": null,
+    "source_end_s": null,
+    "arrangement_start_ticks": 0
+  },
+  "job_946f409ac519": {
+    "seconds": 2.0,
+    "samples": 48000,
+    "clip_id": "clip_a08186746c23",
+    "source_start_s": 0.0,
+    "source_end_s": 2.0,
+    "arrangement_start_ticks": 960
+  },
+  "job_7e1b417d4c93": {
+    "seconds": 2.0,
+    "samples": 48000,
+    "clip_id": "clip_e32e014fd922",
+    "source_start_s": 0.5,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 480
+  },
+  "job_87e443564989": {
+    "seconds": 2.0,
+    "samples": 48000,
+    "clip_id": "clip_e32e014fd922",
+    "source_start_s": 0.5,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 480
+  }
+}

@@ -538,7 +538,7 @@ def test_vocal2bgm_extracts_trimmed_clip_segment_and_follows_clip_position(tmp_p
     result = asyncio.run(service.run_music_generation(job.id, str(source), "clip backing"))
     assert result.status == "completed"
     call = recorder.vocal_calls[0]
-    assert call["source"].name == "vocal2bgm_source_excerpt.wav"
+    assert call["source"].name == "source_segment_excerpt.wav"
     assert call["duration"] == pytest.approx(2.0)
     excerpt, sr = sf.read(str(call["source"]))
     original, original_sr = sf.read(str(source))
@@ -582,3 +582,83 @@ def test_vocal2bgm_rejects_stale_selected_vocal_render(tmp_path, monkeypatch):
     service = RenderService(store, tmp_path / "renders")
     with pytest.raises(ValueError, match="stale"):
         service.create_job(project.id, RenderMode.VOCAL2BGM, track.id)
+
+
+class RecordingVocalEngine(FixtureVocalEngine):
+    def __init__(self):
+        self.convert_calls = []
+
+    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None, progress=None) -> Path:
+        self.convert_calls.append({"source": Path(source_audio), "reference": Path(reference_voice)})
+        return super().convert_voice(source_audio, reference_voice, output_path, cancellation=cancellation, progress=progress)
+
+
+def test_svc_extracts_trimmed_clip_segment_and_aligns_output_to_current_clip_position(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    sr = 24000
+    source = tmp_path / "svc-source.wav"
+    reference = tmp_path / "svc-reference.wav"
+    sf.write(str(source), np.linspace(-0.2, 0.2, sr * 3, dtype=np.float32), sr)
+    sf.write(str(reference), np.zeros(sr, dtype=np.float32), sr)
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("clip-aware-svc")
+    project.bpm = 120
+    audio_track = project.add_track(Track(name="Cover source", type=TrackType.AUDIO))
+    clip = AudioClip(path=str(source), start_ticks=960, duration_ticks=1920, offset_ticks=480)
+    audio_track.clips.append(clip)
+    store.save(project)
+    monkeypatch.setattr(
+        "openace.importers.audio.transcribe_lyric_words",
+        lambda _path: ([{"text": "word", "start": 0.2, "end": 0.6}], "en"),
+    )
+
+    class MovingRecordingVocalEngine(RecordingVocalEngine):
+        def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None, progress=None) -> Path:
+            current = store.get(project.id)
+            current.tracks[-1].clips[0].start_ticks = 1440
+            store.save(current)
+            return super().convert_voice(source_audio, reference_voice, output_path, cancellation=cancellation, progress=progress)
+
+    service = RenderService(store, tmp_path / "renders")
+    recorder = MovingRecordingVocalEngine()
+    service.vocal_engine = recorder
+    job = service.create_job(project.id, RenderMode.SVC, source_audio=str(source), reference_voice=str(reference), clip_id=clip.id)
+    assert job.source_start_s == pytest.approx(0.5)
+    assert job.source_end_s == pytest.approx(2.5)
+    assert job.arrangement_start_ticks == 960
+
+    result = asyncio.run(service.run_svc(job.id, str(source), str(reference)))
+    assert result.status == RenderJobStatus.COMPLETED
+    excerpt_path = recorder.convert_calls[0]["source"]
+    assert excerpt_path.name == "source_segment_excerpt.wav"
+    excerpt, excerpt_sr = sf.read(str(excerpt_path))
+    original, original_sr = sf.read(str(source))
+    assert excerpt_sr == original_sr == sr
+    assert len(excerpt) == sr * 2
+    assert excerpt[0] == pytest.approx(original[sr // 2], abs=2e-5)
+
+    updated = store.get(project.id)
+    conversion = updated.tracks[-1]
+    assert conversion.clips[0].start_ticks == 1440
+    assert conversion.clips[0].duration_ticks == 1920
+    provenance = updated.metadata["svc_conversions"][-1]
+    assert provenance["clip_id"] == clip.id
+    assert provenance["source_start_s"] == pytest.approx(0.5)
+    assert provenance["source_end_s"] == pytest.approx(2.5)
+
+
+def test_svc_rejects_ambiguous_duplicate_source_clips_without_clip_id(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("ambiguous-svc")
+    source = tmp_path / "source.wav"
+    sf.write(str(source), np.zeros(24000, dtype=np.float32), 24000)
+    track = project.add_track(Track(name="Audio", type=TrackType.AUDIO))
+    track.clips.extend([
+        AudioClip(path=str(source), start_ticks=0, duration_ticks=960),
+        AudioClip(path=str(source), start_ticks=960, duration_ticks=960),
+    ])
+    store.save(project)
+    service = RenderService(store, tmp_path / "renders")
+    with pytest.raises(ValueError, match="clip_id"):
+        service.create_job(project.id, RenderMode.SVC, source_audio=str(source), reference_voice=str(tmp_path / "ref.wav"))
