@@ -45,6 +45,7 @@ export default function AutomationLane(props: Props) {
     originalStart: number
     originalDuration: number
   } | null>(null)
+  const automationPointDragRef = useRef<{ ticks: number; value: number } | null>(null)
   const [phonemeReadout, setPhonemeReadout] = useState('')
   const [selectedBreathId, setSelectedBreathId] = useState<string | null>(null)
   const [selection, setSelection] = useState<{ start: number; end: number } | null>(null)
@@ -102,6 +103,18 @@ export default function AutomationLane(props: Props) {
       return height / 2 - (value / scale) * (height * 0.38)
     }
     return height - 18 - ((value - minimum) / Math.max(1e-9, maximum - minimum)) * (height - 42)
+  }
+
+  function automationPointHit(x: number, y: number, height: number) {
+    if (!props.track || tab === 'breath') return null
+    let best: { point: EnvelopePoint; distance: number } | null = null
+    for (const point of pointsFor(props.track, lane)) {
+      const px = xForTick(point.ticks)
+      const py = yForLaneValue(point.value, height)
+      const distance = Math.hypot(x - px, y - py)
+      if (distance <= 8 && (!best || distance < best.distance)) best = { point, distance }
+    }
+    return best
   }
 
   function noteDurationMs(note: Note) {
@@ -410,6 +423,27 @@ export default function AutomationLane(props: Props) {
       props.endTransaction()
       return
     }
+    const pointHit = automationPointHit(pos.x, pos.y, pos.height)
+    if (pointHit && event.button === 2) {
+      const target = pointHit.point
+      props.updateProject(project => {
+        const track = project.tracks.find(t => t.id === props.track!.id)
+        if (!track) return
+        ;(track.automation as any)[lane] = clonePoints(pointsFor(track, lane)).filter(point => !(point.ticks === target.ticks && point.value === target.value))
+      }, true)
+      props.endTransaction()
+      return
+    }
+    if (pointHit && event.button === 0 && tool === 'brush') {
+      automationPointDragRef.current = { ticks: pointHit.point.ticks, value: pointHit.point.value }
+      canvasRef.current?.setPointerCapture(event.pointerId)
+      if (canvasRef.current) canvasRef.current.style.cursor = 'grabbing'
+      return
+    }
+    if (event.button !== 0) {
+      props.endTransaction()
+      return
+    }
     const value = valueForY(pos.y, pos.height)
     dragRef.current = { drawing: true, startTick: tick, startValue: value, lineStart: { ticks: tick, value, curve: 'linear' } }
     if (tool !== 'line') writeLanePoint(tick, value, tool === 'erase')
@@ -500,7 +534,37 @@ export default function AutomationLane(props: Props) {
       }
       return
     }
-    if (!dragRef.current.drawing) return
+    const pointDrag = automationPointDragRef.current
+    if (pointDrag) {
+      const nextTicks = Math.max(0, Math.round(tickForX(pos.x) / snapGrid) * snapGrid)
+      const nextValue = valueForY(pos.y, pos.height)
+      props.updateProject(project => {
+        const track = project.tracks.find(t => t.id === props.track?.id)
+        if (!track) return
+        const points = clonePoints(pointsFor(track, lane))
+        let index = -1
+        let bestDistance = Infinity
+        points.forEach((point, candidate) => {
+          const distance = Math.abs(point.ticks - pointDrag.ticks) + Math.abs(point.value - pointDrag.value) * 100000
+          if (distance < bestDistance) {
+            bestDistance = distance
+            index = candidate
+          }
+        })
+        if (index < 0) return
+        points[index] = { ...points[index], ticks: nextTicks, value: nextValue }
+        const deduped = points.filter((point, candidate) => candidate === index || point.ticks !== nextTicks)
+        deduped.sort((a, b) => a.ticks - b.ticks)
+        ;(track.automation as any)[lane] = deduped
+      }, true)
+      automationPointDragRef.current = { ticks: nextTicks, value: nextValue }
+      return
+    }
+    if (!dragRef.current.drawing) {
+      const hit = automationPointHit(pos.x, pos.y, pos.height)
+      if (canvasRef.current) canvasRef.current.style.cursor = hit ? 'grab' : 'crosshair'
+      return
+    }
     if (tool === 'line') return
     writeLanePoint(tickForX(pos.x), valueForY(pos.y, pos.height), tool === 'erase')
   }
@@ -520,6 +584,13 @@ export default function AutomationLane(props: Props) {
     if (breathDragRef.current) {
       breathDragRef.current = null
       props.endTransaction()
+    }
+    if (automationPointDragRef.current) {
+      automationPointDragRef.current = null
+      props.endTransaction()
+      if (canvasRef.current) canvasRef.current.style.cursor = 'grab'
+      canvasRef.current?.releasePointerCapture(event.pointerId)
+      return
     }
     if (dragRef.current.drawing && tool === 'line' && dragRef.current.lineStart) {
       const pos = pointer(event)
