@@ -1204,13 +1204,6 @@ export default function PianoRoll(props: Props) {
           <button className={tool === 'pitch' ? 'tool active' : 'tool'} onClick={() => setTool('pitch')} title="Per-note pitch handles (P); Alt+click deletes a handle">∿ Pitch</button>
           <button className={auditionEnabled ? 'tool active' : 'tool'} onClick={toggleAudition} title="Editor note audition preview; not vocal synthesis">♪ Audition</button>
         </div>
-        <label>Grid
-          <select value={gridDivision} onChange={e => { const value = Number(e.target.value); window.localStorage.setItem('openace_grid_division', String(value)); props.onTimelineChange({ ...props.timeline, gridDivision: value }) }}>
-            <option value={1}>1/4</option><option value={2}>1/8</option><option value={3}>1/8T</option><option value={4}>1/16</option><option value={6}>1/16T</option><option value={8}>1/32</option>
-          </select>
-        </label>
-        <label>Zoom<input type="range" min="32" max="360" value={props.timeline.pxPerBeat} onChange={e => props.onTimelineChange({ ...props.timeline, pxPerBeat: Number(e.target.value) })} /></label>
-        <label>Row<input type="range" min="8" max="28" value={view.rowHeight} onChange={e => setView(v => ({ ...v, rowHeight: Number(e.target.value) }))} /></label>
         <div className="tool-group edit-actions">
           <button className="tool" onClick={copySelection} disabled={!selectedNoteIds.length} title="Copy (Ctrl+C)">Copy</button>
           <button className="tool" onClick={() => pasteClipboard()} disabled={!clipboardCount} title="Paste at playhead (Ctrl+V)">Paste</button>
@@ -1220,6 +1213,13 @@ export default function PianoRoll(props: Props) {
           <button className="tool" onClick={() => openVibratoEditor()} disabled={selectedNoteIds.length !== 1} title="Edit vibrato for selected note">Vibrato</button>
           <button className="tool" onClick={() => setBatchLyricEditor({ value: '' })} disabled={!props.track?.notes.length} title="Distribute a phrase across selected notes, or all notes when nothing is selected">Lyrics…</button>
         </div>
+        <label>Grid
+          <select value={gridDivision} onChange={e => { const value = Number(e.target.value); window.localStorage.setItem('openace_grid_division', String(value)); props.onTimelineChange({ ...props.timeline, gridDivision: value }) }}>
+            <option value={1}>1/4</option><option value={2}>1/8</option><option value={3}>1/8T</option><option value={4}>1/16</option><option value={6}>1/16T</option><option value={8}>1/32</option>
+          </select>
+        </label>
+        <label>Zoom<input type="range" min="32" max="360" value={props.timeline.pxPerBeat} onChange={e => props.onTimelineChange({ ...props.timeline, pxPerBeat: Number(e.target.value) })} /></label>
+        <label>Row<input type="range" min="8" max="28" value={view.rowHeight} onChange={e => setView(v => ({ ...v, rowHeight: Number(e.target.value) }))} /></label>
         <div className="selection-count">{selectedNoteIds.length ? `${selectedNoteIds.length} selected` : ''}</div>
         <div className="pitch-readout">{pitchReadout || ''}</div>
         <div className="editor-hint">V/B/E/P · arrows nudge · Ctrl+C/V/D/E · Tab lyric next</div>

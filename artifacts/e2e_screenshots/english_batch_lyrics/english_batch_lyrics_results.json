@@ -1,0 +1,203 @@
+{
+  "checks": {
+    "full_count_text": "6 lyric tokens → 6 track notes",
+    "full_warning": "",
+    "full_lyrics": [
+      "hello",
+      "world",
+      "again",
+      "dream",
+      "love",
+      "me"
+    ],
+    "full_phonemes": [
+      [
+        "h",
+        "ə",
+        "l",
+        "oʊ"
+      ],
+      [
+        "w",
+        "ɝ",
+        "l",
+        "d"
+      ],
+      [
+        "ah",
+        "g",
+        "eh",
+        "n"
+      ],
+      [
+        "d",
+        "r",
+        "i",
+        "m"
+      ],
+      [
+        "l",
+        "ʌ",
+        "v"
+      ],
+      [
+        "m",
+        "i"
+      ]
+    ],
+    "full_exact": true,
+    "phoneme_exact": true,
+    "phoneme_no_placeholder": true,
+    "undo_lyrics": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "redo_lyrics": [
+      "hello",
+      "world",
+      "again",
+      "dream",
+      "love",
+      "me"
+    ],
+    "reload_lyrics": [
+      "hello",
+      "world",
+      "again",
+      "dream",
+      "love",
+      "me"
+    ],
+    "reload_phonemes": [
+      [
+        "h",
+        "ə",
+        "l",
+        "oʊ"
+      ],
+      [
+        "w",
+        "ɝ",
+        "l",
+        "d"
+      ],
+      [
+        "ah",
+        "g",
+        "eh",
+        "n"
+      ],
+      [
+        "d",
+        "r",
+        "i",
+        "m"
+      ],
+      [
+        "l",
+        "ʌ",
+        "v"
+      ],
+      [
+        "m",
+        "i"
+      ]
+    ],
+    "selection_text": "4 selected",
+    "subset_count_text": "2 lyric tokens → 4 selected notes",
+    "subset_warning": "Notes beyond the supplied tokens keep their existing lyrics.",
+    "subset_lyrics": [
+      "brave",
+      "heart",
+      "again",
+      "dream",
+      "love",
+      "me"
+    ],
+    "undo_subset_lyrics": [
+      "hello",
+      "world",
+      "again",
+      "dream",
+      "love",
+      "me"
+    ],
+    "melisma_selection_text": "4 selected",
+    "melisma_count_text": "3 lyric tokens → 4 selected notes",
+    "melisma_lyrics": [
+      "hello",
+      "-",
+      "world",
+      "dream",
+      "love",
+      "me"
+    ],
+    "melisma_second_phonemes": [
+      {
+        "symbol": "oʊ",
+        "start_ms": 0.0,
+        "duration_ms": 500.0,
+        "is_vowel": true,
+        "locked": false
+      }
+    ],
+    "melisma_correct": true,
+    "tab_editor_open": true,
+    "tab_next_value": "love",
+    "after_tab_lyrics": [
+      "hello",
+      "-",
+      "world",
+      "bright",
+      "love",
+      "me"
+    ],
+    "final_reload_lyrics": [
+      "hello",
+      "-",
+      "world",
+      "bright",
+      "love",
+      "me"
+    ],
+    "final_reload_phonemes": [
+      [
+        "h",
+        "ə",
+        "l",
+        "oʊ"
+      ],
+      [
+        "oʊ"
+      ],
+      [
+        "w",
+        "ɝ",
+        "l",
+        "d"
+      ],
+      [
+        "b",
+        "r",
+        "ay",
+        "t"
+      ],
+      [
+        "l",
+        "ʌ",
+        "v"
+      ],
+      [
+        "m",
+        "i"
+      ]
+    ]
+  },
+  "console": [],
+  "pageerrors": [],
+  "network_failures": []
+}

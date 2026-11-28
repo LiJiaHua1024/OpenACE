@@ -179,13 +179,14 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 
 .piano-roll-shell { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .editor-toolbar {
-  height: 39px; display: flex; align-items: center; gap: 7px; padding: 0 10px; background: #121622;
+  height: 39px; display: flex; align-items: center; gap: 7px; padding: 0 10px; overflow-x: auto; scrollbar-width: thin; background: #121622;
   border-bottom: 1px solid #252b3f; color: #8e99ba; font-size: 11px;
 }
 .editor-toolbar label { display: flex; align-items: center; gap: 6px; }
 .editor-toolbar select, .editor-toolbar input[type="range"] { background: #0e111a; color: #dce3f7; border: 1px solid #30384f; border-radius: 5px; }
 .editor-toolbar input[type="range"] { width: 66px; accent-color: #7568ff; }
-.tool-group { display: flex; gap: 4px; align-items: center; }
+.tool-group { display: flex; gap: 4px; align-items: center; flex: none; }
+.editor-toolbar label, .selection-count, .pitch-readout { flex: none; }
 .tool {
   height: 25px; min-width: 31px; border: 1px solid #333b55; border-radius: 6px; background: #181c2a; color: #9fa9c7; font-size: 11px;
 }
