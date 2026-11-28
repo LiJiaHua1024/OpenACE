@@ -303,6 +303,8 @@ def merge_notes(project: Project, track_id: str, note_ids: List[str]) -> Note:
         raise ValueError("notes with different velocities cannot be merged truthfully into one velocity yet")
     if len({note.pitch_snap_first for note in notes}) != 1:
         raise ValueError("notes with different pitch-snap behavior cannot be merged truthfully")
+    if len({round(note.pitch_modulation, 4) for note in notes}) != 1:
+        raise ValueError("notes with different pitch modulation cannot be merged truthfully")
     continuation_chain = all(note.lyric == "-" and "continuation" in note.techniques for note in notes[1:])
     if any(note.vibrato for note in notes) and not continuation_chain:
         raise ValueError("vibrato-bearing notes can only be merged when they are split continuations of one vibrato span")

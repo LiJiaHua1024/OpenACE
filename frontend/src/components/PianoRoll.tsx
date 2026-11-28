@@ -11,7 +11,7 @@ const VELOCITY_HEIGHT = 54
 const MIN_PITCH = 24
 const MAX_PITCH = 96
 
-type Tool = 'select' | 'pencil' | 'erase' | 'pitch' | 'pitchBrush' | 'fixedBrush' | 'pitchEraser' | 'vibrato'
+type Tool = 'select' | 'pencil' | 'erase' | 'pitch' | 'pitchBrush' | 'fixedBrush' | 'pitchEraser' | 'vibrato' | 'modulation'
 
 interface ViewState {
   rowHeight: number
@@ -163,6 +163,7 @@ export default function PianoRoll(props: Props) {
   const fixedStrokeRef = useRef<{ points: { ticks: number; value: number; curve: string }[]; minTick: number; maxTick: number } | null>(null)
   const fixedSourceF0Ref = useRef<RenderedF0Curve | null>(null)
   const vibratoGestureRef = useRef<{ mode: 'create' | 'depth' | 'phase' | 'frequency' | 'attack' | 'release'; noteId: string; startX: number; startY: number; original: NonNullable<Note['vibrato']> | null; moved: boolean } | null>(null)
+  const modulationDragRef = useRef<{ noteId: string; startY: number; original: number; moved: boolean } | null>(null)
   const [renderedF0, setRenderedF0] = useState<RenderedF0Curve | null>(null)
   const clipboardRef = useRef<Note[]>([])
   const [clipboardCount, setClipboardCount] = useState(0)
@@ -377,10 +378,16 @@ export default function PianoRoll(props: Props) {
             ctx.fillStyle = '#ffffff'
             ctx.fillRect(x + w - 3, y + 2, 2, view.rowHeight - 4)
           }
+          if ((tool === 'modulation' || Math.abs((note.pitch_modulation ?? 1) - 1) > 0.001) && w > 30 && view.rowHeight >= 11) {
+            ctx.fillStyle = Math.abs((note.pitch_modulation ?? 1) - 1) > 0.001 ? '#9fe8ff' : '#7f8aa0'
+            ctx.font = '9px Inter, sans-serif'
+            ctx.fillText(`M×${(note.pitch_modulation ?? 1).toFixed(2)}`, x + w - 34, y + 10)
+          }
           if (note.vibrato && w > 34) {
             const startX = x + Math.max(0, Math.min(0.95, note.vibrato.start_ratio)) * w
             const seconds = tickDurationSeconds(props.project, note.start_ticks, note.duration_ticks)
-            const amplitude = Math.max(1.2, Math.min(view.rowHeight * 0.24, note.vibrato.depth_cents / 100 * view.rowHeight * 0.28))
+            const modulation = Math.max(0, Math.min(2, note.pitch_modulation ?? 1))
+            const amplitude = Math.max(0, Math.min(view.rowHeight * 0.24, modulation * note.vibrato.depth_cents / 100 * view.rowHeight * 0.28))
             ctx.strokeStyle = selected ? '#fff7a8' : '#ffd76dcc'
             ctx.lineWidth = 1
             ctx.beginPath()
@@ -685,7 +692,7 @@ export default function PianoRoll(props: Props) {
     }
     if (note.vibrato) {
       const envelope = vibratoEnvelopeAt(note, offsetMs, durationMs)
-      cents += envelope * note.vibrato.depth_cents * Math.sin(2 * Math.PI * note.vibrato.frequency_hz * offsetMs / 1000 + note.vibrato.phase)
+      cents += Math.max(0, Math.min(2, note.pitch_modulation ?? 1)) * envelope * note.vibrato.depth_cents * Math.sin(2 * Math.PI * note.vibrato.frequency_hz * offsetMs / 1000 + note.vibrato.phase)
     }
     return cents
   }
@@ -985,6 +992,16 @@ export default function PianoRoll(props: Props) {
       return
     }
 
+    if (tool === 'modulation') {
+      const hit = hitNote(x, y)
+      if (hit) {
+        selectOnly(hit.id)
+        props.beginTransaction()
+        modulationDragRef.current = { noteId: hit.id, startY: y, original: hit.pitch_modulation ?? 1, moved: false }
+      }
+      return
+    }
+
     if (tool === 'vibrato') {
       const handle = hitVibratoHandle(x, y)
       if (handle) {
@@ -1152,6 +1169,18 @@ export default function PianoRoll(props: Props) {
       return
     }
 
+    if (modulationDragRef.current) {
+      const dragMod = modulationDragRef.current
+      const value = Math.max(0, Math.min(2, dragMod.original + (dragMod.startY - y) / 120))
+      dragMod.moved = true
+      mutateTrack(track => {
+        const note = track.notes.find(item => item.id === dragMod.noteId)
+        if (note) note.pitch_modulation = value
+      }, true)
+      setPitchReadout(`pitch modulation ×${value.toFixed(2)}`)
+      return
+    }
+
     if (vibratoGestureRef.current) {
       updateVibratoGesture(x, y)
       return
@@ -1253,6 +1282,11 @@ export default function PianoRoll(props: Props) {
     if (pitchEraseRef.current) {
       props.endTransaction()
       pitchEraseRef.current = null
+      window.setTimeout(() => setPitchReadout(null), 1600)
+    }
+    if (modulationDragRef.current) {
+      props.endTransaction()
+      modulationDragRef.current = null
       window.setTimeout(() => setPitchReadout(null), 1600)
     }
     if (vibratoGestureRef.current) {
@@ -1668,6 +1702,7 @@ export default function PianoRoll(props: Props) {
       if (key === '2') setTool('fixedBrush')
       if (key === '3') setTool('pitchEraser')
       if (key === '4') setTool('vibrato')
+      if (key === '5') setTool('modulation')
       if (key === 'q') quantizeSelection()
     }
     if ((event.key === 'Delete' || event.key === 'Backspace') && selectedNoteIds.length) deleteSelection()
@@ -1705,6 +1740,7 @@ export default function PianoRoll(props: Props) {
           <button className={tool === 'pitchBrush' ? 'tool active' : 'tool'} onClick={() => setTool('pitchBrush')} title="Freehand user-pitch brush (1); left-drag draws continuous pitch automation, right-drag erases it">🖌 Pitch</button>
           <button className={tool === 'fixedBrush' ? 'tool active' : 'tool'} onClick={() => setTool('fixedBrush')} title="Fixed brush (2); lock fresh rendered pitch when available, otherwise the deterministic target pitch, as user pitch">▣ Fixed</button>
           <button className={tool === 'pitchEraser' ? 'tool active' : 'tool'} onClick={() => setTool('pitchEraser')} title="Pitch eraser (3); drag to erase user-pitch automation and per-note anchors while preserving outside automation">⌦ Pitch</button>
+          <button className={tool === 'modulation' ? 'tool active' : 'tool'} onClick={() => setTool('modulation')} title="Pitch modulation (5); drag vertically on a note: down flattens deterministic vibrato, up amplifies it">⇕ Mod</button>
           <button className={tool === 'pitch' ? 'tool active' : 'tool'} onClick={() => setTool('pitch')} title="Per-note pitch anchor handles (P); Alt+click deletes a handle">∿ Anchor</button>
           <button className={auditionEnabled ? 'tool active' : 'tool'} onClick={toggleAudition} title="Editor note audition preview; not vocal synthesis">♪ Audition</button>
         </div>

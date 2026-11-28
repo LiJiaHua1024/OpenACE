@@ -66,6 +66,7 @@ class Note(BaseModel):
     phonemes: List[Phoneme] = Field(default_factory=list)
     pitch_curve: List[PitchPoint] = Field(default_factory=list)
     pitch_snap_first: bool = True
+    pitch_modulation: float = 1.0
     vibrato: Optional[Vibrato] = None
     techniques: List[str] = Field(default_factory=list)
 

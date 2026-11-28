@@ -80,7 +80,7 @@ class FixtureVocalEngine:
                 cents = np.zeros(len(t), dtype=np.float64)
             if note.vibrato:
                 envelope = np.array([vibrato_envelope(note, float(value), duration_ms) for value in offset_ms], dtype=np.float64)
-                cents = cents + envelope * note.vibrato.depth_cents * np.sin(2.0 * np.pi * note.vibrato.frequency_hz * offset_ms / 1000.0 + note.vibrato.phase)
+                cents = cents + max(0.0, min(2.0, note.pitch_modulation)) * envelope * note.vibrato.depth_cents * np.sin(2.0 * np.pi * note.vibrato.frequency_hz * offset_ms / 1000.0 + note.vibrato.phase)
             if len(automation_x):
                 ticks = np.array([project.seconds_to_ticks_float(float(value)) for value in absolute_seconds], dtype=np.float64)
                 cents = cents + np.interp(ticks, automation_x, automation_y)

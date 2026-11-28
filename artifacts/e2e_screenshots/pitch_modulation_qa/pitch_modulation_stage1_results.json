@@ -1,0 +1,123 @@
+{
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+    }
+  ],
+  "badnet": [
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:8787/api/projects/project_c257e1f889d7/tracks/track_77867690303c/rendered-f0"
+    }
+  ],
+  "renders": {
+    "mod0": {
+      "status": "completed",
+      "output": "/home/ubuntu/repos/OpenACE/data/renders/project_c257e1f889d7/job_344e04b43fa6/vocal.wav",
+      "f0json_exists": true
+    },
+    "mod2": {
+      "status": "completed",
+      "output": "/home/ubuntu/repos/OpenACE/data/renders/project_c257e1f889d7/job_87c647c458d8/vocal.wav",
+      "f0json_exists": true
+    }
+  },
+  "pid": "project_c257e1f889d7",
+  "baseline": {
+    "note_geometry": [
+      {
+        "id": "note_mod",
+        "start_ticks": 120,
+        "duration_ticks": 480,
+        "pitch": 65
+      },
+      {
+        "id": "note_merge1",
+        "start_ticks": 600,
+        "duration_ticks": 480,
+        "pitch": 65
+      },
+      {
+        "id": "note_merge2",
+        "start_ticks": 1080,
+        "duration_ticks": 480,
+        "pitch": 65
+      }
+    ],
+    "pitch_curve": [
+      {
+        "offset_ms": 100.0,
+        "cents": 100.0
+      }
+    ],
+    "automation": [
+      {
+        "ticks": 0,
+        "value": 50.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1560,
+        "value": 50.0,
+        "curve": "linear"
+      }
+    ]
+  },
+  "shortcut5_active": true,
+  "drags": {
+    "down60_value": 0.5,
+    "undo_after_down60": 1.0,
+    "redo_after_down60": 0.5,
+    "down300_value": 0.0,
+    "undo_after_zero": 0.5,
+    "redo_zero": 0.0,
+    "up300_value": 2.0,
+    "undo_after_two": 0.0,
+    "redo_two": 2.0,
+    "final_after_down180": 0.5,
+    "reload_final": 0.5,
+    "reload_exact": true
+  },
+  "invariance_after_drags": {
+    "note_geometry": [
+      {
+        "id": "note_mod",
+        "start_ticks": 120,
+        "duration_ticks": 480,
+        "pitch": 65
+      },
+      {
+        "id": "note_merge1",
+        "start_ticks": 600,
+        "duration_ticks": 480,
+        "pitch": 65
+      },
+      {
+        "id": "note_merge2",
+        "start_ticks": 1080,
+        "duration_ticks": 480,
+        "pitch": 65
+      }
+    ],
+    "pitch_curve": [
+      {
+        "offset_ms": 100.0,
+        "cents": 100.0
+      }
+    ],
+    "automation": [
+      {
+        "ticks": 0,
+        "value": 50.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1560,
+        "value": 50.0,
+        "curve": "linear"
+      }
+    ],
+    "unchanged": true
+  }
+}

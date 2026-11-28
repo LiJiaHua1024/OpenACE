@@ -158,7 +158,7 @@ def note_expression_cents(note: Note, offset_ms: float, duration_ms: float) -> f
     if note.vibrato and duration_ms > 0:
         envelope = vibrato_envelope(note, offset_ms, duration_ms)
         if envelope:
-            cents += envelope * note.vibrato.depth_cents * np.sin(
+            cents += max(0.0, min(2.0, note.pitch_modulation)) * envelope * note.vibrato.depth_cents * np.sin(
                 2.0 * np.pi * note.vibrato.frequency_hz * offset_ms / 1000.0 + note.vibrato.phase
             )
     return float(cents)

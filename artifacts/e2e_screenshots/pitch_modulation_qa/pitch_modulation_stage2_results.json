@@ -1,0 +1,143 @@
+{
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    }
+  ],
+  "badnet": [
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:8787/api/projects/project_c257e1f889d7/tracks/track_77867690303c/rendered-f0"
+    },
+    {
+      "status": 422,
+      "url": "http://127.0.0.1:8787/api/projects/project_c257e1f889d7/tracks/track_77867690303c/notes/merge"
+    }
+  ],
+  "mismatch_merge": {
+    "mods": {
+      "note_mod": 0.5,
+      "note_merge1": 1.0,
+      "note_merge2": 0.5
+    },
+    "selection_text": "2 selected",
+    "error": "notes with different pitch modulation cannot be merged truthfully",
+    "actionable": true,
+    "note_count": 3
+  },
+  "same_merge": {
+    "mods_before": {
+      "note_mod": 0.5,
+      "note_merge1": 1.0,
+      "note_merge2": 1.0
+    },
+    "note_count": 2,
+    "passed": true,
+    "merged": {
+      "id": "note_merge1",
+      "start_ticks": 600,
+      "duration_ticks": 960,
+      "pitch": 65,
+      "lyric": "\u597d\u4e16",
+      "velocity": 90,
+      "phonemes": [
+        {
+          "symbol": "x",
+          "start_ms": -45.0,
+          "duration_ms": 45.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "au",
+          "start_ms": 0.0,
+          "duration_ms": 465.0,
+          "is_vowel": true,
+          "locked": false
+        },
+        {
+          "symbol": "\u0282",
+          "start_ms": 465.0,
+          "duration_ms": 70.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "\u0282\u027b\u0329",
+          "start_ms": 535.0,
+          "duration_ms": 465.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "pitch_curve": [
+        {
+          "offset_ms": 0.0,
+          "cents": 0.0
+        },
+        {
+          "offset_ms": 499.99,
+          "cents": 0.0
+        },
+        {
+          "offset_ms": 1000.0,
+          "cents": 0.0
+        }
+      ],
+      "pitch_snap_first": true,
+      "pitch_modulation": 1.0,
+      "vibrato": null,
+      "techniques": []
+    }
+  },
+  "vibrato_regression": {
+    "after_attack_drag": {
+      "start_ratio": 0.2,
+      "depth_cents": 60.0,
+      "frequency_hz": 4.0,
+      "phase": 1.5707963267948966,
+      "attack_ratio": 0.45,
+      "release_ratio": 0.2
+    },
+    "after_depth_drag": {
+      "start_ratio": 0.2,
+      "depth_cents": 90.0,
+      "frequency_hz": 4.0,
+      "phase": 1.5707963267948966,
+      "attack_ratio": 0.45,
+      "release_ratio": 0.2
+    },
+    "attack_exact": true,
+    "release_preserved": true,
+    "depth_exact": true,
+    "modulation_preserved": true
+  },
+  "select_regression": {
+    "before": {
+      "start_ticks": 120,
+      "duration_ticks": 480,
+      "pitch": 65
+    },
+    "after_move": {
+      "start_ticks": 240,
+      "duration_ticks": 360,
+      "pitch": 65
+    },
+    "after_undo": {
+      "start_ticks": 120,
+      "duration_ticks": 480,
+      "pitch": 65
+    },
+    "move_occurred": true,
+    "undo_exact": true
+  },
+  "layout": {
+    "body": false,
+    "right": 0
+  }
+}
