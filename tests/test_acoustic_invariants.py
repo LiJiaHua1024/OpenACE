@@ -321,3 +321,60 @@ def test_soulx_melisma_continuation_starts_exactly_at_symbolic_onset():
     assert sung[0]["end"] == pytest.approx(0.5, abs=0.001)
     assert sung[1]["start"] == pytest.approx(0.5, abs=0.001)
     assert sung[1]["end"] == pytest.approx(1.0, abs=0.001)
+
+
+def test_manual_english_phoneme_override_is_written_to_soulx_tokens():
+    from openace.core.phonemes import timed_phonemes, tokens_from_symbols
+    from openace.engines.soulx import build_soulx_target_metadata
+
+    project = Project(bpm=120)
+    track = Track(name="Manual English", language="en")
+    note = Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="sing")
+    note.phonemes = timed_phonemes(tokens_from_symbols(["s", "i", "ŋ"]), 500.0)
+    track.add_note(note)
+    project.add_track(track)
+    metadata = build_soulx_target_metadata(
+        project,
+        track,
+        Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json"),
+    )[0]
+    assert "en_S-IY0-NG" in metadata["phoneme"].split()
+
+
+def test_exact_upstream_mandarin_syllable_override_is_written_to_soulx_tokens():
+    from openace.core.phonemes import timed_phonemes, tokens_from_symbols
+    from openace.engines.soulx import build_soulx_target_metadata
+
+    project = Project(bpm=120)
+    track = Track(name="Manual Mandarin", language="zh")
+    note = Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你")
+    note.phonemes = timed_phonemes(tokens_from_symbols(["zh_ni4"]), 500.0)
+    track.add_note(note)
+    project.add_track(track)
+    metadata = build_soulx_target_metadata(
+        project,
+        track,
+        Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json"),
+    )[0]
+    assert "zh_ni4" in metadata["phoneme"].split()
+    assert "zh_ni3" not in metadata["phoneme"].split()
+    sung = next(item for item in _soulx_timeline_items(metadata) if item["type"] == 2)
+    assert sung["start"] == pytest.approx(-0.045, abs=0.001)
+
+
+def test_unrepresentable_mandarin_subsyllable_override_fails_loudly():
+    from openace.core.phonemes import timed_phonemes, tokens_from_symbols
+    from openace.engines.soulx import build_soulx_target_metadata
+
+    project = Project(bpm=120)
+    track = Track(name="Impossible Mandarin", language="zh")
+    note = Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你")
+    note.phonemes = timed_phonemes(tokens_from_symbols(["m", "i"]), 500.0)
+    track.add_note(note)
+    project.add_track(track)
+    with pytest.raises(PhonemeError, match="syllable-level tokens"):
+        build_soulx_target_metadata(
+            project,
+            track,
+            Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json"),
+        )

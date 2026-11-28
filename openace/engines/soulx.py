@@ -14,7 +14,7 @@ import numpy as np
 from pypinyin import Style, lazy_pinyin
 
 from openace.core.models import Note, Project, Track
-from openace.core.phonemes import PhonemeError, cantonese_jyutping_syllables, ensure_note_phonemes
+from openace.core.phonemes import PhonemeError, cantonese_jyutping_syllables, ensure_note_phonemes, phonemes_for_text
 from openace.core.pitch import midi_to_hz, note_expression_cents
 from openace.core.timing import validate_absolute_beat_anchor
 
@@ -219,6 +219,89 @@ def lyric_to_soulx_tokens(text: str, language: str, phoneset: set[str]) -> List[
     raise PhonemeError(f"SoulX-Singer score language unsupported by this adapter: {language}")
 
 
+_EN_IPA_TO_ARPA = {
+    "ə": ("AH0",), "ʌ": ("AH0",), "ɪ": ("IH0",), "i": ("IY0",), "u": ("UW0",),
+    "ʊ": ("UH0",), "ɑ": ("AA0",), "ɒ": ("AA0",), "ɔ": ("AO0",), "ɛ": ("EH0",),
+    "æ": ("AE0",), "ɝ": ("ER0",), "ɚ": ("ER0",), "aɪ": ("AY0",), "eɪ": ("EY0",),
+    "aʊ": ("AW0",), "oʊ": ("OW0",), "ɔɪ": ("OY0",),
+    "θ": ("TH",), "ð": ("DH",), "ʃ": ("SH",), "ʒ": ("ZH",), "tʃ": ("CH",),
+    "dʒ": ("JH",), "ŋ": ("NG",), "j": ("Y",), "ɹ": ("R",), "r": ("R",),
+    "ks": ("K", "S"),
+}
+
+
+def _english_override_tokens(symbols: List[str], phoneset: set[str]) -> List[str]:
+    """Map validated custom English symbols into SoulX's grouped ARPAbet token form."""
+    converted: List[str] = []
+    for symbol in symbols:
+        key = symbol.strip()
+        replacements = _EN_IPA_TO_ARPA.get(key, (key.upper(),))
+        for replacement in replacements:
+            candidates = [replacement]
+            if not replacement[-1:].isdigit():
+                candidates.append(replacement + "0")
+            match = next((candidate for candidate in candidates if "en_" + candidate in phoneset), None)
+            if match is None:
+                raise PhonemeError(
+                    f"manual English phoneme '{symbol}' cannot be represented in the SoulX phoneset; use CMU/ARPAbet or a supported IPA symbol"
+                )
+            converted.append(match)
+    if not converted:
+        raise PhonemeError("manual English phoneme override is empty")
+    return ["en_" + "-".join(converted)]
+
+
+def _soulx_tokens_for_note(note: Note, language: str, phoneset: set[str]) -> List[str]:
+    """Use custom pronunciation when representable, otherwise canonical lyric tokens.
+
+    Symbol equality—not timing—is the override test because validation materializes
+    automatic timed phonemes into saved projects. Upstream Mandarin/Cantonese tokens
+    are syllabic, so arbitrary sub-syllable overrides cannot honestly be represented.
+    """
+    if not note.phonemes:
+        return lyric_to_soulx_tokens(note.lyric, language, phoneset)
+    try:
+        automatic = [token.symbol for token in phonemes_for_text(note.lyric, language)]
+    except PhonemeError:
+        automatic = []
+    current = [phoneme.symbol for phoneme in note.phonemes]
+    if current == automatic:
+        return lyric_to_soulx_tokens(note.lyric, language, phoneset)
+
+    lowered = language.lower()
+    if lowered in {"en", "en-us", "en-gb", "english"}:
+        return _english_override_tokens(current, phoneset)
+    prefix = "yue_" if lowered in {"yue", "cantonese", "zh-hk"} else "zh_"
+    if current and all(symbol in phoneset and symbol.startswith(prefix) for symbol in current):
+        return current
+    family = "Cantonese" if prefix == "yue_" else "Mandarin"
+    raise PhonemeError(
+        f"manual {family} sub-syllable phoneme overrides cannot be represented by SoulX's syllable-level tokens; "
+        f"use exact upstream {prefix}* syllable tokens or reset the override"
+    )
+
+
+def _upstream_token_preonset_ms(tokens: List[str], language: str) -> float:
+    """Infer whether the first upstream syllable token has a pre-vowel onset consonant."""
+    if not tokens:
+        return 0.0
+    lowered = language.lower()
+    first = tokens[0]
+    if lowered in {"zh", "zh-cn", "mandarin", "cmn"} and first.startswith("zh_"):
+        syllable = first[3:].rstrip("123456789")
+        if syllable.startswith(("zh", "ch", "sh")):
+            return 45.0
+        return 45.0 if syllable[:1] in set("bpmfdtnlgkhjqxrzcs") else 0.0
+    if lowered in {"yue", "cantonese", "zh-hk"} and first.startswith("yue_"):
+        syllable = first[4:].rstrip("123456789")
+        if syllable in {"m", "ng"}:
+            return 0.0
+        if syllable.startswith(("gw", "kw", "ng")):
+            return 45.0
+        return 45.0 if syllable[:1] in set("bpmfdtnlgkhwzcsj") else 0.0
+    return 0.0
+
+
 def _envelope_cents(points, tick: float) -> float:
     if not points:
         return 0.0
@@ -321,13 +404,14 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
             note_type = 3
             preonset_s = 0.0
         else:
-            tokens = lyric_to_soulx_tokens(note.lyric, track.language, phoneset)
+            tokens = _soulx_tokens_for_note(note, track.language, phoneset)
             text_value = note.lyric
             note_type = 2
             continuation_token = tokens[-1]
             continuation_lyric = note.lyric
             negative_onsets = [p.start_ms for p in note.phonemes if not p.is_vowel and p.start_ms < 0]
-            preonset_s = abs(min(negative_onsets)) / 1000.0 if negative_onsets else 0.0
+            internal_preonset_ms = abs(min(negative_onsets)) if negative_onsets else 0.0
+            preonset_s = max(internal_preonset_ms, _upstream_token_preonset_ms(tokens, track.language)) / 1000.0
 
         # Symbolic note onset is the first-vowel anchor. SoulX's public score format
         # only exposes syllable/word token durations, so the token onset is shifted
