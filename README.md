@@ -40,11 +40,11 @@ On a local NVIDIA machine with about 12 GB VRAM:
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -e '.[gpu]'
-python scripts/verify_local_gpu.py --hf-endpoint https://hf-mirror.com  # optional mirror
+.venv/bin/python scripts/verify_local_gpu.py --hf-endpoint https://hf-mirror.com  # optional mirror
 .venv/bin/openace-server
 ```
 
-`verify_local_gpu.py` clones the upstream engines, downloads public weights without API keys, runs real SoulX-Singer and ACE-Step inference in separate subprocesses, and writes `artifacts/local_gpu/report.json`. Model subprocesses are serialized by `VRAMManager`; the two large model families are never intentionally resident together.
+`verify_local_gpu.py` clones the upstream engines, downloads public weights without API keys, exercises OpenACE’s real `SoulXSingerEngine.render_score` adapter (project notes → strict metadata/F0 → reference preprocessing → melody-control inference), uses the resulting vocal as source audio for the production `ACEStepEngine.vocal_to_bgm`/`complete` adapter in a later subprocess, and writes `artifacts/local_gpu/report.json`. GPU memory preflight uses `nvidia-smi`/NVML where possible so the parent verifier does not keep a CUDA context resident; model subprocesses are serialized by `VRAMManager`, and the two large model families are never intentionally resident together.
 
 Repeated iterative renders do not repeat unchanged zero-shot preprocessing: SoulX reference metadata and SVC F0 extraction are cached persistently by audio-content hash, language, device, upstream source revision, and cache-schema version. Cache writes are atomic; set `OPENACE_SOULX_CACHE` to override the default `external/.cache/soulx` location.
 

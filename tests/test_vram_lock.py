@@ -62,3 +62,64 @@ with VRAMManager().acquire(name, 1.0):
     assert [kind for _stamp, kind, _name in events] == ["start", "end", "start", "end"]
     assert events[0][2] == events[1][2]
     assert events[2][2] == events[3][2]
+
+
+def test_nvidia_smi_query_parses_memory_without_cuda_context(monkeypatch):
+    import openace.engines.vram as vram
+    from types import SimpleNamespace
+
+    monkeypatch.setattr(vram.shutil, "which", lambda name: "/usr/bin/nvidia-smi")
+    calls = []
+
+    def fake_run(cmd, **kwargs):
+        calls.append(cmd)
+        return SimpleNamespace(returncode=0, stdout="NVIDIA GeForce RTX 3060, 12288, 10240\n")
+
+    monkeypatch.setattr(vram.subprocess, "run", fake_run)
+    gpu = vram.query_nvidia_gpu()
+    assert gpu == {"name": "NVIDIA GeForce RTX 3060", "total_gb": 12.0, "free_gb": 10.0}
+    assert "--query-gpu=name,memory.total,memory.free" in calls[0]
+
+
+def test_available_vram_prefers_nvidia_smi(monkeypatch):
+    import openace.engines.vram as vram
+
+    monkeypatch.setattr(vram, "query_nvidia_gpu", lambda: {"name": "GPU", "total_gb": 12.0, "free_gb": 4.5})
+    assert VRAMManager().available_gb() == 4.5
+
+
+def test_empty_cache_does_not_initialize_parent_cuda_context(monkeypatch):
+    import sys
+    from types import SimpleNamespace
+
+    calls = []
+
+    class FakeCuda:
+        @staticmethod
+        def is_available():
+            return True
+
+        @staticmethod
+        def is_initialized():
+            return False
+
+        @staticmethod
+        def empty_cache():
+            calls.append("empty")
+
+        @staticmethod
+        def ipc_collect():
+            calls.append("ipc")
+
+    monkeypatch.setitem(sys.modules, "torch", SimpleNamespace(cuda=FakeCuda))
+    VRAMManager()._empty_cache()
+    assert calls == []
+
+    class InitializedCuda(FakeCuda):
+        @staticmethod
+        def is_initialized():
+            return True
+
+    monkeypatch.setitem(sys.modules, "torch", SimpleNamespace(cuda=InitializedCuda))
+    VRAMManager()._empty_cache()
+    assert calls == ["empty", "ipc"]

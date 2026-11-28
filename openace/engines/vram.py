@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import shutil
+import subprocess
 import threading
 import time
 import tempfile
@@ -45,6 +47,41 @@ def _release_file_lock(handle) -> None:
         pass
 
 
+def query_nvidia_gpu(index: int = 0) -> Optional[Dict[str, object]]:
+    """Query GPU name/memory without initializing a CUDA context in this process."""
+    executable = shutil.which("nvidia-smi")
+    if not executable:
+        return None
+    try:
+        result = subprocess.run(
+            [
+                executable,
+                "-i",
+                str(index),
+                "--query-gpu=name,memory.total,memory.free",
+                "--format=csv,noheader,nounits",
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=3,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if result.returncode != 0 or not result.stdout.strip():
+        return None
+    try:
+        name, total_mib, free_mib = result.stdout.splitlines()[0].rsplit(",", 2)
+        return {
+            "name": name.strip(),
+            "total_gb": float(total_mib.strip()) / 1024.0,
+            "free_gb": float(free_mib.strip()) / 1024.0,
+        }
+    except (ValueError, IndexError):
+        return None
+
+
 @dataclass
 class VRAMReservation:
     engine: str
@@ -69,6 +106,9 @@ class VRAMManager:
         self._last_engine: Optional[str] = None
 
     def available_gb(self) -> float:
+        gpu = query_nvidia_gpu()
+        if gpu is not None:
+            return min(self.budget_gb, float(gpu["free_gb"]))
         try:
             import torch  # type: ignore
 
@@ -124,7 +164,11 @@ class VRAMManager:
         try:
             import torch  # type: ignore
 
-            if torch.cuda.is_available():
+            # Engine models run in subprocesses, so cache cleanup is only meaningful if
+            # this orchestrator itself already initialized CUDA. Calling empty_cache()
+            # unconditionally would lazy-initialize a resident CUDA context in the parent
+            # and waste part of the 12GB budget it is meant to protect.
+            if torch.cuda.is_available() and torch.cuda.is_initialized():
                 torch.cuda.empty_cache()
                 torch.cuda.ipc_collect()
         except Exception:

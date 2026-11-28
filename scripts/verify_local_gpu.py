@@ -3,14 +3,16 @@
 
 This script never uses OPENACE_CI_SYNTH_FIXTURE. It verifies CUDA, pulls the public
 open-source SoulX-Singer and ACE-Step 1.5 sources/weights, renders a short real SVS
-example, renders a short real instrumental ACE-Step example, validates loudness/true
-peak, and writes an inspection report under artifacts/local_gpu/.
+example, uses that vocal in OpenACE's production ACE-Step Vocal2BGM/`complete`
+adapter, validates loudness/true peak, and writes an inspection report under
+artifacts/local_gpu/.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -37,14 +39,28 @@ def main() -> int:
     artifacts = ROOT / "artifacts" / "local_gpu"
     artifacts.mkdir(parents=True, exist_ok=True)
 
+    gpu_info = None
     try:
-        import torch
+        from openace.engines.vram import query_nvidia_gpu
 
-        if not torch.cuda.is_available():
-            raise RuntimeError("CUDA GPU is not visible to PyTorch")
+        gpu_info = query_nvidia_gpu(0)
+        if gpu_info is None:
+            # Fallback for hosts where nvidia-smi is unavailable. This may create a CUDA
+            # context in the verifier process, so the NVML path above is preferred.
+            import torch
+
+            if not torch.cuda.is_available():
+                raise RuntimeError("CUDA GPU is not visible to PyTorch")
+            free, total = torch.cuda.mem_get_info(0)
+            gpu_info = {
+                "name": torch.cuda.get_device_name(0),
+                "free_gb": free / 1024**3,
+                "total_gb": total / 1024**3,
+            }
         report["gpu"] = {
-            "name": torch.cuda.get_device_name(0),
-            "total_gb": round(torch.cuda.get_device_properties(0).total_memory / 1024**3, 2),
+            "name": str(gpu_info["name"]),
+            "free_gb": round(float(gpu_info["free_gb"]), 2),
+            "total_gb": round(float(gpu_info["total_gb"]), 2),
         }
         report["steps"].append({"cuda": "ok", **report["gpu"]})
     except Exception as exc:
@@ -68,10 +84,17 @@ def main() -> int:
         "acestep_base_weights": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/model.safetensors",
     }
     missing = {name: str(path) for name, path in required_files.items() if not path.exists()}
+    fresh_gpu_info = query_nvidia_gpu(0)
+    if fresh_gpu_info is not None:
+        gpu_info = fresh_gpu_info
+        report["gpu"].update({
+            "free_gb": round(float(gpu_info["free_gb"]), 2),
+            "total_gb": round(float(gpu_info["total_gb"]), 2),
+        })
     report["preflight"] = {
         "required_files": {name: {"path": str(path), "exists": path.exists(), "size_mb": round(path.stat().st_size / 1024**2, 1) if path.exists() else 0} for name, path in required_files.items()},
-        "cuda_free_gb": round(torch.cuda.mem_get_info(0)[0] / 1024**3, 2),
-        "cuda_total_gb": round(torch.cuda.mem_get_info(0)[1] / 1024**3, 2),
+        "cuda_free_gb": round(float(gpu_info["free_gb"]), 2),
+        "cuda_total_gb": round(float(gpu_info["total_gb"]), 2),
     }
     if missing:
         report["steps"].append({"preflight": "failed", "missing": missing})
@@ -90,85 +113,73 @@ def main() -> int:
     env["PYTHONPATH"] = str(ROOT) + os.pathsep + env.get("PYTHONPATH", "")
 
     demo = ROOT / "external/SoulX-Singer/example/audio/zh_prompt.mp3"
-    demo_meta = ROOT / "external/SoulX-Singer/example/audio/zh_prompt.json"
-    target = ROOT / "external/SoulX-Singer/example/audio/music.json"
-    if not demo.exists() or not target.exists():
-        raise RuntimeError("SoulX example assets are missing after source bootstrap")
+    if not demo.exists():
+        raise RuntimeError("SoulX example prompt asset is missing after source bootstrap")
 
-    svs_dir = artifacts / "soulx_run"
-    run(
-        [
-            sys.executable,
-            "-m",
-            "cli.inference",
-            "--device",
-            "cuda",
-            "--model_path",
-            "pretrained_models/SoulX-Singer/model.pt",
-            "--config",
-            "soulxsinger/config/soulxsinger.yaml",
-            "--prompt_wav_path",
-            str(demo),
-            "--prompt_metadata_path",
-            str(demo_meta),
-            "--target_metadata_path",
-            str(target),
-            "--phoneset_path",
-            "soulxsinger/utils/phoneme/phone_set.json",
-            "--save_dir",
-            str(svs_dir),
-            "--pitch_shift",
-            "0",
-            "--control",
-            "melody",
-            "--fp16",
-        ],
-        cwd=ROOT / "external/SoulX-Singer",
-        env=env,
-    )
-    generated = svs_dir / "generated.wav"
-    if not generated.exists():
-        raise RuntimeError("SoulX-Singer did not produce generated.wav")
-    generated.replace(vocal_out)
-    report["steps"].append({"soulx_real_render": str(vocal_out)})
+    reference_copy = artifacts / "soulx_reference.mp3"
+    shutil.copyfile(demo, reference_copy)
 
-    ace_cfg = artifacts / "ace_verify.toml"
-    ace_out_dir = artifacts / "ace_run"
-    ace_out_dir.mkdir(exist_ok=True)
-    ace_cfg.write_text(
-        "\n".join(
-            [
-                f'project_root = "{ROOT / "external/ACE-Step-1.5"}"',
-                f'checkpoint_dir = "{ROOT / "external/ACE-Step-1.5/checkpoints"}"',
-                'device = "auto"',
-                'backend = "pt"',
-                'offload_to_cpu = true',
-                'offload_dit_to_cpu = true',
-                f'save_dir = "{ace_out_dir}"',
-                'audio_format = "wav"',
-                'caption = "short polished cinematic pop instrumental verification"',
-                'lyrics = "[Instrumental]"',
-                'instrumental = true',
-                'duration = 10',
-                'bpm = 96',
-                'batch_size = 1',
-                'inference_steps = 8',
-                'thinking = false',
-                'use_cot_metas = false',
-                'use_cot_caption = false',
-                'use_cot_language = false',
-                'use_constrained_decoding = false',
-            ]
-        )
-        + "\n",
-        encoding="utf-8",
+    # Exercise OpenACE's production adapter rather than only upstream's bundled example.
+    # This validates note/phoneme/F0 metadata construction, reference preprocessing,
+    # melody-control CLI construction, persistent preprocessing cache integration, VRAM
+    # scheduling, and output placement exactly as workstation renders use them.
+    from openace.core.models import Note, Project, Track
+    from openace.engines.soulx import SoulXSingerEngine
+
+    project = Project(title="OpenACE local GPU acceptance", bpm=120)
+    track = Track(name="GPU acceptance vocal", language="zh")
+    track.reference_voice_path = str(reference_copy)
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    track.add_note(Note(start_ticks=480, duration_ticks=480, pitch=62, lyric="好"))
+    project.add_track(track)
+    progress_events = []
+
+    def svs_progress(fraction, message):
+        progress_events.append({"fraction": round(float(fraction), 3), "message": message})
+        print(f"SoulX adapter {fraction:.0%}: {message}", flush=True)
+
+    SoulXSingerEngine(device="cuda").render_score(
+        project,
+        track,
+        vocal_out,
+        reference_voice=reference_copy,
+        progress=svs_progress,
     )
-    run([sys.executable, "cli.py", "--config", str(ace_cfg), "--backend", "pt"], cwd=ROOT / "external/ACE-Step-1.5", env=env)
-    candidates = sorted(ace_out_dir.glob("*.wav"), key=lambda p: p.stat().st_mtime, reverse=True)
-    if not candidates:
-        raise RuntimeError("ACE-Step did not produce a wav")
-    candidates[0].replace(bgm_out)
-    report["steps"].append({"acestep_real_render": str(bgm_out)})
+    if not vocal_out.exists() or vocal_out.stat().st_size == 0:
+        raise RuntimeError("OpenACE SoulX adapter did not produce a nonempty vocal wav")
+    report["steps"].append({
+        "soulx_real_render": str(vocal_out),
+        "adapter": "SoulXSingerEngine.render_score",
+        "progress_events": progress_events,
+    })
+
+    # Validate the production Vocal2BGM path rather than a separately handcrafted
+    # upstream config. The real SoulX adapter output becomes ACE-Step's `complete`
+    # source audio, so this stage covers cross-engine timing/format compatibility too.
+    from openace.engines.acestep import ACEStepEngine
+
+    ace_progress_events = []
+
+    def ace_progress(fraction, message):
+        ace_progress_events.append({"fraction": round(float(fraction), 3), "message": message})
+        print(f"ACE-Step adapter {fraction:.0%}: {message}", flush=True)
+
+    ACEStepEngine(device="auto").vocal_to_bgm(
+        vocal_out,
+        bgm_out,
+        caption="short polished cinematic pop accompaniment verification",
+        duration=10,
+        bpm=120,
+        progress=ace_progress,
+    )
+    if not bgm_out.exists() or bgm_out.stat().st_size == 0:
+        raise RuntimeError("OpenACE ACE-Step adapter did not produce a nonempty accompaniment wav")
+    report["steps"].append({
+        "acestep_real_render": str(bgm_out),
+        "adapter": "ACEStepEngine.vocal_to_bgm",
+        "task_type": "complete",
+        "progress_events": ace_progress_events,
+    })
 
     from openace.core.audio import integrated_loudness_lufs, read_audio, true_peak_db
 
