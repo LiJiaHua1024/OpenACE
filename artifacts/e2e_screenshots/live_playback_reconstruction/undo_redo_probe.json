@@ -1,0 +1,151 @@
+{
+  "restart_counts": {
+    "created": 12,
+    "start": 6,
+    "stop": 11,
+    "ec": 61,
+    "time": "04:19.70",
+    "button": "\u275a\u275a"
+  },
+  "undo_before": {
+    "created": 12,
+    "start": 6,
+    "stop": 11,
+    "ec": 62,
+    "time": "04:19.70",
+    "button": "\u275a\u275a"
+  },
+  "after_undo": {
+    "created": 12,
+    "start": 6,
+    "stop": 11,
+    "ec": 62,
+    "time": "04:20.42",
+    "button": "\u275a\u275a"
+  },
+  "redo_before": {
+    "created": 12,
+    "start": 6,
+    "stop": 11,
+    "ec": 63,
+    "time": "04:20.42",
+    "button": "\u275a\u275a"
+  },
+  "after_redo": {
+    "created": 12,
+    "start": 6,
+    "stop": 11,
+    "ec": 63,
+    "time": "04:21.14",
+    "button": "\u275a\u275a"
+  },
+  "events": [
+    {
+      "type": "stop",
+      "id": 8,
+      "t": 306852.39999999106,
+      "ctxTime": 136.33596371882086,
+      "when": 0
+    },
+    {
+      "type": "mark",
+      "label": "restart_from_zero",
+      "t": 307293
+    },
+    {
+      "type": "create",
+      "id": 9,
+      "t": 307317.700000003,
+      "ctxTime": 136.8003628117914
+    },
+    {
+      "type": "start",
+      "id": 9,
+      "t": 307317.700000003,
+      "ctxTime": 136.8003628117914,
+      "when": 139.1753628117914,
+      "offset": 0.125,
+      "duration": 1.375
+    },
+    {
+      "type": "mark",
+      "label": "test_complete",
+      "t": 308164.299999997
+    },
+    {
+      "type": "ended",
+      "id": 9,
+      "t": 311063.799999997,
+      "ctxTime": 140.55038548752833
+    },
+    {
+      "type": "mark",
+      "label": "posttest_volume_probe",
+      "t": 416282.5
+    },
+    {
+      "type": "stop",
+      "id": 9,
+      "t": 416509.700000003,
+      "ctxTime": 245.93414965986395,
+      "when": 0
+    },
+    {
+      "type": "create",
+      "id": 10,
+      "t": 416509.89999999106,
+      "ctxTime": 245.93414965986395
+    },
+    {
+      "type": "mark",
+      "label": "controlled_drag_probe",
+      "t": 461010
+    },
+    {
+      "type": "mark",
+      "label": "clean_clip_drag_no_reconstruction",
+      "t": 555328
+    },
+    {
+      "type": "mark",
+      "label": "control_volume_after_clip_drag",
+      "t": 556137.5
+    },
+    {
+      "type": "stop",
+      "id": 10,
+      "t": 556320.799999997,
+      "ctxTime": 385.7531065759637,
+      "when": 0
+    },
+    {
+      "type": "create",
+      "id": 11,
+      "t": 556320.8999999911,
+      "ctxTime": 385.7531065759637
+    },
+    {
+      "type": "stop",
+      "id": 11,
+      "t": 566808.599999994,
+      "ctxTime": 396.16725623582767,
+      "when": 0
+    },
+    {
+      "type": "create",
+      "id": 12,
+      "t": 688375.099999994,
+      "ctxTime": 517.6308390022675
+    },
+    {
+      "type": "mark",
+      "label": "controlled_undo_probe",
+      "t": 688738
+    },
+    {
+      "type": "mark",
+      "label": "controlled_redo_probe",
+      "t": 689450.3999999911
+    }
+  ]
+}

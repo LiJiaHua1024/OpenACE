@@ -1,0 +1,893 @@
+{
+  "checks": [
+    {
+      "name": "exact viewport and initial lane layout clean",
+      "passed": true,
+      "details": {
+        "innerWidth": 1272,
+        "innerHeight": 837,
+        "body": {
+          "scrollWidth": 1272,
+          "clientWidth": 1272
+        },
+        "arrangement": {
+          "scrollWidth": 714,
+          "clientWidth": 714,
+          "height": 166
+        },
+        "tempo": {
+          "scrollWidth": 714,
+          "clientWidth": 714,
+          "height": 54
+        }
+      }
+    },
+    {
+      "name": "step source editor shows tick bpm curve and copy paste controls",
+      "passed": true,
+      "details": {
+        "inputs": [
+          "480",
+          "150"
+        ],
+        "select": "step",
+        "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+        "rect": {
+          "x": 541.703125,
+          "y": 230,
+          "width": 400.296875,
+          "height": 46,
+          "right": 942,
+          "bottom": 276
+        },
+        "lane": {
+          "x": 236,
+          "y": 224,
+          "width": 714,
+          "height": 54,
+          "right": 950,
+          "bottom": 278
+        },
+        "arr": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 166,
+          "right": 950,
+          "bottom": 224
+        },
+        "scrollWidth": 398,
+        "clientWidth": 398,
+        "scrollHeight": 44,
+        "clientHeight": 44,
+        "buttons": [
+          {
+            "text": "Copy",
+            "disabled": false
+          },
+          {
+            "text": "Paste at playhead",
+            "disabled": true
+          },
+          {
+            "text": "Delete",
+            "disabled": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "copy step point paste creates same bpm curve at snapped playhead",
+      "passed": true,
+      "details": {
+        "points": [
+          {
+            "ticks": 240,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 130.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "linear"
+          }
+        ],
+        "paste_button": {
+          "enabled": true,
+          "visible": true
+        },
+        "copy_button": {
+          "enabled": true,
+          "visible": true
+        }
+      }
+    },
+    {
+      "name": "step paste selects pasted target point",
+      "passed": true,
+      "details": {
+        "inputs": [
+          "240",
+          "150"
+        ],
+        "select": "step",
+        "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+        "rect": {
+          "x": 541.703125,
+          "y": 230,
+          "width": 400.296875,
+          "height": 46,
+          "right": 942,
+          "bottom": 276
+        },
+        "lane": {
+          "x": 236,
+          "y": 224,
+          "width": 714,
+          "height": 54,
+          "right": 950,
+          "bottom": 278
+        },
+        "arr": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 166,
+          "right": 950,
+          "bottom": 224
+        },
+        "scrollWidth": 398,
+        "clientWidth": 398,
+        "scrollHeight": 44,
+        "clientHeight": 44,
+        "buttons": [
+          {
+            "text": "Copy",
+            "disabled": false
+          },
+          {
+            "text": "Paste at playhead",
+            "disabled": false
+          },
+          {
+            "text": "Delete",
+            "disabled": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "linear source editor shows linear curve",
+      "passed": true,
+      "details": {
+        "inputs": [
+          "960",
+          "90"
+        ],
+        "select": "linear",
+        "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+        "rect": {
+          "x": 541.703125,
+          "y": 230,
+          "width": 400.296875,
+          "height": 46,
+          "right": 942,
+          "bottom": 276
+        },
+        "lane": {
+          "x": 236,
+          "y": 224,
+          "width": 714,
+          "height": 54,
+          "right": 950,
+          "bottom": 278
+        },
+        "arr": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 166,
+          "right": 950,
+          "bottom": 224
+        },
+        "scrollWidth": 398,
+        "clientWidth": 398,
+        "scrollHeight": 44,
+        "clientHeight": 44,
+        "buttons": [
+          {
+            "text": "Copy",
+            "disabled": false
+          },
+          {
+            "text": "Paste at playhead",
+            "disabled": false
+          },
+          {
+            "text": "Delete",
+            "disabled": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "copy linear paste replaces existing target and preserves bpm curve schema",
+      "passed": true,
+      "details": {
+        "points": [
+          {
+            "ticks": 240,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 90.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "linear"
+          }
+        ],
+        "target": [
+          {
+            "ticks": 720,
+            "bpm": 90.0,
+            "curve": "linear"
+          }
+        ],
+        "paste_button": {
+          "enabled": true,
+          "visible": true
+        },
+        "copy_button": {
+          "enabled": true,
+          "visible": true
+        }
+      }
+    },
+    {
+      "name": "linear paste selects replaced target with linear curve",
+      "passed": true,
+      "details": {
+        "inputs": [
+          "720",
+          "90"
+        ],
+        "select": "linear",
+        "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+        "rect": {
+          "x": 541.703125,
+          "y": 230,
+          "width": 400.296875,
+          "height": 46,
+          "right": 942,
+          "bottom": 276
+        },
+        "lane": {
+          "x": 236,
+          "y": 224,
+          "width": 714,
+          "height": 54,
+          "right": 950,
+          "bottom": 278
+        },
+        "arr": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 166,
+          "right": 950,
+          "bottom": 224
+        },
+        "scrollWidth": 398,
+        "clientWidth": 398,
+        "scrollHeight": 44,
+        "clientHeight": 44,
+        "buttons": [
+          {
+            "text": "Copy",
+            "disabled": false
+          },
+          {
+            "text": "Paste at playhead",
+            "disabled": false
+          },
+          {
+            "text": "Delete",
+            "disabled": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "undo restores overwritten target rather than duplicate",
+      "passed": true,
+      "details": {
+        "target": [
+          {
+            "ticks": 720,
+            "bpm": 130.0,
+            "curve": "step"
+          }
+        ],
+        "points": [
+          {
+            "ticks": 240,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 130.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "redo reapplies pasted replacement",
+      "passed": true,
+      "details": {
+        "target": [
+          {
+            "ticks": 720,
+            "bpm": 90.0,
+            "curve": "linear"
+          }
+        ],
+        "points": [
+          {
+            "ticks": 240,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 90.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "reload persists pasted tempo points",
+      "passed": true,
+      "details": {
+        "before": [
+          {
+            "ticks": 240,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 90.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "linear"
+          }
+        ],
+        "after": [
+          {
+            "ticks": 240,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 480,
+            "bpm": 150.0,
+            "curve": "step"
+          },
+          {
+            "ticks": 720,
+            "bpm": 90.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 960,
+            "bpm": 90.0,
+            "curve": "linear"
+          }
+        ]
+      }
+    },
+    {
+      "name": "reload editor shows persisted linear replacement",
+      "passed": true,
+      "details": {
+        "inputs": [
+          "720",
+          "90"
+        ],
+        "select": "linear",
+        "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+        "rect": {
+          "x": 541.703125,
+          "y": 230,
+          "width": 400.296875,
+          "height": 46,
+          "right": 942,
+          "bottom": 276
+        },
+        "lane": {
+          "x": 236,
+          "y": 224,
+          "width": 714,
+          "height": 54,
+          "right": 950,
+          "bottom": 278
+        },
+        "arr": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 166,
+          "right": 950,
+          "bottom": 224
+        },
+        "scrollWidth": 398,
+        "clientWidth": 398,
+        "scrollHeight": 44,
+        "clientHeight": 44,
+        "buttons": [
+          {
+            "text": "Copy",
+            "disabled": false
+          },
+          {
+            "text": "Paste at playhead",
+            "disabled": true
+          },
+          {
+            "text": "Delete",
+            "disabled": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "tempo editor stays inside lane without internal overflow",
+      "passed": true,
+      "details": {
+        "within_lane": true,
+        "no_internal_overflow": true,
+        "editor": {
+          "inputs": [
+            "720",
+            "90"
+          ],
+          "select": "linear",
+          "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+          "rect": {
+            "x": 541.703125,
+            "y": 230,
+            "width": 400.296875,
+            "height": 46,
+            "right": 942,
+            "bottom": 276
+          },
+          "lane": {
+            "x": 236,
+            "y": 224,
+            "width": 714,
+            "height": 54,
+            "right": 950,
+            "bottom": 278
+          },
+          "arr": {
+            "x": 236,
+            "y": 58,
+            "width": 714,
+            "height": 166,
+            "right": 950,
+            "bottom": 224
+          },
+          "scrollWidth": 398,
+          "clientWidth": 398,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "buttons": [
+            {
+              "text": "Copy",
+              "disabled": false
+            },
+            {
+              "text": "Paste at playhead",
+              "disabled": true
+            },
+            {
+              "text": "Delete",
+              "disabled": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "final arrangement tempo layout has no overflow",
+      "passed": true,
+      "details": {
+        "innerWidth": 1272,
+        "innerHeight": 837,
+        "body": {
+          "scrollWidth": 1272,
+          "clientWidth": 1272
+        },
+        "arrangement": {
+          "scrollWidth": 714,
+          "clientWidth": 714,
+          "height": 166
+        },
+        "tempo": {
+          "scrollWidth": 714,
+          "clientWidth": 714,
+          "height": 54
+        }
+      }
+    },
+    {
+      "name": "console network and http clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "http_errors": [],
+        "network_failures": [
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          }
+        ],
+        "unexpected_failures": []
+      }
+    }
+  ],
+  "reset_status": 200,
+  "initial_layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "arrangement": {
+      "scrollWidth": 714,
+      "clientWidth": 714,
+      "height": 166
+    },
+    "tempo": {
+      "scrollWidth": 714,
+      "clientWidth": 714,
+      "height": 54
+    }
+  },
+  "step_editor_before_copy": {
+    "inputs": [
+      "480",
+      "150"
+    ],
+    "select": "step",
+    "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+    "rect": {
+      "x": 541.703125,
+      "y": 230,
+      "width": 400.296875,
+      "height": 46,
+      "right": 942,
+      "bottom": 276
+    },
+    "lane": {
+      "x": 236,
+      "y": 224,
+      "width": 714,
+      "height": 54,
+      "right": 950,
+      "bottom": 278
+    },
+    "arr": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 166,
+      "right": 950,
+      "bottom": 224
+    },
+    "scrollWidth": 398,
+    "clientWidth": 398,
+    "scrollHeight": 44,
+    "clientHeight": 44,
+    "buttons": [
+      {
+        "text": "Copy",
+        "disabled": false
+      },
+      {
+        "text": "Paste at playhead",
+        "disabled": true
+      },
+      {
+        "text": "Delete",
+        "disabled": false
+      }
+    ]
+  },
+  "editor_after_step_paste": {
+    "inputs": [
+      "240",
+      "150"
+    ],
+    "select": "step",
+    "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+    "rect": {
+      "x": 541.703125,
+      "y": 230,
+      "width": 400.296875,
+      "height": 46,
+      "right": 942,
+      "bottom": 276
+    },
+    "lane": {
+      "x": 236,
+      "y": 224,
+      "width": 714,
+      "height": 54,
+      "right": 950,
+      "bottom": 278
+    },
+    "arr": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 166,
+      "right": 950,
+      "bottom": 224
+    },
+    "scrollWidth": 398,
+    "clientWidth": 398,
+    "scrollHeight": 44,
+    "clientHeight": 44,
+    "buttons": [
+      {
+        "text": "Copy",
+        "disabled": false
+      },
+      {
+        "text": "Paste at playhead",
+        "disabled": false
+      },
+      {
+        "text": "Delete",
+        "disabled": false
+      }
+    ]
+  },
+  "linear_editor_before_copy": {
+    "inputs": [
+      "960",
+      "90"
+    ],
+    "select": "linear",
+    "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+    "rect": {
+      "x": 541.703125,
+      "y": 230,
+      "width": 400.296875,
+      "height": 46,
+      "right": 942,
+      "bottom": 276
+    },
+    "lane": {
+      "x": 236,
+      "y": 224,
+      "width": 714,
+      "height": 54,
+      "right": 950,
+      "bottom": 278
+    },
+    "arr": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 166,
+      "right": 950,
+      "bottom": 224
+    },
+    "scrollWidth": 398,
+    "clientWidth": 398,
+    "scrollHeight": 44,
+    "clientHeight": 44,
+    "buttons": [
+      {
+        "text": "Copy",
+        "disabled": false
+      },
+      {
+        "text": "Paste at playhead",
+        "disabled": false
+      },
+      {
+        "text": "Delete",
+        "disabled": false
+      }
+    ]
+  },
+  "editor_after_linear_replace": {
+    "inputs": [
+      "720",
+      "90"
+    ],
+    "select": "linear",
+    "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+    "rect": {
+      "x": 541.703125,
+      "y": 230,
+      "width": 400.296875,
+      "height": 46,
+      "right": 942,
+      "bottom": 276
+    },
+    "lane": {
+      "x": 236,
+      "y": 224,
+      "width": 714,
+      "height": 54,
+      "right": 950,
+      "bottom": 278
+    },
+    "arr": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 166,
+      "right": 950,
+      "bottom": 224
+    },
+    "scrollWidth": 398,
+    "clientWidth": 398,
+    "scrollHeight": 44,
+    "clientHeight": 44,
+    "buttons": [
+      {
+        "text": "Copy",
+        "disabled": false
+      },
+      {
+        "text": "Paste at playhead",
+        "disabled": false
+      },
+      {
+        "text": "Delete",
+        "disabled": false
+      }
+    ]
+  },
+  "final_editor_state": {
+    "inputs": [
+      "720",
+      "90"
+    ],
+    "select": "linear",
+    "text": "TICK\nBPM\nCURVE\nstep\nlinear ramp\nCopy\nPaste at playhead\nDelete",
+    "rect": {
+      "x": 541.703125,
+      "y": 230,
+      "width": 400.296875,
+      "height": 46,
+      "right": 942,
+      "bottom": 276
+    },
+    "lane": {
+      "x": 236,
+      "y": 224,
+      "width": 714,
+      "height": 54,
+      "right": 950,
+      "bottom": 278
+    },
+    "arr": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 166,
+      "right": 950,
+      "bottom": 224
+    },
+    "scrollWidth": 398,
+    "clientWidth": 398,
+    "scrollHeight": 44,
+    "clientHeight": 44,
+    "buttons": [
+      {
+        "text": "Copy",
+        "disabled": false
+      },
+      {
+        "text": "Paste at playhead",
+        "disabled": true
+      },
+      {
+        "text": "Delete",
+        "disabled": false
+      }
+    ]
+  },
+  "final_layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "arrangement": {
+      "scrollWidth": 714,
+      "clientWidth": 714,
+      "height": 166
+    },
+    "tempo": {
+      "scrollWidth": 714,
+      "clientWidth": 714,
+      "height": 54
+    }
+  },
+  "console": [],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http_errors": []
+}

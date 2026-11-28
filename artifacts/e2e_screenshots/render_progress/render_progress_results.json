@@ -1,0 +1,486 @@
+{
+  "console": [],
+  "network": [],
+  "samples": [
+    {
+      "t": 0.0,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 0.0s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n0.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 0.35,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 0.0s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n0.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 0.7,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 0.0s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n0.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 1.05,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 0.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n1.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 1.4,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 0.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n1.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 1.75,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 1.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n2.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 2.1,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 1.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n2.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 2.45,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 1.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n2.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 2.8,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 2.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n3.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 3.15,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 2.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n3.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 3.5,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 2.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n3.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 3.85,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 3.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n4.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 4.2,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 3.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n4.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 4.55,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 4.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n5.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 4.9,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 4.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n5.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 5.25,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 4.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n5.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 5.6,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 5.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n6.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 5.95,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 5.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n6.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 6.3,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 5.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n6.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 6.65,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 6.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n7.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 7.0,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 6.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n7.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 7.35,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 6.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n7.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 7.7,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.84,
+          "message": "applying expression and breath post-processing"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nrunning · 84%\napplying expression and breath post-processing\n8.0s elapsed\nCancel running job\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 7.8s · FIFO #1\nCancel queued job"
+    },
+    {
+      "t": 8.05,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.84,
+          "message": "applying expression and breath post-processing"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nrunning · 84%\napplying expression and breath post-processing\n8.0s elapsed\nCancel running job\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 7.8s · FIFO #1\nCancel queued job"
+    },
+    {
+      "t": 8.4,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.84,
+          "message": "applying expression and breath post-processing"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 8.8s · FIFO #1\nCancel queued job\nsvs_score · CI FIXTURE\nrunning · 84%\napplying expression and breath post-processing\n9.0s elapsed\nCancel running job"
+    },
+    {
+      "t": 8.75,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.92,
+          "message": "writing acoustic diagnostic"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nrunning · 92%\nwriting acoustic diagnostic\n9.0s elapsed\nCancel running job\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 8.8s · FIFO #1\nCancel queued job"
+    },
+    {
+      "t": 9.1,
+      "jobs": [
+        {
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued"
+        },
+        {
+          "status": "running",
+          "progress": 0.92,
+          "message": "writing acoustic diagnostic"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nrunning · 92%\nwriting acoustic diagnostic\n9.0s elapsed\nCancel running job\nsvs_score · CI FIXTURE\nqueued · 0%\nqueued\nqueued 8.8s · FIFO #1\nCancel queued job"
+    },
+    {
+      "t": 9.45,
+      "jobs": [
+        {
+          "status": "running",
+          "progress": 0.12,
+          "message": "fixture vocal synthesis stage"
+        },
+        {
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed"
+        }
+      ],
+      "ui": "RENDER JOBS\nsvs_score · CI FIXTURE\nrunning · 12%\nfixture vocal synthesis stage\n9.8s elapsed\nCancel running job\nsvs_score · CI FIXTURE\ncompleted · 100%\ncompleted\n9.8s total"
+    }
+  ],
+  "after_cancel": [
+    {
+      "status": "canceled",
+      "progress": 0.12,
+      "message": "cancelled",
+      "output_path": null
+    },
+    {
+      "status": "completed",
+      "progress": 1.0,
+      "message": "completed",
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_e8e54e39a196/job_676dbd1b319e/vocal.wav"
+    }
+  ],
+  "reload": [
+    {
+      "status": "canceled",
+      "progress": 0.12,
+      "message": "cancelled"
+    },
+    {
+      "status": "completed",
+      "progress": 1.0,
+      "message": "completed"
+    }
+  ],
+  "layout_jobs_in_panel": {
+    "x": 951,
+    "y": 324,
+    "width": 311,
+    "height": 247
+  }
+}

@@ -1,0 +1,424 @@
+{
+  "console": [],
+  "badnet": [],
+  "pid": "project_d3d67d057f15",
+  "freehand_brush": {
+    "before": [],
+    "after": [
+      {
+        "ticks": 154,
+        "value": -33.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 176,
+        "value": -40.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 197,
+        "value": -47.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 219,
+        "value": -53.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 240,
+        "value": -62.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 261,
+        "value": -71.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 283,
+        "value": -80.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 311,
+        "value": -87.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 340,
+        "value": -93.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 369,
+        "value": -100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 390,
+        "value": -93.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 411,
+        "value": -87.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 433,
+        "value": -80.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 454,
+        "value": -71.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 476,
+        "value": -62.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 497,
+        "value": -53.0,
+        "curve": "linear"
+      }
+    ],
+    "nonzero_after": 16,
+    "changed": true,
+    "anchor_preserved": true,
+    "undo_exact": true,
+    "redo_exact": true
+  },
+  "fixed_brush": {
+    "before_count": 16,
+    "after": [
+      {
+        "ticks": 154,
+        "value": -33.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 176,
+        "value": -40.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 197,
+        "value": -47.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 219,
+        "value": -53.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 240,
+        "value": -62.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 261,
+        "value": -71.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 283,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 304,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 326,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 347,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 369,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 390,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 411,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 433,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 454,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 476,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 497,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 519,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 540,
+        "value": -83.0,
+        "curve": "linear"
+      }
+    ],
+    "after_count": 19,
+    "min_value": -83.0,
+    "max_value": -33.0,
+    "changed": true,
+    "undo_exact": true,
+    "redo_exact": true,
+    "readout": "540 ticks \u00b7 fixed target pitch -83\u00a2"
+  },
+  "pitch_eraser": {
+    "before": [
+      {
+        "ticks": 154,
+        "value": -33.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 176,
+        "value": -40.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 197,
+        "value": -47.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 219,
+        "value": -53.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 240,
+        "value": -62.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 261,
+        "value": -71.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 283,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 304,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 326,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 347,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 369,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 390,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 411,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 433,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 454,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 476,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 497,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 519,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 540,
+        "value": -83.0,
+        "curve": "linear"
+      }
+    ],
+    "after": [
+      {
+        "ticks": 154,
+        "value": -33.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 176,
+        "value": -40.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 197,
+        "value": -47.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 219,
+        "value": -53.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 240,
+        "value": -62.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 261,
+        "value": -71.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 283,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 304,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 454,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 476,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 497,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 519,
+        "value": -83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 540,
+        "value": -83.0,
+        "curve": "linear"
+      }
+    ],
+    "inside_nonzero": [],
+    "outside_nonzero_count": 11,
+    "zero_boundaries": [
+      {
+        "ticks": 304,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 454,
+        "value": 0.0,
+        "curve": "linear"
+      }
+    ],
+    "interior_erased": true,
+    "outside_preserved": true,
+    "undo_exact": true,
+    "redo_exact": true
+  },
+  "select_move": {
+    "before": [
+      {
+        "id": "note_a",
+        "start_ticks": 120,
+        "duration_ticks": 480,
+        "pitch": 65,
+        "velocity": 90
+      },
+      {
+        "id": "note_b",
+        "start_ticks": 600,
+        "duration_ticks": 480,
+        "pitch": 65,
+        "velocity": 90
+      }
+    ],
+    "after": [
+      {
+        "id": "note_a",
+        "start_ticks": 60,
+        "duration_ticks": 480,
+        "pitch": 65,
+        "velocity": 90
+      },
+      {
+        "id": "note_b",
+        "start_ticks": 600,
+        "duration_ticks": 480,
+        "pitch": 65,
+        "velocity": 90
+      }
+    ],
+    "note_a_start_before": 120,
+    "note_a_start_after": 60,
+    "moved": true,
+    "undo_exact": true
+  }
+}

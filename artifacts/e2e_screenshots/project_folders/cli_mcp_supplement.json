@@ -1,0 +1,12 @@
+{
+  "cli": {
+    "passed": true,
+    "command": "openace-tool organize-project project_dcd023f55cde --folders 'CLI One, CLI Two, CLI One'",
+    "backend_folders": ["CLI One", "CLI Two"]
+  },
+  "mcp": {
+    "passed": true,
+    "function": "organize_project(project_id, folders=['MCP One','MCP One','MCP Two'])",
+    "backend_folders": ["MCP One", "MCP Two"]
+  }
+}

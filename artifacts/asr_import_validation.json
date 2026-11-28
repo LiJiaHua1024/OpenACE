@@ -1,0 +1,11 @@
+{
+  "source": "external/SoulX-Singer/example/audio/en_prompt.mp3 (local validation input, not committed)",
+  "whisper_model": "tiny",
+  "detected_language": "en",
+  "transcribed_word_count": 13,
+  "transcribed_note_count": 44,
+  "aligned_word_count": 13,
+  "notes_with_nonempty_lyrics": 11,
+  "placeholder_lyrics_present": false,
+  "validation": "real faster-whisper word timestamps aligned to real librosa/pyin note contour; lyric text intentionally redacted from committed artifact"
+}

@@ -1,0 +1,53 @@
+{
+  "expanded": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "lane": {
+      "y": 224,
+      "height": 106,
+      "bottom": 330
+    },
+    "canvas": {
+      "y": 224,
+      "height": 54,
+      "bottom": 278,
+      "width": 714
+    },
+    "editor": {
+      "y": 278,
+      "height": 46,
+      "bottom": 324,
+      "width": 400.296875
+    },
+    "editorBelowCanvas": true,
+    "body": {
+      "sw": 1272,
+      "cw": 1272
+    }
+  },
+  "collapsed": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "lane": {
+      "y": 224,
+      "height": 55,
+      "bottom": 279
+    },
+    "canvas": {
+      "y": 224,
+      "height": 54,
+      "bottom": 278,
+      "width": 714
+    },
+    "editor": null,
+    "editorBelowCanvas": null,
+    "body": {
+      "sw": 1272,
+      "cw": 1272
+    }
+  },
+  "dense_visible": 13,
+  "dense_covered_count": 0,
+  "dense_canvas_count": 13,
+  "dense_covered_ticks": []
+}

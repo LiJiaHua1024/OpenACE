@@ -1,0 +1,43 @@
+{
+  "position_during": "1.4.2\n00:01.68",
+  "playing_button": "\u275a\u275a",
+  "click_stats": {
+    "audible_count": 12,
+    "canceled_future_noise": 12,
+    "exact_audible_duplicate_count": 0,
+    "intervals": [
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "short_intervals_under350ms": 0,
+    "min_interval_ms": 500.0,
+    "max_interval_ms": 500.0,
+    "freqs": [
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760
+    ]
+  },
+  "active_or_armed_uncancelled_sources": 38,
+  "console": [],
+  "pageerrors": [],
+  "network_failures": []
+}

@@ -27,7 +27,7 @@ def beat_phase_ms(ticks: int, ppq: int, bpm: float) -> float:
     return ticks_to_ms(beat_ticks, bpm, ppq)
 
 
-def validate_absolute_beat_anchor(notes: Iterable[Note], ppq: int, bpm: float, tolerance_ms: float = 1.0) -> List[BeatAnchor]:
+def validate_absolute_beat_anchor(notes: Iterable[Note], ppq: int, bpm: float, tolerance_ms: float = 1.0, project: Project | None = None) -> List[BeatAnchor]:
     """Validate that vowel onset stays on the symbolic note onset.
 
     Consonants may precede the onset by 40-90ms, but they must never move the vowel or
@@ -58,11 +58,32 @@ def validate_absolute_beat_anchor(notes: Iterable[Note], ppq: int, bpm: float, t
                 note_id=note.id,
                 vowel_onset_ticks=note.start_ticks,
                 consonant_preonset_ms=preonset,
-                beat_phase_ms=beat_phase_ms(note.start_ticks, ppq, bpm),
+                beat_phase_ms=beat_phase_ms(note.start_ticks, ppq, project.bpm_at(note.start_ticks) if project is not None else bpm),
             )
         )
     return anchors
 
+
+
+def stepped_tempo_events(project: Project, resolution_ticks: int = 120) -> list[tuple[int, float]]:
+    """Approximate step/linear tempo automation as ordered stepped tempo events.
+
+    MIDI and several host project formats encode tempo as discrete events rather than
+    continuous ramp curves. This helper preserves the exact endpoints and densifies only
+    linear segments; it must not be treated as lossless roundtrip metadata.
+    """
+    points = project.normalized_tempo_map()
+    events: dict[int, float] = {0: float(points[0].bpm)}
+    for previous, point in zip(points, points[1:]):
+        if point.curve == "linear" and point.ticks > previous.ticks:
+            step = max(1, min(int(resolution_ticks), point.ticks - previous.ticks))
+            positions = list(range(previous.ticks + step, point.ticks, step)) + [point.ticks]
+            for position in positions:
+                ratio = (position - previous.ticks) / (point.ticks - previous.ticks)
+                events[int(position)] = float(previous.bpm + (point.bpm - previous.bpm) * ratio)
+        else:
+            events[int(point.ticks)] = float(point.bpm)
+    return sorted(events.items())
 
 def quantize_ticks(ticks: float, ppq: int, division: int = 4) -> int:
     step = ppq // division

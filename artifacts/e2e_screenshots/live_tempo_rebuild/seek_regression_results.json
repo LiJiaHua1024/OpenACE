@@ -1,0 +1,50 @@
+{
+  "seek_audio_time": 84.62512471655329,
+  "click_stats": {
+    "audible_count": 10,
+    "canceled_future_noise": 12,
+    "exact_audible_duplicate_count": 0,
+    "intervals": [
+      0.5,
+      0.5,
+      0.764717,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "short_intervals_under350ms": 0,
+    "min_interval_ms": 500.0,
+    "max_interval_ms": 764.717,
+    "freqs": [
+      1175,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175
+    ]
+  },
+  "post_seek_intervals": [
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+  ],
+  "post_seek_min_interval_ms": 500.0,
+  "pending_source_count_created_before_seek": 3,
+  "uncancelled_pending_sources": 0,
+  "uncancelled_pending_source_ids": [],
+  "canceled_pending_sources": 3,
+  "console": [],
+  "pageerrors": [],
+  "network_failures": []
+}

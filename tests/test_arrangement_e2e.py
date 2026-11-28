@@ -121,6 +121,61 @@ def test_arrangement_decodes_waveform_and_drags_audio_clip_independently(tmp_pat
             saved = httpx.get(f"{base}/api/projects/{project.id}").json()
             assert saved["tracks"][1]["clips"][0]["start_ticks"] == 0
 
+            # Drag clip fade handles on the top edge: half a beat inward on both sides.
+            page.mouse.move(box["x"] + 64, box["y"] + 68)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 120, box["y"] + 68, steps=4)
+            page.mouse.up()
+            page.mouse.move(box["x"] + 512, box["y"] + 68)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 456, box["y"] + 68, steps=4)
+            page.mouse.up()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            clip = saved["tracks"][1]["clips"][0]
+            assert (clip["fade_in_ticks"], clip["fade_out_ticks"]) == (240, 240)
+
+            # The visible inner endpoint of the fade slope is itself draggable.
+            page.mouse.move(box["x"] + 120, box["y"] + 68)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 176, box["y"] + 68, steps=3)
+            page.mouse.up()
+            page.wait_for_timeout(450)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert saved["tracks"][1]["clips"][0]["fade_in_ticks"] == 480
+            page.mouse.move(box["x"] + 176, box["y"] + 68)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 120, box["y"] + 68, steps=3)
+            page.mouse.up()
+            page.wait_for_timeout(450)
+
+            page.mouse.click(box["x"] + 220, box["y"] + 75, button="right")
+            page.locator(".clip-gain-control input").fill("-6")
+            page.wait_for_timeout(500)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert saved["tracks"][1]["clips"][0]["gain_db"] == -6
+            page.locator(".clip-gain-control input").fill("0")
+            page.keyboard.press("Escape")
+            page.mouse.click(box["x"] + 40, box["y"] + 75)
+
+            page.locator('button[title="Stop"]').click()
+            page.wait_for_timeout(100)
+            page.evaluate(
+                """() => {
+                  window.__openaceRampCount = 0
+                  window.__openaceOriginalRamp ||= AudioParam.prototype.linearRampToValueAtTime
+                  const original = window.__openaceOriginalRamp
+                  AudioParam.prototype.linearRampToValueAtTime = function(value, endTime) {
+                    window.__openaceRampCount++
+                    return original.call(this, value, endTime)
+                  }
+                }"""
+            )
+            page.locator('.play-button').click()
+            page.wait_for_timeout(180)
+            page.locator('.play-button').click()
+            assert page.evaluate("() => window.__openaceRampCount") >= 2
+
             # Trim the right edge inward by one beat, then the left edge inward by one beat.
             page.mouse.move(box["x"] + 512, box["y"] + 75)
             page.mouse.down()
@@ -150,6 +205,7 @@ def test_arrangement_decodes_waveform_and_drags_audio_clip_independently(tmp_pat
                 (480, 480, 480),
                 (960, 960, 480),
             ]
+            assert [(c["fade_in_ticks"], c["fade_out_ticks"]) for c in clips] == [(240, 0), (0, 240)]
 
             page.locator('button[title="Stop"]').click()
             page.wait_for_timeout(100)
@@ -175,6 +231,82 @@ def test_arrangement_decodes_waveform_and_drags_audio_clip_independently(tmp_pat
             assert abs((starts[1]["when"] - starts[1]["now"]) - 1.0) < 0.2
             assert abs(starts[1]["offset"] - 1.0) < 0.03
             assert abs(starts[1]["duration"] - 0.5) < 0.03
+
+            # Drag the second clip half a beat backward so it overlaps the first.
+            # The overlap is automatically rendered as an equal-power crossfade.
+            page.mouse.move(box["x"] + 344, box["y"] + 75)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 288, box["y"] + 75, steps=4)
+            page.mouse.up()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            clips = saved["tracks"][1]["clips"]
+            assert [c["start_ticks"] for c in clips] == [480, 720]
+            cyan_pixels = page.evaluate(
+                """() => {
+                  const canvas = document.querySelector('.arrangement-view canvas')
+                  const ctx = canvas.getContext('2d')
+                  const data = ctx.getImageData(232, 64, 56, 26).data
+                  let count = 0
+                  for (let i = 0; i < data.length; i += 4) {
+                    if (data[i] < 150 && data[i + 1] > 120 && data[i + 2] > 160) count++
+                  }
+                  return count
+                }"""
+            )
+            assert cyan_pixels > 10
+            page.locator('button[title="Stop"]').click()
+            page.wait_for_timeout(100)
+            page.evaluate(
+                """() => {
+                  window.__openaceRampCount = 0
+                  window.__openaceOriginalRamp ||= AudioParam.prototype.linearRampToValueAtTime
+                  const original = window.__openaceOriginalRamp
+                  AudioParam.prototype.linearRampToValueAtTime = function(value, endTime) {
+                    window.__openaceRampCount++
+                    return original.call(this, value, endTime)
+                  }
+                }"""
+            )
+            page.locator('.play-button').click()
+            page.wait_for_timeout(180)
+            page.locator('.play-button').click()
+            assert page.evaluate("() => window.__openaceRampCount") >= 10
+
+            # Clip context operations copy/paste across empty space, duplicate, and delete.
+            page.mouse.click(box["x"] + 300, box["y"] + 75, button="right")
+            page.locator(".arrangement-context-menu button", has_text="Copy").click()
+            page.mouse.click(box["x"] + 620, box["y"] + 75, button="right")
+            page.locator(".arrangement-context-menu button", has_text="Paste at cursor").click()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            clips = saved["tracks"][1]["clips"]
+            assert len(clips) == 3
+            pasted = clips[-1]
+            assert pasted["start_ticks"] == 2400
+            assert (pasted["offset_ticks"], pasted["duration_ticks"]) == (960, 480)
+
+            page.mouse.click(box["x"] + 680, box["y"] + 75, button="right")
+            page.locator(".arrangement-context-menu button", has_text="Duplicate").click()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            clips = saved["tracks"][1]["clips"]
+            assert len(clips) == 4
+            assert clips[-1]["start_ticks"] == 2880
+
+            page.mouse.click(box["x"] + 792, box["y"] + 75, button="right")
+            page.locator(".arrangement-context-menu").get_by_role("button", name="Delete", exact=True).click()
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert len(saved["tracks"][1]["clips"]) == 3
+            page.keyboard.press("Control+z")
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert len(saved["tracks"][1]["clips"]) == 4
+            page.keyboard.press("Control+y")
+            page.wait_for_timeout(650)
+            saved = httpx.get(f"{base}/api/projects/{project.id}").json()
+            assert len(saved["tracks"][1]["clips"]) == 3
             assert errors == []
             browser.close()
     finally:

@@ -1,0 +1,154 @@
+{
+  "cantonese_note_creation_phonemes": {
+    "ok": true,
+    "details": {
+      "checks": {
+        "exact_tokens": true,
+        "no_placeholder": true,
+        "vowel_anchor": true,
+        "lyrics": true
+      },
+      "phonemes": {
+        "0": [
+          "ŋ",
+          "ɔː"
+        ],
+        "480": [
+          "ɔː",
+          "i"
+        ],
+        "960": [
+          "n",
+          "ɛː",
+          "i"
+        ],
+        "1440": [
+          "m̩"
+        ]
+      },
+      "vowel_start_ms": {
+        "0": 0.0,
+        "480": 0.0,
+        "960": 0.0,
+        "1440": 0.0
+      },
+      "notes": [
+        [
+          0,
+          480,
+          60,
+          "我"
+        ],
+        [
+          480,
+          480,
+          62,
+          "愛"
+        ],
+        [
+          960,
+          480,
+          64,
+          "你"
+        ],
+        [
+          1440,
+          480,
+          65,
+          "唔"
+        ]
+      ]
+    },
+    "time": 1795749969.5360065
+  },
+  "phoneme_editor_real_tokens": {
+    "ok": true,
+    "details": {
+      "editor_value": "ŋ ɔː"
+    },
+    "time": 1795749969.8643572
+  },
+  "valid_phase_console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795749970.547697
+  },
+  "soulx_metadata_cantonese_contract": {
+    "ok": true,
+    "details": {
+      "language": "Cantonese",
+      "tokens": [
+        "yue_ngo5",
+        "yue_oi3",
+        "yue_nei5",
+        "yue_m4"
+      ],
+      "text": "我 愛 你 唔 <SP>"
+    },
+    "time": 1795750012.2704165
+  },
+  "fixture_render_job_health": {
+    "ok": true,
+    "details": {
+      "job": {
+        "id": "job_3bd4bb5c0a83",
+        "project_id": "project_bb0cb3a14f04",
+        "track_id": "track_d259016a-3b0",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_bb0cb3a14f04/job_3bd4bb5c0a83/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_bb0cb3a14f04/job_3bd4bb5c0a83/diagnostic.png",
+        "created_at": 1795750012.3442538,
+        "finished_at": 1795750014.623342,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true,
+        "source_audio": null,
+        "reference_voice": null,
+        "caption": "",
+        "start_s": null,
+        "end_s": null
+      },
+      "render_posts": [
+        {
+          "url": "http://127.0.0.1:8787/api/projects/project_bb0cb3a14f04/render/vocal",
+          "status": 200
+        }
+      ],
+      "validation_error": false
+    },
+    "time": 1795750015.427555
+  },
+  "invalid_cantonese_lyric_clear_error": {
+    "ok": true,
+    "details": {
+      "banner": "save failed: 422: {\"detail\":\"Cantonese lyrics contain unsupported character 'a'\"}",
+      "put422": [
+        {
+          "url": "http://127.0.0.1:8787/api/projects/project_bb0cb3a14f04",
+          "status": 422
+        }
+      ],
+      "backend_lyrics": [
+        "我",
+        "愛",
+        "你",
+        "唔"
+      ],
+      "console_after_intentional_422": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+        }
+      ],
+      "network_after_intentional_422": []
+    },
+    "time": 1795750016.142525
+  },
+  "passed": true
+}

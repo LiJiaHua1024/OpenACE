@@ -1,0 +1,64 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "repaint_regression": {
+    "enabled": true,
+    "target_count": 1,
+    "target": "target: Vocal2BGM",
+    "title": "Repaint Vocal2BGM using source-file timing"
+  },
+  "six_sources_seen": true,
+  "position": "1.1.1\n00:00.01",
+  "playing_class": "play-button playing",
+  "starts": [
+    {
+      "when": 308.69768707482996,
+      "offset": 0,
+      "duration": 3.5,
+      "contextTime": 308.69768707482996,
+      "time": 343315,
+      "when_minus_contextTime": 0.0
+    },
+    {
+      "when": 308.69768707482996,
+      "offset": 0,
+      "duration": 2.5,
+      "contextTime": 308.69768707482996,
+      "time": 343315.3000000119,
+      "when_minus_contextTime": 0.0
+    },
+    {
+      "when": 309.69768707482996,
+      "offset": 0,
+      "duration": 2,
+      "contextTime": 308.69768707482996,
+      "time": 343315.40000000596,
+      "when_minus_contextTime": 1.0
+    },
+    {
+      "when": 310.69768707482996,
+      "offset": 0,
+      "duration": 2,
+      "contextTime": 308.69768707482996,
+      "time": 343315.5,
+      "when_minus_contextTime": 2.0
+    },
+    {
+      "when": 308.69768707482996,
+      "offset": 0,
+      "duration": 1.5,
+      "contextTime": 308.69768707482996,
+      "time": 343315.7000000179,
+      "when_minus_contextTime": 0.0
+    },
+    {
+      "when": 310.69768707482996,
+      "offset": 0.5,
+      "duration": 2,
+      "contextTime": 308.69768707482996,
+      "time": 343315.8000000119,
+      "when_minus_contextTime": 2.0
+    }
+  ]
+}

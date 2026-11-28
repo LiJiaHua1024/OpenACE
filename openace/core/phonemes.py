@@ -80,11 +80,11 @@ KANA_ROMAJI = {
 VOWEL_CANONICAL = {
     "a", "e", "i", "o", "u", "y", "ɯ", "ɤ", "ə", "ɛ", "ʊ", "ɔ", "ɑ", "ʌ", "ɪ", "ɝ", "ɒ",
 }
-VOWEL_CHARS = set("aeiouyɯɤəɛʊɔɑʌɪɝɒ")
+VOWEL_CHARS = set("aeiouyɯɤəɛʊɔɑʌɪɝɒɐœɵ")
 
 
 def _is_vowel(symbol: str) -> bool:
-    return symbol in {"ʂɻ̩", "sɿ"} or any(ch in VOWEL_CHARS for ch in symbol)
+    return symbol in {"ʂɻ̩", "sɿ", "m̩", "ŋ̩"} or any(ch in VOWEL_CHARS for ch in symbol)
 
 
 def _is_cjk(char: str) -> bool:
@@ -241,10 +241,126 @@ def japanese_tokens(text: str) -> List[PhonemeToken]:
     return [PhonemeToken(symbol=s, is_vowel=_is_vowel(s)) for s in symbols]
 
 
+YUE_ONSETS = {
+    "b": "p", "p": "pʰ", "m": "m", "f": "f",
+    "d": "t", "t": "tʰ", "n": "n", "l": "l",
+    "g": "k", "k": "kʰ", "ng": "ŋ", "h": "h",
+    "gw": "kw", "kw": "kʰw", "w": "w",
+    "z": "ts", "c": "tsʰ", "s": "s", "j": "j",
+}
+YUE_NUCLEI = {
+    "aa": "aː", "a": "ɐ", "e": "ɛː", "i": "iː", "o": "ɔː", "u": "uː",
+    "oe": "œː", "eo": "ɵ", "yu": "yː", "m": "m̩", "ng": "ŋ̩",
+}
+YUE_CODAS = {
+    "i": "i", "u": "u", "m": "m", "n": "n", "ng": "ŋ",
+    "p": "p̚", "t": "t̚", "k": "k̚",
+}
+
+
+def cantonese_jyutping_syllables(text: str) -> List[str]:
+    """Return validated tone-bearing Jyutping syllables for Cantonese Han lyrics."""
+    try:
+        import pycantonese  # type: ignore
+    except ImportError as exc:
+        raise PhonemeError("Cantonese lyrics require the pycantonese package") from exc
+    syllables: List[str] = []
+    for char in text:
+        if char.isspace() or char in "，。！？、,.!?":
+            continue
+        if not _is_cjk(char):
+            raise PhonemeError(f"Cantonese lyrics contain unsupported character '{char}'")
+        entries = pycantonese.characters_to_jyutping(char)
+        if not entries or not entries[0][1]:
+            raise PhonemeError(f"no Cantonese Jyutping pronunciation found for '{char}'")
+        # Querying one character at a time avoids multiword grouping ambiguity. The
+        # lexicon can still choose context-independent heteronym readings; unknown or
+        # pronunciationless characters remain loud errors rather than placeholders.
+        syllable = str(entries[0][1]).strip().split()[0]
+        if not syllable or not syllable[-1].isdigit():
+            raise PhonemeError(f"invalid tone-bearing Jyutping pronunciation for '{char}'")
+        syllables.append(syllable)
+    if not syllables:
+        raise PhonemeError(f"no Cantonese phonemes could be derived from '{text}'")
+    return syllables
+
+
+def cantonese_tokens(text: str) -> List[PhonemeToken]:
+    """Decompose validated Jyutping syllables into explicit Cantonese phoneme tokens."""
+    try:
+        import pycantonese  # type: ignore
+    except ImportError as exc:
+        raise PhonemeError("Cantonese lyrics require the pycantonese package") from exc
+    tokens: List[PhonemeToken] = []
+    for syllable in cantonese_jyutping_syllables(text):
+        parsed = pycantonese.parse_jyutping(syllable)
+        if not parsed:
+            raise PhonemeError(f"invalid Cantonese Jyutping syllable '{syllable}'")
+        unit = parsed[0]
+        if unit.onset:
+            if unit.onset not in YUE_ONSETS:
+                raise PhonemeError(f"unsupported Cantonese onset '{unit.onset}' in '{syllable}'")
+            tokens.append(PhonemeToken(YUE_ONSETS[unit.onset], is_vowel=False))
+        if unit.nucleus not in YUE_NUCLEI:
+            raise PhonemeError(f"unsupported Cantonese nucleus '{unit.nucleus}' in '{syllable}'")
+        tokens.append(PhonemeToken(YUE_NUCLEI[unit.nucleus], is_vowel=True))
+        if unit.coda:
+            if unit.coda not in YUE_CODAS:
+                raise PhonemeError(f"unsupported Cantonese coda '{unit.coda}' in '{syllable}'")
+            tokens.append(PhonemeToken(YUE_CODAS[unit.coda], is_vowel=False))
+    return tokens
+
+
+def mixed_mandarin_english_tokens(text: str) -> List[PhonemeToken]:
+    """Tokenize one lyric containing Mandarin Han characters and/or English words.
+
+    Cantonese shares Han orthography with Mandarin, so automatic mixed mode is
+    deliberately limited to Mandarin+English rather than pretending it can detect
+    Cantonese from text alone.
+    """
+    pieces = re.findall(r"[\u3400-\u9fff\uf900-\ufaff]+|[A-Za-z]+(?:'[A-Za-z]+)?", text)
+    if not pieces:
+        if re.search(r"[\u3040-\u30ff]", text):
+            raise PhonemeError("Japanese script is not supported in mixed Mandarin/English mode; choose a supported explicit language instead of silent substitution")
+        raise PhonemeError(f"no Mandarin or English lyric units found in '{text}'")
+    remainder = re.sub(r"[\u3400-\u9fff\uf900-\ufaff]+|[A-Za-z]+(?:'[A-Za-z]+)?|[\s，。！？、,.!?]+", "", text)
+    if remainder:
+        raise PhonemeError(f"mixed Mandarin/English lyrics contain unsupported character '{remainder[0]}'")
+    tokens: List[PhonemeToken] = []
+    for piece in pieces:
+        if _is_cjk(piece[0]):
+            tokens.extend(mandarin_tokens(piece))
+        else:
+            tokens.extend(english_tokens(piece))
+    if not tokens:
+        raise PhonemeError(f"no mixed-language phonemes could be derived from '{text}'")
+    return tokens
+
+
+def mixed_cantonese_english_tokens(text: str) -> List[PhonemeToken]:
+    """Tokenize explicit Cantonese Han units mixed with English words."""
+    pieces = re.findall(r"[\u3400-\u9fff\uf900-\ufaff]+|[A-Za-z]+(?:'[A-Za-z]+)?", text)
+    if not pieces:
+        if re.search(r"[\u3040-\u30ff]", text):
+            raise PhonemeError("Japanese script is not supported in mixed Cantonese/English mode")
+        raise PhonemeError(f"no Cantonese or English lyric units found in '{text}'")
+    remainder = re.sub(r"[\u3400-\u9fff\uf900-\ufaff]+|[A-Za-z]+(?:'[A-Za-z]+)?|[\s，。！？、,.!?]+", "", text)
+    if remainder:
+        raise PhonemeError(f"mixed Cantonese/English lyrics contain unsupported character '{remainder[0]}'")
+    tokens: List[PhonemeToken] = []
+    for piece in pieces:
+        tokens.extend(cantonese_tokens(piece) if _is_cjk(piece[0]) else english_tokens(piece))
+    return tokens
+
+
 def phonemes_for_text(text: str, language: str) -> List[PhonemeToken]:
     language = language.lower()
     if not text.strip():
         raise PhonemeError("lyric is empty; OpenACE never silently substitutes 'la'")
+    if language in {"mixed", "multilingual", "zh-en", "en-zh"}:
+        return mixed_mandarin_english_tokens(text)
+    if language in {"mixed-yue", "yue-en", "en-yue", "cantonese-english"}:
+        return mixed_cantonese_english_tokens(text)
     if language in {"zh", "zh-cn", "mandarin", "cmn"}:
         return mandarin_tokens(text)
     if language in {"en", "en-us", "en-gb", "english"}:
@@ -252,42 +368,121 @@ def phonemes_for_text(text: str, language: str) -> List[PhonemeToken]:
     if language in {"ja", "jp", "japanese"}:
         return japanese_tokens(text)
     if language in {"yue", "cantonese", "zh-hk"}:
-        raise PhonemeError(
-            "Cantonese requires a validated Jyutping lexicon; no fallback syllable is allowed"
-        )
+        return cantonese_tokens(text)
     raise PhonemeError(f"unsupported lyric language: {language}")
 
 
-def ensure_note_phonemes(note: Note, language: str) -> List[Phoneme]:
+def tokens_from_symbols(symbols: List[str]) -> List[PhonemeToken]:
+    """Build validated manual phoneme tokens from user-supplied symbols."""
+    cleaned = [symbol.strip() for symbol in symbols if symbol.strip()]
+    if not cleaned:
+        raise PhonemeError("manual phoneme override is empty")
+    if any(symbol.lower() == "la" for symbol in cleaned):
+        raise PhonemeError("placeholder phoneme 'la' is forbidden")
+    tokens = [PhonemeToken(symbol=symbol, is_vowel=_is_vowel(symbol)) for symbol in cleaned]
+    if not any(token.is_vowel for token in tokens):
+        raise PhonemeError("manual phoneme override has no vowel phoneme")
+    return tokens
+
+
+def timed_phonemes(tokens: List[PhonemeToken], duration_ms: float) -> List[Phoneme]:
+    """Place a phoneme sequence relative to a beat-anchored first vowel.
+
+    Only pre-vowel consonants receive negative onset times. Post-vowel consonants
+    remain after the vowel instead of being incorrectly pulled before the beat.
+    """
+    vowel_indexes = [index for index, token in enumerate(tokens) if token.is_vowel]
+    if not vowel_indexes:
+        raise PhonemeError("lyric contains no vowel phoneme")
+    first_vowel = vowel_indexes[0]
+    pre_tokens = tokens[:first_vowel]
+    post_tokens = tokens[first_vowel:]
+    pre_ms = min(90.0, max(40.0, 45.0 + 7.5 * max(0, len(pre_tokens) - 1))) if pre_tokens else 0.0
+    step = pre_ms / max(1, len(pre_tokens))
+    phonemes: List[Phoneme] = []
+    cursor = -pre_ms
+    for token in pre_tokens:
+        phonemes.append(Phoneme(symbol=token.symbol, start_ms=cursor, duration_ms=step, is_vowel=False))
+        cursor += step
+
+    duration_ms = max(120.0, duration_ms)
+    post_consonants = [token for token in post_tokens if not token.is_vowel]
+    post_vowels = [token for token in post_tokens if token.is_vowel]
+    coda_each = min(70.0, max(35.0, duration_ms * 0.08))
+    coda_total = coda_each * len(post_consonants)
+    max_coda_total = duration_ms * 0.35
+    if coda_total > max_coda_total and post_consonants:
+        coda_each = max_coda_total / len(post_consonants)
+        coda_total = max_coda_total
+    vowel_total = duration_ms - coda_total
+    vowel_each = vowel_total / len(post_vowels)
+    cursor = 0.0
+    for token in post_tokens:
+        length = vowel_each if token.is_vowel else coda_each
+        phonemes.append(Phoneme(symbol=token.symbol, start_ms=cursor, duration_ms=length, is_vowel=token.is_vowel))
+        cursor += length
+    validate_phoneme_inventory(phonemes)
+    validate_phoneme_timing(phonemes)
+    return phonemes
+
+
+def ensure_note_phonemes(note: Note, language: str, duration_ms: float | None = None) -> List[Phoneme]:
     """Populate or validate strict phonemes for a note.
 
-    Note onset is defined as the vowel onset. Consonants therefore receive negative
-    start offsets (typically -40..-90 ms) rather than pushing the vowel late.
+    Note onset is defined as the first vowel onset. Pre-vowel consonants receive
+    negative offsets while post-vowel consonants remain in sequence after the vowel.
     """
     if note.phonemes:
         if not any(p.is_vowel for p in note.phonemes):
             raise PhonemeError(f"note '{note.lyric}' has no vowel phoneme")
+        validate_phoneme_inventory(note.phonemes)
+        validate_phoneme_timing(note.phonemes)
         return note.phonemes
     tokens = phonemes_for_text(note.lyric, language)
-    consonants = [t for t in tokens if not t.is_vowel]
-    vowels = [t for t in tokens if t.is_vowel]
-    if not vowels:
-        raise PhonemeError(f"lyric '{note.lyric}' contains no vowel phoneme")
-    # Consonants are pre-onset, clamped to the ACE-like 40-90ms articulation zone.
-    pre_ms = min(90.0, max(40.0, 45.0 + 7.5 * max(0, len(consonants) - 1)))
-    step = pre_ms / max(1, len(consonants))
-    phonemes: List[Phoneme] = []
-    cursor = -pre_ms
-    for token in consonants:
-        phonemes.append(Phoneme(symbol=token.symbol, start_ms=cursor, duration_ms=step, is_vowel=False))
-        cursor += step
-    # Vowels start exactly at zero: the beat anchor is the vowel, not the consonant.
-    vowel_duration = max(80.0, note.duration_ticks / 4.0)
-    each = vowel_duration / len(vowels)
-    for index, token in enumerate(vowels):
-        phonemes.append(Phoneme(symbol=token.symbol, start_ms=index * each, duration_ms=each, is_vowel=True))
-    note.phonemes = phonemes
-    return phonemes
+    if duration_ms is None:
+        # Nominal 120 BPM fallback for CLI/model-unit use; server/render callers pass
+        # the exact project-tempo duration whenever available.
+        duration_ms = note.duration_ticks * 60000.0 / (120.0 * 480.0)
+    note.phonemes = timed_phonemes(tokens, duration_ms)
+    return note.phonemes
+
+
+def ensure_ordered_note_phonemes(notes: List[Note], language: str, duration_ms_for_note) -> None:
+    """Validate a monophonic note sequence, deriving melisma continuations truthfully.
+
+    A '-' continuation has no new onset or coda. It sustains the final vowel of the
+    nearest preceding sung lyric and is invalid before any sung lyric.
+    """
+    ordered = sorted(notes, key=lambda note: (note.start_ticks, note.pitch, note.id))
+    sustained_vowel: str | None = None
+    for note in ordered:
+        lyric = note.lyric.strip()
+        if lyric == "-" and not note.phonemes:
+            if sustained_vowel is None:
+                raise PhonemeError("melisma continuation '-' cannot appear before a sung lyric note")
+            note.phonemes = timed_phonemes([PhonemeToken(symbol=sustained_vowel, is_vowel=True)], duration_ms_for_note(note))
+        elif lyric:
+            ensure_note_phonemes(note, language, duration_ms_for_note(note))
+        vowels = [phoneme for phoneme in note.phonemes if phoneme.is_vowel]
+        if vowels:
+            sustained_vowel = vowels[-1].symbol
+
+
+def validate_phoneme_timing(phonemes) -> None:
+    """Require contiguous, positive, beat-anchored manual timing."""
+    if not phonemes:
+        return
+    first_vowel = next((p for p in phonemes if p.is_vowel), None)
+    if first_vowel is None:
+        raise PhonemeError("phoneme inventory has no vowel phoneme")
+    if abs(first_vowel.start_ms) > 0.75:
+        raise PhonemeError("first vowel must start at 0ms to preserve the beat anchor")
+    for left, right in zip(phonemes, phonemes[1:]):
+        if left.duration_ms <= 0 or right.duration_ms <= 0:
+            raise PhonemeError("phoneme durations must be positive")
+        boundary = left.start_ms + left.duration_ms
+        if abs(boundary - right.start_ms) > 0.75:
+            raise PhonemeError("phonemes must be contiguous without gaps or overlaps")
 
 
 def validate_phoneme_inventory(phonemes) -> None:

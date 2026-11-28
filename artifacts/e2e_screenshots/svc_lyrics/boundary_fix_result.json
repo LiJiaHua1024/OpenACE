@@ -1,0 +1,27 @@
+{
+  "clip": {
+    "start_ticks": 480,
+    "duration_ticks": 1440,
+    "offset_ticks": 480
+  },
+  "analysis": {
+    "yellowCount": 231,
+    "groups": [
+      {
+        "start": 180.5,
+        "end": 191,
+        "count": 64
+      },
+      {
+        "start": 311,
+        "end": 321,
+        "count": 58
+      },
+      {
+        "start": 389.5,
+        "end": 409,
+        "count": 109
+      }
+    ]
+  }
+}

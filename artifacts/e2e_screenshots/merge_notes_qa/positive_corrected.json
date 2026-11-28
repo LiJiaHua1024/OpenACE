@@ -1,0 +1,53 @@
+{
+  "count": 1,
+  "lyrics": [
+    "\u4f60\u597d\u5417"
+  ],
+  "duration": 1440,
+  "phoneme_symbols": [
+    "n",
+    "i",
+    "x",
+    "au",
+    "m",
+    "a"
+  ],
+  "pitch_curve": [
+    {
+      "offset_ms": 0.0,
+      "cents": 20.0
+    },
+    {
+      "offset_ms": 100.0,
+      "cents": 20.0
+    },
+    {
+      "offset_ms": 499.99,
+      "cents": 20.0
+    },
+    {
+      "offset_ms": 500.0,
+      "cents": 270.0
+    },
+    {
+      "offset_ms": 600.0,
+      "cents": 270.0
+    },
+    {
+      "offset_ms": 999.99,
+      "cents": 270.0
+    },
+    {
+      "offset_ms": 1000.0,
+      "cents": 110.0
+    },
+    {
+      "offset_ms": 1100.0,
+      "cents": 110.0
+    },
+    {
+      "offset_ms": 1500.0,
+      "cents": 110.0
+    }
+  ]
+}

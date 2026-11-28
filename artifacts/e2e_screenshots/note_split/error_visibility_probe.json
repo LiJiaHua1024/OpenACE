@@ -1,0 +1,30 @@
+{
+  "text": "Split must land inside a sustained vowel",
+  "box": {
+    "x": 1067.8984375,
+    "y": 258,
+    "width": 0,
+    "height": 12
+  },
+  "toolbar": {
+    "sw": 730,
+    "cw": 722,
+    "cr": {
+      "x": 236,
+      "y": 245,
+      "width": 722,
+      "height": 39,
+      "top": 245,
+      "right": 958,
+      "bottom": 284,
+      "left": 236
+    }
+  },
+  "computed": {
+    "display": "block",
+    "overflow": "hidden",
+    "whiteSpace": "nowrap",
+    "fontSize": "10px",
+    "visibility": "visible"
+  }
+}

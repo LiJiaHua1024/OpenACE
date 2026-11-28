@@ -1,0 +1,288 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "path_readout_after_upload": "upload_2c545b1a0fae_vocal2bgm_control_source.wav",
+  "media_item": {
+    "id": "upload_2c545b1a0fae_vocal2bgm_control_source.wav",
+    "name": "vocal2bgm_control_source.wav",
+    "file_name": "upload_2c545b1a0fae_vocal2bgm_control_source.wav",
+    "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_2c545b1a0fae_vocal2bgm_control_source.wav",
+    "size": 144044,
+    "modified_at": 1795843326.771453,
+    "valid": true,
+    "duration_seconds": 3.0,
+    "sample_rate": 24000,
+    "channels": 1,
+    "tags": [],
+    "folders": []
+  },
+  "source_path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_2c545b1a0fae_vocal2bgm_control_source.wav",
+  "seed_clip_status": 200,
+  "controlled_clip_id": "clip_707e5a808080",
+  "pre_click": {
+    "enabled": true,
+    "title": "Use the matching arrangement clip segment as input",
+    "hint": "input: visible clip segment \u00b7 aligned to clip start",
+    "path_readout": "upload_2c545b1a0fae_vocal2bgm_control_source.wav"
+  },
+  "move": {
+    "status": 200,
+    "click_time": 1795843329.1819625,
+    "done_time": 1795843329.2871037,
+    "delay_after_click": 0.10514116287231445,
+    "new_start_ticks": 1440
+  },
+  "job_status_immediately_after_move": "running",
+  "bgm_job": {
+    "id": "job_335613909e4d",
+    "project_id": "project_00d47d7aaeff",
+    "track_id": null,
+    "mode": "vocal2bgm",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_335613909e4d/accompaniment.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_335613909e4d/diagnostic.png",
+    "created_at": 1795843329.2480254,
+    "finished_at": 1795843329.7240365,
+    "error": null,
+    "engine": "explicit CI music fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/upload_2c545b1a0fae_vocal2bgm_control_source.wav",
+    "reference_voice": null,
+    "caption": "lush modern pop accompaniment, tight drums, warm bass, cinematic polish",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_707e5a808080",
+    "source_start_s": 0.5,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 960
+  },
+  "project_after": {
+    "id": "project_00d47d7aaeff",
+    "schema_version": 1,
+    "title": "Vocal2BGM Aware QA",
+    "ppq": 480,
+    "bpm": 120.0,
+    "tempo_map": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "time_signature": {
+      "numerator": 4,
+      "denominator": 4
+    },
+    "tracks": [
+      {
+        "id": "track_dfcd46b3f185",
+        "name": "Lead Vocal",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "note_cd344cbf4ad8",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "pitch": 76,
+            "lyric": "\u4f60",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "n",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "i",
+                "start_ms": 0.0,
+                "duration_ms": 1000.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "note_f4930d1fdc76",
+            "start_ticks": 960,
+            "duration_ticks": 960,
+            "pitch": 79,
+            "lyric": "\u597d",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "x",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "au",
+                "start_ms": 0.0,
+                "duration_ms": 1000.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 0.8,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_ea246e15cb45/vocal.wav",
+        "render_revision": 2,
+        "render_fingerprint": "3866e26b87b52370"
+      },
+      {
+        "id": "track_8345110e6d5b",
+        "name": "ACE-Step BGM",
+        "type": "accompaniment",
+        "color": "#2fb996",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [],
+        "clips": [
+          {
+            "id": "clip_124e51016ebd",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_bca62ccee32f/accompaniment.wav",
+            "start_ticks": 0,
+            "duration_ticks": 2400,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "Vocal2BGM",
+            "transcribed_lyrics": [],
+            "created_by_job_id": "job_bca62ccee32f",
+            "updated_by_job_id": null
+          },
+          {
+            "id": "clip_26ec395e19ff",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_335613909e4d/accompaniment.wav",
+            "start_ticks": 960,
+            "duration_ticks": 1920,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "Vocal2BGM",
+            "transcribed_lyrics": [],
+            "created_by_job_id": "job_335613909e4d",
+            "updated_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 0.8,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": "job_bca62ccee32f",
+        "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_335613909e4d/accompaniment.wav",
+        "render_revision": 2,
+        "render_fingerprint": null
+      },
+      {
+        "id": "track_7c99387f81bb",
+        "name": "Controlled Source Audio",
+        "type": "audio",
+        "color": "#c68f2f",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [],
+        "clips": [
+          {
+            "id": "clip_707e5a808080",
+            "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_2c545b1a0fae_vocal2bgm_control_source.wav",
+            "start_ticks": 1440,
+            "duration_ticks": 1920,
+            "offset_ticks": 480,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "Controlled trimmed source",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null,
+            "updated_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 0.8,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "created_at": 1795843218.702301,
+    "updated_at": 1795843329.2835581,
+    "metadata": {}
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "description": "With Projects popover continuously open, external organization PATCH to FolderQA Zeta updated the row to ▸ProbeSync and added ProbeSync to the folder filter options without closing/reopening the popover.",
+  "row_after_sse": "FolderQA Zeta · 1 tracks · 120 BPM · ▸ProbeSync",
+  "options_after_sse": ["All folders", "LegacyA", "LegacyB", "ProbeSync", "SharedLab"]
+}

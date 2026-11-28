@@ -1,0 +1,120 @@
+{
+  "initial": {
+    "scrollTicks": 0,
+    "pxPerBeat": 112,
+    "gridDivision": 8
+  },
+  "initial_view": {
+    "rowHeight": 15,
+    "topPitch": 79
+  },
+  "arrangement_shift": {
+    "before": {
+      "scrollTicks": 0,
+      "pxPerBeat": 112,
+      "gridDivision": 8
+    },
+    "after": {
+      "scrollTicks": 480,
+      "pxPerBeat": 112,
+      "gridDivision": 8
+    },
+    "delta_scroll": 480,
+    "delta_px": 0
+  },
+  "piano_normal": {
+    "before": {
+      "scrollTicks": 480,
+      "pxPerBeat": 112,
+      "gridDivision": 8
+    },
+    "after": {
+      "scrollTicks": 960,
+      "pxPerBeat": 112,
+      "gridDivision": 8
+    },
+    "delta_scroll": 480,
+    "delta_px": 0
+  },
+  "automation_normal": {
+    "before": {
+      "scrollTicks": 960,
+      "pxPerBeat": 112,
+      "gridDivision": 8
+    },
+    "after": {
+      "scrollTicks": 1440,
+      "pxPerBeat": 112,
+      "gridDivision": 8
+    },
+    "delta_scroll": 480,
+    "delta_px": 0
+  },
+  "piano_alt_zoom_in": {
+    "before": {
+      "rowHeight": 15,
+      "topPitch": 79
+    },
+    "after": {
+      "rowHeight": 16.5,
+      "topPitch": 79
+    },
+    "row_ratio": 1.1,
+    "timeline_after": {
+      "scrollTicks": 1440,
+      "pxPerBeat": 112,
+      "gridDivision": 8
+    }
+  },
+  "piano_alt_zoom_out": {
+    "before": {
+      "rowHeight": 16.5,
+      "topPitch": 79
+    },
+    "after": {
+      "rowHeight": 14.85,
+      "topPitch": 79
+    },
+    "row_ratio": 0.9,
+    "timeline_after": {
+      "scrollTicks": 1440,
+      "pxPerBeat": 112,
+      "gridDivision": 8
+    }
+  },
+  "piano_shift_pitch_up": {
+    "before": {
+      "rowHeight": 14.85,
+      "topPitch": 79
+    },
+    "after": {
+      "rowHeight": 14.85,
+      "topPitch": 81
+    },
+    "topPitch_delta": 2,
+    "timeline_after": {
+      "scrollTicks": 1440,
+      "pxPerBeat": 112,
+      "gridDivision": 8
+    }
+  },
+  "piano_shift_pitch_down": {
+    "before": {
+      "rowHeight": 14.85,
+      "topPitch": 81
+    },
+    "after": {
+      "rowHeight": 14.85,
+      "topPitch": 79
+    },
+    "topPitch_delta": -2,
+    "timeline_after": {
+      "scrollTicks": 1440,
+      "pxPerBeat": 112,
+      "gridDivision": 8
+    }
+  },
+  "console": [],
+  "pageerrors": [],
+  "network_failures": []
+}

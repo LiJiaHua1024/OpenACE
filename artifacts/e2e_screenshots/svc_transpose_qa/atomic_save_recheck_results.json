@@ -1,0 +1,81 @@
+{
+  "console": [],
+  "badnet": [],
+  "poll": {
+    "stop": true,
+    "requests": 1598,
+    "statuses": {
+      "200": 1598
+    },
+    "errors": [],
+    "json_errors": []
+  },
+  "runs": [
+    {
+      "label": "manual_minus3_first",
+      "typed": "-3",
+      "job": {
+        "id": "job_cd3870499915",
+        "status": "completed",
+        "pitch_shift": -3,
+        "auto_shift": false,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_cd3870499915/svc.wav",
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      },
+      "conversion": {
+        "job_id": "job_cd3870499915",
+        "pitch_shift": -3,
+        "auto_shift": false,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_cd3870499915/svc.wav",
+        "track_id": "track_7ef82e1b7878"
+      },
+      "track_count": 16
+    },
+    {
+      "label": "preserve_second",
+      "typed": null,
+      "job": {
+        "id": "job_c87cb072b14d",
+        "status": "completed",
+        "pitch_shift": 0,
+        "auto_shift": false,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_c87cb072b14d/svc.wav",
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      },
+      "conversion": {
+        "job_id": "job_c87cb072b14d",
+        "pitch_shift": 0,
+        "auto_shift": false,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_c87cb072b14d/svc.wav",
+        "track_id": "track_b5efab7a5577"
+      },
+      "track_count": 18
+    },
+    {
+      "label": "manual_minus3_third",
+      "typed": "-3",
+      "job": {
+        "id": "job_e051714f2907",
+        "status": "completed",
+        "pitch_shift": -3,
+        "auto_shift": false,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_e051714f2907/svc.wav",
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      },
+      "conversion": {
+        "job_id": "job_e051714f2907",
+        "pitch_shift": -3,
+        "auto_shift": false,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_e051714f2907/svc.wav",
+        "track_id": "track_fc62e5489a1e"
+      },
+      "track_count": 20
+    }
+  ]
+}

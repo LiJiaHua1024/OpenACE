@@ -1,0 +1,274 @@
+{
+  "checks": {
+    "toolbar_chain_no_duplicates": false,
+    "ctrl_e_chain_no_duplicates": false,
+    "undo_exact_three_unique": false,
+    "redo_exact_four_unique": false,
+    "reload_exact_four_unique": false,
+    "english_tail_rejected_readable_overlay": true,
+    "toolbar_no_overflow_selection_unclipped": false,
+    "console_network_clean": false
+  },
+  "details": {
+    "toolbar_chain_no_duplicates": {
+      "enabled": true,
+      "selection": "1 selected",
+      "notes": [
+        [
+          "note_9ea989de-ac6",
+          0,
+          480,
+          "啊"
+        ],
+        [
+          "note_1f3b5c7cc95c",
+          480,
+          480,
+          "-"
+        ],
+        [
+          "note_b6a4b090f2ca",
+          960,
+          960,
+          "-"
+        ],
+        [
+          "note_3a7ccd02-c1a",
+          2520,
+          120,
+          ""
+        ]
+      ]
+    },
+    "ctrl_e_chain_no_duplicates": [
+      [
+        "note_9ea989de-ac6",
+        0,
+        480,
+        "啊"
+      ],
+      [
+        "note_1f3b5c7cc95c",
+        480,
+        480,
+        "-"
+      ],
+      [
+        "note_b6a4b090f2ca",
+        960,
+        480,
+        "-"
+      ],
+      [
+        "note_aed2d27fea53",
+        1440,
+        480,
+        "-"
+      ],
+      [
+        "note_3a7ccd02-c1a",
+        2520,
+        120,
+        ""
+      ],
+      [
+        "note_a33e5eb0-847",
+        2520,
+        120,
+        ""
+      ]
+    ],
+    "undo_exact_three_unique": [
+      [
+        "note_9ea989de-ac6",
+        0,
+        480,
+        "啊"
+      ],
+      [
+        "note_1f3b5c7cc95c",
+        480,
+        480,
+        "-"
+      ],
+      [
+        "note_b6a4b090f2ca",
+        960,
+        960,
+        "-"
+      ],
+      [
+        "note_3a7ccd02-c1a",
+        2520,
+        120,
+        ""
+      ],
+      [
+        "note_a33e5eb0-847",
+        2520,
+        120,
+        ""
+      ]
+    ],
+    "redo_exact_four_unique": [
+      [
+        "note_9ea989de-ac6",
+        0,
+        480,
+        "啊"
+      ],
+      [
+        "note_1f3b5c7cc95c",
+        480,
+        480,
+        "-"
+      ],
+      [
+        "note_b6a4b090f2ca",
+        960,
+        480,
+        "-"
+      ],
+      [
+        "note_aed2d27fea53",
+        1440,
+        480,
+        "-"
+      ],
+      [
+        "note_3a7ccd02-c1a",
+        2520,
+        120,
+        ""
+      ],
+      [
+        "note_a33e5eb0-847",
+        2520,
+        120,
+        ""
+      ]
+    ],
+    "reload_exact_four_unique": [
+      [
+        "note_9ea989de-ac6",
+        0,
+        480,
+        "啊"
+      ],
+      [
+        "note_1f3b5c7cc95c",
+        480,
+        480,
+        "-"
+      ],
+      [
+        "note_b6a4b090f2ca",
+        960,
+        480,
+        "-"
+      ],
+      [
+        "note_aed2d27fea53",
+        1440,
+        480,
+        "-"
+      ],
+      [
+        "note_3a7ccd02-c1a",
+        2520,
+        120,
+        ""
+      ],
+      [
+        "note_a33e5eb0-847",
+        2520,
+        120,
+        ""
+      ]
+    ],
+    "english_tail_rejected_readable_overlay": {
+      "error": "Split must land inside a sustained vowel",
+      "box": {
+        "x": 732.390625,
+        "y": 292,
+        "width": 207.609375,
+        "height": 27
+      },
+      "wrap": {
+        "x": 236,
+        "y": 284,
+        "width": 714,
+        "height": 359
+      },
+      "note_count": 1
+    },
+    "toolbar_no_overflow_selection_unclipped": {
+      "viewport": [
+        1272,
+        837
+      ],
+      "toolbar": [
+        730,
+        714
+      ],
+      "toolbarRight": 950,
+      "selection": {
+        "text": "1 selected",
+        "left": 903.8984375,
+        "right": 965.8984375,
+        "width": 62
+      },
+      "error": {
+        "text": "Split must land inside a sustained vowel",
+        "rect": {
+          "x": 732.390625,
+          "y": 292,
+          "width": 207.609375,
+          "height": 27,
+          "top": 292,
+          "right": 940,
+          "bottom": 319,
+          "left": 732.390625
+        }
+      },
+      "body": [
+        1272,
+        1272
+      ]
+    },
+    "console_network_clean": {
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+        }
+      ],
+      "network": [],
+      "unexpected_http": [],
+      "expected_split_422": [
+        {
+          "url": "http://127.0.0.1:8787/api/projects/project_a6072fcca8a0/tracks/track_6f63264eae00/notes/note_32b605731d7a/split",
+          "status": 422
+        }
+      ]
+    }
+  },
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    }
+  ],
+  "network": [
+    "http://127.0.0.1:8787/api/events",
+    "http://127.0.0.1:8787/api/events"
+  ],
+  "http4xx": [
+    {
+      "url": "http://127.0.0.1:8787/api/projects/project_a6072fcca8a0/tracks/track_6f63264eae00/notes/note_32b605731d7a/split",
+      "status": 422
+    }
+  ],
+  "passed": 1,
+  "total": 8
+}

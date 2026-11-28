@@ -1,0 +1,190 @@
+{
+  "console": [],
+  "badnet": [],
+  "pid": "project_8f4c1294c0c1",
+  "ordinary_coda": {
+    "points": [
+      {
+        "ticks": 883,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 901,
+        "value": -41.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 920,
+        "value": -49.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 938,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 956,
+        "value": -64.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 975,
+        "value": -71.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 993,
+        "value": -79.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1011,
+        "value": -87.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1012,
+        "value": -87.0,
+        "curve": "linear",
+        "voiced": true
+      }
+    ],
+    "false_count": 8,
+    "true_count": 1,
+    "max_false": 1011,
+    "boundary": [
+      {
+        "ticks": 1012,
+        "value": -87.0,
+        "curve": "linear",
+        "voiced": true
+      }
+    ],
+    "boundary_exact": true,
+    "undo_empty": true,
+    "redo_exact": true,
+    "reload_exact": true
+  },
+  "eraser": {
+    "after": [],
+    "false_in_coda": 0
+  },
+  "ordinary_vowel": {
+    "points": [
+      {
+        "ticks": 326,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 344,
+        "value": -41.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 362,
+        "value": -49.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 381,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 399,
+        "value": -64.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 418,
+        "value": -71.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 436,
+        "value": -79.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 454,
+        "value": -87.0,
+        "curve": "linear",
+        "voiced": true
+      }
+    ],
+    "all_true": true,
+    "false_count": 0
+  },
+  "shift_alt_coda": {
+    "points": [
+      {
+        "ticks": 883,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 901,
+        "value": -41.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 920,
+        "value": -49.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 938,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 956,
+        "value": -64.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 975,
+        "value": -71.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 993,
+        "value": -79.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 1011,
+        "value": -87.0,
+        "curve": "linear",
+        "voiced": true
+      }
+    ],
+    "all_true": true,
+    "false_count": 0
+  }
+}

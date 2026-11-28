@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "project_id": "project_78f3e6fa1963",
+  "starts": [
+    0,
+    720
+  ],
+  "visual": {
+    "cyan_count": 568,
+    "minx": 231,
+    "maxx": 288,
+    "expected_overlap_x": "about 232-288"
+  },
+  "console_errors": [],
+  "time": 1795742297.8928375
+}

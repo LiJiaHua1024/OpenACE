@@ -1,0 +1,79 @@
+{
+  "corrected_assertions": {
+    "empty_drop": {
+      "expected_start": 480,
+      "actual_start": 480,
+      "new_track_type": "audio",
+      "passed": true
+    },
+    "audio_lane_drop": {
+      "expected_start": 2400,
+      "actual_start": 2400,
+      "same_track": "track_685ea5115c27",
+      "passed": true
+    },
+    "accompaniment_lane_drop": {
+      "raw_tick": 1200,
+      "snap_note": "exact half-beat tie; JavaScript Math.round ties upward",
+      "expected_start": 1440,
+      "actual_start": 1440,
+      "same_track": "track_e9411f61-d47",
+      "passed": true
+    },
+    "alt_fine_drop": {
+      "target_pixel_tick": 600,
+      "actual_start": 600,
+      "passed": true,
+      "note": "600 is nonsnapped and exactly matches the final x pixel; original 603 expectation was a harness coordinate rounding error"
+    },
+    "vocal_row_drop": {
+      "expected_start": 1440,
+      "actual_start": 1440,
+      "fallback_new_audio_track": true,
+      "vocal_clips": 0,
+      "passed": true
+    },
+    "invalid_drag": {
+      "draggable": false,
+      "events": 0,
+      "project_changed": false,
+      "passed": true
+    },
+    "playback": {
+      "initial_single_source_duration_seconds": 1.9999773242630385,
+      "supplement_position": "2.2.300:02.81",
+      "playing": true,
+      "passed": true
+    },
+    "regressions": {
+      "search_count": 1,
+      "audition_currentTime": 0.245028,
+      "add_created_track": true,
+      "unused_delete": true,
+      "passed": true
+    },
+    "console_network": {
+      "console_errors": 0,
+      "network_failures": 0,
+      "passed": true
+    },
+    "layout": {
+      "media_list_clientWidth": 277,
+      "media_list_scrollWidth": 277,
+      "rows_scrollWidth": 273,
+      "passed": true
+    }
+  },
+  "remaining_defect": {
+    "severity": "minor/intermittent UX",
+    "summary": "Cyan insertion indicator sometimes absent during real diagonal drags even though dragover and drop occur",
+    "evidence": "In primary accompaniment_lane and alt_fine drags, dragstart=1 and final dragover/drop occurred inside the arrangement, but .media-drop-indicator was null at the pre-drop screenshot/measurement. Direct steady-position probes showed correct indicators (normal left176, Alt left204), so this is intermittent/flickering rather than a total indicator failure."
+  },
+  "harness_defects_corrected": [
+    "empty drag indicator not at expected snapped x176 row y80",
+    "accompaniment lane drop did not reuse BGM lane at start960",
+    "alt fine placement did not preserve nonsnapped tick603",
+    "alt indicator unexpectedly snapped",
+    "vocal-row drop did not create correct fallback audio track at start960"
+  ]
+}

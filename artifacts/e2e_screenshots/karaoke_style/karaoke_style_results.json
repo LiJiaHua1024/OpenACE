@@ -1,0 +1,118 @@
+{
+  "console": [],
+  "network": [],
+  "layout": {
+    "viewport": [
+      1272,
+      837
+    ],
+    "width": 287,
+    "right": 1250,
+    "panelRight": 1272,
+    "inside": true,
+    "inputs": [
+      {
+        "type": "number",
+        "value": "66",
+        "checked": false,
+        "width": 140
+      },
+      {
+        "type": "number",
+        "value": "76",
+        "checked": false,
+        "width": 140
+      },
+      {
+        "type": "color",
+        "value": "#ffb000",
+        "checked": false,
+        "width": 140
+      },
+      {
+        "type": "color",
+        "value": "#d9d9d9",
+        "checked": false,
+        "width": 140
+      },
+      {
+        "type": "select-one",
+        "value": "midnight",
+        "checked": null,
+        "width": 140
+      },
+      {
+        "type": "checkbox",
+        "value": "on",
+        "checked": true,
+        "width": 13
+      },
+      {
+        "type": "checkbox",
+        "value": "on",
+        "checked": true,
+        "width": 13
+      },
+      {
+        "type": "checkbox",
+        "value": "on",
+        "checked": true,
+        "width": 13
+      }
+    ]
+  },
+  "metadata_after_edit": {
+    "font_size": 120,
+    "lane_spacing": 10,
+    "sung_color": "#ffb000",
+    "unsung_color": "#d9d9d9",
+    "background_theme": "ember",
+    "background_motion": false,
+    "show_title": false,
+    "show_brand": false
+  },
+  "metadata_after_undo": {
+    "font_size": 120,
+    "lane_spacing": 76,
+    "sung_color": "#ffb000",
+    "unsung_color": "#d9d9d9",
+    "background_theme": "ember",
+    "background_motion": false,
+    "show_title": false,
+    "show_brand": false
+  },
+  "metadata_after_redo": {
+    "font_size": 120,
+    "lane_spacing": 10,
+    "sung_color": "#ffb000",
+    "unsung_color": "#d9d9d9",
+    "background_theme": "ember",
+    "background_motion": false,
+    "show_title": false,
+    "show_brand": false
+  },
+  "metadata_after_reload": {
+    "font_size": 120,
+    "lane_spacing": 10,
+    "sung_color": "#ffb000",
+    "unsung_color": "#d9d9d9",
+    "background_theme": "ember",
+    "background_motion": false,
+    "show_title": false,
+    "show_brand": false
+  },
+  "downloads": {
+    "mp4": 299,
+    "wav": 44
+  },
+  "metadata_second": {
+    "font_size": 120,
+    "lane_spacing": 10,
+    "sung_color": "#ffb000",
+    "unsung_color": "#d9d9d9",
+    "background_theme": "ember",
+    "background_motion": false,
+    "show_title": false,
+    "show_brand": false
+  }
+}

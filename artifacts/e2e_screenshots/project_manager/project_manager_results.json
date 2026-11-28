@@ -1,0 +1,94 @@
+{
+  "verdict": "passed; no implementation defects found in focused project manager QA",
+  "viewport": "1272x837 exact",
+  "transport": {
+    "scrollWidth": 1272,
+    "clientWidth": 1272,
+    "overflow": 0,
+    "projects_button_present": true
+  },
+  "metadata_examples": [
+    {
+      "title": "PM Gamma QA",
+      "meta": "11/27/2026 \u00b7 3 tracks \u00b7 150 BPM"
+    },
+    {
+      "title": "PM Alpha QA",
+      "meta": "11/27/2026 \u00b7 1 tracks \u00b7 120 BPM"
+    },
+    {
+      "title": "PM Beta QA",
+      "meta": "11/27/2026 \u00b7 2 tracks \u00b7 90 BPM"
+    }
+  ],
+  "search": {
+    "query": "Beta",
+    "visible_rows": [
+      {
+        "title": "PM Beta QA",
+        "meta": "11/27/2026 \u00b7 2 tracks \u00b7 90 BPM",
+        "current": false
+      }
+    ]
+  },
+  "open_project": "PM Beta QA opened; UI BPM 90 and two tracks visible",
+  "copy_non_current": {
+    "source": "PM Gamma QA",
+    "opened": "PM Gamma QA Copy",
+    "id": "project_fd6140814935",
+    "bpm": 150.0,
+    "tracks": 3
+  },
+  "delete_non_current": {
+    "deleted": "PM Gamma QA",
+    "current_before_after": "PM Gamma QA Copy / PM Gamma QA Copy",
+    "remaining_gamma_titles": [
+      "PM Gamma QA Copy"
+    ]
+  },
+  "outside_click_close": "passed",
+  "delete_current_fallback": {
+    "deleted": "PM Gamma QA Copy",
+    "fallback_project": "PM Alpha QA",
+    "samples": [
+      {
+        "t": 0.29,
+        "title": "PM Alpha QA",
+        "id": "project_02623c7fdfa7"
+      },
+      {
+        "t": 1.1,
+        "title": "PM Alpha QA",
+        "id": "project_02623c7fdfa7"
+      },
+      {
+        "t": 1.91,
+        "title": "PM Alpha QA",
+        "id": "project_02623c7fdfa7"
+      },
+      {
+        "t": 2.72,
+        "title": "PM Alpha QA",
+        "id": "project_02623c7fdfa7"
+      }
+    ],
+    "detail_get_count": 1,
+    "create_post_count": 0,
+    "delete_request_count": 1,
+    "copy_still_listed": false
+  },
+  "final_health": {
+    "console": [],
+    "network_failures": [],
+    "layout": {
+      "innerWidth": 1272,
+      "innerHeight": 837,
+      "transportScrollWidth": 1272,
+      "transportClientWidth": 1272,
+      "transportOverflow": 0,
+      "bodyOverflow": false,
+      "projectsButton": true
+    },
+    "current_title": "PM Alpha QA"
+  }
+}

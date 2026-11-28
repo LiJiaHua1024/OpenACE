@@ -1,0 +1,282 @@
+{
+  "breath_create_inspector_defaults": {
+    "ok": true,
+    "details": {
+      "breath": {
+        "id": "br_5f621d2c",
+        "start_ticks": 480,
+        "duration_ticks": 120,
+        "intensity": 1.0,
+        "timbre": "natural"
+      },
+      "inspector_visible": true
+    },
+    "time": 1795756848.5345833
+  },
+  "breath_move_resize_still_works": {
+    "ok": true,
+    "details": {
+      "breath": {
+        "id": "br_5f621d2c",
+        "start_ticks": 600,
+        "duration_ticks": 240,
+        "intensity": 1.0,
+        "timbre": "natural"
+      }
+    },
+    "time": 1795756849.645845
+  },
+  "intensity_drag_persist_undo_redo": {
+    "ok": true,
+    "details": {
+      "values": [
+        {
+          "id": "br_5f621d2c",
+          "start_ticks": 600,
+          "duration_ticks": 240,
+          "intensity": 0.0,
+          "timbre": "natural"
+        },
+        {
+          "id": "br_5f621d2c",
+          "start_ticks": 600,
+          "duration_ticks": 240,
+          "intensity": 0.5,
+          "timbre": "natural"
+        },
+        {
+          "id": "br_5f621d2c",
+          "start_ticks": 600,
+          "duration_ticks": 240,
+          "intensity": 1.5,
+          "timbre": "natural"
+        }
+      ],
+      "undo": {
+        "id": "br_5f621d2c",
+        "start_ticks": 600,
+        "duration_ticks": 240,
+        "intensity": 0.5,
+        "timbre": "natural"
+      },
+      "redo": {
+        "id": "br_5f621d2c",
+        "start_ticks": 600,
+        "duration_ticks": 240,
+        "intensity": 1.5,
+        "timbre": "natural"
+      }
+    },
+    "time": 1795756852.3398604
+  },
+  "timbre_select_persistence": {
+    "ok": true,
+    "details": {
+      "soft": {
+        "id": "br_5f621d2c",
+        "start_ticks": 600,
+        "duration_ticks": 240,
+        "intensity": 1.5,
+        "timbre": "soft"
+      },
+      "natural": {
+        "id": "br_5f621d2c",
+        "start_ticks": 600,
+        "duration_ticks": 240,
+        "intensity": 1.5,
+        "timbre": "natural"
+      },
+      "strong": {
+        "id": "br_5f621d2c",
+        "start_ticks": 600,
+        "duration_ticks": 240,
+        "intensity": 1.5,
+        "timbre": "strong"
+      }
+    },
+    "time": 1795756853.4307582
+  },
+  "render_jobs_honest_messages": {
+    "ok": true,
+    "details": {
+      "jobs": {
+        "150_natural": {
+          "id": "job_bacf9250acdc",
+          "project_id": "project_1c093a015ab1",
+          "track_id": "track_ebfe7fce69db",
+          "mode": "svs_score",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed with 1 real-donor breath overlay(s)",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_bacf9250acdc/vocal.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_bacf9250acdc/diagnostic.png",
+          "created_at": 1795756853.9014058,
+          "finished_at": 1795756856.7261028,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        },
+        "50_natural": {
+          "id": "job_c8c07c847952",
+          "project_id": "project_1c093a015ab1",
+          "track_id": "track_ebfe7fce69db",
+          "mode": "svs_score",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed with 1 real-donor breath overlay(s)",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_c8c07c847952/vocal.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_c8c07c847952/diagnostic.png",
+          "created_at": 1795756857.3323321,
+          "finished_at": 1795756858.6528838,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        },
+        "150_soft": {
+          "id": "job_c80c0060b28b",
+          "project_id": "project_1c093a015ab1",
+          "track_id": "track_ebfe7fce69db",
+          "mode": "svs_score",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed with 1 real-donor breath overlay(s)",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_c80c0060b28b/vocal.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_c80c0060b28b/diagnostic.png",
+          "created_at": 1795756859.783061,
+          "finished_at": 1795756861.1339629,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        },
+        "150_strong": {
+          "id": "job_072330103560",
+          "project_id": "project_1c093a015ab1",
+          "track_id": "track_ebfe7fce69db",
+          "mode": "svs_score",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed with 1 real-donor breath overlay(s)",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_072330103560/vocal.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_072330103560/diagnostic.png",
+          "created_at": 1795756861.6652262,
+          "finished_at": 1795756862.9253306,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        }
+      }
+    },
+    "time": 1795756862.9970298
+  },
+  "quantitative_intensity_timbre_audio": {
+    "ok": true,
+    "details": {
+      "analysis": {
+        "m150_natural": {
+          "rms": 0.05083264783024788,
+          "hi4200_over_mid": 2.6685612661229943,
+          "hi4200_over_low": 65.59264297870912,
+          "length": 3.0
+        },
+        "m50_natural": {
+          "rms": 0.016944216564297676,
+          "hi4200_over_mid": 2.668561538754752,
+          "hi4200_over_low": 65.5926279611559,
+          "length": 3.0
+        },
+        "m150_soft": {
+          "rms": 0.048075832426548004,
+          "hi4200_over_mid": 0.41265014501667774,
+          "hi4200_over_low": 8.162466679128064,
+          "length": 3.0
+        },
+        "m150_strong": {
+          "rms": 0.047973521053791046,
+          "hi4200_over_mid": 5.915208407304989,
+          "hi4200_over_low": 301.99556121923683,
+          "length": 3.0
+        },
+        "rms_ratio_150_over_50": 2.9999998900719227,
+        "spectral_order_soft_natural_strong": true
+      },
+      "breath_interval_seconds": [
+        0.625,
+        0.875
+      ]
+    },
+    "time": 1795756863.0011642
+  },
+  "add_all_defaults": {
+    "ok": true,
+    "details": {
+      "breath": {
+        "id": "br_6108ad74",
+        "start_ticks": 1680,
+        "duration_ticks": 120,
+        "intensity": 1.0,
+        "timbre": "natural"
+      },
+      "all_breaths": [
+        {
+          "id": "br_6108ad74",
+          "start_ticks": 1680,
+          "duration_ticks": 120,
+          "intensity": 1.0,
+          "timbre": "natural"
+        }
+      ],
+      "click_method": "dom-dispatched visible control because responsive overlap blocked hit test"
+    },
+    "time": 1795756948.739031
+  },
+  "add_all_move_resize": {
+    "ok": true,
+    "details": {
+      "breath": {
+        "id": "br_6108ad74",
+        "start_ticks": 1800,
+        "duration_ticks": 240,
+        "intensity": 1.0,
+        "timbre": "natural"
+      }
+    },
+    "time": 1795756949.9691374
+  },
+  "delete_clears_inspector": {
+    "ok": true,
+    "details": {
+      "breaths": [],
+      "inspector_count": 0
+    },
+    "time": 1795756950.7375867
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795756950.7380323
+  },
+  "passed": true
+}

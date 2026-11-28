@@ -1,0 +1,836 @@
+{
+  "checks": [
+    {
+      "name": "large project viewport caps at 210 and content height correct",
+      "passed": true,
+      "details": {
+        "expected_content": 336,
+        "geometry": {
+          "view": {
+            "x": 236,
+            "y": 58,
+            "width": 714,
+            "height": 210,
+            "right": 950,
+            "bottom": 268,
+            "scrollTop": 0,
+            "scrollHeight": 336,
+            "clientHeight": 209,
+            "scrollWidth": 704,
+            "clientWidth": 704
+          },
+          "content": {
+            "width": 704,
+            "height": 336
+          },
+          "canvas": {
+            "x": 236,
+            "y": 58,
+            "width": 704,
+            "height": 336,
+            "right": 940,
+            "bottom": 394
+          },
+          "body": {
+            "scrollWidth": 1272,
+            "clientWidth": 1272
+          },
+          "zoom": 1
+        }
+      }
+    },
+    {
+      "name": "plain wheel natively scrolls vertically without horizontal timeline redraw",
+      "passed": true,
+      "details": {
+        "scrollTop_before": 0,
+        "scrollTop_after": 127,
+        "horizontal_redraw_text": null
+      }
+    },
+    {
+      "name": "shift wheel horizontal-scrolls timeline without vertical lane scroll",
+      "passed": false,
+      "details": {
+        "dx": -112,
+        "scrollTop_pre": 60,
+        "scrollTop_post": 60,
+        "new": {
+          "text": "B8",
+          "x": 97,
+          "y": 317,
+          "t": 2599.1000000089407
+        }
+      }
+    },
+    {
+      "name": "horizontal wheel delta horizontal-scrolls timeline without vertical lane scroll",
+      "passed": false,
+      "details": {
+        "dx": -112,
+        "scrollTop_pre": 60,
+        "scrollTop_post": 60,
+        "new": {
+          "text": "B8",
+          "x": -15,
+          "y": 317,
+          "t": 3216
+        }
+      }
+    },
+    {
+      "name": "ctrl wheel zooms timeline without browser zoom or vertical lane scroll",
+      "passed": false,
+      "details": {
+        "spacing": null,
+        "browser_zoom": 1,
+        "scrollTop_pre": 60,
+        "scrollTop_post": 127
+      }
+    },
+    {
+      "name": "bottom lane clip is visible after native scroll",
+      "passed": true,
+      "details": {
+        "geometry": {
+          "view": {
+            "x": 236,
+            "y": 58,
+            "width": 714,
+            "height": 210,
+            "right": 950,
+            "bottom": 268,
+            "scrollTop": 127,
+            "scrollHeight": 336,
+            "clientHeight": 209,
+            "scrollWidth": 704,
+            "clientWidth": 704
+          },
+          "content": {
+            "width": 704,
+            "height": 336
+          },
+          "canvas": {
+            "x": 236,
+            "y": -69,
+            "width": 704,
+            "height": 336,
+            "right": 940,
+            "bottom": 267
+          },
+          "body": {
+            "scrollWidth": 1272,
+            "clientWidth": 1272
+          },
+          "zoom": 1
+        },
+        "bottom_content_y": 313
+      }
+    },
+    {
+      "name": "scrolled bottom clip clickable at correct content coordinates",
+      "passed": true,
+      "details": {
+        "click": {
+          "screen_x": 552,
+          "screen_y": 244,
+          "geom": {
+            "view": {
+              "x": 236,
+              "y": 58,
+              "width": 714,
+              "height": 210,
+              "right": 950,
+              "bottom": 268,
+              "scrollTop": 127,
+              "scrollHeight": 336,
+              "clientHeight": 209,
+              "scrollWidth": 704,
+              "clientWidth": 704
+            },
+            "content": {
+              "width": 704,
+              "height": 336
+            },
+            "canvas": {
+              "x": 236,
+              "y": -69,
+              "width": 704,
+              "height": 336,
+              "right": 940,
+              "bottom": 267
+            },
+            "body": {
+              "scrollWidth": 1272,
+              "clientWidth": 1272
+            },
+            "zoom": 1
+          }
+        },
+        "content_x": 316,
+        "content_y": 313
+      }
+    },
+    {
+      "name": "scrolled bottom clip drag uses correct content coordinates",
+      "passed": true,
+      "details": {
+        "clip": {
+          "id": "scroll_b8",
+          "path": "/uploads/svclyrics_words.wav",
+          "start_ticks": 720,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "B8",
+          "transcribed_lyrics": []
+        },
+        "expected_start": 720
+      }
+    },
+    {
+      "name": "undo restores scrolled bottom clip drag",
+      "passed": true,
+      "details": {
+        "clip": {
+          "id": "scroll_b8",
+          "path": "/uploads/svclyrics_words.wav",
+          "start_ticks": 600,
+          "duration_ticks": 960,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "B8",
+          "transcribed_lyrics": []
+        },
+        "expected_start": 600
+      }
+    },
+    {
+      "name": "context menu opens inside scrolled arrangement viewport",
+      "passed": true,
+      "details": {
+        "x": 552,
+        "y": 136,
+        "width": 204,
+        "height": 127,
+        "right": 756,
+        "bottom": 263,
+        "viewY": 58,
+        "viewBottom": 268,
+        "inside": true
+      }
+    },
+    {
+      "name": "copy then paste works at scrolled bottom position",
+      "passed": true,
+      "details": {
+        "before_ids": [
+          "scroll_b8"
+        ],
+        "after_ids": [
+          "scroll_b8",
+          "clip_8a823750-664"
+        ],
+        "newids": [
+          "clip_8a823750-664"
+        ],
+        "paste_enabled": true
+      }
+    },
+    {
+      "name": "delete works at scrolled bottom position",
+      "passed": true,
+      "details": {
+        "pasted": "clip_8a823750-664",
+        "ids": [
+          "scroll_b8"
+        ]
+      }
+    },
+    {
+      "name": "undo restores clip deleted at scrolled bottom position",
+      "passed": true,
+      "details": {
+        "pasted": "clip_8a823750-664",
+        "ids": [
+          "scroll_b8",
+          "clip_8a823750-664"
+        ]
+      }
+    },
+    {
+      "name": "scrolled interaction causes no horizontal layout overflow",
+      "passed": true,
+      "details": {
+        "view": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 210,
+          "right": 950,
+          "bottom": 268,
+          "scrollTop": 127,
+          "scrollHeight": 336,
+          "clientHeight": 209,
+          "scrollWidth": 704,
+          "clientWidth": 704
+        },
+        "content": {
+          "width": 704,
+          "height": 336
+        },
+        "canvas": {
+          "x": 236,
+          "y": -69,
+          "width": 704,
+          "height": 336,
+          "right": 940,
+          "bottom": 267
+        },
+        "body": {
+          "scrollWidth": 1272,
+          "clientWidth": 1272
+        },
+        "zoom": 1
+      }
+    },
+    {
+      "name": "small 3-4 lane project remains unscrollable and same height",
+      "passed": false,
+      "details": {
+        "expected": 336,
+        "geometry": {
+          "view": {
+            "x": 236,
+            "y": 58,
+            "width": 714,
+            "height": 210,
+            "right": 950,
+            "bottom": 268,
+            "scrollTop": 0,
+            "scrollHeight": 336,
+            "clientHeight": 209,
+            "scrollWidth": 704,
+            "clientWidth": 704
+          },
+          "content": {
+            "width": 704,
+            "height": 336
+          },
+          "canvas": {
+            "x": 236,
+            "y": 58,
+            "width": 704,
+            "height": 336,
+            "right": 940,
+            "bottom": 394
+          },
+          "body": {
+            "scrollWidth": 1272,
+            "clientWidth": 1272
+          },
+          "zoom": 1
+        },
+        "track_count": 9
+      }
+    },
+    {
+      "name": "console network and http clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "network_failures": [
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          }
+        ],
+        "unexpected": [],
+        "http_errors": []
+      }
+    }
+  ],
+  "fixture_status": 200,
+  "large_initial_geometry": {
+    "view": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 210,
+      "right": 950,
+      "bottom": 268,
+      "scrollTop": 0,
+      "scrollHeight": 336,
+      "clientHeight": 209,
+      "scrollWidth": 704,
+      "clientWidth": 704
+    },
+    "content": {
+      "width": 704,
+      "height": 336
+    },
+    "canvas": {
+      "x": 236,
+      "y": 58,
+      "width": 704,
+      "height": 336,
+      "right": 940,
+      "bottom": 394
+    },
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "zoom": 1
+  },
+  "plain_wheel": {
+    "before": {
+      "view": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 210,
+        "right": 950,
+        "bottom": 268,
+        "scrollTop": 0,
+        "scrollHeight": 336,
+        "clientHeight": 209,
+        "scrollWidth": 704,
+        "clientWidth": 704
+      },
+      "content": {
+        "width": 704,
+        "height": 336
+      },
+      "canvas": {
+        "x": 236,
+        "y": 58,
+        "width": 704,
+        "height": 336,
+        "right": 940,
+        "bottom": 394
+      },
+      "body": {
+        "scrollWidth": 1272,
+        "clientWidth": 1272
+      },
+      "zoom": 1
+    },
+    "after": {
+      "view": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 210,
+        "right": 950,
+        "bottom": 268,
+        "scrollTop": 127,
+        "scrollHeight": 336,
+        "clientHeight": 209,
+        "scrollWidth": 704,
+        "clientWidth": 704
+      },
+      "content": {
+        "width": 704,
+        "height": 336
+      },
+      "canvas": {
+        "x": 236,
+        "y": -69,
+        "width": 704,
+        "height": 336,
+        "right": 940,
+        "bottom": 267
+      },
+      "body": {
+        "scrollWidth": 1272,
+        "clientWidth": 1272
+      },
+      "zoom": 1
+    },
+    "base_text": {
+      "text": "B8",
+      "x": 209,
+      "y": 317,
+      "t": 219.40000000596046
+    },
+    "after_redraw_text": null
+  },
+  "shift_wheel": {
+    "pre": {
+      "view": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 210,
+        "right": 950,
+        "bottom": 268,
+        "scrollTop": 60,
+        "scrollHeight": 336,
+        "clientHeight": 209,
+        "scrollWidth": 704,
+        "clientWidth": 704
+      },
+      "content": {
+        "width": 704,
+        "height": 336
+      },
+      "canvas": {
+        "x": 236,
+        "y": -2,
+        "width": 704,
+        "height": 336,
+        "right": 940,
+        "bottom": 334
+      },
+      "body": {
+        "scrollWidth": 1272,
+        "clientWidth": 1272
+      },
+      "zoom": 1
+    },
+    "post": {
+      "view": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 210,
+        "right": 950,
+        "bottom": 268,
+        "scrollTop": 60,
+        "scrollHeight": 336,
+        "clientHeight": 209,
+        "scrollWidth": 704,
+        "clientWidth": 704
+      },
+      "content": {
+        "width": 704,
+        "height": 336
+      },
+      "canvas": {
+        "x": 236,
+        "y": -2,
+        "width": 704,
+        "height": 336,
+        "right": 940,
+        "bottom": 334
+      },
+      "body": {
+        "scrollWidth": 1272,
+        "clientWidth": 1272
+      },
+      "zoom": 1
+    },
+    "base": {
+      "text": "B8",
+      "x": 209,
+      "y": 317,
+      "t": 219.40000000596046
+    },
+    "new": {
+      "text": "B8",
+      "x": 97,
+      "y": 317,
+      "t": 2599.1000000089407
+    },
+    "dx": -112
+  },
+  "horizontal_wheel": {
+    "pre": {
+      "view": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 210,
+        "right": 950,
+        "bottom": 268,
+        "scrollTop": 60,
+        "scrollHeight": 336,
+        "clientHeight": 209,
+        "scrollWidth": 704,
+        "clientWidth": 704
+      },
+      "content": {
+        "width": 704,
+        "height": 336
+      },
+      "canvas": {
+        "x": 236,
+        "y": -2,
+        "width": 704,
+        "height": 336,
+        "right": 940,
+        "bottom": 334
+      },
+      "body": {
+        "scrollWidth": 1272,
+        "clientWidth": 1272
+      },
+      "zoom": 1
+    },
+    "post": {
+      "view": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 210,
+        "right": 950,
+        "bottom": 268,
+        "scrollTop": 60,
+        "scrollHeight": 336,
+        "clientHeight": 209,
+        "scrollWidth": 704,
+        "clientWidth": 704
+      },
+      "content": {
+        "width": 704,
+        "height": 336
+      },
+      "canvas": {
+        "x": 236,
+        "y": -2,
+        "width": 704,
+        "height": 336,
+        "right": 940,
+        "bottom": 334
+      },
+      "body": {
+        "scrollWidth": 1272,
+        "clientWidth": 1272
+      },
+      "zoom": 1
+    },
+    "base": {
+      "text": "B8",
+      "x": 97,
+      "y": 317,
+      "t": 2599.1000000089407
+    },
+    "new": {
+      "text": "B8",
+      "x": -15,
+      "y": 317,
+      "t": 3216
+    },
+    "dx": -112
+  },
+  "ctrl_wheel": {
+    "pre": {
+      "view": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 210,
+        "right": 950,
+        "bottom": 268,
+        "scrollTop": 60,
+        "scrollHeight": 336,
+        "clientHeight": 209,
+        "scrollWidth": 704,
+        "clientWidth": 704
+      },
+      "content": {
+        "width": 704,
+        "height": 336
+      },
+      "canvas": {
+        "x": 236,
+        "y": -2,
+        "width": 704,
+        "height": 336,
+        "right": 940,
+        "bottom": 334
+      },
+      "body": {
+        "scrollWidth": 1272,
+        "clientWidth": 1272
+      },
+      "zoom": 1
+    },
+    "post": {
+      "view": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 210,
+        "right": 950,
+        "bottom": 268,
+        "scrollTop": 127,
+        "scrollHeight": 336,
+        "clientHeight": 209,
+        "scrollWidth": 704,
+        "clientWidth": 704
+      },
+      "content": {
+        "width": 704,
+        "height": 336
+      },
+      "canvas": {
+        "x": 236,
+        "y": -69,
+        "width": 704,
+        "height": 336,
+        "right": 940,
+        "bottom": 267
+      },
+      "body": {
+        "scrollWidth": 1272,
+        "clientWidth": 1272
+      },
+      "zoom": 1
+    },
+    "spacing": null,
+    "after_nums": {
+      "2": {
+        "text": "2",
+        "x": 269.6,
+        "y": 16,
+        "t": 3749.300000011921
+      },
+      "3": {
+        "text": "3",
+        "x": 672.8,
+        "y": 16,
+        "t": 3749.300000011921
+      },
+      "4": {
+        "text": "4",
+        "x": 1076,
+        "y": 16,
+        "t": 3749.300000011921
+      }
+    }
+  },
+  "bottom_geometry": {
+    "view": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 210,
+      "right": 950,
+      "bottom": 268,
+      "scrollTop": 127,
+      "scrollHeight": 336,
+      "clientHeight": 209,
+      "scrollWidth": 704,
+      "clientWidth": 704
+    },
+    "content": {
+      "width": 704,
+      "height": 336
+    },
+    "canvas": {
+      "x": 236,
+      "y": -69,
+      "width": 704,
+      "height": 336,
+      "right": 940,
+      "bottom": 267
+    },
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "zoom": 1
+  },
+  "final_large_geometry": {
+    "view": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 210,
+      "right": 950,
+      "bottom": 268,
+      "scrollTop": 127,
+      "scrollHeight": 336,
+      "clientHeight": 209,
+      "scrollWidth": 704,
+      "clientWidth": 704
+    },
+    "content": {
+      "width": 704,
+      "height": 336
+    },
+    "canvas": {
+      "x": 236,
+      "y": -69,
+      "width": 704,
+      "height": 336,
+      "right": 940,
+      "bottom": 267
+    },
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "zoom": 1
+  },
+  "small_geometry": {
+    "view": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 210,
+      "right": 950,
+      "bottom": 268,
+      "scrollTop": 0,
+      "scrollHeight": 336,
+      "clientHeight": 209,
+      "scrollWidth": 704,
+      "clientWidth": 704
+    },
+    "content": {
+      "width": 704,
+      "height": 336
+    },
+    "canvas": {
+      "x": 236,
+      "y": 58,
+      "width": 704,
+      "height": 336,
+      "right": 940,
+      "bottom": 394
+    },
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "zoom": 1
+  },
+  "console": [],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http_errors": []
+}

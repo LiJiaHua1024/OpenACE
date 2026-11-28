@@ -1,0 +1,74 @@
+INFO:     127.0.0.1:36066 - "GET /api/projects/project_68e4581f3701 HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/uvicorn/protocols/http/httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/fastapi/applications.py", line 1194, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 2811, in app
+    await route.handle(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 1330, in handle
+    await super().handle(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/routing.py", line 282, in handle
+    await self.app(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 166, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 152, in app
+    response = await f(request)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 745, in app
+    raw_response = await run_endpoint_function(
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 374, in run_endpoint_function
+    return await run_in_threadpool(
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/starlette/concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/anyio/to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/fastapi/telemetry/_api.py", line 244, in _run_sync_endpoint
+    return function(**arguments)
+  File "/home/ubuntu/repos/OpenACE/openace/server/app.py", line 311, in read_project
+    return get_project(project_id).model_dump(mode="json")
+  File "/home/ubuntu/repos/OpenACE/openace/server/app.py", line 140, in get_project
+    return store.get(project_id)
+  File "/home/ubuntu/repos/OpenACE/openace/core/project_store.py", line 60, in get
+    return Project.load(path)
+  File "/home/ubuntu/repos/OpenACE/openace/core/models.py", line 370, in load
+    return cls.load_json(path.read_text(encoding="utf-8"))
+  File "/home/ubuntu/repos/OpenACE/openace/core/models.py", line 362, in load_json
+    return cls.model_validate_json(text)
+  File "/home/ubuntu/repos/OpenACE/.venv/lib/python3.10/site-packages/pydantic/main.py", line 847, in model_validate_json
+    return cls.__pydantic_validator__.validate_json(
+pydantic_core._pydantic_core.ValidationError: 1 validation error for Project
+  Invalid JSON: trailing characters at line 351 column 1 [type=json_invalid, input_value='{\n  "id": "project_68e4...inned": false\n  }\n}\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.14/v/json_invalid

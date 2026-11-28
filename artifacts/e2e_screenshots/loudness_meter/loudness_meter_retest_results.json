@@ -1,0 +1,42 @@
+{
+  "console": [],
+  "network": [],
+  "steady_initial": "M -19.6 | S -19.6 | max -19.6",
+  "after_volume_down": "M -25.6 | S -20.8 | max -19.6",
+  "after_live_rebuild": "M -25.4 | S -22.5 | max -19.6",
+  "pause_decay_sequence": [
+    "M -103.9 | S -25.2 | max -19.6",
+    "M -103.9 | S -28.1 | max -19.6",
+    "M -103.9 | S -30.5 | max -19.6",
+    "M -103.9 | S -36.8 | max -19.6",
+    "M -103.9 | S -112.7 | max -19.6"
+  ],
+  "restart_recovered": "M -102.2 | S -31.2 | max -19.6",
+  "reset_immediate": "M −∞ | S −∞ | max −∞",
+  "reset_later": "M −∞ | S −∞ | max −∞",
+  "mute_decay_sequence": [
+    "M −∞ | S −∞ | max −∞",
+    "M −∞ | S −∞ | max −∞",
+    "M −∞ | S −∞ | max −∞",
+    "M −∞ | S −∞ | max −∞"
+  ],
+  "layout": {
+    "x": 10,
+    "y": 367,
+    "width": 215,
+    "height": 100.5
+  },
+  "valid_long_tone_reset_restart_mute": {
+    "initial": "M -19.6 | S -19.6 | max -19.6",
+    "reset_immediate": "M -19.6 | S -19.6 | max -19.6",
+    "reset_after_1s_playing": "M -19.6 | S -19.6 | max -19.6",
+    "paused": "M -108.6 | S -23.3 | max -19.6",
+    "restarted": "M -19.6 | S -22.9 | max -19.6",
+    "muted": "M -104.7 | S -22.9 | max -19.6",
+    "unmuted": "M -19.6 | S -23.2 | max -19.6"
+  },
+  "reset_max_discriminating_test": {
+    "before_reset_after_volume_down": "M -25.6 | S -22.4 | max -19.6",
+    "after_reset_1s": "M -25.6 | S -25.6 | max -25.6"
+  }
+}

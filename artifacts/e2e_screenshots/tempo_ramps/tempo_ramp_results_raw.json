@@ -1,0 +1,314 @@
+{
+  "initial_tempo": [
+    {
+      "ticks": 1920,
+      "bpm": 180.0,
+      "curve": "step"
+    }
+  ],
+  "step_scan": {
+    "points": 215,
+    "first": {
+      "x": 70,
+      "y": 38.5,
+      "n": 2
+    },
+    "last": {
+      "x": 498,
+      "y": 38.5,
+      "n": 2
+    },
+    "slope": -0.00019560965007607047,
+    "rows": [
+      {
+        "x": 70,
+        "y": 38.5,
+        "n": 2
+      },
+      {
+        "x": 130,
+        "y": 38.5,
+        "n": 2
+      },
+      {
+        "x": 190,
+        "y": 38.5,
+        "n": 2
+      },
+      {
+        "x": 250,
+        "y": 38.5,
+        "n": 2
+      },
+      {
+        "x": 310,
+        "y": 38.5,
+        "n": 2
+      },
+      {
+        "x": 370,
+        "y": 38.5,
+        "n": 2
+      },
+      {
+        "x": 430,
+        "y": 38.5,
+        "n": 2
+      },
+      {
+        "x": 490,
+        "y": 38.5,
+        "n": 2
+      }
+    ]
+  },
+  "step_transport": {
+    "wall": 1.7027077674865723,
+    "position": "1.4.2\n00:01.71"
+  },
+  "editor_visible": true,
+  "linear_backend": [
+    {
+      "ticks": 1920,
+      "bpm": 180.0,
+      "curve": "linear"
+    }
+  ],
+  "linear_scan": {
+    "points": 215,
+    "first": {
+      "x": 70,
+      "y": 38.5,
+      "n": 2
+    },
+    "last": {
+      "x": 498,
+      "y": 13,
+      "n": 1
+    },
+    "slope": -0.0594447060622892,
+    "rows": [
+      {
+        "x": 70,
+        "y": 38.5,
+        "n": 2
+      },
+      {
+        "x": 130,
+        "y": 35,
+        "n": 1
+      },
+      {
+        "x": 190,
+        "y": 31.5,
+        "n": 2
+      },
+      {
+        "x": 250,
+        "y": 27.5,
+        "n": 2
+      },
+      {
+        "x": 310,
+        "y": 24,
+        "n": 1
+      },
+      {
+        "x": 370,
+        "y": 20.5,
+        "n": 2
+      },
+      {
+        "x": 430,
+        "y": 17,
+        "n": 1
+      },
+      {
+        "x": 490,
+        "y": 13.5,
+        "n": 2
+      }
+    ]
+  },
+  "linear_transport": {
+    "wall": 1.7037878036499023,
+    "position": "2.1.1\n00:01.69"
+  },
+  "after_drag": [
+    {
+      "ticks": 1920,
+      "bpm": 180.0,
+      "curve": "linear"
+    }
+  ],
+  "undo": [
+    {
+      "ticks": 1920,
+      "bpm": 180.0,
+      "curve": "step"
+    }
+  ],
+  "redo": [
+    {
+      "ticks": 1920,
+      "bpm": 180.0,
+      "curve": "linear"
+    }
+  ],
+  "reload_backend": [
+    {
+      "ticks": 1920,
+      "bpm": 180.0,
+      "curve": "linear"
+    }
+  ],
+  "reload_curve_select_value": "linear",
+  "reload_scan": {
+    "points": 215,
+    "first": {
+      "x": 70,
+      "y": 38.5,
+      "n": 2
+    },
+    "last": {
+      "x": 498,
+      "y": 13,
+      "n": 1
+    },
+    "slope": -0.0594447060622892,
+    "rows": [
+      {
+        "x": 70,
+        "y": 38.5,
+        "n": 2
+      },
+      {
+        "x": 130,
+        "y": 35,
+        "n": 1
+      },
+      {
+        "x": 190,
+        "y": 31.5,
+        "n": 2
+      },
+      {
+        "x": 250,
+        "y": 27.5,
+        "n": 2
+      },
+      {
+        "x": 310,
+        "y": 24,
+        "n": 1
+      },
+      {
+        "x": 370,
+        "y": 20.5,
+        "n": 2
+      },
+      {
+        "x": 430,
+        "y": 17,
+        "n": 1
+      },
+      {
+        "x": 490,
+        "y": 13.5,
+        "n": 2
+      }
+    ]
+  },
+  "layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "bodyOverflow": false
+  },
+  "console": [
+    {
+      "type": "warning",
+      "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+    }
+  ],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "manual_drag": {
+    "initial": "960/180 linear",
+    "final_backend": [
+      {
+        "ticks": 1080,
+        "bpm": 174.4,
+        "curve": "linear"
+      }
+    ],
+    "held_ui": "1080/174.4, linear visible",
+    "note": "real computer drag; endpoint had to be moved away from editor overlay first"
+  },
+  "undo_redo_visible": {
+    "undo": "960/180 linear",
+    "redo": "1080/174.4 linear",
+    "passed": true
+  },
+  "reload_final": {
+    "backend": [
+      {
+        "ticks": 1080,
+        "bpm": 174.4,
+        "curve": "linear"
+      }
+    ],
+    "scan": {
+      "count": 214,
+      "slope": -0.06436681988711651,
+      "first": {
+        "x": 70,
+        "y": 38.5
+      },
+      "last": {
+        "x": 498,
+        "y": 12.5
+      },
+      "samples": [
+        {
+          "x": 70,
+          "y": 38.5
+        },
+        {
+          "x": 150,
+          "y": 30
+        },
+        {
+          "x": 230,
+          "y": 21.5
+        },
+        {
+          "x": 310,
+          "y": 13
+        },
+        {
+          "x": 392,
+          "y": 12.5
+        },
+        {
+          "x": 472,
+          "y": 12.5
+        }
+      ]
+    },
+    "layout": {
+      "innerWidth": 1272,
+      "innerHeight": 837,
+      "bodyOverflow": false
+    },
+    "console": [],
+    "network_failures": []
+  }
+}

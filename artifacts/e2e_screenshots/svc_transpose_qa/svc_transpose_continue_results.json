@@ -1,0 +1,189 @@
+{
+  "console": [],
+  "badnet": [],
+  "steps": {
+    "manual_minus3": {
+      "typed": "-3",
+      "job": {
+        "id": "job_437946095819",
+        "project_id": "project_68e4581f3701",
+        "track_id": null,
+        "mode": "svc",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed; added to arrangement as SVC \u2014 upload_3f7267f97bc4_vocal",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_437946095819/svc.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_437946095819/diagnostic.png",
+        "created_at": 1795853618.6757164,
+        "finished_at": 1795853650.3233426,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true,
+        "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/upload_3f7267f97bc4_vocal.wav",
+        "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav",
+        "caption": "",
+        "start_s": null,
+        "end_s": null,
+        "clip_id": null,
+        "source_start_s": null,
+        "source_end_s": null,
+        "arrangement_start_ticks": 0,
+        "pitch_shift": -3,
+        "auto_shift": false
+      },
+      "conversion": {
+        "job_id": "job_437946095819",
+        "track_id": "track_c0a1b0433002",
+        "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/upload_3f7267f97bc4_vocal.wav",
+        "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav",
+        "pitch_shift": -3,
+        "auto_shift": false,
+        "clip_id": null,
+        "source_start_s": null,
+        "source_end_s": null,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_437946095819/svc.wav",
+        "lyric_language": null,
+        "lyric_word_count": 0,
+        "lyric_transcription_error": "ASR produced no timestamped lyrics; refusing placeholder substitution",
+        "editable_track_id": "track_699dda15eafe",
+        "editable_note_count": 4,
+        "editable_score_error": null
+      },
+      "track_count": 8,
+      "svc_track_names": [
+        "SVC score \u2014 clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+        "SVC \u2014 clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+        "SVC score \u2014 upload_3f7267f97bc4_vocal",
+        "SVC \u2014 upload_3f7267f97bc4_vocal",
+        "SVC score \u2014 upload_3f7267f97bc4_vocal",
+        "SVC \u2014 upload_3f7267f97bc4_vocal"
+      ],
+      "clip_counts": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ]
+    },
+    "auto": {
+      "typed": null,
+      "job": {
+        "id": "job_0295c41254d2",
+        "project_id": "project_68e4581f3701",
+        "track_id": null,
+        "mode": "svc",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed; added to arrangement as SVC \u2014 upload_3f7267f97bc4_vocal",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_0295c41254d2/svc.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_0295c41254d2/diagnostic.png",
+        "created_at": 1795853653.0843873,
+        "finished_at": 1795853657.1620402,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true,
+        "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/upload_3f7267f97bc4_vocal.wav",
+        "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav",
+        "caption": "",
+        "start_s": null,
+        "end_s": null,
+        "clip_id": null,
+        "source_start_s": null,
+        "source_end_s": null,
+        "arrangement_start_ticks": 0,
+        "pitch_shift": 0,
+        "auto_shift": true
+      },
+      "conversion": {
+        "job_id": "job_0295c41254d2",
+        "track_id": "track_8b3b1333d916",
+        "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/upload_3f7267f97bc4_vocal.wav",
+        "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav",
+        "pitch_shift": 0,
+        "auto_shift": true,
+        "clip_id": null,
+        "source_start_s": null,
+        "source_end_s": null,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_0295c41254d2/svc.wav",
+        "lyric_language": "en",
+        "lyric_word_count": 1,
+        "lyric_transcription_error": null,
+        "editable_track_id": "track_69cfe203980c",
+        "editable_note_count": 3,
+        "editable_score_error": null
+      },
+      "track_count": 10,
+      "svc_track_names": [
+        "SVC score \u2014 clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+        "SVC \u2014 clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+        "SVC score \u2014 upload_3f7267f97bc4_vocal",
+        "SVC \u2014 upload_3f7267f97bc4_vocal",
+        "SVC score \u2014 upload_3f7267f97bc4_vocal",
+        "SVC \u2014 upload_3f7267f97bc4_vocal",
+        "SVC score \u2014 upload_3f7267f97bc4_vocal",
+        "SVC \u2014 upload_3f7267f97bc4_vocal"
+      ],
+      "clip_counts": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ]
+    },
+    "reload": {
+      "conversion_count_before": 4,
+      "conversion_count_after": 4,
+      "reference_still_present": true,
+      "svc_tracks": [
+        [
+          "SVC score \u2014 clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+          0
+        ],
+        [
+          "SVC \u2014 clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+          1
+        ],
+        [
+          "SVC score \u2014 upload_3f7267f97bc4_vocal",
+          0
+        ],
+        [
+          "SVC \u2014 upload_3f7267f97bc4_vocal",
+          1
+        ],
+        [
+          "SVC score \u2014 upload_3f7267f97bc4_vocal",
+          0
+        ],
+        [
+          "SVC \u2014 upload_3f7267f97bc4_vocal",
+          1
+        ],
+        [
+          "SVC score \u2014 upload_3f7267f97bc4_vocal",
+          0
+        ],
+        [
+          "SVC \u2014 upload_3f7267f97bc4_vocal",
+          1
+        ]
+      ],
+      "all_output_paths_exist_metadata": true
+    },
+    "undo_redo_regression": {
+      "project_readable": true,
+      "conversion_count": 4,
+      "track_count": 10
+    }
+  }
+}

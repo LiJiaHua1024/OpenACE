@@ -1,0 +1,21 @@
+{
+  "shared_filter": [
+    {
+      "title": "\u2605 FolderQA Beta",
+      "meta": "11/27/2026 \u00b7 1 tracks \u00b7 120 BPM \u00b7 \u25b8SharedLab"
+    },
+    {
+      "title": "\u2605 FolderQA Alpha",
+      "meta": "11/27/2026 \u00b7 1 tracks \u00b7 120 BPM \u00b7 \u25b8Experiments \u25b8SharedLab"
+    }
+  ],
+  "shared_pass": true,
+  "folder_search": [
+    "\u2605 FolderQA Alpha"
+  ],
+  "search_pass": true,
+  "empty_row_count": 0,
+  "empty_state_count": 0,
+  "empty_state_text": null,
+  "empty_pass": false
+}

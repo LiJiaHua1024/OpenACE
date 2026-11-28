@@ -1,0 +1,59 @@
+{
+  "console": [],
+  "badnet": [],
+  "project_id": "project_38e290771e6c",
+  "layout_1272": {
+    "w": 1272,
+    "h": 837,
+    "bodyOverflow": false,
+    "overflowing": 0,
+    "rightPanelOverflow": 0
+  },
+  "draw3_count": 3,
+  "layout_1920": {
+    "w": 1920,
+    "h": 1080,
+    "bodyOverflow": false,
+    "overflowing": 0,
+    "rightPanelOverflow": 0
+  },
+  "layout_1272_return": {
+    "w": 1272,
+    "h": 837,
+    "bodyOverflow": false,
+    "overflowing": 0,
+    "rightPanelOverflow": 0
+  },
+  "undo_count": 2,
+  "redo_count": 3,
+  "drag": {
+    "before": [
+      1440,
+      69
+    ],
+    "after": [
+      1920,
+      70
+    ]
+  },
+  "resize": {
+    "before": 480,
+    "after": 600
+  },
+  "reload_counts": [
+    3,
+    3
+  ],
+  "reload_durations": [
+    [
+      600,
+      480,
+      480
+    ],
+    [
+      600,
+      480,
+      480
+    ]
+  ]
+}

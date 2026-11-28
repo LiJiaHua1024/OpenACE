@@ -1,0 +1,286 @@
+{
+  "click_stats": {
+    "audible_count": 17,
+    "canceled_future_noise": 12,
+    "exact_audible_duplicate_count": 0,
+    "intervals": [
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "short_intervals_under350ms": 0,
+    "min_interval_ms": 500.0,
+    "max_interval_ms": 500.0,
+    "freqs": [
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175
+    ]
+  },
+  "downbeats": [
+    73.47102040816327,
+    75.47102040816327,
+    77.47102040816327,
+    79.47102040816327
+  ],
+  "boundary_sources": [
+    {
+      "boundary": 73.47102040816327,
+      "crossing_count": 7,
+      "max_abs_scheduled_stop_deviation_ms": 0.0,
+      "loopstart_source_count": 2,
+      "early_new_sources": [],
+      "late_loopstart_sources": [],
+      "audible_overruns_past_boundary": [],
+      "crossing": [
+        {
+          "id": 342,
+          "start": 71.47102040816327,
+          "end": 73.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            73.47102040816327
+          ]
+        },
+        {
+          "id": 364,
+          "start": 73.22102040816327,
+          "end": 73.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            73.47102040816327
+          ]
+        },
+        {
+          "id": 367,
+          "start": 73.22102040816327,
+          "end": 73.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            73.47102040816327
+          ]
+        },
+        {
+          "id": 370,
+          "start": 73.22102040816327,
+          "end": 73.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            73.47102040816327
+          ]
+        },
+        {
+          "id": 373,
+          "start": 73.22102040816327,
+          "end": 73.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            73.47102040816327
+          ]
+        },
+        {
+          "id": 381,
+          "start": 73.22102040816327,
+          "end": 73.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            73.47102040816327
+          ]
+        },
+        {
+          "id": 389,
+          "start": 73.22102040816327,
+          "end": 73.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            73.47102040816327
+          ]
+        }
+      ]
+    },
+    {
+      "boundary": 75.47102040816327,
+      "crossing_count": 7,
+      "max_abs_scheduled_stop_deviation_ms": 0.0,
+      "loopstart_source_count": 2,
+      "early_new_sources": [],
+      "late_loopstart_sources": [],
+      "audible_overruns_past_boundary": [],
+      "crossing": [
+        {
+          "id": 407,
+          "start": 73.47102040816327,
+          "end": 75.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            75.47102040816327
+          ]
+        },
+        {
+          "id": 429,
+          "start": 75.22102040816327,
+          "end": 75.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            75.47102040816327
+          ]
+        },
+        {
+          "id": 432,
+          "start": 75.22102040816327,
+          "end": 75.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            75.47102040816327
+          ]
+        },
+        {
+          "id": 435,
+          "start": 75.22102040816327,
+          "end": 75.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            75.47102040816327
+          ]
+        },
+        {
+          "id": 438,
+          "start": 75.22102040816327,
+          "end": 75.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            75.47102040816327
+          ]
+        },
+        {
+          "id": 446,
+          "start": 75.22102040816327,
+          "end": 75.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            75.47102040816327
+          ]
+        },
+        {
+          "id": 454,
+          "start": 75.22102040816327,
+          "end": 75.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            75.47102040816327
+          ]
+        }
+      ]
+    },
+    {
+      "boundary": 77.47102040816327,
+      "crossing_count": 7,
+      "max_abs_scheduled_stop_deviation_ms": 0.0,
+      "loopstart_source_count": 2,
+      "early_new_sources": [],
+      "late_loopstart_sources": [],
+      "audible_overruns_past_boundary": [],
+      "crossing": [
+        {
+          "id": 474,
+          "start": 75.47102040816327,
+          "end": 77.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            77.47102040816327
+          ]
+        },
+        {
+          "id": 496,
+          "start": 77.22102040816327,
+          "end": 77.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            77.47102040816327
+          ]
+        },
+        {
+          "id": 499,
+          "start": 77.22102040816327,
+          "end": 77.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            77.47102040816327
+          ]
+        },
+        {
+          "id": 502,
+          "start": 77.22102040816327,
+          "end": 77.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            77.47102040816327
+          ]
+        },
+        {
+          "id": 505,
+          "start": 77.22102040816327,
+          "end": 77.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            77.47102040816327
+          ]
+        },
+        {
+          "id": 513,
+          "start": 77.22102040816327,
+          "end": 77.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            77.47102040816327
+          ]
+        },
+        {
+          "id": 521,
+          "start": 77.22102040816327,
+          "end": 77.47102040816327,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            77.47102040816327
+          ]
+        }
+      ]
+    }
+  ],
+  "console": [],
+  "pageerrors": [],
+  "network_failures": [],
+  "reached_boundaries": [
+    73.47102040816327,
+    75.47102040816327,
+    77.47102040816327
+  ],
+  "snapshot_now": 78.15836734693877
+}

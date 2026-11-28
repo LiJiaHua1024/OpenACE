@@ -1,0 +1,77 @@
+[
+  {
+    "job": "job_2f846ce5358b",
+    "shift": 0,
+    "auto": false,
+    "track_found": true,
+    "clip_count": 1,
+    "clip_paths": [
+      "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_2f846ce5358b/svc.wav"
+    ],
+    "output_exists": true,
+    "clip_matches_output": true,
+    "duration_ticks": [
+      1800
+    ]
+  },
+  {
+    "job": "job_437946095819",
+    "shift": -3,
+    "auto": false,
+    "track_found": true,
+    "clip_count": 1,
+    "clip_paths": [
+      "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_437946095819/svc.wav"
+    ],
+    "output_exists": true,
+    "clip_matches_output": true,
+    "duration_ticks": [
+      1800
+    ]
+  },
+  {
+    "job": "job_0295c41254d2",
+    "shift": 0,
+    "auto": true,
+    "track_found": true,
+    "clip_count": 1,
+    "clip_paths": [
+      "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_0295c41254d2/svc.wav"
+    ],
+    "output_exists": true,
+    "clip_matches_output": true,
+    "duration_ticks": [
+      1800
+    ]
+  },
+  {
+    "job": "job_6f0ad252b1b6",
+    "shift": 1,
+    "auto": false,
+    "track_found": true,
+    "clip_count": 1,
+    "clip_paths": [
+      "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_6f0ad252b1b6/svc.wav"
+    ],
+    "output_exists": true,
+    "clip_matches_output": true,
+    "duration_ticks": [
+      1800
+    ]
+  },
+  {
+    "job": "job_beddcfd04ba3",
+    "shift": 2,
+    "auto": false,
+    "track_found": true,
+    "clip_count": 1,
+    "clip_paths": [
+      "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_beddcfd04ba3/svc.wav"
+    ],
+    "output_exists": true,
+    "clip_matches_output": true,
+    "duration_ticks": [
+      1800
+    ]
+  }
+]

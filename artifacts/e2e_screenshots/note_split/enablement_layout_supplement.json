@@ -1,0 +1,109 @@
+{
+  "console": [],
+  "network": [],
+  "split_disabled_at_boundary": true,
+  "split_enabled_inside_single_selected": true,
+  "layout": {
+    "viewport": [
+      1272,
+      837
+    ],
+    "body": [
+      1272,
+      1272
+    ],
+    "toolbar": [
+      730,
+      714
+    ],
+    "toolbarRight": 950,
+    "items": [
+      {
+        "text": "\u27a4",
+        "left": 243,
+        "right": 274,
+        "width": 31
+      },
+      {
+        "text": "\u270e",
+        "left": 278,
+        "right": 309,
+        "width": 31
+      },
+      {
+        "text": "\u232b",
+        "left": 313,
+        "right": 344,
+        "width": 31
+      },
+      {
+        "text": "\u223f Pitch",
+        "left": 348,
+        "right": 387.96875,
+        "width": 39.96875
+      },
+      {
+        "text": "Copy",
+        "left": 639.8984375,
+        "right": 678.8984375,
+        "width": 39
+      },
+      {
+        "text": "Paste",
+        "left": 682.8984375,
+        "right": 721.8984375,
+        "width": 39
+      },
+      {
+        "text": "Dup",
+        "left": 725.8984375,
+        "right": 764.8984375,
+        "width": 39
+      },
+      {
+        "text": "Quant",
+        "left": 768.8984375,
+        "right": 807.8984375,
+        "width": 39
+      },
+      {
+        "text": "Split",
+        "left": 811.8984375,
+        "right": 850.8984375,
+        "width": 39
+      },
+      {
+        "text": "Vibrato",
+        "left": 854.8984375,
+        "right": 898.8984375,
+        "width": 44
+      },
+      {
+        "text": "1 selected",
+        "left": 903.8984375,
+        "right": 965.8984375,
+        "width": 62
+      },
+      {
+        "text": "",
+        "left": 970.8984375,
+        "right": 1062.8984375,
+        "width": 92
+      },
+      {
+        "text": "",
+        "left": 1067.8984375,
+        "right": 1067.8984375,
+        "width": 0
+      },
+      {
+        "text": "V/B/E/P \u00b7 Ctrl+C/V/D/E",
+        "left": 0,
+        "right": 0,
+        "width": 0
+      }
+    ]
+  },
+  "console_bad": [],
+  "network_bad": []
+}

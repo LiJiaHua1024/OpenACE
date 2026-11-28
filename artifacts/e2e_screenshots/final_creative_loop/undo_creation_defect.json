@@ -1,0 +1,7 @@
+{
+  "defect": "undo after drawing a note is swallowed while the auto-open lyric editor remains active",
+  "with_escape_first": {"dismiss": true, "backend_note_count_after_undo": 0, "ui": "vocal · zh · 0 notes"},
+  "without_escape_first": {"dismiss": false, "backend_note_count_after_undo": 1, "ui": "vocal · zh · 1 notes"},
+  "control": "lyric edit undo itself works: lyric 你 reverted to empty",
+  "impact": "the most natural immediate undo gesture after drawing a note appears enabled but does not revert note creation unless the lyric editor is dismissed first"
+}

@@ -1,0 +1,370 @@
+{
+  "fixture_clip_with_offset_fades_gain": {
+    "ok": true,
+    "details": {
+      "project_id": "project_c51755914b78",
+      "initial": [
+        {
+          "id": "clip_f125b47de59c",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        }
+      ]
+    },
+    "time": 1795742702.5769901
+  },
+  "clip_menu_layout_and_copy": {
+    "ok": true,
+    "details": {
+      "geometry": {
+        "menu": {
+          "x": 356,
+          "y": 133,
+          "width": 132,
+          "height": 212
+        },
+        "canvas": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 132
+        },
+        "overflow_right": -462,
+        "overflow_bottom": 155,
+        "buttons": [
+          "Split at cursor",
+          "Copy",
+          "Paste at cursor",
+          "Duplicate",
+          "Delete"
+        ]
+      },
+      "copy_clicked": true,
+      "after_copy": [
+        {
+          "id": "clip_f125b47de59c",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        }
+      ]
+    },
+    "time": 1795742703.779337
+  },
+  "paste_same_track_preserves_clip_and_undo_redo": {
+    "ok": true,
+    "details": {
+      "paste_clicked": true,
+      "pasted": [
+        {
+          "id": "clip_f125b47de59c",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_f1b715a5-236",
+          "start_ticks": 2400,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        }
+      ],
+      "undo_count": 1,
+      "redo": [
+        {
+          "id": "clip_f125b47de59c",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_f1b715a5-236",
+          "start_ticks": 2400,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        }
+      ],
+      "menu_geometry": {
+        "menu": {
+          "x": 860,
+          "y": 133,
+          "width": 132,
+          "height": 40
+        },
+        "buttons": [
+          "Paste at cursor"
+        ],
+        "overflow_right": 42,
+        "overflow_bottom": -17
+      }
+    },
+    "time": 1795742706.6914093
+  },
+  "paste_cross_track_preserves_clip_and_undo_redo": {
+    "ok": true,
+    "details": {
+      "pasted": [
+        {
+          "id": "clip_255f8008-190",
+          "start_ticks": 2400,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        }
+      ],
+      "undo_count": 0,
+      "redo": [
+        {
+          "id": "clip_255f8008-190",
+          "start_ticks": 2400,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        }
+      ],
+      "menu_geometry": {
+        "menu": {
+          "x": 860,
+          "y": 167,
+          "width": 132,
+          "height": 40
+        },
+        "buttons": [
+          "Paste at cursor"
+        ],
+        "overflow_right": 42,
+        "overflow_bottom": 17
+      }
+    },
+    "time": 1795742709.5856717
+  },
+  "duplicate_immediately_after_and_undo_redo": {
+    "ok": true,
+    "details": {
+      "duplicated": [
+        {
+          "id": "clip_f125b47de59c",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_ef8adf44-1bc",
+          "start_ticks": 960,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_f1b715a5-236",
+          "start_ticks": 2400,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        }
+      ],
+      "undo_count": 2,
+      "redo": [
+        {
+          "id": "clip_f125b47de59c",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_ef8adf44-1bc",
+          "start_ticks": 960,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_f1b715a5-236",
+          "start_ticks": 2400,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        }
+      ]
+    },
+    "time": 1795742712.4973986
+  },
+  "duplicate_overlap_keeps_automatic_crossfade": {
+    "ok": true,
+    "details": {
+      "clips": [
+        {
+          "id": "clip_f125b47de59c",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_ef8adf44-1bc",
+          "start_ticks": 720,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_f1b715a5-236",
+          "start_ticks": 2400,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        }
+      ],
+      "visual": {
+        "cyan_count": 587,
+        "minx": 231,
+        "maxx": 288
+      }
+    },
+    "time": 1795742713.5938983
+  },
+  "delete_and_undo_redo": {
+    "ok": true,
+    "details": {
+      "delete_clicked": true,
+      "after_delete": 0,
+      "undo_count": 1,
+      "redo_count": 0
+    },
+    "time": 1795742716.5504355
+  },
+  "no_dead_buttons_or_accidental_splits": {
+    "ok": true,
+    "details": {
+      "track1": [
+        {
+          "id": "clip_f125b47de59c",
+          "start_ticks": 0,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_ef8adf44-1bc",
+          "start_ticks": 720,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        },
+        {
+          "id": "clip_f1b715a5-236",
+          "start_ticks": 2400,
+          "duration_ticks": 960,
+          "offset_ticks": 240,
+          "fade_in_ticks": 120,
+          "fade_out_ticks": 120,
+          "gain_db": -6.0,
+          "label": "A low"
+        }
+      ],
+      "track2": []
+    },
+    "time": 1795742716.5549183
+  },
+  "playback_still_works": {
+    "ok": true,
+    "details": {
+      "before": "1.1.1\n00:00.00",
+      "during": "1.2.2\n00:00.69"
+    },
+    "time": 1795742717.6525786
+  },
+  "export_still_works": {
+    "ok": true,
+    "details": {
+      "clicked": true,
+      "status": 200,
+      "bytes": 1008044
+    },
+    "time": 1795742718.77726
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795742718.8587728
+  },
+  "passed": true,
+  "menu_overflow_review": {
+    "ok": true,
+    "details": {
+      "functional": "all menu buttons visible/clickable and no dead buttons found",
+      "concern": "clip menu height 212px in 132px arrangement lane, extending 155px into piano-roll area; empty paste menu extends 42px right into sidebar and second-row empty menu extends 17px below arrangement",
+      "severity": "non-blocking usability/layout concern"
+    },
+    "time": 1795742795.5247488
+  }
+}

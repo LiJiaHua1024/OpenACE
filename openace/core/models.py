@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import math
 import time
 import uuid
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -28,6 +29,7 @@ class RenderMode(str, Enum):
     SVS_SCORE = "svs_score"
     SVS_MELODY = "svs_melody"
     SVC = "svc"
+    SEPARATE = "separate"
     VOCAL2BGM = "vocal2bgm"
     REPAINT = "repaint"
 
@@ -50,6 +52,8 @@ class Vibrato(BaseModel):
     depth_cents: float = 35.0
     frequency_hz: float = 5.4
     phase: float = 0.0
+    attack_ratio: float = 0.0
+    release_ratio: float = 0.0
 
 
 class Note(BaseModel):
@@ -61,6 +65,8 @@ class Note(BaseModel):
     velocity: int = 90
     phonemes: List[Phoneme] = Field(default_factory=list)
     pitch_curve: List[PitchPoint] = Field(default_factory=list)
+    pitch_snap_first: bool = True
+    pitch_modulation: float = 1.0
     vibrato: Optional[Vibrato] = None
     techniques: List[str] = Field(default_factory=list)
 
@@ -87,6 +93,8 @@ class EnvelopePoint(BaseModel):
     ticks: int
     value: float
     curve: str = "linear"
+    # Only pitch_cents uses this; None means default voiced behavior.
+    voiced: Optional[bool] = None
 
 
 class VocalAutomation(BaseModel):
@@ -102,12 +110,22 @@ class VocalAutomation(BaseModel):
     falsetto: List[EnvelopePoint] = Field(default_factory=list)
     tension: List[EnvelopePoint] = Field(default_factory=list)
     energy: List[EnvelopePoint] = Field(default_factory=list)
+    volume: List[EnvelopePoint] = Field(default_factory=list)
+    pan: List[EnvelopePoint] = Field(default_factory=list)
 
 
 class Breath(BaseModel):
     id: str = Field(default_factory=lambda: new_id("br"))
     start_ticks: int
     duration_ticks: int = 120
+    intensity: float = Field(default=1.0, ge=0.0, le=2.0)
+    timbre: Literal["soft", "natural", "strong"] = "natural"
+
+
+class TimedLyric(BaseModel):
+    text: str
+    start: float = Field(ge=0)
+    end: float = Field(gt=0)
 
 
 class AudioClip(BaseModel):
@@ -116,8 +134,13 @@ class AudioClip(BaseModel):
     start_ticks: int = 0
     duration_ticks: Optional[int] = None
     offset_ticks: int = 0
+    fade_in_ticks: int = 0
+    fade_out_ticks: int = 0
     gain_db: float = 0.0
     label: str = ""
+    transcribed_lyrics: List[TimedLyric] = Field(default_factory=list)
+    created_by_job_id: Optional[str] = None
+    updated_by_job_id: Optional[str] = None
 
 
 class Track(BaseModel):
@@ -127,6 +150,8 @@ class Track(BaseModel):
     color: str = "#7c5cff"
     voice_id: str = "zero-shot-reference"
     reference_voice_path: Optional[str] = None
+    openutau_singer: str = ""
+    openutau_phonemizer: str = ""
     language: str = "zh"
     notes: List[Note] = Field(default_factory=list)
     clips: List[AudioClip] = Field(default_factory=list)
@@ -136,8 +161,12 @@ class Track(BaseModel):
     solo: bool = False
     volume: float = 0.8
     pan: float = 0.0
+    midi_channel: Optional[int] = Field(default=None, ge=0, le=15)
+    midi_program: Optional[int] = Field(default=None, ge=0, le=127)
+    created_by_job_id: Optional[str] = None
     render_path: Optional[str] = None
     render_revision: int = 0
+    render_fingerprint: Optional[str] = None
 
     def sorted_notes(self) -> List[Note]:
         return sorted(self.notes, key=lambda n: (n.start_ticks, n.pitch))
@@ -160,13 +189,29 @@ class Track(BaseModel):
 
 
 class TimeSignature(BaseModel):
-    numerator: int = 4
-    denominator: int = 4
+    numerator: int = Field(default=4, ge=1, le=32)
+    denominator: int = Field(default=4, ge=1, le=32)
+
+    @field_validator("denominator")
+    @classmethod
+    def denominator_is_power_of_two(cls, value: int) -> int:
+        if value & (value - 1):
+            raise ValueError("time signature denominator must be a power of two")
+        return value
 
 
 class TempoPoint(BaseModel):
-    ticks: int = 0
-    bpm: float = 120.0
+    ticks: int = Field(default=0, ge=0)
+    bpm: float = Field(default=120.0, gt=0)
+    # `linear` means the tempo ramps into this point across the preceding segment.
+    curve: str = "step"
+
+    @field_validator("curve")
+    @classmethod
+    def supported_curve(cls, value: str) -> str:
+        if value not in {"step", "linear"}:
+            raise ValueError("tempo point curve must be 'step' or 'linear'")
+        return value
 
 
 class Project(BaseModel):
@@ -215,13 +260,104 @@ class Project(BaseModel):
     def ticks_to_beats(self, ticks: float) -> float:
         return ticks / self.ppq
 
+    def normalized_tempo_map(self) -> List[TempoPoint]:
+        """Return sorted tempo points with a deterministic anchor at tick zero."""
+        points = sorted((point for point in (self.tempo_map or []) if point.ticks > 0), key=lambda point: point.ticks)
+        deduped: List[TempoPoint] = []
+        for point in points:
+            bpm = max(1.0, float(point.bpm))
+            if deduped and deduped[-1].ticks == point.ticks:
+                deduped[-1] = TempoPoint(ticks=int(point.ticks), bpm=bpm, curve=point.curve)
+            else:
+                deduped.append(TempoPoint(ticks=int(point.ticks), bpm=bpm, curve=point.curve))
+        # Project.bpm is the editing surface's canonical tick-zero tempo. Later
+        # tempo points automate after that anchor; this preserves existing projects
+        # whose default tempo map was not updated when the BPM transport changed.
+        return [TempoPoint(ticks=0, bpm=max(1.0, float(self.bpm)))] + deduped
+
+    def _segment_seconds(self, start_ticks: float, end_ticks: float, start_bpm: float, end_bpm: float, linear: bool) -> float:
+        span = end_ticks - start_ticks
+        if span == 0:
+            return 0.0
+        if not linear or abs(end_bpm - start_bpm) < 1e-9:
+            return span / self.ppq * 60.0 / start_bpm
+        # Integrate 1/bpm while BPM itself interpolates linearly across ticks.
+        return (60.0 / self.ppq) * span / (end_bpm - start_bpm) * math.log(end_bpm / start_bpm)
+
+    def _invert_linear_segment(self, seconds: float, start_ticks: float, end_ticks: float, start_bpm: float, end_bpm: float) -> float:
+        span = end_ticks - start_ticks
+        if abs(end_bpm - start_bpm) < 1e-9:
+            return start_ticks + seconds * start_bpm / 60.0 * self.ppq
+        # Invert the exact logarithmic integral of reciprocal linear BPM.
+        bpm = start_bpm * math.exp(seconds * self.ppq / 60.0 * (end_bpm - start_bpm) / span)
+        return start_ticks + span * (bpm - start_bpm) / (end_bpm - start_bpm)
+
+    def bpm_at(self, ticks: float) -> float:
+        """Return active tempo, linearly interpolating across ramp segments."""
+        points = self.normalized_tempo_map()
+        if ticks <= points[0].ticks:
+            return points[0].bpm
+        for index, point in enumerate(points[1:], 1):
+            if ticks <= point.ticks:
+                previous = points[index - 1]
+                if ticks < point.ticks:
+                    if point.curve == "linear" and point.ticks > previous.ticks:
+                        ratio = (ticks - previous.ticks) / (point.ticks - previous.ticks)
+                        return float(previous.bpm + (point.bpm - previous.bpm) * max(0.0, min(1.0, ratio)))
+                    return float(previous.bpm)
+                return float(point.bpm)
+        return float(points[-1].bpm)
+
     def ticks_to_seconds(self, ticks: float) -> float:
-        # The current project model supports a tempo map for export but intentionally
-        # uses the project base tempo for editing until multiple tempo automation lands.
-        return self.ticks_to_beats(ticks) * 60.0 / self.bpm
+        """Convert absolute musical ticks to seconds through step/linear tempo segments."""
+        points = self.normalized_tempo_map()
+        first = points[0]
+        if ticks <= first.ticks:
+            return (ticks - first.ticks) / self.ppq * 60.0 / first.bpm
+        elapsed = 0.0
+        previous = first
+        for point in points[1:]:
+            if ticks <= point.ticks:
+                if point.curve == "linear":
+                    ratio = (ticks - previous.ticks) / max(1e-9, point.ticks - previous.ticks)
+                    end_bpm = previous.bpm + (point.bpm - previous.bpm) * ratio
+                    return elapsed + self._segment_seconds(previous.ticks, ticks, previous.bpm, end_bpm, True)
+                return elapsed + (ticks - previous.ticks) / self.ppq * 60.0 / previous.bpm
+            elapsed += self._segment_seconds(previous.ticks, point.ticks, previous.bpm, point.bpm, point.curve == "linear")
+            previous = point
+        return elapsed + (ticks - previous.ticks) / self.ppq * 60.0 / previous.bpm
+
+    def seconds_to_ticks_float(self, seconds: float) -> float:
+        """Invert absolute seconds through step/linear tempo segments without rounding."""
+        points = self.normalized_tempo_map()
+        first = points[0]
+        if seconds <= 0.0:
+            return first.ticks + seconds * first.bpm / 60.0 * self.ppq
+        elapsed = 0.0
+        previous = first
+        for point in points[1:]:
+            segment_seconds = self._segment_seconds(previous.ticks, point.ticks, previous.bpm, point.bpm, point.curve == "linear")
+            if seconds <= elapsed + segment_seconds:
+                if point.curve == "linear":
+                    return float(self._invert_linear_segment(seconds - elapsed, previous.ticks, point.ticks, previous.bpm, point.bpm))
+                return previous.ticks + (seconds - elapsed) * previous.bpm / 60.0 * self.ppq
+            elapsed += segment_seconds
+            previous = point
+        return previous.ticks + (seconds - elapsed) * previous.bpm / 60.0 * self.ppq
 
     def seconds_to_ticks(self, seconds: float) -> int:
-        return int(round(seconds * self.bpm / 60.0 * self.ppq))
+        return int(round(self.seconds_to_ticks_float(seconds)))
+
+    def seconds_between_ticks(self, start_ticks: float, end_ticks: float) -> float:
+        return self.ticks_to_seconds(end_ticks) - self.ticks_to_seconds(start_ticks)
+
+    def tick_duration_seconds(self, start_ticks: float, duration_ticks: float) -> float:
+        return self.seconds_between_ticks(start_ticks, start_ticks + duration_ticks)
+
+    def seconds_to_ticks_from(self, start_ticks: float, seconds: float) -> int:
+        """Convert a duration in seconds starting at a timeline position into ticks."""
+        start_seconds = self.ticks_to_seconds(start_ticks)
+        return int(round(self.seconds_to_ticks_float(start_seconds + seconds) - start_ticks))
 
     def dump_json(self) -> str:
         return self.model_dump_json(indent=2)
@@ -231,8 +367,23 @@ class Project(BaseModel):
         return cls.model_validate_json(text)
 
     def save(self, path: Path) -> None:
+        """Persist project JSON atomically so concurrent readers never see partial writes."""
+        import os
+        import tempfile
+
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(self.dump_json() + "\n", encoding="utf-8")
+        payload = self.dump_json() + "\n"
+        temporary_name = None
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, prefix=path.name + ".", suffix=".tmp", delete=False) as handle:
+            temporary_name = handle.name
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+        try:
+            os.replace(temporary_name, path)
+        finally:
+            if temporary_name and os.path.exists(temporary_name):
+                os.unlink(temporary_name)
 
     @classmethod
     def load(cls, path: Path) -> "Project":
@@ -244,6 +395,7 @@ class RenderJobStatus(str, Enum):
     RUNNING = "running"
     COMPLETED = "completed"
     FAILED = "failed"
+    CANCELED = "canceled"
 
 
 class RenderJob(BaseModel):
@@ -261,6 +413,17 @@ class RenderJob(BaseModel):
     error: Optional[str] = None
     engine: Optional[str] = None
     fixture: bool = False
+    source_audio: Optional[str] = None
+    reference_voice: Optional[str] = None
+    caption: str = ""
+    start_s: Optional[float] = None
+    end_s: Optional[float] = None
+    clip_id: Optional[str] = None
+    source_start_s: Optional[float] = None
+    source_end_s: Optional[float] = None
+    arrangement_start_ticks: Optional[int] = None
+    pitch_shift: int = 0
+    auto_shift: bool = False
 
 
 def project_to_yaml(project: Project) -> str:

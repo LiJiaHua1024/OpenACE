@@ -1,0 +1,29 @@
+{
+  "console": [],
+  "network": [],
+  "initial_head": "LOUDNESS UNAVAILABLE\nReset",
+  "initial_vals": "M −∞\nS −∞\nmax −∞",
+  "playing_head": "LOUDNESS LUFS≈\nReset",
+  "playing_vals_1": "M -21.6\nS -21.6\nmax -16.8",
+  "playing_vals_2": "M -15.8\nS -17.0\nmax -16.7",
+  "history_changed": true,
+  "after_volume_down": "M -19.0\nS -19.0\nmax -16.0",
+  "history_after_rebuild_len": "4998:4VfMca/wUUvCr/ASqJgESMKvmONe4aN+L+FXeLYkAsoNA/8BAAD//1mCNXEAAAAGSURBVAMA7EGo9x6UI0cAAAAASUVORK5CYII=",
+  "after_stop": "M -18.0\nS -18.0\nmax -16.0",
+  "after_reset": "M −∞\nS −∞\nmax −∞",
+  "head_after_reset": "LOUDNESS LUFS≈\nReset",
+  "canvas_after_reset_len": "3818:ACTxXXPeXX7UkvguTwHXBEAS3zXn3eVH/bOI7/JoSQC2DQL/AwAA///Na3gIAAAABklEQVQDAGb7cQbO+bICAAAAAElFTkSuQmCC",
+  "layout": {
+    "x": 10,
+    "y": 367,
+    "width": 215,
+    "height": 100.5
+  },
+  "corrected_volume_mute_decay": {
+    "before_volume": "M -28.2\nS -28.2\nmax -15.3",
+    "after_volume_down": "M -23.8\nS -23.9\nmax -15.3",
+    "after_mute": "M -33.5\nS -33.5\nmax -15.3",
+    "after_pause": "M -33.5\nS -33.5\nmax -15.3",
+    "pos": "00:00.61"
+  }
+}

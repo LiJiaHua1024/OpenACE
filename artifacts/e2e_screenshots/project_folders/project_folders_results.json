@@ -1,0 +1,400 @@
+{
+  "checks": [
+    {
+      "name": "exact viewport and isolated projects ready",
+      "passed": true,
+      "details": {
+        "projects": {
+          "alpha": "project_a4c7ae4de397",
+          "beta": "project_2d8c09379db6",
+          "zeta": "project_2e2c711eb16a",
+          "normalize": "project_dcd023f55cde"
+        }
+      }
+    },
+    {
+      "name": "inline folder edit Escape cancels without backend write",
+      "passed": true,
+      "details": {
+        "folders": null
+      }
+    },
+    {
+      "name": "inline folder edit Save writes two exact folders",
+      "passed": true,
+      "details": {
+        "metadata": {
+          "pinned": true,
+          "folders": [
+            "Experiments",
+            "SharedLab"
+          ]
+        }
+      }
+    },
+    {
+      "name": "rows display folder annotations for assigned projects",
+      "passed": true,
+      "details": {
+        "alpha": [
+          {
+            "text": "★ FolderQA Alpha\n11/27/2026 · 1 tracks · 120 BPM · ▸Experiments ▸SharedLab\n★\nTags\nFolders\nCopy\nDelete",
+            "title": "★ FolderQA Alpha",
+            "meta": "11/27/2026 · 1 tracks · 120 BPM · ▸Experiments ▸SharedLab",
+            "id": "★ FolderQA Alpha"
+          }
+        ],
+        "beta": [],
+        "allrows": [
+          {
+            "text": "★ FolderQA Alpha\n11/27/2026 · 1 tracks · 120 BPM · ▸Experiments ▸SharedLab\n★\nTags\nFolders\nCopy\nDelete",
+            "title": "★ FolderQA Alpha",
+            "meta": "11/27/2026 · 1 tracks · 120 BPM · ▸Experiments ▸SharedLab",
+            "id": "★ FolderQA Alpha"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SSE updates folder row and filter options without reopening popover",
+      "passed": false,
+      "details": {
+        "zeta": [
+          {
+            "text": "FolderQA Zeta\n11/27/2026 · 1 tracks · 120 BPM\n☆\nTags\nFolders\nCopy\nDelete",
+            "title": "FolderQA Zeta",
+            "meta": "11/27/2026 · 1 tracks · 120 BPM",
+            "id": "FolderQA Zeta"
+          }
+        ],
+        "options": [
+          "All folders",
+          "Experiments",
+          "SharedLab"
+        ]
+      }
+    },
+    {
+      "name": "folder filter includes correct projects and excludes others",
+      "passed": false,
+      "details": {
+        "titles": [],
+        "folder": "SharedLab"
+      }
+    },
+    {
+      "name": "All folders restores list and search matches folder text",
+      "passed": false,
+      "details": {
+        "titles": [
+          "★ FolderQA Alpha"
+        ]
+      }
+    },
+    {
+      "name": "empty state appears when filter/search has no matches",
+      "passed": false,
+      "details": {
+        "empty": ""
+      }
+    },
+    {
+      "name": "removing a folder persists remaining folder exactly",
+      "passed": true,
+      "details": {
+        "metadata": {
+          "pinned": true,
+          "folders": [
+            "SharedLab"
+          ]
+        }
+      }
+    },
+    {
+      "name": "backend PATCH normalization trims dedupes blanks and caps at eight",
+      "passed": true,
+      "details": {
+        "status": 200,
+        "folders": [
+          "One",
+          "Two",
+          "Three",
+          "Four",
+          "Five",
+          "Six",
+          "Seven",
+          "Eight"
+        ],
+        "response": {
+          "id": "project_dcd023f55cde",
+          "schema_version": 1,
+          "title": "FolderQA Normalize",
+          "ppq": 480,
+          "bpm": 120.0,
+          "tempo_map": [
+            {
+              "ticks": 0,
+              "bpm": 120.0,
+              "curve": "step"
+            }
+          ],
+          "time_signature": {
+            "numerator": 4,
+            "denominator": 4
+          },
+          "tracks": [
+            {
+              "id": "track_4ef0bb0bb910",
+              "name": "Lead Vocal",
+              "type": "vocal",
+              "color": "#7367ff",
+              "voice_id": "zero-shot-reference",
+              "reference_voice_path": null,
+              "language": "zh",
+              "notes": [],
+              "clips": [],
+              "automation": {
+                "pitch_cents": [],
+                "dynamic": [],
+                "air": [],
+                "falsetto": [],
+                "tension": [],
+                "energy": []
+              },
+              "breaths": [],
+              "mute": false,
+              "solo": false,
+              "volume": 0.8,
+              "pan": 0.0,
+              "midi_channel": null,
+              "midi_program": null,
+              "render_path": null,
+              "render_revision": 0,
+              "render_fingerprint": null
+            }
+          ],
+          "created_at": 1795791892.7238142,
+          "updated_at": 1795791892.7238379,
+          "metadata": {
+            "folders": [
+              "One",
+              "Two",
+              "Three",
+              "Four",
+              "Five",
+              "Six",
+              "Seven",
+              "Eight"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "backend folder truncation limits each folder to 48 chars",
+      "passed": true,
+      "details": {
+        "folders": [
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "SharedLab"
+        ],
+        "lengths": [
+          48,
+          9
+        ]
+      }
+    },
+    {
+      "name": "organization PATCH accepts comma string folders",
+      "passed": false,
+      "details": {
+        "status": 422,
+        "body": "{\"detail\":[{\"type\":\"list_type\",\"loc\":[\"body\",\"folders\"],\"msg\":\"Input should be a valid list\",\"input\":\"CommaA, CommaB\"}]}",
+        "metadata": [
+          "One",
+          "Two",
+          "Three",
+          "Four",
+          "Five",
+          "Six",
+          "Seven",
+          "Eight"
+        ]
+      }
+    },
+    {
+      "name": "project summaries normalize legacy comma/string metadata folders",
+      "passed": true,
+      "details": {
+        "summary": {
+          "id": "project_dcd023f55cde",
+          "title": "FolderQA Normalize",
+          "bpm": 120.0,
+          "track_count": 1,
+          "updated_at": 1795791898.7353199,
+          "pinned": false,
+          "tags": [],
+          "folders": [
+            "LegacyA",
+            "LegacyB"
+          ]
+        },
+        "raw_metadata": "LegacyA, LegacyB"
+      }
+    },
+    {
+      "name": "reload persists folder metadata in project manager",
+      "passed": true,
+      "details": {
+        "alpha": [
+          {
+            "text": "★ FolderQA Alpha\n11/27/2026 · 1 tracks · 120 BPM · ▸SharedLab\n★\nTags\nFolders\nCopy\nDelete",
+            "title": "★ FolderQA Alpha",
+            "meta": "11/27/2026 · 1 tracks · 120 BPM · ▸SharedLab",
+            "id": "★ FolderQA Alpha"
+          }
+        ],
+        "backend": [
+          "SharedLab"
+        ]
+      }
+    },
+    {
+      "name": "duplicate copies folders but is unpinned",
+      "passed": true,
+      "details": {
+        "duplicate": "project_1022ea970759",
+        "metadata": {
+          "pinned": false,
+          "folders": [
+            "SharedLab"
+          ]
+        },
+        "sourcePinned": true
+      }
+    },
+    {
+      "name": "folder rows do not break pin-first ordering",
+      "passed": true,
+      "details": {
+        "order": [
+          "★ FolderQA Beta",
+          "★ FolderQA Alpha",
+          "FolderQA Alpha Copy",
+          "FolderQA Normalize",
+          "FolderQA Zeta"
+        ],
+        "pinned_positions": [
+          0,
+          1,
+          2
+        ],
+        "duplicate_position": 2
+      }
+    },
+    {
+      "name": "project row open still works",
+      "passed": true,
+      "details": {
+        "opened": "project_2d8c09379db6",
+        "expected": "project_2d8c09379db6"
+      }
+    },
+    {
+      "name": "copy/delete fallback still works after folder operations",
+      "passed": true,
+      "details": {
+        "duplicate_existed": true,
+        "deleted": true,
+        "fallback": "project_2d8c09379db6"
+      }
+    },
+    {
+      "name": "folder popover rows and transport exact layout without overlap/overflow",
+      "passed": true,
+      "details": {
+        "iw": 1272,
+        "ih": 837,
+        "body": {
+          "sw": 1272,
+          "cw": 1272
+        },
+        "transport": {
+          "sw": 1272,
+          "cw": 1272,
+          "right": 1272
+        },
+        "popover": {
+          "width": 410,
+          "right": 640,
+          "sw": 408,
+          "cw": 408
+        },
+        "row": {
+          "buttons": [
+            {
+              "text": "★ FolderQA Alpha11/27/2026 · 1 tracks · 120 BPM · ▸SharedLab",
+              "left": 239,
+              "right": 395
+            },
+            {
+              "text": "★",
+              "left": 399,
+              "right": 429
+            },
+            {
+              "text": "Tags",
+              "left": 433,
+              "right": 475
+            },
+            {
+              "text": "Folders",
+              "left": 479,
+              "right": 531
+            },
+            {
+              "text": "Copy",
+              "left": 535,
+              "right": 579
+            },
+            {
+              "text": "Delete",
+              "left": 583,
+              "right": 631
+            }
+          ],
+          "overlaps": [],
+          "rowSw": 392,
+          "rowCw": 392
+        }
+      }
+    },
+    {
+      "name": "console network and HTTP clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "unexpected": [],
+        "http": []
+      }
+    }
+  ],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http": [],
+  "projects": {
+    "alpha": "project_a4c7ae4de397",
+    "beta": "project_2d8c09379db6",
+    "zeta": "project_2e2c711eb16a",
+    "normalize": "project_dcd023f55cde"
+  }
+}

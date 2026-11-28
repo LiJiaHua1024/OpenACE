@@ -1,0 +1,75 @@
+name: Untitled OpenACE Project
+comment: Exported by OpenACE
+output_dir: Vocal
+cache_dir: UCache
+ustx_version: '0.10'
+expressions: {}
+exp_selectors:
+- dyn
+- pitd
+- clr
+- eng
+- vel
+- vol
+- atk
+- dec
+- gen
+- bre
+exp_primary: 0
+exp_secondary: 1
+key: 0
+time_signatures:
+- bar_position: 0
+  beat_per_bar: 4
+  beat_unit: 4
+tempos:
+- position: 0
+  bpm: 120.0
+tracks:
+- track_name: Lead Vocal
+  track_color: Blue
+  singer: ''
+  phonemizer: OpenUtau.Core.DefaultPhonemizer
+  mute: false
+  solo: false
+  volume: -1.938
+  pan: 0.0
+voice_parts:
+- name: Lead Vocal
+  comment: 'OpenACE voice_id: zero-shot-reference'
+  track_no: 0
+  position: 0
+  duration: 960
+  notes:
+  - position: 120
+    duration: 480
+    tone: 65
+    lyric: 你
+    pitch:
+      data:
+      - x: -40
+        y: 0
+        shape: io
+      - x: 40
+        y: 0
+        shape: io
+      snap_first: true
+    vibrato:
+      length: 75.0
+      period: 192.308
+      depth: 45.0
+      in: 5.0
+      out: 0.0
+      shift: 0.0
+      drift: 0
+      vol_link: 0
+    tuning: 0
+    phoneme_expressions: []
+    phoneme_overrides:
+    - index: 0
+      phoneme: n
+    - index: 1
+      phoneme: i
+  curves: []
+  masked_curves: []
+wave_parts: []

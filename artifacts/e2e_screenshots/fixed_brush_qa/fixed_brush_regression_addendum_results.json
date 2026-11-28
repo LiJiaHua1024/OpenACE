@@ -1,0 +1,17 @@
+{
+  "fresh_status": 200,
+  "dark_counts_fresh": {
+    "fixed": 0,
+    "brush": 0,
+    "eraser": 0
+  },
+  "stale_status": 409,
+  "dark_count_stale": 0,
+  "select_velocity": {
+    "moved": true,
+    "undo_restored": true,
+    "velocity_before": 90,
+    "velocity_after": 124,
+    "velocity_changed": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "stroke1_exact_note_relative_values": true,
+  "stroke1_bad": [],
+  "stroke1_sorted_unique": true,
+  "stroke2_sorted_unique": true,
+  "replacement": {
+    "inferred_range": [
+      250,
+      1380
+    ],
+    "outside_before_count": 8,
+    "outside_after_count": 8,
+    "outside_exactly_survive": true,
+    "inside_all_target67": true,
+    "inside_count": 9,
+    "old_inside_remaining": []
+  },
+  "stroke2_exact_target_values_in_rewritten_range": true,
+  "render": {
+    "fingerprint_changed": true,
+    "fingerprint_matches_track": true,
+    "audio_hash_changed": false,
+    "baseline_hash": "1fff16ea9219a85f36682646adffa7985cb4c2237c1fd9fcdd3d9ab38abc667d",
+    "final_hash": "1fff16ea9219a85f36682646adffa7985cb4c2237c1fd9fcdd3d9ab38abc667d"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "canvas": {
+    "x": 236,
+    "y": 57,
+    "width": 704,
+    "height": 234
+  },
+  "results": [
+    {
+      "x": 580,
+      "y": 98,
+      "row": 0,
+      "indicator": {
+        "left": "400px",
+        "top": "24px",
+        "display": "block"
+      },
+      "element": {
+        "tag": "CANVAS",
+        "cls": ""
+      }
+    },
+    {
+      "x": 580,
+      "y": 132,
+      "row": 1,
+      "indicator": {
+        "left": "400px",
+        "top": "58px",
+        "display": "block"
+      },
+      "element": {
+        "tag": "CANVAS",
+        "cls": ""
+      }
+    },
+    {
+      "x": 580,
+      "y": 166,
+      "row": 2,
+      "indicator": {
+        "left": "400px",
+        "top": "92px",
+        "display": "block"
+      },
+      "element": {
+        "tag": "CANVAS",
+        "cls": ""
+      }
+    },
+    {
+      "x": 580,
+      "y": 200,
+      "row": 3,
+      "indicator": {
+        "left": "400px",
+        "top": "126px",
+        "display": "block"
+      },
+      "element": {
+        "tag": "CANVAS",
+        "cls": ""
+      }
+    },
+    {
+      "x": 580,
+      "y": 234,
+      "row": 4,
+      "indicator": {
+        "left": "400px",
+        "top": "160px",
+        "display": "block"
+      },
+      "element": {
+        "tag": "CANVAS",
+        "cls": ""
+      }
+    },
+    {
+      "x": 580,
+      "y": 268,
+      "row": 5,
+      "indicator": null,
+      "element": {
+        "tag": "CANVAS",
+        "cls": ""
+      }
+    },
+    {
+      "x": 580,
+      "y": 302,
+      "row": 6,
+      "indicator": null,
+      "element": {
+        "tag": "CANVAS",
+        "cls": ""
+      }
+    }
+  ]
+}

@@ -5,7 +5,7 @@ OpenACE is a local-first, open-source virtual singer workstation built to replic
 ## Architecture
 
 - **Web workstation**: React + Canvas arrangement view, piano-roll editor, lyric editing, vocal automation lanes, track mixer, render jobs, acoustic diagnostics, and export center.
-- **Local API**: FastAPI project store, atomic editing endpoints, SSE synchronization, render orchestration, uploads, and format export.
+- **Local API**: FastAPI project store, atomic editing endpoints, atomic project-file persistence (fsynced temporary write + atomic replacement), SSE synchronization, cancellable FIFO render orchestration, uploads, and format export.
 - **Vocal core**: production adapter for [SoulX-Singer](https://github.com/Soul-AILab/SoulX-Singer) (Apache 2.0) score/melody SVS and SoulX-Singer-SVC.
 - **Music/edit core**: production adapter for [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5) (MIT), including ACE-Step `complete` Vocal2BGM and explicit interval repaint.
 - **Agent surface**: `openace-tool` atomic CLI, `openace-mcp` MCP server (`stdio` and `streamable-http`), and `skills/openace/SKILL.md`.
@@ -40,11 +40,13 @@ On a local NVIDIA machine with about 12 GB VRAM:
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -e '.[gpu]'
-python scripts/verify_local_gpu.py --hf-endpoint https://hf-mirror.com  # optional mirror
+.venv/bin/python scripts/verify_local_gpu.py --hf-endpoint https://hf-mirror.com  # optional mirror
 .venv/bin/openace-server
 ```
 
-`verify_local_gpu.py` clones the upstream engines, downloads public weights without API keys, runs real SoulX-Singer and ACE-Step inference in separate subprocesses, and writes `artifacts/local_gpu/report.json`. Model subprocesses are serialized by `VRAMManager`; the two large model families are never intentionally resident together.
+`verify_local_gpu.py` clones the upstream engines, downloads public weights without API keys, exercises OpenACE’s real `SoulXSingerEngine.render_score` adapter (project notes → strict metadata/F0 → reference preprocessing → melody-control inference), uses the resulting vocal as source audio for the production `ACEStepEngine.vocal_to_bgm`/`complete` adapter in a later subprocess, exercises production SVC/repaint/Demucs stages, validates duration/non-silence/loudness contracts, and writes `artifacts/local_gpu/report.json` even when a heavyweight stage fails. GPU memory preflight and telemetry honor `CUDA_VISIBLE_DEVICES` numeric/UUID mappings through `nvidia-smi`/NVML where possible so the parent verifier does not keep a CUDA context resident; model subprocesses are serialized by `VRAMManager`, and the two large model families are never intentionally resident together. Preflight checks the real SoulX preprocessor dependency chain (RMVPE, ROSVOT/RWBD configs and weights, Chinese ASR artifacts) and ACE-Step's main VAE/text-encoder/LM/turbo components plus base model code/silence latent, rather than only a few top-level checkpoint files.
+
+Repeated iterative renders do not repeat unchanged zero-shot preprocessing: SoulX reference metadata and SVC F0 extraction are cached persistently by audio-content hash, language, device, upstream source revision, and cache-schema version. Cache writes are atomic; set `OPENACE_SOULX_CACHE` to override the default `external/.cache/soulx` location.
 
 ## CLI examples
 
@@ -57,17 +59,81 @@ openace-tool export <project-id> svp out.svp
 OPENACE_CI_SYNTH_FIXTURE=1 openace-tool render-vocal <project-id> <track-id>
 ```
 
+## Playback engine
+
+Monitoring uses a shared WebAudio clock, decoded-media caching, fractional clip offsets, clip fades/gain, manual crossfades, track volume/pan automation, seamless live-edit reconstruction, loop scheduling, per-track/master meters, and loudness measurement. Startup is failure-aware: OpenACE waits for a running audio output clock, refuses to enter a silent fake-playing state when startup or scheduling fails, detects a frozen audio clock instead of pretending transport time advances, invalidates poisoned output state, and rebuilds playback cleanly on retry.
+
 ## Arrangement editing
 
-The arrangement canvas draws real decoded waveform peaks for audio clips rather than placeholder stripes. Audio clips drag independently, trim from either edge while preserving source offsets, and split at the cursor through the context menu. Waveforms remap to the trimmed source segment, contiguous vocal-note groups drag as musical phrases, and all clip timing paths persist through the same playback/export pipeline.
+Timeline synchronization uses shared musical-tick state between arrangement, piano roll, automation, diagnostics, playback, and export. Transport time signatures are editable (including compound meters such as 6/8 and 12/8); grid and transport math are denominator-aware rather than hard-coded to four quarter notes per bar.
+
+Audio clips are true timeline slices (`start/offset/duration`) with decoded waveforms, edge trimming, split-at-cursor, linear fade-in/out handles, and clip gain. Fade handles are dragged from the top corners; fades reshape the displayed waveform, schedule WebAudio gain ramps during monitor playback, and are rendered into master WAV exports. Overlapping faded clips therefore crossfade naturally.
+
+Track cards provide right-click/⋯ operations for duplicate, reorder, color, and undoable delete in addition to mute/solo/volume/pan. The arrangement canvas draws real decoded waveform peaks for audio clips rather than placeholder stripes. Audio clips drag independently, trim from either edge while preserving source offsets, and split at the cursor through the context menu. Waveforms remap to the trimmed source segment, contiguous vocal-note groups drag as musical phrases, and all clip timing paths persist through the same playback/export pipeline. Overlapping clips on a track automatically receive equal-power crossfades: the overlap is shown with a compact XF badge and complementary curves, waveform peaks attenuate with the crossfade, WebAudio schedules the envelope, and master export applies the same cosine/sine gains. The clip context menu supports split at cursor, copy, paste at cursor (including empty arrangement space and other audio-capable tracks), duplicate, delete, and gain; pasted clips preserve source offsets, durations, fades, and gain, while menus are compacted and clamped inside the arrangement strip.
+
+Direct arrangement import is also first-class: **Import audio as clip at playhead** validates real audio with SoundFile, measures its duration, converts seconds through the project tempo map, creates an `Audio — <name>` track when needed, and inserts a persistent editable clip. Uploaded media is served back to the browser for real waveform analysis and WebAudio playback while backend master export reads the same local media; corrupt files are rejected without creating arrangement garbage. When an audio/accompaniment track is selected the clip is inserted there; vocal-track selection intentionally falls back to a new audio track. Generic uploads use unique persistent names so same-name files cannot overwrite media already referenced by arrangements or jobs.
+
+## Stem separation and dry/wet remix
+
+`Separate vocal/instrumental` uses local open-source Demucs (`htdemucs`, optional `gpu` extra) with no API key. Production separation never falls back to fixture audio: if Demucs or weights/runtime support are unavailable the job fails loudly with installation guidance. The explicit CI fixture exists only for orchestration tests and is labeled as such. Completed separation creates independent `Separated vocal` and `Separated instrumental` arrangement tracks/clips with provenance metadata, so existing mute/solo/volume/pan/clip gain, waveform editing, playback, and loudness master export provide the dry/wet remix workflow. When the input is an arrangement clip, OpenACE separates exactly its visible trimmed segment and aligns both stems to that clip's completion-time arrangement position; duplicate source paths require an explicit clip and unanchored files remain explicit zero-aligned fallback inputs. MCP `separate_stems` and CLI `openace-tool separate` expose the same operation to agents.
+
+## Expression automation
+
+Pitch deviation is written into SoulX target F0 metadata. SoulX-Singer does not expose a direct neural Dynamic control, so OpenACE applies the Dynamic lane as honest post-render gain automation: neutral `0.5`, ±6 dB range, sample-interpolated gain, clipping protection, and explicit diagnostic/job provenance. Air is also applied as honest post-render DSP: it reinforces or attenuates the 3 kHz+ residue already present in the rendered vocal, with no injected synthetic noise and explicit non-neural provenance. Energy adds harmonic density through parallel soft saturation for positive values and softens through low-pass blending for negative values. Tension reinforces or attenuates the 0.9–5.5 kHz articulation/presence band extracted from the actual vocal. Both are peak-protected and explicitly labeled as non-neural DSP. Falsetto uses a spectral-tilt approximation: positive values thin the low chest-resonance band and reinforce existing upper vocal residue, while negative values produce a chestier/pressed tilt; it does not shift F0 and is explicitly labeled as non-neural DSP.
 
 ## Piano-roll editing
 
-The canvas piano roll supports brush/select/erase tools, marquee multi-select, multi-note move/resize with interval-preserving pitch deltas, copy/paste/duplicate, quantize, a right-click edit menu, and a bottom velocity lane whose values round-trip through MIDI/VPR export.
+Contiguous notes can be merged through the toolbar, context menu, Ctrl+J, CLI, MCP, or API. OpenACE preserves pitch movement truthfully by converting later-note pitch differences into cents offsets in the merged note's pitch curve, coalesces split vowel continuations back into one sustained vowel, regenerates continuous phoneme timing for distinct lyric syllables, reconstructs continuous vibrato across split continuation chains with correct note-local oscillator phase, and rejects gaps, custom phoneme overrides, velocity/pitch-snap mismatches, or independent vibrato spans instead of silently losing expression data.
+
+Selected notes expose a professional vibrato editor (enable, start ratio, depth cents, rate Hz, phase) through the toolbar or context menu. The direct `∿ Vib` tool (shortcut `4`) implements ACE-style mouse editing: drag right-to-left on a note to reshape/create vibrato length and use vertical distance for amplitude, then drag canvas handles for depth (top-left square), phase (bottom-left circle), frequency (bottom-right square), and attack/release envelopes (middle circles) as undoable transactions. Following ACE's multi-vibrato workflow, dragging a selection box from blank space selects one or more vibrato spans (Shift additive); selected objects are outlined and Delete clears only those vibratos as one undoable transaction without deleting notes. Vibrato is drawn directly on note bodies as a parameter-driven fading sine indication and is consumed by the SoulX F0 metadata builder rather than being editor-only data. Attack/release ratios are exported/imported through OpenUtau `in/out` vibrato fields. Splitting or merging envelope-bearing vibrato currently rejects loudly because exact cross-split envelope continuity is not yet representable.
+
+The `⇕ Mod` pitch-modulation tool (shortcut `5`) drags vertically on a note to control the dynamic range of deterministic vibrato from ×0 (flat) through ×2. Because upstream SoulX exposes no neural AI-pitch generation control, OpenACE truthfully scales only the deterministic vibrato component: written melody, merged pitch-step anchors, user pitch anchors, and continuous user-pitch automation are not scaled or overridden. The exact ACE numeric range is undocumented, so OpenACE uses an explicit neutral ×1 / 0–2 range rather than claiming exact internal parity.
+
+The `🖌 Pitch` freehand brush draws continuous user pitch directly over notes in absolute piano-pitch space, rewriting the swept project-time automation range while preserving outside points; each stroke is one undoable transaction and the white user-pitch curve remains visible in pitch modes. Following ACE semantics, left-drag draws voiced pitch, **Alt/Option-drag draws dashed voiceless pitch**, ordinary strokes over timed voiceless-consonant phoneme spans also default to dashed voiceless pitch, **Shift+Alt/Option forces voiced pitch**, and right-drag erases inside the same brush mode without opening the note context menu. Voiceless spans are stored as explicit pitch-automation voicing metadata, terminate with a truthful voiced boundary instead of leaking indefinitely, render as upstream SoulX-compatible zero-F0 UV frames in production target metadata, and remain NaN in internal diagnostic target curves. The `▣ Fixed` brush (shortcut `2`) locks pitch as user automation: OpenACE persists extracted F0 for every fresh vocal render and prefers that real rendered pitch, falling back to the deterministic note/vibrato/anchor target when no fresh render exists. Because upstream SoulX does not expose a pre-render neural “AI pitch” curve, a fresh rendered curve is the truthful generated-pitch approximation rather than a perfect ACE-internal equivalent; it is hidden when the render becomes stale. The `⌦ Pitch` eraser (shortcut `3`) removes continuous user pitch and per-note anchors in the swept range. The `∿ Anchor` tool implements ACE-style per-note pitch curve editing: double-click starts a curve, subsequent clicks append points, right-click/Escape commits one sorted undoable transaction, marquee selection (Shift additive) selects multiple anchors across notes, selected anchors group-drag with shared time/cents deltas, Delete removes them without deleting notes, and Alt+click still deletes an individual handle. Handles are linearly interpolated (not sampled only at exact frames), affect the SoulX target F0 metadata, and appear in diagnostic target curves.
+
+The note context menu also exposes manual phoneme overrides: enter space-separated symbols, OpenACE times pre-vowel consonants before the beat and post-vowel consonants in sequence, validates against placeholder/empty/no-vowel input, and can reset to automatic lyric-derived phonemes. In the Breath & Phoneme lane, visible onset/end and internal boundaries can be dragged with millisecond accuracy; neighboring segments remain contiguous, durations stay positive, and the first vowel is locked to the 0ms beat anchor.
+
+The canvas piano roll supports brush/select/erase tools, freehand user-pitch brush, pitch eraser, and per-note pitch anchors, marquee multi-select, multi-note move/resize with interval-preserving pitch deltas, copy/paste/duplicate, quantize, a right-click edit menu, and a bottom velocity lane whose values round-trip through MIDI/VPR export. Static notes/grid and the moving playhead are separate stacked canvases, gradients are cached, and dense views use level-of-detail fills/label elision; regression evidence sustains 60FPS playback and continuous scrolling with 3000 dense notes at 1400×900@2x.
+
+## Project-aware Vocal2BGM
+
+Vocal2BGM can use the selected vocal track's fresh render directly; stale renders are rejected instead of silently arranging accompaniment around old audio. If the input file is present as an arrangement clip, OpenACE uses the clip's exact visible source segment (including trim/source offset), passes the measured segment duration to ACE-Step `complete`, and places the generated accompaniment at the clip's current arrangement position. Arbitrary uploaded audio outside the arrangement remains supported and is placed at zero without invented timeline context.
+
+## Project-aware SVC conversion
+
+SVC uses the same truthful arrangement semantics: importing or selecting an audio clip makes that clip the conversion source, and OpenACE converts exactly its visible trimmed source segment rather than the whole file. The generated conversion clip is aligned to the source clip's current arrangement position; if the source clip moves while conversion is running, integration re-reads its completion-time position. When several arrangement clips share the same file, pass/choose an exact clip instead of guessing; unanchored uploaded files still convert as arbitrary inputs and are placed at zero.
+
+SVC now exposes truthful key/transposition modes backed by the upstream SoulX-Singer-SVC contract: preserve the source key, automatically match reference/source median F0, or apply an explicit ±24-semitone manual shift. Preserve/manual/auto choices persist on render jobs and conversion provenance, while conflicting manual+auto requests and out-of-range shifts fail loudly. SVC additionally transcribes stable monophonic pitch and ASR-timed lyrics from the converted audio into an editable `SVC score` vocal track assigned to the target reference voice. This enables ACE-style hot-song editing: adjust extracted notes/lyrics and re-render in the converted voice instead of treating the conversion as immutable audio. Unsupported notes remain blank and extraction failure is explicit in job provenance; OpenACE never fabricates missing lyrics or pitches.
 
 ## Repaint region selection
 
-In the arrangement canvas, hold **Alt** and drag across the timeline to draw the yellow repaint region. The same region is reflected in the Vocal2BGM/Repaint panel as numeric seconds and is passed to the ACE-Step repaint job.
+In the arrangement canvas, hold **Alt** and drag across the timeline to draw the yellow repaint region over an accompaniment clip. The panel resolves the overlapping target clip, clamps the region to that clip, converts it into source-file time using the clip start/offset, and passes only that source interval to the ACE-Step repaint job.
+
+## Audio-to-MIDI and local ASR lyrics
+
+`Import audio` transcribes a monophonic vocal into editable notes with librosa/pYIN octave-error correction, then runs local faster-whisper with word-level timestamps. Each recognized word is assigned once to the overlapping note (or a near-onset note within 300ms), the detected language is stored on the imported track, and CPU-heavy transcription runs outside the FastAPI event loop. Unaligned notes stay visually blank; OpenACE never fills them with “la”, dash, or fabricated placeholder lyrics. If ASR cannot produce or align timestamped words, import fails loudly instead of pretending the lyrics are known. The default local model is `small`; override with `OPENACE_WHISPER_MODEL`, `OPENACE_WHISPER_DEVICE`, and `OPENACE_WHISPER_COMPUTE_TYPE` when needed.
+
+## Lyric correction
+
+The right-hand **Lyric correction** panel exposes a compact per-note correction workflow for imported or manually written vocal tracks. It shows note/missing counts, bar·pitch position, editable lyric rows, and regenerated phoneme feedback. Batch paste maps continuous CJK text one Unicode character per note while whitespace-separated chunks stay together for romanized/multi-letter syllables; a count mismatch is rejected atomically rather than partially overwriting the melody. Per-note commits and batch application use normal persistence/undo, and changing a lyric clears stale phonemes so the strict backend validator regenerates timing for the new language-specific lyric.
+
+## Multilingual lyric validation
+
+Mixed Mandarin/English mode script-segments Han characters and English words in one track, validates their timed phonemes independently, and emits structurally mixed SoulX `zh_*`/grouped `en_*` tokens. Explicit Mixed Cantonese/English mode provides the same workflow with `yue_*` Cantonese tokens; OpenACE does not pretend it can auto-detect Cantonese from Han orthography. Mandarin uses strict pinyin decomposition, English uses CMUdict-backed phones, and Cantonese uses `pycantonese` tone-bearing Jyutping. Cantonese editor phonemes decompose onset/nucleus/coda explicitly (including syllabic `m̩`/`ŋ̩`), while SoulX metadata emits validated `yue_<jyutping>` phones with canonical language `Cantonese`. Unsupported characters or missing pronunciations fail loudly; Japanese remains unavailable rather than fake because the current SoulX phone set has no Japanese inventory.
+
+## OpenUtau USTX interoperability
+
+`.ustx` export follows the OpenUtau 0.10 source schema rather than a guessed YAML shape: exact `UNote` keys and mandatory two-point pitch defaults, scaling from any OpenACE PPQ to OpenUtau’s fixed 480 PPQ, OpenUtau pitch units (0.1 semitone), vibrato length/period/depth/shift conversion, beat-aligned voice-part durations, `xs`/`ys` automation curves, decibel track faders, -100..100 pan, named track colors, and the real default phonemizer id. Dynamic automation maps to OpenUtau `dyn` in decibel×10 units and pitch deviation maps to `pitd` cents. Manual phoneme symbols are exported as overrides, but OpenACE millisecond offsets are not misrepresented as OpenUtau tick deltas. Arrangement audio clips now export as real OpenUtau `wave_parts` with measured source duration, relative paths, fixed-480 tick-scaled position/source-skip/trim, and fade times; clip gain is not faked because UWavePart has no per-clip gain field. `.ustx` import is bidirectional and restores internal project names, tempo/time signature, track units/colors/types, voice notes and lyrics, intentional pitch curves (while ignoring mandatory serializer defaults), vibrato, phoneme overrides, dyn/pitd automation, and wave-clip timing/fades. For wave media portability, the same import control accepts a secure zip package containing exactly one `.ustx` plus bundled relative audio; extraction rejects traversal/symlinks and media persists under OpenACE uploads. Plain single-file `.ustx` upload still cannot magically access sibling media beside the original project, so unresolved external wave media remains a documented host/file-packaging limitation rather than being fabricated.
+
+## Synthesizer V SVP interoperability
+
+`.svp` export uses the real Synthesizer V group/reference shape: deterministic group UUIDs, `mainRef` database/voice metadata, blick-based timing, and flattened automation point pairs. Pitch deviation exports as semitone `pitchDelta`, Dynamic as loudness dB, Tension/Air as centered -1..1 tension/breathiness curves, and vibrato start time is correctly converted from an OpenACE note ratio into seconds.
+
+## Mastering and export
+
+Audio masters and stem ZIPs can be exported either full-length or over a musical tick range. The workstation can reuse the saved playback-loop range; API/CLI/MCP accept explicit start/end ticks, convert them through the piecewise tempo map, slice the post-automation absolute timeline, preserve trailing silence inside the range, and reject invalid ranges or non-audio formats loudly.
+
+Master WAV export is not approximate peak normalization: OpenACE first uses transparent constant-gain loudness normalization when peak headroom permits, falls back to two-pass ffmpeg `loudnorm` for peaky material, then independently measures the resulting file with ffmpeg EBU R128 loudness/true-peak statistics. Compliant masters are approximately `-14.0 LUFS` with true peak below `-1.0 dBTP`; material that cannot be validated fails loudly instead of silently shipping a false master. ffmpeg is therefore a required local runtime dependency for WAV/MP4 export.
 
 ## MCP
 
@@ -76,13 +142,13 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-The MCP tools mirror the atomic CLI: create projects/tracks/notes, transpose with interval conservation, render, repaint, convert voices, and export project formats. No hosted model or vendor API key is involved.
+The MCP tools mirror the atomic CLI: create/duplicate/delete projects, create tracks/notes, batch/edit notes, write expression lanes and breath events, edit audio clips and tempo maps, import/list/trim/rename/delete reference voices with explicit in-use unassignment, assign reference voices, transpose with interval conservation, render, separate stems, repaint, convert voices, import real audio/MIDI projects, and export project formats. External project creation/import/deletion and render-produced arrangement changes issue best-effort loopback SSE notifications so an already-open workstation updates without reload. No hosted model or vendor API key is involved.
 
 ## Repository layout
 
 - `openace/core` — project model, timing, phonemes, pitch/F0 invariants, loudness, diagnostics
 - `openace/engines` — SoulX-Singer, ACE-Step, VRAM scheduling, model bootstrap, explicit CI fixture
-- `openace/server` — FastAPI app, render jobs, SSE
+- `openace/server` — FastAPI app, durable auto-requeued/cancellable render jobs, SSE
 - `openace/exporters` / `openace/importers` — DAW/project/audio interoperability
 - `frontend` — professional dark workstation UI
 - `scripts` — one-command model bootstrap and real GPU verification

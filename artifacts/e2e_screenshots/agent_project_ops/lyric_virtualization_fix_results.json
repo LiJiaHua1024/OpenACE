@@ -1,0 +1,425 @@
+{
+  "console_errors": [],
+  "network_failures": [],
+  "initial30": {
+    "scrollTop": 0,
+    "transform": "translateY(0px)",
+    "listTop": 528,
+    "listBottom": 748,
+    "rowCount": 15,
+    "firstIndices": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "visibleCount": 7,
+    "rows": [
+      {
+        "index": 1,
+        "top": 528,
+        "bottom": 559
+      },
+      {
+        "index": 2,
+        "top": 562,
+        "bottom": 593
+      },
+      {
+        "index": 3,
+        "top": 596,
+        "bottom": 627
+      },
+      {
+        "index": 4,
+        "top": 630,
+        "bottom": 661
+      },
+      {
+        "index": 5,
+        "top": 664,
+        "bottom": 695
+      },
+      {
+        "index": 6,
+        "top": 698,
+        "bottom": 729
+      },
+      {
+        "index": 7,
+        "top": 732,
+        "bottom": 763
+      },
+      {
+        "index": 8,
+        "top": 766,
+        "bottom": 797
+      },
+      {
+        "index": 9,
+        "top": 800,
+        "bottom": 831
+      },
+      {
+        "index": 10,
+        "top": 834,
+        "bottom": 865
+      },
+      {
+        "index": 11,
+        "top": 868,
+        "bottom": 899
+      },
+      {
+        "index": 12,
+        "top": 902,
+        "bottom": 933
+      },
+      {
+        "index": 13,
+        "top": 936,
+        "bottom": 967
+      },
+      {
+        "index": 14,
+        "top": 970,
+        "bottom": 1001
+      },
+      {
+        "index": 15,
+        "top": 1004,
+        "bottom": 1035
+      }
+    ]
+  },
+  "scrolled30": {
+    "scrollTop": 640,
+    "transform": "translateY(476px)",
+    "listTop": 528,
+    "listBottom": 748,
+    "rowCount": 15,
+    "firstIndices": [
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "visibleCount": 8,
+    "rows": [
+      {
+        "index": 15,
+        "top": 364,
+        "bottom": 395
+      },
+      {
+        "index": 16,
+        "top": 398,
+        "bottom": 429
+      },
+      {
+        "index": 17,
+        "top": 432,
+        "bottom": 463
+      },
+      {
+        "index": 18,
+        "top": 466,
+        "bottom": 497
+      },
+      {
+        "index": 19,
+        "top": 500,
+        "bottom": 531
+      },
+      {
+        "index": 20,
+        "top": 534,
+        "bottom": 565
+      },
+      {
+        "index": 21,
+        "top": 568,
+        "bottom": 599
+      },
+      {
+        "index": 22,
+        "top": 602,
+        "bottom": 633
+      },
+      {
+        "index": 23,
+        "top": 636,
+        "bottom": 667
+      },
+      {
+        "index": 24,
+        "top": 670,
+        "bottom": 701
+      },
+      {
+        "index": 25,
+        "top": 704,
+        "bottom": 735
+      },
+      {
+        "index": 26,
+        "top": 738,
+        "bottom": 769
+      },
+      {
+        "index": 27,
+        "top": 772,
+        "bottom": 803
+      },
+      {
+        "index": 28,
+        "top": 806,
+        "bottom": 837
+      },
+      {
+        "index": 29,
+        "top": 840,
+        "bottom": 871
+      }
+    ]
+  },
+  "edit28": {
+    "before": "la",
+    "backend_lyric": "hey",
+    "phonemes": [
+      "hh",
+      "ey"
+    ]
+  },
+  "dense_after_switch": {
+    "scrollTop": 0,
+    "transform": "translateY(0px)",
+    "listTop": 528,
+    "listBottom": 748,
+    "rowCount": 15,
+    "firstIndices": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "visibleCount": 7,
+    "rows": [
+      {
+        "index": 1,
+        "top": 528,
+        "bottom": 559
+      },
+      {
+        "index": 2,
+        "top": 562,
+        "bottom": 593
+      },
+      {
+        "index": 3,
+        "top": 596,
+        "bottom": 627
+      },
+      {
+        "index": 4,
+        "top": 630,
+        "bottom": 661
+      },
+      {
+        "index": 5,
+        "top": 664,
+        "bottom": 695
+      },
+      {
+        "index": 6,
+        "top": 698,
+        "bottom": 729
+      },
+      {
+        "index": 7,
+        "top": 732,
+        "bottom": 763
+      },
+      {
+        "index": 8,
+        "top": 766,
+        "bottom": 797
+      },
+      {
+        "index": 9,
+        "top": 800,
+        "bottom": 831
+      },
+      {
+        "index": 10,
+        "top": 834,
+        "bottom": 865
+      },
+      {
+        "index": 11,
+        "top": 868,
+        "bottom": 899
+      },
+      {
+        "index": 12,
+        "top": 902,
+        "bottom": 933
+      },
+      {
+        "index": 13,
+        "top": 936,
+        "bottom": 967
+      },
+      {
+        "index": 14,
+        "top": 970,
+        "bottom": 1001
+      },
+      {
+        "index": 15,
+        "top": 1004,
+        "bottom": 1035
+      }
+    ]
+  },
+  "dense_after_scroll": {
+    "scrollTop": 640,
+    "transform": "translateY(476px)",
+    "listTop": 528,
+    "listBottom": 748,
+    "rowCount": 15,
+    "firstIndices": [
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "visibleCount": 8,
+    "rows": [
+      {
+        "index": 15,
+        "top": 364,
+        "bottom": 395
+      },
+      {
+        "index": 16,
+        "top": 398,
+        "bottom": 429
+      },
+      {
+        "index": 17,
+        "top": 432,
+        "bottom": 463
+      },
+      {
+        "index": 18,
+        "top": 466,
+        "bottom": 497
+      },
+      {
+        "index": 19,
+        "top": 500,
+        "bottom": 531
+      },
+      {
+        "index": 20,
+        "top": 534,
+        "bottom": 565
+      },
+      {
+        "index": 21,
+        "top": 568,
+        "bottom": 599
+      },
+      {
+        "index": 22,
+        "top": 602,
+        "bottom": 633
+      },
+      {
+        "index": 23,
+        "top": 636,
+        "bottom": 667
+      },
+      {
+        "index": 24,
+        "top": 670,
+        "bottom": 701
+      },
+      {
+        "index": 25,
+        "top": 704,
+        "bottom": 735
+      },
+      {
+        "index": 26,
+        "top": 738,
+        "bottom": 769
+      },
+      {
+        "index": 27,
+        "top": 772,
+        "bottom": 803
+      },
+      {
+        "index": 28,
+        "top": 806,
+        "bottom": 837
+      },
+      {
+        "index": 29,
+        "top": 840,
+        "bottom": 871
+      }
+    ]
+  },
+  "alignment": {
+    "scrolled30_gaps": [
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34
+    ],
+    "dense_gaps": [
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34,
+      34
+    ]
+  },
+  "checks": {
+    "precondition_scrolled_30": true,
+    "row_edit_still_persists": true,
+    "dense_reset_not_blank": true,
+    "dense_virtualized": true,
+    "dense_scroll_later_rows": true,
+    "rows_aligned_no_overlap": true,
+    "no_console_network_errors": true
+  },
+  "passed": true,
+  "oracle_note": "Initial run output marked precondition_scrolled_30 false due a harness firstIndices oracle typo; full row data proves rows 15-29 and this corrected result is recorded here."
+}

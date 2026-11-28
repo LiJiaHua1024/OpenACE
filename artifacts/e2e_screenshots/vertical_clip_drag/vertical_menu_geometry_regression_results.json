@@ -1,0 +1,150 @@
+{
+  "checks": [
+    {
+      "name": "regression lane2 menu clamps inside dynamic arrangement near click",
+      "passed": true,
+      "details": {
+        "expected_relative_top": 35,
+        "menuRelativeTop": 35,
+        "menuBottomRelative": 162,
+        "canvasHeight": 166,
+        "clickRelativeY": 109,
+        "inside": true,
+        "vertical_overlap": true
+      }
+    },
+    {
+      "name": "regression lane3 menu clamps inside dynamic arrangement near click",
+      "passed": true,
+      "details": {
+        "expected_relative_top": 35,
+        "menuRelativeTop": 35,
+        "menuBottomRelative": 162,
+        "canvasHeight": 166,
+        "clickRelativeY": 143,
+        "inside": true,
+        "vertical_overlap": true
+      }
+    },
+    {
+      "name": "regression Copy remains clickable from clamped menu",
+      "passed": true,
+      "details": {
+        "copy_visible": true,
+        "menu_closed_after_copy": true
+      }
+    },
+    {
+      "name": "regression Delete remains clickable from clamped menu",
+      "passed": true,
+      "details": {
+        "delete_visible": true,
+        "remaining_c1": []
+      }
+    },
+    {
+      "name": "regression exact layout has no overflow",
+      "passed": true,
+      "details": {
+        "innerWidth": 1272,
+        "innerHeight": 837,
+        "body": {
+          "scrollWidth": 1272,
+          "clientWidth": 1272
+        },
+        "transport": {
+          "scrollWidth": 1272,
+          "clientWidth": 1272
+        },
+        "arrangement": {
+          "height": 166,
+          "scrollWidth": 714,
+          "clientWidth": 714
+        }
+      }
+    },
+    {
+      "name": "regression console and http clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "http_errors": [],
+        "network_failures": []
+      }
+    }
+  ],
+  "lane2": {
+    "menu": {
+      "x": 742,
+      "y": 93,
+      "width": 204,
+      "height": 127,
+      "bottom": 220
+    },
+    "canvas": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 166,
+      "bottom": 224
+    },
+    "menuRelativeTop": 35,
+    "menuBottomRelative": 162,
+    "click": {
+      "x": 748.0,
+      "y": 167,
+      "relative_y": 109,
+      "clip_id": "vd_b1",
+      "track_index": 2
+    }
+  },
+  "lane3": {
+    "menu": {
+      "x": 524,
+      "y": 93,
+      "width": 204,
+      "height": 127,
+      "bottom": 220
+    },
+    "canvas": {
+      "x": 236,
+      "y": 58,
+      "width": 714,
+      "height": 166,
+      "bottom": 224
+    },
+    "menuRelativeTop": 35,
+    "menuBottomRelative": 162,
+    "click": {
+      "x": 524.0,
+      "y": 201,
+      "relative_y": 143,
+      "clip_id": "vd_c1",
+      "track_index": 3
+    }
+  },
+  "copy_visible": true,
+  "delete_visible": true,
+  "menu_closed_after_copy": true,
+  "remaining_c1": [],
+  "layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "transport": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "arrangement": {
+      "height": 166,
+      "scrollWidth": 714,
+      "clientWidth": 714
+    }
+  },
+  "console": [],
+  "network_failures": [],
+  "http_errors": []
+}

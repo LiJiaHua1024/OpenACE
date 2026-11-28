@@ -1,0 +1,251 @@
+[
+  {
+    "label": "head",
+    "start": [
+      998,
+      449
+    ],
+    "indicator": {
+      "left": "400px",
+      "top": "58px"
+    },
+    "events": [
+      {
+        "type": "dragstart",
+        "x": 998,
+        "y": 449,
+        "target": "DIV.media-row ",
+        "types": []
+      },
+      {
+        "type": "dragenter",
+        "x": 956,
+        "y": 417,
+        "target": "SECTION.side-section media-bin-section",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragenter",
+        "x": 914,
+        "y": 385,
+        "target": "CANVAS.piano-roll-canvas",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragleave",
+        "x": 914,
+        "y": 385,
+        "target": "SECTION.side-section media-bin-section",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragover",
+        "x": 663,
+        "y": 196,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragenter",
+        "x": 621,
+        "y": 164,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragleave",
+        "x": 621,
+        "y": 164,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragover",
+        "x": 580,
+        "y": 133,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "audio",
+    "start": [
+      1100.5,
+      484
+    ],
+    "indicator": {
+      "left": "400px",
+      "top": "58px"
+    },
+    "events": [
+      {
+        "type": "dragstart",
+        "x": 1100,
+        "y": 484,
+        "target": "DIV.media-row ",
+        "types": []
+      },
+      {
+        "type": "dragenter",
+        "x": 1048,
+        "y": 448,
+        "target": "STRONG.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragenter",
+        "x": 996,
+        "y": 413,
+        "target": "BUTTON.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragleave",
+        "x": 996,
+        "y": 413,
+        "target": "STRONG.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragover",
+        "x": 684,
+        "y": 203,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragenter",
+        "x": 632,
+        "y": 168,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragleave",
+        "x": 632,
+        "y": 168,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragover",
+        "x": 580,
+        "y": 133,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "button_gap",
+    "start": [
+      983,
+      517
+    ],
+    "indicator": {
+      "left": "400px",
+      "top": "58px"
+    },
+    "events": [
+      {
+        "type": "dragstart",
+        "x": 983,
+        "y": 517,
+        "target": "DIV.media-row ",
+        "types": []
+      },
+      {
+        "type": "dragenter",
+        "x": 942,
+        "y": 478,
+        "target": "CANVAS.piano-roll-canvas",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragover",
+        "x": 902,
+        "y": 440,
+        "target": "CANVAS.piano-roll-canvas",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragover",
+        "x": 862,
+        "y": 401,
+        "target": "CANVAS.piano-roll-canvas",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragleave",
+        "x": 660,
+        "y": 209,
+        "target": "DIV.editor-toolbar",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragenter",
+        "x": 620,
+        "y": 171,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragleave",
+        "x": 620,
+        "y": 171,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      },
+      {
+        "type": "dragover",
+        "x": 580,
+        "y": 133,
+        "target": "CANVAS.",
+        "types": [
+          "application/x-openace-media"
+        ]
+      }
+    ]
+  }
+]

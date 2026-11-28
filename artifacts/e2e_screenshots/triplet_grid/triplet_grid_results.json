@@ -1,0 +1,418 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "checks": {
+    "options": [
+      {
+        "value": "1",
+        "label": "1/4"
+      },
+      {
+        "value": "2",
+        "label": "1/8"
+      },
+      {
+        "value": "3",
+        "label": "1/8T"
+      },
+      {
+        "value": "4",
+        "label": "1/16"
+      },
+      {
+        "value": "6",
+        "label": "1/16T"
+      },
+      {
+        "value": "8",
+        "label": "1/32"
+      }
+    ],
+    "boxes": {
+      "arrangement": {
+        "x": 236,
+        "y": 58,
+        "width": 1032,
+        "height": 166
+      },
+      "piano": {
+        "x": 236,
+        "y": 318,
+        "width": 1042,
+        "height": 523
+      },
+      "automation": {
+        "x": 236,
+        "y": 882,
+        "width": 1042,
+        "height": 153
+      }
+    },
+    "seek_1_8T": {
+      "raw_target": 1170,
+      "expected_ticks": 1120,
+      "position": "1.3.2",
+      "time": "00:01.17",
+      "passed": true
+    },
+    "arrangement_move_1_8T": {
+      "before": 0,
+      "after": 160,
+      "delta": 160,
+      "expected_delta": 160,
+      "passed": true,
+      "undo_start": 0,
+      "undo_passed": true
+    },
+    "piano_create_1_8T": {
+      "raw_target": 2500,
+      "expected_start": 2560,
+      "added": [
+        {
+          "id": "note_1b9bb953-463",
+          "start_ticks": 2560,
+          "duration_ticks": 160,
+          "pitch": 70,
+          "lyric": "",
+          "velocity": 90,
+          "phonemes": [],
+          "pitch_curve": [],
+          "pitch_snap_first": true,
+          "vibrato": null,
+          "techniques": []
+        }
+      ],
+      "passed": true,
+      "undo_removed": true,
+      "initial_undo_result_invalid": "first Ctrl+Z attempt occurred while auto-opened lyric editor had focus; corrected test pressed Escape first"
+    },
+    "seek_1_16T": {
+      "raw_target": 1170,
+      "expected_ticks": 1200,
+      "position": "1.3.3",
+      "time": "00:01.25",
+      "passed": true
+    },
+    "arrangement_move_1_16T": {
+      "before": 0,
+      "after": 80,
+      "delta": 80,
+      "expected_delta": 80,
+      "passed": true,
+      "undo_start": 0,
+      "undo_passed": true
+    },
+    "piano_create_1_16T": {
+      "raw_target": 2500,
+      "expected_start": 2480,
+      "added": [
+        {
+          "id": "note_779df0f8-697",
+          "start_ticks": 2480,
+          "duration_ticks": 80,
+          "pitch": 70,
+          "lyric": "",
+          "velocity": 90,
+          "phonemes": [],
+          "pitch_curve": [],
+          "pitch_snap_first": true,
+          "vibrato": null,
+          "techniques": []
+        }
+      ],
+      "passed": true,
+      "undo_removed": true,
+      "initial_undo_result_invalid": "first Ctrl+Z attempt occurred while auto-opened lyric editor had focus; corrected test pressed Escape first"
+    },
+    "persistence": {
+      "selector_value": "6",
+      "localStorage": "6",
+      "passed": true
+    },
+    "visual_scan": {
+      "piano_1_8T": {
+        "centers": [
+          511.5,
+          549.0,
+          586.0,
+          623.5,
+          661.0,
+          698.0,
+          735.5,
+          773.0,
+          810.0,
+          847.5,
+          885.0,
+          922.0,
+          959.5,
+          997.0,
+          1034.0
+        ],
+        "spacings": [
+          37.5,
+          37.0,
+          37.5,
+          37.5,
+          37.0,
+          37.5,
+          37.5,
+          37.0,
+          37.5,
+          37.5,
+          37.0,
+          37.5,
+          37.5,
+          37.0
+        ],
+        "unique_spacings": [
+          37.0,
+          37.5
+        ],
+        "hit_groups": 15
+      },
+      "piano_1_16T": {
+        "centers": [
+          511.5,
+          530.0,
+          549.0,
+          567.5,
+          586.0,
+          605.0,
+          623.5,
+          642.0,
+          661.0,
+          679.5,
+          698.0,
+          717.0,
+          735.5,
+          754.0,
+          773.0,
+          791.5,
+          810.0,
+          829.0,
+          847.5,
+          866.0,
+          885.0,
+          903.5,
+          922.0,
+          941.0,
+          959.5,
+          978.0,
+          997.0,
+          1015.5,
+          1034.0
+        ],
+        "spacings": [
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5
+        ],
+        "unique_spacings": [
+          18.5,
+          19.0
+        ],
+        "hit_groups": 29
+      },
+      "automation_1_8T": {
+        "centers": [
+          511.5,
+          549.0,
+          586.0,
+          623.5,
+          661.0,
+          698.0,
+          735.5,
+          773.0,
+          810.0,
+          847.5,
+          885.0,
+          922.0,
+          959.5,
+          997.0,
+          1034.0
+        ],
+        "spacings": [
+          37.5,
+          37.0,
+          37.5,
+          37.5,
+          37.0,
+          37.5,
+          37.5,
+          37.0,
+          37.5,
+          37.5,
+          37.0,
+          37.5,
+          37.5,
+          37.0
+        ],
+        "unique_spacings": [
+          37.0,
+          37.5
+        ],
+        "hit_groups": 15
+      },
+      "automation_1_16T": {
+        "centers": [
+          511.5,
+          530.0,
+          549.0,
+          567.5,
+          586.0,
+          605.0,
+          623.5,
+          642.0,
+          661.0,
+          679.5,
+          698.0,
+          717.0,
+          735.5,
+          754.0,
+          773.0,
+          791.5,
+          810.0,
+          829.0,
+          847.5,
+          866.0,
+          885.0,
+          903.5,
+          922.0,
+          941.0,
+          959.5,
+          978.0,
+          997.0,
+          1015.5,
+          1034.0
+        ],
+        "spacings": [
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5,
+          19.0,
+          18.5,
+          18.5
+        ],
+        "unique_spacings": [
+          18.5,
+          19.0
+        ],
+        "hit_groups": 29
+      }
+    },
+    "visual_alignment_passed": {
+      "piano_1_8T": true,
+      "piano_1_16T": true,
+      "automation_1_8T": true,
+      "automation_1_16T": true,
+      "all": true
+    },
+    "labels_passed": {
+      "1/8T": true,
+      "1/16T": true
+    },
+    "created_note_cleanup": {
+      "passed": true
+    },
+    "piano_create_undo_corrected": {
+      "1/8T": {
+        "added": [
+          {
+            "id": "note_1b9bb953-463",
+            "start_ticks": 2560,
+            "duration_ticks": 160,
+            "pitch": 70,
+            "lyric": "",
+            "velocity": 90,
+            "phonemes": [],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "exact": true,
+        "undo_removed": true
+      },
+      "1/16T": {
+        "added": [
+          {
+            "id": "note_779df0f8-697",
+            "start_ticks": 2480,
+            "duration_ticks": 80,
+            "pitch": 70,
+            "lyric": "",
+            "velocity": 90,
+            "phonemes": [],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "exact": true,
+        "undo_removed": true
+      }
+    },
+    "all_passed": true
+  },
+  "shots": [
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/triplet_grid/00_grid_1_8T_visual.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/triplet_grid/01_grid_1_8T_ruler_seek.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/triplet_grid/02_grid_1_8T_clip_move.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/triplet_grid/03_grid_1_8T_note_create.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/triplet_grid/04_grid_1_16T_visual.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/triplet_grid/05_grid_1_16T_ruler_seek.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/triplet_grid/06_grid_1_16T_clip_move.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/triplet_grid/07_grid_1_16T_note_create.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/triplet_grid/08_after_reload_grid16T.png"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "loop": [
+    480,
+    960
+  ],
+  "starts_when": [
+    13.4676,
+    13.9784,
+    14.4776,
+    14.9769
+  ],
+  "intervals": [
+    0.5108,
+    0.4992,
+    0.4992
+  ],
+  "offsets": [
+    0.5,
+    0.5108,
+    0.5101,
+    0.5093
+  ],
+  "playhead_wrap_observed": "1.00 -> 0.53 repeated",
+  "explanation": "starting at loop start 480; nonzero loop restart offsets correctly remain near 0.51s because loop start is 0.5s into rendered audio"
+}

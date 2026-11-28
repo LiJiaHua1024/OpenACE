@@ -1,0 +1,26 @@
+{
+  "missing_end": {
+    "status": 422,
+    "body": "{\"detail\":\"export range requires both start_ticks and end_ticks\"}"
+  },
+  "missing_start": {
+    "status": 422,
+    "body": "{\"detail\":\"export range requires both start_ticks and end_ticks\"}"
+  },
+  "reversed": {
+    "status": 422,
+    "body": "{\"detail\":\"export range must satisfy 0 <= start_ticks < end_ticks\"}"
+  },
+  "negative": {
+    "status": 422,
+    "body": "{\"detail\":\"export range must satisfy 0 <= start_ticks < end_ticks\"}"
+  },
+  "mp4_range": {
+    "status": 422,
+    "body": "{\"detail\":\"range export is currently supported for audio masters/stems, not mp4\"}"
+  },
+  "mid_range": {
+    "status": 422,
+    "body": "{\"detail\":\"range export is currently supported for audio masters/stems, not mid\"}"
+  }
+}

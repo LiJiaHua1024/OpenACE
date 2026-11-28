@@ -1,0 +1,72 @@
+{
+  "busy_label_during_import": {
+    "ok": true,
+    "details": {
+      "busy_seen": true,
+      "busy_screenshot": true,
+      "before_label": "Import audio",
+      "after_label": "Import audio",
+      "elapsed_seconds": 5.579913854598999,
+      "input_count": 1
+    },
+    "time": 1795746597.9992528
+  },
+  "imported_project_notes_language_lyrics": {
+    "ok": true,
+    "details": {
+      "project_id": "project_faec1b98647f",
+      "title": "en_prompt",
+      "language": "en",
+      "visible_meta": "vocal \u00b7 en \u00b7 44 notes",
+      "note_count": 44,
+      "real_lyric_count": 11,
+      "empty_lyric_count": 33,
+      "unique_lyrics": [
+        "How",
+        "I'll find",
+        "Never",
+        "best?",
+        "is",
+        "mind,",
+        "more",
+        "nothing",
+        "someone like",
+        "the",
+        "you"
+      ],
+      "placeholders": []
+    },
+    "time": 1795746598.0087373
+  },
+  "piano_roll_imported_notes_visible": {
+    "ok": true,
+    "details": {
+      "colored_note_pixels": 5293,
+      "canvas_box": {
+        "x": 236,
+        "y": 229,
+        "width": 714,
+        "height": 414
+      }
+    },
+    "time": 1795746598.1853786
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795746598.32355
+  },
+  "passed": false,
+  "no_visual_placeholder_hyphens": {
+    "ok": false,
+    "details": {
+      "empty_lyric_notes": 33,
+      "note_count": 44,
+      "issue": "Piano roll renders empty lyric as a visible em dash; screenshot shows multiple dash placeholder notes even though stored lyrics contain no la/\u5566/hyphen strings."
+    },
+    "time": 1795746637.4629354
+  }
+}

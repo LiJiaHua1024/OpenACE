@@ -1,0 +1,103 @@
+{
+  "console_errors": [],
+  "network_errors": [],
+  "page_errors": [],
+  "baseline_count": 6,
+  "debounce_new_count": 1,
+  "first_job": {
+    "id": "job_88d9059c79fd",
+    "status": "running",
+    "created_at": 1795817383.528806
+  },
+  "pre_midedit": {
+    "lyrics": [
+      "呜",
+      "喵",
+      "萨"
+    ],
+    "hash": "74ed4876216f7ed0",
+    "fp": "b4d3d5bbbc0f8994"
+  },
+  "after_midedit": {
+    "lyrics": [
+      "呜",
+      "喵",
+      "呢"
+    ],
+    "hash": "8b3ff71f9430eba5",
+    "hash_changed": true,
+    "new_count": 1
+  },
+  "first_final": {
+    "id": "job_88d9059c79fd",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_88d9059c79fd/vocal.wav",
+    "created_at": 1795817383.528806,
+    "finished_at": 1795817390.8466299
+  },
+  "after_first_completion": {
+    "new_count": 2,
+    "lyrics": [
+      "呜",
+      "喵",
+      "呢"
+    ],
+    "fp": "74ed4876216f7ed0",
+    "current_hash": "8b3ff71f9430eba5",
+    "stale": true,
+    "stale_badges": 1,
+    "jobs": [
+      {
+        "id": "job_ed35460f4173",
+        "status": "running",
+        "created_at": 1795817392.3607314
+      },
+      {
+        "id": "job_88d9059c79fd",
+        "status": "completed",
+        "created_at": 1795817383.528806
+      }
+    ]
+  },
+  "followup_final": {
+    "id": "job_ed35460f4173",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_ed35460f4173/vocal.wav",
+    "created_at": 1795817392.3607314,
+    "finished_at": 1795817398.3211997
+  },
+  "after_followup": {
+    "lyrics": [
+      "呜",
+      "喵",
+      "呢"
+    ],
+    "fp": "8b3ff71f9430eba5",
+    "current_hash": "8b3ff71f9430eba5",
+    "stale": false,
+    "stale_badges": 0,
+    "revision": 6
+  },
+  "cancel_trigger_count": 1,
+  "cancel_status": "canceled",
+  "count_after_cancel_wait": 1,
+  "manual_newly_created": true,
+  "manual_job": {
+    "id": "job_02377065aafb",
+    "status": "running",
+    "created_at": 1795817408.0627859
+  },
+  "manual_final": {
+    "id": "job_02377065aafb",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_02377065aafb/vocal.wav",
+    "created_at": 1795817408.0627859,
+    "finished_at": 1795817414.1110458
+  },
+  "layout": {
+    "within": true,
+    "width": 287,
+    "panelClientWidth": 311,
+    "panelScrollWidth": 311
+  }
+}

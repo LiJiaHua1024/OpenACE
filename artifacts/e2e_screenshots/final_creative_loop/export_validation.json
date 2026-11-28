@@ -1,0 +1,128 @@
+{
+  "flac": {
+    "bytes": 171796,
+    "ffprobe_duration": 3.0625,
+    "frames": 147000,
+    "sr": 48000,
+    "soundfile_duration": 3.0625,
+    "peak": 0.6334472894668579
+  },
+  "mp4": {
+    "bytes": 345620,
+    "ffprobe_duration": 3.067,
+    "ftyp": true
+  },
+  "wav": {
+    "bytes": 882044,
+    "ffprobe_duration": 3.0625,
+    "frames": 147000,
+    "sr": 48000,
+    "soundfile_duration": 3.0625,
+    "peak": 0.6334472894668579
+  },
+  "ustx": {
+    "bytes": 5213,
+    "ffprobe_duration": null,
+    "utf8_or_magic": "utf8",
+    "text_prefix": "name: Creative Loop 验收\ncomment: Exported by OpenACE\noutput_dir: Vocal\ncache_dir: UCache\nustx_version: '0.10'\nexpressions: {}\nexp_selectors:\n- dyn\n- pitd\n- clr\n-"
+  },
+  "lrc": {
+    "bytes": 104,
+    "ffprobe_duration": null,
+    "utf8_or_magic": "utf8",
+    "text_prefix": "[ti:Creative Loop 验收]\n[ar:OpenACE]\n[al:OpenACE Project]\n[by:OpenACE]\n[00:00.75]你好\n[00:02.00]好\n"
+  },
+  "stems": {
+    "bytes": 612066,
+    "ffprobe_duration": null,
+    "is_zip": true,
+    "zip_names": [
+      "stems_manifest.json",
+      "01_Lead_Vocal.wav",
+      "02_ACE-Step_BGM.wav",
+      "04_SVC_upload_9d987dea638a_vocal.wav"
+    ],
+    "zip_count": 4,
+    "manifest": {
+      "sample_rate": 48000,
+      "format": "pcm_s24le wav",
+      "processing": "static/automated track volume/pan, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization",
+      "range_ticks": null,
+      "tracks": [
+        {
+          "track_id": "track_9318cc870887",
+          "track_name": "Lead Vocal",
+          "type": "vocal",
+          "file": "01_Lead_Vocal.wav",
+          "peak": 0.23978982865810394,
+          "rms": 0.08232628554105759,
+          "volume": 0.8,
+          "pan": 0.0,
+          "solo": false,
+          "mute": false
+        },
+        {
+          "track_id": "track_0b84b8e6509d",
+          "track_name": "ACE-Step BGM",
+          "type": "accompaniment",
+          "file": "02_ACE-Step_BGM.wav",
+          "peak": 0.075337253510952,
+          "rms": 0.03592132776975632,
+          "volume": 0.8,
+          "pan": 0.0,
+          "solo": false,
+          "mute": false
+        },
+        {
+          "track_id": "track_b86cad0b93e9",
+          "track_name": "SVC — upload_9d987dea638a_vocal",
+          "type": "audio",
+          "file": "04_SVC_upload_9d987dea638a_vocal.wav",
+          "peak": 0.22501049935817719,
+          "rms": 0.07923783361911774,
+          "volume": 0.8,
+          "pan": 0.0,
+          "solo": false,
+          "mute": false
+        }
+      ],
+      "skipped": [
+        {
+          "track_id": "track_1889fb4044a4",
+          "track_name": "SVC score — upload_9d987dea638a_vocal",
+          "reason": "no audible decoded audio"
+        }
+      ]
+    }
+  },
+  "ogg": {
+    "bytes": 20336,
+    "ffprobe_duration": 3.0625,
+    "frames": 147000,
+    "sr": 48000,
+    "soundfile_duration": 3.0625,
+    "peak": 0.6388351917266846
+  },
+  "mid": {
+    "bytes": 515,
+    "ffprobe_duration": null,
+    "utf8_or_magic": "binary",
+    "hex_prefix": "4d546864000000060001000301e04d54"
+  },
+  "mp3": {
+    "bytes": 124845,
+    "ffprobe_duration": 3.096
+  },
+  "svp": {
+    "bytes": 13172,
+    "ffprobe_duration": null,
+    "utf8_or_magic": "utf8",
+    "text_prefix": "{\n  \"version\": 153,\n  \"time\": {\n    \"meter\": [\n      {\n        \"index\": 0,\n        \"numerator\": 4,\n        \"denominator\": 4\n      }\n    ],\n    \"tempo\": [\n      "
+  },
+  "vpr": {
+    "bytes": 855,
+    "ffprobe_duration": null,
+    "utf8_or_magic": "binary",
+    "hex_prefix": "504b030414000000080007457c5dfdf8"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "rowText": "FolderQA Zeta\n11/27/2026 \u00b7 1 tracks \u00b7 120 BPM \u00b7 \u25b8XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \u25b8SharedLab\n\u2606\nTags\nFolders\nCopy\nDelete",
+  "rowHeight": 60.5,
+  "buttons": [
+    {
+      "text": "FolderQA Zeta11/27/2026 \u00b7 1 tracks \u00b7 120 BPM \u00b7 \u25b8XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \u25b8SharedLab",
+      "left": 239,
+      "right": 395,
+      "top": 118,
+      "bottom": 178.5
+    },
+    {
+      "text": "\u2606",
+      "left": 399,
+      "right": 429,
+      "top": 118,
+      "bottom": 178.5
+    },
+    {
+      "text": "Tags",
+      "left": 433,
+      "right": 475,
+      "top": 118,
+      "bottom": 178.5
+    },
+    {
+      "text": "Folders",
+      "left": 479,
+      "right": 531,
+      "top": 118,
+      "bottom": 178.5
+    },
+    {
+      "text": "Copy",
+      "left": 535,
+      "right": 579,
+      "top": 118,
+      "bottom": 178.5
+    },
+    {
+      "text": "Delete",
+      "left": 583,
+      "right": 631,
+      "top": 118,
+      "bottom": 178.5
+    }
+  ],
+  "overlaps": [],
+  "popoverRight": 640,
+  "popoverWidth": 410,
+  "passed": true
+}

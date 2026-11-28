@@ -1,0 +1,27 @@
+{
+  "metadata_colors": {
+    "font_size": 120,
+    "lane_spacing": 10,
+    "sung_color": "#ff0000",
+    "unsung_color": "#00ff00",
+    "background_theme": "ember",
+    "background_motion": false,
+    "show_title": false,
+    "show_brand": false
+  },
+  "metadata_forest": {
+    "font_size": 120,
+    "lane_spacing": 10,
+    "sung_color": "#ff0000",
+    "unsung_color": "#00ff00",
+    "background_theme": "forest",
+    "background_motion": true,
+    "show_title": true,
+    "show_brand": true
+  },
+  "sizes": {
+    "correct_on_forest.mp4": 296047,
+    "correct_off_ember.mp4": 51811,
+    "correct_export.wav": 720044
+  }
+}

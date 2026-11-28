@@ -1,0 +1,148 @@
+{
+  "pid": "project_d89e6124b036",
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    }
+  ],
+  "badnet": [
+    {
+      "status": 422,
+      "url": "http://127.0.0.1:8787/api/projects/project_d89e6124b036/tracks/track_70eb1c62883e/notes/note_ecf5ce72-6c9/split"
+    },
+    {
+      "status": 422,
+      "url": "http://127.0.0.1:8787/api/projects/project_d89e6124b036/tracks/track_70eb1c62883e/notes/note_ecf5ce72-6c9/split"
+    }
+  ],
+  "numeric_defect": "after slider input, transient vibrato edit is not remembered in undo ancestry; server echo clears undo history and disables Undo",
+  "numeric": {
+    "backend_exact": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.25,
+      "release_ratio": 0.2
+    },
+    "exact": true,
+    "undo_disabled_after_slider": true
+  },
+  "numeric_reload_exact": true,
+  "envelope_handles": {
+    "base": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.25,
+      "release_ratio": 0.2
+    },
+    "attack_after": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.45,
+      "release_ratio": 0.2
+    },
+    "attack_undo_exact": true,
+    "attack_redo_exact": true,
+    "release_after": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.45,
+      "release_ratio": 0.4
+    },
+    "release_undo_exact": true,
+    "release_redo_exact": true,
+    "attack_delta": 0.2,
+    "release_delta": 0.2,
+    "other_params_stable": true,
+    "note": {
+      "start_ticks": 120,
+      "duration_ticks": 480,
+      "pitch": 65
+    }
+  },
+  "classic_handles": {
+    "after_depth": {
+      "start_ratio": 0.25,
+      "depth_cents": 75.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.45,
+      "release_ratio": 0.4
+    },
+    "after_phase": {
+      "start_ratio": 0.25,
+      "depth_cents": 75.0,
+      "frequency_hz": 5.2,
+      "phase": 1.0,
+      "attack_ratio": 0.45,
+      "release_ratio": 0.4
+    },
+    "after_frequency": {
+      "start_ratio": 0.25,
+      "depth_cents": 75.0,
+      "frequency_hz": 6.2,
+      "phase": 1.0,
+      "attack_ratio": 0.45,
+      "release_ratio": 0.4
+    },
+    "depth_ok": true,
+    "phase_ok": true,
+    "freq_ok": true,
+    "envelopes_preserved": true,
+    "note_stable": {
+      "start_ticks": 120,
+      "duration_ticks": 480,
+      "pitch": 65
+    }
+  },
+  "render": {
+    "status": "completed",
+    "output": "/home/ubuntu/repos/OpenACE/data/renders/project_d89e6124b036/job_5359a143376b/vocal.wav",
+    "f0json_exists": true,
+    "f0_peak_to_peak_cents": {
+      "attack_early_260_300ms": 10.0,
+      "middle_420_460ms": 50.0,
+      "release_end_580_620ms": 20.0
+    }
+  },
+  "split_envelope_ctrl": {
+    "error": "splitting vibrato attack/release envelopes is not yet truthful; clear the envelopes before splitting",
+    "actionable": true,
+    "note_count": 1,
+    "unchanged": true
+  },
+  "split_envelope_context": {
+    "menu_seen": true,
+    "error": "splitting vibrato attack/release envelopes is not yet truthful; clear the envelopes before splitting",
+    "actionable": true,
+    "note_count": 1
+  },
+  "zero_envelope_split": {
+    "note_count": 2,
+    "passed": true,
+    "starts": [
+      120,
+      300
+    ],
+    "durations": [
+      180,
+      300
+    ]
+  },
+  "layout": {
+    "body": false,
+    "right": 0
+  }
+}

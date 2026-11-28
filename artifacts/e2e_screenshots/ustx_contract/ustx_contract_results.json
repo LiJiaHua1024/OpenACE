@@ -1,0 +1,86 @@
+{
+  "visible_ustx_click_ui_healthy": {
+    "ok": true,
+    "details": {
+      "clicked": true,
+      "download_started": true,
+      "status": 200,
+      "bytes": 1746,
+      "title": "USTX Contract QA"
+    },
+    "time": 1795747513.421493
+  },
+  "ustx_schema_contract": {
+    "ok": true,
+    "details": {
+      "checks": {
+        "version": true,
+        "no_resolution": true,
+        "key_order": true,
+        "custom_pitch": true,
+        "default_two_pitch": true,
+        "vibrato": true,
+        "phoneme_override": true,
+        "curves": true,
+        "no_xy_curve_arrays": true,
+        "track_units": true
+      },
+      "note_keys": [
+        "position",
+        "duration",
+        "tone",
+        "lyric",
+        "pitch",
+        "vibrato",
+        "tuning",
+        "phoneme_expressions",
+        "phoneme_overrides"
+      ],
+      "curves": {
+        "dyn": {
+          "abbr": "dyn",
+          "xs": [
+            0,
+            480
+          ],
+          "ys": [
+            0,
+            60
+          ]
+        },
+        "pitd": {
+          "abbr": "pitd",
+          "xs": [
+            0,
+            480
+          ],
+          "ys": [
+            -25,
+            50
+          ]
+        }
+      },
+      "track": {
+        "track_name": "USTX Lead",
+        "track_color": "Purple",
+        "singer": "zero-shot-reference",
+        "phonemizer": "OpenUtau.Core.DefaultPhonemizer",
+        "mute": false,
+        "solo": false,
+        "volume": -6.021,
+        "pan": 25.0
+      },
+      "part_duration": 960
+    },
+    "time": 1795747513.4276834
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795747513.492647
+  },
+  "passed": true
+}

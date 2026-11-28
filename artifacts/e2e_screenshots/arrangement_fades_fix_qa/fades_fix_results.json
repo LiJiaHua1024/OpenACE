@@ -1,0 +1,105 @@
+{
+  "visible_inner_fade_endpoint_drag": {
+    "ok": true,
+    "details": {
+      "before": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 240,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0
+      },
+      "after": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 360,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0
+      },
+      "expected_fade": 360
+    },
+    "time": 1795701666.8981204
+  },
+  "right_trim_restores_exact_2400": {
+    "ok": true,
+    "details": {
+      "trimmed": {
+        "start_ticks": 0,
+        "duration_ticks": 2280,
+        "offset_ticks": 0,
+        "fade_in_ticks": 360,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0
+      },
+      "restored": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 360,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0
+      }
+    },
+    "time": 1795701668.4971576
+  },
+  "clip_gain_negative_typing": {
+    "ok": false,
+    "details": {
+      "persisted": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 360,
+        "fade_out_ticks": 0,
+        "gain_db": 6.0
+      },
+      "input_value": "06",
+      "menu_text": "Split at cursor\nClip gain\ndB",
+      "interpretation": "typing -6 is expected to remain negative"
+    },
+    "time": 1795701669.4202826
+  },
+  "clip_gain_stepped_minus6_persistence": {
+    "ok": true,
+    "details": {
+      "persisted": {
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 360,
+        "fade_out_ticks": 0,
+        "gain_db": -6.0
+      },
+      "input_value": "-6",
+      "menu_text": "Split at cursor\nClip gain\ndB"
+    },
+    "time": 1795701670.524615
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "errors": []
+    },
+    "time": 1795701670.5246532
+  },
+  "fixture_project_restored": {
+    "ok": true,
+    "details": {
+      "clip": {
+        "id": "clip_1f33ada107b7",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_e3f52a65d029/job_90fbd5a85479/accompaniment.wav",
+        "start_ticks": 0,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "Repaint"
+      }
+    },
+    "time": 1795701670.541775
+  },
+  "passed": false
+}

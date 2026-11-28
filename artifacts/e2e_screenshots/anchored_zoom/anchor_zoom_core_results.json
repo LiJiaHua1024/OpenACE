@@ -1,0 +1,5477 @@
+{
+  "surface_results": [
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2000,
+        "pxPerBeat": 112,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2052.987012987013,
+        "pxPerBeat": 123.20000000000002,
+        "gridDivision": 8
+      },
+      "anchor_before": 2582.8571428571427,
+      "anchor_after": 2582.8571428571427,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            123.2,
+            2052.987012987,
+            8
+          ]
+        ]
+      },
+      "surface": "arrangement",
+      "xrel": 200,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2052.987012987013,
+        "pxPerBeat": 123.20000000000002,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1994.1125541125539,
+        "pxPerBeat": 110.88000000000002,
+        "gridDivision": 8
+      },
+      "anchor_before": 2582.8571428571427,
+      "anchor_after": 2582.8571428571427,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            110.88,
+            1994.112554113,
+            8
+          ]
+        ]
+      },
+      "surface": "arrangement",
+      "xrel": 200,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1994.1125541125539,
+        "pxPerBeat": 110.88000000000002,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2165.6985438803617,
+        "pxPerBeat": 121.96800000000003,
+        "gridDivision": 8
+      },
+      "anchor_before": 3881.558441558441,
+      "anchor_after": 3881.558441558441,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            121.968,
+            2165.69854388,
+            8
+          ]
+        ]
+      },
+      "surface": "arrangement",
+      "xrel": 500,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2165.6985438803617,
+        "pxPerBeat": 121.96800000000003,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1975.047444138353,
+        "pxPerBeat": 109.77120000000004,
+        "gridDivision": 8
+      },
+      "anchor_before": 3881.558441558441,
+      "anchor_after": 3881.558441558441,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            109.7712,
+            1975.047444138,
+            8
+          ]
+        ]
+      },
+      "surface": "arrangement",
+      "xrel": 500,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1975.047444138353,
+        "pxPerBeat": 109.77120000000004,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2307.3750491932306,
+        "pxPerBeat": 120.74832000000005,
+        "gridDivision": 8
+      },
+      "anchor_before": 5630.651099742007,
+      "anchor_after": 5630.651099742007,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            120.74832,
+            2307.375049193,
+            8
+          ]
+        ]
+      },
+      "surface": "arrangement",
+      "xrel": 900,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2307.3750491932306,
+        "pxPerBeat": 120.74832000000005,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1938.1221546878114,
+        "pxPerBeat": 108.67348800000005,
+        "gridDivision": 8
+      },
+      "anchor_before": 5630.651099742007,
+      "anchor_after": 5630.651099742007,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            108.673488,
+            1938.122154688,
+            8
+          ]
+        ]
+      },
+      "surface": "arrangement",
+      "xrel": 900,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1938.1221546878114,
+        "pxPerBeat": 108.67348800000005,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1992.7311082031842,
+        "pxPerBeat": 119.54083680000006,
+        "gridDivision": 8
+      },
+      "anchor_before": 2538.820643356915,
+      "anchor_after": 2538.820643356915,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            119.5408368,
+            1992.731108203,
+            8
+          ]
+        ]
+      },
+      "surface": "tempo",
+      "xrel": 200,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1992.7311082031842,
+        "pxPerBeat": 119.54083680000006,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1932.0544931861032,
+        "pxPerBeat": 107.58675312000005,
+        "gridDivision": 8
+      },
+      "anchor_before": 2538.820643356915,
+      "anchor_after": 2538.820643356915,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            107.58675312,
+            1932.054493186,
+            8
+          ]
+        ]
+      },
+      "surface": "tempo",
+      "xrel": 200,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1932.0544931861032,
+        "pxPerBeat": 107.58675312000005,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2108.8927562037998,
+        "pxPerBeat": 118.34542843200006,
+        "gridDivision": 8
+      },
+      "anchor_before": 3877.2753863807643,
+      "anchor_after": 3877.2753863807648,
+      "error_ticks": 4.547473508864641e-13,
+      "abs_error_ticks": 4.547473508864641e-13,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            118.345428432,
+            2108.892756204,
+            8
+          ]
+        ]
+      },
+      "surface": "tempo",
+      "xrel": 500,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2108.8927562037998,
+        "pxPerBeat": 118.34542843200006,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1912.4057972952485,
+        "pxPerBeat": 106.51088558880006,
+        "gridDivision": 8
+      },
+      "anchor_before": 3877.2753863807648,
+      "anchor_after": 3877.2753863807648,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            106.510885589,
+            1912.405797295,
+            8
+          ]
+        ]
+      },
+      "surface": "tempo",
+      "xrel": 500,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1912.4057972952485,
+        "pxPerBeat": 106.51088558880006,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2254.9060008973115,
+        "pxPerBeat": 117.16197414768008,
+        "gridDivision": 8
+      },
+      "anchor_before": 5679.9080369179355,
+      "anchor_after": 5679.9080369179355,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            117.161974148,
+            2254.906000897,
+            8
+          ]
+        ]
+      },
+      "surface": "tempo",
+      "xrel": 900,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2254.9060008973115,
+        "pxPerBeat": 117.16197414768008,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1874.3502191172424,
+        "pxPerBeat": 105.44577673291208,
+        "gridDivision": 8
+      },
+      "anchor_before": 5679.9080369179355,
+      "anchor_after": 5679.9080369179355,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            105.445776733,
+            1874.350219117,
+            8
+          ]
+        ]
+      },
+      "surface": "tempo",
+      "xrel": 900,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1874.3502191172424,
+        "pxPerBeat": 105.44577673291208,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1930.6307610072922,
+        "pxPerBeat": 115.9903544062033,
+        "gridDivision": 8
+      },
+      "anchor_before": 2493.436179907786,
+      "anchor_after": 2493.436179907786,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            115.990354406,
+            1930.630761007,
+            8
+          ]
+        ]
+      },
+      "surface": "piano",
+      "xrel": 200,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1930.6307610072922,
+        "pxPerBeat": 115.9903544062033,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1868.096825573904,
+        "pxPerBeat": 104.39131896558297,
+        "gridDivision": 8
+      },
+      "anchor_before": 2493.436179907786,
+      "anchor_after": 2493.436179907786,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            104.391318966,
+            1868.096825574,
+            8
+          ]
+        ]
+      },
+      "surface": "piano",
+      "xrel": 200,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1868.096825573904,
+        "pxPerBeat": 104.39131896558297,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2050.3481347246884,
+        "pxPerBeat": 114.83045086214128,
+        "gridDivision": 8
+      },
+      "anchor_before": 3872.8612262325264,
+      "anchor_after": 3872.8612262325264,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            114.830450862,
+            2050.348134725,
+            8
+          ]
+        ]
+      },
+      "surface": "piano",
+      "xrel": 500,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2050.3481347246884,
+        "pxPerBeat": 114.83045086214128,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1847.8466801127063,
+        "pxPerBeat": 103.34740577592716,
+        "gridDivision": 8
+      },
+      "anchor_before": 3872.8612262325264,
+      "anchor_after": 3872.8612262325264,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            103.347405776,
+            1847.846680113,
+            8
+          ]
+        ]
+      },
+      "surface": "piano",
+      "xrel": 500,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1847.8466801127063,
+        "pxPerBeat": 103.34740577592716,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2200.8308670510237,
+        "pxPerBeat": 113.68214635351988,
+        "gridDivision": 8
+      },
+      "anchor_before": 5730.672736434196,
+      "anchor_after": 5730.672736434196,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            113.682146354,
+            2200.830867051,
+            8
+          ]
+        ]
+      },
+      "surface": "piano",
+      "xrel": 900,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2200.8308670510237,
+        "pxPerBeat": 113.68214635351988,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1808.6262148973383,
+        "pxPerBeat": 102.3139317181679,
+        "gridDivision": 8
+      },
+      "anchor_before": 5730.672736434196,
+      "anchor_after": 5730.672736434196,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            102.313931718,
+            1808.626214897,
+            8
+          ]
+        ]
+      },
+      "surface": "piano",
+      "xrel": 900,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1808.6262148973383,
+        "pxPerBeat": 102.3139317181679,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1866.6295127365088,
+        "pxPerBeat": 112.5453248899847,
+        "gridDivision": 8
+      },
+      "anchor_before": 2446.6624911282147,
+      "anchor_after": 2446.6624911282147,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            112.54532489,
+            1866.629512737,
+            8
+          ]
+        ]
+      },
+      "surface": "automation",
+      "xrel": 200,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1866.6295127365088,
+        "pxPerBeat": 112.5453248899847,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1802.1814040263193,
+        "pxPerBeat": 101.29079240098623,
+        "gridDivision": 8
+      },
+      "anchor_before": 2446.6624911282147,
+      "anchor_after": 2446.6624911282147,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            101.290792401,
+            1802.181404026,
+            8
+          ]
+        ]
+      },
+      "surface": "automation",
+      "xrel": 200,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1802.1814040263193,
+        "pxPerBeat": 101.29079240098623,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1990.0114534758025,
+        "pxPerBeat": 111.41987164108487,
+        "gridDivision": 8
+      },
+      "anchor_before": 3868.3119479706306,
+      "anchor_after": 3868.3119479706306,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            111.419871641,
+            1990.011453476,
+            8
+          ]
+        ]
+      },
+      "surface": "automation",
+      "xrel": 500,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1990.0114534758025,
+        "pxPerBeat": 111.41987164108487,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1781.3113985319324,
+        "pxPerBeat": 100.27788447697638,
+        "gridDivision": 8
+      },
+      "anchor_before": 3868.3119479706306,
+      "anchor_after": 3868.3119479706306,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            100.277884477,
+            1781.311398532,
+            8
+          ]
+        ]
+      },
+      "surface": "automation",
+      "xrel": 500,
+      "direction": "out"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1781.3113985319324,
+        "pxPerBeat": 100.27788447697638,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2145.1004851313382,
+        "pxPerBeat": 110.30567292467403,
+        "gridDivision": 8
+      },
+      "anchor_before": 5782.991351125399,
+      "anchor_after": 5782.991351125399,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": -240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            110.305672925,
+            2145.100485131,
+            8
+          ]
+        ]
+      },
+      "surface": "automation",
+      "xrel": 900,
+      "direction": "in"
+    },
+    {
+      "before": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 2145.1004851313382,
+        "pxPerBeat": 110.30567292467403,
+        "gridDivision": 8
+      },
+      "after": {
+        "keys": [
+          "project",
+          "selectedTrackId",
+          "playheadTicks",
+          "onSelect",
+          "onSeek",
+          "beginTransaction",
+          "endTransaction",
+          "updateProject",
+          "timeline",
+          "onTimelineChange",
+          "repaintRange",
+          "onRepaintRange",
+          "loopRange",
+          "loopEnabled",
+          "onLoopRange"
+        ],
+        "hasChange": true,
+        "scrollTicks": 1740.8903889097764,
+        "pxPerBeat": 99.27510563220663,
+        "gridDivision": 8
+      },
+      "anchor_before": 5782.991351125399,
+      "anchor_after": 5782.991351125399,
+      "error_ticks": 0.0,
+      "abs_error_ticks": 0.0,
+      "deltaY": 240,
+      "sync": {
+        "count": 4,
+        "with_onTimelineChange": 4,
+        "unique_timeline_values": 1,
+        "values": [
+          [
+            99.275105632,
+            1740.89038891,
+            8
+          ]
+        ]
+      },
+      "surface": "automation",
+      "xrel": 900,
+      "direction": "out"
+    }
+  ],
+  "clamp": {
+    "minstate": {
+      "keys": [
+        "project",
+        "selectedTrackId",
+        "playheadTicks",
+        "onSelect",
+        "onSeek",
+        "beginTransaction",
+        "endTransaction",
+        "updateProject",
+        "timeline",
+        "onTimelineChange",
+        "repaintRange",
+        "onRepaintRange",
+        "loopRange",
+        "loopEnabled",
+        "onLoopRange"
+      ],
+      "hasChange": true,
+      "scrollTicks": 0,
+      "pxPerBeat": 32,
+      "gridDivision": 8
+    },
+    "maxstate": {
+      "keys": [
+        "project",
+        "selectedTrackId",
+        "playheadTicks",
+        "onSelect",
+        "onSeek",
+        "beginTransaction",
+        "endTransaction",
+        "updateProject",
+        "timeline",
+        "onTimelineChange",
+        "repaintRange",
+        "onRepaintRange",
+        "loopRange",
+        "loopEnabled",
+        "onLoopRange"
+      ],
+      "hasChange": true,
+      "scrollTicks": 11425.333333333334,
+      "pxPerBeat": 360,
+      "gridDivision": 8
+    },
+    "min_final_repeats": [
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        }
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        }
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        }
+      }
+    ],
+    "max_final_repeats": [
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              360,
+              11425.333333333,
+              8
+            ]
+          ]
+        }
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              360,
+              11425.333333333,
+              8
+            ]
+          ]
+        }
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              360,
+              11425.333333333,
+              8
+            ]
+          ]
+        }
+      }
+    ],
+    "min_tests": [
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 1740.8903889097764,
+          "pxPerBeat": 99.27510563220663,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 1291.7680597747067,
+          "pxPerBeat": 89.34759506898597,
+          "gridDivision": 8
+        },
+        "anchor_before": 5782.991351125399,
+        "anchor_after": 5782.991351125399,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              89.347595069,
+              1291.768059775,
+              8
+            ]
+          ]
+        },
+        "step": 0
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 1291.7680597747067,
+          "pxPerBeat": 89.34759506898597,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 792.7432496246302,
+          "pxPerBeat": 80.41283556208737,
+          "gridDivision": 8
+        },
+        "anchor_before": 5782.991351125399,
+        "anchor_after": 5782.991351125399,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              80.412835562,
+              792.743249625,
+              8
+            ]
+          ]
+        },
+        "step": 1
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 792.7432496246302,
+          "pxPerBeat": 80.41283556208737,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 238.27123834676695,
+          "pxPerBeat": 72.37155200587863,
+          "gridDivision": 8
+        },
+        "anchor_before": 5782.991351125399,
+        "anchor_after": 5782.991351125399,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              72.371552006,
+              238.271238347,
+              8
+            ]
+          ]
+        },
+        "step": 2
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 238.27123834676695,
+          "pxPerBeat": 72.37155200587863,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 65.13439680529076,
+          "gridDivision": 8
+        },
+        "anchor_before": 5782.991351125399,
+        "anchor_after": 6160.800125309592,
+        "error_ticks": 377.80877418419277,
+        "abs_error_ticks": 377.80877418419277,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              65.134396805,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 3
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 65.13439680529076,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 58.62095712476169,
+          "gridDivision": 8
+        },
+        "anchor_before": 6160.800125309592,
+        "anchor_after": 6845.333472566213,
+        "error_ticks": 684.5333472566208,
+        "abs_error_ticks": 684.5333472566208,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              58.620957125,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 4
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 58.62095712476169,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 52.75886141228552,
+          "gridDivision": 8
+        },
+        "anchor_before": 6845.333472566213,
+        "anchor_after": 7605.926080629125,
+        "error_ticks": 760.5926080629124,
+        "abs_error_ticks": 760.5926080629124,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              52.758861412,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 5
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 52.75886141228552,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 47.482975271056965,
+          "gridDivision": 8
+        },
+        "anchor_before": 7605.926080629125,
+        "anchor_after": 8451.028978476807,
+        "error_ticks": 845.1028978476816,
+        "abs_error_ticks": 845.1028978476816,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              47.482975271,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 6
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 47.482975271056965,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 42.734677743951266,
+          "gridDivision": 8
+        },
+        "anchor_before": 8451.028978476807,
+        "anchor_after": 9390.032198307563,
+        "error_ticks": 939.0032198307563,
+        "abs_error_ticks": 939.0032198307563,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              42.734677744,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 7
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 42.734677743951266,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 38.461209969556144,
+          "gridDivision": 8
+        },
+        "anchor_before": 9390.032198307563,
+        "anchor_after": 10433.369109230624,
+        "error_ticks": 1043.3369109230607,
+        "abs_error_ticks": 1043.3369109230607,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              38.46120997,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 8
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 38.461209969556144,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 34.61508897260053,
+          "gridDivision": 8
+        },
+        "anchor_before": 10433.369109230624,
+        "anchor_after": 11592.632343589583,
+        "error_ticks": 1159.2632343589594,
+        "abs_error_ticks": 1159.2632343589594,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              34.615088973,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 9
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 34.61508897260053,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 11592.632343589583,
+        "anchor_after": 12540.0,
+        "error_ticks": 947.3676564104171,
+        "abs_error_ticks": 947.3676564104171,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 10
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 11
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 12
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 13
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 14
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 15
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 16
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": 240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              32,
+              0,
+              8
+            ]
+          ]
+        },
+        "step": 17
+      }
+    ],
+    "max_tests": [
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 0,
+          "pxPerBeat": 32,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 1140.0000000000018,
+          "pxPerBeat": 35.2,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              35.2,
+              1140.0,
+              8
+            ]
+          ]
+        },
+        "step": 0
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 1140.0000000000018,
+          "pxPerBeat": 35.2,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 2176.363636363638,
+          "pxPerBeat": 38.720000000000006,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              38.72,
+              2176.363636364,
+              8
+            ]
+          ]
+        },
+        "step": 1
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 2176.363636363638,
+          "pxPerBeat": 38.720000000000006,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 3118.5123966942174,
+          "pxPerBeat": 42.59200000000001,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              42.592,
+              3118.512396694,
+              8
+            ]
+          ]
+        },
+        "step": 2
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 3118.5123966942174,
+          "pxPerBeat": 42.59200000000001,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 3975.0112697220175,
+          "pxPerBeat": 46.85120000000002,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              46.8512,
+              3975.011269722,
+              8
+            ]
+          ]
+        },
+        "step": 3
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 3975.0112697220175,
+          "pxPerBeat": 46.85120000000002,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 4753.646608838198,
+          "pxPerBeat": 51.536320000000025,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              51.53632,
+              4753.646608838,
+              8
+            ]
+          ]
+        },
+        "step": 4
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 4753.646608838198,
+          "pxPerBeat": 51.536320000000025,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 5461.496917125635,
+          "pxPerBeat": 56.689952000000034,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              56.689952,
+              5461.496917126,
+              8
+            ]
+          ]
+        },
+        "step": 5
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 5461.496917125635,
+          "pxPerBeat": 56.689952000000034,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 6104.997197386942,
+          "pxPerBeat": 62.358947200000046,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              62.3589472,
+              6104.997197387,
+              8
+            ]
+          ]
+        },
+        "step": 6
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 6104.997197386942,
+          "pxPerBeat": 62.358947200000046,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 6689.997452169948,
+          "pxPerBeat": 68.59484192000005,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              68.59484192,
+              6689.99745217,
+              8
+            ]
+          ]
+        },
+        "step": 7
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 6689.997452169948,
+          "pxPerBeat": 68.59484192000005,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 7221.815865609044,
+          "pxPerBeat": 75.45432611200006,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              75.454326112,
+              7221.815865609,
+              8
+            ]
+          ]
+        },
+        "step": 8
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 7221.815865609044,
+          "pxPerBeat": 75.45432611200006,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 7705.287150553676,
+          "pxPerBeat": 82.99975872320007,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              82.999758723,
+              7705.287150554,
+              8
+            ]
+          ]
+        },
+        "step": 9
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 7705.287150553676,
+          "pxPerBeat": 82.99975872320007,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 8144.806500503342,
+          "pxPerBeat": 91.29973459552009,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              91.299734596,
+              8144.806500503,
+              8
+            ]
+          ]
+        },
+        "step": 10
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 8144.806500503342,
+          "pxPerBeat": 91.29973459552009,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 8544.36954591213,
+          "pxPerBeat": 100.42970805507211,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              100.429708055,
+              8544.369545912,
+              8
+            ]
+          ]
+        },
+        "step": 11
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 8544.36954591213,
+          "pxPerBeat": 100.42970805507211,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 8907.608678101937,
+          "pxPerBeat": 110.47267886057934,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              110.472678861,
+              8907.608678102,
+              8
+            ]
+          ]
+        },
+        "step": 12
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 8907.608678101937,
+          "pxPerBeat": 110.47267886057934,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 9237.82607100176,
+          "pxPerBeat": 121.51994674663727,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              121.519946747,
+              9237.826071002,
+              8
+            ]
+          ]
+        },
+        "step": 13
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 9237.82607100176,
+          "pxPerBeat": 121.51994674663727,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 9538.023700910691,
+          "pxPerBeat": 133.671941421301,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              133.671941421,
+              9538.023700911,
+              8
+            ]
+          ]
+        },
+        "step": 14
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 9538.023700910691,
+          "pxPerBeat": 133.671941421301,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 9810.930637191537,
+          "pxPerBeat": 147.0391355634311,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              147.039135563,
+              9810.930637192,
+              8
+            ]
+          ]
+        },
+        "step": 15
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 9810.930637191537,
+          "pxPerBeat": 147.0391355634311,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10059.027851992307,
+          "pxPerBeat": 161.7430491197742,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              161.74304912,
+              10059.027851992,
+              8
+            ]
+          ]
+        },
+        "step": 16
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10059.027851992307,
+          "pxPerBeat": 161.7430491197742,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10284.57077453846,
+          "pxPerBeat": 177.91735403175164,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              177.917354032,
+              10284.570774538,
+              8
+            ]
+          ]
+        },
+        "step": 17
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10284.57077453846,
+          "pxPerBeat": 177.91735403175164,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10489.609795034965,
+          "pxPerBeat": 195.70908943492682,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              195.709089435,
+              10489.609795035,
+              8
+            ]
+          ]
+        },
+        "step": 18
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10489.609795034965,
+          "pxPerBeat": 195.70908943492682,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10676.00890457724,
+          "pxPerBeat": 215.27999837841952,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              215.279998378,
+              10676.008904577,
+              8
+            ]
+          ]
+        },
+        "step": 19
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10676.00890457724,
+          "pxPerBeat": 215.27999837841952,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10845.462640524765,
+          "pxPerBeat": 236.8079982162615,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              236.807998216,
+              10845.462640525,
+              8
+            ]
+          ]
+        },
+        "step": 20
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10845.462640524765,
+          "pxPerBeat": 236.8079982162615,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10999.511491386149,
+          "pxPerBeat": 260.48879803788765,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              260.488798038,
+              10999.511491386,
+              8
+            ]
+          ]
+        },
+        "step": 21
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 10999.511491386149,
+          "pxPerBeat": 260.48879803788765,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11139.555901260137,
+          "pxPerBeat": 286.53767784167644,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              286.537677842,
+              11139.55590126,
+              8
+            ]
+          ]
+        },
+        "step": 22
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11139.555901260137,
+          "pxPerBeat": 286.53767784167644,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11266.869001145578,
+          "pxPerBeat": 315.1914456258441,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              315.191445626,
+              11266.869001146,
+              8
+            ]
+          ]
+        },
+        "step": 23
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11266.869001145578,
+          "pxPerBeat": 315.1914456258441,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11382.608182859616,
+          "pxPerBeat": 346.7105901884285,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              346.710590188,
+              11382.60818286,
+              8
+            ]
+          ]
+        },
+        "step": 24
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11382.608182859616,
+          "pxPerBeat": 346.7105901884285,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              360,
+              11425.333333333,
+              8
+            ]
+          ]
+        },
+        "step": 25
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              360,
+              11425.333333333,
+              8
+            ]
+          ]
+        },
+        "step": 26
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              360,
+              11425.333333333,
+              8
+            ]
+          ]
+        },
+        "step": 27
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              360,
+              11425.333333333,
+              8
+            ]
+          ]
+        },
+        "step": 28
+      },
+      {
+        "before": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "after": {
+          "keys": [
+            "project",
+            "selectedTrackId",
+            "playheadTicks",
+            "onSelect",
+            "onSeek",
+            "beginTransaction",
+            "endTransaction",
+            "updateProject",
+            "timeline",
+            "onTimelineChange",
+            "repaintRange",
+            "onRepaintRange",
+            "loopRange",
+            "loopEnabled",
+            "onLoopRange"
+          ],
+          "hasChange": true,
+          "scrollTicks": 11425.333333333334,
+          "pxPerBeat": 360,
+          "gridDivision": 8
+        },
+        "anchor_before": 12540.0,
+        "anchor_after": 12540.0,
+        "error_ticks": 0.0,
+        "abs_error_ticks": 0.0,
+        "deltaY": -240,
+        "sync": {
+          "count": 4,
+          "with_onTimelineChange": 4,
+          "unique_timeline_values": 1,
+          "values": [
+            [
+              360,
+              11425.333333333,
+              8
+            ]
+          ]
+        },
+        "step": 29
+      }
+    ]
+  },
+  "rapid": [
+    {
+      "step": 0,
+      "pxPerBeat": 360,
+      "scrollTicks": 11425.333333333334,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 1,
+      "pxPerBeat": 324,
+      "scrollTicks": 11301.481481481482,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 2,
+      "pxPerBeat": 356.40000000000003,
+      "scrollTicks": 11414.074074074075,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 3,
+      "pxPerBeat": 320.76000000000005,
+      "scrollTicks": 11288.971193415638,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 4,
+      "pxPerBeat": 352.83600000000007,
+      "scrollTicks": 11402.701084923308,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 5,
+      "pxPerBeat": 317.5524000000001,
+      "scrollTicks": 11276.334538803676,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 6,
+      "pxPerBeat": 349.3076400000001,
+      "scrollTicks": 11391.21321709425,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 7,
+      "pxPerBeat": 314.3768760000001,
+      "scrollTicks": 11263.570241215833,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 8,
+      "pxPerBeat": 345.81456360000016,
+      "scrollTicks": 11379.609310196212,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 9,
+      "pxPerBeat": 311.23310724000015,
+      "scrollTicks": 11250.677011329124,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 10,
+      "pxPerBeat": 342.3564179640002,
+      "scrollTicks": 11367.888192117385,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 11,
+      "pxPerBeat": 308.1207761676002,
+      "scrollTicks": 11237.653546797095,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 12,
+      "pxPerBeat": 338.93285378436025,
+      "scrollTicks": 11356.04867890645,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 13,
+      "pxPerBeat": 305.03956840592423,
+      "scrollTicks": 11224.49853211828,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 14,
+      "pxPerBeat": 335.54352524651665,
+      "scrollTicks": 11344.08957465298,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 15,
+      "pxPerBeat": 301.989172721865,
+      "scrollTicks": 11211.210638503311,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 16,
+      "pxPerBeat": 332.1880899940515,
+      "scrollTicks": 11332.009671366648,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 17,
+      "pxPerBeat": 298.96928099464634,
+      "scrollTicks": 11197.788523740719,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 18,
+      "pxPerBeat": 328.866209094111,
+      "scrollTicks": 11319.807748855199,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 19,
+      "pxPerBeat": 295.97958818469994,
+      "scrollTicks": 11184.230832061334,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 20,
+      "pxPerBeat": 325.57754700316997,
+      "scrollTicks": 11307.482574601212,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 21,
+      "pxPerBeat": 293.019792302853,
+      "scrollTicks": 11170.536194001346,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 22,
+      "pxPerBeat": 322.3217715331383,
+      "scrollTicks": 11295.032903637588,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 23,
+      "pxPerBeat": 290.08959437982446,
+      "scrollTicks": 11156.703226263986,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 24,
+      "pxPerBeat": 319.09855381780693,
+      "scrollTicks": 11282.457478421806,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 25,
+      "pxPerBeat": 287.18869843602624,
+      "scrollTicks": 11142.730531579784,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 26,
+      "pxPerBeat": 315.9075682796289,
+      "scrollTicks": 11269.755028708894,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 27,
+      "pxPerBeat": 284.316811451666,
+      "scrollTicks": 11128.616698565438,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 28,
+      "pxPerBeat": 312.74849259683265,
+      "scrollTicks": 11256.924271423126,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    },
+    {
+      "step": 29,
+      "pxPerBeat": 281.4736433371494,
+      "scrollTicks": 11114.360301581251,
+      "anchor_error_ticks": 0.0,
+      "finite": true
+    }
+  ],
+  "final_sync": {
+    "count": 4,
+    "with_onTimelineChange": 4,
+    "unique_timeline_values": 1,
+    "values": [
+      [
+        281.473643337,
+        11114.360301581,
+        8
+      ]
+    ]
+  },
+  "console": [],
+  "pageerrors": [],
+  "network_failures": []
+}

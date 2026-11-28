@@ -1,0 +1,169 @@
+{
+  "title": "OpenACE OpenUtau synthesis validation",
+  "ppq": 480,
+  "bpm": 100.0,
+  "tempo_map": [
+    {
+      "ticks": 0,
+      "bpm": 100.0,
+      "curve": "step"
+    }
+  ],
+  "time_signature": {
+    "numerator": 4,
+    "denominator": 4
+  },
+  "track_count": 1,
+  "track": {
+    "name": "Eugene validation",
+    "type": "TrackType.VOCAL",
+    "voice_id": "zero-shot-reference",
+    "openutau_singer": "友人",
+    "openutau_phonemizer": "OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer",
+    "volume": 0.800018,
+    "pan": 0.0,
+    "note_count": 8,
+    "notes": [
+      {
+        "start_ticks": 0,
+        "duration_ticks": 480,
+        "pitch": 60,
+        "lyric": "a",
+        "pitch_curve": [],
+        "vibrato": null,
+        "phonemes": []
+      },
+      {
+        "start_ticks": 480,
+        "duration_ticks": 480,
+        "pitch": 62,
+        "lyric": "ka",
+        "pitch_curve": [
+          {
+            "offset_ms": -40.0,
+            "cents": -200.0
+          },
+          {
+            "offset_ms": 40.0,
+            "cents": 0.0
+          }
+        ],
+        "vibrato": null,
+        "phonemes": []
+      },
+      {
+        "start_ticks": 960,
+        "duration_ticks": 480,
+        "pitch": 64,
+        "lyric": "sa",
+        "pitch_curve": [
+          {
+            "offset_ms": -40.0,
+            "cents": -200.0
+          },
+          {
+            "offset_ms": 40.0,
+            "cents": 0.0
+          }
+        ],
+        "vibrato": null,
+        "phonemes": []
+      },
+      {
+        "start_ticks": 1440,
+        "duration_ticks": 480,
+        "pitch": 65,
+        "lyric": "ta",
+        "pitch_curve": [
+          {
+            "offset_ms": -40.0,
+            "cents": -100.0
+          },
+          {
+            "offset_ms": 40.0,
+            "cents": 0.0
+          }
+        ],
+        "vibrato": null,
+        "phonemes": []
+      },
+      {
+        "start_ticks": 1920,
+        "duration_ticks": 480,
+        "pitch": 67,
+        "lyric": "na",
+        "pitch_curve": [
+          {
+            "offset_ms": -40.0,
+            "cents": -200.0
+          },
+          {
+            "offset_ms": 40.0,
+            "cents": 0.0
+          }
+        ],
+        "vibrato": null,
+        "phonemes": []
+      },
+      {
+        "start_ticks": 2400,
+        "duration_ticks": 480,
+        "pitch": 69,
+        "lyric": "ha",
+        "pitch_curve": [
+          {
+            "offset_ms": -40.0,
+            "cents": -200.0
+          },
+          {
+            "offset_ms": 40.0,
+            "cents": 0.0
+          }
+        ],
+        "vibrato": null,
+        "phonemes": []
+      },
+      {
+        "start_ticks": 2880,
+        "duration_ticks": 480,
+        "pitch": 71,
+        "lyric": "ma",
+        "pitch_curve": [
+          {
+            "offset_ms": -40.0,
+            "cents": -200.0
+          },
+          {
+            "offset_ms": 40.0,
+            "cents": 0.0
+          }
+        ],
+        "vibrato": null,
+        "phonemes": []
+      },
+      {
+        "start_ticks": 3360,
+        "duration_ticks": 480,
+        "pitch": 72,
+        "lyric": "ya",
+        "pitch_curve": [
+          {
+            "offset_ms": -40.0,
+            "cents": -100.0
+          },
+          {
+            "offset_ms": 40.0,
+            "cents": 0.0
+          }
+        ],
+        "vibrato": null,
+        "phonemes": []
+      }
+    ],
+    "automation": {
+      "dynamic": [],
+      "pitch_cents": []
+    },
+    "clip_count": 0
+  }
+}

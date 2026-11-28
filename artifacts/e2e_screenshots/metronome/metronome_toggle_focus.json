@@ -1,0 +1,304 @@
+{
+  "toggle_on_first_schedule_delay_ms": 183.40000000594614,
+  "toggle_on_start_count_within180ms": 5,
+  "cancel_boundary_audio_time": 165.4770068027211,
+  "audible_after_cancel_count": 0,
+  "canceled_future_count": 4,
+  "rows": [
+    {
+      "id": 255,
+      "freq": 1175,
+      "when": 165.07219954648525,
+      "scheduled_at": 164.96616780045352,
+      "schedule_perf": 165.24729999998212,
+      "cancel_before_start": false,
+      "cancel_times": [
+        165.4770068027211,
+        165.4770068027211
+      ],
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 165.07219954648525,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 165.13719954648525,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1175,
+          "currentTime": 165.4770068027211,
+          "perf": 165.75909999999405,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1175,
+          "currentTime": 165.4770068027211,
+          "perf": 165.75909999999405,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 257,
+      "freq": 1175,
+      "when": 165.57219954648525,
+      "scheduled_at": 164.96616780045352,
+      "schedule_perf": 165.24729999998212,
+      "cancel_before_start": true,
+      "cancel_times": [
+        165.4770068027211,
+        165.4770068027211
+      ],
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 165.57219954648525,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 165.63719954648525,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1175,
+          "currentTime": 165.4770068027211,
+          "perf": 165.75909999999405,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1175,
+          "currentTime": 165.4770068027211,
+          "perf": 165.75909999999405,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 259,
+      "freq": 1760,
+      "when": 166.07219954648525,
+      "scheduled_at": 164.96616780045352,
+      "schedule_perf": 165.24729999998212,
+      "cancel_before_start": true,
+      "cancel_times": [
+        165.4770068027211,
+        165.4770068027211
+      ],
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1760,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 166.07219954648525,
+          "frequency": 1760,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 166.13719954648525,
+          "frequency": 1760,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1760,
+          "currentTime": 165.4770068027211,
+          "perf": 165.75909999999405,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1760,
+          "currentTime": 165.4770068027211,
+          "perf": 165.75909999999405,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 261,
+      "freq": 1175,
+      "when": 166.57219954648525,
+      "scheduled_at": 164.96616780045352,
+      "schedule_perf": 165.24729999998212,
+      "cancel_before_start": true,
+      "cancel_times": [
+        165.4770068027211,
+        165.4770068027211
+      ],
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 166.57219954648525,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 166.63719954648525,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1175,
+          "currentTime": 165.4770068027211,
+          "perf": 165.75909999999405,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1175,
+          "currentTime": 165.4770068027211,
+          "perf": 165.75909999999405,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 263,
+      "freq": 1175,
+      "when": 167.07219954648525,
+      "scheduled_at": 164.96616780045352,
+      "schedule_perf": 165.24729999998212,
+      "cancel_before_start": true,
+      "cancel_times": [
+        165.4770068027211,
+        165.4770068027211
+      ],
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 167.07219954648525,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 167.13719954648525,
+          "frequency": 1175,
+          "currentTime": 164.96616780045352,
+          "perf": 165.24729999998212,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1175,
+          "currentTime": 165.4770068027211,
+          "perf": 165.75909999999405,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1175,
+          "currentTime": 165.4770068027211,
+          "perf": 165.75909999999405,
+          "ok": true,
+          "error": null
+        }
+      ]
+    }
+  ]
+}

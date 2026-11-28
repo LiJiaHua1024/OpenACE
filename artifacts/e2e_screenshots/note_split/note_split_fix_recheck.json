@@ -1,0 +1,253 @@
+{
+  "checks": {
+    "viewport_exact": true,
+    "create_long_note": true,
+    "lyric_phonemes_ready": true,
+    "context_split_exactly_two_after_sse": true,
+    "toolbar_chain_no_duplicates": true,
+    "ctrl_e_chain_no_duplicates": true,
+    "undo_exact_three_unique": true,
+    "redo_exact_four_unique": true,
+    "reload_exact_four_unique": true,
+    "english_tail_rejected_readable_overlay": true,
+    "toolbar_no_overflow_selection_unclipped": false,
+    "console_network_clean": true
+  },
+  "details": {
+    "viewport_exact": {
+      "w": 1272,
+      "h": 837
+    },
+    "create_long_note": [
+      [
+        "note_b5bf1314-d2c",
+        0,
+        1920,
+        ""
+      ]
+    ],
+    "lyric_phonemes_ready": {
+      "lyric": "啊",
+      "phonemes": [
+        {
+          "symbol": "a",
+          "start_ms": 0.0,
+          "duration_ms": 2000.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ]
+    },
+    "context_split_exactly_two_after_sse": [
+      [
+        "note_b5bf1314-d2c",
+        0,
+        960,
+        "啊"
+      ],
+      [
+        "note_66e34770bfbc",
+        960,
+        960,
+        "-"
+      ]
+    ],
+    "toolbar_chain_no_duplicates": [
+      [
+        "note_b5bf1314-d2c",
+        0,
+        480,
+        "啊"
+      ],
+      [
+        "note_a90963e2f529",
+        480,
+        480,
+        "-"
+      ],
+      [
+        "note_66e34770bfbc",
+        960,
+        960,
+        "-"
+      ]
+    ],
+    "ctrl_e_chain_no_duplicates": [
+      [
+        "note_b5bf1314-d2c",
+        0,
+        480,
+        "啊"
+      ],
+      [
+        "note_a90963e2f529",
+        480,
+        480,
+        "-"
+      ],
+      [
+        "note_66e34770bfbc",
+        960,
+        480,
+        "-"
+      ],
+      [
+        "note_037638644546",
+        1440,
+        480,
+        "-"
+      ]
+    ],
+    "undo_exact_three_unique": [
+      [
+        "note_b5bf1314-d2c",
+        0,
+        480,
+        "啊"
+      ],
+      [
+        "note_a90963e2f529",
+        480,
+        480,
+        "-"
+      ],
+      [
+        "note_66e34770bfbc",
+        960,
+        960,
+        "-"
+      ]
+    ],
+    "redo_exact_four_unique": [
+      [
+        "note_b5bf1314-d2c",
+        0,
+        480,
+        "啊"
+      ],
+      [
+        "note_a90963e2f529",
+        480,
+        480,
+        "-"
+      ],
+      [
+        "note_66e34770bfbc",
+        960,
+        480,
+        "-"
+      ],
+      [
+        "note_037638644546",
+        1440,
+        480,
+        "-"
+      ]
+    ],
+    "reload_exact_four_unique": [
+      [
+        "note_b5bf1314-d2c",
+        0,
+        480,
+        "啊"
+      ],
+      [
+        "note_a90963e2f529",
+        480,
+        480,
+        "-"
+      ],
+      [
+        "note_66e34770bfbc",
+        960,
+        480,
+        "-"
+      ],
+      [
+        "note_037638644546",
+        1440,
+        480,
+        "-"
+      ]
+    ],
+    "english_tail_rejected_readable_overlay": {
+      "error": "Split must land inside a sustained vowel",
+      "box": {
+        "x": 732.390625,
+        "y": 292,
+        "width": 207.609375,
+        "height": 27
+      },
+      "wrap": {
+        "x": 236,
+        "y": 284,
+        "width": 714,
+        "height": 359
+      },
+      "note_count": 1
+    },
+    "toolbar_no_overflow_selection_unclipped": {
+      "viewport": [
+        1272,
+        837
+      ],
+      "toolbar": [
+        730,
+        714
+      ],
+      "toolbarRight": 950,
+      "selection": {
+        "text": "1 selected",
+        "left": 903.8984375,
+        "right": 965.8984375,
+        "width": 62
+      },
+      "error": {
+        "text": "Split must land inside a sustained vowel",
+        "rect": {
+          "x": 732.390625,
+          "y": 292,
+          "width": 207.609375,
+          "height": 27,
+          "top": 292,
+          "right": 940,
+          "bottom": 319,
+          "left": 732.390625
+        }
+      },
+      "body": [
+        1272,
+        1272
+      ]
+    },
+    "console_network_clean": {
+      "console": [],
+      "network": [],
+      "unexpected_http": [],
+      "expected_split_422": [
+        {
+          "url": "http://127.0.0.1:8787/api/projects/project_1278943df6f9/tracks/track_f1ebc5fbb86b/notes/note_24858192034d/split",
+          "status": 422
+        }
+      ]
+    }
+  },
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    }
+  ],
+  "network": [
+    "http://127.0.0.1:8787/api/events",
+    "http://127.0.0.1:8787/api/events"
+  ],
+  "http4xx": [
+    {
+      "url": "http://127.0.0.1:8787/api/projects/project_1278943df6f9/tracks/track_f1ebc5fbb86b/notes/note_24858192034d/split",
+      "status": 422
+    }
+  ],
+  "passed": 11,
+  "total": 12
+}

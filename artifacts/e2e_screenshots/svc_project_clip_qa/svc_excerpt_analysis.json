@@ -1,0 +1,23 @@
+{
+  "source_len": 72000,
+  "excerpt_len": 48000,
+  "output_len": 48000,
+  "sample_rates": [
+    24000,
+    24000,
+    24000
+  ],
+  "excerpt_max_abs_error": 0.0,
+  "excerpt_exact": true,
+  "output_seconds": 2.0,
+  "excerpt_seconds": 2.0,
+  "output_peak": 0.349822998046875,
+  "excerpt_first_last": [
+    0.0,
+    -0.025909423828125
+  ],
+  "expected_first_last": [
+    0.0,
+    -0.025909423828125
+  ]
+}

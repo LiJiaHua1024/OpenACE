@@ -1,0 +1,28 @@
+[
+  {
+    "ticks": 960,
+    "source_offset": 0.3725997373343868,
+    "event_ms": 25801.89999999106,
+    "sample": {
+      "ms": 25921.89999999106,
+      "text": "00:01.16"
+    },
+    "observed_position": 1.16,
+    "expected_position": 1.173458670217681,
+    "error_seconds": -0.013458670217681101,
+    "passed": true
+  },
+  {
+    "ticks": 600,
+    "source_offset": 0,
+    "event_ms": 25996.59999999404,
+    "sample": {
+      "ms": 26101.79999999702,
+      "text": "00:00.77"
+    },
+    "observed_position": 0.77,
+    "expected_position": 0.7860589328862744,
+    "error_seconds": -0.016058932886274357,
+    "passed": true
+  }
+]

@@ -1,0 +1,56 @@
+{
+  "states_at_650ms": {
+    "job_17d55461d6c6": "queued",
+    "job_660773851de8": "running"
+  },
+  "job_card_texts": [
+    "svs_score \u00b7 CI FIXTURE\nqueued\nqueued",
+    "svs_score \u00b7 CI FIXTURE\nrunning\nrendering vocal with explicit CI synthesis fixture",
+    "svs_score \u00b7 CI FIXTURE\ncompleted\ncompleted",
+    "svs_score \u00b7 CI FIXTURE\ncompleted\ncompleted",
+    "svs_score \u00b7 CI FIXTURE\ncompleted\ncompleted",
+    "svs_score \u00b7 CI FIXTURE\ncompleted\ncompleted"
+  ],
+  "job1": {
+    "id": "job_660773851de8",
+    "project_id": "project_bfcddef52bb2",
+    "track_id": "rq_vocal_1",
+    "mode": "svs_score",
+    "status": "running",
+    "progress": 0.05,
+    "message": "rendering vocal with explicit CI synthesis fixture",
+    "output_path": null,
+    "diagnostic_path": null,
+    "created_at": 1795783063.0545113,
+    "finished_at": null,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": null,
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null
+  },
+  "job2": {
+    "id": "job_17d55461d6c6",
+    "project_id": "project_bfcddef52bb2",
+    "track_id": "rq_vocal_2",
+    "mode": "svs_score",
+    "status": "queued",
+    "progress": 0.0,
+    "message": "queued",
+    "output_path": null,
+    "diagnostic_path": null,
+    "created_at": 1795783063.2553315,
+    "finished_at": null,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": null,
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null
+  }
+}

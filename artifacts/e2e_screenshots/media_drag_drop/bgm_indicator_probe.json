@@ -1,0 +1,17 @@
+{
+  "canvas": {
+    "x": 236,
+    "y": 58,
+    "width": 704,
+    "height": 132
+  },
+  "point": {
+    "x": 580,
+    "y": 167
+  },
+  "indicator": null,
+  "element": {
+    "tag": "CANVAS",
+    "cls": ""
+  }
+}

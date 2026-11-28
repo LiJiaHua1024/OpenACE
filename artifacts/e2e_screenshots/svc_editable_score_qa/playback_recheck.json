@@ -1,0 +1,25 @@
+{
+  "pos0": "1.1.1\n00:00.00",
+  "pos1": "1.4.3\n00:01.79",
+  "playing": true,
+  "starts": [
+    {
+      "when": 0.5232199546485261,
+      "offset": 0,
+      "duration": 3,
+      "bufferDuration": 3
+    },
+    {
+      "when": 0.023219954648526078,
+      "offset": 0,
+      "duration": 4.010408163265306,
+      "bufferDuration": 4.010408163265306
+    },
+    {
+      "when": 0.5232199546485261,
+      "offset": 0,
+      "duration": 3,
+      "bufferDuration": 3
+    }
+  ]
+}

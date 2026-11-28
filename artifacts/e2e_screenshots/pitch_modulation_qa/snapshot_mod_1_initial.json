@@ -1,0 +1,168 @@
+{
+  "id": "project_c257e1f889d7",
+  "schema_version": 1,
+  "title": "Untitled OpenACE Project",
+  "ppq": 480,
+  "bpm": 120.0,
+  "tempo_map": [
+    {
+      "ticks": 0,
+      "bpm": 120.0,
+      "curve": "step"
+    }
+  ],
+  "time_signature": {
+    "numerator": 4,
+    "denominator": 4
+  },
+  "tracks": [
+    {
+      "id": "track_77867690303c",
+      "name": "Lead Vocal",
+      "type": "vocal",
+      "color": "#7367ff",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "openutau_singer": "",
+      "openutau_phonemizer": "",
+      "language": "zh",
+      "notes": [
+        {
+          "id": "note_mod",
+          "start_ticks": 120,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "lyric": "\u4f60",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "n",
+              "start_ms": -45.0,
+              "duration_ms": 45.0,
+              "is_vowel": false,
+              "locked": false
+            },
+            {
+              "symbol": "i",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [
+            {
+              "offset_ms": 100.0,
+              "cents": 100.0
+            }
+          ],
+          "pitch_snap_first": true,
+          "pitch_modulation": 1.0,
+          "vibrato": {
+            "start_ratio": 0.2,
+            "depth_cents": 60.0,
+            "frequency_hz": 4.0,
+            "phase": 1.5707963267948966,
+            "attack_ratio": 0.0,
+            "release_ratio": 0.0
+          },
+          "techniques": []
+        },
+        {
+          "id": "note_merge1",
+          "start_ticks": 600,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "lyric": "\u597d",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "x",
+              "start_ms": -45.0,
+              "duration_ms": 45.0,
+              "is_vowel": false,
+              "locked": false
+            },
+            {
+              "symbol": "au",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "pitch_snap_first": true,
+          "pitch_modulation": 1.0,
+          "vibrato": null,
+          "techniques": []
+        },
+        {
+          "id": "note_merge2",
+          "start_ticks": 1080,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "lyric": "\u4e16",
+          "velocity": 90,
+          "phonemes": [
+            {
+              "symbol": "\u0282",
+              "start_ms": -45.0,
+              "duration_ms": 45.0,
+              "is_vowel": false,
+              "locked": false
+            },
+            {
+              "symbol": "\u0282\u027b\u0329",
+              "start_ms": 0.0,
+              "duration_ms": 500.0,
+              "is_vowel": true,
+              "locked": false
+            }
+          ],
+          "pitch_curve": [],
+          "pitch_snap_first": true,
+          "pitch_modulation": 1.0,
+          "vibrato": null,
+          "techniques": []
+        }
+      ],
+      "clips": [],
+      "automation": {
+        "pitch_cents": [
+          {
+            "ticks": 0,
+            "value": 50.0,
+            "curve": "linear"
+          },
+          {
+            "ticks": 1560,
+            "value": 50.0,
+            "curve": "linear"
+          }
+        ],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": [],
+        "volume": [],
+        "pan": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "midi_channel": null,
+      "midi_program": null,
+      "created_by_job_id": null,
+      "render_path": null,
+      "render_revision": 0,
+      "render_fingerprint": null
+    }
+  ],
+  "created_at": 1795869376.143227,
+  "updated_at": 1795869376.2919004,
+  "metadata": {}
+}

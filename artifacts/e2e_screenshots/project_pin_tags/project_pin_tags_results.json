@@ -1,0 +1,435 @@
+{
+  "checks": [
+    {
+      "name": "initial updated order places newer projects before older",
+      "passed": true,
+      "details": [
+        "PinTag QA Gamma",
+        "PinTag QA Beta",
+        "PinTag QA Alpha"
+      ]
+    },
+    {
+      "name": "pin older project moves it above newer projects",
+      "passed": true,
+      "details": {
+        "order": [
+          "\u2605 PinTag QA Alpha",
+          "PinTag QA Gamma",
+          "PinTag QA Beta"
+        ],
+        "metadata": {
+          "pinned": true
+        }
+      }
+    },
+    {
+      "name": "unpin restores updated order",
+      "passed": true,
+      "details": {
+        "order": [
+          "PinTag QA Gamma",
+          "PinTag QA Beta",
+          "PinTag QA Alpha"
+        ],
+        "metadata": {
+          "pinned": false
+        }
+      }
+    },
+    {
+      "name": "escape closes tag editor without saving",
+      "passed": true,
+      "details": {
+        "tags": []
+      }
+    },
+    {
+      "name": "enter saves tags with dedupe and 32-char truncation",
+      "passed": true,
+      "details": {
+        "expected": [
+          "betatag",
+          "abcdefghijklmnopqrstuvwxyzabcdef"
+        ],
+        "actual": [
+          "betatag",
+          "abcdefghijklmnopqrstuvwxyzabcdef"
+        ]
+      }
+    },
+    {
+      "name": "save button persists max-twelve tag rule",
+      "passed": true,
+      "details": {
+        "expected": [
+          "gammatag",
+          "z1",
+          "z2",
+          "z3",
+          "z4",
+          "z5",
+          "z6",
+          "z7",
+          "z8",
+          "z9",
+          "z10",
+          "z11"
+        ],
+        "actual": [
+          "gammatag",
+          "z1",
+          "z2",
+          "z3",
+          "z4",
+          "z5",
+          "z6",
+          "z7",
+          "z8",
+          "z9",
+          "z10",
+          "z11"
+        ]
+      }
+    },
+    {
+      "name": "alpha tags and pinned state ready for duplicate test",
+      "passed": true,
+      "details": {
+        "pinned": true,
+        "tags": [
+          "alphatag",
+          "shared"
+        ]
+      }
+    },
+    {
+      "name": "tag edits persist through reload and are visible in rows",
+      "passed": true,
+      "details": [
+        {
+          "text": "\u2605 PinTag QA Alpha\n11/27/2026 \u00b7 1 tracks \u00b7 120 BPM \u00b7 #alphatag #shared\n\u2605\nTags\nCopy\nDelete",
+          "title": "\u2605 PinTag QA Alpha",
+          "current": true,
+          "scrollWidth": 342,
+          "clientWidth": 342,
+          "width": 342,
+          "height": 50.5
+        },
+        {
+          "text": "PinTag QA Gamma\n11/27/2026 \u00b7 1 tracks \u00b7 120 BPM \u00b7 #gammatag #z1 #z2 #z3 #z4 #z5 #z6 #z7 #z8 #z9 #z10 #z11\n\u2606\nTags\nCopy\nDelete",
+          "title": "PinTag QA Gamma",
+          "current": false,
+          "scrollWidth": 342,
+          "clientWidth": 342,
+          "width": 342,
+          "height": 60.5
+        },
+        {
+          "text": "PinTag QA Beta\n11/27/2026 \u00b7 1 tracks \u00b7 120 BPM \u00b7 #betatag #abcdefghijklmnopqrstuvwxyzabcdef\n\u2606\nTags\nCopy\nDelete",
+          "title": "PinTag QA Beta",
+          "current": false,
+          "scrollWidth": 342,
+          "clientWidth": 342,
+          "width": 342,
+          "height": 60.5
+        }
+      ]
+    },
+    {
+      "name": "search by tag isolates matching project",
+      "passed": true,
+      "details": [
+        {
+          "text": "\u2605 PinTag QA Alpha\n11/27/2026 \u00b7 1 tracks \u00b7 120 BPM \u00b7 #alphatag #shared\n\u2605\nTags\nCopy\nDelete",
+          "title": "\u2605 PinTag QA Alpha",
+          "current": true,
+          "scrollWidth": 342,
+          "clientWidth": 342,
+          "width": 342,
+          "height": 50.5
+        }
+      ]
+    },
+    {
+      "name": "sse preserves pinned and tags metadata in open popover",
+      "passed": true,
+      "details": [
+        {
+          "text": "\u2605 PinTag QA Gamma\n11/27/2026 \u00b7 1 tracks \u00b7 120 BPM \u00b7 #sse-tag\n\u2605\nTags\nCopy\nDelete",
+          "title": "\u2605 PinTag QA Gamma",
+          "current": false,
+          "scrollWidth": 342,
+          "clientWidth": 342,
+          "width": 342,
+          "height": 50.5
+        }
+      ]
+    },
+    {
+      "name": "duplicate keeps tags but is unpinned",
+      "passed": true,
+      "details": {
+        "copyid": "project_bc8c902de308",
+        "metadata": {
+          "pinned": false,
+          "tags": [
+            "alphatag",
+            "shared"
+          ]
+        }
+      }
+    },
+    {
+      "name": "normal project open works",
+      "passed": true,
+      "details": {
+        "title": "PinTag QA Beta"
+      }
+    },
+    {
+      "name": "delete non-current project works",
+      "passed": true,
+      "details": {
+        "copyid": "project_bc8c902de308",
+        "still_present": false
+      }
+    },
+    {
+      "name": "deleting current project falls back to another project",
+      "passed": true,
+      "details": {
+        "fallback_title": "PinTag QA Alpha",
+        "beta_present": false
+      }
+    },
+    {
+      "name": "popover rows and tag editor have no overflow",
+      "passed": true,
+      "details": {
+        "popover_layout": {
+          "viewport": {
+            "w": 1272,
+            "h": 837
+          },
+          "popover": {
+            "x": 230,
+            "y": 43,
+            "width": 360,
+            "height": 286.5,
+            "right": 590,
+            "bottom": 329.5,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          "rows": [
+            {
+              "scrollWidth": 342,
+              "clientWidth": 342,
+              "scrollHeight": 51,
+              "clientHeight": 51
+            },
+            {
+              "scrollWidth": 342,
+              "clientWidth": 342,
+              "scrollHeight": 50,
+              "clientHeight": 50
+            },
+            {
+              "scrollWidth": 342,
+              "clientWidth": 342,
+              "scrollHeight": 61,
+              "clientHeight": 61
+            },
+            {
+              "scrollWidth": 342,
+              "clientWidth": 342,
+              "scrollHeight": 61,
+              "clientHeight": 61
+            }
+          ],
+          "editor": null,
+          "body": {
+            "scrollWidth": 1272,
+            "clientWidth": 1272
+          }
+        },
+        "editor_layout": {
+          "viewport": {
+            "w": 1272,
+            "h": 837
+          },
+          "popover": {
+            "x": 230,
+            "y": 43,
+            "width": 360,
+            "height": 234.5,
+            "right": 590,
+            "bottom": 277.5,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          "rows": [
+            {
+              "scrollWidth": 342,
+              "clientWidth": 342,
+              "scrollHeight": 74,
+              "clientHeight": 74
+            },
+            {
+              "scrollWidth": 342,
+              "clientWidth": 342,
+              "scrollHeight": 61,
+              "clientHeight": 61
+            },
+            {
+              "scrollWidth": 342,
+              "clientWidth": 342,
+              "scrollHeight": 40,
+              "clientHeight": 40
+            }
+          ],
+          "editor": {
+            "scrollWidth": 342,
+            "clientWidth": 342,
+            "width": 342
+          },
+          "body": {
+            "scrollWidth": 1272,
+            "clientWidth": 1272
+          }
+        },
+        "rows_ok": true,
+        "pop_ok": true,
+        "ed_ok": true
+      }
+    },
+    {
+      "name": "console network and http clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "http": [],
+        "fail": [
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          },
+          {
+            "url": "http://127.0.0.1:8787/api/events",
+            "failure": "net::ERR_ABORTED"
+          }
+        ]
+      }
+    }
+  ],
+  "created": [
+    "project_f9ba61f1ca76",
+    "project_2c9c3e0ffad1",
+    "project_d83264fb07e6"
+  ],
+  "editor_layout_open": {
+    "viewport": {
+      "w": 1272,
+      "h": 837
+    },
+    "popover": {
+      "x": 230,
+      "y": 43,
+      "width": 360,
+      "height": 234.5,
+      "right": 590,
+      "bottom": 277.5,
+      "scrollWidth": 358,
+      "clientWidth": 358
+    },
+    "rows": [
+      {
+        "scrollWidth": 342,
+        "clientWidth": 342,
+        "scrollHeight": 74,
+        "clientHeight": 74
+      },
+      {
+        "scrollWidth": 342,
+        "clientWidth": 342,
+        "scrollHeight": 61,
+        "clientHeight": 61
+      },
+      {
+        "scrollWidth": 342,
+        "clientWidth": 342,
+        "scrollHeight": 40,
+        "clientHeight": 40
+      }
+    ],
+    "editor": {
+      "scrollWidth": 342,
+      "clientWidth": 342,
+      "width": 342
+    },
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    }
+  },
+  "popover_layout": {
+    "viewport": {
+      "w": 1272,
+      "h": 837
+    },
+    "popover": {
+      "x": 230,
+      "y": 43,
+      "width": 360,
+      "height": 286.5,
+      "right": 590,
+      "bottom": 329.5,
+      "scrollWidth": 358,
+      "clientWidth": 358
+    },
+    "rows": [
+      {
+        "scrollWidth": 342,
+        "clientWidth": 342,
+        "scrollHeight": 51,
+        "clientHeight": 51
+      },
+      {
+        "scrollWidth": 342,
+        "clientWidth": 342,
+        "scrollHeight": 50,
+        "clientHeight": 50
+      },
+      {
+        "scrollWidth": 342,
+        "clientWidth": 342,
+        "scrollHeight": 61,
+        "clientHeight": 61
+      },
+      {
+        "scrollWidth": 342,
+        "clientWidth": 342,
+        "scrollHeight": 61,
+        "clientHeight": 61
+      }
+    ],
+    "editor": null,
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    }
+  },
+  "console": [],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http_errors": []
+}

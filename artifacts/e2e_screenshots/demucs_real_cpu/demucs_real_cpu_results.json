@@ -1,0 +1,99 @@
+{
+  "console": [],
+  "network": [],
+  "wait_seconds": 6.3786396980285645,
+  "job": {
+    "id": "job_de11c121dca5",
+    "project_id": "project_6d3a45d64332",
+    "track_id": null,
+    "mode": "separate",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed; added separated vocal/instrumental tracks for upload_326b9e85d5b9_mixed_source",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_6d3a45d64332/job_de11c121dca5/separated_vocal.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_6d3a45d64332/job_de11c121dca5/diagnostic.png",
+    "created_at": 1795812714.8907208,
+    "finished_at": 1795812721.2115242,
+    "error": null,
+    "engine": "Demucs",
+    "fixture": false,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/upload_326b9e85d5b9_mixed_source.wav",
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null
+  },
+  "tracks": [
+    {
+      "name": "Lead Vocal",
+      "type": "vocal",
+      "clips": 0,
+      "labels": [],
+      "paths": []
+    },
+    {
+      "name": "Separated vocal — upload_326b9e85d5b9_mixed_source",
+      "type": "audio",
+      "clips": 1,
+      "labels": [
+        "Separated vocal"
+      ],
+      "paths": [
+        "/home/ubuntu/repos/OpenACE/data/renders/project_6d3a45d64332/job_de11c121dca5/separated_vocal.wav"
+      ]
+    },
+    {
+      "name": "Separated instrumental — upload_326b9e85d5b9_mixed_source",
+      "type": "audio",
+      "clips": 1,
+      "labels": [
+        "Separated instrumental"
+      ],
+      "paths": [
+        "/home/ubuntu/repos/OpenACE/data/renders/project_6d3a45d64332/job_de11c121dca5/separated_accompaniment.wav"
+      ]
+    }
+  ],
+  "track_rows_visible": 3,
+  "files": [
+    {
+      "label": "Separated vocal",
+      "channels": 2,
+      "frames": 88200,
+      "rate": 44100,
+      "size": 352844
+    },
+    {
+      "label": "Separated instrumental",
+      "channels": 2,
+      "frames": 88200,
+      "rate": 44100,
+      "size": 352844
+    }
+  ],
+  "playback": {
+    "before": "00:00.00",
+    "after": "00:01.14",
+    "advanced": true
+  },
+  "reload_track_count": 3,
+  "reload_clip_count": 2,
+  "signal_analysis": {
+    "separated_vocal.wav": {
+      "rms": 0.0007258587806148806,
+      "peak": 0.00262451171875,
+      "nonzero": true
+    },
+    "separated_accompaniment.wav": {
+      "rms": 0.2106299866765258,
+      "peak": 0.41949462890625,
+      "nonzero": true
+    },
+    "correlation": 0.36172064968145623,
+    "identical": false
+  },
+  "provenance": "Demucs htdemucs local stem separation visible in diagnostic.png",
+  "mute": {
+    "separated_vocal_mute": true
+  }
+}

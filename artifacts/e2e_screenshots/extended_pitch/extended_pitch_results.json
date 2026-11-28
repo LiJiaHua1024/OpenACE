@@ -1,0 +1,438 @@
+{
+  "pid": "project_4ac597a5b53e",
+  "console": [],
+  "network": [],
+  "initial_note": [
+    [
+      "note_88ad025b-a98",
+      0,
+      480,
+      64,
+      "你",
+      [
+        "n",
+        "i"
+      ],
+      []
+    ]
+  ],
+  "pitch_drags": [
+    {
+      "tick": 60,
+      "semitones": 1,
+      "readout": "65 ms · +100¢",
+      "target_y": 531.5
+    },
+    {
+      "tick": 180,
+      "semitones": 2,
+      "readout": "194 ms · +200¢",
+      "target_y": 516.5
+    },
+    {
+      "tick": 300,
+      "semitones": 6,
+      "readout": "324 ms · +600¢",
+      "target_y": 456.5
+    },
+    {
+      "tick": 420,
+      "semitones": -6,
+      "readout": "454 ms · -600¢",
+      "target_y": 636.5
+    }
+  ],
+  "curve_after_drags": [
+    {
+      "offset_ms": 65.0,
+      "cents": 100.0
+    },
+    {
+      "offset_ms": 194.0,
+      "cents": 200.0
+    },
+    {
+      "offset_ms": 324.0,
+      "cents": 600.0
+    },
+    {
+      "offset_ms": 454.0,
+      "cents": -600.0
+    }
+  ],
+  "after_point_drag": [
+    {
+      "offset_ms": 65.0,
+      "cents": 100.0
+    },
+    {
+      "offset_ms": 194.0,
+      "cents": 400.0
+    },
+    {
+      "offset_ms": 324.0,
+      "cents": 600.0
+    },
+    {
+      "offset_ms": 454.0,
+      "cents": -600.0
+    }
+  ],
+  "after_point_delete": [
+    {
+      "offset_ms": 65.0,
+      "cents": 100.0
+    },
+    {
+      "offset_ms": 324.0,
+      "cents": 600.0
+    },
+    {
+      "offset_ms": 454.0,
+      "cents": -600.0
+    }
+  ],
+  "automation_canvas": {
+    "x": 236,
+    "y": 684,
+    "width": 714,
+    "height": 153
+  },
+  "automation_after_draw": [
+    {
+      "ticks": 969,
+      "value": 600.0,
+      "curve": "linear"
+    },
+    {
+      "ticks": 1449,
+      "value": 0.0,
+      "curve": "linear"
+    },
+    {
+      "ticks": 1929,
+      "value": -600.0,
+      "curve": "linear"
+    }
+  ],
+  "automation_undo": {
+    "pre": [
+      {
+        "ticks": 969,
+        "value": 600.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1449,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1929,
+        "value": -600.0,
+        "curve": "linear"
+      }
+    ],
+    "undo": [
+      {
+        "ticks": 969,
+        "value": 600.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1449,
+        "value": 0.0,
+        "curve": "linear"
+      }
+    ],
+    "redo": [
+      {
+        "ticks": 969,
+        "value": 600.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1449,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1929,
+        "value": -600.0,
+        "curve": "linear"
+      }
+    ],
+    "undo_removed_last": true,
+    "redo_matches_pre": true
+  },
+  "reload": {
+    "automation": [
+      {
+        "ticks": 969,
+        "value": 600.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1449,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1929,
+        "value": -600.0,
+        "curve": "linear"
+      }
+    ],
+    "notes": [
+      [
+        "note_88ad025b-a98",
+        0,
+        480,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ],
+        [
+          {
+            "offset_ms": 65.0,
+            "cents": 100.0
+          },
+          {
+            "offset_ms": 324.0,
+            "cents": 600.0
+          },
+          {
+            "offset_ms": 454.0,
+            "cents": -600.0
+          }
+        ]
+      ]
+    ]
+  },
+  "move_regression": {
+    "notes": [
+      [
+        "note_88ad025b-a98",
+        120,
+        360,
+        64,
+        "你",
+        [
+          "n",
+          "i"
+        ],
+        [
+          {
+            "offset_ms": 65.0,
+            "cents": 100.0
+          },
+          {
+            "offset_ms": 324.0,
+            "cents": 600.0
+          },
+          {
+            "offset_ms": 454.0,
+            "cents": -600.0
+          }
+        ]
+      ],
+      [
+        "note_54e4a3b9-b9b",
+        480,
+        240,
+        64,
+        "好",
+        [
+          "x",
+          "au"
+        ],
+        []
+      ]
+    ],
+    "overlaps": [],
+    "osc": [
+      {
+        "frequency": 329.6275569128699,
+        "type": "triangle"
+      },
+      {
+        "frequency": 329.6275569128699,
+        "type": "triangle"
+      }
+    ],
+    "expected_freq64": 329.6275569128699
+  },
+  "per_note_pitch_undo": {
+    "before": [
+      [
+        "note_88ad025b-a98",
+        120,
+        360,
+        64,
+        "你",
+        [
+          {
+            "offset_ms": 65.0,
+            "cents": 100.0
+          },
+          {
+            "offset_ms": 324.0,
+            "cents": 600.0
+          },
+          {
+            "offset_ms": 454.0,
+            "cents": -600.0
+          }
+        ]
+      ],
+      [
+        "note_54e4a3b9-b9b",
+        480,
+        240,
+        64,
+        "好",
+        []
+      ]
+    ],
+    "after": [
+      [
+        "note_88ad025b-a98",
+        120,
+        360,
+        64,
+        "你",
+        [
+          {
+            "offset_ms": 65.0,
+            "cents": 100.0
+          },
+          {
+            "offset_ms": 324.0,
+            "cents": 600.0
+          },
+          {
+            "offset_ms": 454.0,
+            "cents": -600.0
+          }
+        ]
+      ],
+      [
+        "note_54e4a3b9-b9b",
+        480,
+        240,
+        64,
+        "好",
+        [
+          {
+            "offset_ms": 67.0,
+            "cents": 300.0
+          }
+        ]
+      ]
+    ],
+    "undo": [
+      [
+        "note_88ad025b-a98",
+        120,
+        360,
+        64,
+        "你",
+        [
+          {
+            "offset_ms": 65.0,
+            "cents": 100.0
+          },
+          {
+            "offset_ms": 324.0,
+            "cents": 600.0
+          },
+          {
+            "offset_ms": 454.0,
+            "cents": -600.0
+          }
+        ]
+      ],
+      [
+        "note_54e4a3b9-b9b",
+        480,
+        240,
+        64,
+        "好",
+        []
+      ]
+    ],
+    "redo": [
+      [
+        "note_88ad025b-a98",
+        120,
+        360,
+        64,
+        "你",
+        [
+          {
+            "offset_ms": 65.0,
+            "cents": 100.0
+          },
+          {
+            "offset_ms": 324.0,
+            "cents": 600.0
+          },
+          {
+            "offset_ms": 454.0,
+            "cents": -600.0
+          }
+        ]
+      ],
+      [
+        "note_54e4a3b9-b9b",
+        480,
+        240,
+        64,
+        "好",
+        [
+          {
+            "offset_ms": 67.0,
+            "cents": 300.0
+          }
+        ]
+      ]
+    ],
+    "undo_matches_before": true,
+    "redo_matches_after": true
+  },
+  "layout": {
+    "visual_review": "piano roll, pitch curve, automation lane, and right panel contained at 1272x837; no overlap/horizontal clipping observed in captured screenshots",
+    "console_error_count": 0,
+    "network_error_count": 0
+  },
+  "negative_one_two_supplement": {
+    "negative_drags": [
+      {
+        "tick": 600,
+        "semitones": -1,
+        "readout": "135 ms · -100¢"
+      },
+      {
+        "tick": 660,
+        "semitones": -2,
+        "readout": "202 ms · -200¢"
+      }
+    ],
+    "second_note_curve": [
+      {
+        "offset_ms": 67.0,
+        "cents": 300.0
+      },
+      {
+        "offset_ms": 135.0,
+        "cents": -100.0
+      },
+      {
+        "offset_ms": 202.0,
+        "cents": -200.0
+      }
+    ]
+  }
+}

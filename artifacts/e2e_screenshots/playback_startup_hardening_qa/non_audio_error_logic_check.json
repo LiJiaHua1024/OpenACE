@@ -1,0 +1,7 @@
+{
+  "source_exact_present": true,
+  "source_exact": "setError(current => current.startsWith('Audio output') ? '' : current)",
+  "dist_contains_audio_output_prefix_check": true,
+  "interpretation": "Only errors whose current text starts with Audio output are cleared; all other current error strings are returned unchanged.",
+  "dist_exact_minified_snippet": "B(e=>e.startsWith(`Audio output`)?``:e)"
+}

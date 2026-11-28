@@ -1,0 +1,120 @@
+{
+  "console": [],
+  "network": [],
+  "defects": [
+    "alt_diag indicator missing immediately before drop"
+  ],
+  "project_id": "project_5802a38234c8",
+  "initial_empty": {
+    "pre_drop_indicator": {
+      "left": "176px",
+      "top": "58px",
+      "height": "34px",
+      "display": "block",
+      "color": "rgb(103, 232, 249)"
+    },
+    "post_drop_indicator": null,
+    "target": [
+      440,
+      138
+    ]
+  },
+  "accompaniment_diag": {
+    "pre_drop_indicator": {
+      "left": "400px",
+      "top": "92px",
+      "height": "34px",
+      "display": "block",
+      "color": "rgb(103, 232, 249)"
+    },
+    "post_drop_indicator": null,
+    "target": [
+      580,
+      167
+    ]
+  },
+  "after_accompaniment": [
+    {
+      "type": "vocal",
+      "id": "track_e04fe838d4d5",
+      "clips": []
+    },
+    {
+      "type": "audio",
+      "id": "track_a918aed0d264",
+      "clips": [
+        [
+          480,
+          1920
+        ]
+      ]
+    },
+    {
+      "type": "accompaniment",
+      "id": "track_00de6ff2-fb7",
+      "clips": [
+        [
+          1440,
+          1920
+        ]
+      ]
+    }
+  ],
+  "alt_diag": {
+    "pre_drop_indicator": null,
+    "post_drop_indicator": null,
+    "target": [
+      440,
+      186
+    ]
+  },
+  "after_alt": [
+    {
+      "type": "vocal",
+      "id": "track_e04fe838d4d5",
+      "clips": []
+    },
+    {
+      "type": "audio",
+      "id": "track_a918aed0d264",
+      "clips": [
+        [
+          480,
+          1920
+        ]
+      ]
+    },
+    {
+      "type": "accompaniment",
+      "id": "track_00de6ff2-fb7",
+      "clips": [
+        [
+          1440,
+          1920
+        ]
+      ]
+    },
+    {
+      "type": "audio",
+      "id": "track_388799e7d500",
+      "clips": [
+        [
+          600,
+          1920
+        ]
+      ]
+    }
+  ],
+  "leave_without_drop": {
+    "inside_indicator": {
+      "left": "400px",
+      "top": "24px",
+      "height": "34px",
+      "display": "block",
+      "color": "rgb(103, 232, 249)"
+    },
+    "outside_indicator": null,
+    "track_count_before": 4,
+    "track_count_after": 4
+  }
+}

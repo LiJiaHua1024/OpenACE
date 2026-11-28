@@ -1,0 +1,22 @@
+{
+  "console": [],
+  "badnet": [],
+  "requests": [
+    "http://127.0.0.1:8787/renders/project_d4afc8c422be/job_5e58416248ee/svc.wav",
+    "http://127.0.0.1:8787/renders/project_d4afc8c422be/job_7a2cee65f604/svc.wav",
+    "http://127.0.0.1:8787/renders/project_d4afc8c422be/job_83db493bc304/diagnostic.png",
+    "http://127.0.0.1:8787/renders/project_d4afc8c422be/job_83db493bc304/svc.wav",
+    "http://127.0.0.1:8787/renders/project_d4afc8c422be/job_9f42ae183ec2/accompaniment.wav",
+    "http://127.0.0.1:8787/renders/project_d4afc8c422be/job_d149a36a167c/accompaniment.wav",
+    "http://127.0.0.1:8787/renders/project_d4afc8c422be/job_ea69f99ff33f/svc.wav",
+    "http://127.0.0.1:8787/renders/project_d4afc8c422be/job_ede556cd390f/vocal.wav"
+  ],
+  "pos0": "1.1.1\n00:00.00",
+  "samples": [
+    "1.1.1\n00:00.01",
+    "1.1.4\n00:00.41",
+    "1.2.4\n00:00.93",
+    "1.3.4\n00:01.45",
+    "1.4.4\n00:01.97"
+  ]
+}

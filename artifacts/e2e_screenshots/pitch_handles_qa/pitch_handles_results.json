@@ -1,0 +1,155 @@
+{
+  "create_and_select_note": {
+    "ok": true,
+    "details": {
+      "project_id": "project_852c4e48e709",
+      "notes": [
+        [
+          0,
+          1080,
+          60
+        ]
+      ],
+      "selection": "1 selected"
+    },
+    "time": 1795700225.5128129
+  },
+  "toolbar_and_p_shortcut_enter_pitch_mode": {
+    "ok": true,
+    "details": {
+      "toolbar_active": true,
+      "shortcut_active": true,
+      "hint": "V/B/E/P \u00b7 Ctrl+C/V/D"
+    },
+    "time": 1795700225.922056
+  },
+  "create_positive_negative_handles": {
+    "ok": true,
+    "details": {
+      "pitch_curve": [
+        {
+          "offset_ms": 225.0,
+          "cents": 75.0
+        },
+        {
+          "offset_ms": 619.0,
+          "cents": -75.0
+        },
+        {
+          "offset_ms": 900.0,
+          "cents": 75.0
+        }
+      ],
+      "ratios": [
+        0.2,
+        0.55,
+        0.8
+      ],
+      "duration_ms": 1125.0
+    },
+    "time": 1795700228.1779914
+  },
+  "drag_handle_across_others": {
+    "ok": true,
+    "details": {
+      "pitch_curve": [
+        {
+          "offset_ms": 619.0,
+          "cents": -75.0
+        },
+        {
+          "offset_ms": 900.0,
+          "cents": 75.0
+        },
+        {
+          "offset_ms": 1035.0,
+          "cents": 55.0
+        }
+      ],
+      "sorted_ratios": [
+        0.55,
+        0.8,
+        0.92
+      ],
+      "cents": [
+        -75.0,
+        75.0,
+        55.0
+      ]
+    },
+    "time": 1795700229.769028
+  },
+  "green_curve_readability_pixels": {
+    "ok": true,
+    "details": {
+      "green_pixels": 240,
+      "note_width_px": 252.0,
+      "row_height_px": 15
+    },
+    "time": 1795700229.7879145
+  },
+  "alt_click_deletes_handle": {
+    "ok": true,
+    "details": {
+      "pitch_curve": [
+        {
+          "offset_ms": 900.0,
+          "cents": 75.0
+        },
+        {
+          "offset_ms": 1035.0,
+          "cents": 55.0
+        }
+      ],
+      "ratios": [
+        0.8,
+        0.92
+      ]
+    },
+    "time": 1795700230.6043959
+  },
+  "one_step_undo_redo_pitch_delete": {
+    "ok": true,
+    "details": {
+      "undo_count": 3,
+      "redo_count": 2,
+      "redo_matches_delete": true
+    },
+    "time": 1795700232.1721773
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "errors": []
+    },
+    "time": 1795700232.172208
+  },
+  "passed": true,
+  "disk_project_persistence": {
+    "ok": true,
+    "details": {
+      "path": "data/projects/project_852c4e48e709.openace.json",
+      "disk_curve": [
+        {
+          "offset_ms": 900.0,
+          "cents": 75.0
+        },
+        {
+          "offset_ms": 1035.0,
+          "cents": 55.0
+        }
+      ],
+      "expected_final_curve": [
+        {
+          "offset_ms": 900.0,
+          "cents": 75.0
+        },
+        {
+          "offset_ms": 1035.0,
+          "cents": 55.0
+        }
+      ]
+    },
+    "time": 1795700331.3448615
+  }
+}

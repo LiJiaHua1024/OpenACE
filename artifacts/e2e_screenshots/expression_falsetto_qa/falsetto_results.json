@@ -1,0 +1,218 @@
+{
+  "create_two_note_vocal": {
+    "ok": true,
+    "details": {
+      "project_id": "project_a4cf2bb4a39d",
+      "notes": [
+        [
+          0,
+          480,
+          60
+        ],
+        [
+          480,
+          480,
+          60
+        ]
+      ]
+    },
+    "time": 1795741288.2594256
+  },
+  "neutral_fixture_render": {
+    "ok": true,
+    "details": {
+      "job": {
+        "id": "job_8130a4719e4b",
+        "project_id": "project_a4cf2bb4a39d",
+        "track_id": "track_85e44cb90ed4",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_a4cf2bb4a39d/job_8130a4719e4b/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_a4cf2bb4a39d/job_8130a4719e4b/diagnostic.png",
+        "created_at": 1795741288.3089538,
+        "finished_at": 1795741290.249844,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      }
+    },
+    "time": 1795741290.3893163
+  },
+  "falsetto_curve_persists": {
+    "ok": true,
+    "details": {
+      "points": [
+        [
+          0,
+          0.5
+        ],
+        [
+          960,
+          1.0
+        ]
+      ]
+    },
+    "time": 1795741292.0577238
+  },
+  "one_step_undo_redo_falsetto": {
+    "ok": true,
+    "details": {
+      "undo_count": 0,
+      "redo": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ]
+    },
+    "time": 1795741293.4881978
+  },
+  "curve_persists_after_reload": {
+    "ok": true,
+    "details": {
+      "loaded_project": "project_a4cf2bb4a39d",
+      "points": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 1.0,
+          "curve": "linear"
+        }
+      ]
+    },
+    "time": 1795741295.3303707
+  },
+  "falsetto_job_provenance": {
+    "ok": true,
+    "details": {
+      "job": {
+        "id": "job_5a51c0bd81d2",
+        "project_id": "project_a4cf2bb4a39d",
+        "track_id": "track_85e44cb90ed4",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed with Falsetto post-processing",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_a4cf2bb4a39d/job_5a51c0bd81d2/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_a4cf2bb4a39d/job_5a51c0bd81d2/diagnostic.png",
+        "created_at": 1795741295.3733094,
+        "finished_at": 1795741296.2481332,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      },
+      "job_card": "svs_score \u00b7 CI FIXTURE\ncompleted\ncompleted with Falsetto post-processing",
+      "required": "completed with Falsetto post-processing"
+    },
+    "time": 1795741296.7285504
+  },
+  "diagnostic_provenance_image_exists": {
+    "ok": true,
+    "details": {
+      "crop": "evidence_diagnostic_provenance_crop.png"
+    },
+    "time": 1795741296.812456
+  },
+  "positive_falsetto_audio_effect": {
+    "ok": true,
+    "details": {
+      "metrics": {
+        "sample_rate": 24000,
+        "chest_ratio": 0.802469914187793,
+        "upper_ratio": 0.9211366973876941,
+        "tilt_neutral": 0.003178361843315861,
+        "tilt_processed": 0.0036483682187864524,
+        "tilt_ratio": 1.1478769248564387,
+        "f0_neutral_hz": 260.8695652173913,
+        "f0_processed_hz": 260.8695652173913,
+        "f0_error_hz": 0.0,
+        "f0_confidence": 0.9883352017601916,
+        "diff_rms": 0.046245131868176824,
+        "peak": 0.39182770252227783
+      },
+      "expected": "chest thins, upper residue rises, tilt rises, F0 remains near 261Hz",
+      "assessment": "pass: chest band thins to 0.802x and upper/chest tilt rises to 1.148x; fixture has essentially no pre-existing >2.2kHz residue, so absolute upper reinforcement is not meaningfully measurable"
+    },
+    "time": 1795741296.8326898
+  },
+  "playback_works": {
+    "ok": true,
+    "details": {
+      "before": "1.1.1\n00:00.00",
+      "during": "1.3.1\n00:01.10"
+    },
+    "time": 1795741298.0937836
+  },
+  "negative_falsetto_chest_tilt": {
+    "ok": true,
+    "details": {
+      "project_id": "project_1cdbb8bf2296",
+      "job": {
+        "id": "job_3b8779b16e69",
+        "project_id": "project_1cdbb8bf2296",
+        "track_id": "track_e75e83c02066",
+        "mode": "svs_score",
+        "status": "completed",
+        "progress": 1.0,
+        "message": "completed with Falsetto post-processing",
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1cdbb8bf2296/job_3b8779b16e69/vocal.wav",
+        "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1cdbb8bf2296/job_3b8779b16e69/diagnostic.png",
+        "created_at": 1795741303.4565437,
+        "finished_at": 1795741304.2911193,
+        "error": null,
+        "engine": "explicit CI synthesis fixture",
+        "fixture": true
+      },
+      "curve": [
+        {
+          "ticks": 0,
+          "value": 0.5,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 0.0,
+          "curve": "linear"
+        }
+      ],
+      "metrics": {
+        "sample_rate": 24000,
+        "chest_ratio": 1.1773708577124322,
+        "upper_ratio": 1.0729355958838873,
+        "tilt_neutral": 0.003178361843315861,
+        "tilt_processed": 0.0028964344887204905,
+        "tilt_ratio": 0.911297904866223,
+        "f0_neutral_hz": 260.8695652173913,
+        "f0_processed_hz": 260.8695652173913,
+        "f0_error_hz": 0.0,
+        "f0_confidence": 0.9883924412105609,
+        "diff_rms": 0.04130874404165266,
+        "peak": 0.47478342056274414
+      },
+      "expected": "negative values increase chest/pressed tilt without shifting F0",
+      "assessment": "pass: chest band rises to 1.177x and upper/chest tilt falls to 0.911x while F0 remains exact"
+    },
+    "time": 1795741304.640154
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795741304.982449
+  },
+  "passed": true
+}

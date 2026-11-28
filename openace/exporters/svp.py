@@ -1,9 +1,25 @@
 from __future__ import annotations
 
 import json
+import math
+import uuid
 from pathlib import Path
 
 from openace.core.models import Project, TrackType
+from openace.core.timing import stepped_tempo_events
+
+
+def _svp_curve(project: Project, points, mapper) -> dict:
+    """Serialize normalized automation as Synthesizer V flattened blick/value pairs."""
+    flattened = []
+    for point in sorted(points, key=lambda item: item.ticks):
+        flattened.extend([_units(project, point.ticks), round(float(mapper(point.value)), 6)])
+    return {"mode": "linear", "points": flattened}
+
+
+def _centered_unit(value: float) -> float:
+    """Map OpenACE normalized 0..1 automation (0.5 neutral) to SVP -1..1."""
+    return max(-1.0, min(1.0, (max(0.0, min(1.0, value)) - 0.5) * 2.0))
 
 UNITS_PER_TICK_AT_PPQ480 = 1_470_000
 
@@ -21,6 +37,7 @@ def export_svp(project: Project, output_path: Path) -> Path:
         notes = []
         for note in track.sorted_notes():
             phonemes = " ".join(p.symbol for p in note.phonemes)
+            note_seconds = project.tick_duration_seconds(note.start_ticks, note.duration_ticks)
             notes.append(
                 {
                     "musicalType": "singing",
@@ -40,7 +57,7 @@ def export_svp(project: Project, output_path: Path) -> Path:
                         "dF0Right": 0.0,
                         "dF0Vbr": (note.vibrato.depth_cents / 100.0) if note.vibrato else 0.0,
                         "fF0Vbr": note.vibrato.frequency_hz if note.vibrato else 5.5,
-                        "tF0VbrStart": note.vibrato.start_ratio if note.vibrato else 0.55,
+                        "tF0VbrStart": (note.vibrato.start_ratio * note_seconds) if note.vibrato else 0.25,
                     },
                     "systemAttributes": {},
                     "pitchTakes": {"activeTakeId": 0, "takes": []},
@@ -48,24 +65,37 @@ def export_svp(project: Project, output_path: Path) -> Path:
                     "expressionTakes": {"activeTakeId": 0, "takes": []},
                 }
             )
+        group_uuid = str(uuid.uuid5(uuid.NAMESPACE_URL, f"openace-svp-group/{project.id}/{track.id}"))
         group = {
+            "uuid": group_uuid,
             "name": track.name,
             "notes": notes,
             "parameters": {
-                "pitchDelta": {"mode": "linear", "points": []},
-                "vibratoEnv": {"mode": "linear", "points": []},
-                "loudness": {"mode": "linear", "points": []},
-                "tension": {"mode": "linear", "points": []},
-                "breathiness": {"mode": "linear", "points": []},
+                # pitchDelta is cents; loudness is dB; tension/breathiness are -1..1.
+                "pitchDelta": _svp_curve(project, track.automation.pitch_cents, lambda value: value),
+                "loudness": _svp_curve(project, track.automation.dynamic, lambda value: (max(0.0, min(1.0, value)) - 0.5) * 12.0),
+                "tension": _svp_curve(project, track.automation.tension, _centered_unit),
+                "breathiness": _svp_curve(project, track.automation.air, _centered_unit),
                 "voicing": {"mode": "linear", "points": []},
                 "gender": {"mode": "linear", "points": []},
+                "toneShift": {"mode": "linear", "points": []},
             },
+        }
+        main_ref = {
+            "groupID": group_uuid,
+            "blickOffset": 0,
+            "blickAbsoluteBegin": 0,
+            "pitchOffset": 0,
+            "database": {"name": ""},
             "voice": {
-                "version": "1",
-                "language": track.language,
-                "phoneset": "xsampa",
-                "name": track.voice_id,
+                "vocalModeParams": {},
+                "tension": 0.0,
+                "breathiness": 0.0,
+                "gender": 0.0,
+                "voicing": 1.0,
+                "toneShift": 0.0,
             },
+            "isInstrumental": not is_vocal,
         }
         tracks.append(
             {
@@ -74,14 +104,14 @@ def export_svp(project: Project, output_path: Path) -> Path:
                 "dispOrder": index,
                 "renderEnabled": True,
                 "mixer": {
-                    "gainDecibel": 20 * __import__("math").log10(max(track.volume, 0.001)),
+                    "gainDecibel": 20 * math.log10(max(track.volume, 0.001)),
                     "pan": track.pan,
                     "mute": track.mute,
                     "solo": track.solo,
                     "display": True,
                 },
-                "mainGroup": group if is_vocal else {"name": track.name, "notes": [], "parameters": {}},
-                "mainRef": {"isInstrumental": not is_vocal},
+                "mainGroup": group if is_vocal else {"uuid": group_uuid, "name": track.name, "notes": [], "parameters": {}},
+                "mainRef": main_ref,
                 "groups": [],
             }
         )
@@ -95,7 +125,10 @@ def export_svp(project: Project, output_path: Path) -> Path:
                     "denominator": project.time_signature.denominator,
                 }
             ],
-            "tempo": [{"position": 0, "bpm": project.bpm}],
+            "tempo": [
+                {"position": _units(project, ticks), "bpm": bpm}
+                for ticks, bpm in stepped_tempo_events(project)
+            ],
         },
         "library": [],
         "tracks": tracks,

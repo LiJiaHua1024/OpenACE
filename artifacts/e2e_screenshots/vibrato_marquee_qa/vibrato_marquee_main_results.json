@@ -1,0 +1,670 @@
+{
+  "console": [],
+  "badnet": [],
+  "pid": "project_8e0978b78326",
+  "initial": {
+    "vibratos": {
+      "va": {
+        "start_ratio": 0.25,
+        "depth_cents": 45.0,
+        "frequency_hz": 5.2,
+        "phase": 0.0,
+        "attack_ratio": 0.2,
+        "release_ratio": 0.1
+      },
+      "vb": {
+        "start_ratio": 0.3,
+        "depth_cents": 60.0,
+        "frequency_hz": 4.8,
+        "phase": 0.5,
+        "attack_ratio": 0.1,
+        "release_ratio": 0.25
+      },
+      "vc": {
+        "start_ratio": 0.2,
+        "depth_cents": 75.0,
+        "frequency_hz": 6.0,
+        "phase": 0.75,
+        "attack_ratio": 0.3,
+        "release_ratio": 0.2
+      },
+      "vd": {
+        "start_ratio": 0.35,
+        "depth_cents": 50.0,
+        "frequency_hz": 5.5,
+        "phase": 0.25,
+        "attack_ratio": 0.15,
+        "release_ratio": 0.3
+      },
+      "ve": null
+    },
+    "geometry": [
+      {
+        "id": "va",
+        "start_ticks": 120,
+        "duration_ticks": 480,
+        "pitch": 65,
+        "velocity": 90
+      },
+      {
+        "id": "vb",
+        "start_ticks": 600,
+        "duration_ticks": 480,
+        "pitch": 65,
+        "velocity": 90
+      },
+      {
+        "id": "vc",
+        "start_ticks": 1200,
+        "duration_ticks": 480,
+        "pitch": 65,
+        "velocity": 90
+      },
+      {
+        "id": "vd",
+        "start_ticks": 1800,
+        "duration_ticks": 480,
+        "pitch": 65,
+        "velocity": 90
+      },
+      {
+        "id": "ve",
+        "start_ticks": 2400,
+        "duration_ticks": 480,
+        "pitch": 65,
+        "velocity": 90
+      }
+    ],
+    "note_count": 5
+  },
+  "tool_switch_clears_selection": {
+    "unchanged_after_delete": true,
+    "vibratos": {
+      "va": {
+        "start_ratio": 0.25,
+        "depth_cents": 45.0,
+        "frequency_hz": 5.2,
+        "phase": 0.0,
+        "attack_ratio": 0.2,
+        "release_ratio": 0.1
+      },
+      "vb": {
+        "start_ratio": 0.3,
+        "depth_cents": 60.0,
+        "frequency_hz": 4.8,
+        "phase": 0.5,
+        "attack_ratio": 0.1,
+        "release_ratio": 0.25
+      },
+      "vc": {
+        "start_ratio": 0.2,
+        "depth_cents": 75.0,
+        "frequency_hz": 6.0,
+        "phase": 0.75,
+        "attack_ratio": 0.3,
+        "release_ratio": 0.2
+      },
+      "vd": {
+        "start_ratio": 0.35,
+        "depth_cents": 50.0,
+        "frequency_hz": 5.5,
+        "phase": 0.25,
+        "attack_ratio": 0.15,
+        "release_ratio": 0.3
+      },
+      "ve": null
+    }
+  },
+  "escape_clears_selection": {
+    "unchanged_after_delete": true,
+    "vibratos": {
+      "va": {
+        "start_ratio": 0.25,
+        "depth_cents": 45.0,
+        "frequency_hz": 5.2,
+        "phase": 0.0,
+        "attack_ratio": 0.2,
+        "release_ratio": 0.1
+      },
+      "vb": {
+        "start_ratio": 0.3,
+        "depth_cents": 60.0,
+        "frequency_hz": 4.8,
+        "phase": 0.5,
+        "attack_ratio": 0.1,
+        "release_ratio": 0.25
+      },
+      "vc": {
+        "start_ratio": 0.2,
+        "depth_cents": 75.0,
+        "frequency_hz": 6.0,
+        "phase": 0.75,
+        "attack_ratio": 0.3,
+        "release_ratio": 0.2
+      },
+      "vd": {
+        "start_ratio": 0.35,
+        "depth_cents": 50.0,
+        "frequency_hz": 5.5,
+        "phase": 0.25,
+        "attack_ratio": 0.15,
+        "release_ratio": 0.3
+      },
+      "ve": null
+    }
+  },
+  "delete": {
+    "before": {
+      "vibratos": {
+        "va": {
+          "start_ratio": 0.25,
+          "depth_cents": 45.0,
+          "frequency_hz": 5.2,
+          "phase": 0.0,
+          "attack_ratio": 0.2,
+          "release_ratio": 0.1
+        },
+        "vb": {
+          "start_ratio": 0.3,
+          "depth_cents": 60.0,
+          "frequency_hz": 4.8,
+          "phase": 0.5,
+          "attack_ratio": 0.1,
+          "release_ratio": 0.25
+        },
+        "vc": {
+          "start_ratio": 0.2,
+          "depth_cents": 75.0,
+          "frequency_hz": 6.0,
+          "phase": 0.75,
+          "attack_ratio": 0.3,
+          "release_ratio": 0.2
+        },
+        "vd": {
+          "start_ratio": 0.35,
+          "depth_cents": 50.0,
+          "frequency_hz": 5.5,
+          "phase": 0.25,
+          "attack_ratio": 0.15,
+          "release_ratio": 0.3
+        },
+        "ve": null
+      },
+      "geometry": [
+        {
+          "id": "va",
+          "start_ticks": 120,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vb",
+          "start_ticks": 600,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vc",
+          "start_ticks": 1200,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vd",
+          "start_ticks": 1800,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "ve",
+          "start_ticks": 2400,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        }
+      ],
+      "note_count": 5
+    },
+    "after": {
+      "vibratos": {
+        "va": null,
+        "vb": null,
+        "vc": null,
+        "vd": {
+          "start_ratio": 0.35,
+          "depth_cents": 50.0,
+          "frequency_hz": 5.5,
+          "phase": 0.25,
+          "attack_ratio": 0.15,
+          "release_ratio": 0.3
+        },
+        "ve": null
+      },
+      "geometry": [
+        {
+          "id": "va",
+          "start_ticks": 120,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vb",
+          "start_ticks": 600,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vc",
+          "start_ticks": 1200,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vd",
+          "start_ticks": 1800,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "ve",
+          "start_ticks": 2400,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        }
+      ],
+      "note_count": 5
+    },
+    "undo": {
+      "vibratos": {
+        "va": {
+          "start_ratio": 0.25,
+          "depth_cents": 45.0,
+          "frequency_hz": 5.2,
+          "phase": 0.0,
+          "attack_ratio": 0.2,
+          "release_ratio": 0.1
+        },
+        "vb": {
+          "start_ratio": 0.3,
+          "depth_cents": 60.0,
+          "frequency_hz": 4.8,
+          "phase": 0.5,
+          "attack_ratio": 0.1,
+          "release_ratio": 0.25
+        },
+        "vc": {
+          "start_ratio": 0.2,
+          "depth_cents": 75.0,
+          "frequency_hz": 6.0,
+          "phase": 0.75,
+          "attack_ratio": 0.3,
+          "release_ratio": 0.2
+        },
+        "vd": {
+          "start_ratio": 0.35,
+          "depth_cents": 50.0,
+          "frequency_hz": 5.5,
+          "phase": 0.25,
+          "attack_ratio": 0.15,
+          "release_ratio": 0.3
+        },
+        "ve": null
+      },
+      "geometry": [
+        {
+          "id": "va",
+          "start_ticks": 120,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vb",
+          "start_ticks": 600,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vc",
+          "start_ticks": 1200,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vd",
+          "start_ticks": 1800,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "ve",
+          "start_ticks": 2400,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        }
+      ],
+      "note_count": 5
+    },
+    "redo": {
+      "vibratos": {
+        "va": null,
+        "vb": null,
+        "vc": null,
+        "vd": {
+          "start_ratio": 0.35,
+          "depth_cents": 50.0,
+          "frequency_hz": 5.5,
+          "phase": 0.25,
+          "attack_ratio": 0.15,
+          "release_ratio": 0.3
+        },
+        "ve": null
+      },
+      "geometry": [
+        {
+          "id": "va",
+          "start_ticks": 120,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vb",
+          "start_ticks": 600,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vc",
+          "start_ticks": 1200,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vd",
+          "start_ticks": 1800,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "ve",
+          "start_ticks": 2400,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        }
+      ],
+      "note_count": 5
+    },
+    "reload": {
+      "vibratos": {
+        "va": null,
+        "vb": null,
+        "vc": null,
+        "vd": {
+          "start_ratio": 0.35,
+          "depth_cents": 50.0,
+          "frequency_hz": 5.5,
+          "phase": 0.25,
+          "attack_ratio": 0.15,
+          "release_ratio": 0.3
+        },
+        "ve": null
+      },
+      "geometry": [
+        {
+          "id": "va",
+          "start_ticks": 120,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vb",
+          "start_ticks": 600,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vc",
+          "start_ticks": 1200,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vd",
+          "start_ticks": 1800,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "ve",
+          "start_ticks": 2400,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        }
+      ],
+      "note_count": 5
+    },
+    "selected_cleared_only": true,
+    "notes_preserved": true,
+    "undo_exact": true,
+    "redo_exact": true,
+    "reload_exact_after_redo_delete": true
+  },
+  "handle_regressions": {
+    "before": {
+      "start_ratio": 0.35,
+      "depth_cents": 50.0,
+      "frequency_hz": 5.5,
+      "phase": 0.25,
+      "attack_ratio": 0.15,
+      "release_ratio": 0.3
+    },
+    "after_depth": {
+      "start_ratio": 0.35,
+      "depth_cents": 50.0,
+      "frequency_hz": 5.5,
+      "phase": 0.25,
+      "attack_ratio": 0.15,
+      "release_ratio": 0.3
+    },
+    "after_attack": {
+      "start_ratio": 0.35,
+      "depth_cents": 50.0,
+      "frequency_hz": 5.5,
+      "phase": 0.25,
+      "attack_ratio": 0.15,
+      "release_ratio": 0.3
+    },
+    "after_release": {
+      "start_ratio": 0.35,
+      "depth_cents": 50.0,
+      "frequency_hz": 5.5,
+      "phase": 0.25,
+      "attack_ratio": 0.15,
+      "release_ratio": 0.3
+    },
+    "depth_expected_80": false,
+    "attack_expected_0_35": false,
+    "release_expected_0_5": false,
+    "other_params_preserved": true
+  },
+  "direct_create_regression": {
+    "created": null,
+    "created_present": false,
+    "undo_removed": true,
+    "redo_exact": true
+  },
+  "blank_click_no_phantom_edit": {
+    "unchanged": false,
+    "before": {
+      "vibratos": {
+        "va": null,
+        "vb": null,
+        "vc": null,
+        "vd": {
+          "start_ratio": 0.35,
+          "depth_cents": 50.0,
+          "frequency_hz": 5.5,
+          "phase": 0.25,
+          "attack_ratio": 0.15,
+          "release_ratio": 0.3
+        },
+        "note_7e8e19e4-936": null,
+        "note_2edf17b1-211": null,
+        "ve": null
+      },
+      "geometry": [
+        {
+          "id": "va",
+          "start_ticks": 120,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vb",
+          "start_ticks": 600,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vc",
+          "start_ticks": 1200,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vd",
+          "start_ticks": 1800,
+          "duration_ticks": 240,
+          "pitch": 66,
+          "velocity": 90
+        },
+        {
+          "id": "note_7e8e19e4-936",
+          "start_ticks": 2040,
+          "duration_ticks": 120,
+          "pitch": 64,
+          "velocity": 90
+        },
+        {
+          "id": "note_2edf17b1-211",
+          "start_ticks": 2160,
+          "duration_ticks": 60,
+          "pitch": 64,
+          "velocity": 90
+        },
+        {
+          "id": "ve",
+          "start_ticks": 2280,
+          "duration_ticks": 480,
+          "pitch": 66,
+          "velocity": 90
+        }
+      ],
+      "note_count": 7
+    },
+    "after": {
+      "vibratos": {
+        "va": null,
+        "note_ce09bc82-65e": null,
+        "vb": null,
+        "vc": null,
+        "vd": {
+          "start_ratio": 0.35,
+          "depth_cents": 50.0,
+          "frequency_hz": 5.5,
+          "phase": 0.25,
+          "attack_ratio": 0.15,
+          "release_ratio": 0.3
+        },
+        "note_7e8e19e4-936": null,
+        "note_2edf17b1-211": null,
+        "ve": null
+      },
+      "geometry": [
+        {
+          "id": "va",
+          "start_ticks": 120,
+          "duration_ticks": 60,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "note_ce09bc82-65e",
+          "start_ticks": 180,
+          "duration_ticks": 60,
+          "pitch": 66,
+          "velocity": 90
+        },
+        {
+          "id": "vb",
+          "start_ticks": 600,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vc",
+          "start_ticks": 1200,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "vd",
+          "start_ticks": 1800,
+          "duration_ticks": 240,
+          "pitch": 66,
+          "velocity": 90
+        },
+        {
+          "id": "note_7e8e19e4-936",
+          "start_ticks": 2040,
+          "duration_ticks": 120,
+          "pitch": 64,
+          "velocity": 90
+        },
+        {
+          "id": "note_2edf17b1-211",
+          "start_ticks": 2160,
+          "duration_ticks": 60,
+          "pitch": 64,
+          "velocity": 90
+        },
+        {
+          "id": "ve",
+          "start_ticks": 2280,
+          "duration_ticks": 480,
+          "pitch": 66,
+          "velocity": 90
+        }
+      ],
+      "note_count": 8
+    }
+  }
+}

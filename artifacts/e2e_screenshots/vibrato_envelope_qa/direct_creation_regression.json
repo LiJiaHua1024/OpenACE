@@ -1,0 +1,15 @@
+{
+  "pid": "project_5298ebbc9894",
+  "created": {
+    "start_ratio": 0.25,
+    "depth_cents": 45.0,
+    "frequency_hz": 5.2,
+    "phase": 0.0,
+    "attack_ratio": 0.0,
+    "release_ratio": 0.0
+  },
+  "undo_enabled_after_create": true,
+  "undo_null": true,
+  "redo_exact": true,
+  "creation_exact": true
+}

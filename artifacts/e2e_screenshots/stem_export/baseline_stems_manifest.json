@@ -1,0 +1,32 @@
+{
+  "sample_rate": 48000,
+  "format": "pcm_s24le wav",
+  "processing": "track volume, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization",
+  "tracks": [
+    {
+      "track_id": "track_67a3834687f8",
+      "track_name": "Lead Vocal",
+      "type": "vocal",
+      "file": "01_Lead_Vocal.wav",
+      "peak": 0.3182128965854645,
+      "rms": 0.1735442876815796,
+      "volume": 0.8,
+      "pan": 0.0,
+      "solo": false,
+      "mute": false
+    },
+    {
+      "track_id": "track_harmony_stemqa",
+      "track_name": "Harmony Vocal",
+      "type": "vocal",
+      "file": "02_Harmony_Vocal.wav",
+      "peak": 0.09967764467000961,
+      "rms": 0.03971037268638611,
+      "volume": 0.5,
+      "pan": 0.0,
+      "solo": false,
+      "mute": false
+    }
+  ],
+  "skipped": []
+}

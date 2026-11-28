@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from openace.engines.downloader import download_hf, ensure_engine_sources  # noqa: E402
+from openace.engines.downloader import download_hf, ensure_engine_sources, sync_acestep_model_code  # noqa: E402
 
 
 def run(cmd, cwd=None, env=None):
@@ -60,6 +60,9 @@ def main() -> int:
         acestep / "checkpoints/acestep-v15-base",
         endpoint=args.hf_endpoint or None,
     )
+    synced = sync_acestep_model_code(acestep)
+    if synced:
+        print("Synchronized ACE-Step checkpoint model code:", ", ".join(synced))
     print("Real engine sources and public weights are installed.")
     return 0
 

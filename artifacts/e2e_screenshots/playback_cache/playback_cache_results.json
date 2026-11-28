@@ -1,0 +1,92 @@
+{
+  "ok": true,
+  "fresh_cache_run": {
+    "before": {
+      "fetch": {
+        "/api/jobs": 1
+      },
+      "decode": 0,
+      "contexts": 0
+    },
+    "samples": [
+      {
+        "wall": 0.453,
+        "position": "1.1.4\n00:00.43"
+      },
+      {
+        "wall": 0.912,
+        "position": "1.2.4\n00:00.89"
+      },
+      {
+        "wall": 1.37,
+        "position": "1.3.3\n00:01.35"
+      },
+      {
+        "wall": 1.834,
+        "position": "1.4.3\n00:01.81"
+      },
+      {
+        "wall": 2.294,
+        "position": "2.1.3\n00:02.29"
+      }
+    ],
+    "mid": {
+      "fetch": {
+        "/api/jobs": 2,
+        "/uploads/svclyrics_words.wav": 1
+      },
+      "decode": 1,
+      "contexts": 1
+    },
+    "after_stop1": {
+      "fetch": {
+        "/api/jobs": 2,
+        "/uploads/svclyrics_words.wav": 1
+      },
+      "decode": 1,
+      "contexts": 1
+    },
+    "after_restart1": {
+      "fetch": {
+        "/api/jobs": 2,
+        "/uploads/svclyrics_words.wav": 1
+      },
+      "decode": 1,
+      "contexts": 1
+    },
+    "after_restart2": {
+      "fetch": {
+        "/api/jobs": 3,
+        "/uploads/svclyrics_words.wav": 1
+      },
+      "decode": 1,
+      "contexts": 1
+    },
+    "position_final": "1.2.3\n00:00.79"
+  },
+  "layout_console": {
+    "first_play": {
+      "position": "1.1.1\n00:00.07",
+      "wall": 2.051578998565674,
+      "instrumentation": null,
+      "playing": "play-button playing"
+    },
+    "restart_after_pause": {
+      "position": "1.2.3\n00:00.84",
+      "instrumentation": null
+    },
+    "restart_after_stop": {
+      "position": "1.2.2\n00:00.71",
+      "instrumentation": null
+    },
+    "layout": {
+      "innerWidth": 1272,
+      "innerHeight": 837,
+      "bodyOverflow": false
+    },
+    "console": [],
+    "network_failures": [],
+    "note": "first run used stale page for cache oracle; fresh cache-busted run is authoritative"
+  },
+  "classification": "PASS; first confusing cache numbers were harness/stale-page artifact"
+}

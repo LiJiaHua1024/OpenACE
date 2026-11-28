@@ -1,0 +1,54 @@
+{
+  "console": [],
+  "badnet": [],
+  "modes": {
+    "auto": {
+      "job": {
+        "id": "job_5e58416248ee",
+        "status": "completed",
+        "pitch_shift": 0,
+        "auto_shift": true,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_d4afc8c422be/job_5e58416248ee/svc.wav",
+        "error": null
+      },
+      "conversion": {
+        "pitch_shift": 0,
+        "auto_shift": true,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_d4afc8c422be/job_5e58416248ee/svc.wav"
+      },
+      "key_text": "key: auto-match reference"
+    },
+    "preserve": {
+      "job": {
+        "id": "job_7a2cee65f604",
+        "status": "completed",
+        "pitch_shift": 0,
+        "auto_shift": false,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_d4afc8c422be/job_7a2cee65f604/svc.wav",
+        "error": null
+      },
+      "conversion": {
+        "pitch_shift": 0,
+        "auto_shift": false,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_d4afc8c422be/job_7a2cee65f604/svc.wav"
+      },
+      "key_text": "key: preserve source"
+    },
+    "manual": {
+      "job": {
+        "id": "job_83db493bc304",
+        "status": "completed",
+        "pitch_shift": -3,
+        "auto_shift": false,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_d4afc8c422be/job_83db493bc304/svc.wav",
+        "error": null
+      },
+      "conversion": {
+        "pitch_shift": -3,
+        "auto_shift": false,
+        "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_d4afc8c422be/job_83db493bc304/svc.wav"
+      },
+      "key_text": ""
+    }
+  }
+}

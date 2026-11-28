@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional, Sequence, Tuple
+from typing import List, Optional, Sequence, Tuple
 
 import numpy as np
 
 from .models import Note, Project
-from .pitch import correct_octave_errors, hz_to_midi, pitch_curve_for_notes
+from .pitch import correct_octave_errors, midi_to_hz, hz_to_midi, pitch_curve_for_notes
 
 
 def extract_f0(path: Path, frame_ms: float = 10.0) -> Tuple[np.ndarray, np.ndarray]:
@@ -37,15 +37,33 @@ def extract_f0(path: Path, frame_ms: float = 10.0) -> Tuple[np.ndarray, np.ndarr
         raise RuntimeError("F0 extraction requires the optional audio dependency librosa") from exc
 
 
+
+def write_f0_json(output_path: Path, times, f0_hz, frame_ms: float = 10.0) -> Path:
+    """Persist extracted rendered F0 as compact JSON with NaN frames encoded as null."""
+    import json
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    times_array = np.asarray(times, dtype=float)
+    f0_array = np.asarray(f0_hz, dtype=float)
+    if len(times_array) != len(f0_array):
+        raise ValueError("F0 time and value arrays must have the same length")
+    payload = {
+        "frame_ms": float(frame_ms),
+        "times": [round(float(value), 6) for value in times_array],
+        "f0_hz": [round(float(value), 4) if np.isfinite(value) and value > 0 else None for value in f0_array],
+    }
+    output_path.write_text(json.dumps(payload, separators=(",", ":")), encoding="utf-8")
+    return output_path
+
 def beat_offsets_ms(project: Project, notes: Sequence[Note], actual_onsets_s: Optional[Sequence[float]] = None) -> np.ndarray:
     """Return per-note onset deviations in milliseconds.
 
-    If measured onsets are unavailable, the expected deviation is zero because symbolic
-    beat anchoring has already been enforced. This function never fabricates errors.
+    If measured onsets are unavailable, deviations are NaN. Returning zero here would
+    fabricate perfect rendered-audio timing evidence that was never measured.
     """
     expected = np.array([project.ticks_to_seconds(note.start_ticks) for note in notes], dtype=float)
     if actual_onsets_s is None:
-        return np.zeros(len(notes))
+        return np.full(len(notes), np.nan)
     actual = np.asarray(actual_onsets_s, dtype=float)
     if len(actual) != len(expected):
         raise ValueError("actual onset count does not match note count")
@@ -81,6 +99,8 @@ def write_diagnostic(
     sample_rate: int = 48000,
     actual_f0_hz: Optional[Tuple[np.ndarray, np.ndarray]] = None,
     provenance: str = "OpenACE render",
+    pitch_automation=None,
+    actual_onsets_s: Optional[Sequence[float]] = None,
 ) -> Path:
     """Write the acoustic X-ray diagnostic PNG required by every render."""
     import matplotlib
@@ -89,7 +109,7 @@ def write_diagnostic(
     import matplotlib.pyplot as plt
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    times, target_f0 = pitch_curve_for_notes(project.ppq, project.bpm, notes)
+    times, target_f0 = pitch_curve_for_notes(project, notes, pitch_automation=pitch_automation)
     fig, axes = plt.subplots(3, 1, figsize=(14, 10), constrained_layout=True)
     fig.patch.set_facecolor("#111217")
     for ax in axes:
@@ -118,12 +138,28 @@ def write_diagnostic(
     ax.legend(facecolor="#171923", labelcolor="white")
 
     ax = axes[1]
-    offsets = beat_offsets_ms(project, notes)
-    x = [project.ticks_to_seconds(n.start_ticks) for n in notes]
-    ax.stem(x, offsets, linefmt="#f2cc60", markerfmt="o", basefmt=" ")
-    ax.axhline(0, color="#79b8ff", linewidth=0.8)
+    offsets = beat_offsets_ms(project, notes, actual_onsets_s)
+    x = np.array([project.ticks_to_seconds(n.start_ticks) for n in notes], dtype=float)
+    measured = np.isfinite(offsets)
+    if len(x):
+        ax.vlines(x, 0, 1, color="#46506e", linewidth=0.8, alpha=0.55, label="symbolic vowel anchor")
+        if measured.any():
+            ax.stem(x[measured], offsets[measured], linefmt="#f2cc60", markerfmt="o", basefmt=" ")
+            ax.axhline(0, color="#79b8ff", linewidth=0.8)
+        if not measured.all():
+            ax.text(
+                0.5,
+                0.82,
+                "Rendered onset measurement unavailable; zero error is not fabricated",
+                transform=ax.transAxes,
+                ha="center",
+                color="#ffb86b",
+                fontsize=9,
+            )
+    else:
+        ax.text(0.5, 0.5, "No vocal notes in project", transform=ax.transAxes, ha="center", color="#8ea0c9")
     ax.set_ylabel("ms", color="#c9d1e3")
-    ax.set_title("Per-note beat offset (vowel onset anchor)", color="white")
+    ax.set_title("Vowel-anchor timing: measured offsets plus symbolic positions", color="white")
 
     ax = axes[2]
     if rendered_audio is not None and len(rendered_audio):
@@ -140,3 +176,58 @@ def write_diagnostic(
     fig.savefig(output_path, dpi=150)
     plt.close(fig)
     return output_path
+
+
+def sustained_voiced_onsets(times: np.ndarray, f0: np.ndarray, min_frames: int = 3) -> List[float]:
+    """Return start times of contiguous voiced regions without treating isolated noise as onsets."""
+    starts: List[float] = []
+    finite = np.isfinite(f0)
+    index = 0
+    while index < len(f0):
+        if not finite[index]:
+            index += 1
+            continue
+        start = index
+        while index < len(f0) and finite[index]:
+            index += 1
+        if index - start >= min_frames:
+            starts.append(float(times[start]))
+    return starts
+
+
+def measured_pitch_transition(times: np.ndarray, f0: np.ndarray, boundary_s: float, low_hz: float, high_hz: float) -> Optional[float]:
+    """Estimate a low-to-high pitch transition time requiring three sustained frames."""
+    threshold = float(np.sqrt(low_hz * high_hz))
+    finite = np.isfinite(f0)
+    for index in range(len(f0) - 2):
+        if times[index] < boundary_s - 0.12 or times[index] > boundary_s + 0.2:
+            continue
+        window = f0[index:index + 3]
+        if np.all(np.isfinite(window)) and np.all(window >= threshold):
+            return float(times[index])
+    return None
+
+
+def vocal_alignment_measurements(path: Path, project: Project, notes: Sequence[Note]) -> dict:
+    """Measure rendered SVS onset/pitch-transition alignment without fabricating precision."""
+    if len(notes) < 2:
+        raise ValueError("at least two notes are required for transition alignment measurement")
+    times, f0 = extract_f0(path)
+    onsets = sustained_voiced_onsets(times, f0)
+    ordered = sorted(notes, key=lambda note: note.start_ticks)
+    first, second = ordered[0], ordered[1]
+    boundary_s = project.ticks_to_seconds(second.start_ticks)
+    low_hz = midi_to_hz(first.pitch)
+    high_hz = midi_to_hz(second.pitch)
+    transition = measured_pitch_transition(times, f0, boundary_s, low_hz, high_hz) if high_hz > low_hz else None
+    first_onset = onsets[0] if onsets else None
+    return {
+        "method": "librosa/pyin sustained-voiced onset and geometric-mean pitch crossing; frame-level estimate, not sample-exact proof",
+        "first_voiced_onset_s": first_onset,
+        "expected_first_onset_s": project.ticks_to_seconds(first.start_ticks),
+        "first_onset_error_ms": None if first_onset is None else round((first_onset - project.ticks_to_seconds(first.start_ticks)) * 1000.0, 1),
+        "pitch_transition_s": transition,
+        "expected_transition_s": boundary_s,
+        "transition_error_ms": None if transition is None else round((transition - boundary_s) * 1000.0, 1),
+        "voiced_region_count": len(onsets),
+    }

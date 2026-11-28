@@ -1,0 +1,29 @@
+{
+  "points": [
+    {
+      "ticks": 0,
+      "value": -100.0,
+      "curve": "linear"
+    },
+    {
+      "ticks": 200,
+      "value": 0.0,
+      "curve": "linear"
+    },
+    {
+      "ticks": 300,
+      "value": 0.0,
+      "curve": "linear"
+    },
+    {
+      "ticks": 400,
+      "value": 100.0,
+      "curve": "linear"
+    }
+  ],
+  "zeros": [
+    200,
+    300
+  ],
+  "passed": true
+}

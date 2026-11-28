@@ -1,0 +1,35 @@
+{
+  "search_empty": {
+    "rows": 0,
+    "empty_count": 1,
+    "text": "No projects"
+  },
+  "clear_restored_rows": 4,
+  "filter_empty": {
+    "rows_before_removal": 1,
+    "rows": 0,
+    "empty_count": 1,
+    "text": "No projects",
+    "filter_value": ""
+  },
+  "all_restored_rows": 326,
+  "comma_patch": {
+    "status": 200,
+    "body": "{\"id\":\"project_dcd023f55cde\",\"schema_version\":1,\"title\":\"FolderQA Normalize\",\"ppq\":480,\"bpm\":120.0,\"tempo_map\":[{\"ticks\":0,\"bpm\":120.0,\"curve\":\"step\"}],\"time_signature\":{\"numerator\":4,\"denominator\":4},\"tracks\":[{\"id\":\"tr",
+    "folders": [
+      "CommaA",
+      "CommaB",
+      "CommaC"
+    ]
+  },
+  "layout": {
+    "iw": 1272,
+    "ih": 837,
+    "bsw": 1272,
+    "bcw": 1272,
+    "tsw": 1272,
+    "tcw": 1272
+  },
+  "console": [],
+  "network": []
+}

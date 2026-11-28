@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 from .base import EngineUnavailable
+from .processes import CancellationToken, run_cancellable
 from .downloader import external_dir
 from .vram import VRAMManager
 
@@ -46,7 +47,7 @@ class ACEStepEngine:
                 f"ACE-Step 1.5 source is missing at {self.repo}; run scripts/bootstrap_models.py"
             )
 
-    def _run_generation(self, config: Dict[str, Any], output_path: Path) -> Path:
+    def _run_generation(self, config: Dict[str, Any], output_path: Path, cancellation: Optional[CancellationToken] = None, progress=None) -> Path:
         self._require()
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="openace-acestep-") as tmp:
@@ -81,9 +82,12 @@ class ACEStepEngine:
             env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
             env.setdefault("ACESTEP_CHECKPOINTS_DIR", str(self.repo / "checkpoints"))
             cmd = [sys.executable, "cli.py", "--config", str(config_path), "--backend", "pt"]
+            if progress: progress(0.16, "waiting for ACE-Step VRAM slot")
             with self.vram.acquire("ace-step-1.5", estimated_gb=4.0):
-                proc = subprocess.run(
+                if progress: progress(0.22, "running ACE-Step 1.5 inference")
+                proc = run_cancellable(
                     cmd,
+                    cancellation,
                     cwd=self.repo,
                     env=env,
                     stdout=subprocess.PIPE,
@@ -93,12 +97,13 @@ class ACEStepEngine:
             if proc.returncode != 0:
                 raise EngineUnavailable("ACE-Step generation failed:\n" + proc.stdout[-6000:])
             candidates = sorted(save_dir.glob("*.wav"), key=lambda p: p.stat().st_mtime, reverse=True)
+            if progress: progress(0.78, "collecting ACE-Step output")
             if not candidates:
                 raise EngineUnavailable("ACE-Step completed without a wav output")
             shutil.copyfile(candidates[0], output_path)
         return output_path
 
-    def vocal_to_bgm(self, vocal_audio: Path, output_path: Path, caption: str, duration: float, bpm: float) -> Path:
+    def vocal_to_bgm(self, vocal_audio: Path, output_path: Path, caption: str, duration: float, bpm: float, cancellation: Optional[CancellationToken] = None, progress=None) -> Path:
         if not vocal_audio.exists():
             raise FileNotFoundError(vocal_audio)
         return self._run_generation(
@@ -114,9 +119,11 @@ class ACEStepEngine:
                 "bpm": round(bpm),
             },
             output_path,
+            cancellation,
+            progress,
         )
 
-    def repaint(self, source_audio: Path, output_path: Path, start_s: float, end_s: float, caption: str) -> Path:
+    def repaint(self, source_audio: Path, output_path: Path, start_s: float, end_s: float, caption: str, cancellation: Optional[CancellationToken] = None, progress=None) -> Path:
         if not source_audio.exists():
             raise FileNotFoundError(source_audio)
         if end_s != -1 and end_s <= start_s:
@@ -133,6 +140,8 @@ class ACEStepEngine:
                 "lyrics": "[Instrumental]",
             },
             output_path,
+            cancellation,
+            progress,
         )
 
     def text_to_music(self, output_path: Path, caption: str, duration: float, bpm: float, lyrics: str = "[Instrumental]") -> Path:

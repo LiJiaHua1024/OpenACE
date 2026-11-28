@@ -1,0 +1,200 @@
+{
+  "before_project": [
+    [
+      "A1",
+      480,
+      1440
+    ],
+    [
+      "A2",
+      3360,
+      1440
+    ],
+    [
+      "B1",
+      2520,
+      1320
+    ]
+  ],
+  "after_project": [
+    [
+      "A1",
+      480,
+      1440
+    ],
+    [
+      "A2",
+      3360,
+      1440
+    ],
+    [
+      "B1",
+      2640,
+      1320
+    ]
+  ],
+  "timers": [
+    {
+      "real": 74,
+      "type": "clear",
+      "t": 835006.599999994
+    },
+    {
+      "id": 1,
+      "delay": 350,
+      "type": "schedule",
+      "t": 835006.700000003,
+      "src": "()=>{x.saveProject(e).catch(e=>S(`save failed: ${e.message||e}`))}",
+      "real": 86
+    },
+    {
+      "real": 86,
+      "type": "clear",
+      "t": 835023.3999999911
+    },
+    {
+      "id": 2,
+      "delay": 350,
+      "type": "schedule",
+      "t": 835023.3999999911,
+      "src": "()=>{x.saveProject(e).catch(e=>S(`save failed: ${e.message||e}`))}",
+      "real": 88
+    },
+    {
+      "real": 88,
+      "type": "clear",
+      "t": 835039.700000003
+    },
+    {
+      "id": 3,
+      "delay": 350,
+      "type": "schedule",
+      "t": 835039.700000003,
+      "src": "()=>{x.saveProject(e).catch(e=>S(`save failed: ${e.message||e}`))}",
+      "real": 90
+    },
+    {
+      "id": 4,
+      "delay": 120,
+      "type": "schedule",
+      "t": 835044.099999994,
+      "src": "()=>{(async()=>{let e=T.current;if(!e||!o)return;let t=k.current.ctx?k.current.ctx.currentTime-k.current.startContextTime:(performance.now()-k.current.startMs)/",
+      "real": 92
+    },
+    {
+      "real": 90,
+      "type": "clear",
+      "t": 835057
+    },
+    {
+      "id": 5,
+      "delay": 350,
+      "type": "schedule",
+      "t": 835057,
+      "src": "()=>{x.saveProject(e).catch(e=>S(`save failed: ${e.message||e}`))}",
+      "real": 93
+    },
+    {
+      "real": 92,
+      "type": "clear",
+      "t": 835060.8999999911
+    },
+    {
+      "real": 93,
+      "type": "clear",
+      "t": 835073.099999994
+    },
+    {
+      "id": 6,
+      "delay": 350,
+      "type": "schedule",
+      "t": 835073.099999994,
+      "src": "()=>{x.saveProject(e).catch(e=>S(`save failed: ${e.message||e}`))}",
+      "real": 95
+    },
+    {
+      "real": 95,
+      "type": "clear",
+      "t": 835079.599999994
+    },
+    {
+      "id": 7,
+      "delay": 350,
+      "type": "schedule",
+      "t": 835079.599999994,
+      "src": "()=>{x.saveProject(e).catch(e=>S(`save failed: ${e.message||e}`))}",
+      "real": 97
+    },
+    {
+      "id": 7,
+      "delay": 350,
+      "type": "fire",
+      "t": 835429.799999997
+    }
+  ],
+  "audio": {
+    "created": 13,
+    "stop": 12,
+    "events": [
+      {
+        "type": "mark",
+        "label": "control_volume_after_clip_drag",
+        "t": 556137.5
+      },
+      {
+        "type": "stop",
+        "id": 10,
+        "t": 556320.799999997,
+        "ctxTime": 385.7531065759637,
+        "when": 0
+      },
+      {
+        "type": "create",
+        "id": 11,
+        "t": 556320.8999999911,
+        "ctxTime": 385.7531065759637
+      },
+      {
+        "type": "stop",
+        "id": 11,
+        "t": 566808.599999994,
+        "ctxTime": 396.16725623582767,
+        "when": 0
+      },
+      {
+        "type": "create",
+        "id": 12,
+        "t": 688375.099999994,
+        "ctxTime": 517.6308390022675
+      },
+      {
+        "type": "mark",
+        "label": "controlled_undo_probe",
+        "t": 688738
+      },
+      {
+        "type": "mark",
+        "label": "controlled_redo_probe",
+        "t": 689450.3999999911
+      },
+      {
+        "type": "stop",
+        "id": 12,
+        "t": 690220.299999997,
+        "ctxTime": 519.4768253968253,
+        "when": 0
+      },
+      {
+        "type": "create",
+        "id": 13,
+        "t": 834623.099999994,
+        "ctxTime": 663.835283446712
+      },
+      {
+        "type": "mark",
+        "label": "timeout_instrumented_drag",
+        "t": 834975.799999997
+      }
+    ]
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "top_menu_duplicate_exact_fresh_selection": {
+    "ok": true,
+    "details": {
+      "geometry": {
+        "box": {
+          "x": 112,
+          "y": 161,
+          "width": 176,
+          "height": 172
+        },
+        "inside": true,
+        "texts": [
+          "Duplicate track",
+          "Move up",
+          "Move down",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "Delete track"
+        ]
+      },
+      "order": [
+        "Lead QA",
+        "Lead QA copy",
+        "BGM QA",
+        "Filler 1"
+      ],
+      "same_content": true,
+      "fresh_ids": true,
+      "selected_copy": true
+    },
+    "time": 1795745249.6377146
+  },
+  "ellipsis_move_and_color_visible": {
+    "ok": true,
+    "details": {
+      "order": [
+        "Lead QA",
+        "BGM QA",
+        "Lead QA copy",
+        "Filler 1"
+      ],
+      "color": "#e6a23c",
+      "orange_pixels": 1553,
+      "menu_box": {
+        "x": 197,
+        "y": 235,
+        "width": 176,
+        "height": 172
+      }
+    },
+    "time": 1795745252.3042665
+  },
+  "delete_undo_redo_track": {
+    "ok": true,
+    "details": {
+      "after": [
+        "Lead QA",
+        "BGM QA",
+        "Filler 1"
+      ],
+      "undo": [
+        "Lead QA",
+        "BGM QA",
+        "Lead QA copy"
+      ],
+      "redo": [
+        "Lead QA",
+        "BGM QA",
+        "Filler 1"
+      ],
+      "bgm_color": "#e45c7a"
+    },
+    "time": 1795745255.6883807
+  },
+  "menu_close_escape_outside": {
+    "ok": true,
+    "details": {
+      "escape_count": 0,
+      "outside_count": 0
+    },
+    "time": 1795745256.5826395
+  },
+  "track_control_regressions": {
+    "ok": true,
+    "details": {
+      "track0": {
+        "name": "Lead Renamed",
+        "mute": true,
+        "solo": true,
+        "volume": 0.49,
+        "pan": 0.01
+      },
+      "count_before": 8,
+      "count_after": 9
+    },
+    "time": 1795745259.0956821
+  },
+  "bottom_menu_clamped_inside_viewport": {
+    "ok": true,
+    "details": {
+      "box": {
+        "x": 112,
+        "y": 641,
+        "width": 176,
+        "height": 172
+      }
+    },
+    "time": 1795745259.8208568
+  },
+  "backend_persistence_after_reload": {
+    "ok": true,
+    "details": {
+      "before": [
+        "Lead Renamed",
+        "BGM QA",
+        "Filler 1",
+        "Filler 2"
+      ],
+      "after": [
+        "Lead Renamed",
+        "BGM QA",
+        "Filler 1",
+        "Filler 2"
+      ]
+    },
+    "time": 1795745261.4530509
+  },
+  "right_edge_menu_clamped_narrow_viewport": {
+    "ok": true,
+    "details": {
+      "box": {
+        "x": 138,
+        "y": 149,
+        "width": 176,
+        "height": 172
+      }
+    },
+    "time": 1795745262.791037
+  },
+  "single_track_delete_all_edge_safe": {
+    "ok": true,
+    "details": {
+      "zero_backend": 0,
+      "zero_cards": 0,
+      "restored": 1
+    },
+    "time": 1795745266.5774987
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795745266.8808854
+  },
+  "passed": true
+}

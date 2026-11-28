@@ -1,0 +1,11 @@
+{
+  "before": {
+    "text": "a",
+    "count": 1
+  },
+  "after_ctrlshiftz": {
+    "text": "ab",
+    "count": 1,
+    "editor_open": 1
+  }
+}

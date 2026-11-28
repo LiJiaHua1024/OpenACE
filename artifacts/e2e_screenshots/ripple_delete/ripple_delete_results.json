@@ -1,0 +1,1298 @@
+{
+  "viewport": [
+    1272,
+    837
+  ],
+  "results": {
+    "single_ripple_exact_timing": {
+      "ok": true,
+      "details": {
+        "expected": {
+          "Single": [
+            [
+              "r_s_earlier",
+              "S-Early",
+              0,
+              240
+            ],
+            [
+              "r_s_later",
+              "S-Later",
+              960,
+              480
+            ]
+          ],
+          "Contig": [
+            [
+              "r_c_earlier",
+              "C-Early",
+              0,
+              240
+            ],
+            [
+              "r_c1",
+              "C1",
+              480,
+              480
+            ],
+            [
+              "r_c2",
+              "C2",
+              960,
+              480
+            ],
+            [
+              "r_c_later",
+              "C-Later",
+              1920,
+              480
+            ]
+          ],
+          "Overlap": [
+            [
+              "r_o_earlier",
+              "O-Early",
+              0,
+              240
+            ],
+            [
+              "r_o1",
+              "O1",
+              480,
+              720
+            ],
+            [
+              "r_o2",
+              "O2",
+              960,
+              720
+            ],
+            [
+              "r_o_later",
+              "O-Later",
+              2400,
+              480
+            ]
+          ],
+          "MultiA": [
+            [
+              "r_ma_earlier",
+              "MA-Early",
+              0,
+              240
+            ],
+            [
+              "r_ma_sel",
+              "MA-Sel",
+              480,
+              480
+            ],
+            [
+              "r_ma_later",
+              "MA-Later",
+              1920,
+              480
+            ]
+          ],
+          "MultiB": [
+            [
+              "r_mb_earlier",
+              "MB-Early",
+              0,
+              240
+            ],
+            [
+              "r_mb_sel",
+              "MB-Sel",
+              480,
+              480
+            ],
+            [
+              "r_mb_later",
+              "MB-Later",
+              1920,
+              480
+            ]
+          ]
+        },
+        "after": {
+          "Single": [
+            [
+              "r_s_earlier",
+              "S-Early",
+              0,
+              240
+            ],
+            [
+              "r_s_later",
+              "S-Later",
+              960,
+              480
+            ]
+          ],
+          "Contig": [
+            [
+              "r_c_earlier",
+              "C-Early",
+              0,
+              240
+            ],
+            [
+              "r_c1",
+              "C1",
+              480,
+              480
+            ],
+            [
+              "r_c2",
+              "C2",
+              960,
+              480
+            ],
+            [
+              "r_c_later",
+              "C-Later",
+              1920,
+              480
+            ]
+          ],
+          "Overlap": [
+            [
+              "r_o_earlier",
+              "O-Early",
+              0,
+              240
+            ],
+            [
+              "r_o1",
+              "O1",
+              480,
+              720
+            ],
+            [
+              "r_o2",
+              "O2",
+              960,
+              720
+            ],
+            [
+              "r_o_later",
+              "O-Later",
+              2400,
+              480
+            ]
+          ],
+          "MultiA": [
+            [
+              "r_ma_earlier",
+              "MA-Early",
+              0,
+              240
+            ],
+            [
+              "r_ma_sel",
+              "MA-Sel",
+              480,
+              480
+            ],
+            [
+              "r_ma_later",
+              "MA-Later",
+              1920,
+              480
+            ]
+          ],
+          "MultiB": [
+            [
+              "r_mb_earlier",
+              "MB-Early",
+              0,
+              240
+            ],
+            [
+              "r_mb_sel",
+              "MB-Sel",
+              480,
+              480
+            ],
+            [
+              "r_mb_later",
+              "MB-Later",
+              1920,
+              480
+            ]
+          ]
+        },
+        "diff": {
+          "Single": {
+            "before": [
+              [
+                "r_s_earlier",
+                "S-Early",
+                0,
+                240
+              ],
+              [
+                "r_s_mid",
+                "S-Mid",
+                480,
+                480
+              ],
+              [
+                "r_s_later",
+                "S-Later",
+                1440,
+                480
+              ]
+            ],
+            "after": [
+              [
+                "r_s_earlier",
+                "S-Early",
+                0,
+                240
+              ],
+              [
+                "r_s_later",
+                "S-Later",
+                960,
+                480
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "single_undo_exact": {
+      "ok": true,
+      "details": {
+        "undo": {
+          "Single": [
+            [
+              "r_s_earlier",
+              "S-Early",
+              0,
+              240
+            ],
+            [
+              "r_s_mid",
+              "S-Mid",
+              480,
+              480
+            ],
+            [
+              "r_s_later",
+              "S-Later",
+              1440,
+              480
+            ]
+          ],
+          "Contig": [
+            [
+              "r_c_earlier",
+              "C-Early",
+              0,
+              240
+            ],
+            [
+              "r_c1",
+              "C1",
+              480,
+              480
+            ],
+            [
+              "r_c2",
+              "C2",
+              960,
+              480
+            ],
+            [
+              "r_c_later",
+              "C-Later",
+              1920,
+              480
+            ]
+          ],
+          "Overlap": [
+            [
+              "r_o_earlier",
+              "O-Early",
+              0,
+              240
+            ],
+            [
+              "r_o1",
+              "O1",
+              480,
+              720
+            ],
+            [
+              "r_o2",
+              "O2",
+              960,
+              720
+            ],
+            [
+              "r_o_later",
+              "O-Later",
+              2400,
+              480
+            ]
+          ],
+          "MultiA": [
+            [
+              "r_ma_earlier",
+              "MA-Early",
+              0,
+              240
+            ],
+            [
+              "r_ma_sel",
+              "MA-Sel",
+              480,
+              480
+            ],
+            [
+              "r_ma_later",
+              "MA-Later",
+              1920,
+              480
+            ]
+          ],
+          "MultiB": [
+            [
+              "r_mb_earlier",
+              "MB-Early",
+              0,
+              240
+            ],
+            [
+              "r_mb_sel",
+              "MB-Sel",
+              480,
+              480
+            ],
+            [
+              "r_mb_later",
+              "MB-Later",
+              1920,
+              480
+            ]
+          ]
+        },
+        "expected": {
+          "Single": [
+            [
+              "r_s_earlier",
+              "S-Early",
+              0,
+              240
+            ],
+            [
+              "r_s_mid",
+              "S-Mid",
+              480,
+              480
+            ],
+            [
+              "r_s_later",
+              "S-Later",
+              1440,
+              480
+            ]
+          ],
+          "Contig": [
+            [
+              "r_c_earlier",
+              "C-Early",
+              0,
+              240
+            ],
+            [
+              "r_c1",
+              "C1",
+              480,
+              480
+            ],
+            [
+              "r_c2",
+              "C2",
+              960,
+              480
+            ],
+            [
+              "r_c_later",
+              "C-Later",
+              1920,
+              480
+            ]
+          ],
+          "Overlap": [
+            [
+              "r_o_earlier",
+              "O-Early",
+              0,
+              240
+            ],
+            [
+              "r_o1",
+              "O1",
+              480,
+              720
+            ],
+            [
+              "r_o2",
+              "O2",
+              960,
+              720
+            ],
+            [
+              "r_o_later",
+              "O-Later",
+              2400,
+              480
+            ]
+          ],
+          "MultiA": [
+            [
+              "r_ma_earlier",
+              "MA-Early",
+              0,
+              240
+            ],
+            [
+              "r_ma_sel",
+              "MA-Sel",
+              480,
+              480
+            ],
+            [
+              "r_ma_later",
+              "MA-Later",
+              1920,
+              480
+            ]
+          ],
+          "MultiB": [
+            [
+              "r_mb_earlier",
+              "MB-Early",
+              0,
+              240
+            ],
+            [
+              "r_mb_sel",
+              "MB-Sel",
+              480,
+              480
+            ],
+            [
+              "r_mb_later",
+              "MB-Later",
+              1920,
+              480
+            ]
+          ]
+        }
+      }
+    },
+    "single_redo_exact": {
+      "ok": true,
+      "details": {
+        "redo": {
+          "Single": [
+            [
+              "r_s_earlier",
+              "S-Early",
+              0,
+              240
+            ],
+            [
+              "r_s_later",
+              "S-Later",
+              960,
+              480
+            ]
+          ],
+          "Contig": [
+            [
+              "r_c_earlier",
+              "C-Early",
+              0,
+              240
+            ],
+            [
+              "r_c1",
+              "C1",
+              480,
+              480
+            ],
+            [
+              "r_c2",
+              "C2",
+              960,
+              480
+            ],
+            [
+              "r_c_later",
+              "C-Later",
+              1920,
+              480
+            ]
+          ],
+          "Overlap": [
+            [
+              "r_o_earlier",
+              "O-Early",
+              0,
+              240
+            ],
+            [
+              "r_o1",
+              "O1",
+              480,
+              720
+            ],
+            [
+              "r_o2",
+              "O2",
+              960,
+              720
+            ],
+            [
+              "r_o_later",
+              "O-Later",
+              2400,
+              480
+            ]
+          ],
+          "MultiA": [
+            [
+              "r_ma_earlier",
+              "MA-Early",
+              0,
+              240
+            ],
+            [
+              "r_ma_sel",
+              "MA-Sel",
+              480,
+              480
+            ],
+            [
+              "r_ma_later",
+              "MA-Later",
+              1920,
+              480
+            ]
+          ],
+          "MultiB": [
+            [
+              "r_mb_earlier",
+              "MB-Early",
+              0,
+              240
+            ],
+            [
+              "r_mb_sel",
+              "MB-Sel",
+              480,
+              480
+            ],
+            [
+              "r_mb_later",
+              "MB-Later",
+              1920,
+              480
+            ]
+          ]
+        },
+        "expected": {
+          "Single": [
+            [
+              "r_s_earlier",
+              "S-Early",
+              0,
+              240
+            ],
+            [
+              "r_s_later",
+              "S-Later",
+              960,
+              480
+            ]
+          ],
+          "Contig": [
+            [
+              "r_c_earlier",
+              "C-Early",
+              0,
+              240
+            ],
+            [
+              "r_c1",
+              "C1",
+              480,
+              480
+            ],
+            [
+              "r_c2",
+              "C2",
+              960,
+              480
+            ],
+            [
+              "r_c_later",
+              "C-Later",
+              1920,
+              480
+            ]
+          ],
+          "Overlap": [
+            [
+              "r_o_earlier",
+              "O-Early",
+              0,
+              240
+            ],
+            [
+              "r_o1",
+              "O1",
+              480,
+              720
+            ],
+            [
+              "r_o2",
+              "O2",
+              960,
+              720
+            ],
+            [
+              "r_o_later",
+              "O-Later",
+              2400,
+              480
+            ]
+          ],
+          "MultiA": [
+            [
+              "r_ma_earlier",
+              "MA-Early",
+              0,
+              240
+            ],
+            [
+              "r_ma_sel",
+              "MA-Sel",
+              480,
+              480
+            ],
+            [
+              "r_ma_later",
+              "MA-Later",
+              1920,
+              480
+            ]
+          ],
+          "MultiB": [
+            [
+              "r_mb_earlier",
+              "MB-Early",
+              0,
+              240
+            ],
+            [
+              "r_mb_sel",
+              "MB-Sel",
+              480,
+              480
+            ],
+            [
+              "r_mb_later",
+              "MB-Later",
+              1920,
+              480
+            ]
+          ]
+        }
+      }
+    },
+    "single_reload_exact": {
+      "ok": true,
+      "details": {
+        "reload": {
+          "Single": [
+            [
+              "r_s_earlier",
+              "S-Early",
+              0,
+              240
+            ],
+            [
+              "r_s_later",
+              "S-Later",
+              960,
+              480
+            ]
+          ],
+          "Contig": [
+            [
+              "r_c_earlier",
+              "C-Early",
+              0,
+              240
+            ],
+            [
+              "r_c1",
+              "C1",
+              480,
+              480
+            ],
+            [
+              "r_c2",
+              "C2",
+              960,
+              480
+            ],
+            [
+              "r_c_later",
+              "C-Later",
+              1920,
+              480
+            ]
+          ],
+          "Overlap": [
+            [
+              "r_o_earlier",
+              "O-Early",
+              0,
+              240
+            ],
+            [
+              "r_o1",
+              "O1",
+              480,
+              720
+            ],
+            [
+              "r_o2",
+              "O2",
+              960,
+              720
+            ],
+            [
+              "r_o_later",
+              "O-Later",
+              2400,
+              480
+            ]
+          ],
+          "MultiA": [
+            [
+              "r_ma_earlier",
+              "MA-Early",
+              0,
+              240
+            ],
+            [
+              "r_ma_sel",
+              "MA-Sel",
+              480,
+              480
+            ],
+            [
+              "r_ma_later",
+              "MA-Later",
+              1920,
+              480
+            ]
+          ],
+          "MultiB": [
+            [
+              "r_mb_earlier",
+              "MB-Early",
+              0,
+              240
+            ],
+            [
+              "r_mb_sel",
+              "MB-Sel",
+              480,
+              480
+            ],
+            [
+              "r_mb_later",
+              "MB-Later",
+              1920,
+              480
+            ]
+          ]
+        },
+        "expected": {
+          "Single": [
+            [
+              "r_s_earlier",
+              "S-Early",
+              0,
+              240
+            ],
+            [
+              "r_s_later",
+              "S-Later",
+              960,
+              480
+            ]
+          ],
+          "Contig": [
+            [
+              "r_c_earlier",
+              "C-Early",
+              0,
+              240
+            ],
+            [
+              "r_c1",
+              "C1",
+              480,
+              480
+            ],
+            [
+              "r_c2",
+              "C2",
+              960,
+              480
+            ],
+            [
+              "r_c_later",
+              "C-Later",
+              1920,
+              480
+            ]
+          ],
+          "Overlap": [
+            [
+              "r_o_earlier",
+              "O-Early",
+              0,
+              240
+            ],
+            [
+              "r_o1",
+              "O1",
+              480,
+              720
+            ],
+            [
+              "r_o2",
+              "O2",
+              960,
+              720
+            ],
+            [
+              "r_o_later",
+              "O-Later",
+              2400,
+              480
+            ]
+          ],
+          "MultiA": [
+            [
+              "r_ma_earlier",
+              "MA-Early",
+              0,
+              240
+            ],
+            [
+              "r_ma_sel",
+              "MA-Sel",
+              480,
+              480
+            ],
+            [
+              "r_ma_later",
+              "MA-Later",
+              1920,
+              480
+            ]
+          ],
+          "MultiB": [
+            [
+              "r_mb_earlier",
+              "MB-Early",
+              0,
+              240
+            ],
+            [
+              "r_mb_sel",
+              "MB-Sel",
+              480,
+              480
+            ],
+            [
+              "r_mb_later",
+              "MB-Later",
+              1920,
+              480
+            ]
+          ]
+        }
+      }
+    },
+    "contiguous_selection_merged_once": {
+      "ok": true,
+      "details": {
+        "expected_contig": [
+          [
+            "r_c_earlier",
+            "C-Early",
+            0,
+            240
+          ],
+          [
+            "r_c_later",
+            "C-Later",
+            960,
+            480
+          ]
+        ],
+        "after_contig": [
+          [
+            "r_c_earlier",
+            "C-Early",
+            0,
+            240
+          ],
+          [
+            "r_c_later",
+            "C-Later",
+            960,
+            480
+          ]
+        ],
+        "diff": {
+          "Contig": {
+            "before": [
+              [
+                "r_c_earlier",
+                "C-Early",
+                0,
+                240
+              ],
+              [
+                "r_c1",
+                "C1",
+                480,
+                480
+              ],
+              [
+                "r_c2",
+                "C2",
+                960,
+                480
+              ],
+              [
+                "r_c_later",
+                "C-Later",
+                1920,
+                480
+              ]
+            ],
+            "after": [
+              [
+                "r_c_earlier",
+                "C-Early",
+                0,
+                240
+              ],
+              [
+                "r_c_later",
+                "C-Later",
+                960,
+                480
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "overlapping_selection_no_over_shift": {
+      "ok": true,
+      "details": {
+        "expected_overlap": [
+          [
+            "r_o_earlier",
+            "O-Early",
+            0,
+            240
+          ],
+          [
+            "r_o_later",
+            "O-Later",
+            1200,
+            480
+          ]
+        ],
+        "after_overlap": [
+          [
+            "r_o_earlier",
+            "O-Early",
+            0,
+            240
+          ],
+          [
+            "r_o_later",
+            "O-Later",
+            1200,
+            480
+          ]
+        ],
+        "union_ripple": 1200,
+        "naive_sum_would_shift_to": 960,
+        "diff": {
+          "Overlap": {
+            "before": [
+              [
+                "r_o_earlier",
+                "O-Early",
+                0,
+                240
+              ],
+              [
+                "r_o1",
+                "O1",
+                480,
+                720
+              ],
+              [
+                "r_o2",
+                "O2",
+                960,
+                720
+              ],
+              [
+                "r_o_later",
+                "O-Later",
+                2400,
+                480
+              ]
+            ],
+            "after": [
+              [
+                "r_o_earlier",
+                "O-Early",
+                0,
+                240
+              ],
+              [
+                "r_o_later",
+                "O-Later",
+                1200,
+                480
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "multitrack_equal_ripples_preserve_sync": {
+      "ok": true,
+      "details": {
+        "expected_multiA": [
+          [
+            "r_ma_earlier",
+            "MA-Early",
+            0,
+            240
+          ],
+          [
+            "r_ma_later",
+            "MA-Later",
+            1440,
+            480
+          ]
+        ],
+        "after_multiA": [
+          [
+            "r_ma_earlier",
+            "MA-Early",
+            0,
+            240
+          ],
+          [
+            "r_ma_later",
+            "MA-Later",
+            1440,
+            480
+          ]
+        ],
+        "expected_multiB": [
+          [
+            "r_mb_earlier",
+            "MB-Early",
+            0,
+            240
+          ],
+          [
+            "r_mb_later",
+            "MB-Later",
+            1440,
+            480
+          ]
+        ],
+        "after_multiB": [
+          [
+            "r_mb_earlier",
+            "MB-Early",
+            0,
+            240
+          ],
+          [
+            "r_mb_later",
+            "MB-Later",
+            1440,
+            480
+          ]
+        ],
+        "diff": {
+          "MultiA": {
+            "before": [
+              [
+                "r_ma_earlier",
+                "MA-Early",
+                0,
+                240
+              ],
+              [
+                "r_ma_sel",
+                "MA-Sel",
+                480,
+                480
+              ],
+              [
+                "r_ma_later",
+                "MA-Later",
+                1920,
+                480
+              ]
+            ],
+            "after": [
+              [
+                "r_ma_earlier",
+                "MA-Early",
+                0,
+                240
+              ],
+              [
+                "r_ma_later",
+                "MA-Later",
+                1440,
+                480
+              ]
+            ]
+          },
+          "MultiB": {
+            "before": [
+              [
+                "r_mb_earlier",
+                "MB-Early",
+                0,
+                240
+              ],
+              [
+                "r_mb_sel",
+                "MB-Sel",
+                480,
+                480
+              ],
+              [
+                "r_mb_later",
+                "MB-Later",
+                1920,
+                480
+              ]
+            ],
+            "after": [
+              [
+                "r_mb_earlier",
+                "MB-Early",
+                0,
+                240
+              ],
+              [
+                "r_mb_later",
+                "MB-Later",
+                1440,
+                480
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "menu_top_bottom_inside_arrangement_viewport": {
+      "ok": true,
+      "details": {
+        "top": {
+          "menu": {
+            "x": 468,
+            "y": 99,
+            "width": 204,
+            "height": 127
+          },
+          "viewport": {
+            "x": 236,
+            "y": 58,
+            "width": 714,
+            "height": 200
+          },
+          "inside": true
+        },
+        "bottom": {
+          "menu": {
+            "x": 468,
+            "y": 107,
+            "width": 204,
+            "height": 127
+          },
+          "viewport": {
+            "x": 236,
+            "y": 58,
+            "width": 714,
+            "height": 200
+          },
+          "inside": true
+        }
+      }
+    },
+    "menu_small_height_inside_arrangement_viewport": {
+      "ok": true,
+      "details": {
+        "menu": {
+          "x": 468,
+          "y": 59,
+          "width": 204,
+          "height": 127
+        },
+        "viewport": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 132
+        },
+        "inside": true,
+        "project": "project_7d724537b040"
+      }
+    },
+    "multitrack_undo_redo_reload_exact": {
+      "ok": true,
+      "details": {
+        "undo_exact": true,
+        "redo_exact": true,
+        "reload_exact": true
+      }
+    }
+  },
+  "console": [],
+  "network": [],
+  "all_passed": true
+}

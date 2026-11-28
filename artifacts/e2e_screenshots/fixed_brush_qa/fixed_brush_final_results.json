@@ -1,0 +1,25 @@
+{
+  "stroke": {
+    "pre_count": 16,
+    "count": 38,
+    "new_points": 22,
+    "maxdiff": 4.17361856409671,
+    "compared": 38,
+    "span_density": 37,
+    "stale_status": 409,
+    "stale_pixels": 0
+  },
+  "undo": {
+    "exact": true,
+    "status": 200,
+    "fresh_pixels": 420
+  },
+  "redo": {
+    "exact": true,
+    "status": 409
+  },
+  "eraser": {
+    "no_nonzero_inside": true,
+    "count": 1
+  }
+}

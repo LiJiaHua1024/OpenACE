@@ -1,0 +1,140 @@
+{
+  "test": "startup_resume_timeout",
+  "patch": {
+    "ok": true
+  },
+  "timeout_timeline": [
+    {
+      "ms": 148,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 266,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 381,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 495,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 610,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 720,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 842,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 958,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 1080,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 1196,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 1311,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 1425,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 1536,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "",
+      "starts": 0,
+      "resumeCalls": 3
+    },
+    {
+      "ms": 1651,
+      "playing": false,
+      "pos": "1.1.1\n00:00.00",
+      "error": "Audio output could not start. Check the browser/system audio device, then press Play again.",
+      "starts": 0,
+      "resumeCalls": 3
+    }
+  ],
+  "timeout_final": {
+    "ms": 1651,
+    "playing": false,
+    "pos": "1.1.1\n00:00.00",
+    "error": "Audio output could not start. Check the browser/system audio device, then press Play again.",
+    "starts": 0,
+    "resumeCalls": 3
+  },
+  "ever_playing": false,
+  "error_latency_ms": 1651,
+  "recovery": {
+    "pos": "1.3.2\n00:01.14",
+    "playing": true,
+    "error": "Audio output could not start. Check the browser/system audio device, then press Play again.",
+    "starts": 3,
+    "elapsed_wall": 1.2212653160095215,
+    "resumeCalls": 3
+  },
+  "console": [],
+  "badnet": []
+}

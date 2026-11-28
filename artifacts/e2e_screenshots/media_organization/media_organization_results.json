@@ -1,0 +1,97 @@
+{
+  "console": [],
+  "network": [
+    [
+      422,
+      "http://127.0.0.1:8787/api/media/upload_e46a696826d3_svclyrics_words.wav/organization"
+    ]
+  ],
+  "assigned": {
+    "name": "svclyrics_words.wav",
+    "file_name": "upload_e46a696826d3_svclyrics_words.wav",
+    "tags": [
+      "warm",
+      "vocal chop"
+    ],
+    "folders": [
+      "references/pop"
+    ],
+    "valid": true
+  },
+  "folder_filter_count": 1,
+  "search_tag_count": 1,
+  "search_folder_count": 1,
+  "search_name_count": 1,
+  "all_folders_count": 13,
+  "reload": {
+    "tags": [
+      "warm",
+      "vocal chop"
+    ],
+    "folders": [
+      "references/pop"
+    ]
+  },
+  "long_error": "media tags must be at most 40 characters",
+  "long_rejected": true,
+  "partial_api": {
+    "tags": [
+      "partial"
+    ],
+    "folders": [
+      "references/pop"
+    ],
+    "error": null
+  },
+  "cleared": {
+    "tags": [],
+    "folders": []
+  },
+  "place": {
+    "tracks": 2,
+    "clips": 1
+  },
+  "delete_in_use_blocked": true,
+  "delete_cleanup": {
+    "clips_after_ui_delete": 1,
+    "media_removed": false,
+    "sidecar_removed": true
+  },
+  "expected_422": "long-label validation only",
+  "focused_drag_delete_retest": {
+    "drag": {
+      "clip_count": 1,
+      "clips": [
+        [
+          1,
+          480,
+          "svclyrics_words"
+        ]
+      ]
+    },
+    "after_clip_delete": 0,
+    "target_media_exists_before_delete": true,
+    "metadata_before_delete": {
+      "tags": [
+        "retag"
+      ],
+      "folders": [
+        "reftest"
+      ]
+    },
+    "media_removed": false,
+    "sidecar_key_removed": false
+  },
+  "focused_delete_unused_media_retest": {
+    "metadata": {
+      "tags": [
+        "retag"
+      ],
+      "folders": [
+        "reftest"
+      ]
+    },
+    "media_removed": true,
+    "sidecar_key_removed": true
+  }
+}

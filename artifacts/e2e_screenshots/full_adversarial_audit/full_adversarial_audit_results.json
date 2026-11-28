@@ -1,0 +1,521 @@
+{
+  "transport_layout": {
+    "ok": true,
+    "details": {
+      "viewport": {
+        "w": 1272,
+        "h": 837
+      },
+      "layout": {
+        "innerWidth": 1272,
+        "innerHeight": 837,
+        "overflowing": [],
+        "wrapped": [],
+        "bodyW": 1272,
+        "bodyOverflow": false,
+        "items": [
+          {
+            "cls": "brand",
+            "text": "OA LOCAL",
+            "x": 9,
+            "right": 92.828125,
+            "width": 83.828125,
+            "scrollH": 29,
+            "clientH": 29
+          },
+          {
+            "cls": "project-select",
+            "text": "Final QA 验收 Project Ops Interop Test Int",
+            "x": 100.828125,
+            "right": 226.828125,
+            "width": 126,
+            "scrollH": 26,
+            "clientH": 26
+          },
+          {
+            "cls": "new-project",
+            "text": "＋ New",
+            "x": 234.828125,
+            "right": 304.015625,
+            "width": 69.1875,
+            "scrollH": 26,
+            "clientH": 26
+          },
+          {
+            "cls": "icon-button project-action",
+            "text": "Copy",
+            "x": 312.015625,
+            "right": 360.3984375,
+            "width": 48.3828125,
+            "scrollH": 30,
+            "clientH": 30
+          },
+          {
+            "cls": "icon-button project-action danger",
+            "text": "×",
+            "x": 368.3984375,
+            "right": 402.3984375,
+            "width": 34,
+            "scrollH": 30,
+            "clientH": 30
+          },
+          {
+            "cls": "title-input",
+            "text": "Final QA 验收",
+            "x": 410.3984375,
+            "right": 575.3984375,
+            "width": 165,
+            "scrollH": 34,
+            "clientH": 34
+          },
+          {
+            "cls": "transport-controls",
+            "text": "↶ ↷ ■ ▶",
+            "x": 587.3984375,
+            "right": 751.3984375,
+            "width": 164,
+            "scrollH": 32,
+            "clientH": 32
+          },
+          {
+            "cls": "position-readout",
+            "text": "1.1.1 00:00.00",
+            "x": 759.3984375,
+            "right": 855.3984375,
+            "width": 96,
+            "scrollH": 36,
+            "clientH": 36
+          },
+          {
+            "cls": "tempo-box",
+            "text": "BPM",
+            "x": 863.3984375,
+            "right": 962.0546875,
+            "width": 98.65625,
+            "scrollH": 29,
+            "clientH": 29
+          },
+          {
+            "cls": "time-signature-select",
+            "text": "2/4 3/4 4/4 5/4 6/8 7/8 9/8 12/8",
+            "x": 970.0546875,
+            "right": 1024.0546875,
+            "width": 54,
+            "scrollH": 22,
+            "clientH": 22
+          },
+          {
+            "cls": "import-midi",
+            "text": "Import MIDI",
+            "x": 1032.0546875,
+            "right": 1100.5546875,
+            "width": 68.5,
+            "scrollH": 38,
+            "clientH": 38
+          },
+          {
+            "cls": "import-midi",
+            "text": "Import USTX",
+            "x": 1108.5546875,
+            "right": 1182.2578125,
+            "width": 73.703125,
+            "scrollH": 38,
+            "clientH": 38
+          },
+          {
+            "cls": "import-midi ",
+            "text": "Import audio",
+            "x": 1190.2578125,
+            "right": 1263,
+            "width": 72.7421875,
+            "scrollH": 38,
+            "clientH": 38
+          }
+        ]
+      },
+      "screenshot": "01_new_project_transport_fit.png"
+    },
+    "time": 1795764284.1646554
+  },
+  "draw_notes": {
+    "ok": false,
+    "details": {
+      "count": 2,
+      "notes": [
+        [
+          720,
+          600,
+          64
+        ],
+        [
+          1440,
+          600,
+          67
+        ]
+      ],
+      "screenshot": "02_notes_drawn.png"
+    },
+    "time": 1795764285.998558
+  },
+  "lyrics_phonemes": {
+    "ok": false,
+    "details": {
+      "lyrics": [
+        "你好",
+        "好"
+      ],
+      "phoneme_counts": [
+        4,
+        2
+      ],
+      "symbols": [
+        "n i x au",
+        "x au"
+      ],
+      "screenshot": "03_lyrics_phonemes_cjk.png",
+      "classification": "functional pass on the two actually drawn notes; exact-count oracle failure inherited the initial harness draw miss"
+    },
+    "time": 1795764289.2089298
+  },
+  "transpose_controls": {
+    "ok": true,
+    "details": {
+      "before": [
+        64,
+        68
+      ],
+      "after_plus1": [
+        65,
+        69
+      ],
+      "after_minus1": [
+        64,
+        68
+      ],
+      "transpose_box": {
+        "x": 963,
+        "y": 303,
+        "width": 287,
+        "height": 25
+      },
+      "screenshot": "04_transpose_controls.png"
+    },
+    "time": 1795764290.8644316
+  },
+  "automation": {
+    "ok": true,
+    "details": {
+      "counts": {
+        "pitch_cents": 13,
+        "air": 13,
+        "tension": 13
+      },
+      "screenshot": "05_automation_curves.png"
+    },
+    "time": 1795764293.6273582
+  },
+  "zoom": {
+    "ok": true,
+    "details": {
+      "before": "112",
+      "after": "136",
+      "screenshot": "06_zoom.png"
+    },
+    "time": 1795764294.5320745
+  },
+  "render_vocal_bgm": {
+    "ok": true,
+    "details": {
+      "vocal_visible": true,
+      "bgm_visible": true,
+      "pre_repaint_clips": 1,
+      "screenshot": "08_vocal_render.png"
+    },
+    "time": 1795764300.88731
+  },
+  "alt_drag_repaint_range": {
+    "ok": true,
+    "details": {
+      "start": 0.32,
+      "end": 1.09,
+      "yellow_held": {
+        "pixels": 2827,
+        "ratio": 0.0074988328664799256
+      },
+      "yellow_release": {
+        "pixels": 2827,
+        "ratio": 0.0074988328664799256
+      },
+      "arrangement_box": {
+        "x": 236,
+        "y": 58,
+        "width": 714,
+        "height": 132
+      },
+      "screenshots": [
+        "09_alt_drag_repaint_held.png",
+        "10_alt_drag_repaint_numeric.png"
+      ]
+    },
+    "time": 1795764302.4075887
+  },
+  "repaint_replacement": {
+    "ok": true,
+    "details": {
+      "repaint_visible": true,
+      "clip_count": 1,
+      "clips": [
+        {
+          "id": "clip_6d5f6240367b",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_dd9a28d7eaa0/job_9ca44ef87767/accompaniment.wav",
+          "start_ticks": 0,
+          "duration_ticks": 2400,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Repaint"
+        }
+      ],
+      "screenshot": "11_repaint_replacement_arrangement.png"
+    },
+    "time": 1795764303.7748237
+  },
+  "svc_conversion": {
+    "ok": true,
+    "details": {
+      "svc_visible": true,
+      "svc_track": true,
+      "clip_count": 1,
+      "screenshot": "11b_svc_conversion.png"
+    },
+    "time": 1795764305.128813
+  },
+  "playback": {
+    "ok": true,
+    "details": {
+      "position_before": "1.1.1\n00:00.00",
+      "position_after": "1.3.2\n00:01.19",
+      "expected_sources": [
+        "/renders/project_dd9a28d7eaa0/job_9ca44ef87767/accompaniment.wav",
+        "/renders/project_dd9a28d7eaa0/job_d8aefc6a380a/svc.wav",
+        "/renders/project_dd9a28d7eaa0/job_dddd6bcdbee8/vocal.wav"
+      ],
+      "requested": [
+        "/renders/project_dd9a28d7eaa0/job_9ca44ef87767/accompaniment.wav",
+        "/renders/project_dd9a28d7eaa0/job_d8aefc6a380a/svc.wav",
+        "/renders/project_dd9a28d7eaa0/job_dddd6bcdbee8/vocal.wav"
+      ],
+      "screenshot": "12_playback.png"
+    },
+    "time": 1795764306.6459646
+  },
+  "exports": {
+    "ok": true,
+    "details": {
+      "downloads": {
+        "wav": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_adversarial_audit/downloads/project_dd9a28d7eaa0.wav",
+          "bytes": 900044,
+          "suggested": "Final QA 验收.wav"
+        },
+        "mp4": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_adversarial_audit/downloads/project_dd9a28d7eaa0.mp4",
+          "bytes": 50263,
+          "suggested": "Final QA 验收.mp4"
+        },
+        "mid": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_adversarial_audit/downloads/project_dd9a28d7eaa0.mid",
+          "bytes": 104,
+          "suggested": "Final QA 验收.mid"
+        },
+        "lrc": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_adversarial_audit/downloads/project_dd9a28d7eaa0.lrc",
+          "bytes": 99,
+          "suggested": "Final QA 验收.lrc"
+        },
+        "ustx": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_adversarial_audit/downloads/project_dd9a28d7eaa0.ustx",
+          "bytes": 2752,
+          "suggested": "Final QA 验收.ustx"
+        },
+        "svp": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_adversarial_audit/downloads/project_dd9a28d7eaa0.svp",
+          "bytes": 7797,
+          "suggested": "Final QA 验收.svp"
+        },
+        "vpr": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_adversarial_audit/downloads/project_dd9a28d7eaa0.vpr",
+          "bytes": 710,
+          "suggested": "Final QA 验收.vpr"
+        }
+      },
+      "screenshots": [
+        "13_export_panel.png",
+        "14_exports_downloaded.png"
+      ]
+    },
+    "time": 1795764308.8925712
+  },
+  "mcp_sse": {
+    "ok": true,
+    "details": {
+      "mcp_ok": true,
+      "mcp_error": "",
+      "before_count": 2,
+      "ui_before": "⋯\nvocal · zh · 2 notes\nM\nS",
+      "ui_after": "⋯\nvocal · zh · 3 notes\nM\nS",
+      "sse_updated": true,
+      "screenshot": "15_mcp_sse_live_update.png"
+    },
+    "time": 1795764310.7035441
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "errors": [],
+      "warnings": [],
+      "network_failures": [],
+      "favicon_ok": true
+    },
+    "time": 1795764310.705691
+  },
+  "draw_notes_supplemental": {
+    "ok": true,
+    "details": {
+      "before_count": 3,
+      "after_count": 4,
+      "screenshot": "16_supplemental_drawn_note.png",
+      "classification": "harness/model limitation for initial third-note miss: first scripted coordinate landed outside valid note area/velocity lane; supplemental pencil draw in clear empty note space succeeded"
+    }
+  },
+  "editor_toolbar_overflow": {
+    "ok": false,
+    "details": {
+      "scrollWidth": 764,
+      "clientWidth": 714,
+      "overflow_px": 50,
+      "visible_effect": "selection readout truncates to “1” at exact 1272×837",
+      "screenshot": "13_export_panel.png",
+      "zoom": "toolbar_truncation_zoom.png",
+      "classification": "confirmed implementation defect (minor responsive-layout/polish)"
+    }
+  },
+  "export_content_validation": {
+    "ok": true,
+    "details": {
+      "wav": {
+        "bytes": 900044,
+        "seconds": 3.125,
+        "sample_rate": 48000,
+        "channels": 2,
+        "rms": 0.149156
+      },
+      "mp4": {
+        "bytes": 50263,
+        "seconds": 3.125,
+        "video": "1920x1080 plus audio stream"
+      },
+      "mid": {
+        "bytes": 104,
+        "format": 1,
+        "tracks": 2,
+        "ticks_per_beat": 480,
+        "note_messages": 4
+      },
+      "lrc": {
+        "bytes": 99,
+        "lines": 6,
+        "timed_lyric_lines": 2
+      },
+      "ustx": {
+        "bytes": 2752,
+        "voice_parts": 1,
+        "notes": 2,
+        "wave_parts": 2,
+        "first_phoneme_overrides": 4
+      },
+      "svp": {
+        "bytes": 7797,
+        "version": 153,
+        "tracks": 3,
+        "lead_notes": 2,
+        "lead_phonemes": "n i x au"
+      },
+      "vpr": {
+        "bytes": 710,
+        "zip_entries": 1,
+        "tracks": 1,
+        "lead_notes": 2,
+        "sampling_rate": 48000
+      }
+    }
+  },
+  "overall_classification": {
+    "confirmed_implementation_defects": [
+      "Minor responsive-layout defect: piano editor toolbar is 50px wider than available space at exact 1272×837 and truncates selection readout."
+    ],
+    "missing_ace_parity_capabilities": [
+      "No true key/scale-aware transposition mode was present in this UI; only ±1/±12 semitone transpose buttons were exercised. This is a parity gap relative to the wording “切换翻调模式”, not a failure of the implemented semitone transpose controls."
+    ],
+    "harness_model_limitations": [
+      "Initial third-note draw oracle failed because scripted coordinates did not land in valid empty note space; supplemental real pencil draw succeeded 3→4.",
+      "Fixture backend proves orchestration/state/job integration only; synthesis timbre/model quality was intentionally not judged.",
+      "Export content was generated before the MCP-added note, so structured exports correctly contain the two pre-export notes rather than the later third/fourth note."
+    ]
+  },
+  "toolbar_fix_recheck": {
+    "ok": false,
+    "details": {
+      "viewport": {
+        "width": 1272,
+        "height": 837
+      },
+      "scrollWidth": 727,
+      "clientWidth": 714,
+      "overflow_px": 13,
+      "prior_overflow_px": 50,
+      "selectionText_dom": "1 selected",
+      "selection_right": 963.2578125,
+      "toolbar_right": 950,
+      "visual_result": "still truncated as approximately “1 selecte” at right edge",
+      "hintDisplay": "none",
+      "controls": "tool buttons through Vibrato visible; Copy/Dup/Quant/Vibrato enabled; Paste disabled because clipboard empty",
+      "screenshot": "toolbar_fix.png",
+      "zoom": "toolbar_fix_zoom.png",
+      "recording": "/home/ubuntu/screencasts/toolbar-fix-recheck/toolbar-fix-recheck-edited.mp4",
+      "classification": "confirmed implementation defect still present, though reduced from 50px to 13px"
+    }
+  },
+  "toolbar_fix_second_recheck": {
+    "ok": true,
+    "details": {
+      "viewport": {
+        "width": 1272,
+        "height": 837
+      },
+      "scrollWidth": 714,
+      "clientWidth": 714,
+      "overflow_px": 0,
+      "first_fix_overflow_px": 13,
+      "original_overflow_px": 50,
+      "selectionText_dom": "1 selected",
+      "selection_right": 922.8984375,
+      "toolbar_right": 950,
+      "visual_result": "full “1 selected” visible without truncation",
+      "hintDisplay": "none",
+      "controls": "tool buttons through Vibrato visible; Copy/Dup/Quant/Vibrato enabled; Paste disabled because clipboard empty",
+      "screenshot": "toolbar_fix2.png",
+      "zoom": "toolbar_fix2_zoom.png",
+      "recording": "/home/ubuntu/screencasts/toolbar-fix2-recheck/toolbar-fix2-recheck-edited.mp4",
+      "classification": "confirmed fixed"
+    }
+  }
+}

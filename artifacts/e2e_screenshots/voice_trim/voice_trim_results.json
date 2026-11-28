@@ -1,0 +1,146 @@
+{
+  "pid": "project_c70a9950c171",
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/voices/voice_0200ef542985/trim",
+      "status": 422
+    }
+  ],
+  "original": {
+    "id": "voice_1aa12f9071ec",
+    "name": "trim_source",
+    "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_1aa12f9071ec_trim_source.wav",
+    "created_at": 1795809214.210306,
+    "duration_seconds": 5.0,
+    "sample_rate": 48000,
+    "channels": 1,
+    "size_bytes": 480044,
+    "peak_level": 0.35001,
+    "clipping_ratio": 0.0,
+    "rms_dbfs": -12.13,
+    "silence_ratio": 0.0,
+    "voiced_seconds": 5.0,
+    "quality_warnings": [],
+    "source_voice_id": null,
+    "trim_start_seconds": null,
+    "trim_end_seconds": null
+  },
+  "defaults": [
+    "0",
+    "5"
+  ],
+  "trimmed": {
+    "id": "voice_0200ef542985",
+    "name": "trim_source trimmed",
+    "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_0200ef542985_trim_source_trim.wav",
+    "created_at": 1795809215.4807577,
+    "duration_seconds": 1.5,
+    "sample_rate": 48000,
+    "channels": 1,
+    "size_bytes": 144044,
+    "peak_level": 0.35001,
+    "clipping_ratio": 0.0,
+    "rms_dbfs": -12.13,
+    "silence_ratio": 0.0,
+    "voiced_seconds": 1.5,
+    "quality_warnings": [
+      "reference is shorter than 2s; zero-shot timbre may be unstable"
+    ],
+    "source_voice_id": "voice_1aa12f9071ec",
+    "trim_start_seconds": 1.0,
+    "trim_end_seconds": 2.5
+  },
+  "trimmed_file": {
+    "frames": 72000,
+    "samplerate": 48000,
+    "duration": 1.5,
+    "channels": 1
+  },
+  "assignment": {
+    "id": "track_9c56ac28c05c",
+    "name": "Lead Vocal",
+    "type": "vocal",
+    "color": "#7367ff",
+    "voice_id": "voice_0200ef542985",
+    "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/voices/voice_0200ef542985_trim_source_trim.wav",
+    "language": "zh",
+    "notes": [],
+    "clips": [],
+    "automation": {
+      "pitch_cents": [],
+      "dynamic": [],
+      "air": [],
+      "falsetto": [],
+      "tension": [],
+      "energy": []
+    },
+    "breaths": [],
+    "mute": false,
+    "solo": false,
+    "volume": 0.8,
+    "pan": 0.0,
+    "midi_channel": null,
+    "midi_program": null,
+    "render_path": null,
+    "render_revision": 0,
+    "render_fingerprint": null
+  },
+  "original_after": {
+    "exists": true,
+    "duration": 5.0,
+    "path_same": true
+  },
+  "trim_ui": {
+    "name": "trim_source trimmed",
+    "metrics": "peak 0.35 · RMS -12.1dB · voiced 1.5s",
+    "warnings": [
+      "reference is shorter than 2s; zero-shot timbre may be unstable"
+    ],
+    "inside": true,
+    "noOverflow": true
+  },
+  "audio": {
+    "duration": 1.5,
+    "currentTime": 0.672997,
+    "paused": false,
+    "src": "http://127.0.0.1:8787/api/voices/voice_0200ef542985/audio"
+  },
+  "reload": {
+    "voice_name": "trim_source trimmed",
+    "assigned": "voice_0200ef542985",
+    "list_has_trim": true,
+    "list_has_original": true
+  },
+  "api_invalid": {
+    "end_lte_start": {
+      "status": 422,
+      "error": "{\"detail\":\"trim requires 0 <= start < end\"}"
+    },
+    "tiny": {
+      "status": 422,
+      "error": "{\"detail\":\"trimmed reference voice is too short\"}"
+    },
+    "beyond": {
+      "status": 422,
+      "error": "{\"detail\":\"trim end exceeds reference duration\"}"
+    }
+  },
+  "ui_beyond": {
+    "error": "trim end exceeds reference duration",
+    "count_unchanged": true
+  },
+  "rename": {
+    "name": "Trimmed QA Copy"
+  },
+  "delete": {
+    "trim_exists": false,
+    "original_exists": true,
+    "assigned_voice": ""
+  }
+}

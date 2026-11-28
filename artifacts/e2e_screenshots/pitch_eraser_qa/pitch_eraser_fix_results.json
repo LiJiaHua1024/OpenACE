@@ -1,0 +1,97 @@
+{
+  "console": [],
+  "badnet": [],
+  "zero_crossing_fix": {
+    "readout": "300 ticks · erased user pitch",
+    "seeded": [
+      {
+        "ticks": 0,
+        "value": -100,
+        "curve": "linear"
+      },
+      {
+        "ticks": 400,
+        "value": 100,
+        "curve": "linear"
+      }
+    ],
+    "erased": [
+      {
+        "ticks": 0,
+        "value": -100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 200,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 300,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 400,
+        "value": 100.0,
+        "curve": "linear"
+      }
+    ],
+    "zeros": [
+      200,
+      300
+    ],
+    "both_boundaries": true,
+    "interior_samples": {
+      "200": 0.0,
+      "225": 0.0,
+      "250": 0.0,
+      "275": 0.0,
+      "300": 0.0
+    },
+    "interior_zero": true,
+    "outside_exact": true
+  },
+  "zero_undo_reload": {
+    "undo_equals_seed": true,
+    "redo_equals_erased": true,
+    "reload_equals_erased": true
+  },
+  "normal_middle_regression": {
+    "readout": "520 ticks · erased user pitch",
+    "seeded_count": 18,
+    "erased_count": 17,
+    "zeros": [
+      350,
+      520
+    ],
+    "range_matches_backtracking": true,
+    "interior_removed": true,
+    "outside_exact": true,
+    "center_before": 100.0,
+    "center_after": 0.0
+  },
+  "already_zero_span": {
+    "unchanged": true,
+    "before_count": 17,
+    "after_count": 17
+  },
+  "blank_erase": {
+    "readout": "520 ticks · erased user pitch",
+    "pollution_free": true,
+    "points": []
+  },
+  "brush_regression": {
+    "readout": "1500 ticks · -100¢ user pitch",
+    "wrote_points": true,
+    "undo_empty": true,
+    "brushed_count": 8
+  },
+  "layout_1272": {
+    "w": 1272,
+    "h": 837,
+    "bodyOverflow": false,
+    "transportOverflow": 0,
+    "rightPanelOverflow": 0
+  }
+}

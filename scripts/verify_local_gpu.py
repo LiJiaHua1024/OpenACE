@@ -3,16 +3,19 @@
 
 This script never uses OPENACE_CI_SYNTH_FIXTURE. It verifies CUDA, pulls the public
 open-source SoulX-Singer and ACE-Step 1.5 sources/weights, renders a short real SVS
-example, renders a short real instrumental ACE-Step example, validates loudness/true
-peak, and writes an inspection report under artifacts/local_gpu/.
+example, uses that vocal in OpenACE's production ACE-Step Vocal2BGM/`complete`
+adapter, validates loudness/true peak, and writes an inspection report under
+artifacts/local_gpu/.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -25,9 +28,66 @@ def run(cmd, cwd=None, env=None):
     subprocess.run([str(x) for x in cmd], cwd=cwd, env=env, check=True)
 
 
+
+class NvidiaMemoryTelemetry:
+    """Sample NVML memory during one heavyweight stage without using torch/CUDA."""
+
+    def __init__(self, index: int = 0, interval_s: float = 0.5):
+        self.index = index
+        self.interval_s = interval_s
+        self._stop = threading.Event()
+        self._thread = None
+        self._started = None
+        self.samples = 0
+        self.min_free_gb = None
+        self.max_used_gb = None
+        self.peak_events = []
+
+    def start(self):
+        self._started = time.time()
+        self._thread = threading.Thread(target=self._sample_loop, daemon=True)
+        self._thread.start()
+
+    def _sample_loop(self):
+        from openace.engines.vram import query_cuda_visible_nvidia_gpu
+
+        while not self._stop.is_set():
+            gpu = query_cuda_visible_nvidia_gpu(self.index)
+            if gpu is not None:
+                free = float(gpu["free_gb"])
+                total = float(gpu["total_gb"])
+                used = total - free
+                self.samples += 1
+                self.min_free_gb = free if self.min_free_gb is None else min(self.min_free_gb, free)
+                if self.max_used_gb is None or used > self.max_used_gb + 0.005:
+                    self.max_used_gb = used if self.max_used_gb is None else max(self.max_used_gb, used)
+                    if len(self.peak_events) < 8:
+                        self.peak_events.append({
+                            "at_s": round(time.time() - self._started, 2),
+                            "used_gb": round(used, 2),
+                            "free_gb": round(free, 2),
+                        })
+            self._stop.wait(self.interval_s)
+
+    def stop(self):
+        self._stop.set()
+        if self._thread is not None:
+            self._thread.join(timeout=2.0)
+        elapsed = time.time() - self._started if self._started is not None else 0.0
+        return {
+            "sampler": "nvidia-smi/NVML; no parent CUDA context",
+            "samples": self.samples,
+            "seconds": round(elapsed, 2),
+            "min_free_gb": None if self.min_free_gb is None else round(self.min_free_gb, 2),
+            "max_used_gb": None if self.max_used_gb is None else round(self.max_used_gb, 2),
+            "peak_events": self.peak_events,
+        }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--skip-download", action="store_true")
+    parser.add_argument("--skip-separation", action="store_true", help="skip the Demucs stem-separation acceptance stage")
     parser.add_argument("--hf-endpoint", default=os.environ.get("HF_ENDPOINT", ""))
     args = parser.parse_args()
 
@@ -36,14 +96,39 @@ def main() -> int:
     artifacts = ROOT / "artifacts" / "local_gpu"
     artifacts.mkdir(parents=True, exist_ok=True)
 
-    try:
-        import torch
+    def write_unhandled_failure(exc_type, exc, traceback):
+        if exc_type is KeyboardInterrupt or report.get("ok"):
+            return sys.__excepthook__(exc_type, exc, traceback)
+        report["ok"] = False
+        report["error"] = f"{exc_type.__name__}: {exc}"
+        report["failed_at"] = time.time()
+        (artifacts / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+        return sys.__excepthook__(exc_type, exc, traceback)
 
-        if not torch.cuda.is_available():
-            raise RuntimeError("CUDA GPU is not visible to PyTorch")
+    sys.excepthook = write_unhandled_failure
+
+    gpu_info = None
+    try:
+        from openace.engines.vram import query_cuda_visible_nvidia_gpu
+
+        gpu_info = query_cuda_visible_nvidia_gpu(0)
+        if gpu_info is None:
+            # Fallback for hosts where nvidia-smi is unavailable. This may create a CUDA
+            # context in the verifier process, so the NVML path above is preferred.
+            import torch
+
+            if not torch.cuda.is_available():
+                raise RuntimeError("CUDA GPU is not visible to PyTorch")
+            free, total = torch.cuda.mem_get_info(0)
+            gpu_info = {
+                "name": torch.cuda.get_device_name(0),
+                "free_gb": free / 1024**3,
+                "total_gb": total / 1024**3,
+            }
         report["gpu"] = {
-            "name": torch.cuda.get_device_name(0),
-            "total_gb": round(torch.cuda.get_device_properties(0).total_memory / 1024**3, 2),
+            "name": str(gpu_info["name"]),
+            "free_gb": round(float(gpu_info["free_gb"]), 2),
+            "total_gb": round(float(gpu_info["total_gb"]), 2),
         }
         report["steps"].append({"cuda": "ok", **report["gpu"]})
     except Exception as exc:
@@ -59,110 +144,322 @@ def main() -> int:
         run(cmd, cwd=ROOT)
         report["steps"].append({"model_download": "ok"})
 
+    required_files = {
+        "soulx_model": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer/model.pt",
+        "soulx_svc_model": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer/model-svc.pt",
+        "soulx_preprocess_rmvpe": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rmvpe/rmvpe.pt",
+        "soulx_preprocess_rosvot_rmvpe": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rosvot/rmvpe/model.pt",
+        "soulx_preprocess_rosvot": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rosvot/rosvot/model.pt",
+        "soulx_preprocess_rosvot_config": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rosvot/rosvot/config.yaml",
+        "soulx_preprocess_rwbd": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rosvot/rwbd/model.pt",
+        "soulx_preprocess_rwbd_config": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rosvot/rwbd/config.yaml",
+        "soulx_preprocess_zh_asr": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch/model.pt",
+        "soulx_preprocess_zh_asr_config": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch/config.yaml",
+        "soulx_preprocess_zh_asr_tokens": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch/tokens.json",
+        "soulx_preprocess_zh_asr_am_mvn": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch/am.mvn",
+        "acestep_base_config": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/config.json",
+        "acestep_base_weights": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/model.safetensors",
+        "acestep_base_modeling_code": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/modeling_acestep_v15_base.py",
+        "acestep_base_configuration_code": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/configuration_acestep_v15.py",
+        "acestep_base_silence_latent": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/silence_latent.pt",
+    }
+    weight_artifact_names = (
+        "model.safetensors",
+        "model.safetensors.index.json",
+        "pytorch_model.bin",
+        "pytorch_model.bin.index.json",
+        "diffusion_pytorch_model.safetensors",
+        "diffusion_pytorch_model.safetensors.index.json",
+        "diffusion_pytorch_model.bin",
+        "diffusion_pytorch_model.bin.index.json",
+    )
+    required_weight_dirs = {
+        "acestep_main_turbo": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-turbo",
+        "acestep_main_vae": ROOT / "external/ACE-Step-1.5/checkpoints/vae",
+        "acestep_main_text_encoder": ROOT / "external/ACE-Step-1.5/checkpoints/Qwen3-Embedding-0.6B",
+        "acestep_main_lm": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-1.7B",
+    }
+    missing = {name: str(path) for name, path in required_files.items() if not path.exists() or path.stat().st_size == 0}
+    for name, path in required_weight_dirs.items():
+        if not path.is_dir() or not any((path / filename).exists() for filename in weight_artifact_names):
+            missing[name] = str(path)
+    fresh_gpu_info = query_cuda_visible_nvidia_gpu(0)
+    if fresh_gpu_info is not None:
+        gpu_info = fresh_gpu_info
+        report["gpu"].update({
+            "free_gb": round(float(gpu_info["free_gb"]), 2),
+            "total_gb": round(float(gpu_info["total_gb"]), 2),
+        })
+    report["preflight"] = {
+        "required_files": {name: {"path": str(path), "exists": path.exists(), "size_mb": round(path.stat().st_size / 1024**2, 1) if path.exists() else 0} for name, path in required_files.items()},
+        "required_weight_dirs": {name: {"path": str(path), "has_weights": path.is_dir() and any((path / filename).exists() for filename in weight_artifact_names)} for name, path in required_weight_dirs.items()},
+        "cuda_free_gb": round(float(gpu_info["free_gb"]), 2),
+        "cuda_total_gb": round(float(gpu_info["total_gb"]), 2),
+    }
+    if missing:
+        report["steps"].append({"preflight": "failed", "missing": missing})
+        (artifacts / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+        raise RuntimeError("required model files are missing after bootstrap: " + json.dumps(missing, indent=2))
+    preflight_messages = []
+    if report["preflight"]["cuda_total_gb"] < 11.5:
+        preflight_messages.append("GPU is below the 12GB acceptance target; continuing but OOM risk is high")
+    if report["preflight"]["cuda_free_gb"] < 5.5:
+        preflight_messages.append("less than 5.5GB is currently free; close other GPU processes before expecting SoulX acceptance to pass")
+    report["steps"].append({"preflight": "warning" if preflight_messages else "ok", "messages": preflight_messages})
+
     # Real acceptance is implemented as subprocesses so CUDA memory is fully released
     # between the two large model families.
     vocal_out = artifacts / "soulx_real.wav"
+    svc_out = artifacts / "soulx_svc_real.wav"
     bgm_out = artifacts / "acestep_real.wav"
+    repaint_out = artifacts / "acestep_repaint_real.wav"
     env = os.environ.copy()
     env["PYTHONPATH"] = str(ROOT) + os.pathsep + env.get("PYTHONPATH", "")
 
     demo = ROOT / "external/SoulX-Singer/example/audio/zh_prompt.mp3"
-    demo_meta = ROOT / "external/SoulX-Singer/example/audio/zh_prompt.json"
-    target = ROOT / "external/SoulX-Singer/example/audio/music.json"
-    if not demo.exists() or not target.exists():
-        raise RuntimeError("SoulX example assets are missing after source bootstrap")
+    if not demo.exists():
+        raise RuntimeError("SoulX example prompt asset is missing after source bootstrap")
 
-    svs_dir = artifacts / "soulx_run"
-    run(
-        [
-            sys.executable,
-            "-m",
-            "cli.inference",
-            "--device",
-            "cuda",
-            "--model_path",
-            "pretrained_models/SoulX-Singer/model.pt",
-            "--config",
-            "soulxsinger/config/soulxsinger.yaml",
-            "--prompt_wav_path",
-            str(demo),
-            "--prompt_metadata_path",
-            str(demo_meta),
-            "--target_metadata_path",
-            str(target),
-            "--phoneset_path",
-            "soulxsinger/utils/phoneme/phone_set.json",
-            "--save_dir",
-            str(svs_dir),
-            "--auto_shift",
-            "--pitch_shift",
-            "0",
-            "--control",
-            "score",
-            "--fp16",
-        ],
-        cwd=ROOT / "external/SoulX-Singer",
-        env=env,
-    )
-    generated = svs_dir / "generated.wav"
-    if not generated.exists():
-        raise RuntimeError("SoulX-Singer did not produce generated.wav")
-    generated.replace(vocal_out)
-    report["steps"].append({"soulx_real_render": str(vocal_out)})
+    reference_copy = artifacts / "soulx_reference.mp3"
+    shutil.copyfile(demo, reference_copy)
 
-    ace_cfg = artifacts / "ace_verify.toml"
-    ace_out_dir = artifacts / "ace_run"
-    ace_out_dir.mkdir(exist_ok=True)
-    ace_cfg.write_text(
-        "\n".join(
-            [
-                f'project_root = "{ROOT / "external/ACE-Step-1.5"}"',
-                f'checkpoint_dir = "{ROOT / "external/ACE-Step-1.5/checkpoints"}"',
-                'device = "auto"',
-                'backend = "pt"',
-                'offload_to_cpu = true',
-                'offload_dit_to_cpu = true',
-                f'save_dir = "{ace_out_dir}"',
-                'audio_format = "wav"',
-                'caption = "short polished cinematic pop instrumental verification"',
-                'lyrics = "[Instrumental]"',
-                'instrumental = true',
-                'duration = 10',
-                'bpm = 96',
-                'batch_size = 1',
-                'inference_steps = 8',
-                'thinking = false',
-                'use_cot_metas = false',
-                'use_cot_caption = false',
-                'use_cot_language = false',
-                'use_constrained_decoding = false',
-            ]
+    # Exercise OpenACE's production adapter rather than only upstream's bundled example.
+    # This validates note/phoneme/F0 metadata construction, reference preprocessing,
+    # melody-control CLI construction, persistent preprocessing cache integration, VRAM
+    # scheduling, and output placement exactly as workstation renders use them.
+    from openace.core.models import Note, Project, Track
+    from openace.engines.soulx import SoulXSingerEngine
+
+    project = Project(title="OpenACE local GPU acceptance", bpm=120)
+    track = Track(name="GPU acceptance vocal", language="zh")
+    track.reference_voice_path = str(reference_copy)
+    for index, (pitch, lyric) in enumerate([(60, "你"), (62, "好"), (64, "世"), (65, "界"), (67, "唱"), (65, "一"), (62, "首"), (60, "歌")]):
+        track.add_note(Note(start_ticks=index * 480, duration_ticks=480, pitch=pitch, lyric=lyric))
+    project.add_track(track)
+    progress_events = []
+
+    def svs_progress(fraction, message):
+        progress_events.append({"fraction": round(float(fraction), 3), "message": message})
+        print(f"SoulX adapter {fraction:.0%}: {message}", flush=True)
+
+    svs_telemetry = NvidiaMemoryTelemetry()
+    svs_telemetry.start()
+    try:
+        SoulXSingerEngine(device="cuda").render_score(
+            project,
+            track,
+            vocal_out,
+            reference_voice=reference_copy,
+            progress=svs_progress,
         )
-        + "\n",
-        encoding="utf-8",
-    )
-    run([sys.executable, "cli.py", "--config", str(ace_cfg), "--backend", "pt"], cwd=ROOT / "external/ACE-Step-1.5", env=env)
-    candidates = sorted(ace_out_dir.glob("*.wav"), key=lambda p: p.stat().st_mtime, reverse=True)
-    if not candidates:
-        raise RuntimeError("ACE-Step did not produce a wav")
-    candidates[0].replace(bgm_out)
-    report["steps"].append({"acestep_real_render": str(bgm_out)})
+    finally:
+        svs_memory = svs_telemetry.stop()
+    if not vocal_out.exists() or vocal_out.stat().st_size == 0:
+        raise RuntimeError("OpenACE SoulX adapter did not produce a nonempty vocal wav")
+    from openace.core.diagnostics import vocal_alignment_measurements
+
+    alignment = vocal_alignment_measurements(vocal_out, project, track.sorted_notes())
+    if alignment["first_voiced_onset_s"] is None or alignment["pitch_transition_s"] is None:
+        raise RuntimeError("rendered vocal is missing measurable sustained voicing or pitch transition: " + json.dumps(alignment))
+    report["steps"].append({
+        "soulx_real_render": str(vocal_out),
+        "alignment": alignment,
+        "adapter": "SoulXSingerEngine.render_score",
+        "progress_events": progress_events,
+        "memory": svs_memory,
+    })
+
+    # Exercise the production SVC adapter too. Preflight already requires model-svc.pt;
+    # without this stage a missing/broken SVC contract could pass acceptance unused.
+    svc_progress_events = []
+
+    def svc_progress(fraction, message):
+        svc_progress_events.append({"fraction": round(float(fraction), 3), "message": message})
+        print(f"SoulX SVC adapter {fraction:.0%}: {message}", flush=True)
+
+    svc_telemetry = NvidiaMemoryTelemetry()
+    svc_telemetry.start()
+    try:
+        SoulXSingerEngine(device="cuda").convert_voice(
+            vocal_out,
+            reference_copy,
+            svc_out,
+            progress=svc_progress,
+        )
+    finally:
+        svc_memory = svc_telemetry.stop()
+    if not svc_out.exists() or svc_out.stat().st_size == 0:
+        raise RuntimeError("OpenACE SoulX SVC adapter did not produce a nonempty converted wav")
+    report["steps"].append({
+        "soulx_svc_real_render": str(svc_out),
+        "adapter": "SoulXSingerEngine.convert_voice",
+        "progress_events": svc_progress_events,
+        "memory": svc_memory,
+    })
+
+    # Validate the production Vocal2BGM path rather than a separately handcrafted
+    # upstream config. The real SoulX adapter output becomes ACE-Step's `complete`
+    # source audio, so this stage covers cross-engine timing/format compatibility too.
+    from openace.engines.acestep import ACEStepEngine
+
+    ace_progress_events = []
+
+    def ace_progress(fraction, message):
+        ace_progress_events.append({"fraction": round(float(fraction), 3), "message": message})
+        print(f"ACE-Step adapter {fraction:.0%}: {message}", flush=True)
+
+    ace_telemetry = NvidiaMemoryTelemetry()
+    ace_telemetry.start()
+    try:
+        import soundfile as sf
+
+        vocal_info = sf.info(str(vocal_out))
+        ACEStepEngine(device="auto").vocal_to_bgm(
+            vocal_out,
+            bgm_out,
+            caption="short polished cinematic pop accompaniment verification",
+            duration=vocal_info.frames / float(vocal_info.samplerate),
+            bpm=120,
+            progress=ace_progress,
+        )
+    finally:
+        ace_memory = ace_telemetry.stop()
+    if not bgm_out.exists() or bgm_out.stat().st_size == 0:
+        raise RuntimeError("OpenACE ACE-Step adapter did not produce a nonempty accompaniment wav")
+    report["steps"].append({
+        "acestep_real_render": str(bgm_out),
+        "adapter": "ACEStepEngine.vocal_to_bgm",
+        "task_type": "complete",
+        "progress_events": ace_progress_events,
+        "memory": ace_memory,
+    })
+
+    repaint_progress_events = []
+
+    def repaint_progress(fraction, message):
+        repaint_progress_events.append({"fraction": round(float(fraction), 3), "message": message})
+        print(f"ACE-Step repaint adapter {fraction:.0%}: {message}", flush=True)
+
+    repaint_telemetry = NvidiaMemoryTelemetry()
+    repaint_telemetry.start()
+    try:
+        import soundfile as sf
+
+        bgm_info = sf.info(str(bgm_out))
+        bgm_seconds = bgm_info.frames / float(bgm_info.samplerate)
+        repaint_start = round(bgm_seconds * 0.25, 3)
+        repaint_end = round(min(bgm_seconds - 0.05, max(repaint_start + 0.25, bgm_seconds * 0.75)), 3)
+        if bgm_seconds < 0.75 or repaint_end <= repaint_start:
+            raise RuntimeError(f"ACE-Step accompaniment is too short for repaint acceptance: {bgm_seconds:.3f}s")
+        ACEStepEngine(device="auto").repaint(
+            bgm_out,
+            repaint_out,
+            start_s=repaint_start,
+            end_s=repaint_end,
+            caption="seamlessly regenerate the selected cinematic pop accompaniment region",
+            progress=repaint_progress,
+        )
+    finally:
+        repaint_memory = repaint_telemetry.stop()
+    if not repaint_out.exists() or repaint_out.stat().st_size == 0:
+        raise RuntimeError("OpenACE ACE-Step repaint adapter did not produce a nonempty wav")
+    report["steps"].append({
+        "acestep_repaint_real_render": str(repaint_out),
+        "adapter": "ACEStepEngine.repaint",
+        "task_type": "repaint",
+        "progress_events": repaint_progress_events,
+        "memory": repaint_memory,
+    })
 
     from openace.core.audio import integrated_loudness_lufs, read_audio, true_peak_db
 
     audio_report = {}
-    for name, path in {"soulx": vocal_out, "acestep": bgm_out}.items():
+    for name, path in {"soulx": vocal_out, "soulx_svc": svc_out, "acestep": bgm_out, "acestep_repaint": repaint_out}.items():
         data, sr = read_audio(path)
+        peak = float(max(0.0, abs(data).max())) if len(data) else 0.0
         audio_report[name] = {
             "seconds": round(len(data) / sr, 2),
+            "peak": round(peak, 6),
             "integrated_lufs": round(integrated_loudness_lufs(data, sr), 2),
             "true_peak_dbtp_approx": round(true_peak_db(data, sr), 2),
         }
+        if len(data) < sr * 0.2 or peak < 1e-5:
+            raise RuntimeError(f"{name} output is silent or too short for real GPU acceptance: " + json.dumps(audio_report[name]))
+    expected_vocal_seconds = project.ticks_to_seconds(project.duration_ticks()) + 0.25
+    duration_expectations = {
+        "soulx": (expected_vocal_seconds, 0.35),
+        "soulx_svc": (audio_report["soulx"]["seconds"], 0.35),
+        "acestep": (audio_report["soulx"]["seconds"], 0.75),
+        "acestep_repaint": (audio_report["acestep"]["seconds"], 0.20),
+    }
+    duration_report = {}
+    for name, (expected, tolerance) in duration_expectations.items():
+        actual = float(audio_report[name]["seconds"])
+        error = abs(actual - expected)
+        duration_report[name] = {"expected_s": round(expected, 3), "actual_s": round(actual, 3), "error_s": round(error, 3), "tolerance_s": tolerance}
+        if error > tolerance:
+            raise RuntimeError(f"{name} output duration violates the production timing contract: " + json.dumps(duration_report[name]))
     report["audio"] = audio_report
+    report["duration_validation"] = duration_report
+
+    if not args.skip_separation:
+        # Validate the production Demucs path on a real mixture made from the two model
+        # outputs. This is intentionally after both heavyweight synthesis subprocesses so
+        # memory use remains stage-wise rather than co-resident.
+        import numpy as np
+        import soundfile as sf
+
+        from openace.engines.separation import DemucsStemSeparator
+
+        vocal_audio, vocal_sr = read_audio(vocal_out)
+        bgm_audio, bgm_sr = read_audio(bgm_out)
+        vocal_mono = np.asarray(vocal_audio, dtype=np.float32)
+        bgm_mono = np.asarray(bgm_audio, dtype=np.float32)
+        if vocal_mono.ndim > 1:
+            vocal_mono = vocal_mono.mean(axis=1)
+        if bgm_mono.ndim > 1:
+            bgm_mono = bgm_mono.mean(axis=1)
+        if vocal_sr != bgm_sr:
+            ratio = vocal_sr / bgm_sr
+            x_old = np.linspace(0.0, 1.0, num=len(bgm_mono), endpoint=False)
+            x_new = np.linspace(0.0, 1.0, num=max(1, int(round(len(bgm_mono) * ratio))), endpoint=False)
+            bgm_mono = np.interp(x_new, x_old, bgm_mono).astype(np.float32)
+            bgm_sr = vocal_sr
+        length = min(len(vocal_mono), len(bgm_mono), int(5 * vocal_sr))
+        if length < vocal_sr:
+            raise RuntimeError("model outputs are too short for separation acceptance")
+        mixture = vocal_mono[:length] * 0.8 + bgm_mono[:length] * 0.35
+        mixture_path = artifacts / "separation_input.wav"
+        sf.write(mixture_path, mixture, vocal_sr, subtype="PCM_16")
+        demucs_telemetry = NvidiaMemoryTelemetry()
+        demucs_telemetry.start()
+        try:
+            sep_vocal, sep_accompaniment = DemucsStemSeparator().separate(mixture_path, artifacts / "demucs_run")
+        finally:
+            demucs_memory = demucs_telemetry.stop()
+        stem_report = {}
+        for stem_name, stem_path in {"vocal": sep_vocal, "accompaniment": sep_accompaniment}.items():
+            stem_audio, stem_sr = read_audio(stem_path)
+            stem_peak = float(max(0.0, abs(stem_audio).max())) if len(stem_audio) else 0.0
+            stem_report[stem_name] = {
+                "path": str(stem_path),
+                "seconds": round(len(stem_audio) / stem_sr, 2),
+                "peak": round(stem_peak, 6),
+            }
+            if len(stem_audio) < stem_sr * 0.2 or stem_peak < 1e-5:
+                raise RuntimeError(f"Demucs {stem_name} stem is silent or too short for real GPU acceptance: " + json.dumps(stem_report[stem_name]))
+        report["steps"].append({
+            "demucs_separation": "ok",
+            "vocal": str(sep_vocal),
+            "accompaniment": str(sep_accompaniment),
+            "stems": stem_report,
+            "memory": demucs_memory,
+        })
+
     report["ok"] = True
     (artifacts / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    print(f"\nLocal GPU acceptance passed. Listen to:\n  {vocal_out}\n  {bgm_out}")
+    print(f"\nLocal GPU acceptance passed. Listen to:\n  {vocal_out}\n  {svc_out}\n  {bgm_out}\n  {repaint_out}")
     return 0
 
 

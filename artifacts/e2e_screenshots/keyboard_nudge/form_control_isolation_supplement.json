@@ -1,0 +1,206 @@
+{
+  "viewport": [
+    1272,
+    837
+  ],
+  "selection_before": "4 selected",
+  "before": [
+    [
+      "note_8ecd52707b97",
+      120,
+      240,
+      49,
+      "啊"
+    ],
+    [
+      "note_75ccb6b46668",
+      840,
+      240,
+      51,
+      "啊"
+    ],
+    [
+      "note_bd7be416-e89",
+      960,
+      120,
+      96,
+      ""
+    ],
+    [
+      "note_93c8ba07e3aa",
+      1320,
+      240,
+      46,
+      "啊"
+    ]
+  ],
+  "select_key_states": [
+    {
+      "key": "ArrowUp",
+      "grid": "4",
+      "active": "SELECT"
+    },
+    {
+      "key": "ArrowDown",
+      "grid": "4",
+      "active": "SELECT"
+    },
+    {
+      "key": "ArrowLeft",
+      "grid": "4",
+      "active": "SELECT"
+    },
+    {
+      "key": "ArrowRight",
+      "grid": "4",
+      "active": "SELECT"
+    }
+  ],
+  "after_form": [
+    [
+      "note_8ecd52707b97",
+      120,
+      240,
+      49,
+      "啊"
+    ],
+    [
+      "note_75ccb6b46668",
+      840,
+      240,
+      51,
+      "啊"
+    ],
+    [
+      "note_bd7be416-e89",
+      960,
+      120,
+      96,
+      ""
+    ],
+    [
+      "note_93c8ba07e3aa",
+      1320,
+      240,
+      46,
+      "啊"
+    ]
+  ],
+  "form_same": true,
+  "final_grid": 4,
+  "expected_step": 120,
+  "focus_after_click": "DIV|piano-roll-wrap",
+  "selection_after_click": "4 selected",
+  "after_nudge": [
+    [
+      "note_8ecd52707b97",
+      240,
+      240,
+      49,
+      "啊"
+    ],
+    [
+      "note_75ccb6b46668",
+      960,
+      240,
+      51,
+      "啊"
+    ],
+    [
+      "note_bd7be416-e89",
+      1080,
+      120,
+      96,
+      ""
+    ],
+    [
+      "note_93c8ba07e3aa",
+      1440,
+      240,
+      46,
+      "啊"
+    ]
+  ],
+  "changed": [
+    {
+      "id": "note_8ecd52707b97",
+      "before": [
+        "note_8ecd52707b97",
+        120,
+        240,
+        49,
+        "啊"
+      ],
+      "after": [
+        "note_8ecd52707b97",
+        240,
+        240,
+        49,
+        "啊"
+      ],
+      "delta_start": 120,
+      "delta_pitch": 0
+    },
+    {
+      "id": "note_75ccb6b46668",
+      "before": [
+        "note_75ccb6b46668",
+        840,
+        240,
+        51,
+        "啊"
+      ],
+      "after": [
+        "note_75ccb6b46668",
+        960,
+        240,
+        51,
+        "啊"
+      ],
+      "delta_start": 120,
+      "delta_pitch": 0
+    },
+    {
+      "id": "note_bd7be416-e89",
+      "before": [
+        "note_bd7be416-e89",
+        960,
+        120,
+        96,
+        ""
+      ],
+      "after": [
+        "note_bd7be416-e89",
+        1080,
+        120,
+        96,
+        ""
+      ],
+      "delta_start": 120,
+      "delta_pitch": 0
+    },
+    {
+      "id": "note_93c8ba07e3aa",
+      "before": [
+        "note_93c8ba07e3aa",
+        1320,
+        240,
+        46,
+        "啊"
+      ],
+      "after": [
+        "note_93c8ba07e3aa",
+        1440,
+        240,
+        46,
+        "啊"
+      ],
+      "delta_start": 120,
+      "delta_pitch": 0
+    }
+  ],
+  "nudge_exact": true,
+  "console": [],
+  "network": [],
+  "passed": true
+}

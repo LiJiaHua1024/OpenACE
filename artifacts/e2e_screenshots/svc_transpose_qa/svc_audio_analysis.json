@@ -1,0 +1,92 @@
+{
+  "source": {
+    "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_3f7267f97bc4_vocal.wav",
+    "sr": 24000,
+    "duration": 2.5,
+    "frames": 60000,
+    "peak": 0.39776611328125,
+    "f0_median": 329.7744652593178,
+    "f0_mean": 445.1887137782739,
+    "f0_voiced_fraction": 1.0,
+    "spectral_centroid_mean": 398.8914433867877,
+    "spectral_centroid_median": 450.079485816881,
+    "rms_mean": 0.16961169242858887
+  },
+  "reference": {
+    "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav",
+    "sr": 24000,
+    "duration": 1.0,
+    "frames": 24000,
+    "peak": 0.9000000953674316,
+    "f0_median": 91.4012651021101,
+    "f0_mean": 122.9035937831194,
+    "f0_voiced_fraction": 1.0,
+    "spectral_centroid_mean": 3645.4185075594733,
+    "spectral_centroid_median": 5736.4132222412745,
+    "rms_mean": 0.16626012325286865
+  },
+  "preserve": {
+    "path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_2f846ce5358b/svc.wav",
+    "sr": 24000,
+    "duration": 2.5,
+    "frames": 60000,
+    "peak": 0.397705078125,
+    "f0_median": 329.7896225647823,
+    "f0_mean": 445.07211114175095,
+    "f0_voiced_fraction": 1.0,
+    "spectral_centroid_mean": 400.3318787473096,
+    "spectral_centroid_median": 451.07085290261807,
+    "rms_mean": 0.13661989569664001,
+    "f0_ratio_vs_source": 1.0000459626413238,
+    "measured_shift_semitones_vs_source": 0.0007957026102919476,
+    "centroid_ratio_vs_source": 1.0022026489030882
+  },
+  "manual_minus3": {
+    "path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_437946095819/svc.wav",
+    "sr": 24000,
+    "duration": 2.5,
+    "frames": 60000,
+    "peak": 0.39776611328125,
+    "f0_median": 277.40818126703874,
+    "f0_mean": 379.1684409977093,
+    "f0_voiced_fraction": 1.0,
+    "spectral_centroid_mean": 393.5507565359111,
+    "spectral_centroid_median": 374.4548100498194,
+    "rms_mean": 0.12054809182882309,
+    "f0_ratio_vs_source": 0.8412057648214185,
+    "measured_shift_semitones_vs_source": -2.9936322951476457,
+    "centroid_ratio_vs_source": 0.8319748441104685
+  },
+  "auto": {
+    "path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_0295c41254d2/svc.wav",
+    "sr": 24000,
+    "duration": 2.5,
+    "frames": 60000,
+    "peak": 0.405059814453125,
+    "f0_median": 92.63687839078825,
+    "f0_mean": 188.96433984084726,
+    "f0_voiced_fraction": 1.0,
+    "spectral_centroid_mean": 280.0570988758847,
+    "spectral_centroid_median": 136.36600662855858,
+    "rms_mean": 0.11106029152870178,
+    "f0_ratio_vs_source": 0.2809097979067098,
+    "measured_shift_semitones_vs_source": -21.981853794101767,
+    "centroid_ratio_vs_source": 0.3029820530057225
+  },
+  "cli_plus2": {
+    "path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_beddcfd04ba3/svc.wav",
+    "duration": 2.5,
+    "f0_median": 370.2593774210972,
+    "measured_shift": 2.004678968184352,
+    "spectral_centroid_median": 530.202982130564,
+    "peak": 0.453277587890625
+  },
+  "mcp_plus1": {
+    "path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_6f0ad252b1b6/svc.wav",
+    "duration": 2.5,
+    "f0_median": 349.31532460900695,
+    "measured_shift": 0.9966029023272684,
+    "spectral_centroid_median": 518.3854878661111,
+    "peak": 0.389190673828125
+  }
+}

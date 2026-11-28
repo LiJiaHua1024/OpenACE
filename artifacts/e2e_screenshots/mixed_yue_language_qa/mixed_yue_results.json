@@ -1,0 +1,125 @@
+{
+  "project_id": "project_e84832b92141",
+  "drawn_notes": [
+    [
+      120,
+      360,
+      67
+    ],
+    [
+      720,
+      360,
+      67
+    ],
+    [
+      1320,
+      360,
+      67
+    ],
+    [
+      1920,
+      360,
+      67
+    ]
+  ],
+  "mixed_yue_option_visible": true,
+  "mixed_apply_disabled": false,
+  "mixed_notes": [
+    [
+      "我",
+      [
+        "ŋ",
+        "ɔː"
+      ]
+    ],
+    [
+      "hello",
+      [
+        "h",
+        "ə",
+        "l",
+        "oʊ"
+      ]
+    ],
+    [
+      "你",
+      [
+        "n",
+        "ɛː",
+        "i"
+      ]
+    ],
+    [
+      "world",
+      [
+        "w",
+        "ɝ",
+        "l",
+        "d"
+      ]
+    ]
+  ],
+  "mixed_render": {
+    "id": "job_140a03898172",
+    "status": "completed",
+    "error": null,
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_e84832b92141/job_140a03898172/vocal.wav",
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true
+  },
+  "mixed_playback": {
+    "starts": [
+      {
+        "when": 10.948208616780045,
+        "offset": 0,
+        "duration": 2.8749886621315195,
+        "bufferDuration": 2.8749886621315195
+      }
+    ],
+    "pos": "1.3.2\n00:01.19",
+    "playing": true
+  },
+  "yue_apply_disabled": false,
+  "yue_notes": [
+    [
+      "我",
+      [
+        "ŋ",
+        "ɔː"
+      ]
+    ],
+    [
+      "你",
+      [
+        "n",
+        "ɛː",
+        "i"
+      ]
+    ],
+    [
+      "我",
+      [
+        "ŋ",
+        "ɔː"
+      ]
+    ],
+    [
+      "你",
+      [
+        "n",
+        "ɛː",
+        "i"
+      ]
+    ]
+  ],
+  "yue_render": {
+    "id": "job_c5cf17f9acfa",
+    "status": "completed",
+    "error": null,
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_e84832b92141/job_c5cf17f9acfa/vocal.wav",
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true
+  },
+  "console": [],
+  "badnet": []
+}

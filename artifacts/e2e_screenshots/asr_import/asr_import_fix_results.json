@@ -1,0 +1,174 @@
+{
+  "asr_import_still_functional": {
+    "ok": true,
+    "details": {
+      "busy": true,
+      "elapsed": 1.393547534942627,
+      "language": "en",
+      "note_count": 44,
+      "real_lyric_count": 11,
+      "empty_lyric_count": 33,
+      "project_id": "project_faec1b98647f"
+    },
+    "time": 1795746748.290379
+  },
+  "empty_lyrics_blank_real_lyrics_visible": {
+    "ok": true,
+    "details": {
+      "real_measurements": [
+        {
+          "lyric": "Never",
+          "white": 19,
+          "xyw": [
+            142,
+            195,
+            40
+          ]
+        },
+        {
+          "lyric": "mind,",
+          "white": 21,
+          "xyw": [
+            187,
+            195,
+            161
+          ]
+        },
+        {
+          "lyric": "I'll find",
+          "white": 18,
+          "xyw": [
+            407,
+            210,
+            108
+          ]
+        }
+      ],
+      "empty_measurements": [
+        {
+          "start": 1219,
+          "white": 0,
+          "xyw": [
+            348,
+            210,
+            34
+          ]
+        }
+      ]
+    },
+    "time": 1795746748.2905612
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795746748.2907097
+  },
+  "passed": true,
+  "settled_imported_project_corrected": {
+    "ok": true,
+    "details": {
+      "project_id": "project_ffbcdd982db4",
+      "note_count": 44,
+      "language": "en",
+      "real_measurements": [
+        {
+          "lyric": "Never",
+          "white": 19,
+          "xyw": [
+            142,
+            195,
+            40
+          ]
+        },
+        {
+          "lyric": "mind,",
+          "white": 21,
+          "xyw": [
+            187,
+            195,
+            161
+          ]
+        },
+        {
+          "lyric": "I'll find",
+          "white": 18,
+          "xyw": [
+            407,
+            210,
+            108
+          ]
+        },
+        {
+          "lyric": "someone like",
+          "white": 21,
+          "xyw": [
+            774,
+            210,
+            137
+          ]
+        }
+      ],
+      "empty_measurements": [
+        {
+          "lyric": "",
+          "white": 0,
+          "xyw": [
+            348,
+            210,
+            34
+          ]
+        },
+        {
+          "lyric": "",
+          "white": 0,
+          "xyw": [
+            725,
+            210,
+            42
+          ]
+        },
+        {
+          "lyric": "",
+          "white": 0,
+          "xyw": [
+            974,
+            255,
+            56
+          ]
+        },
+        {
+          "lyric": "",
+          "white": 0,
+          "xyw": [
+            1097,
+            240,
+            31
+          ]
+        },
+        {
+          "lyric": "",
+          "white": 0,
+          "xyw": [
+            1233,
+            240,
+            78
+          ]
+        },
+        {
+          "lyric": "",
+          "white": 0,
+          "xyw": [
+            1325,
+            270,
+            40
+          ]
+        }
+      ],
+      "correction": "initial harness read the previous same-title project before the import completed; this check uses the settled newly imported project"
+    },
+    "time": 1795746816.019813
+  }
+}

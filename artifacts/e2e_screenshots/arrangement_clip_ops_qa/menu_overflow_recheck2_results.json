@@ -1,0 +1,215 @@
+{
+  "fixture_bottom_right_clip": {
+    "ok": true,
+    "details": {
+      "project_id": "project_e118e7ffcb11",
+      "clip": [
+        {
+          "id": "clip_e1d251993e11",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 2400,
+          "duration_ticks": 240,
+          "offset_ticks": 240,
+          "fade_in_ticks": 60,
+          "fade_out_ticks": 60,
+          "gain_db": -6.0,
+          "label": "menu target"
+        }
+      ]
+    },
+    "time": 1795743230.9906602
+  },
+  "full_menu_clamped_inside_arrangement": {
+    "ok": false,
+    "details": {
+      "geometry": {
+        "menu": {
+          "x": 742,
+          "y": 62,
+          "width": 204,
+          "height": 130
+        },
+        "canvas": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 132
+        },
+        "overflow_left": -506,
+        "overflow_top": -4,
+        "overflow_right": -4,
+        "overflow_bottom": 2,
+        "inside": false
+      },
+      "computed": {
+        "display": "grid",
+        "gridTemplateColumns": "96.3594px 93.6406px",
+        "flexDirection": "column",
+        "width": "204px",
+        "height": "130px"
+      },
+      "two_column": true,
+      "buttons": [
+        {
+          "text": "Split at cursor",
+          "enabled": true,
+          "box": {
+            "x": 748,
+            "y": 68,
+            "width": 96.359375,
+            "height": 28
+          }
+        },
+        {
+          "text": "Copy",
+          "enabled": true,
+          "box": {
+            "x": 846.359375,
+            "y": 68,
+            "width": 93.640625,
+            "height": 28
+          }
+        },
+        {
+          "text": "Paste at cursor",
+          "enabled": false,
+          "box": {
+            "x": 748,
+            "y": 98,
+            "width": 96.359375,
+            "height": 28
+          }
+        },
+        {
+          "text": "Duplicate",
+          "enabled": true,
+          "box": {
+            "x": 846.359375,
+            "y": 98,
+            "width": 93.640625,
+            "height": 28
+          }
+        },
+        {
+          "text": "Delete",
+          "enabled": true,
+          "box": {
+            "x": 748,
+            "y": 128,
+            "width": 96.359375,
+            "height": 28
+          }
+        }
+      ],
+      "input_box": {
+        "x": 869.328125,
+        "y": 162,
+        "width": 48,
+        "height": 20
+      },
+      "copy_clicked": true
+    },
+    "time": 1795743232.5007453
+  },
+  "clip_buttons_and_gain_clickable": {
+    "ok": true,
+    "details": {
+      "operations": {
+        "Duplicate": {
+          "clicked": true,
+          "after_count": 2,
+          "undo_count": 1
+        },
+        "Split at cursor": {
+          "clicked": true,
+          "after_count": 2,
+          "undo_count": 1
+        },
+        "Delete": {
+          "clicked": true,
+          "after_count": 0,
+          "undo_count": 1
+        }
+      },
+      "gain_focused": true,
+      "gain_box": {
+        "x": 869.328125,
+        "y": 162,
+        "width": 48,
+        "height": 20
+      }
+    },
+    "time": 1795743239.3614511
+  },
+  "empty_paste_menu_clamped_inside_arrangement": {
+    "ok": true,
+    "details": {
+      "geometry": {
+        "menu": {
+          "x": 742,
+          "y": 148,
+          "width": 204,
+          "height": 40
+        },
+        "canvas": {
+          "x": 236,
+          "y": 58,
+          "width": 714,
+          "height": 132
+        },
+        "overflow_left": -506,
+        "overflow_top": -90,
+        "overflow_right": -4,
+        "overflow_bottom": -2,
+        "inside": true
+      },
+      "buttons": [
+        {
+          "text": "Paste at cursor",
+          "enabled": true,
+          "box": {
+            "x": 748,
+            "y": 154,
+            "width": 96.359375,
+            "height": 28
+          }
+        }
+      ],
+      "paste_clicked": true,
+      "clips": [
+        {
+          "id": "clip_e1d251993e11",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 2400,
+          "duration_ticks": 240,
+          "offset_ticks": 240,
+          "fade_in_ticks": 60,
+          "fade_out_ticks": 60,
+          "gain_db": -6.0,
+          "label": "menu target"
+        },
+        {
+          "id": "clip_a9e2b62d-fe6",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/crossfade_qa/clip_low.wav",
+          "start_ticks": 2760,
+          "duration_ticks": 240,
+          "offset_ticks": 240,
+          "fade_in_ticks": 60,
+          "fade_out_ticks": 60,
+          "gain_db": -6.0,
+          "label": "menu target"
+        }
+      ]
+    },
+    "time": 1795743241.0692568
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795743241.1511652
+  },
+  "passed": false
+}

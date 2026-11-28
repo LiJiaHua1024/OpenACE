@@ -1,0 +1,106 @@
+{
+  "base": {
+    "volume": [
+      {
+        "ticks": 0,
+        "value": 0.8018018018018018,
+        "curve": "linear"
+      },
+      {
+        "ticks": 960,
+        "value": 0.1981981981981982,
+        "curve": "linear"
+      }
+    ],
+    "pan": [
+      {
+        "ticks": 0,
+        "value": -0.6793945648434813,
+        "curve": "linear"
+      },
+      {
+        "ticks": 960,
+        "value": 0.9717922256621947,
+        "curve": "linear"
+      }
+    ],
+    "fp": "3e449c332f6747ee"
+  },
+  "after_undo1": {
+    "volume": [
+      {
+        "ticks": 0,
+        "value": 0.8018018018018018,
+        "curve": "linear"
+      },
+      {
+        "ticks": 960,
+        "value": 0.1981981981981982,
+        "curve": "linear"
+      }
+    ],
+    "pan": [],
+    "fp": "3e449c332f6747ee"
+  },
+  "after_undo2": {
+    "volume": [],
+    "pan": [],
+    "fp": "3e449c332f6747ee"
+  },
+  "after_redo2": {
+    "volume": [
+      {
+        "ticks": 0,
+        "value": 0.8018018018018018,
+        "curve": "linear"
+      },
+      {
+        "ticks": 960,
+        "value": 0.1981981981981982,
+        "curve": "linear"
+      }
+    ],
+    "pan": [
+      {
+        "ticks": 0,
+        "value": -0.6793945648434813,
+        "curve": "linear"
+      },
+      {
+        "ticks": 960,
+        "value": 0.9717922256621947,
+        "curve": "linear"
+      }
+    ],
+    "fp": "3e449c332f6747ee"
+  },
+  "after_reload": {
+    "volume": [
+      {
+        "ticks": 0,
+        "value": 0.8018018018018018,
+        "curve": "linear"
+      },
+      {
+        "ticks": 960,
+        "value": 0.1981981981981982,
+        "curve": "linear"
+      }
+    ],
+    "pan": [
+      {
+        "ticks": 0,
+        "value": -0.6793945648434813,
+        "curve": "linear"
+      },
+      {
+        "ticks": 960,
+        "value": 0.9717922256621947,
+        "curve": "linear"
+      }
+    ],
+    "fp": "3e449c332f6747ee"
+  },
+  "trackcard_after_reload": "\u22ef\nvocal \u00b7 zh \u00b7 3 notes\nM\nS\nOpenUtau host",
+  "undo_enabled_after_reload": false
+}

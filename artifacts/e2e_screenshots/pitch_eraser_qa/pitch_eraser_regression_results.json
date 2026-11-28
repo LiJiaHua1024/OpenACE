@@ -1,0 +1,53 @@
+{
+  "console": [],
+  "badnet": [],
+  "zero_span_negative_case": {
+    "readout": "450 ticks · erased user pitch",
+    "unchanged": true,
+    "before_count": 16,
+    "after_count": 16,
+    "added_points": []
+  },
+  "brush_regression": {
+    "readout": "1500 ticks · -100¢ user pitch",
+    "changed": true,
+    "undo_exact": true,
+    "before_count": 16,
+    "brushed_count": 22,
+    "after_undo_count": 16
+  },
+  "anchor_regression": {
+    "pitch_curve": [
+      {
+        "offset_ms": 324.0,
+        "cents": 150.0
+      }
+    ],
+    "created": true,
+    "automation_unchanged": true
+  },
+  "pencil_regression": {
+    "before_count": 2,
+    "after_count": 3,
+    "created": true,
+    "automation_unchanged": true
+  },
+  "select_regression": {
+    "moved": true,
+    "undo_restored": true,
+    "automation_unchanged": true
+  },
+  "velocity_regression": {
+    "before": 90,
+    "after": 124,
+    "changed": true,
+    "automation_unchanged": true
+  },
+  "layout_1272_final": {
+    "w": 1272,
+    "h": 837,
+    "bodyOverflow": false,
+    "transportOverflow": 0,
+    "rightPanelOverflow": 0
+  }
+}

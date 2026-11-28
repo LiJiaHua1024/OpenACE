@@ -1,0 +1,47 @@
+{
+  "api_manual_auto_conflict": {
+    "status": 422,
+    "body": "{\"detail\":\"choose either automatic SVC key matching or a nonzero manual pitch shift, not both\"}"
+  },
+  "api_out_of_range_low": {
+    "status": 422,
+    "body": "{\"detail\":\"SVC pitch_shift must be between -24 and +24 semitones\"}"
+  },
+  "api_out_of_range_high": {
+    "status": 422,
+    "body": "{\"detail\":\"SVC pitch_shift must be between -24 and +24 semitones\"}"
+  },
+  "cli_manual_auto_conflict": {
+    "returncode": 2,
+    "stdout": "{\n  \"error\": \"choose either automatic SVC key matching or a nonzero manual pitch shift, not both\",\n  \"type\": \"ValueError\"\n}\n",
+    "stderr": "",
+    "cmd": [
+      "/home/ubuntu/repos/OpenACE/.venv/bin/openace-tool",
+      "svc",
+      "project_68e4581f3701",
+      "/home/ubuntu/repos/OpenACE/data/uploads/upload_3f7267f97bc4_vocal.wav",
+      "/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav",
+      "--pitch-shift",
+      "2",
+      "--auto-shift"
+    ]
+  },
+  "cli_manual_plus2": {
+    "returncode": 0,
+    "stdout": "{\n  \"id\": \"job_b5f365adedb3\",\n  \"project_id\": \"project_68e4581f3701\",\n  \"track_id\": null,\n  \"mode\": \"svc\",\n  \"status\": \"failed\",\n  \"progress\": 0.05,\n  \"message\": \"Missing SoulX-Singer checkpoint /home/ubuntu/repos/OpenACE/external/SoulX-Singer/pretrained_models/SoulX-Singer/model-svc.pt. Download public weights with scripts/bootstrap_models.py\",\n  \"output_path\": null,\n  \"diagnostic_path\": null,\n  \"created_at\": 1795853727.358228,\n  \"finished_at\": 1795853727.4040222,\n  \"error\": \"Missing SoulX-Singer checkpoint /home/ubuntu/repos/OpenACE/external/SoulX-Singer/pretrained_models/SoulX-Singer/model-svc.pt. Download public weights with scripts/bootstrap_models.py\",\n  \"engine\": \"SoulX-Singer\",\n  \"fixture\": false,\n  \"source_audio\": \"/home/ubuntu/repos/OpenACE/data/uploads/upload_3f7267f97bc4_vocal.wav\",\n  \"reference_voice\": \"/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav\",\n  \"caption\": \"\",\n  \"start_s\": null,\n  \"end_s\": null,\n  \"clip_id\": null,\n  \"source_start_s\": null,\n  \"source_end_s\": null,\n  \"arrangement_start_ticks\": 0,\n  \"pitch_shift\": 2,\n  \"auto_shift\": false\n}\n",
+    "stderr": "",
+    "cmd": [
+      "/home/ubuntu/repos/OpenACE/.venv/bin/openace-tool",
+      "svc",
+      "project_68e4581f3701",
+      "/home/ubuntu/repos/OpenACE/data/uploads/upload_3f7267f97bc4_vocal.wav",
+      "/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav",
+      "--pitch-shift",
+      "2"
+    ]
+  },
+  "mcp_manual_plus1": {
+    "tool_present": true,
+    "result_text": "{\n  \"id\": \"job_6f0ad252b1b6\",\n  \"project_id\": \"project_68e4581f3701\",\n  \"track_id\": null,\n  \"mode\": \"svc\",\n  \"status\": \"completed\",\n  \"progress\": 1.0,\n  \"message\": \"completed; added to arrangement as SVC \u2014 upload_3f7267f97bc4_vocal\",\n  \"output_path\": \"/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_6f0ad252b1b6/svc.wav\",\n  \"diagnostic_path\": \"/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_6f0ad252b1b6/diagnostic.png\",\n  \"created_at\": 1795853728.3887124,\n  \"finished_at\": 1795853753.6182244,\n  \"error\": null,\n  \"engine\": \"explicit CI synthesis fixture\",\n  \"fixture\": true,\n  \"source_audio\": \"/home/ubuntu/repos/OpenACE/data/uploads/upload_3f7267f97bc4_vocal.wav\",\n  \"reference_voice\": \"/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav\",\n  \"caption\": \"\",\n  \"start_s\": null,\n  \"end_s\": null,\n  \"clip_id\": null,\n  \"source_start_s\": null,\n  \"source_end_s\": null,\n  \"arrangement_start_ticks\": 0,\n  \"pitch_shift\": 1,\n  \"auto_shift\": false\n}"
+  }
+}

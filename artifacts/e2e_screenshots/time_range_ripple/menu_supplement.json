@@ -1,0 +1,46 @@
+{
+  "empty_zero_menu": {
+    "rect": {
+      "left": 732,
+      "right": 936,
+      "top": 110,
+      "bottom": 149,
+      "width": 204,
+      "height": 39
+    },
+    "viewport": {
+      "left": 236,
+      "right": 950,
+      "top": 58,
+      "bottom": 190
+    },
+    "inside": true,
+    "buttonDisabled": true,
+    "buttons": [
+      "Paste at cursor",
+      "Ripple delete time range"
+    ]
+  },
+  "empty_range_menu": {
+    "rect": {
+      "left": 732,
+      "right": 936,
+      "top": 110,
+      "bottom": 149,
+      "width": 204,
+      "height": 39
+    },
+    "viewport": {
+      "left": 236,
+      "right": 950,
+      "top": 58,
+      "bottom": 190
+    },
+    "inside": true,
+    "buttonDisabled": false,
+    "buttons": [
+      "Paste at cursor",
+      "Ripple delete time range"
+    ]
+  }
+}

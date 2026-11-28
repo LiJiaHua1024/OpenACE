@@ -1,0 +1,31 @@
+{
+  "transport_action_legibility": {
+    "ok": true,
+    "details": {
+      "duplicate_text": "Copy",
+      "delete_text": "×"
+    },
+    "time": 1795750900.3905818
+  },
+  "duplicate_delete_smoke": {
+    "ok": true,
+    "details": {
+      "duplicate_passed": true,
+      "delete_passed": true,
+      "copy_id": "project_f72c6c399012",
+      "dialogs": [
+        "Delete project “Project Ops Copy”? This cannot be undone."
+      ]
+    },
+    "time": 1795750901.2911062
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795750901.2913263
+  },
+  "passed": true
+}

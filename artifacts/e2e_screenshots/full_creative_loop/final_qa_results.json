@@ -1,0 +1,406 @@
+{
+  "transport_layout": {
+    "ok": false,
+    "details": {
+      "viewport": {
+        "w": 1280,
+        "h": 841
+      },
+      "layout": {
+        "innerWidth": 1280,
+        "innerHeight": 841,
+        "overflowing": [
+          {
+            "cls": "import-midi",
+            "text": "Import USTX",
+            "x": 1246.140625,
+            "right": 1295.9765625,
+            "width": 49.8359375,
+            "scrollH": 38,
+            "clientH": 38
+          },
+          {
+            "cls": "import-midi ",
+            "text": "Import audio",
+            "x": 1303.9765625,
+            "right": 1353.8125,
+            "width": 49.8359375,
+            "scrollH": 38,
+            "clientH": 38
+          }
+        ],
+        "wrapped": [],
+        "bodyW": 1280,
+        "bodyOverflow": false,
+        "items": [
+          {
+            "cls": "brand",
+            "text": "OA LOCAL",
+            "x": 9,
+            "right": 92.828125,
+            "width": 83.828125,
+            "scrollH": 29,
+            "clientH": 29
+          },
+          {
+            "cls": "project-select",
+            "text": "FolderQA Beta FolderQA Alpha PinTag QA A",
+            "x": 100.828125,
+            "right": 226.828125,
+            "width": 126,
+            "scrollH": 26,
+            "clientH": 26
+          },
+          {
+            "cls": "new-project",
+            "text": "＋ New",
+            "x": 234.828125,
+            "right": 309.5234375,
+            "width": 74.6953125,
+            "scrollH": 26,
+            "clientH": 26
+          },
+          {
+            "cls": "icon-button project-action ",
+            "text": "Projects",
+            "x": 317.5234375,
+            "right": 351.5234375,
+            "width": 34,
+            "scrollH": 30,
+            "clientH": 30
+          },
+          {
+            "cls": "title-input",
+            "text": "Creative Loop 验收",
+            "x": 359.5234375,
+            "right": 524.5234375,
+            "width": 165,
+            "scrollH": 34,
+            "clientH": 34
+          },
+          {
+            "cls": "transport-controls",
+            "text": "↶ ↷ ■ Loop Follow Metro ▶",
+            "x": 536.5234375,
+            "right": 854.3828125,
+            "width": 317.859375,
+            "scrollH": 32,
+            "clientH": 32
+          },
+          {
+            "cls": "save-state saved",
+            "text": "Saved",
+            "x": 862.3828125,
+            "right": 907.6484375,
+            "width": 45.265625,
+            "scrollH": 23,
+            "clientH": 23
+          },
+          {
+            "cls": "position-readout",
+            "text": "1.1.1 00:00.00",
+            "x": 915.6484375,
+            "right": 1011.6484375,
+            "width": 96,
+            "scrollH": 36,
+            "clientH": 36
+          },
+          {
+            "cls": "tempo-box",
+            "text": "BPM",
+            "x": 1019.6484375,
+            "right": 1118.3046875,
+            "width": 98.65625,
+            "scrollH": 29,
+            "clientH": 29
+          },
+          {
+            "cls": "time-signature-select",
+            "text": "2/4 3/4 4/4 5/4 6/8 7/8 9/8 12/8",
+            "x": 1126.3046875,
+            "right": 1180.3046875,
+            "width": 54,
+            "scrollH": 22,
+            "clientH": 22
+          },
+          {
+            "cls": "import-midi",
+            "text": "Import MIDI",
+            "x": 1188.3046875,
+            "right": 1238.140625,
+            "width": 49.8359375,
+            "scrollH": 38,
+            "clientH": 38
+          },
+          {
+            "cls": "import-midi",
+            "text": "Import USTX",
+            "x": 1246.140625,
+            "right": 1295.9765625,
+            "width": 49.8359375,
+            "scrollH": 38,
+            "clientH": 38
+          },
+          {
+            "cls": "import-midi ",
+            "text": "Import audio",
+            "x": 1303.9765625,
+            "right": 1353.8125,
+            "width": 49.8359375,
+            "scrollH": 38,
+            "clientH": 38
+          }
+        ]
+      },
+      "screenshot": "01_new_project_transport_fit.png"
+    },
+    "time": 1795837288.9671996
+  },
+  "draw_notes": {
+    "ok": false,
+    "details": {
+      "count": 2,
+      "notes": [
+        [
+          720,
+          540,
+          64
+        ],
+        [
+          1440,
+          540,
+          67
+        ]
+      ],
+      "screenshot": "02_notes_drawn.png"
+    },
+    "time": 1795837290.8609898
+  },
+  "lyrics_phonemes": {
+    "ok": false,
+    "details": {
+      "lyrics": [
+        "你好",
+        "好"
+      ],
+      "phoneme_counts": [
+        4,
+        2
+      ],
+      "symbols": [
+        "n i x au",
+        "x au"
+      ],
+      "screenshot": "03_lyrics_phonemes_cjk.png"
+    },
+    "time": 1795837294.196252
+  },
+  "transpose_controls": {
+    "ok": true,
+    "details": {
+      "before": [
+        64,
+        68
+      ],
+      "after_plus1": [
+        65,
+        69
+      ],
+      "after_minus1": [
+        64,
+        68
+      ],
+      "transpose_box": {
+        "x": 971,
+        "y": 303,
+        "width": 287,
+        "height": 25
+      },
+      "screenshot": "04_transpose_controls.png"
+    },
+    "time": 1795837295.946309
+  },
+  "automation": {
+    "ok": true,
+    "details": {
+      "counts": {
+        "pitch_cents": 13,
+        "air": 13,
+        "tension": 13
+      },
+      "screenshot": "05_automation_curves.png"
+    },
+    "time": 1795837298.8944607
+  },
+  "zoom": {
+    "ok": true,
+    "details": {
+      "before": "112",
+      "after": "136",
+      "screenshot": "06_zoom.png"
+    },
+    "time": 1795837299.8611262
+  },
+  "render_vocal_bgm": {
+    "ok": true,
+    "details": {
+      "vocal_visible": true,
+      "bgm_visible": true,
+      "pre_repaint_clips": 1,
+      "screenshot": "08_vocal_render.png"
+    },
+    "time": 1795837306.851719
+  },
+  "alt_drag_repaint_range": {
+    "ok": true,
+    "details": {
+      "start": 0.54,
+      "end": 1.31,
+      "yellow_held": {
+        "pixels": 1956,
+        "ratio": 0.005131460892286543
+      },
+      "yellow_release": {
+        "pixels": 1956,
+        "ratio": 0.005131460892286543
+      },
+      "arrangement_box": {
+        "x": 236,
+        "y": 58,
+        "width": 712,
+        "height": 132
+      },
+      "screenshots": [
+        "09_alt_drag_repaint_held.png",
+        "10_alt_drag_repaint_numeric.png"
+      ]
+    },
+    "time": 1795837308.8562114
+  },
+  "repaint_replacement": {
+    "ok": true,
+    "details": {
+      "repaint_visible": true,
+      "clip_count": 1,
+      "clips": [
+        {
+          "id": "clip_2f4bc04bee23",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_9295440b4e47/job_5a6b3f6fc9bf/accompaniment.wav",
+          "start_ticks": 0,
+          "duration_ticks": 2400,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Repaint",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_b10625e0c4ff"
+        }
+      ],
+      "screenshot": "11_repaint_replacement_arrangement.png"
+    },
+    "time": 1795837310.4596505
+  },
+  "svc_conversion": {
+    "ok": true,
+    "details": {
+      "svc_visible": true,
+      "svc_track": true,
+      "clip_count": 1,
+      "screenshot": "11b_svc_conversion.png"
+    },
+    "time": 1795837321.4202862
+  },
+  "playback": {
+    "ok": false,
+    "details": {
+      "position_before": "1.1.1\n00:00.00",
+      "position_after": "1.3.2\n00:01.21",
+      "expected_sources": [
+        "/renders/project_9295440b4e47/job_0f9aa981138a/vocal.wav",
+        "/renders/project_9295440b4e47/job_23e89687742c/svc.wav",
+        "/renders/project_9295440b4e47/job_5a6b3f6fc9bf/accompaniment.wav"
+      ],
+      "requested": [],
+      "screenshot": "12_playback.png"
+    },
+    "time": 1795837322.9762843
+  },
+  "exports": {
+    "ok": true,
+    "details": {
+      "downloads": {
+        "wav": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_creative_loop/downloads/project_9295440b4e47.wav",
+          "bytes": 882044,
+          "suggested": "Creative Loop 验收.wav"
+        },
+        "mp4": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_creative_loop/downloads/project_9295440b4e47.mp4",
+          "bytes": 335003,
+          "suggested": "Creative Loop 验收.mp4"
+        },
+        "mid": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_creative_loop/downloads/project_9295440b4e47.mid",
+          "bytes": 179,
+          "suggested": "Creative Loop 验收.mid"
+        },
+        "lrc": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_creative_loop/downloads/project_9295440b4e47.lrc",
+          "bytes": 104,
+          "suggested": "Creative Loop 验收.lrc"
+        },
+        "ustx": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_creative_loop/downloads/project_9295440b4e47.ustx",
+          "bytes": 2752,
+          "suggested": "Creative Loop 验收.ustx"
+        },
+        "svp": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_creative_loop/downloads/project_9295440b4e47.svp",
+          "bytes": 7765,
+          "suggested": "Creative Loop 验收.svp"
+        },
+        "vpr": {
+          "ok": true,
+          "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/full_creative_loop/downloads/project_9295440b4e47.vpr",
+          "bytes": 710,
+          "suggested": "Creative Loop 验收.vpr"
+        }
+      },
+      "screenshots": [
+        "13_export_panel.png",
+        "14_exports_downloaded.png"
+      ]
+    },
+    "time": 1795837326.185518
+  },
+  "mcp_sse": {
+    "ok": true,
+    "details": {
+      "mcp_ok": true,
+      "mcp_error": "",
+      "before_count": 2,
+      "ui_before": "⋯\nvocal · zh · 2 notes\nM\nS\nOpenUtau host",
+      "ui_after": "⋯\nvocal · zh · 3 notes STALE RENDER\nM\nS\nOpenUtau host",
+      "sse_updated": true,
+      "screenshot": "15_mcp_sse_live_update.png"
+    },
+    "time": 1795837327.5615098
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "errors": [],
+      "warnings": [],
+      "network_failures": [],
+      "favicon_ok": true
+    },
+    "time": 1795837327.5620692
+  }
+}

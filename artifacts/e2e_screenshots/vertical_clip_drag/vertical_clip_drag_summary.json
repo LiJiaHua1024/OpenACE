@@ -1,0 +1,36 @@
+{
+  "viewport": "1272x837 exact",
+  "build": "tsc && vite build passed; cache-busted URLs used",
+  "confirmed_defects": [
+    {
+      "id": "held_drag_freezes_after_lane_migration",
+      "severity": "high",
+      "evidence": "drag_path_probe_results.json",
+      "details": "reverse path ended in track2 instead of track0; vertical-then-horizontal ended at start480 instead of expected 600"
+    },
+    {
+      "id": "arrangement_fourth_lane_clipped",
+      "severity": "high",
+      "evidence": "00_fixture_four_lanes.png / 18_final_layout.png",
+      "details": "canvas height132px but ruler+4 rows requires160px"
+    }
+  ],
+  "passed": [
+    "single vertical skips vocal lane and preserves start",
+    "undo after single vertical move",
+    "straight diagonal drag",
+    "bottom clamp",
+    "continuous top clamp and repeated group drag probes",
+    "copy/paste unique IDs tracks spacing",
+    "context delete",
+    "undo/redo after delete",
+    "horizontal-only drag",
+    "left trim",
+    "fade drag",
+    "live playback reconstruction",
+    "console/http clean",
+    "no body/sidebar/transport overflow"
+  ],
+  "network": "only expected /api/events ERR_ABORTED entries caused by reloads",
+  "recorded_video": "/home/ubuntu/screencasts/vertical-clip-drag-authoritative/vertical-clip-drag-authoritative-edited.mp4"
+}

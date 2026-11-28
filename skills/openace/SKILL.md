@@ -35,17 +35,54 @@ Use OpenACE when the user asks to write, tune, synthesize, convert, repaint, or 
 openace-tool create-project --title "Song Title"
 openace-tool add-track <project-id> --name "Lead" --language zh
 openace-tool add-note <project-id> <track-id> --start 0 --duration 480 --pitch 60 --lyric 你
+openace-tool batch-add-notes <project-id> <track-id> '[{"start_ticks":0,"duration_ticks":480,"pitch":60,"lyric":"你"}]'
+openace-tool update-note <project-id> <track-id> <note-id> '{"pitch":64}'
+openace-tool delete-note <project-id> <track-id> <note-id>
+openace-tool ripple-delete-range <project-id> <start-ticks> <end-ticks>
 openace-tool validate <project-id>
-openace-tool transpose <project-id> --semitones 2
+openace-tool transpose <project-id> <track-id> 2
+openace-tool set-expression <project-id> <track-id> dynamic '[{"ticks":0,"value":0.5},{"ticks":960,"value":1.0}]'
+openace-tool upsert-breath <project-id> <track-id> '{"start_ticks":960,"duration_ticks":120,"intensity":1.2,"timbre":"natural"}'
+openace-tool upsert-clip <project-id> <track-id> '{"path":"/path/audio.wav","start_ticks":0,"duration_ticks":960}'
+openace-tool set-tempo <project-id> --bpm 120 --points-json '[{"ticks":960,"bpm":60}]'
+openace-tool import-voice /path/reference.wav --name "Lead reference"
+openace-tool list-voices
+openace-tool trim-voice <voice-id> <start-seconds> <end-seconds>
+openace-tool rename-voice <voice-id> "New display name"
+openace-tool delete-voice <voice-id> --unassign   # only when intentionally clearing project assignments
+openace-tool assign-voice <project-id> <track-id> <voice-id> --reference-voice /path/reference.wav
+openace-tool duplicate-project <project-id> --title "Copy"
+openace-tool organize-project <project-id> --pinned true --tags "lead,draft"
+openace-tool delete-project <project-id>
+openace-tool import-audio vocal.wav --title "Imported Vocal"
+openace-tool import-midi input.mid --title "Imported Song"
 openace-tool render-vocal <project-id> <track-id>
-openace-tool vocal2bgm <project-id> --source-audio reference.wav
-openace-tool repaint <project-id> --start-ms 1000 --end-ms 5000 --prompt "warmer rock backing"
+# If a queued server-side render was a mistake:
+openace-tool cancel-render-job <job-id>
+openace-tool vocal2bgm <project-id> --track <vocal-track-id> --caption "professional instrumental accompaniment"
+openace-tool vocal2bgm <project-id> <source.wav> [--clip-id <clip-id>] --caption "professional instrumental accompaniment"
+# with --clip-id, the exact visible/trimmed clip segment is the input and output aligns to that clip
+openace-tool repaint <project-id> <source.wav> --start 1.0 --end 5.0 [--clip-id <clip-id>] --caption "warmer rock backing"
+# start/end are arrangement seconds; the source must exist as an intersecting arrangement clip
+openace-tool separate <project-id> [source.wav] [--clip-id <clip-id>]
+openace-tool svc <project-id> <source.wav> <reference.wav> [--clip-id <clip-id>] [--pitch-shift -2 | --auto-shift]
+openace-tool update-track <project-id> <track-id> '{"name":"Lead","volume":0.8,"pan":0}'
+openace-tool duplicate-track <project-id> <track-id> --name "Harmony"
+openace-tool reorder-track <project-id> <track-id> 0
+openace-tool delete-track <project-id> <track-id>
 openace-tool export <project-id> svp output.svp
 openace-tool export <project-id> ustx output.ustx
 openace-tool export <project-id> vpr output.vpr
 openace-tool export <project-id> mid output.mid
 openace-tool export <project-id> wav output.wav
+openace-tool export <project-id> mp3 output.mp3
+openace-tool export <project-id> flac output.flac
+openace-tool export <project-id> ogg output.ogg
+openace-tool export <project-id> stems output_stems.zip
+openace-tool export <project-id> mp4 output.mp4
 ```
+
+JSON arguments may be inline JSON or paths to JSON files. Use exact musical ticks. `ripple-delete-range` destructively cuts that musical interval across all tracks, truthfully splitting boundary vocal notes/audio clips and shifting downstream material; confirm the user wants destructive ripple editing before using it. Expression values are normalized 0–1 except `pitch_cents` (±100 cents). Breath intensity is 0–2 and timbre is `soft`, `natural`, or `strong`.
 
 ## MCP reference
 
@@ -57,4 +94,5 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact.
+Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `ripple_delete_range`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `organize_project`, voice-library atoms (`list_voices`, `import_voice`, `trim_voice`, `rename_voice`, `delete_voice`), `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, queued/running render cancellation (`cancel_render_job`), separation, conversion (including `pitch_shift`/`auto_shift` key modes), repaint, and export.
+Media-library atoms: `openace-tool list-media`, `openace-tool place-media-clip <project> <media_name> --start-ticks <ticks> [--track-id <id>]`, and `openace-tool delete-media <media_name>`. Deletion is safe and fails while arrangement clips reference the media.

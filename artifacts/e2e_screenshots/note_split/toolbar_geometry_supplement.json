@@ -1,0 +1,170 @@
+{
+  "viewport": [
+    1272,
+    837
+  ],
+  "toolbar": {
+    "scrollWidth": 714,
+    "clientWidth": 714,
+    "left": 236,
+    "right": 950,
+    "bottom": 284
+  },
+  "selection": {
+    "text": "1 selected",
+    "left": 878.5,
+    "right": 926.5,
+    "width": 48,
+    "fontSize": "9px"
+  },
+  "buttons": [
+    {
+      "text": "\u27a4",
+      "title": "Select/move (V)",
+      "left": 243,
+      "right": 274,
+      "top": 251.5,
+      "bottom": 276.5,
+      "width": 31,
+      "height": 25,
+      "visible": true,
+      "within": true,
+      "fontSize": "11px"
+    },
+    {
+      "text": "\u270e",
+      "title": "Note brush (B)",
+      "left": 278,
+      "right": 309,
+      "top": 251.5,
+      "bottom": 276.5,
+      "width": 31,
+      "height": 25,
+      "visible": true,
+      "within": true,
+      "fontSize": "11px"
+    },
+    {
+      "text": "\u232b",
+      "title": "Eraser (E)",
+      "left": 313,
+      "right": 344,
+      "top": 251.5,
+      "bottom": 276.5,
+      "width": 31,
+      "height": 25,
+      "visible": true,
+      "within": true,
+      "fontSize": "11px"
+    },
+    {
+      "text": "\u223f Pitch",
+      "title": "Per-note pitch handles (P); Alt+click deletes a handle",
+      "left": 348,
+      "right": 387.96875,
+      "top": 251.5,
+      "bottom": 276.5,
+      "width": 39.96875,
+      "height": 25,
+      "visible": true,
+      "within": true,
+      "fontSize": "11px"
+    },
+    {
+      "text": "Copy",
+      "title": "Copy (Ctrl+C)",
+      "left": 639.8984375,
+      "right": 675.8984375,
+      "top": 251.5,
+      "bottom": 276.5,
+      "width": 36,
+      "height": 25,
+      "visible": true,
+      "within": true,
+      "fontSize": "9px"
+    },
+    {
+      "text": "Paste",
+      "title": "Paste at playhead (Ctrl+V)",
+      "left": 678.8984375,
+      "right": 714.8984375,
+      "top": 251.5,
+      "bottom": 276.5,
+      "width": 36,
+      "height": 25,
+      "visible": true,
+      "within": true,
+      "fontSize": "9px"
+    },
+    {
+      "text": "Dup",
+      "title": "Duplicate (Ctrl+D)",
+      "left": 717.8984375,
+      "right": 753.8984375,
+      "top": 251.5,
+      "bottom": 276.5,
+      "width": 36,
+      "height": 25,
+      "visible": true,
+      "within": true,
+      "fontSize": "9px"
+    },
+    {
+      "text": "Quant",
+      "title": "Quantize selection/all (Q)",
+      "left": 756.8984375,
+      "right": 792.8984375,
+      "top": 251.5,
+      "bottom": 276.5,
+      "width": 36,
+      "height": 25,
+      "visible": true,
+      "within": true,
+      "fontSize": "9px"
+    },
+    {
+      "text": "Split",
+      "title": "Split selected note at playhead (Ctrl+E)",
+      "left": 795.8984375,
+      "right": 831.8984375,
+      "top": 251.5,
+      "bottom": 276.5,
+      "width": 36,
+      "height": 25,
+      "visible": true,
+      "within": true,
+      "fontSize": "9px"
+    },
+    {
+      "text": "Vibrato",
+      "title": "Edit vibrato for selected note",
+      "left": 834.8984375,
+      "right": 873.5,
+      "top": 251.5,
+      "bottom": 276.5,
+      "width": 38.6015625,
+      "height": 25,
+      "visible": true,
+      "within": true,
+      "fontSize": "9px"
+    }
+  ],
+  "overlaps": [],
+  "canvas": {
+    "top": 284,
+    "left": 236,
+    "right": 950
+  },
+  "splitErrorCount": 0,
+  "body": [
+    1272,
+    1272
+  ],
+  "selection_unclipped": true,
+  "toolbar_exact": true,
+  "all_buttons_visible_within": true,
+  "canvas_not_overlaid": true,
+  "console_bad": [],
+  "network_bad": [],
+  "passed": true
+}

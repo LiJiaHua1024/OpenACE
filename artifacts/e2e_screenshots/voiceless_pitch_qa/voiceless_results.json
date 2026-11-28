@@ -1,0 +1,601 @@
+{
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+    }
+  ],
+  "badnet": [],
+  "pid": "project_ccc67a390593",
+  "normal_brush": {
+    "points": [
+      {
+        "ticks": 154,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 183,
+        "value": -39.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 211,
+        "value": -44.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 240,
+        "value": -50.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 269,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 297,
+        "value": -61.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 326,
+        "value": -67.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 354,
+        "value": -72.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 383,
+        "value": -78.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 411,
+        "value": -83.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 440,
+        "value": -89.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 469,
+        "value": -94.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 497,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": true
+      }
+    ],
+    "all_explicitly_voiced": true
+  },
+  "alt_voiceless": {
+    "points": [
+      {
+        "ticks": 154,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 183,
+        "value": -39.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 211,
+        "value": -44.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 240,
+        "value": -50.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 269,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 297,
+        "value": -61.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 326,
+        "value": -67.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 354,
+        "value": -72.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 383,
+        "value": -78.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 411,
+        "value": -83.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 440,
+        "value": -89.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 469,
+        "value": -94.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 497,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 498,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": true
+      }
+    ],
+    "false_count": 13,
+    "true_count": 1,
+    "all_stroke_points_false": true,
+    "max_false_tick": 497,
+    "terminal_boundary": [
+      {
+        "ticks": 498,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": true
+      }
+    ],
+    "terminal_boundary_exact": true,
+    "undo_empty": true,
+    "redo_exact": true,
+    "reload_exact": true
+  },
+  "rendered_f0": {
+    "endpoint_status": 404,
+    "error": "not fresh/available"
+  },
+  "eraser": {
+    "after": [
+      {
+        "ticks": 154,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 183,
+        "value": -39.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 211,
+        "value": -44.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 240,
+        "value": -50.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 269,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 283,
+        "value": 0.0,
+        "curve": "linear",
+        "voiced": null
+      },
+      {
+        "ticks": 454,
+        "value": 0.0,
+        "curve": "linear",
+        "voiced": null
+      },
+      {
+        "ticks": 469,
+        "value": -94.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 497,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 498,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": true
+      }
+    ],
+    "inside_range": [
+      {
+        "ticks": 283,
+        "value": 0.0,
+        "curve": "linear",
+        "voiced": null
+      },
+      {
+        "ticks": 454,
+        "value": 0.0,
+        "curve": "linear",
+        "voiced": null
+      }
+    ],
+    "voiceless_inside_count": 0,
+    "interior_removed": false
+  },
+  "automation_copy_paste": {
+    "source_false_in_selection": [
+      {
+        "ticks": 154,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 183,
+        "value": -39.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 211,
+        "value": -44.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 240,
+        "value": -50.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 269,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 469,
+        "value": -94.0,
+        "curve": "linear",
+        "voiced": false
+      }
+    ],
+    "after_false_at_target": [
+      {
+        "ticks": 1054,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1083,
+        "value": -39.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1111,
+        "value": -44.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1140,
+        "value": -50.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1169,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1369,
+        "value": -94.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1397,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": false
+      }
+    ],
+    "preserved_voiceless_count": 7,
+    "preserves_voiced_metadata": true,
+    "after": [
+      {
+        "ticks": 154,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 183,
+        "value": -39.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 211,
+        "value": -44.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 240,
+        "value": -50.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 269,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 283,
+        "value": 0.0,
+        "curve": "linear",
+        "voiced": null
+      },
+      {
+        "ticks": 454,
+        "value": 0.0,
+        "curve": "linear",
+        "voiced": null
+      },
+      {
+        "ticks": 469,
+        "value": -94.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 497,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 498,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 1020,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": null
+      },
+      {
+        "ticks": 1054,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1083,
+        "value": -39.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1111,
+        "value": -44.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1140,
+        "value": -50.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1169,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1183,
+        "value": 0.0,
+        "curve": "linear",
+        "voiced": null
+      },
+      {
+        "ticks": 1354,
+        "value": 0.0,
+        "curve": "linear",
+        "voiced": null
+      },
+      {
+        "ticks": 1369,
+        "value": -94.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1397,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": false
+      },
+      {
+        "ticks": 1398,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 1440,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": true
+      }
+    ]
+  },
+  "shift_alt": {
+    "points": [
+      {
+        "ticks": 154,
+        "value": -33.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 183,
+        "value": -39.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 211,
+        "value": -44.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 240,
+        "value": -50.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 269,
+        "value": -56.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 297,
+        "value": -61.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 326,
+        "value": -67.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 354,
+        "value": -72.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 383,
+        "value": -78.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 411,
+        "value": -83.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 440,
+        "value": -89.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 469,
+        "value": -94.0,
+        "curve": "linear",
+        "voiced": true
+      },
+      {
+        "ticks": 497,
+        "value": -100.0,
+        "curve": "linear",
+        "voiced": true
+      }
+    ],
+    "all_explicitly_voiced": true,
+    "any_false": false
+  },
+  "regressions": {
+    "fixed_changed": true,
+    "fixed_count": 20,
+    "right_erase_count": 12,
+    "select_before": {
+      "start_ticks": 120,
+      "duration_ticks": 960,
+      "pitch": 65
+    },
+    "select_after": {
+      "start_ticks": 60,
+      "duration_ticks": 960,
+      "pitch": 65
+    },
+    "select_moved": true
+  }
+}

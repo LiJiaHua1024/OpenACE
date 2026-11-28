@@ -8,12 +8,18 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from openace.core.models import Note, RenderMode, Track
+from openace.core import editing
+from openace.core.models import Note, RenderMode, Track, new_id
 from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
-from openace.core.project_store import ProjectStore
+from openace.core.media_library import delete_media_file, list_media, place_media_clip
+from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
+from openace.core.voice_library import VoiceLibrary
+from openace.core.voice_operations import delete_voice_with_project_cleanup
 from openace.core.timing import validate_absolute_beat_anchor
-from openace.exporters.master import export_master_wav
+from openace.exporters.master import export_compressed_master, export_lyrics_video_master, export_master_wav, export_stems_zip
+from openace.importers.audio import project_from_audio
+from openace.importers.midi import import_midi
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.exporters.svp import export_svp
 from openace.exporters.ustx import export_ustx
@@ -33,17 +39,165 @@ def services() -> tuple[ProjectStore, RenderService]:
     return store, RenderService(store, DATA / "renders")
 
 
+def notify_web(project) -> None:
+    try:
+        import urllib.request
+
+        body = json.dumps(project.model_dump(mode="json")).encode("utf-8")
+        request = urllib.request.Request(
+            "http://127.0.0.1:8787/api/internal/project-updated",
+            data=body,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(request, timeout=0.25).read()
+    except Exception:
+        pass
+
+
+def notify_project_deleted(project_id: str) -> None:
+    try:
+        import urllib.request
+
+        body = json.dumps({"project_id": project_id}).encode("utf-8")
+        request = urllib.request.Request(
+            "http://127.0.0.1:8787/api/internal/project-deleted",
+            data=body,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(request, timeout=0.25).read()
+    except Exception:
+        pass
+
+
+def notify_media(media: dict, action: str) -> None:
+    try:
+        import urllib.request
+        body = json.dumps({"action": action, "media": media}).encode("utf-8")
+        request = urllib.request.Request("http://127.0.0.1:8787/api/internal/media-updated", data=body, headers={"Content-Type": "application/json"}, method="POST")
+        urllib.request.urlopen(request, timeout=0.25).read()
+    except Exception:
+        pass
+
+
+def notify_voice_library(payload: dict) -> None:
+    try:
+        import urllib.request
+        body = json.dumps(payload).encode("utf-8")
+        request = urllib.request.Request("http://127.0.0.1:8787/api/internal/voice-library-updated", data=body, headers={"Content-Type": "application/json"}, method="POST")
+        urllib.request.urlopen(request, timeout=0.25).read()
+    except Exception:
+        pass
+
+
+def save_and_notify(store: ProjectStore, project) -> None:
+    store.save(project)
+    notify_web(project)
+
+
+def json_payload(raw: str):
+    candidate = Path(raw)
+    try:
+        if candidate.exists():
+            return json.loads(candidate.read_text(encoding="utf-8"))
+    except OSError:
+        # Inline JSON can exceed host filename limits; it is payload text, not a path.
+        pass
+    return json.loads(raw)
+
+
 def cmd_create_project(args) -> None:
     store, _ = services()
-    emit(store.create(args.title).model_dump(mode="json"))
+    project = store.create(args.title)
+    notify_web(project)
+    emit(project.model_dump(mode="json"))
+
+
+def cmd_duplicate_project(args) -> None:
+    store, _ = services()
+    source = store.get(args.project)
+    duplicate = type(source).model_validate(source.model_dump())
+    duplicate.id = new_id("project")
+    duplicate.title = args.title or f"{source.title} Copy"
+    duplicate.metadata = dict(source.metadata or {})
+    duplicate.metadata["pinned"] = False
+    save_and_notify(store, duplicate)
+    emit(duplicate.model_dump(mode="json"))
+
+
+def cmd_organize_project(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    metadata = dict(project.metadata or {})
+    if args.pinned is not None:
+        metadata["pinned"] = args.pinned == "true"
+    if args.tags is not None:
+        metadata["tags"] = normalize_project_tags(args.tags.split(","))
+    if args.folders is not None:
+        metadata["folders"] = normalize_project_folders(args.folders.split(","))
+    project.metadata = metadata
+    project.save(store.path_for(project.id))
+    notify_web(project)
+    emit(project.model_dump(mode="json"))
+
+
+def cmd_delete_project(args) -> None:
+    store, _ = services()
+    if not store.delete(args.project):
+        raise SystemExit("project not found")
+    notify_project_deleted(args.project)
+    emit({"deleted": True, "project": args.project})
+
+
+def cmd_import_audio(args) -> None:
+    store, _ = services()
+    source = Path(args.path)
+    if not source.exists():
+        raise SystemExit(f"audio file does not exist: {source}")
+    project = project_from_audio(source, args.title)
+    save_and_notify(store, project)
+    emit(project.model_dump(mode="json"))
 
 
 def cmd_add_track(args) -> None:
     store, _ = services()
     project = store.get(args.project)
     track = project.add_track(Track(name=args.name, language=args.language))
-    store.save(project)
+    save_and_notify(store, project)
     emit(track.model_dump(mode="json"))
+
+
+def cmd_update_track(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    track = editing.update_track(project, args.track, json_payload(args.patch_json))
+    save_and_notify(store, project)
+    emit(track.model_dump(mode="json"))
+
+
+def cmd_duplicate_track(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    track = editing.duplicate_track(project, args.track, args.name)
+    save_and_notify(store, project)
+    emit(track.model_dump(mode="json"))
+
+
+def cmd_delete_track(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    editing.delete_track(project, args.track)
+    save_and_notify(store, project)
+    emit({"deleted": True, "track": args.track})
+
+
+def cmd_reorder_track(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    track = editing.reorder_track(project, args.track, args.index)
+    save_and_notify(store, project)
+    emit({"track": track.model_dump(mode="json"), "order": [item.id for item in project.tracks]})
 
 
 def cmd_add_note(args) -> None:
@@ -60,9 +214,9 @@ def cmd_add_note(args) -> None:
         )
     )
     if args.lyric:
-        ensure_note_phonemes(note, track.language)
-    validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm)
-    store.save(project)
+        ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
+    validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm, project=project)
+    save_and_notify(store, project)
     emit(note.model_dump(mode="json"))
 
 
@@ -73,8 +227,8 @@ def cmd_validate(args) -> None:
     for track in project.tracks:
         for note in track.notes:
             if note.lyric:
-                ensure_note_phonemes(note, track.language)
-        anchors = validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm)
+                ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
+        anchors = validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm, project=project)
         result["tracks"].append({"track": track.id, "notes": len(track.notes), "anchors": len(anchors)})
     store.save(project)
     emit(result)
@@ -88,38 +242,93 @@ def cmd_transpose(args) -> None:
     lookup = dict(mapping)
     for note in track.notes:
         note.pitch = lookup[note.id]
-    store.save(project)
+    save_and_notify(store, project)
     emit({"updated": len(mapping), "intervals": "preserved"})
 
 
 def cmd_render_vocal(args) -> None:
     store, service = services()
     job = service.create_job(args.project, RenderMode.SVS_SCORE, args.track)
-    emit(asyncio.run(service.run_vocal_render(job.id)).model_dump(mode="json"))
+    result = asyncio.run(service.run_vocal_render(job.id))
+    notify_web(store.get(args.project))
+    emit(result.model_dump(mode="json"))
 
 
 def cmd_vocal2bgm(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.VOCAL2BGM, args.track)
-    emit(asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption)).model_dump(mode="json"))
+    job = service.create_job(args.project, RenderMode.VOCAL2BGM, args.track, source_audio=args.source_audio, caption=args.caption, clip_id=args.clip_id)
+    result = asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption))
+    notify_web(store.get(args.project))
+    emit(result.model_dump(mode="json"))
 
 
 def cmd_repaint(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.REPAINT, args.track)
-    emit(asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption, args.start, args.end)).model_dump(mode="json"))
+    job = service.create_job(args.project, RenderMode.REPAINT, args.track, source_audio=args.source_audio, caption=args.caption, start_s=args.start, end_s=args.end, clip_id=args.clip_id)
+    result = asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption, args.start, args.end))
+    notify_web(store.get(args.project))
+    emit(result.model_dump(mode="json"))
+
+
+def cmd_separate(args) -> None:
+    store, service = services()
+    job = service.create_job(args.project, RenderMode.SEPARATE, args.track, source_audio=args.source_audio, clip_id=args.clip_id)
+    result = asyncio.run(service.run_separation(job.id, args.source_audio))
+    notify_web(store.get(args.project))
+    emit(result.model_dump(mode="json"))
 
 
 def cmd_svc(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.SVC, args.track)
-    emit(asyncio.run(service.run_svc(job.id, args.source_audio, args.reference_voice)).model_dump(mode="json"))
+    job = service.create_job(args.project, RenderMode.SVC, args.track, source_audio=args.source_audio, reference_voice=args.reference_voice, clip_id=args.clip_id, pitch_shift=args.pitch_shift, auto_shift=args.auto_shift)
+    result = asyncio.run(service.run_svc(job.id, args.source_audio, args.reference_voice))
+    notify_web(store.get(args.project))
+    emit(result.model_dump(mode="json"))
+
+
+def server_cancel_job(job_id: str) -> dict | None:
+    try:
+        import urllib.request
+
+        request = urllib.request.Request(f"http://127.0.0.1:8787/api/jobs/{job_id}/cancel", data=b"{}", headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(request, timeout=1.0) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except Exception as exc:
+        import urllib.error
+        if isinstance(exc, urllib.error.HTTPError):
+            try:
+                detail = json.loads(exc.read().decode("utf-8")).get("detail", exc.reason)
+            except Exception:
+                detail = exc.reason
+            raise SystemExit(f"server cancel failed ({exc.code}): {detail}") from exc
+        return None
+
+
+def cmd_cancel_render_job(args) -> None:
+    server_result = server_cancel_job(args.job)
+    if server_result is not None:
+        emit(server_result)
+        return
+    _, service = services()
+    job = service.jobs.get(args.job)
+    if job is None:
+        raise SystemExit(f"render job not found: {args.job}")
+    if job.status.value == "running":
+        raise SystemExit("running render job is owned by another live process; cancel it through the OpenACE server API/UI so the engine subprocess can be terminated")
+    emit(service.cancel_job(args.job).model_dump(mode="json"))
 
 
 def cmd_export(args) -> None:
     store, _ = services()
     project = store.get(args.project)
     output = Path(args.output)
+    if (args.start_ticks is None) != (args.end_ticks is None):
+        raise SystemExit("export range requires both --start-ticks and --end-ticks")
+    if args.start_ticks is not None:
+        if args.start_ticks < 0 or args.end_ticks <= args.start_ticks:
+            raise SystemExit("export range must satisfy 0 <= --start-ticks < --end-ticks")
+        if args.format not in {"wav", "mp3", "flac", "ogg", "stems"}:
+            raise SystemExit(f"range export is currently supported for audio masters/stems, not {args.format}")
     if args.format == "mid":
         export_midi(project, output)
     elif args.format == "lrc":
@@ -131,10 +340,194 @@ def cmd_export(args) -> None:
     elif args.format == "vpr":
         export_vpr(project, output)
     elif args.format == "wav":
-        export_master_wav(project, output)
+        export_master_wav(project, output, start_ticks=args.start_ticks, end_ticks=args.end_ticks)
+    elif args.format == "stems":
+        export_stems_zip(project, output, start_ticks=args.start_ticks, end_ticks=args.end_ticks)
+    elif args.format in {"mp3", "flac", "ogg"}:
+        export_compressed_master(project, output, args.format, start_ticks=args.start_ticks, end_ticks=args.end_ticks)
+    elif args.format == "mp4":
+        export_lyrics_video_master(project, output)
     else:
         raise SystemExit(f"unsupported format {args.format}")
     emit({"output": str(output), "format": args.format, "bytes": output.stat().st_size})
+
+
+def cmd_batch_add_notes(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    added = editing.add_notes(project, args.track, json_payload(args.notes_json))
+    save_and_notify(store, project)
+    emit([note.model_dump(mode="json") for note in added])
+
+
+def cmd_update_note(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    note = editing.update_note(project, args.track, args.note, json_payload(args.patch_json))
+    save_and_notify(store, project)
+    emit(note.model_dump(mode="json"))
+
+
+def cmd_split_note(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    first, second = editing.split_note(project, args.track, args.note, args.split_ticks)
+    save_and_notify(store, project)
+    emit({"first": first.model_dump(mode="json"), "second": second.model_dump(mode="json")})
+
+
+def cmd_merge_notes(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    merged = editing.merge_notes(project, args.track, json_payload(args.note_ids_json))
+    save_and_notify(store, project)
+    emit(merged.model_dump(mode="json"))
+
+
+def cmd_ripple_delete_range(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    result = editing.ripple_delete_time_range(project, args.start_ticks, args.end_ticks)
+    save_and_notify(store, project)
+    emit(result)
+
+
+def cmd_delete_note(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    if not editing.delete_note(project, args.track, args.note):
+        raise SystemExit("note not found")
+    save_and_notify(store, project)
+    emit({"deleted": True, "note": args.note})
+
+
+def cmd_set_expression(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    points = editing.set_automation_lane(project, args.track, args.lane, json_payload(args.points_json))
+    save_and_notify(store, project)
+    emit([point.model_dump(mode="json") for point in points])
+
+
+def cmd_upsert_breath(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    breath = editing.upsert_breath(project, args.track, json_payload(args.breath_json), args.breath_id)
+    save_and_notify(store, project)
+    emit(breath.model_dump(mode="json"))
+
+
+def cmd_delete_breath(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    if not editing.delete_breath(project, args.track, args.breath):
+        raise SystemExit("breath not found")
+    save_and_notify(store, project)
+    emit({"deleted": True, "breath": args.breath})
+
+
+def cmd_list_media(args) -> None:
+    emit(list_media(DATA / "uploads"))
+
+
+def cmd_place_media_clip(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    track, clip = place_media_clip(store, project, DATA / "uploads", args.media_name, args.start_ticks, args.track_id)
+    notify_web(project)
+    emit({"track": track.model_dump(mode="json"), "clip": clip.model_dump(mode="json")})
+
+
+def cmd_delete_media(args) -> None:
+    store, _ = services()
+    entry = delete_media_file(store, DATA / "uploads", args.media_name)
+    notify_media(entry, "deleted")
+    emit({"ok": True, "deleted": entry})
+
+
+def cmd_upsert_clip(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    clip = editing.upsert_audio_clip(project, args.track, json_payload(args.clip_json), args.clip_id)
+    save_and_notify(store, project)
+    emit(clip.model_dump(mode="json"))
+
+
+def cmd_delete_clip(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    if not editing.delete_audio_clip(project, args.track, args.clip):
+        raise SystemExit("clip not found")
+    save_and_notify(store, project)
+    emit({"deleted": True, "clip": args.clip})
+
+
+def cmd_set_tempo(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    points = json_payload(args.points_json) if args.points_json else []
+    tempo_map = editing.set_tempo_map(project, args.bpm, points)
+    save_and_notify(store, project)
+    emit({"bpm": project.bpm, "tempo_map": [point.model_dump(mode="json") for point in tempo_map]})
+
+
+def voice_library() -> VoiceLibrary:
+    return VoiceLibrary(DATA / "voices")
+
+
+def cmd_list_voices(args) -> None:
+    emit([voice.model_dump(mode="json") for voice in voice_library().list()])
+
+
+def cmd_import_voice(args) -> None:
+    path = Path(args.path)
+    if not path.exists():
+        raise FileNotFoundError(f"reference voice not found: {path}")
+    library = voice_library()
+    with path.open("rb") as stream:
+        voice = library.create(path.name, stream)
+    if args.name:
+        voice = library.rename(voice.id, args.name)
+    notify_voice_library({"action": "created", "voice": voice.model_dump(mode="json")})
+    emit(voice.model_dump(mode="json"))
+
+
+def cmd_trim_voice(args) -> None:
+    voice = voice_library().create_trimmed_copy(args.voice, args.start_seconds, args.end_seconds)
+    notify_voice_library({"action": "created", "voice": voice.model_dump(mode="json")})
+    emit(voice.model_dump(mode="json"))
+
+
+def cmd_rename_voice(args) -> None:
+    voice = voice_library().rename(args.voice, args.name)
+    notify_voice_library({"action": "renamed", "voice": voice.model_dump(mode="json")})
+    emit(voice.model_dump(mode="json"))
+
+
+def cmd_delete_voice(args) -> None:
+    store, _ = services()
+    library = voice_library()
+    try:
+        result = delete_voice_with_project_cleanup(store, library, args.voice, unassign=args.unassign, publish_project=notify_web)
+    except RuntimeError as exc:
+        raise ValueError(str(exc) + "; pass --unassign to remove the assignment explicitly") from exc
+    notify_voice_library({"action": "deleted", "voice_id": args.voice, "unassigned": result["unassigned"]})
+    emit({"ok": True, **result})
+
+
+def cmd_assign_voice(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    result = editing.assign_voice(project, args.track, args.voice_id, args.reference_voice)
+    save_and_notify(store, project)
+    emit(result)
+
+
+def cmd_import_midi(args) -> None:
+    store, _ = services()
+    project = import_midi(Path(args.path), title=args.title)
+    save_and_notify(store, project)
+    emit(project.model_dump(mode="json"))
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -145,11 +538,44 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--title", default="Untitled OpenACE Project")
     p.set_defaults(func=cmd_create_project)
 
+    p = sub.add_parser("duplicate-project")
+    p.add_argument("project")
+    p.add_argument("--title")
+    p.set_defaults(func=cmd_duplicate_project)
+
+    p = sub.add_parser("organize-project")
+    p.add_argument("project")
+    p.add_argument("--pinned", choices=["true", "false"])
+    p.add_argument("--tags", help="comma-separated project tags")
+    p.add_argument("--folders", help="comma-separated project folders")
+    p.set_defaults(func=cmd_organize_project)
+
+    p = sub.add_parser("delete-project")
+    p.add_argument("project")
+    p.set_defaults(func=cmd_delete_project)
+
     p = sub.add_parser("add-track")
     p.add_argument("project")
     p.add_argument("--name", required=True)
     p.add_argument("--language", default="zh")
     p.set_defaults(func=cmd_add_track)
+
+
+    p = sub.add_parser("update-track")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("patch_json")
+    p.set_defaults(func=cmd_update_track)
+
+    p = sub.add_parser("duplicate-track")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("--name")
+    p.set_defaults(func=cmd_duplicate_track)
+
+    p = sub.add_parser("delete-track")
+    p.add_argument("project"); p.add_argument("track")
+    p.set_defaults(func=cmd_delete_track)
+
+    p = sub.add_parser("reorder-track")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("index", type=int)
+    p.set_defaults(func=cmd_reorder_track)
 
     p = sub.add_parser("add-note")
     p.add_argument("project")
@@ -178,8 +604,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("vocal2bgm")
     p.add_argument("project")
-    p.add_argument("source_audio")
-    p.add_argument("--track", default=None)
+    p.add_argument("source_audio", nargs="?", default=None, help="source audio file; optional when --track names a rendered vocal track")
+    p.add_argument("--track", default=None, help="rendered vocal track to use as project-aware input")
+    p.add_argument("--clip-id", default=None, help="arrangement clip whose visible segment is the input")
     p.add_argument("--caption", default="professional instrumental accompaniment")
     p.set_defaults(func=cmd_vocal2bgm)
 
@@ -189,20 +616,132 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--track", default=None)
     p.add_argument("--start", type=float, required=True)
     p.add_argument("--end", type=float, required=True)
+    p.add_argument("--clip-id", default=None, help="exact arrangement clip id when several clips use the same source")
     p.add_argument("--caption", default="")
     p.set_defaults(func=cmd_repaint)
+
+    p = sub.add_parser("separate")
+    p.add_argument("project")
+    p.add_argument("source_audio", nargs="?", default=None)
+    p.add_argument("--clip-id", default=None, help="arrangement clip whose visible segment is the separation input")
+    p.add_argument("--track", default=None)
+    p.set_defaults(func=cmd_separate)
 
     p = sub.add_parser("svc")
     p.add_argument("project")
     p.add_argument("source_audio")
     p.add_argument("reference_voice")
+    p.add_argument("--clip-id", default=None, help="arrangement clip whose visible segment is the conversion input")
     p.add_argument("--track", default=None)
+    p.add_argument("--pitch-shift", type=int, default=0, help="manual SVC transposition in semitones (-24..24); zero preserves source key")
+    p.add_argument("--auto-shift", action="store_true", help="automatically match reference/source median pitch when manual shift is zero")
     p.set_defaults(func=cmd_svc)
+
+    p = sub.add_parser("cancel-render-job")
+    p.add_argument("job")
+    p.set_defaults(func=cmd_cancel_render_job)
+
+    p = sub.add_parser("batch-add-notes")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("notes_json")
+    p.set_defaults(func=cmd_batch_add_notes)
+
+    p = sub.add_parser("update-note")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("note"); p.add_argument("patch_json")
+    p.set_defaults(func=cmd_update_note)
+
+    p = sub.add_parser("list-media")
+    p.set_defaults(func=cmd_list_media)
+
+    p = sub.add_parser("place-media-clip")
+    p.add_argument("project")
+    p.add_argument("media_name")
+    p.add_argument("--start-ticks", type=int, default=0)
+    p.add_argument("--track-id")
+    p.set_defaults(func=cmd_place_media_clip)
+
+    p = sub.add_parser("delete-media")
+    p.add_argument("media_name")
+    p.set_defaults(func=cmd_delete_media)
+
+    p = sub.add_parser("split-note")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("note"); p.add_argument("split_ticks", type=int)
+    p.set_defaults(func=cmd_split_note)
+
+    p = sub.add_parser("merge-notes")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("note_ids_json")
+    p.set_defaults(func=cmd_merge_notes)
+
+    p = sub.add_parser("ripple-delete-range")
+    p.add_argument("project")
+    p.add_argument("start_ticks", type=int)
+    p.add_argument("end_ticks", type=int)
+    p.set_defaults(func=cmd_ripple_delete_range)
+
+    p = sub.add_parser("delete-note")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("note")
+    p.set_defaults(func=cmd_delete_note)
+
+    p = sub.add_parser("set-expression")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("lane", choices=sorted(editing.AUTOMATION_KEYS)); p.add_argument("points_json")
+    p.set_defaults(func=cmd_set_expression)
+
+    p = sub.add_parser("upsert-breath")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("breath_json"); p.add_argument("--breath-id")
+    p.set_defaults(func=cmd_upsert_breath)
+
+    p = sub.add_parser("delete-breath")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("breath")
+    p.set_defaults(func=cmd_delete_breath)
+
+    p = sub.add_parser("upsert-clip")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("clip_json"); p.add_argument("--clip-id")
+    p.set_defaults(func=cmd_upsert_clip)
+
+    p = sub.add_parser("delete-clip")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("clip")
+    p.set_defaults(func=cmd_delete_clip)
+
+    p = sub.add_parser("set-tempo")
+    p.add_argument("project"); p.add_argument("--bpm", type=float); p.add_argument("--points-json")
+    p.set_defaults(func=cmd_set_tempo)
+
+    p = sub.add_parser("list-voices")
+    p.set_defaults(func=cmd_list_voices)
+
+    p = sub.add_parser("import-voice")
+    p.add_argument("path"); p.add_argument("--name")
+    p.set_defaults(func=cmd_import_voice)
+
+    p = sub.add_parser("trim-voice")
+    p.add_argument("voice"); p.add_argument("start_seconds", type=float); p.add_argument("end_seconds", type=float)
+    p.set_defaults(func=cmd_trim_voice)
+
+    p = sub.add_parser("rename-voice")
+    p.add_argument("voice"); p.add_argument("name")
+    p.set_defaults(func=cmd_rename_voice)
+
+    p = sub.add_parser("delete-voice")
+    p.add_argument("voice"); p.add_argument("--unassign", action="store_true", help="explicitly clear project assignments before deleting")
+    p.set_defaults(func=cmd_delete_voice)
+
+    p = sub.add_parser("assign-voice")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("voice_id"); p.add_argument("--reference-voice")
+    p.set_defaults(func=cmd_assign_voice)
+
+    p = sub.add_parser("import-audio")
+    p.add_argument("path"); p.add_argument("--title")
+    p.set_defaults(func=cmd_import_audio)
+
+    p = sub.add_parser("import-midi")
+    p.add_argument("path"); p.add_argument("--title")
+    p.set_defaults(func=cmd_import_midi)
 
     p = sub.add_parser("export")
     p.add_argument("project")
-    p.add_argument("format", choices=["mid", "lrc", "ustx", "svp", "vpr", "wav"])
+    p.add_argument("format", choices=["mid", "lrc", "ustx", "svp", "vpr", "wav", "stems", "mp3", "flac", "ogg", "mp4"])
     p.add_argument("output")
+    p.add_argument("--start-ticks", type=int, default=None, help="optional export range start in project ticks for audio masters/stems")
+    p.add_argument("--end-ticks", type=int, default=None, help="optional export range end in project ticks for audio masters/stems")
     p.set_defaults(func=cmd_export)
     return parser
 

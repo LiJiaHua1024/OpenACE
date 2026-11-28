@@ -1,0 +1,3655 @@
+{
+  "created": [
+    {
+      "label": "load",
+      "perf": 159.40000000596046,
+      "state": "suspended",
+      "currentTime": 0,
+      "sampleRate": 44100
+    },
+    {
+      "label": "click",
+      "perf": 845.1000000089407,
+      "state": "running",
+      "currentTime": 0,
+      "sampleRate": 44100
+    }
+  ],
+  "events": [
+    {
+      "type": "create",
+      "label": "load",
+      "state": "suspended",
+      "currentTime": 0,
+      "perf": 163.30000001192093
+    },
+    {
+      "type": "create",
+      "label": "click",
+      "state": "running",
+      "currentTime": 0,
+      "perf": 847.1000000089407
+    }
+  ],
+  "samples": [
+    {
+      "perf": 168.5,
+      "load": {
+        "age": 0.009200000002980232,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 171.90000000596046,
+      "load": {
+        "age": 0.0125,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 186.30000001192093,
+      "load": {
+        "age": 0.026900000005960465,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 203.5,
+      "load": {
+        "age": 0.04409999999403953,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 219.6000000089407,
+      "load": {
+        "age": 0.06020000000298023,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 237.1000000089407,
+      "load": {
+        "age": 0.07779999999701977,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 253.6000000089407,
+      "load": {
+        "age": 0.09420000000298023,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 270.40000000596046,
+      "load": {
+        "age": 0.111,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 287.40000000596046,
+      "load": {
+        "age": 0.128,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 303.70000000298023,
+      "load": {
+        "age": 0.14429999999701976,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 320.80000001192093,
+      "load": {
+        "age": 0.16140000000596047,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 336.90000000596046,
+      "load": {
+        "age": 0.1775,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 353.20000000298023,
+      "load": {
+        "age": 0.19379999999701977,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 370.20000000298023,
+      "load": {
+        "age": 0.21079999999701976,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 387.40000000596046,
+      "load": {
+        "age": 0.228,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 404,
+      "load": {
+        "age": 0.24459999999403953,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 420.40000000596046,
+      "load": {
+        "age": 0.261,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 437,
+      "load": {
+        "age": 0.27759999999403956,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 453.5,
+      "load": {
+        "age": 0.2940999999940395,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 469.90000000596046,
+      "load": {
+        "age": 0.3105,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 486.90000000596046,
+      "load": {
+        "age": 0.3275,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 503.6000000089407,
+      "load": {
+        "age": 0.34420000000298023,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 520.6000000089407,
+      "load": {
+        "age": 0.36120000000298025,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 537.1000000089407,
+      "load": {
+        "age": 0.3777000000029802,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 553.3000000119209,
+      "load": {
+        "age": 0.3939000000059605,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 570.1000000089407,
+      "load": {
+        "age": 0.41070000000298024,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 586.6000000089407,
+      "load": {
+        "age": 0.42720000000298025,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 603.4000000059605,
+      "load": {
+        "age": 0.444,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 620.2000000029802,
+      "load": {
+        "age": 0.46079999999701976,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 637.1000000089407,
+      "load": {
+        "age": 0.47770000000298024,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 653.6000000089407,
+      "load": {
+        "age": 0.49420000000298026,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 670.4000000059605,
+      "load": {
+        "age": 0.511,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 686.4000000059605,
+      "load": {
+        "age": 0.527,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 703.3000000119209,
+      "load": {
+        "age": 0.5439000000059605,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 725.5,
+      "load": {
+        "age": 0.5660999999940395,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 736.7000000029802,
+      "load": {
+        "age": 0.5772999999970198,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 753.6000000089407,
+      "load": {
+        "age": 0.5942000000029802,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 770.6000000089407,
+      "load": {
+        "age": 0.6112000000029802,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 787.3000000119209,
+      "load": {
+        "age": 0.6279000000059605,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 803.4000000059605,
+      "load": {
+        "age": 0.644,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 820.4000000059605,
+      "load": {
+        "age": 0.661,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 836.6000000089407,
+      "load": {
+        "age": 0.6772000000029802,
+        "time": 0,
+        "state": "suspended"
+      }
+    },
+    {
+      "perf": 853.6000000089407,
+      "load": {
+        "age": 0.6942000000029802,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.0085,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 871.2000000029802,
+      "load": {
+        "age": 0.7117999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.026099999994039537,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 887,
+      "load": {
+        "age": 0.7275999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.041899999991059304,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 903.3000000119209,
+      "load": {
+        "age": 0.7439000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.05820000000298023,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 919.8000000119209,
+      "load": {
+        "age": 0.7604000000059604,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.07470000000298023,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 937.4000000059605,
+      "load": {
+        "age": 0.778,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.09229999999701977,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 953.4000000059605,
+      "load": {
+        "age": 0.794,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.10829999999701977,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 970.2000000029802,
+      "load": {
+        "age": 0.8107999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.12509999999403953,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 986.4000000059605,
+      "load": {
+        "age": 0.827,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.14129999999701975,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1003.7000000029802,
+      "load": {
+        "age": 0.8442999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.15859999999403954,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1020.5,
+      "load": {
+        "age": 0.8610999999940395,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.1753999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1037.300000011921,
+      "load": {
+        "age": 0.8779000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.19220000000298024,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1053.2000000029802,
+      "load": {
+        "age": 0.8937999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.20809999999403953,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1070.300000011921,
+      "load": {
+        "age": 0.9109000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.22520000000298024,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1086.4000000059605,
+      "load": {
+        "age": 0.927,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.2413999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1103.2000000029802,
+      "load": {
+        "age": 0.9437999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.25809999999403954,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1120.2000000029802,
+      "load": {
+        "age": 0.9607999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.27509999999403956,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1137.2000000029802,
+      "load": {
+        "age": 0.9777999999970197,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.2920999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1153.800000011921,
+      "load": {
+        "age": 0.9944000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.30870000000298026,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1170.6000000089407,
+      "load": {
+        "age": 1.0112000000029802,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.3255,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1186.4000000059605,
+      "load": {
+        "age": 1.027,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.34129999999701977,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1203,
+      "load": {
+        "age": 1.0435999999940395,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.3578999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1220.5,
+      "load": {
+        "age": 1.0612000000029802,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.3755,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1237.1000000089407,
+      "load": {
+        "age": 1.0777000000029802,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.392,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1253.9000000059605,
+      "load": {
+        "age": 1.0945,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.40879999999701977,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1269.7000000029802,
+      "load": {
+        "age": 1.1102999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.4245999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1286.5,
+      "load": {
+        "age": 1.1270999999940394,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.4413999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1303,
+      "load": {
+        "age": 1.1435999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.4578999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1320.6000000089407,
+      "load": {
+        "age": 1.1612000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.4755,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1337.1000000089407,
+      "load": {
+        "age": 1.1777000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.4920999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1353.5,
+      "load": {
+        "age": 1.1940999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.5083999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1370.2000000029802,
+      "load": {
+        "age": 1.2107999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.5250999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1386.300000011921,
+      "load": {
+        "age": 1.2269000000059604,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.5412999999970197,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1403.800000011921,
+      "load": {
+        "age": 1.2444000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.5587000000029803,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1420.6000000089407,
+      "load": {
+        "age": 1.2612000000029802,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.5755,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1437.2000000029802,
+      "load": {
+        "age": 1.2777999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.5920999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1454.1000000089407,
+      "load": {
+        "age": 1.2947000000029802,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.609,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1469.800000011921,
+      "load": {
+        "age": 1.3105,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.6247999999970197,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1486.7000000029802,
+      "load": {
+        "age": 1.3272999999970199,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.6415999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1503.1000000089407,
+      "load": {
+        "age": 1.3437000000029802,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.658,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1520.1000000089407,
+      "load": {
+        "age": 1.3607000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.675,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1536.800000011921,
+      "load": {
+        "age": 1.3774000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.6917000000029803,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1553.6000000089407,
+      "load": {
+        "age": 1.3942000000029802,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.7085,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1570.2000000029802,
+      "load": {
+        "age": 1.4107999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.7250999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1587.1000000089407,
+      "load": {
+        "age": 1.4277000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.742,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1603.7000000029802,
+      "load": {
+        "age": 1.4442999999970199,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.7585999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1619.9000000059605,
+      "load": {
+        "age": 1.4605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.7747999999970198,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1636.300000011921,
+      "load": {
+        "age": 1.4769000000059604,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.7912000000029802,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1653.1000000089407,
+      "load": {
+        "age": 1.4937000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.808,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1670.5,
+      "load": {
+        "age": 1.5110999999940395,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.8253999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1687.1000000089407,
+      "load": {
+        "age": 1.5277000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.842,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1703.7000000029802,
+      "load": {
+        "age": 1.5442999999970197,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.8585999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1720.4000000059605,
+      "load": {
+        "age": 1.561,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.8752999999970198,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1736.7000000029802,
+      "load": {
+        "age": 1.5772999999970199,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.8915999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1753.5,
+      "load": {
+        "age": 1.5940999999940395,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.9083999999910592,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1770.1000000089407,
+      "load": {
+        "age": 1.6107000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.9250999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1786.5,
+      "load": {
+        "age": 1.6270999999940394,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.9413999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1803.2000000029802,
+      "load": {
+        "age": 1.6437999999970199,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.9580999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1820.6000000089407,
+      "load": {
+        "age": 1.6612000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.9755,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1837,
+      "load": {
+        "age": 1.6775999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 0.9918999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1853.6000000089407,
+      "load": {
+        "age": 1.6942000000029802,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.0085999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1870.6000000089407,
+      "load": {
+        "age": 1.7112000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.0255,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1887.2000000029802,
+      "load": {
+        "age": 1.7277999999970197,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.0420999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1903.800000011921,
+      "load": {
+        "age": 1.7444000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.0587000000029803,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1919.6000000089407,
+      "load": {
+        "age": 1.7602000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.0745,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1936.4000000059605,
+      "load": {
+        "age": 1.7770999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.0913999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1954,
+      "load": {
+        "age": 1.7945999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.1088999999910594,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1969.7000000029802,
+      "load": {
+        "age": 1.8102999999970197,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.1245999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 1986.4000000059605,
+      "load": {
+        "age": 1.827,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.1412999999970197,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2003.1000000089407,
+      "load": {
+        "age": 1.8437999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.1580999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2020.300000011921,
+      "load": {
+        "age": 1.8609000000059606,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.1752000000029803,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2036.9000000059605,
+      "load": {
+        "age": 1.8775,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.1917999999970197,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2053.7000000029802,
+      "load": {
+        "age": 1.8942999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.2085999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2070.300000011921,
+      "load": {
+        "age": 1.9109000000059604,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.2252000000029801,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2087,
+      "load": {
+        "age": 1.9275999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.2418999999910594,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2103.7000000029802,
+      "load": {
+        "age": 1.9442999999970199,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.2585999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2120.4000000059605,
+      "load": {
+        "age": 1.961,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.2752999999970198,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2136.9000000059605,
+      "load": {
+        "age": 1.9775,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.2917999999970198,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2153.1000000089407,
+      "load": {
+        "age": 1.9937000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.308,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2170.2000000029802,
+      "load": {
+        "age": 2.01079999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.3250999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2187.1000000089407,
+      "load": {
+        "age": 2.0277999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.3420999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2202.9000000059605,
+      "load": {
+        "age": 2.0435,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.3577999999970198,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2219.5,
+      "load": {
+        "age": 2.0600999999940397,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.3743999999910592,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2236.300000011921,
+      "load": {
+        "age": 2.0769000000059603,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.3912000000029803,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2253.300000011921,
+      "load": {
+        "age": 2.0939000000059607,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.4082000000029802,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2270.2000000029802,
+      "load": {
+        "age": 2.11079999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.4250999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2287.2000000029802,
+      "load": {
+        "age": 2.12779999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.4420999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2303.800000011921,
+      "load": {
+        "age": 2.1444000000059606,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.4587000000029802,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2320.6000000089407,
+      "load": {
+        "age": 2.1612000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.4755,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2337.2000000029802,
+      "load": {
+        "age": 2.1777999999970197,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.4920999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2353.800000011921,
+      "load": {
+        "age": 2.1944000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.5087000000029802,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2370.2000000029802,
+      "load": {
+        "age": 2.2107999999970196,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.5250999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2386.800000011921,
+      "load": {
+        "age": 2.2274000000059604,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.5417000000029801,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2403.1000000089407,
+      "load": {
+        "age": 2.2437000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.558,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2419.7000000029802,
+      "load": {
+        "age": 2.2602999999970197,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.5745999999940394,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2436.300000011921,
+      "load": {
+        "age": 2.2769000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.5912000000029802,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2453,
+      "load": {
+        "age": 2.2935999999940395,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.6078999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2470.800000011921,
+      "load": {
+        "age": 2.3114000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.6257000000029802,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2486.4000000059605,
+      "load": {
+        "age": 2.327,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.6412999999970197,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2503.1000000089407,
+      "load": {
+        "age": 2.3437000000029804,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.658,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2520.300000011921,
+      "load": {
+        "age": 2.3609000000059606,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.6752000000029803,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2537.300000011921,
+      "load": {
+        "age": 2.3779000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.6922000000029802,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2553.7000000029802,
+      "load": {
+        "age": 2.3942999999970196,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.7085999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2570.7000000029802,
+      "load": {
+        "age": 2.41129999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.7255999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2587.2000000029802,
+      "load": {
+        "age": 2.4277999999970197,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.7420999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2603.4000000059605,
+      "load": {
+        "age": 2.444,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.7582999999970197,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2620,
+      "load": {
+        "age": 2.4605999999940393,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.7748999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2636.6000000089407,
+      "load": {
+        "age": 2.47720000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.7915,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2653.1000000089407,
+      "load": {
+        "age": 2.4937000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.808,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2670.6000000089407,
+      "load": {
+        "age": 2.5112000000029804,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.8255,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2686.5,
+      "load": {
+        "age": 2.5270999999940393,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.8413999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2703,
+      "load": {
+        "age": 2.5435999999940395,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.8578999999910593,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2720.6000000089407,
+      "load": {
+        "age": 2.56120000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.8755,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2737.2000000029802,
+      "load": {
+        "age": 2.5777999999970196,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.8920999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2753.9000000059605,
+      "load": {
+        "age": 2.5945,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.9087999999970198,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2770.5,
+      "load": {
+        "age": 2.6110999999940394,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.9253999999910594,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2786.9000000059605,
+      "load": {
+        "age": 2.6275,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.9417999999970197,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2803.2000000029802,
+      "load": {
+        "age": 2.64379999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.9580999999940396,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2820.1000000089407,
+      "load": {
+        "age": 2.6607999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.9750999999940395,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2836.5,
+      "load": {
+        "age": 2.6770999999940397,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 1.9913999999910592,
+        "time": 0.011609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2853.7000000029802,
+      "load": {
+        "age": 2.69429999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.0085999999940394,
+        "time": 0.034829931972789115,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2870.5,
+      "load": {
+        "age": 2.7110999999940395,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.0253999999910595,
+        "time": 0.046439909297052155,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2886.800000011921,
+      "load": {
+        "age": 2.7274000000059604,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.0417000000029804,
+        "time": 0.06965986394557823,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2903.1000000089407,
+      "load": {
+        "age": 2.7437000000029803,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.058,
+        "time": 0.08126984126984127,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2920.4000000059605,
+      "load": {
+        "age": 2.761,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.0752999999970196,
+        "time": 0.10448979591836735,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2936.9000000059605,
+      "load": {
+        "age": 2.7775,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.09179999999702,
+        "time": 0.11609977324263039,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2953.5,
+      "load": {
+        "age": 2.7940999999940397,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.108399999991059,
+        "time": 0.12770975056689343,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2970,
+      "load": {
+        "age": 2.8105999999940394,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.1248999999910594,
+        "time": 0.1509297052154195,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 2986.4000000059605,
+      "load": {
+        "age": 2.827,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.14129999999702,
+        "time": 0.16253968253968254,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3003.1000000089407,
+      "load": {
+        "age": 2.8437000000029804,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.158,
+        "time": 0.18575963718820862,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3020.5,
+      "load": {
+        "age": 2.8610999999940394,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.1753999999910594,
+        "time": 0.19736961451247165,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3037,
+      "load": {
+        "age": 2.8775999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.191899999991059,
+        "time": 0.22058956916099773,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3053.6000000089407,
+      "load": {
+        "age": 2.8942000000029804,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.2085,
+        "time": 0.23219954648526078,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3070.1000000089407,
+      "load": {
+        "age": 2.91070000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.225,
+        "time": 0.2438095238095238,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3087,
+      "load": {
+        "age": 2.9275999999940394,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.2418999999910594,
+        "time": 0.26702947845804986,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3103.7000000029802,
+      "load": {
+        "age": 2.94429999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.2585999999940394,
+        "time": 0.2786394557823129,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3120.300000011921,
+      "load": {
+        "age": 2.961,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.27529999999702,
+        "time": 0.301859410430839,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3136.9000000059605,
+      "load": {
+        "age": 2.9775,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.2917999999970196,
+        "time": 0.313469387755102,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3153.300000011921,
+      "load": {
+        "age": 2.9939000000059606,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.30820000000298,
+        "time": 0.32798185941043084,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3170.2000000029802,
+      "load": {
+        "age": 3.01079999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.3250999999940394,
+        "time": 0.34829931972789113,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3186.6000000089407,
+      "load": {
+        "age": 3.0272000000029804,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.3415,
+        "time": 0.3599092970521542,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3203.4000000059605,
+      "load": {
+        "age": 3.044,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.3582999999970196,
+        "time": 0.3831292517006803,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3220.2000000029802,
+      "load": {
+        "age": 3.0607999999970197,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.3750999999940396,
+        "time": 0.3947392290249433,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3236.800000011921,
+      "load": {
+        "age": 3.0774000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.3917000000029804,
+        "time": 0.4179591836734694,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3253.5,
+      "load": {
+        "age": 3.0940999999940395,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.4083999999910595,
+        "time": 0.4295691609977324,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3269.300000011921,
+      "load": {
+        "age": 3.1099000000059607,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.42420000000298,
+        "time": 0.44117913832199546,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3286.300000011921,
+      "load": {
+        "age": 3.1269000000059606,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.44120000000298,
+        "time": 0.46439909297052157,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3302.9000000059605,
+      "load": {
+        "age": 3.1435,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.45779999999702,
+        "time": 0.47600907029478456,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3319.9000000059605,
+      "load": {
+        "age": 3.1605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.47479999999702,
+        "time": 0.4992290249433107,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3337.1000000089407,
+      "load": {
+        "age": 3.17770000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.492,
+        "time": 0.5108390022675737,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3353.9000000059605,
+      "load": {
+        "age": 3.1945,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.5087999999970196,
+        "time": 0.5340589569160997,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3370.300000011921,
+      "load": {
+        "age": 3.2109000000059607,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.52520000000298,
+        "time": 0.5456689342403628,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3387.1000000089407,
+      "load": {
+        "age": 3.22779999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.5420999999940395,
+        "time": 0.5572789115646258,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3403.4000000059605,
+      "load": {
+        "age": 3.244,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.5582999999970197,
+        "time": 0.5804988662131519,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3419.6000000089407,
+      "load": {
+        "age": 3.26020000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.5745,
+        "time": 0.592108843537415,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3436.2000000029802,
+      "load": {
+        "age": 3.27679999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.5910999999940394,
+        "time": 0.615328798185941,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3453.7000000029802,
+      "load": {
+        "age": 3.29429999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.6085999999940395,
+        "time": 0.626938775510204,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3470.4000000059605,
+      "load": {
+        "age": 3.311,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.62529999999702,
+        "time": 0.6617687074829932,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3486.2000000029802,
+      "load": {
+        "age": 3.3267999999970197,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.6410999999940397,
+        "time": 0.6733786848072563,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3503.800000011921,
+      "load": {
+        "age": 3.3445,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.6587999999970195,
+        "time": 0.687891156462585,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3520.5,
+      "load": {
+        "age": 3.3610999999940394,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.6753999999910594,
+        "time": 0.7082086167800453,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3537,
+      "load": {
+        "age": 3.3775999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.691899999991059,
+        "time": 0.7198185941043084,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3553.300000011921,
+      "load": {
+        "age": 3.3939000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.7082000000029804,
+        "time": 0.7430385487528345,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3570.300000011921,
+      "load": {
+        "age": 3.4109000000059604,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.7252000000029803,
+        "time": 0.7546485260770975,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3586.7000000029802,
+      "load": {
+        "age": 3.42729999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.7415999999940395,
+        "time": 0.7778684807256235,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3603.300000011921,
+      "load": {
+        "age": 3.4439000000059603,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.7582000000029803,
+        "time": 0.7894784580498866,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3619.7000000029802,
+      "load": {
+        "age": 3.46029999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.7745999999940394,
+        "time": 0.8010884353741496,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3637.2000000029802,
+      "load": {
+        "age": 3.47779999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.7920999999940395,
+        "time": 0.8243083900226758,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3653.6000000089407,
+      "load": {
+        "age": 3.49420000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.8085,
+        "time": 0.8359183673469388,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3670.4000000059605,
+      "load": {
+        "age": 3.511,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.8252999999970196,
+        "time": 0.8591383219954648,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3686.800000011921,
+      "load": {
+        "age": 3.5274000000059607,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.84170000000298,
+        "time": 0.8707482993197279,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3703.2000000029802,
+      "load": {
+        "age": 3.54379999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.8580999999940397,
+        "time": 0.8823582766439909,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3719.7000000029802,
+      "load": {
+        "age": 3.56029999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.8745999999940395,
+        "time": 0.905578231292517,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3736.1000000089407,
+      "load": {
+        "age": 3.57670000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.891,
+        "time": 0.9171882086167801,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3753.5,
+      "load": {
+        "age": 3.5940999999940395,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.9085,
+        "time": 0.9404081632653061,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3770.300000011921,
+      "load": {
+        "age": 3.6109000000059606,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.92520000000298,
+        "time": 0.9520181405895691,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3787.1000000089407,
+      "load": {
+        "age": 3.62770000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.942,
+        "time": 0.9752380952380952,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3803.4000000059605,
+      "load": {
+        "age": 3.644,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.9582999999970196,
+        "time": 0.9868480725623583,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3820.1000000089407,
+      "load": {
+        "age": 3.66070000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.975,
+        "time": 1.0100680272108844,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3836.300000011921,
+      "load": {
+        "age": 3.6769000000059604,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 2.9912000000029804,
+        "time": 1.0216780045351475,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3853.300000011921,
+      "load": {
+        "age": 3.6939000000059603,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.0082000000029803,
+        "time": 1.0332879818594105,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3869.800000011921,
+      "load": {
+        "age": 3.7104000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.0247000000029804,
+        "time": 1.0565079365079366,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3886.2000000029802,
+      "load": {
+        "age": 3.7267999999970196,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.0410999999940396,
+        "time": 1.0681179138321995,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3903,
+      "load": {
+        "age": 3.7435999999940397,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.057899999991059,
+        "time": 1.0913378684807256,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3919.6000000089407,
+      "load": {
+        "age": 3.76020000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.0745,
+        "time": 1.1029478458049886,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3936,
+      "load": {
+        "age": 3.7765999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.090899999991059,
+        "time": 1.1145578231292517,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3953.2000000029802,
+      "load": {
+        "age": 3.7939000000059604,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.1082000000029804,
+        "time": 1.1377777777777778,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3970.1000000089407,
+      "load": {
+        "age": 3.81070000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.125,
+        "time": 1.1493877551020408,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 3986.800000011921,
+      "load": {
+        "age": 3.8274000000059605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.1417000000029804,
+        "time": 1.172607709750567,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4003.4000000059605,
+      "load": {
+        "age": 3.844,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.15829999999702,
+        "time": 1.18421768707483,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4019.9000000059605,
+      "load": {
+        "age": 3.8605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.1747999999970196,
+        "time": 1.207437641723356,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4036.300000011921,
+      "load": {
+        "age": 3.8769000000059606,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.19120000000298,
+        "time": 1.2190476190476192,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4053,
+      "load": {
+        "age": 3.8935999999940396,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.207899999991059,
+        "time": 1.230657596371882,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4069.5,
+      "load": {
+        "age": 3.9100999999940393,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.2243999999910593,
+        "time": 1.253877551020408,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4086.2000000029802,
+      "load": {
+        "age": 3.92679999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.2410999999940397,
+        "time": 1.2654875283446712,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4102.70000000298,
+      "load": {
+        "age": 3.94329999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.2575999999940395,
+        "time": 1.2887074829931973,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4120.100000008941,
+      "load": {
+        "age": 3.9607000000029804,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.275,
+        "time": 1.3003174603174603,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4136.70000000298,
+      "load": {
+        "age": 3.9772999999970198,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.2915999999940397,
+        "time": 1.3235374149659864,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4153.300000011921,
+      "load": {
+        "age": 3.9939000000059606,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.30820000000298,
+        "time": 1.3351473922902495,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4169.800000011921,
+      "load": {
+        "age": 4.01040000000596,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.3247000000029803,
+        "time": 1.3467573696145125,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4186.20000000298,
+      "load": {
+        "age": 4.02679999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.3410999999940394,
+        "time": 1.3699773242630386,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4203.70000000298,
+      "load": {
+        "age": 4.04429999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.3585999999940395,
+        "time": 1.3815873015873017,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4219.70000000298,
+      "load": {
+        "age": 4.06029999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.3745999999940395,
+        "time": 1.4048072562358276,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4236.300000011921,
+      "load": {
+        "age": 4.076900000005961,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.3912000000029803,
+        "time": 1.4164172335600906,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4253.300000011921,
+      "load": {
+        "age": 4.09390000000596,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.40820000000298,
+        "time": 1.4396371882086167,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4269.600000008941,
+      "load": {
+        "age": 4.110200000002981,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.4245,
+        "time": 1.4512471655328798,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4286.300000011921,
+      "load": {
+        "age": 4.126900000005961,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.44120000000298,
+        "time": 1.4628571428571429,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4303,
+      "load": {
+        "age": 4.14359999999404,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.457899999991059,
+        "time": 1.486077097505669,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4320.4000000059605,
+      "load": {
+        "age": 4.16109999999404,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.475399999991059,
+        "time": 1.497687074829932,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4336.70000000298,
+      "load": {
+        "age": 4.17729999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.4915999999940395,
+        "time": 1.5209070294784581,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4353.4000000059605,
+      "load": {
+        "age": 4.194,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.50829999999702,
+        "time": 1.5325170068027212,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4369.600000008941,
+      "load": {
+        "age": 4.21020000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.5245,
+        "time": 1.555736961451247,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4386.20000000298,
+      "load": {
+        "age": 4.22679999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.5410999999940396,
+        "time": 1.5673469387755101,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4403.70000000298,
+      "load": {
+        "age": 4.24429999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.5585999999940396,
+        "time": 1.5905668934240362,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4420.5,
+      "load": {
+        "age": 4.261099999994039,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.5753999999910593,
+        "time": 1.6021768707482993,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4436,
+      "load": {
+        "age": 4.276700000002981,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.591,
+        "time": 1.6137868480725623,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4453.9000000059605,
+      "load": {
+        "age": 4.2945,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.6087999999970197,
+        "time": 1.6370068027210884,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4470.300000011921,
+      "load": {
+        "age": 4.310900000005961,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.6252000000029803,
+        "time": 1.6486167800453515,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4486.70000000298,
+      "load": {
+        "age": 4.327299999997019,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.6415999999940394,
+        "time": 1.6718367346938776,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4503.4000000059605,
+      "load": {
+        "age": 4.344,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.65829999999702,
+        "time": 1.6834467120181407,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4520,
+      "load": {
+        "age": 4.360599999994039,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.674899999991059,
+        "time": 1.7066666666666668,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4536.70000000298,
+      "load": {
+        "age": 4.37729999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.6915999999940396,
+        "time": 1.7182766439909296,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4553.4000000059605,
+      "load": {
+        "age": 4.394,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.7082999999970196,
+        "time": 1.7298866213151927,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4570.100000008941,
+      "load": {
+        "age": 4.41070000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.725,
+        "time": 1.7531065759637188,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4586.70000000298,
+      "load": {
+        "age": 4.42729999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.7415999999940395,
+        "time": 1.7647165532879818,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4603.5,
+      "load": {
+        "age": 4.444099999994039,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.758399999991059,
+        "time": 1.787936507936508,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4620.300000011921,
+      "load": {
+        "age": 4.46090000000596,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.77520000000298,
+        "time": 1.799546485260771,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4636.800000011921,
+      "load": {
+        "age": 4.477400000005961,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.7917000000029804,
+        "time": 1.822766439909297,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4653.600000008941,
+      "load": {
+        "age": 4.49420000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.8085,
+        "time": 1.8343764172335602,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4670.4000000059605,
+      "load": {
+        "age": 4.511,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.8252999999970196,
+        "time": 1.8459863945578232,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4687,
+      "load": {
+        "age": 4.52759999999404,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.8418999999910595,
+        "time": 1.8692063492063493,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4703.600000008941,
+      "load": {
+        "age": 4.54420000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.8585,
+        "time": 1.8808163265306121,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4720.300000011921,
+      "load": {
+        "age": 4.560900000005961,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.8752000000029803,
+        "time": 1.9040362811791383,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4736.5,
+      "load": {
+        "age": 4.577099999994039,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.891399999991059,
+        "time": 1.9156462585034013,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4753.100000008941,
+      "load": {
+        "age": 4.59370000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.908,
+        "time": 1.9388662131519274,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4769.600000008941,
+      "load": {
+        "age": 4.610200000002981,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.9245,
+        "time": 1.9504761904761905,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4786.20000000298,
+      "load": {
+        "age": 4.6267999999970195,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.9410999999940395,
+        "time": 1.9620861678004535,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4803.5,
+      "load": {
+        "age": 4.644099999994039,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.9585,
+        "time": 1.9853061224489796,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4820.4000000059605,
+      "load": {
+        "age": 4.661,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.9752999999970196,
+        "time": 1.9969160997732427,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4837.100000008941,
+      "load": {
+        "age": 4.6777000000029805,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 3.992,
+        "time": 2.020136054421769,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4853.600000008941,
+      "load": {
+        "age": 4.69420000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 4.0085,
+        "time": 2.0317460317460316,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4869.9000000059605,
+      "load": {
+        "age": 4.7105,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 4.02479999999702,
+        "time": 2.0549659863945577,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4886.800000011921,
+      "load": {
+        "age": 4.727400000005961,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 4.04170000000298,
+        "time": 2.066575963718821,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4903.4000000059605,
+      "load": {
+        "age": 4.744,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 4.05829999999702,
+        "time": 2.089795918367347,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4919.9000000059605,
+      "load": {
+        "age": 4.7605,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 4.07479999999702,
+        "time": 2.10140589569161,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4937.600000008941,
+      "load": {
+        "age": 4.77820000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 4.0925,
+        "time": 2.1130158730158732,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4953.70000000298,
+      "load": {
+        "age": 4.79429999999702,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 4.1085999999940395,
+        "time": 2.136235827664399,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4969.600000008941,
+      "load": {
+        "age": 4.81020000000298,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 4.1245,
+        "time": 2.147845804988662,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 4997.4000000059605,
+      "load": {
+        "age": 4.838,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 4.15229999999702,
+        "time": 2.182675736961451,
+        "state": "running"
+      }
+    },
+    {
+      "perf": 5003.5,
+      "load": {
+        "age": 4.8440999999940395,
+        "time": 0,
+        "state": "suspended"
+      },
+      "click": {
+        "age": 4.158399999991059,
+        "time": 2.182675736961451,
+        "state": "running"
+      }
+    }
+  ],
+  "console": [
+    {
+      "type": "warning",
+      "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "load_first_20ms": null,
+  "load_first_500ms_clock": null,
+  "load_first_1s_clock": null,
+  "load_rows_compact": [],
+  "click_first_20ms": {
+    "age": 2.0085999999940394,
+    "time": 0.034829931972789115,
+    "state": "running",
+    "perf": 2853.7000000029802
+  },
+  "click_first_500ms_clock": {
+    "age": 2.492,
+    "time": 0.5108390022675737,
+    "state": "running",
+    "perf": 3337.1000000089407
+  },
+  "click_first_1s_clock": {
+    "age": 2.975,
+    "time": 1.0100680272108844,
+    "state": "running",
+    "perf": 3820.1000000089407
+  },
+  "click_rows_compact": []
+}

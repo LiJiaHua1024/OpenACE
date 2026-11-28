@@ -1,0 +1,101 @@
+{
+  "id": "project_b7da3a50c9ee",
+  "schema_version": 1,
+  "title": "Untitled OpenACE Project Copy",
+  "ppq": 480,
+  "bpm": 120.0,
+  "tempo_map": [
+    {
+      "ticks": 0,
+      "bpm": 120.0,
+      "curve": "step"
+    }
+  ],
+  "time_signature": {
+    "numerator": 4,
+    "denominator": 4
+  },
+  "tracks": [
+    {
+      "id": "track_ebfe7fce69db",
+      "name": "Lead Vocal",
+      "type": "vocal",
+      "color": "#7367ff",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/uploads/aspiration_reference.wav",
+      "openutau_singer": "",
+      "openutau_phonemizer": "",
+      "language": "zh",
+      "notes": [
+        {
+          "id": "note_e939b884-015",
+          "start_ticks": 120,
+          "duration_ticks": 480,
+          "pitch": 60,
+          "lyric": "",
+          "velocity": 90,
+          "phonemes": [],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        },
+        {
+          "id": "note_8ae84487-720",
+          "start_ticks": 960,
+          "duration_ticks": 480,
+          "pitch": 64,
+          "lyric": "",
+          "velocity": 90,
+          "phonemes": [],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        },
+        {
+          "id": "note_38c7038c-5dd",
+          "start_ticks": 1920,
+          "duration_ticks": 480,
+          "pitch": 64,
+          "lyric": "",
+          "velocity": 90,
+          "phonemes": [],
+          "pitch_curve": [],
+          "vibrato": null,
+          "techniques": []
+        }
+      ],
+      "clips": [],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [
+        {
+          "id": "br_ca372f0f",
+          "start_ticks": 1680,
+          "duration_ticks": 120,
+          "intensity": 1.5,
+          "timbre": "strong"
+        }
+      ],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "midi_channel": null,
+      "midi_program": null,
+      "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1c093a015ab1/job_072330103560/vocal.wav",
+      "render_revision": 4,
+      "render_fingerprint": null
+    }
+  ],
+  "created_at": 1795756643.427305,
+  "updated_at": 1795815729.0093908,
+  "metadata": {
+    "pinned": false
+  }
+}

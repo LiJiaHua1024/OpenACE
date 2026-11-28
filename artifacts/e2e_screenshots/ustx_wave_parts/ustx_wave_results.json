@@ -1,0 +1,54 @@
+{
+  "visible_ustx_click_ui_healthy": {
+    "ok": true,
+    "details": {
+      "download_started": true,
+      "status": 200,
+      "bytes": 1061,
+      "title": "USTX Wave QA"
+    },
+    "time": 1795748488.79727
+  },
+  "wave_part_schema_duration_path": {
+    "ok": true,
+    "details": {
+      "checks": {
+        "one_part": true,
+        "schema_keys": true,
+        "name": true,
+        "track_no": true,
+        "position": true,
+        "relative_path": true,
+        "file_duration": true,
+        "skip": true,
+        "trim": true,
+        "fades": true,
+        "derived_duration": true,
+        "no_gain_key": true
+      },
+      "wave_part": {
+        "name": "Hook",
+        "track_no": 1,
+        "position": 480,
+        "relative_path": "../../../../../../tmp/ustx_wave_fixture.wav",
+        "file_duration_ms": 1000.0,
+        "skip": 240,
+        "trim": 240,
+        "fadein": 48,
+        "fadeout": 96
+      },
+      "derived_duration": 480,
+      "source_wav": "/tmp/ustx_wave_fixture.wav"
+    },
+    "time": 1795748488.8004146
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795748488.8005574
+  },
+  "passed": true
+}

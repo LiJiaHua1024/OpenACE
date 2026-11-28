@@ -1,0 +1,72 @@
+{
+  "pre": {
+    "now": 3280.2999999970198,
+    "created": {
+      "index": 0,
+      "perf": 460.20000000298023,
+      "stateAtCreate": "running",
+      "timeAtCreate": 0,
+      "sampleRate": 44100
+    },
+    "ctxTime": 0.8475283446712019,
+    "state": "running",
+    "pos": "00:00.00"
+  },
+  "click_to_source_ms": 0.4,
+  "click_to_playhead_ms": 24.5,
+  "samples": [
+    {
+      "now": 3840,
+      "elapsed": 0.5195999999940395,
+      "ctxTime": 1.4048072562358276,
+      "ctxDelta": 0.5108390022675736,
+      "wall": 0.5192000000029803,
+      "pos": "00:00.50",
+      "strong": "1.1.4",
+      "clockLag": 0.0084
+    },
+    {
+      "now": 4337.4000000059605,
+      "elapsed": 1.017,
+      "ctxTime": 1.9040362811791383,
+      "ctxDelta": 1.0100680272108842,
+      "wall": 1.0166000000089408,
+      "pos": "00:01.00",
+      "strong": "1.2.4",
+      "clockLag": 0.0065
+    },
+    {
+      "now": 5338.20000000298,
+      "elapsed": 2.01779999999702,
+      "ctxTime": 2.9024943310657596,
+      "ctxDelta": 2.0085260770975055,
+      "wall": 2.0174000000059604,
+      "pos": "00:02.00",
+      "strong": "1.4.4",
+      "clockLag": 0.0089
+    },
+    {
+      "now": 6335.79999999702,
+      "elapsed": 3.0153999999910592,
+      "ctxTime": 3.900952380952381,
+      "ctxDelta": 0.9868480725623581,
+      "wall": 0.9898999999910593,
+      "pos": "00:01.01",
+      "strong": "1.3.1",
+      "clockLag": 0.0031
+    }
+  ],
+  "console": [],
+  "context_age_at_click_s": 2.86,
+  "stall_removed_after_long_prewarm": true
+}
+source {
+  "perf": 3320.7999999970198,
+  "when": 0.893968253968254,
+  "offset": 0,
+  "duration": 2.4999773242630385,
+  "ctxState": "running",
+  "ctxTime": 0.893968253968254,
+  "decodeId": 1,
+  "decodeCtor": "OfflineAudioContext"
+}

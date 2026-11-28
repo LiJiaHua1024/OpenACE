@@ -1,0 +1,231 @@
+{
+  "console": [],
+  "badnet": [],
+  "pid": "project_d3d67d057f15",
+  "rightclick_curve": {
+    "created": [
+      {
+        "offset_ms": 125.0,
+        "cents": -17.0
+      },
+      {
+        "offset_ms": 250.0,
+        "cents": -50.0
+      },
+      {
+        "offset_ms": 375.0,
+        "cents": 17.0
+      }
+    ],
+    "matches_expected": true,
+    "expected": [
+      {
+        "offset_ms": 125.0,
+        "cents": -17.0
+      },
+      {
+        "offset_ms": 250.0,
+        "cents": -50.0
+      },
+      {
+        "offset_ms": 375.0,
+        "cents": 17.0
+      }
+    ],
+    "menu_visible_after_rightclick": true,
+    "lyric_editor_count": 0,
+    "undo_curve": [],
+    "redo_curve": [
+      {
+        "offset_ms": 125.0,
+        "cents": -17.0
+      },
+      {
+        "offset_ms": 250.0,
+        "cents": -50.0
+      },
+      {
+        "offset_ms": 375.0,
+        "cents": 17.0
+      }
+    ],
+    "one_undo_restores_empty": true,
+    "redo_exact": true
+  },
+  "escape_curve": {
+    "created": [
+      {
+        "offset_ms": 65.0,
+        "cents": 17.0
+      },
+      {
+        "offset_ms": 250.0,
+        "cents": -17.0
+      }
+    ],
+    "matches_expected": true,
+    "expected": [
+      {
+        "offset_ms": 65.0,
+        "cents": 17.0
+      },
+      {
+        "offset_ms": 250.0,
+        "cents": -17.0
+      }
+    ],
+    "lyric_editor_count": 0
+  },
+  "group_drag": {
+    "before": {
+      "a": [
+        {
+          "offset_ms": 125.0,
+          "cents": -17.0
+        },
+        {
+          "offset_ms": 250.0,
+          "cents": -50.0
+        },
+        {
+          "offset_ms": 375.0,
+          "cents": 17.0
+        }
+      ],
+      "b": [
+        {
+          "offset_ms": 65.0,
+          "cents": 17.0
+        },
+        {
+          "offset_ms": 250.0,
+          "cents": -17.0
+        }
+      ],
+      "geometry": [
+        {
+          "id": "note_a",
+          "start_ticks": 120,
+          "duration_ticks": 480,
+          "pitch": 65
+        },
+        {
+          "id": "note_b",
+          "start_ticks": 600,
+          "duration_ticks": 480,
+          "pitch": 65
+        }
+      ]
+    },
+    "after_a": [
+      {
+        "offset_ms": 171.0,
+        "cents": -117.0
+      },
+      {
+        "offset_ms": 296.0,
+        "cents": -150.0
+      },
+      {
+        "offset_ms": 375.0,
+        "cents": 17.0
+      }
+    ],
+    "after_b": [
+      {
+        "offset_ms": 111.0,
+        "cents": -83.0
+      },
+      {
+        "offset_ms": 250.0,
+        "cents": -17.0
+      }
+    ],
+    "expected_a": [
+      {
+        "offset_ms": 171.0,
+        "cents": -117.0
+      },
+      {
+        "offset_ms": 296.0,
+        "cents": -150.0
+      },
+      {
+        "offset_ms": 375.0,
+        "cents": 17.0
+      }
+    ],
+    "expected_b": [
+      {
+        "offset_ms": 111.0,
+        "cents": -83.0
+      },
+      {
+        "offset_ms": 250.0,
+        "cents": -17.0
+      }
+    ],
+    "matches_expected": true,
+    "undo_exact": true,
+    "redo_exact": true,
+    "geometry_unchanged": true
+  },
+  "delete_selected": {
+    "after_a": [
+      {
+        "offset_ms": 375.0,
+        "cents": 17.0
+      }
+    ],
+    "after_b": [
+      {
+        "offset_ms": 250.0,
+        "cents": -17.0
+      }
+    ],
+    "expected_a": [
+      {
+        "offset_ms": 375.0,
+        "cents": 17.0
+      }
+    ],
+    "expected_b": [
+      {
+        "offset_ms": 250.0,
+        "cents": -17.0
+      }
+    ],
+    "matches_expected": true,
+    "note_count": 2,
+    "notes_preserved": true
+  },
+  "single_drag": {
+    "after_a": [
+      {
+        "offset_ms": 421.0,
+        "cents": -83.0
+      }
+    ],
+    "expected_after": [
+      {
+        "offset_ms": 421.0,
+        "cents": -83.0
+      }
+    ],
+    "matches_expected": true,
+    "undo_exact": true,
+    "redo_exact": true
+  },
+  "alt_delete": {
+    "after_a": [
+      {
+        "offset_ms": 421.0,
+        "cents": -83.0
+      }
+    ],
+    "after_b": [],
+    "b_empty": true,
+    "a_preserved": true,
+    "note_count": 2
+  }
+}

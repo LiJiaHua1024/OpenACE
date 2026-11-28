@@ -1,0 +1,24 @@
+{
+  "url": "http://127.0.0.1:8787/?range_reset_recheck=1795850853984",
+  "loop_project_before": {
+    "value": "loop",
+    "wav": "/api/projects/project_a67d2d8bc025/export/wav?start_ticks=960&end_ticks=1920",
+    "warning_count": 0
+  },
+  "no_loop_after_switch": {
+    "value": "full",
+    "wav": "/api/projects/project_2d8c09379db6/export/wav",
+    "warning_count": 0,
+    "loop_disabled": ""
+  },
+  "normal_download": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/range_export_qa/downloads/recheck_full_no_loop.wav",
+  "loop_project_reselected": {
+    "value": "loop",
+    "wav": "/api/projects/project_a67d2d8bc025/export/wav?start_ticks=960&end_ticks=1920",
+    "stems": "/api/projects/project_a67d2d8bc025/export/stems?start_ticks=960&end_ticks=1920",
+    "mp4": "/api/projects/project_a67d2d8bc025/export/mp4",
+    "warning_count": 0
+  },
+  "console": [],
+  "badnet": []
+}

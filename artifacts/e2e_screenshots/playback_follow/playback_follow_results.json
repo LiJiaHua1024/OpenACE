@@ -1,0 +1,157 @@
+{
+  "console": [],
+  "network": [],
+  "checks": {
+    "follow_on": {
+      "before": {
+        "playhead": 0,
+        "playing": false,
+        "scroll": 0,
+        "px": 112,
+        "follow": true,
+        "loop": {
+          "start": 480,
+          "end": 1440
+        },
+        "loopEnabled": true,
+        "width": 1042
+      },
+      "crossed": {
+        "playhead": 3705,
+        "playing": true,
+        "scroll": 2828.5428571428574,
+        "px": 112,
+        "follow": true,
+        "loop": {
+          "start": 480,
+          "end": 1440
+        },
+        "loopEnabled": false,
+        "width": 1042
+      },
+      "samples": [
+        {
+          "playhead": 3705,
+          "playing": true,
+          "scroll": 2828.5428571428574,
+          "px": 112,
+          "follow": true,
+          "loop": {
+            "start": 480,
+            "end": 1440
+          },
+          "loopEnabled": false,
+          "width": 1042
+        },
+        {
+          "playhead": 3906,
+          "playing": true,
+          "scroll": 2828.5428571428574,
+          "px": 112,
+          "follow": true,
+          "loop": {
+            "start": 480,
+            "end": 1440
+          },
+          "loopEnabled": false,
+          "width": 1042
+        },
+        {
+          "playhead": 4196,
+          "playing": true,
+          "scroll": 2828.5428571428574,
+          "px": 112,
+          "follow": true,
+          "loop": {
+            "start": 480,
+            "end": 1440
+          },
+          "loopEnabled": false,
+          "width": 1042
+        }
+      ],
+      "visible_ticks": 4191.428571428572,
+      "relative_after_page": 876.4571428571426,
+      "passed": true
+    },
+    "follow_off_storage_before_reload": "off",
+    "follow_off_on": {
+      "offstate": {
+        "storage": "off",
+        "class": "icon-button loop-toggle"
+      },
+      "off_cross": {
+        "playhead": 3831,
+        "playing": true,
+        "scroll": 0,
+        "px": 112,
+        "follow": false,
+        "loop": {
+          "start": 480,
+          "end": 1440
+        },
+        "loopEnabled": false,
+        "width": 1042
+      },
+      "after_reenable": {
+        "playhead": 4633,
+        "playing": true,
+        "scroll": 3310.5428571428574,
+        "px": 112,
+        "follow": true,
+        "loop": {
+          "start": 480,
+          "end": 1440
+        },
+        "loopEnabled": false,
+        "width": 1042
+      },
+      "passed": true
+    },
+    "follow_on_reload": {
+      "storage": "on",
+      "class": "icon-button loop-toggle active",
+      "passed": true
+    },
+    "manual_seek": {
+      "state": {
+        "playhead": 0,
+        "playing": false,
+        "scroll": 0,
+        "px": 112,
+        "follow": true,
+        "loop": {
+          "start": 480,
+          "end": 1440
+        },
+        "loopEnabled": false,
+        "width": 1042
+      },
+      "passed": false
+    },
+    "loop_regression": {
+      "state": {
+        "playhead": 520,
+        "playing": true,
+        "scroll": 0,
+        "px": 112,
+        "follow": true,
+        "loop": {
+          "start": 0,
+          "end": 1920
+        },
+        "loopEnabled": true,
+        "width": 1042
+      },
+      "passed": true
+    },
+    "manual_seek_arrangement": {
+      "state": {
+        "playhead": 960,
+        "scroll": 0
+      },
+      "expected": 960,
+      "passed": true
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "console_errors": [
+    "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+  ],
+  "network_failures": [
+    "http://127.0.0.1:8787/api/projects/project_5287d4dae767/export/wav :: net::ERR_ABORTED",
+    "http://127.0.0.1:8787/api/events :: net::ERR_ABORTED",
+    "http://127.0.0.1:8787/api/events :: net::ERR_ABORTED"
+  ],
+  "project_id": "project_5287d4dae767",
+  "invalid": {
+    "error": "{\"detail\":\"invalid audio clip: Error opening '/home/ubuntu/repos/OpenACE/data/uploads/clip_2eb217eb02c5_corrupt.wav': Format not recognised.\"}",
+    "track_delta": 0,
+    "clip_delta": 0
+  },
+  "imported": {
+    "track_name": "Audio \u2014 clipimport",
+    "track_type": "audio",
+    "clip": {
+      "id": "clip_83849672e1d5",
+      "path": "/home/ubuntu/repos/OpenACE/data/uploads/clip_1aa009c0549a_clipimport.wav",
+      "start_ticks": 1011,
+      "duration_ticks": 960,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "clipimport"
+    },
+    "project_track_count": 2,
+    "ui_track_cards": 2
+  },
+  "canvas_scan_initial": {
+    "minX": 301,
+    "maxX": 524,
+    "width": 223,
+    "bright": 38,
+    "pixels": 2539,
+    "dpr": 1,
+    "expected_x": 299.90000000000003,
+    "expected_width": 224.0
+  },
+  "screenshot_imported": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/audio_clip_import/02_imported_clip_live.png",
+  "after_drag": {
+    "id": "clip_83849672e1d5",
+    "path": "/home/ubuntu/repos/OpenACE/data/uploads/clip_1aa009c0549a_clipimport.wav",
+    "start_ticks": 1371,
+    "duration_ticks": 960,
+    "offset_ticks": 0,
+    "fade_in_ticks": 0,
+    "fade_out_ticks": 0,
+    "gain_db": 0.0,
+    "label": "clipimport"
+  },
+  "after_trim": {
+    "id": "clip_83849672e1d5",
+    "path": "/home/ubuntu/repos/OpenACE/data/uploads/clip_1aa009c0549a_clipimport.wav",
+    "start_ticks": 1371,
+    "duration_ticks": 720,
+    "offset_ticks": 0,
+    "fade_in_ticks": 0,
+    "fade_out_ticks": 0,
+    "gain_db": 0.0,
+    "label": "clipimport"
+  },
+  "master_export": {
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/audio_clip_import/master_export.wav",
+    "sample_rate": 48000,
+    "clip_start_seconds": 1.428125,
+    "clip_end_seconds": 2.178125,
+    "rms_before": 0.0,
+    "rms_inside": 0.1762864162941466,
+    "duration": 2.178125
+  },
+  "reload": {
+    "current_project": "project_5287d4dae767",
+    "clip": {
+      "id": "clip_83849672e1d5",
+      "path": "/home/ubuntu/repos/OpenACE/data/uploads/clip_1aa009c0549a_clipimport.wav",
+      "start_ticks": 1371,
+      "duration_ticks": 720,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "clipimport"
+    },
+    "track_count": 2,
+    "ui_audio_cards": 2
+  },
+  "checks": {
+    "nonzero_playhead_import": true,
+    "tempo_aware_duration": true,
+    "new_audio_track_live": true,
+    "visual_position_width": true,
+    "real_waveform_visible": false,
+    "drag_persisted": true,
+    "trim_persisted": true,
+    "master_export_inclusion": true,
+    "invalid_rejected_cleanly": true,
+    "reload_persistence": true,
+    "no_console_network_errors": true,
+    "no_unexpected_console_network_errors": true
+  },
+  "passed": false,
+  "waveform_defect": {
+    "observed": "Imported clip remains visually stuck at \"analyzing waveform\u2026\" after 1.8s and after reload; no real waveform is drawn.",
+    "cause_evidence": "Clip path is under data/uploads, while frontend renderFileUrl only maps paths containing /renders/; uploaded clip paths therefore produce null waveform/playback URLs. Backend master export still uses the local path correctly.",
+    "artifact": "waveform_missing_zoom.png"
+  },
+  "expected_noise": {
+    "invalid_422_console": "Expected because the invalid-audio negative test intentionally receives HTTP 422.",
+    "export_wav_aborted": "Expected browser download abort/noise from the visible WAV export download.",
+    "sse_aborted": "Expected EventSource disconnects during deliberate reload."
+  }
+}

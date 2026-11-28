@@ -1,0 +1,965 @@
+﻿2026-11-27 18:09:41.008 +00:00 [INF] Logging initialized.
+2026-11-27 18:09:41.032 +00:00 [INF] Unix 6.8.0.1060
+2026-11-27 18:09:41.033 +00:00 [INF] Ubuntu 22.04.5 LTS X64 X64
+2026-11-27 18:09:41.033 +00:00 [INF] OpenUtau v0.1.576.0 linux-x64
+2026-11-27 18:09:41.033 +00:00 [INF] Data path = /home/ubuntu/.local/share/OpenUtau
+2026-11-27 18:09:41.033 +00:00 [INF] Cache path = /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:09:41.034 +00:00 [INF] System encoding = utf-8
+2026-11-27 18:09:41.406 +00:00 [INF] Initializing application.
+2026-11-27 18:09:41.457 +00:00 [INF] Initializing culture.
+2026-11-27 18:09:41.465 +00:00 [INF] Initialized culture.
+2026-11-27 18:09:41.465 +00:00 [INF] Initializing theme.
+2026-11-27 18:09:41.472 +00:00 [INF] Initialized theme.
+2026-11-27 18:09:41.473 +00:00 [INF] Initialized application.
+2026-11-27 18:09:41.473 +00:00 [INF] Framework initialization completed.
+2026-11-27 18:09:41.709 +00:00 [INF] Initializing OpenUtau.
+2026-11-27 18:09:41.732 +00:00 [INF] Search all plugins: 00:00:00.0122210
+2026-11-27 18:09:41.733 +00:00 [INF] Search all legacy plugins: 00:00:00.0010064
+2026-11-27 18:09:41.735 +00:00 [INF] Searching singers.
+2026-11-27 18:09:41.738 +00:00 [INF] Search all singers: 00:00:00.0028672
+2026-11-27 18:09:41.738 +00:00 [INF] Initialized OpenUtau.
+2026-11-27 18:09:41.738 +00:00 [INF] Initializing audio.
+2026-11-27 18:09:41.739 +00:00 [INF] ReleaseSourceTemp /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:09:41.744 +00:00 [INF] Initialized audio.
+2026-11-27 18:09:41.766 +00:00 [INF] Creating main window.
+2026-11-27 18:09:41.852 +00:00 [INF] Initialized main window component.
+2026-11-27 18:09:41.855 +00:00 [INF] Main window checking Update.
+2026-11-27 18:09:41.855 +00:00 [INF] Created main window.
+2026-11-27 18:09:42.900 +00:00 [INF] Checking update at: https://github.com/openutau/OpenUtau/releases/tag/0.1.576
+2026-11-27 18:09:42.901 +00:00 [INF] Checking appcast: https://github.com/openutau/OpenUtau/releases/download/0.1.576/appcast.linux-x64.xml
+2026-11-27 18:10:11.853 +00:00 [INF] Autosave skipped.
+2026-11-27 18:10:41.854 +00:00 [INF] Autosave skipped.
+2026-11-27 18:10:49.321 +00:00 [INF] Publish notification Start loading project
+2026-11-27 18:10:49.355 +00:00 [INF] Attach singer to track: zero-shot-reference
+2026-11-27 18:10:49.360 +00:00 [INF] SchedulePreRender
+2026-11-27 18:10:49.383 +00:00 [INF] Publish notification Load project
+2026-11-27 18:10:49.384 +00:00 [INF] SchedulePreRender
+2026-11-27 18:10:49.384 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:10:49.384 +00:00 [INF] Publish notification Voice color remapping.
+2026-11-27 18:10:49.384 +00:00 [INF] Publish notification Finish loading project
+2026-11-27 18:10:49.386 +00:00 [INF] Publish notification Phonemized
+2026-11-27 18:11:11.854 +00:00 [INF] Autosave skipped.
+2026-11-27 18:11:35.800 +00:00 [INF] SchedulePreRender
+2026-11-27 18:11:35.801 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:11:35.836 +00:00 [INF] SchedulePreRender
+2026-11-27 18:11:35.836 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:11:35.853 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:35.854 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:35.855 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:11:35.855 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:35.856 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:11:35.856 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:35.856 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:11:35.857 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:35.857 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:11:35.857 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:35.857 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:11:35.858 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:35.858 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:11:35.858 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:35.858 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:11:35.859 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:35.859 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:11:35.859 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:35.859 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:11:35.876 +00:00 [INF] SchedulePreRender
+2026-11-27 18:11:35.876 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:11:35.876 +00:00 [INF] SchedulePreRender
+2026-11-27 18:11:35.876 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:11:36.148 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:36.148 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:11:36.149 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:11:36.149 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:11:36.149 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:11:36.149 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:11:36.149 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:11:36.149 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:11:36.150 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:11:36.150 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:11:36.151 +00:00 [INF] Publish notification Load part
+2026-11-27 18:11:36.151 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:11:36.151 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:11:41.855 +00:00 [INF] Autosave skipped.
+2026-11-27 18:12:11.855 +00:00 [INF] Autosave skipped.
+2026-11-27 18:12:57.636 +00:00 [INF] Logging initialized.
+2026-11-27 18:12:57.682 +00:00 [INF] Unix 6.8.0.1060
+2026-11-27 18:12:57.683 +00:00 [INF] Ubuntu 22.04.5 LTS X64 X64
+2026-11-27 18:12:57.683 +00:00 [INF] OpenUtau v0.1.576.0 linux-x64
+2026-11-27 18:12:57.683 +00:00 [INF] Data path = /home/ubuntu/.local/share/OpenUtau
+2026-11-27 18:12:57.683 +00:00 [INF] Cache path = /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:12:57.684 +00:00 [INF] System encoding = utf-8
+2026-11-27 18:12:57.857 +00:00 [INF] Initializing application.
+2026-11-27 18:12:57.910 +00:00 [INF] Initializing culture.
+2026-11-27 18:12:57.919 +00:00 [INF] Initialized culture.
+2026-11-27 18:12:57.919 +00:00 [INF] Initializing theme.
+2026-11-27 18:12:57.927 +00:00 [INF] Initialized theme.
+2026-11-27 18:12:57.927 +00:00 [INF] Initialized application.
+2026-11-27 18:12:57.928 +00:00 [INF] Framework initialization completed.
+2026-11-27 18:12:58.005 +00:00 [INF] Initializing OpenUtau.
+2026-11-27 18:12:58.019 +00:00 [INF] Search all plugins: 00:00:00.0116821
+2026-11-27 18:12:58.020 +00:00 [INF] Search all legacy plugins: 00:00:00.0008561
+2026-11-27 18:12:58.022 +00:00 [INF] Searching singers.
+2026-11-27 18:12:58.025 +00:00 [INF] Search all singers: 00:00:00.0028192
+2026-11-27 18:12:58.025 +00:00 [INF] Initialized OpenUtau.
+2026-11-27 18:12:58.025 +00:00 [INF] Initializing audio.
+2026-11-27 18:12:58.025 +00:00 [INF] ReleaseSourceTemp /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:12:58.031 +00:00 [INF] Initialized audio.
+2026-11-27 18:12:58.058 +00:00 [INF] Creating main window.
+2026-11-27 18:12:58.141 +00:00 [INF] Initialized main window component.
+2026-11-27 18:12:58.144 +00:00 [INF] Main window checking Update.
+2026-11-27 18:12:58.144 +00:00 [INF] Created main window.
+2026-11-27 18:12:58.216 +00:00 [INF] SchedulePreRender
+2026-11-27 18:12:58.220 +00:00 [INF] Loaded /tmp/openace_host_wave.wav 00:00:00.0056683
+2026-11-27 18:12:58.220 +00:00 [INF] Built peaks /tmp/openace_host_wave.wav 00:00:00.0000840
+2026-11-27 18:12:58.247 +00:00 [INF] Publish notification Load project
+2026-11-27 18:12:58.250 +00:00 [INF] SchedulePreRender
+2026-11-27 18:12:58.251 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:12:58.251 +00:00 [INF] Publish notification Voice color remapping.
+2026-11-27 18:12:59.185 +00:00 [INF] Checking update at: https://github.com/openutau/OpenUtau/releases/tag/0.1.576
+2026-11-27 18:12:59.185 +00:00 [INF] Checking appcast: https://github.com/openutau/OpenUtau/releases/download/0.1.576/appcast.linux-x64.xml
+2026-11-27 18:13:28.143 +00:00 [INF] Autosave skipped.
+2026-11-27 18:13:34.436 +00:00 [INF] Logging initialized.
+2026-11-27 18:13:34.457 +00:00 [INF] Unix 6.8.0.1060
+2026-11-27 18:13:34.458 +00:00 [INF] Ubuntu 22.04.5 LTS X64 X64
+2026-11-27 18:13:34.458 +00:00 [INF] OpenUtau v0.1.576.0 linux-x64
+2026-11-27 18:13:34.458 +00:00 [INF] Data path = /home/ubuntu/.local/share/OpenUtau
+2026-11-27 18:13:34.458 +00:00 [INF] Cache path = /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:13:34.458 +00:00 [INF] System encoding = utf-8
+2026-11-27 18:13:34.692 +00:00 [INF] Initializing application.
+2026-11-27 18:13:34.768 +00:00 [INF] Initializing culture.
+2026-11-27 18:13:34.774 +00:00 [INF] Initialized culture.
+2026-11-27 18:13:34.775 +00:00 [INF] Initializing theme.
+2026-11-27 18:13:34.782 +00:00 [INF] Initialized theme.
+2026-11-27 18:13:34.782 +00:00 [INF] Initialized application.
+2026-11-27 18:13:34.782 +00:00 [INF] Framework initialization completed.
+2026-11-27 18:13:34.854 +00:00 [INF] Initializing OpenUtau.
+2026-11-27 18:13:34.869 +00:00 [INF] Search all plugins: 00:00:00.0124473
+2026-11-27 18:13:34.870 +00:00 [INF] Search all legacy plugins: 00:00:00.0010503
+2026-11-27 18:13:34.872 +00:00 [INF] Searching singers.
+2026-11-27 18:13:34.875 +00:00 [INF] Search all singers: 00:00:00.0030030
+2026-11-27 18:13:34.876 +00:00 [INF] Initialized OpenUtau.
+2026-11-27 18:13:34.876 +00:00 [INF] Initializing audio.
+2026-11-27 18:13:34.876 +00:00 [INF] ReleaseSourceTemp /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:13:34.881 +00:00 [INF] Initialized audio.
+2026-11-27 18:13:34.907 +00:00 [INF] Creating main window.
+2026-11-27 18:13:34.997 +00:00 [INF] Initialized main window component.
+2026-11-27 18:13:35.000 +00:00 [INF] Main window checking Update.
+2026-11-27 18:13:35.001 +00:00 [INF] Created main window.
+2026-11-27 18:13:35.117 +00:00 [INF] SchedulePreRender
+2026-11-27 18:13:35.156 +00:00 [INF] Publish notification Load project
+2026-11-27 18:13:35.159 +00:00 [INF] SchedulePreRender
+2026-11-27 18:13:35.159 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:13:35.159 +00:00 [INF] Publish notification Voice color remapping.
+2026-11-27 18:13:35.172 +00:00 [INF] Publish notification Phonemized
+2026-11-27 18:13:35.322 +00:00 [INF] Checking update at: https://github.com/openutau/OpenUtau/releases/tag/0.1.576
+2026-11-27 18:13:35.322 +00:00 [INF] Checking appcast: https://github.com/openutau/OpenUtau/releases/download/0.1.576/appcast.linux-x64.xml
+2026-11-27 18:13:42.726 +00:00 [INF] SchedulePreRender
+2026-11-27 18:13:42.727 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:13:42.762 +00:00 [INF] SchedulePreRender
+2026-11-27 18:13:42.762 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:13:42.799 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:42.802 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:42.803 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:13:42.804 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:42.804 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:13:42.805 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:42.805 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:13:42.806 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:42.807 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:13:42.807 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:42.807 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:13:42.808 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:42.809 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:13:42.810 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:42.811 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:13:42.812 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:42.813 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:13:42.815 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:42.815 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:13:42.849 +00:00 [INF] SchedulePreRender
+2026-11-27 18:13:42.850 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:13:42.859 +00:00 [INF] SchedulePreRender
+2026-11-27 18:13:42.859 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:13:43.118 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:13:43.119 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:13:43.119 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:13:43.120 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:13:43.120 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:13:43.121 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:13:43.121 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:13:43.121 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:13:43.122 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:13:43.122 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:13:43.123 +00:00 [INF] Publish notification Load part
+2026-11-27 18:13:43.124 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:13:43.124 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:14:04.999 +00:00 [INF] Autosave skipped.
+2026-11-27 18:14:34.999 +00:00 [INF] Autosave skipped.
+2026-11-27 18:15:04.999 +00:00 [INF] Autosave skipped.
+2026-11-27 18:15:35.000 +00:00 [INF] Autosave skipped.
+2026-11-27 18:16:05.000 +00:00 [INF] Autosave skipped.
+2026-11-27 18:16:35.001 +00:00 [INF] Autosave skipped.
+2026-11-27 18:17:05.001 +00:00 [INF] Autosave skipped.
+2026-11-27 18:17:35.001 +00:00 [INF] Autosave skipped.
+2026-11-27 18:18:05.002 +00:00 [INF] Autosave skipped.
+2026-11-27 18:18:35.003 +00:00 [INF] Autosave skipped.
+2026-11-27 18:19:05.015 +00:00 [INF] Autosave skipped.
+2026-11-27 18:19:35.015 +00:00 [INF] Autosave skipped.
+2026-11-27 18:20:05.015 +00:00 [INF] Autosave skipped.
+2026-11-27 18:20:35.016 +00:00 [INF] Autosave skipped.
+2026-11-27 18:21:05.016 +00:00 [INF] Autosave skipped.
+2026-11-27 18:21:35.017 +00:00 [INF] Autosave skipped.
+2026-11-27 18:22:05.017 +00:00 [INF] Autosave skipped.
+2026-11-27 18:22:35.016 +00:00 [INF] Autosave skipped.
+2026-11-27 18:23:05.017 +00:00 [INF] Autosave skipped.
+2026-11-27 18:23:35.016 +00:00 [INF] Autosave skipped.
+2026-11-27 18:24:05.017 +00:00 [INF] Autosave skipped.
+2026-11-27 18:24:35.018 +00:00 [INF] Autosave skipped.
+2026-11-27 18:25:05.018 +00:00 [INF] Autosave skipped.
+2026-11-27 18:25:35.018 +00:00 [INF] Autosave skipped.
+2026-11-27 18:25:56.410 +00:00 [INF] Logging initialized.
+2026-11-27 18:25:56.431 +00:00 [INF] Process OpenUtau already open. Exiting.
+2026-11-27 18:26:04.889 +00:00 [INF] Logging initialized.
+2026-11-27 18:26:04.910 +00:00 [INF] Unix 6.8.0.1060
+2026-11-27 18:26:04.911 +00:00 [INF] Ubuntu 22.04.5 LTS X64 X64
+2026-11-27 18:26:04.911 +00:00 [INF] OpenUtau v0.1.576.0 linux-x64
+2026-11-27 18:26:04.911 +00:00 [INF] Data path = /home/ubuntu/.local/share/OpenUtau
+2026-11-27 18:26:04.911 +00:00 [INF] Cache path = /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:26:04.912 +00:00 [INF] System encoding = utf-8
+2026-11-27 18:26:05.098 +00:00 [INF] Initializing application.
+2026-11-27 18:26:05.153 +00:00 [INF] Initializing culture.
+2026-11-27 18:26:05.161 +00:00 [INF] Initialized culture.
+2026-11-27 18:26:05.161 +00:00 [INF] Initializing theme.
+2026-11-27 18:26:05.169 +00:00 [INF] Initialized theme.
+2026-11-27 18:26:05.169 +00:00 [INF] Initialized application.
+2026-11-27 18:26:05.169 +00:00 [INF] Framework initialization completed.
+2026-11-27 18:26:05.249 +00:00 [INF] Initializing OpenUtau.
+2026-11-27 18:26:05.263 +00:00 [INF] Search all plugins: 00:00:00.0117843
+2026-11-27 18:26:05.264 +00:00 [INF] Search all legacy plugins: 00:00:00.0008257
+2026-11-27 18:26:05.267 +00:00 [INF] Searching singers.
+2026-11-27 18:26:05.272 +00:00 [INF] Search all singers: 00:00:00.0047201
+2026-11-27 18:26:05.272 +00:00 [INF] Initialized OpenUtau.
+2026-11-27 18:26:05.272 +00:00 [INF] Initializing audio.
+2026-11-27 18:26:05.273 +00:00 [INF] ReleaseSourceTemp /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:26:05.279 +00:00 [INF] Initialized audio.
+2026-11-27 18:26:05.303 +00:00 [INF] Creating main window.
+2026-11-27 18:26:05.393 +00:00 [INF] Initialized main window component.
+2026-11-27 18:26:05.396 +00:00 [INF] Main window checking Update.
+2026-11-27 18:26:05.396 +00:00 [INF] Created main window.
+2026-11-27 18:26:05.482 +00:00 [INF] SchedulePreRender
+2026-11-27 18:26:05.507 +00:00 [INF] Publish notification Load project
+2026-11-27 18:26:05.511 +00:00 [INF] SchedulePreRender
+2026-11-27 18:26:05.512 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:26:05.512 +00:00 [INF] Publish notification Voice color remapping.
+2026-11-27 18:26:05.526 +00:00 [INF] Publish notification Phonemized
+2026-11-27 18:26:05.622 +00:00 [ERR] Failed to select appcast to update.
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 (rate limit exceeded).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at OpenUtau.App.ViewModels.UpdaterViewModel.SelectRelease() in /home/runner/work/OpenUtau/OpenUtau/OpenUtau/ViewModels/UpdaterViewModel.cs:line 136
+   at OpenUtau.App.ViewModels.UpdaterViewModel.NewUpdaterAsync() in /home/runner/work/OpenUtau/OpenUtau/OpenUtau/ViewModels/UpdaterViewModel.cs:line 86
+2026-11-27 18:26:35.395 +00:00 [INF] Autosave skipped.
+2026-11-27 18:27:05.395 +00:00 [INF] Autosave skipped.
+2026-11-27 18:27:19.947 +00:00 [INF] SchedulePreRender
+2026-11-27 18:27:19.948 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:27:19.983 +00:00 [INF] SchedulePreRender
+2026-11-27 18:27:19.983 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:27:20.010 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.011 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.012 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:27:20.012 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.013 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:27:20.013 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.013 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:27:20.014 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.014 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:27:20.014 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.015 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:27:20.015 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.015 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:27:20.016 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.016 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:27:20.016 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.016 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:27:20.017 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.017 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:27:20.033 +00:00 [INF] SchedulePreRender
+2026-11-27 18:27:20.033 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:27:20.033 +00:00 [INF] SchedulePreRender
+2026-11-27 18:27:20.033 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:27:20.240 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:20.241 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:27:20.241 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:27:20.242 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:27:20.242 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:27:20.242 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:27:20.242 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:27:20.243 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:27:20.243 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:27:20.243 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:27:20.245 +00:00 [INF] Publish notification Load part
+2026-11-27 18:27:20.245 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:27:20.245 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:27:35.395 +00:00 [INF] Autosave skipped.
+2026-11-27 18:28:05.396 +00:00 [INF] Autosave skipped.
+2026-11-27 18:28:35.396 +00:00 [INF] Autosave skipped.
+2026-11-27 18:28:42.355 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:28:42.355 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:28:42.355 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:28:42.356 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:28:42.356 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:28:42.356 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:28:42.356 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:28:42.356 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:28:42.357 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:28:42.357 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:28:42.357 +00:00 [INF] Publish notification Load part
+2026-11-27 18:28:42.357 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:28:42.357 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:28:44.565 +00:00 [INF] Publish notification Phonemized
+2026-11-27 18:28:44.572 +00:00 [INF] Undo group command.note.add: Add note
+2026-11-27 18:28:44.572 +00:00 [INF] SchedulePreRender
+2026-11-27 18:28:44.573 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:29:05.397 +00:00 [INF] Autosave /home/ubuntu/.local/share/OpenUtau/Backups/Untitled-autosave.ustx.
+2026-11-27 18:29:05.439 +00:00 [INF] Autosaved /home/ubuntu/.local/share/OpenUtau/Backups/Untitled-autosave.ustx.
+2026-11-27 18:29:35.439 +00:00 [INF] Autosave skipped.
+2026-11-27 18:29:50.357 +00:00 [INF] Publish notification Phonemized
+2026-11-27 18:29:50.367 +00:00 [INF] Undo group command.note.add: Add note
+2026-11-27 18:29:50.368 +00:00 [INF] SchedulePreRender
+2026-11-27 18:29:50.368 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:30:05.439 +00:00 [INF] Autosave /home/ubuntu/.local/share/OpenUtau/Backups/Untitled-autosave.ustx.
+2026-11-27 18:30:05.462 +00:00 [INF] Autosaved /home/ubuntu/.local/share/OpenUtau/Backups/Untitled-autosave.ustx.
+2026-11-27 18:30:35.462 +00:00 [INF] Autosave skipped.
+2026-11-27 18:30:52.540 +00:00 [INF] Publish notification Save project
+2026-11-27 18:31:05.463 +00:00 [INF] Autosave skipped.
+2026-11-27 18:31:35.464 +00:00 [INF] Autosave skipped.
+2026-11-27 18:32:05.464 +00:00 [INF] Autosave skipped.
+2026-11-27 18:32:35.465 +00:00 [INF] Autosave skipped.
+2026-11-27 18:33:05.465 +00:00 [INF] Autosave skipped.
+2026-11-27 18:33:35.466 +00:00 [INF] Autosave skipped.
+2026-11-27 18:33:49.124 +00:00 [INF] Logging initialized.
+2026-11-27 18:33:49.160 +00:00 [INF] Unix 6.8.0.1060
+2026-11-27 18:33:49.162 +00:00 [INF] Ubuntu 22.04.5 LTS X64 X64
+2026-11-27 18:33:49.162 +00:00 [INF] OpenUtau v0.1.576.0 linux-x64
+2026-11-27 18:33:49.162 +00:00 [INF] Data path = /home/ubuntu/.local/share/OpenUtau
+2026-11-27 18:33:49.162 +00:00 [INF] Cache path = /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:33:49.163 +00:00 [INF] System encoding = utf-8
+2026-11-27 18:33:49.489 +00:00 [INF] Initializing application.
+2026-11-27 18:33:49.583 +00:00 [INF] Initializing culture.
+2026-11-27 18:33:49.592 +00:00 [INF] Initialized culture.
+2026-11-27 18:33:49.592 +00:00 [INF] Initializing theme.
+2026-11-27 18:33:49.605 +00:00 [INF] Initialized theme.
+2026-11-27 18:33:49.605 +00:00 [INF] Initialized application.
+2026-11-27 18:33:49.605 +00:00 [INF] Framework initialization completed.
+2026-11-27 18:33:49.714 +00:00 [INF] Initializing OpenUtau.
+2026-11-27 18:33:49.736 +00:00 [INF] Search all plugins: 00:00:00.0178388
+2026-11-27 18:33:49.737 +00:00 [INF] Search all legacy plugins: 00:00:00.0011168
+2026-11-27 18:33:49.740 +00:00 [INF] Searching singers.
+2026-11-27 18:33:49.744 +00:00 [INF] Search all singers: 00:00:00.0040879
+2026-11-27 18:33:49.744 +00:00 [INF] Initialized OpenUtau.
+2026-11-27 18:33:49.744 +00:00 [INF] Initializing audio.
+2026-11-27 18:33:49.747 +00:00 [INF] ReleaseSourceTemp /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:33:49.755 +00:00 [INF] Initialized audio.
+2026-11-27 18:33:49.785 +00:00 [INF] Creating main window.
+2026-11-27 18:33:49.910 +00:00 [INF] Initialized main window component.
+2026-11-27 18:33:49.914 +00:00 [INF] Main window checking Update.
+2026-11-27 18:33:49.914 +00:00 [INF] Created main window.
+2026-11-27 18:33:50.046 +00:00 [INF] SchedulePreRender
+2026-11-27 18:33:50.081 +00:00 [INF] Publish notification Load project
+2026-11-27 18:33:50.085 +00:00 [INF] SchedulePreRender
+2026-11-27 18:33:50.085 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:33:50.085 +00:00 [INF] Publish notification Voice color remapping.
+2026-11-27 18:33:50.105 +00:00 [INF] Publish notification Phonemized
+2026-11-27 18:33:50.158 +00:00 [ERR] Failed to select appcast to update.
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 (rate limit exceeded).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at OpenUtau.App.ViewModels.UpdaterViewModel.SelectRelease() in /home/runner/work/OpenUtau/OpenUtau/OpenUtau/ViewModels/UpdaterViewModel.cs:line 136
+   at OpenUtau.App.ViewModels.UpdaterViewModel.NewUpdaterAsync() in /home/runner/work/OpenUtau/OpenUtau/OpenUtau/ViewModels/UpdaterViewModel.cs:line 86
+2026-11-27 18:34:07.611 +00:00 [INF] SchedulePreRender
+2026-11-27 18:34:07.611 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:34:07.641 +00:00 [INF] SchedulePreRender
+2026-11-27 18:34:07.641 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:34:07.673 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.675 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.675 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:34:07.676 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.676 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:34:07.677 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.677 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:34:07.677 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.678 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:34:07.678 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.678 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:34:07.679 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.679 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:34:07.679 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.679 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:34:07.680 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.680 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:34:07.681 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.681 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:34:07.698 +00:00 [INF] SchedulePreRender
+2026-11-27 18:34:07.698 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:34:07.699 +00:00 [INF] SchedulePreRender
+2026-11-27 18:34:07.699 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:34:07.895 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:07.896 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:34:07.896 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:34:07.897 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:34:07.897 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:34:07.897 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:34:07.897 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:34:07.898 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:34:07.898 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:34:07.898 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:34:07.899 +00:00 [INF] Publish notification Load part
+2026-11-27 18:34:07.900 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:34:07.900 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:34:19.912 +00:00 [INF] Autosave skipped.
+2026-11-27 18:34:49.912 +00:00 [INF] Autosave skipped.
+2026-11-27 18:35:19.912 +00:00 [INF] Autosave skipped.
+2026-11-27 18:35:31.750 +00:00 [INF] SchedulePreRender
+2026-11-27 18:35:31.751 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:35:40.604 +00:00 [INF] SchedulePreRender
+2026-11-27 18:35:40.604 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:35:49.912 +00:00 [INF] Autosave skipped.
+2026-11-27 18:36:19.912 +00:00 [INF] Autosave skipped.
+2026-11-27 18:36:49.912 +00:00 [INF] Autosave skipped.
+2026-11-27 18:36:52.824 +00:00 [INF] Publish notification Save project
+2026-11-27 18:37:19.913 +00:00 [INF] Autosave skipped.
+2026-11-27 18:37:49.913 +00:00 [INF] Autosave skipped.
+2026-11-27 18:38:13.603 +00:00 [INF] Publish notification Start loading project
+2026-11-27 18:38:13.605 +00:00 [INF] SchedulePreRender
+2026-11-27 18:38:13.632 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:38:13.632 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:38:13.632 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:38:13.632 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:38:13.633 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:38:13.633 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:38:13.633 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:38:13.633 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:38:13.633 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:38:13.633 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:38:13.633 +00:00 [INF] Publish notification Load project
+2026-11-27 18:38:13.633 +00:00 [INF] SchedulePreRender
+2026-11-27 18:38:13.633 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:38:13.634 +00:00 [INF] Publish notification Voice color remapping.
+2026-11-27 18:38:13.634 +00:00 [INF] Publish notification Finish loading project
+2026-11-27 18:38:13.634 +00:00 [INF] Publish notification Phonemized
+2026-11-27 18:38:19.914 +00:00 [INF] Autosave skipped.
+2026-11-27 18:38:49.914 +00:00 [INF] Autosave skipped.
+2026-11-27 18:39:19.914 +00:00 [INF] Autosave skipped.
+2026-11-27 18:39:49.914 +00:00 [INF] Autosave skipped.
+2026-11-27 18:40:19.915 +00:00 [INF] Autosave skipped.
+2026-11-27 18:40:49.915 +00:00 [INF] Autosave skipped.
+2026-11-27 18:41:19.915 +00:00 [INF] Autosave skipped.
+2026-11-27 18:41:49.915 +00:00 [INF] Autosave skipped.
+2026-11-27 18:42:19.916 +00:00 [INF] Autosave skipped.
+2026-11-27 18:42:40.798 +00:00 [INF] Logging initialized.
+2026-11-27 18:42:40.819 +00:00 [INF] Unix 6.8.0.1060
+2026-11-27 18:42:40.820 +00:00 [INF] Ubuntu 22.04.5 LTS X64 X64
+2026-11-27 18:42:40.820 +00:00 [INF] OpenUtau v0.1.576.0 linux-x64
+2026-11-27 18:42:40.820 +00:00 [INF] Data path = /home/ubuntu/.local/share/OpenUtau
+2026-11-27 18:42:40.820 +00:00 [INF] Cache path = /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:42:40.821 +00:00 [INF] System encoding = utf-8
+2026-11-27 18:42:41.002 +00:00 [INF] Initializing application.
+2026-11-27 18:42:41.053 +00:00 [INF] Initializing culture.
+2026-11-27 18:42:41.061 +00:00 [INF] Initialized culture.
+2026-11-27 18:42:41.061 +00:00 [INF] Initializing theme.
+2026-11-27 18:42:41.068 +00:00 [INF] Initialized theme.
+2026-11-27 18:42:41.068 +00:00 [INF] Initialized application.
+2026-11-27 18:42:41.068 +00:00 [INF] Framework initialization completed.
+2026-11-27 18:42:41.149 +00:00 [INF] Initializing OpenUtau.
+2026-11-27 18:42:41.163 +00:00 [INF] Search all plugins: 00:00:00.0120230
+2026-11-27 18:42:41.164 +00:00 [INF] Search all legacy plugins: 00:00:00.0008338
+2026-11-27 18:42:41.166 +00:00 [INF] Searching singers.
+2026-11-27 18:42:41.169 +00:00 [INF] Search all singers: 00:00:00.0027803
+2026-11-27 18:42:41.169 +00:00 [INF] Initialized OpenUtau.
+2026-11-27 18:42:41.169 +00:00 [INF] Initializing audio.
+2026-11-27 18:42:41.169 +00:00 [INF] ReleaseSourceTemp /home/ubuntu/.cache/OpenUtau
+2026-11-27 18:42:41.175 +00:00 [INF] Initialized audio.
+2026-11-27 18:42:41.201 +00:00 [INF] Creating main window.
+2026-11-27 18:42:41.284 +00:00 [INF] Initialized main window component.
+2026-11-27 18:42:41.287 +00:00 [INF] Main window checking Update.
+2026-11-27 18:42:41.287 +00:00 [INF] Created main window.
+2026-11-27 18:42:41.373 +00:00 [INF] SchedulePreRender
+2026-11-27 18:42:41.403 +00:00 [INF] Publish notification Load project
+2026-11-27 18:42:41.407 +00:00 [INF] SchedulePreRender
+2026-11-27 18:42:41.407 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:42:41.407 +00:00 [INF] Publish notification Voice color remapping.
+2026-11-27 18:42:41.421 +00:00 [INF] Publish notification Phonemized
+2026-11-27 18:42:42.964 +00:00 [INF] Checking update at: https://github.com/openutau/OpenUtau/releases/tag/0.1.576
+2026-11-27 18:42:42.964 +00:00 [INF] Checking appcast: https://github.com/openutau/OpenUtau/releases/download/0.1.576/appcast.linux-x64.xml
+2026-11-27 18:43:04.343 +00:00 [INF] SchedulePreRender
+2026-11-27 18:43:04.343 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:43:04.379 +00:00 [INF] SchedulePreRender
+2026-11-27 18:43:04.379 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:43:04.405 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.406 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.408 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:43:04.408 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.409 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:43:04.409 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.409 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:43:04.410 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.410 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:43:04.411 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.411 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:43:04.412 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.412 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:43:04.412 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.412 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:43:04.413 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.413 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:43:04.414 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.414 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:43:04.431 +00:00 [INF] SchedulePreRender
+2026-11-27 18:43:04.432 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:43:04.432 +00:00 [INF] SchedulePreRender
+2026-11-27 18:43:04.432 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 18:43:04.631 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:04.632 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:43:04.632 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:43:04.632 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:43:04.633 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:43:04.633 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:43:04.633 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:43:04.634 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:43:04.634 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:43:04.634 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:43:04.635 +00:00 [INF] Publish notification Load part
+2026-11-27 18:43:04.636 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:43:04.636 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:43:11.285 +00:00 [INF] Autosave skipped.
+2026-11-27 18:43:29.551 +00:00 [INF] Publish notification Save project
+2026-11-27 18:43:41.286 +00:00 [INF] Autosave skipped.
+2026-11-27 18:44:11.286 +00:00 [INF] Autosave skipped.
+2026-11-27 18:44:17.835 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:44:17.835 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:44:17.836 +00:00 [INF] Publish notification Select expression clr
+2026-11-27 18:44:17.836 +00:00 [INF] Publish notification Select expression eng
+2026-11-27 18:44:17.836 +00:00 [INF] Publish notification Select expression vel
+2026-11-27 18:44:17.836 +00:00 [INF] Publish notification Select expression vol
+2026-11-27 18:44:17.836 +00:00 [INF] Publish notification Select expression atk
+2026-11-27 18:44:17.836 +00:00 [INF] Publish notification Select expression dec
+2026-11-27 18:44:17.837 +00:00 [INF] Publish notification Select expression gen
+2026-11-27 18:44:17.837 +00:00 [INF] Publish notification Select expression bre
+2026-11-27 18:44:17.837 +00:00 [INF] Publish notification Load part
+2026-11-27 18:44:17.837 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:44:17.837 +00:00 [INF] Publish notification Select expression dyn
+2026-11-27 18:44:19.839 +00:00 [INF] Publish notification Select expression pitd
+2026-11-27 18:44:41.288 +00:00 [INF] Autosave skipped.
+2026-11-27 18:45:11.289 +00:00 [INF] Autosave skipped.
+2026-11-27 18:45:41.290 +00:00 [INF] Autosave skipped.
+2026-11-27 18:46:11.290 +00:00 [INF] Autosave skipped.
+2026-11-27 18:46:41.291 +00:00 [INF] Autosave skipped.
+2026-11-27 18:47:11.292 +00:00 [INF] Autosave skipped.
+2026-11-27 18:47:41.291 +00:00 [INF] Autosave skipped.
+2026-11-27 18:48:11.292 +00:00 [INF] Autosave skipped.
+2026-11-27 18:48:41.293 +00:00 [INF] Autosave skipped.
+2026-11-27 18:49:11.293 +00:00 [INF] Autosave skipped.
+2026-11-27 18:49:41.294 +00:00 [INF] Autosave skipped.
+2026-11-27 18:50:11.296 +00:00 [INF] Autosave skipped.
+2026-11-27 18:50:41.296 +00:00 [INF] Autosave skipped.
+2026-11-27 18:51:11.297 +00:00 [INF] Autosave skipped.
+2026-11-27 18:51:41.298 +00:00 [INF] Autosave skipped.
+2026-11-27 18:52:11.298 +00:00 [INF] Autosave skipped.
+2026-11-27 18:52:41.299 +00:00 [INF] Autosave skipped.
+2026-11-27 18:53:11.300 +00:00 [INF] Autosave skipped.
+2026-11-27 18:53:41.300 +00:00 [INF] Autosave skipped.
+2026-11-27 18:54:11.301 +00:00 [INF] Autosave skipped.
+2026-11-27 18:54:41.301 +00:00 [INF] Autosave skipped.
+2026-11-27 18:55:11.301 +00:00 [INF] Autosave skipped.
+2026-11-27 18:55:41.301 +00:00 [INF] Autosave skipped.
+2026-11-27 18:56:11.302 +00:00 [INF] Autosave skipped.
+2026-11-27 18:56:41.301 +00:00 [INF] Autosave skipped.
+2026-11-27 18:57:11.301 +00:00 [INF] Autosave skipped.
+2026-11-27 18:57:41.303 +00:00 [INF] Autosave skipped.
+2026-11-27 18:58:11.303 +00:00 [INF] Autosave skipped.
+2026-11-27 18:58:41.302 +00:00 [INF] Autosave skipped.
+2026-11-27 18:59:11.302 +00:00 [INF] Autosave skipped.
+2026-11-27 18:59:41.303 +00:00 [INF] Autosave skipped.
+2026-11-27 19:00:11.304 +00:00 [INF] Autosave skipped.
+2026-11-27 19:00:41.304 +00:00 [INF] Autosave skipped.
+2026-11-27 19:01:11.303 +00:00 [INF] Autosave skipped.
+2026-11-27 19:01:41.303 +00:00 [INF] Autosave skipped.
+2026-11-27 19:02:11.303 +00:00 [INF] Autosave skipped.
+2026-11-27 19:02:41.304 +00:00 [INF] Autosave skipped.
+2026-11-27 19:03:11.304 +00:00 [INF] Autosave skipped.
+2026-11-27 19:03:41.304 +00:00 [INF] Autosave skipped.
+2026-11-27 19:04:11.305 +00:00 [INF] Autosave skipped.
+2026-11-27 19:04:41.305 +00:00 [INF] Autosave skipped.
+2026-11-27 19:05:11.306 +00:00 [INF] Autosave skipped.
+2026-11-27 19:05:41.306 +00:00 [INF] Autosave skipped.
+2026-11-27 19:06:11.307 +00:00 [INF] Autosave skipped.
+2026-11-27 19:06:41.307 +00:00 [INF] Autosave skipped.
+2026-11-27 19:07:11.306 +00:00 [INF] Autosave skipped.
+2026-11-27 19:07:41.307 +00:00 [INF] Autosave skipped.
+2026-11-27 19:08:11.308 +00:00 [INF] Autosave skipped.
+2026-11-27 19:08:41.308 +00:00 [INF] Autosave skipped.
+2026-11-27 19:09:11.309 +00:00 [INF] Autosave skipped.
+2026-11-27 19:09:41.310 +00:00 [INF] Autosave skipped.
+2026-11-27 19:10:11.309 +00:00 [INF] Autosave skipped.
+2026-11-27 19:10:41.310 +00:00 [INF] Autosave skipped.
+2026-11-27 19:11:11.310 +00:00 [INF] Autosave skipped.
+2026-11-27 19:11:41.310 +00:00 [INF] Autosave skipped.
+2026-11-27 19:12:11.311 +00:00 [INF] Autosave skipped.
+2026-11-27 19:12:41.311 +00:00 [INF] Autosave skipped.
+2026-11-27 19:13:11.311 +00:00 [INF] Autosave skipped.
+2026-11-27 19:13:41.310 +00:00 [INF] Autosave skipped.
+2026-11-27 19:14:11.310 +00:00 [INF] Autosave skipped.
+2026-11-27 19:14:41.310 +00:00 [INF] Autosave skipped.
+2026-11-27 19:15:11.311 +00:00 [INF] Autosave skipped.
+2026-11-27 19:15:41.311 +00:00 [INF] Autosave skipped.
+2026-11-27 19:16:11.312 +00:00 [INF] Autosave skipped.
+2026-11-27 19:16:41.312 +00:00 [INF] Autosave skipped.
+2026-11-27 19:17:11.312 +00:00 [INF] Autosave skipped.
+2026-11-27 19:17:41.312 +00:00 [INF] Autosave skipped.
+2026-11-27 19:18:11.313 +00:00 [INF] Autosave skipped.
+2026-11-27 19:18:41.313 +00:00 [INF] Autosave skipped.
+2026-11-27 19:19:11.312 +00:00 [INF] Autosave skipped.
+2026-11-27 19:19:41.312 +00:00 [INF] Autosave skipped.
+2026-11-27 19:20:11.312 +00:00 [INF] Autosave skipped.
+2026-11-27 19:20:41.313 +00:00 [INF] Autosave skipped.
+2026-11-27 19:21:11.313 +00:00 [INF] Autosave skipped.
+2026-11-27 19:21:41.314 +00:00 [INF] Autosave skipped.
+2026-11-27 19:22:11.314 +00:00 [INF] Autosave skipped.
+2026-11-27 19:22:41.314 +00:00 [INF] Autosave skipped.
+2026-11-27 19:23:11.314 +00:00 [INF] Autosave skipped.
+2026-11-27 19:23:41.314 +00:00 [INF] Autosave skipped.
+2026-11-27 19:24:11.315 +00:00 [INF] Autosave skipped.
+2026-11-27 19:24:41.314 +00:00 [INF] Autosave skipped.
+2026-11-27 19:25:11.314 +00:00 [INF] Autosave skipped.
+2026-11-27 19:25:41.315 +00:00 [INF] Autosave skipped.
+2026-11-27 19:26:11.315 +00:00 [INF] Autosave skipped.
+2026-11-27 19:26:41.314 +00:00 [INF] Autosave skipped.
+2026-11-27 19:27:11.314 +00:00 [INF] Autosave skipped.
+2026-11-27 19:27:41.315 +00:00 [INF] Autosave skipped.
+2026-11-27 19:28:11.315 +00:00 [INF] Autosave skipped.
+2026-11-27 19:28:41.315 +00:00 [INF] Autosave skipped.
+2026-11-27 19:29:11.315 +00:00 [INF] Autosave skipped.
+2026-11-27 19:29:41.315 +00:00 [INF] Autosave skipped.
+2026-11-27 19:30:11.316 +00:00 [INF] Autosave skipped.
+2026-11-27 19:30:41.317 +00:00 [INF] Autosave skipped.
+2026-11-27 19:31:11.317 +00:00 [INF] Autosave skipped.
+2026-11-27 19:31:41.316 +00:00 [INF] Autosave skipped.
+2026-11-27 19:32:11.317 +00:00 [INF] Autosave skipped.
+2026-11-27 19:32:41.316 +00:00 [INF] Autosave skipped.
+2026-11-27 19:33:11.317 +00:00 [INF] Autosave skipped.
+2026-11-27 19:33:41.316 +00:00 [INF] Autosave skipped.
+2026-11-27 19:34:11.317 +00:00 [INF] Autosave skipped.
+2026-11-27 19:34:41.316 +00:00 [INF] Autosave skipped.
+2026-11-27 19:35:11.317 +00:00 [INF] Autosave skipped.
+2026-11-27 19:35:41.317 +00:00 [INF] Autosave skipped.
+2026-11-27 19:36:11.318 +00:00 [INF] Autosave skipped.
+2026-11-27 19:36:41.318 +00:00 [INF] Autosave skipped.
+2026-11-27 19:37:11.318 +00:00 [INF] Autosave skipped.
+2026-11-27 19:37:41.319 +00:00 [INF] Autosave skipped.
+2026-11-27 19:38:11.319 +00:00 [INF] Autosave skipped.
+2026-11-27 19:38:41.318 +00:00 [INF] Autosave skipped.
+2026-11-27 19:39:11.319 +00:00 [INF] Autosave skipped.
+2026-11-27 19:39:41.318 +00:00 [INF] Autosave skipped.
+2026-11-27 19:40:11.318 +00:00 [INF] Autosave skipped.
+2026-11-27 19:40:41.319 +00:00 [INF] Autosave skipped.
+2026-11-27 19:41:11.319 +00:00 [INF] Autosave skipped.
+2026-11-27 19:41:41.319 +00:00 [INF] Autosave skipped.
+2026-11-27 19:42:11.318 +00:00 [INF] Autosave skipped.
+2026-11-27 19:42:41.318 +00:00 [INF] Autosave skipped.
+2026-11-27 19:43:11.318 +00:00 [INF] Autosave skipped.
+2026-11-27 19:43:41.318 +00:00 [INF] Autosave skipped.
+2026-11-27 19:44:11.319 +00:00 [INF] Autosave skipped.
+2026-11-27 19:44:41.319 +00:00 [INF] Autosave skipped.
+2026-11-27 19:45:11.320 +00:00 [INF] Autosave skipped.
+2026-11-27 19:45:41.320 +00:00 [INF] Autosave skipped.
+2026-11-27 19:46:11.320 +00:00 [INF] Autosave skipped.
+2026-11-27 19:46:41.321 +00:00 [INF] Autosave skipped.
+2026-11-27 19:47:11.320 +00:00 [INF] Autosave skipped.
+2026-11-27 19:47:41.320 +00:00 [INF] Autosave skipped.
+2026-11-27 19:48:11.321 +00:00 [INF] Autosave skipped.
+2026-11-27 19:48:41.320 +00:00 [INF] Autosave skipped.
+2026-11-27 19:49:11.320 +00:00 [INF] Autosave skipped.
+2026-11-27 19:49:41.321 +00:00 [INF] Autosave skipped.
+2026-11-27 19:50:11.321 +00:00 [INF] Autosave skipped.
+2026-11-27 19:50:41.320 +00:00 [INF] Autosave skipped.
+2026-11-27 19:51:11.320 +00:00 [INF] Autosave skipped.
+2026-11-27 19:51:41.321 +00:00 [INF] Autosave skipped.
+2026-11-27 19:52:11.322 +00:00 [INF] Autosave skipped.
+2026-11-27 19:52:41.322 +00:00 [INF] Autosave skipped.
+2026-11-27 19:53:11.322 +00:00 [INF] Autosave skipped.
+2026-11-27 19:53:41.322 +00:00 [INF] Autosave skipped.
+2026-11-27 19:54:11.322 +00:00 [INF] Autosave skipped.
+2026-11-27 19:54:41.322 +00:00 [INF] Autosave skipped.
+2026-11-27 19:55:11.323 +00:00 [INF] Autosave skipped.
+2026-11-27 19:55:41.324 +00:00 [INF] Autosave skipped.
+2026-11-27 19:56:11.324 +00:00 [INF] Autosave skipped.
+2026-11-27 19:56:41.325 +00:00 [INF] Autosave skipped.
+2026-11-27 19:57:11.325 +00:00 [INF] Autosave skipped.
+2026-11-27 19:57:41.326 +00:00 [INF] Autosave skipped.
+2026-11-27 19:58:11.327 +00:00 [INF] Autosave skipped.
+2026-11-27 19:58:41.328 +00:00 [INF] Autosave skipped.
+2026-11-27 19:59:11.329 +00:00 [INF] Autosave skipped.
+2026-11-27 19:59:41.328 +00:00 [INF] Autosave skipped.
+2026-11-27 20:00:11.329 +00:00 [INF] Autosave skipped.
+2026-11-27 20:00:41.330 +00:00 [INF] Autosave skipped.
+2026-11-27 20:01:11.330 +00:00 [INF] Autosave skipped.
+2026-11-27 20:01:41.330 +00:00 [INF] Autosave skipped.
+2026-11-27 20:02:11.331 +00:00 [INF] Autosave skipped.
+2026-11-27 20:02:41.331 +00:00 [INF] Autosave skipped.
+2026-11-27 20:03:11.331 +00:00 [INF] Autosave skipped.
+2026-11-27 20:03:41.331 +00:00 [INF] Autosave skipped.
+2026-11-27 20:04:11.331 +00:00 [INF] Autosave skipped.
+2026-11-27 20:04:41.332 +00:00 [INF] Autosave skipped.
+2026-11-27 20:05:11.333 +00:00 [INF] Autosave skipped.
+2026-11-27 20:05:41.333 +00:00 [INF] Autosave skipped.
+2026-11-27 20:06:11.334 +00:00 [INF] Autosave skipped.
+2026-11-27 20:06:41.333 +00:00 [INF] Autosave skipped.
+2026-11-27 20:07:11.334 +00:00 [INF] Autosave skipped.
+2026-11-27 20:07:41.334 +00:00 [INF] Autosave skipped.
+2026-11-27 20:08:11.334 +00:00 [INF] Autosave skipped.
+2026-11-27 20:08:41.333 +00:00 [INF] Autosave skipped.
+2026-11-27 20:09:11.334 +00:00 [INF] Autosave skipped.
+2026-11-27 20:09:41.333 +00:00 [INF] Autosave skipped.
+2026-11-27 20:10:11.340 +00:00 [INF] Autosave skipped.
+2026-11-27 20:10:41.341 +00:00 [INF] Autosave skipped.
+2026-11-27 20:11:11.342 +00:00 [INF] Autosave skipped.
+2026-11-27 20:11:41.343 +00:00 [INF] Autosave skipped.
+2026-11-27 20:12:11.343 +00:00 [INF] Autosave skipped.
+2026-11-27 20:12:41.343 +00:00 [INF] Autosave skipped.
+2026-11-27 20:13:11.343 +00:00 [INF] Autosave skipped.
+2026-11-27 20:13:41.343 +00:00 [INF] Autosave skipped.
+2026-11-27 20:14:11.344 +00:00 [INF] Autosave skipped.
+2026-11-27 20:14:41.343 +00:00 [INF] Autosave skipped.
+2026-11-27 20:15:11.344 +00:00 [INF] Autosave skipped.
+2026-11-27 20:15:41.343 +00:00 [INF] Autosave skipped.
+2026-11-27 20:16:11.343 +00:00 [INF] Autosave skipped.
+2026-11-27 20:16:41.343 +00:00 [INF] Autosave skipped.
+2026-11-27 20:17:11.344 +00:00 [INF] Autosave skipped.
+2026-11-27 20:17:41.345 +00:00 [INF] Autosave skipped.
+2026-11-27 20:18:11.345 +00:00 [INF] Autosave skipped.
+2026-11-27 20:18:41.347 +00:00 [INF] Autosave skipped.
+2026-11-27 20:19:11.347 +00:00 [INF] Autosave skipped.
+2026-11-27 20:19:41.346 +00:00 [INF] Autosave skipped.
+2026-11-27 20:20:11.347 +00:00 [INF] Autosave skipped.
+2026-11-27 20:20:41.347 +00:00 [INF] Autosave skipped.
+2026-11-27 20:21:11.347 +00:00 [INF] Autosave skipped.
+2026-11-27 20:21:41.348 +00:00 [INF] Autosave skipped.
+2026-11-27 20:22:11.348 +00:00 [INF] Autosave skipped.
+2026-11-27 20:22:41.349 +00:00 [INF] Autosave skipped.
+2026-11-27 20:23:11.350 +00:00 [INF] Autosave skipped.
+2026-11-27 20:23:41.350 +00:00 [INF] Autosave skipped.
+2026-11-27 20:24:11.350 +00:00 [INF] Autosave skipped.
+2026-11-27 20:24:41.351 +00:00 [INF] Autosave skipped.
+2026-11-27 20:25:11.351 +00:00 [INF] Autosave skipped.
+2026-11-27 20:25:41.351 +00:00 [INF] Autosave skipped.
+2026-11-27 20:26:11.352 +00:00 [INF] Autosave skipped.
+2026-11-27 20:26:41.352 +00:00 [INF] Autosave skipped.
+2026-11-27 20:27:11.353 +00:00 [INF] Autosave skipped.
+2026-11-27 20:27:41.353 +00:00 [INF] Autosave skipped.
+2026-11-27 20:28:11.353 +00:00 [INF] Autosave skipped.
+2026-11-27 20:28:41.353 +00:00 [INF] Autosave skipped.
+2026-11-27 20:29:11.352 +00:00 [INF] Autosave skipped.
+2026-11-27 20:29:41.353 +00:00 [INF] Autosave skipped.
+2026-11-27 20:30:11.354 +00:00 [INF] Autosave skipped.
+2026-11-27 20:30:41.354 +00:00 [INF] Autosave skipped.
+2026-11-27 20:31:11.355 +00:00 [INF] Autosave skipped.
+2026-11-27 20:31:41.356 +00:00 [INF] Autosave skipped.
+2026-11-27 20:32:11.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:32:41.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:33:11.356 +00:00 [INF] Autosave skipped.
+2026-11-27 20:33:41.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:34:11.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:34:41.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:35:11.356 +00:00 [INF] Autosave skipped.
+2026-11-27 20:35:41.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:36:11.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:36:41.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:37:11.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:37:41.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:38:11.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:38:41.357 +00:00 [INF] Autosave skipped.
+2026-11-27 20:39:11.358 +00:00 [INF] Autosave skipped.
+2026-11-27 20:39:41.358 +00:00 [INF] Autosave skipped.
+2026-11-27 20:40:11.359 +00:00 [INF] Autosave skipped.
+2026-11-27 20:40:41.359 +00:00 [INF] Autosave skipped.
+2026-11-27 20:41:11.359 +00:00 [INF] Autosave skipped.
+2026-11-27 20:41:41.360 +00:00 [INF] Autosave skipped.
+2026-11-27 20:42:11.361 +00:00 [INF] Autosave skipped.
+2026-11-27 20:42:41.361 +00:00 [INF] Autosave skipped.
+2026-11-27 20:43:11.362 +00:00 [INF] Autosave skipped.
+2026-11-27 20:43:41.362 +00:00 [INF] Autosave skipped.
+2026-11-27 20:44:11.363 +00:00 [INF] Autosave skipped.
+2026-11-27 20:44:41.364 +00:00 [INF] Autosave skipped.
+2026-11-27 20:45:11.364 +00:00 [INF] Autosave skipped.
+2026-11-27 20:45:41.363 +00:00 [INF] Autosave skipped.
+2026-11-27 20:46:11.363 +00:00 [INF] Autosave skipped.
+2026-11-27 20:46:41.363 +00:00 [INF] Autosave skipped.
+2026-11-27 20:47:11.363 +00:00 [INF] Autosave skipped.
+2026-11-27 20:47:41.364 +00:00 [INF] Autosave skipped.
+2026-11-27 20:48:11.365 +00:00 [INF] Autosave skipped.
+2026-11-27 20:48:41.365 +00:00 [INF] Autosave skipped.
+2026-11-27 20:49:11.365 +00:00 [INF] Autosave skipped.
+2026-11-27 20:49:41.366 +00:00 [INF] Autosave skipped.
+2026-11-27 20:50:11.366 +00:00 [INF] Autosave skipped.
+2026-11-27 20:50:41.367 +00:00 [INF] Autosave skipped.
+2026-11-27 20:51:11.367 +00:00 [INF] Autosave skipped.
+2026-11-27 20:51:41.367 +00:00 [INF] Autosave skipped.
+2026-11-27 20:52:11.367 +00:00 [INF] Autosave skipped.
+2026-11-27 20:52:41.367 +00:00 [INF] Autosave skipped.
+2026-11-27 20:53:11.368 +00:00 [INF] Autosave skipped.
+2026-11-27 20:53:41.369 +00:00 [INF] Autosave skipped.
+2026-11-27 20:54:11.368 +00:00 [INF] Autosave skipped.
+2026-11-27 20:54:41.369 +00:00 [INF] Autosave skipped.
+2026-11-27 20:55:11.369 +00:00 [INF] Autosave skipped.
+2026-11-27 20:55:41.370 +00:00 [INF] Autosave skipped.
+2026-11-27 20:56:11.371 +00:00 [INF] Autosave skipped.
+2026-11-27 20:56:41.370 +00:00 [INF] Autosave skipped.
+2026-11-27 20:57:11.371 +00:00 [INF] Autosave skipped.
+2026-11-27 20:57:41.372 +00:00 [INF] Autosave skipped.
+2026-11-27 20:58:11.373 +00:00 [INF] Autosave skipped.
+2026-11-27 20:58:41.373 +00:00 [INF] Autosave skipped.
+2026-11-27 20:59:11.372 +00:00 [INF] Autosave skipped.
+2026-11-27 20:59:41.373 +00:00 [INF] Autosave skipped.
+2026-11-27 21:00:11.373 +00:00 [INF] Autosave skipped.
+2026-11-27 21:00:41.373 +00:00 [INF] Autosave skipped.
+2026-11-27 21:01:11.373 +00:00 [INF] Autosave skipped.
+2026-11-27 21:01:41.374 +00:00 [INF] Autosave skipped.
+2026-11-27 21:02:11.374 +00:00 [INF] Autosave skipped.
+2026-11-27 21:02:41.373 +00:00 [INF] Autosave skipped.
+2026-11-27 21:03:11.374 +00:00 [INF] Autosave skipped.
+2026-11-27 21:03:41.375 +00:00 [INF] Autosave skipped.
+2026-11-27 21:04:11.375 +00:00 [INF] Autosave skipped.
+2026-11-27 21:04:41.375 +00:00 [INF] Autosave skipped.
+2026-11-27 21:05:11.376 +00:00 [INF] Autosave skipped.
+2026-11-27 21:05:41.376 +00:00 [INF] Autosave skipped.
+2026-11-27 21:06:11.377 +00:00 [INF] Autosave skipped.
+2026-11-27 21:06:41.377 +00:00 [INF] Autosave skipped.
+2026-11-27 21:07:11.378 +00:00 [INF] Autosave skipped.
+2026-11-27 21:07:41.377 +00:00 [INF] Autosave skipped.
+2026-11-27 21:08:11.377 +00:00 [INF] Autosave skipped.
+2026-11-27 21:08:41.378 +00:00 [INF] Autosave skipped.
+2026-11-27 21:09:11.378 +00:00 [INF] Autosave skipped.
+2026-11-27 21:09:41.378 +00:00 [INF] Autosave skipped.
+2026-11-27 21:10:11.379 +00:00 [INF] Autosave skipped.
+2026-11-27 21:10:41.379 +00:00 [INF] Autosave skipped.
+2026-11-27 21:11:11.380 +00:00 [INF] Autosave skipped.
+2026-11-27 21:11:41.380 +00:00 [INF] Autosave skipped.
+2026-11-27 21:12:11.380 +00:00 [INF] Autosave skipped.
+2026-11-27 21:12:41.380 +00:00 [INF] Autosave skipped.
+2026-11-27 21:13:11.379 +00:00 [INF] Autosave skipped.
+2026-11-27 21:13:41.380 +00:00 [INF] Autosave skipped.
+2026-11-27 21:14:11.381 +00:00 [INF] Autosave skipped.
+2026-11-27 21:14:41.381 +00:00 [INF] Autosave skipped.
+2026-11-27 21:15:11.382 +00:00 [INF] Autosave skipped.
+2026-11-27 21:15:41.381 +00:00 [INF] Autosave skipped.
+2026-11-27 21:16:11.382 +00:00 [INF] Autosave skipped.
+2026-11-27 21:16:41.381 +00:00 [INF] Autosave skipped.
+2026-11-27 21:17:11.382 +00:00 [INF] Autosave skipped.
+2026-11-27 21:17:41.382 +00:00 [INF] Autosave skipped.
+2026-11-27 21:18:11.381 +00:00 [INF] Autosave skipped.
+2026-11-27 21:18:41.382 +00:00 [INF] Autosave skipped.
+2026-11-27 21:19:11.382 +00:00 [INF] Autosave skipped.
+2026-11-27 21:19:41.383 +00:00 [INF] Autosave skipped.
+2026-11-27 21:20:11.382 +00:00 [INF] Autosave skipped.
+2026-11-27 21:20:41.382 +00:00 [INF] Autosave skipped.
+2026-11-27 21:21:11.383 +00:00 [INF] Autosave skipped.
+2026-11-27 21:21:41.383 +00:00 [INF] Autosave skipped.
+2026-11-27 21:22:11.384 +00:00 [INF] Autosave skipped.
+2026-11-27 21:22:41.384 +00:00 [INF] Autosave skipped.
+2026-11-27 21:23:11.384 +00:00 [INF] Autosave skipped.
+2026-11-27 21:23:41.385 +00:00 [INF] Autosave skipped.
+2026-11-27 21:24:11.386 +00:00 [INF] Autosave skipped.
+2026-11-27 21:24:41.385 +00:00 [INF] Autosave skipped.
+2026-11-27 21:25:11.386 +00:00 [INF] Autosave skipped.
+2026-11-27 21:25:41.386 +00:00 [INF] Autosave skipped.
+2026-11-27 21:26:11.386 +00:00 [INF] Autosave skipped.
+2026-11-27 21:26:41.387 +00:00 [INF] Autosave skipped.
+2026-11-27 21:27:11.387 +00:00 [INF] Autosave skipped.
+2026-11-27 21:27:41.388 +00:00 [INF] Autosave skipped.
+2026-11-27 21:28:11.388 +00:00 [INF] Autosave skipped.
+2026-11-27 21:28:41.387 +00:00 [INF] Autosave skipped.
+2026-11-27 21:29:11.388 +00:00 [INF] Autosave skipped.
+2026-11-27 21:29:41.388 +00:00 [INF] Autosave skipped.
+2026-11-27 21:30:11.388 +00:00 [INF] Autosave skipped.
+2026-11-27 21:30:41.388 +00:00 [INF] Autosave skipped.
+2026-11-27 21:31:11.389 +00:00 [INF] Autosave skipped.
+2026-11-27 21:31:41.390 +00:00 [INF] Autosave skipped.
+2026-11-27 21:32:11.391 +00:00 [INF] Autosave skipped.
+2026-11-27 21:32:28.637 +00:00 [INF] Logging initialized.
+2026-11-27 21:32:28.660 +00:00 [INF] Unix 6.8.0.1060
+2026-11-27 21:32:28.662 +00:00 [INF] Ubuntu 22.04.5 LTS X64 X64
+2026-11-27 21:32:28.662 +00:00 [INF] OpenUtau v0.1.576.0 linux-x64
+2026-11-27 21:32:28.662 +00:00 [INF] Data path = /home/ubuntu/.local/share/OpenUtau
+2026-11-27 21:32:28.662 +00:00 [INF] Cache path = /home/ubuntu/.cache/OpenUtau
+2026-11-27 21:32:28.663 +00:00 [INF] System encoding = utf-8
+2026-11-27 21:32:28.856 +00:00 [INF] Initializing application.
+2026-11-27 21:32:28.915 +00:00 [INF] Initializing culture.
+2026-11-27 21:32:28.921 +00:00 [INF] Initialized culture.
+2026-11-27 21:32:28.922 +00:00 [INF] Initializing theme.
+2026-11-27 21:32:28.929 +00:00 [INF] Initialized theme.
+2026-11-27 21:32:28.929 +00:00 [INF] Initialized application.
+2026-11-27 21:32:28.930 +00:00 [INF] Framework initialization completed.
+2026-11-27 21:32:29.015 +00:00 [INF] Initializing OpenUtau.
+2026-11-27 21:32:29.030 +00:00 [INF] Search all plugins: 00:00:00.0128379
+2026-11-27 21:32:29.031 +00:00 [INF] Search all legacy plugins: 00:00:00.0009183
+2026-11-27 21:32:29.033 +00:00 [INF] Searching singers.
+2026-11-27 21:32:29.061 +00:00 [INF] Search all singers: 00:00:00.0285590
+2026-11-27 21:32:29.062 +00:00 [INF] Initialized OpenUtau.
+2026-11-27 21:32:29.062 +00:00 [INF] Initializing audio.
+2026-11-27 21:32:29.062 +00:00 [INF] ReleaseSourceTemp /home/ubuntu/.cache/OpenUtau
+2026-11-27 21:32:29.067 +00:00 [INF] Initialized audio.
+2026-11-27 21:32:29.072 +00:00 [INF] Creating main window.
+2026-11-27 21:32:29.157 +00:00 [INF] Initialized main window component.
+2026-11-27 21:32:29.160 +00:00 [INF] Main window checking Update.
+2026-11-27 21:32:29.161 +00:00 [INF] Created main window.
+2026-11-27 21:32:29.233 +00:00 [INF] Attach singer to track: 友人
+2026-11-27 21:32:29.330 +00:00 [INF] SchedulePreRender
+2026-11-27 21:32:29.363 +00:00 [INF] Publish notification Load project
+2026-11-27 21:32:29.368 +00:00 [INF] SchedulePreRender
+2026-11-27 21:32:29.368 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 21:32:29.368 +00:00 [INF] Publish notification Voice color remapping.
+2026-11-27 21:32:29.368 +00:00 [ERR] Failed to select appcast to update.
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 (rate limit exceeded).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at OpenUtau.App.ViewModels.UpdaterViewModel.SelectRelease() in /home/runner/work/OpenUtau/OpenUtau/OpenUtau/ViewModels/UpdaterViewModel.cs:line 136
+   at OpenUtau.App.ViewModels.UpdaterViewModel.NewUpdaterAsync() in /home/runner/work/OpenUtau/OpenUtau/OpenUtau/ViewModels/UpdaterViewModel.cs:line 86
+2026-11-27 21:32:29.384 +00:00 [INF] Publish notification Phonemized
+2026-11-27 21:32:30.293 +00:00 [WRN] Waveform rendered and ready not on main thread
+2026-11-27 21:32:30.295 +00:00 [WRN] Part rendered. not on main thread
+2026-11-27 21:32:30.295 +00:00 [WRN] Waveform rendered and ready not on main thread
+2026-11-27 21:32:30.295 +00:00 [INF] Publish notification Part rendered.
+2026-11-27 21:32:57.465 +00:00 [INF] StartPlayback at 00:00:00
+2026-11-27 21:32:57.471 +00:00 [WRN] Waveform rendered and ready not on main thread
+2026-11-27 21:32:57.471 +00:00 [WRN] Part rendered. not on main thread
+2026-11-27 21:32:57.471 +00:00 [WRN] Waveform rendered and ready not on main thread
+2026-11-27 21:32:57.472 +00:00 [INF] Publish notification Part rendered.
+2026-11-27 21:32:59.158 +00:00 [INF] Autosave skipped.
+2026-11-27 21:33:29.159 +00:00 [INF] Autosave skipped.
+2026-11-27 21:33:31.299 +00:00 [INF] StartPlayback at 00:00:05.3937500
+2026-11-27 21:33:52.343 +00:00 [INF] StartPlayback at 00:00:05.3937500
+2026-11-27 21:33:59.159 +00:00 [INF] Autosave skipped.
+2026-11-27 21:34:29.160 +00:00 [INF] Autosave skipped.
+2026-11-27 21:34:59.160 +00:00 [INF] Autosave skipped.
+2026-11-27 21:35:29.161 +00:00 [INF] Autosave skipped.
+2026-11-27 21:35:59.162 +00:00 [INF] Autosave skipped.
+2026-11-27 21:36:29.161 +00:00 [INF] Autosave skipped.
+2026-11-27 21:36:59.162 +00:00 [INF] Autosave skipped.
+2026-11-27 21:37:29.162 +00:00 [INF] Autosave skipped.
+2026-11-27 21:37:59.163 +00:00 [INF] Autosave skipped.
+2026-11-27 21:38:29.164 +00:00 [INF] Autosave skipped.
+2026-11-27 21:38:59.163 +00:00 [INF] Autosave skipped.
+2026-11-27 21:39:29.164 +00:00 [INF] Autosave skipped.
+2026-11-27 21:39:59.164 +00:00 [INF] Autosave skipped.
+2026-11-27 21:40:29.165 +00:00 [INF] Autosave skipped.
+2026-11-27 21:40:59.165 +00:00 [INF] Autosave skipped.
+2026-11-27 21:41:29.166 +00:00 [INF] Autosave skipped.
+2026-11-27 21:41:59.166 +00:00 [INF] Autosave skipped.
+2026-11-27 21:42:29.167 +00:00 [INF] Autosave skipped.
+2026-11-27 21:42:59.168 +00:00 [INF] Autosave skipped.
+2026-11-27 21:43:29.168 +00:00 [INF] Autosave skipped.
+2026-11-27 21:43:59.168 +00:00 [INF] Autosave skipped.
+2026-11-27 21:44:29.168 +00:00 [INF] Autosave skipped.
+2026-11-27 21:44:59.169 +00:00 [INF] Autosave skipped.
+2026-11-27 21:45:29.169 +00:00 [INF] Autosave skipped.
+2026-11-27 21:45:59.169 +00:00 [INF] Autosave skipped.
+2026-11-27 21:46:29.169 +00:00 [INF] Autosave skipped.
+2026-11-27 21:46:59.168 +00:00 [INF] Autosave skipped.
+2026-11-27 21:47:29.169 +00:00 [INF] Autosave skipped.

@@ -1,0 +1,85 @@
+{
+  "console_errors": [],
+  "network_errors": [],
+  "page_errors": [],
+  "baseline_jobs": 10,
+  "debounce_count": 1,
+  "first_job": {
+    "id": "job_8ad5f5bdc1e0",
+    "status": "running",
+    "created_at": 1795818057.6613433
+  },
+  "stale_capture": {
+    "lyrics": [
+      "呜",
+      "啦",
+      "呀"
+    ],
+    "updated_at": 1795818059.2264001,
+    "job_status": "running",
+    "new_count": 1
+  },
+  "first_final": {
+    "id": "job_8ad5f5bdc1e0",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_8ad5f5bdc1e0/vocal.wav",
+    "finished_at": 1795818064.9989774
+  },
+  "stale_put_status": 200,
+  "stale_put_body": "",
+  "after_stale_put": {
+    "lyrics": [
+      "呜",
+      "啦",
+      "呀"
+    ],
+    "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_8ad5f5bdc1e0/vocal.wav",
+    "render_revision": 8,
+    "render_fingerprint": "8c49a34b22b8b6a2",
+    "current_hash": "5a72cf5d1779ce36",
+    "stale": true,
+    "output_exists": true,
+    "stale_badges": 1
+  },
+  "followup_count": 2,
+  "followup_jobs": [
+    {
+      "id": "job_942ac2b58857",
+      "status": "running",
+      "created_at": 1795818066.669712
+    },
+    {
+      "id": "job_8ad5f5bdc1e0",
+      "status": "completed",
+      "created_at": 1795818057.6613433
+    }
+  ],
+  "followup_final": {
+    "id": "job_942ac2b58857",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_942ac2b58857/vocal.wav",
+    "finished_at": 1795818072.6459527
+  },
+  "after_followup": {
+    "fp": "5a72cf5d1779ce36",
+    "hash": "5a72cf5d1779ce36",
+    "stale": false,
+    "badges": 0,
+    "lyrics": [
+      "呜",
+      "啦",
+      "呀"
+    ]
+  },
+  "title_after_edit": "Conflict Save QA",
+  "save_after_edit": "Saved",
+  "title_after_undo": "Auto Render QA",
+  "title_after_redo": "Conflict Save QA",
+  "title_after_reload": "Conflict Save QA",
+  "save_after_reload": "Saved",
+  "layout": {
+    "within": true,
+    "panelClientWidth": 311,
+    "panelScrollWidth": 311
+  }
+}

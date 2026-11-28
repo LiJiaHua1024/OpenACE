@@ -1,0 +1,16 @@
+{
+  "before": {
+    "scrollHeight": 268,
+    "clientHeight": 209,
+    "scrollTop": 0
+  },
+  "after": {
+    "scrollHeight": 268,
+    "clientHeight": 209,
+    "scrollTop": 59
+  },
+  "delta_scrollTop": 59,
+  "console": [],
+  "pageerrors": [],
+  "network_failures": []
+}

@@ -1,0 +1,35 @@
+{
+  "pencil_tool_active": true,
+  "before_count": 2,
+  "after_count": 3,
+  "created": true,
+  "newest": {
+    "id": "note_4fe25000-74d",
+    "start_ticks": 2100,
+    "duration_ticks": 420,
+    "pitch": 68,
+    "lyric": "啦",
+    "velocity": 90,
+    "phonemes": [
+      {
+        "symbol": "l",
+        "start_ms": -45.0,
+        "duration_ms": 45.0,
+        "is_vowel": false,
+        "locked": false
+      },
+      {
+        "symbol": "a",
+        "start_ms": 0.0,
+        "duration_ms": 437.5,
+        "is_vowel": true,
+        "locked": false
+      }
+    ],
+    "pitch_curve": [],
+    "pitch_snap_first": true,
+    "vibrato": null,
+    "techniques": []
+  },
+  "automation_unchanged": true
+}

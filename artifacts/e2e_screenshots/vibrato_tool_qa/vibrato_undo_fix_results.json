@@ -1,0 +1,67 @@
+{
+  "pid": "project_8b4850cbc501",
+  "create": {
+    "vibrato": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0
+    },
+    "undo_enabled": true
+  },
+  "create_undo_redo": {
+    "after_undo": null,
+    "undo_removed": true,
+    "redo_exact": true
+  },
+  "handles": {
+    "depth": {
+      "before": {
+        "start_ratio": 0.25,
+        "depth_cents": 45.0,
+        "frequency_hz": 5.2,
+        "phase": 0.0
+      },
+      "after": {
+        "start_ratio": 0.25,
+        "depth_cents": 75.0,
+        "frequency_hz": 5.2,
+        "phase": 0.0
+      },
+      "undo_exact": true,
+      "redo_exact": true
+    },
+    "phase": {
+      "before": {
+        "start_ratio": 0.25,
+        "depth_cents": 75.0,
+        "frequency_hz": 5.2,
+        "phase": 0.0
+      },
+      "after": {
+        "start_ratio": 0.25,
+        "depth_cents": 75.0,
+        "frequency_hz": 5.2,
+        "phase": 1.0
+      },
+      "undo_exact": true,
+      "redo_exact": true
+    },
+    "frequency": {
+      "before": {
+        "start_ratio": 0.25,
+        "depth_cents": 75.0,
+        "frequency_hz": 5.2,
+        "phase": 1.0
+      },
+      "after": {
+        "start_ratio": 0.25,
+        "depth_cents": 75.0,
+        "frequency_hz": 6.2,
+        "phase": 1.0
+      },
+      "undo_exact": true,
+      "redo_exact": true
+    }
+  }
+}

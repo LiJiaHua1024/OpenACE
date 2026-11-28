@@ -1,0 +1,16 @@
+PASS viewport_exact {'w': 1272, 'h': 837}
+PASS create_long_note [('note_b5bf1314-d2c', 0, 1920, '')]
+PASS lyric_phonemes_ready {'lyric': '啊', 'phonemes': [{'symbol': 'a', 'start_ms': 0.0, 'duration_ms': 2000.0, 'is_vowel': True, 'locked': False}]}
+PASS context_split_exactly_two_after_sse [('note_b5bf1314-d2c', 0, 960, '啊'), ('note_66e34770bfbc', 960, 960, '-')]
+PASS toolbar_chain_no_duplicates [('note_b5bf1314-d2c', 0, 480, '啊'), ('note_a90963e2f529', 480, 480, '-'), ('note_66e34770bfbc', 960, 960, '-')]
+PASS ctrl_e_chain_no_duplicates [('note_b5bf1314-d2c', 0, 480, '啊'), ('note_a90963e2f529', 480, 480, '-'), ('note_66e34770bfbc', 960, 480, '-'), ('note_037638644546', 1440, 480, '-')]
+PASS undo_exact_three_unique [('note_b5bf1314-d2c', 0, 480, '啊'), ('note_a90963e2f529', 480, 480, '-'), ('note_66e34770bfbc', 960, 960, '-')]
+PASS redo_exact_four_unique [('note_b5bf1314-d2c', 0, 480, '啊'), ('note_a90963e2f529', 480, 480, '-'), ('note_66e34770bfbc', 960, 480, '-'), ('note_037638644546', 1440, 480, '-')]
+PASS reload_exact_four_unique [('note_b5bf1314-d2c', 0, 480, '啊'), ('note_a90963e2f529', 480, 480, '-'), ('note_66e34770bfbc', 960, 480, '-'), ('note_037638644546', 1440, 480, '-')]
+PASS english_tail_rejected_readable_overlay {'error': 'Split must land inside a sustained vowel', 'box': {'x': 732.390625, 'y': 292, 'width': 207.609375, 'height': 27}, 'wrap': {'x': 236, 'y': 284, 'width': 714, 'height': 359}, 'note_count': 1}
+FAIL toolbar_no_overflow_selection_unclipped {'viewport': [1272, 837], 'toolbar': [730, 714], 'toolbarRight': 950, 'selection': {'text': '1 selected', 'left': 903.8984375, 'right': 965.8984375, 'width': 62}, 'error': {'text': 'Split must land inside a sustained vowel', 'rect': {'x': 732.390625, 'y': 292, 'width': 207.609375, 'height': 27, 'top': 292, 'right': 940, 'bottom': 319, 'left': 732.390625}}, 'body': [1272, 1272]}
+PASS console_network_clean {'console': [], 'network': [], 'unexpected_http': [], 'expected_split_422': [{'url': 'http://127.0.0.1:8787/api/projects/project_1278943df6f9/tracks/track_f1ebc5fbb86b/notes/note_24858192034d/split', 'status': 422}]}
+DONE 11 / 12
+{
+  "toolbar_no_overflow_selection_unclipped": false
+}

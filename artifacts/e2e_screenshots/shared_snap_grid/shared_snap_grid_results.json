@@ -1,0 +1,704 @@
+{
+  "initial": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        0,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "initial_grid": "4",
+  "default_note_after_drag": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        600,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        0,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "default_undo_click": "clicked",
+  "default_note_after_undo": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        0,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "quarter_clip_after_drag": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        480,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "quarter_clip_undo_click": "clicked",
+  "quarter_clip_after_undo": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        0,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "quarter_note_after_drag": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        960,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        0,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "quarter_note_undo_click": "clicked",
+  "quarter_note_after_undo": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        0,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "create_immediate_undo_enabled": true,
+  "quarter_after_create": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62
+      ],
+      [
+        "note_92516b70-547",
+        960,
+        480,
+        70
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        0,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "create_after_save_undo_enabled": false,
+  "cleanup_reset_status": 200,
+  "grid32_clip_after_drag": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        60,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "grid32_clip_undo_click": "clicked",
+  "grid32_clip_after_undo": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        0,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "grid32_clip_redo_click": "clicked",
+  "grid32_clip_after_redo": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        60,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "grid32_note_after_drag": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        540,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        60,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "grid32_note_undo_click": "clicked",
+  "grid32_note_after_undo": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        60,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "grid32_note_redo_click": "clicked",
+  "grid32_note_after_redo": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        540,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        60,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "grid32_tempo_created": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        540,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        60,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "grid32_tempo_undo_click": "clicked",
+  "grid32_tempo_after_undo": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        540,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        60,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 0,
+        "bpm": 120.0,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "grid32_tempo_redo_click": "clicked",
+  "grid32_tempo_after_redo": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        540,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        60,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 1200,
+        "bpm": 123.3,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "before_reload": {
+    "grid": "8",
+    "localStorage": "8",
+    "state": {
+      "notes": [
+        [
+          "snap_n1",
+          0,
+          480,
+          60
+        ],
+        [
+          "snap_n2",
+          540,
+          480,
+          62
+        ]
+      ],
+      "clips": [
+        [
+          "snap_clip",
+          60,
+          960,
+          0
+        ]
+      ],
+      "tempo": [
+        {
+          "ticks": 1200,
+          "bpm": 123.3,
+          "curve": "step"
+        }
+      ],
+      "bpm": 120.0
+    }
+  },
+  "after_reload": {
+    "grid": "8",
+    "localStorage": "8",
+    "state": {
+      "notes": [
+        [
+          "snap_n1",
+          0,
+          480,
+          60
+        ],
+        [
+          "snap_n2",
+          540,
+          480,
+          62
+        ]
+      ],
+      "clips": [
+        [
+          "snap_clip",
+          60,
+          960,
+          0
+        ]
+      ],
+      "tempo": [
+        {
+          "ticks": 1200,
+          "bpm": 123.3,
+          "curve": "step"
+        }
+      ],
+      "bpm": 120.0
+    }
+  },
+  "automation_range_text": "60t",
+  "layout": {
+    "bodyScrollWidth": 1600,
+    "innerWidth": 1600,
+    "overflow": false,
+    "arrangementRect": {
+      "x": 236,
+      "y": 58,
+      "width": 1032,
+      "height": 132,
+      "top": 58,
+      "right": 1268,
+      "bottom": 190,
+      "left": 236
+    },
+    "gridRect": {
+      "x": 458.8125,
+      "y": 255,
+      "width": 71.859375,
+      "height": 18,
+      "top": 255,
+      "right": 530.671875,
+      "bottom": 273,
+      "left": 458.8125
+    }
+  },
+  "console_errors": [],
+  "page_errors": [],
+  "network_errors": [],
+  "final_state": {
+    "notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60
+      ],
+      [
+        "snap_n2",
+        540,
+        480,
+        62
+      ]
+    ],
+    "clips": [
+      [
+        "snap_clip",
+        60,
+        960,
+        0
+      ]
+    ],
+    "tempo": [
+      {
+        "ticks": 1200,
+        "bpm": 123.3,
+        "curve": "step"
+      }
+    ],
+    "bpm": 120.0
+  },
+  "visual_grid_analysis": {
+    "immediate_after_quarter_selection": "vertical subdivision centers spaced 28 px = 120 ticks, stale from prior 1/16 grid",
+    "immediate_after_32nd_selection": "strong visible centers spaced 112 px = 480 ticks, stale from prior 1/4 grid",
+    "after_project_edit_at_32nd": "vertical subdivision centers spaced 14 px = 60 ticks, correct",
+    "interpretation": "Arrangement canvas does not redraw merely because gridDivision changes; it redraws with correct density only after another project/change dependency or reload."
+  }
+}

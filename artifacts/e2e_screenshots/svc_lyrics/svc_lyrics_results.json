@@ -1,0 +1,255 @@
+{
+  "initial": {
+    "project_selected": true,
+    "clip": {
+      "start_ticks": 0,
+      "duration_ticks": 1920,
+      "offset_ticks": 0,
+      "label": "svc lyrics source"
+    },
+    "words": [
+      {
+        "text": "you",
+        "start": 0.1,
+        "end": 0.4
+      },
+      {
+        "text": "are",
+        "start": 0.45,
+        "end": 0.8
+      },
+      {
+        "text": "my",
+        "start": 1.1,
+        "end": 1.4
+      },
+      {
+        "text": "world",
+        "start": 1.45,
+        "end": 1.8
+      }
+    ],
+    "analysis": {
+      "dpr": 2,
+      "canvasW": 1428,
+      "canvasH": 264,
+      "yellowCount": 298,
+      "groups": [
+        {
+          "start": 87,
+          "end": 99,
+          "count": 66
+        },
+        {
+          "start": 165,
+          "end": 176,
+          "count": 65
+        },
+        {
+          "start": 311,
+          "end": 321,
+          "count": 58
+        },
+        {
+          "start": 389.5,
+          "end": 409,
+          "count": 109
+        }
+      ]
+    },
+    "screenshot": "01_ascii_initial_timed_lyrics.png"
+  },
+  "reload": {
+    "clip": {
+      "start_ticks": 0,
+      "duration_ticks": 1920,
+      "offset_ticks": 0
+    },
+    "analysis": {
+      "dpr": 2,
+      "canvasW": 1428,
+      "canvasH": 264,
+      "yellowCount": 298,
+      "groups": [
+        {
+          "start": 87,
+          "end": 99,
+          "count": 66
+        },
+        {
+          "start": 165,
+          "end": 176,
+          "count": 65
+        },
+        {
+          "start": 311,
+          "end": 321,
+          "count": 58
+        },
+        {
+          "start": 389.5,
+          "end": 409,
+          "count": 109
+        }
+      ]
+    },
+    "screenshot": "02_ascii_reload_persisted.png"
+  },
+  "left_trim": {
+    "clip": {
+      "start_ticks": 480,
+      "duration_ticks": 1440,
+      "offset_ticks": 480
+    },
+    "analysis": {
+      "dpr": 2,
+      "canvasW": 1428,
+      "canvasH": 264,
+      "yellowCount": 167,
+      "groups": [
+        {
+          "start": 311,
+          "end": 321,
+          "count": 58
+        },
+        {
+          "start": 389.5,
+          "end": 409,
+          "count": 109
+        }
+      ]
+    },
+    "screenshot": "03_ascii_after_left_trim.png"
+  },
+  "right_trim": {
+    "clip": {
+      "start_ticks": 480,
+      "duration_ticks": 360,
+      "offset_ticks": 480
+    },
+    "analysis": {
+      "dpr": 2,
+      "canvasW": 1428,
+      "canvasH": 264,
+      "yellowCount": 0,
+      "groups": []
+    },
+    "screenshot": "04_ascii_after_right_trim.png"
+  },
+  "layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "bodyOverflow": false,
+    "arrangementOverflow": {
+      "sw": 714,
+      "cw": 714
+    }
+  },
+  "console": [
+    {
+      "type": "warning",
+      "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+    }
+  ],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "positioning_expectation": {
+    "expected_x": [
+      86.4,
+      164.8,
+      310.4,
+      388.8
+    ],
+    "observed_group_start_x": [
+      87,
+      165,
+      311,
+      389.5
+    ],
+    "max_error_px": 0.7,
+    "note": "Positions match 120BPM/480PPQ/112px-per-beat source-time mapping."
+  },
+  "right_only_strong_trim": {
+    "ok": true,
+    "clip": {
+      "start_ticks": 0,
+      "duration_ticks": 480,
+      "offset_ticks": 0
+    },
+    "analysis": {
+      "yellowCount": 132,
+      "groups": [
+        {
+          "start": 87,
+          "end": 99,
+          "count": 66
+        },
+        {
+          "start": 165,
+          "end": 176,
+          "count": 66
+        }
+      ]
+    },
+    "interpretation": "Visible source range 0.0–0.5s; you/are remain, my/world disappear.",
+    "screenshot": "05_ascii_after_right_only_strong_trim.png"
+  },
+  "left_boundary_defect": {
+    "ok": false,
+    "classification": "confirmed implementation defect",
+    "details": "After left trim offset=0.5s, visible source range is 0.5–2.0s. The word “are” (0.45–0.8s) still overlaps the visible range but disappears. Cause evidence from code behavior: localStart clamps to zero, lyricX equals clip x, then the lyricX < x + 4 boundary check rejects it. Final left+right state 0.5–0.875s likewise should still show “are” but shows no lyric pixels.",
+    "evidence": [
+      "03_ascii_after_left_trim.png",
+      "04_ascii_after_right_trim.png"
+    ]
+  },
+  "cjk_font_limitation": {
+    "classification": "harness/environment limitation",
+    "details": "Chinese fixture words rendered as unusable narrow tofu in this long-running Chrome instance; canvas measureText(你) was only 2.92px at 8px versus expected full-width glyph. ASCII timed words were used for readable verification of layout/timing logic."
+  },
+  "console_network_assessment": "No application console errors. The Canvas2D warning was caused by QA getImageData instrumentation. SSE aborts were expected consequences of deliberate cache-busted reloads.",
+  "left_boundary_fix_recheck": {
+    "ok": true,
+    "details": {
+      "clip": {
+        "start_ticks": 480,
+        "duration_ticks": 1440,
+        "offset_ticks": 480
+      },
+      "analysis": {
+        "yellowCount": 231,
+        "groups": [
+          {
+            "start": 180.5,
+            "end": 191,
+            "count": 64
+          },
+          {
+            "start": 311,
+            "end": 321,
+            "count": 58
+          },
+          {
+            "start": 389.5,
+            "end": 409,
+            "count": 109
+          }
+        ]
+      },
+      "expected": "visible source range 0.5–2.0s; are (0.45–0.8s) visible near clamped left edge, you absent, my/world retained",
+      "interpretation": "PASS: are group x180.5–191 matches clamped drawX near x+4; no x87 you group",
+      "screenshot": "boundary_fix_left_trim.png",
+      "zoom": "boundary_fix_left_trim_zoom.png",
+      "recording": "/home/ubuntu/screencasts/svc-lyrics-boundary-fix/svc-lyrics-boundary-fix-edited.mp4",
+      "classification": "confirmed fixed"
+    }
+  }
+}

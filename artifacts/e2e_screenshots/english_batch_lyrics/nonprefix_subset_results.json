@@ -1,0 +1,14 @@
+{
+  "selection_text": "3 selected",
+  "count": "2 lyric tokens → 3 selected notes",
+  "warning": "Notes beyond the supplied tokens keep their existing lyrics.",
+  "after": [
+    "hello",
+    "-",
+    "world",
+    "shine",
+    "bright",
+    "me"
+  ],
+  "targeting_pass": true
+}

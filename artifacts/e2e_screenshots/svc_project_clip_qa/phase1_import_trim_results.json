@@ -1,0 +1,41 @@
+{
+  "project_id": "project_832a3769a65b",
+  "voice_ui": {
+    "selectValue": "voice_34959253571a",
+    "name": "svc_reference_voice",
+    "sub": "2.0s \u00b7 24.0kHz",
+    "renderDisabled": false
+  },
+  "after_import": {
+    "track_count": 2,
+    "clips": [
+      [
+        "track_d581b7a25561",
+        "clip_e32e014fd922",
+        "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav",
+        0,
+        2880,
+        0
+      ]
+    ]
+  },
+  "trimmed_clip": {
+    "track_id": "track_d581b7a25561",
+    "clip_id": "clip_e32e014fd922",
+    "start_ticks": 480,
+    "duration_ticks": 2400,
+    "offset_ticks": 480,
+    "path": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav"
+  },
+  "trimmed_source_ui": {
+    "path": "clip_d275beb12e77_svc_clip_control_source.wav",
+    "hints": [
+      "Vocal2BGM/SVC input: visible clip segment \u00b7 aligned to clip start"
+    ],
+    "svcDisabled": true,
+    "svcTitle": "Convert the exact visible arrangement clip segment",
+    "bgmTitle": "Use the matching arrangement clip segment as input"
+  },
+  "console": [],
+  "badnet": []
+}

@@ -1,0 +1,113 @@
+{
+  "midi": {
+    "ticks_per_beat": 480,
+    "messages": [
+      "MetaMessage('time_signature', numerator=4, denominator=4, clocks_per_click=24, notated_32nd_notes_per_beat=8, time=0)",
+      "MetaMessage('set_tempo', tempo=500000, time=0)",
+      "control_change channel=0 control=101 value=0 time=0",
+      "control_change channel=0 control=100 value=0 time=0",
+      "control_change channel=0 control=6 value=6 time=0",
+      "control_change channel=0 control=38 value=0 time=0",
+      "pitchwheel channel=0 pitch=-2240 time=0",
+      "note_on channel=0 note=64 velocity=90 time=0",
+      "pitchwheel channel=0 pitch=-1915 time=19",
+      "pitchwheel channel=0 pitch=-1591 time=19",
+      "pitchwheel channel=0 pitch=-1266 time=20",
+      "pitchwheel channel=0 pitch=-942 time=19",
+      "pitchwheel channel=0 pitch=-617 time=19",
+      "pitchwheel channel=0 pitch=-292 time=19",
+      "pitchwheel channel=0 pitch=32 time=19",
+      "pitchwheel channel=0 pitch=357 time=20",
+      "pitchwheel channel=0 pitch=681 time=19",
+      "pitchwheel channel=0 pitch=1006 time=19",
+      "pitchwheel channel=0 pitch=1331 time=19",
+      "pitchwheel channel=0 pitch=1655 time=19",
+      "pitchwheel channel=0 pitch=1980 time=20",
+      "pitchwheel channel=0 pitch=2304 time=19",
+      "pitchwheel channel=0 pitch=2325 time=19",
+      "note_off channel=0 note=64 velocity=0 time=252",
+      "pitchwheel channel=0 pitch=0 time=0",
+      "pitchwheel channel=0 pitch=2325 time=0",
+      "note_on channel=0 note=68 velocity=90 time=0",
+      "note_off channel=0 note=68 velocity=0 time=540",
+      "pitchwheel channel=0 pitch=0 time=0"
+    ],
+    "pitchbend_count": 19,
+    "note_on_count": 2,
+    "tempo_msgs": [
+      "MetaMessage('set_tempo', tempo=500000, time=0)"
+    ]
+  },
+  "lrc": "[ti:Creative Loop 验收]\n[ar:OpenACE]\n[al:OpenACE Project]\n[by:OpenACE]\n[00:00.75]你好\n[00:02.00]好\n",
+  "ustx": {
+    "bytes": 2740,
+    "contains_lyric": true,
+    "contains_tempo": true,
+    "sample": "name: Creative Loop 验收\ncomment: Exported by OpenACE\noutput_dir: Vocal\ncache_dir: UCache\nustx_version: '0.10'\nexpressions: {}\nexp_selectors:\n- dyn\n- pitd\n- clr\n- eng\n- vel\n- vol\n- atk\n- dec\n- gen\n- bre\nexp_primary: 0\nexp_secondary: 1\nkey: 0\ntime_signatures:\n- bar_position: 0\n  beat_per_bar: 4\n  beat_unit: 4\ntempos:\n- position: 0\n  bpm: 120.0\ntracks:"
+  },
+  "svp": {
+    "bytes": 7755,
+    "contains_lyric": true,
+    "contains_tempo": true,
+    "sample": "{\n  \"version\": 153,\n  \"time\": {\n    \"meter\": [\n      {\n        \"index\": 0,\n        \"numerator\": 4,\n        \"denominator\": 4\n      }\n    ],\n    \"tempo\": [\n      {\n        \"position\": 0,\n        \"bpm\": 120.0\n      }\n    ]\n  },\n  \"library\": [],\n  \"tracks\": [\n    {\n      \"name\": \"Lead Vocal\",\n      \"dispColor\": \"7367ff\",\n      \"dispOrder\": 0,\n      \"re"
+  },
+  "vpr": {
+    "bytes": 680,
+    "contains_lyric": false,
+    "contains_tempo": false,
+    "sample": "PK\u0003\u0004\u0014\u0000\u0000\u0000\b\u0000B\u001d|]\u0006�\u0018B:\u0002\u0000\u0000%\u0007\u0000\u0000\u0015\u0000\u0000\u0000Project/sequence.json�UK�\u00131\u0010��)�^g�\t�Ʉ�\b$�\u0011B0\u001a\t�(�8Ebpۖ��\"\u001a�\u0006,9\u0000\u001b6\u001c���\u0006��\u0005e�?q'�\u00186Q���W��}}�XR�-�V�SvM!\u00019|Ж�񠎅\nqZ�\u0016+Q�\u0012�\u001d�T�\u0012=+y\u000b9���kk�\u0005牁ᄓ�\t�\u0016\t��]hm؟�����P8��\u0016���N\u0001��B�^��ggi�8�$�\u0012)\u0016�3\u0005\u000b�K\u0002߃,p�d\n\u0007�]����(yn�\u0000mk]�����H����w5��\\�\u001b]��\u0003�09a�\u0011Yn�m�o\u0016�\u00149�\u0011��(��\u001ci�ÞeQf�J�n6�{,UZ��c8�@�^hx�2t��\u0005ǮF[���\u0017~k\u0013mP\u0001�y��Ӥ�P\u0005��Nd�d4�N"
+  },
+  "wav": {
+    "format_name": "wav",
+    "duration": "3.062500"
+  },
+  "mp3": {
+    "format_name": "mp3",
+    "duration": "3.096000"
+  },
+  "flac": {
+    "format_name": "flac",
+    "duration": "3.062500"
+  },
+  "ogg": {
+    "format_name": "ogg",
+    "duration": "3.062500"
+  },
+  "mp4_probe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio"
+      }
+    ],
+    "format": {
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "duration": "3.067000"
+    }
+  },
+  "stems": [
+    {
+      "name": "stems_manifest.json",
+      "size": 1171
+    },
+    {
+      "name": "01_Lead_Vocal.wav",
+      "size": 882044
+    },
+    {
+      "name": "02_ACE-Step_BGM.wav",
+      "size": 720044
+    },
+    {
+      "name": "03_SVC_upload_1084ad962a15_vocal.wav",
+      "size": 720044
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "volume_after_line": [
+    [
+      480,
+      0.7999998900267455,
+      "linear"
+    ],
+    [
+      960,
+      0.2999998900267455,
+      "linear"
+    ]
+  ],
+  "volume_after_drag": [
+    [
+      480,
+      0.7999998900267455,
+      "linear"
+    ],
+    [
+      1260,
+      0.599999780053491,
+      "linear"
+    ]
+  ],
+  "drag_undo_click": "clicked",
+  "volume_after_drag_undo": [
+    [
+      480,
+      0.7999998900267455,
+      "linear"
+    ],
+    [
+      960,
+      0.2999998900267455,
+      "linear"
+    ]
+  ],
+  "drag_redo_click": "clicked",
+  "volume_after_drag_redo": [
+    [
+      480,
+      0.7999998900267455,
+      "linear"
+    ],
+    [
+      1260,
+      0.599999780053491,
+      "linear"
+    ]
+  ],
+  "volume_after_reload": [
+    [
+      480,
+      0.7999998900267455,
+      "linear"
+    ],
+    [
+      1260,
+      0.599999780053491,
+      "linear"
+    ]
+  ],
+  "volume_after_right_delete": [
+    [
+      480,
+      0.7999998900267455,
+      "linear"
+    ]
+  ],
+  "delete_undo_click": "clicked",
+  "volume_after_delete_undo": [
+    [
+      480,
+      0.7999998900267455,
+      "linear"
+    ],
+    [
+      1260,
+      0.599999780053491,
+      "linear"
+    ]
+  ],
+  "volume_after_right_empty": [
+    [
+      480,
+      0.7999998900267455,
+      "linear"
+    ],
+    [
+      1260,
+      0.599999780053491,
+      "linear"
+    ]
+  ],
+  "volume_after_erase": [
+    [
+      480,
+      0.7999998900267455,
+      "linear"
+    ]
+  ],
+  "pan_after_create": [
+    [
+      480,
+      0.0,
+      "linear"
+    ]
+  ],
+  "pan_after_top_drag": [
+    [
+      720,
+      1.0,
+      "linear"
+    ]
+  ],
+  "pan_after_bottom_drag": [
+    [
+      900,
+      -1.0,
+      "linear"
+    ]
+  ],
+  "range_text": "60t",
+  "layout": {
+    "bodyScrollWidth": 1600,
+    "innerWidth": 1600,
+    "overflow": false,
+    "panelRect": {
+      "x": 236,
+      "y": 806,
+      "width": 1042,
+      "height": 194,
+      "top": 806,
+      "right": 1278,
+      "bottom": 1000,
+      "left": 236
+    }
+  },
+  "console_errors": [],
+  "page_errors": [],
+  "network_errors": [],
+  "passed": {
+    "line_created_two_points": true,
+    "drag_snapped_exact": true,
+    "undo_restored_original": true,
+    "redo_exact": true,
+    "reload_persisted": true,
+    "rightclick_deleted": true,
+    "rightdelete_undoable": true,
+    "rightclick_empty_no_stray": true,
+    "erase_removes": true,
+    "pan_clamps_positive": true,
+    "pan_clamps_negative": true,
+    "shift_range_60t": true,
+    "console_network_layout_clean": true
+  }
+}

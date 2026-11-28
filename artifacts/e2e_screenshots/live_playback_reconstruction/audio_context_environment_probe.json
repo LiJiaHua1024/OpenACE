@@ -1,0 +1,13 @@
+{
+  "purpose": "Environment diagnostic for the visible Chrome audio clock; this was not an application instrumentation result.",
+  "fresh_audio_context_samples": [
+    {"wall_seconds": 0.0, "context_time_seconds": 0.0, "state": "running"},
+    {"wall_seconds": 0.5002, "context_time_seconds": 0.011609977324263039, "state": "running"},
+    {"wall_seconds": 1.0003, "context_time_seconds": 0.011609977324263039, "state": "running"},
+    {"wall_seconds": 1.5005, "context_time_seconds": 0.011609977324263039, "state": "running"},
+    {"wall_seconds": 2.0006, "context_time_seconds": 0.023219954648526078, "state": "running"},
+    {"wall_seconds": 2.501, "context_time_seconds": 0.5340589569160997, "state": "running"},
+    {"wall_seconds": 3.0089, "context_time_seconds": 1.0332879818594105, "state": "running"}
+  ],
+  "interpretation": "The browser audio clock itself stalls for about two seconds in this Linux test environment, matching the two-second visual playhead startup freeze. Once the clock warms up, the playhead advances at approximately wall-clock rate."
+}

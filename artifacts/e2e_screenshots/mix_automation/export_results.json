@@ -1,0 +1,19 @@
+{
+  "download": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/mix_automation/mix_automation_stems.zip",
+  "size": 384877,
+  "names": [
+    "stems_manifest.json",
+    "01_Mix_Vocal.wav"
+  ],
+  "wav": "01_Mix_Vocal.wav",
+  "seconds": 2.0,
+  "early": {
+    "rl": 0.14159838267816646,
+    "rr": 0.07869918114544151
+  },
+  "late": {
+    "rl": 0.023033995077988968,
+    "rr": 0.07289547957608646
+  },
+  "passed": true
+}

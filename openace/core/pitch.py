@@ -5,7 +5,7 @@ from typing import Iterable, List, Sequence, Tuple
 
 import numpy as np
 
-from .models import Note
+from .models import Note, Project
 
 
 def midi_to_hz(pitch: float) -> float:
@@ -118,17 +118,104 @@ def correct_octave_errors(f0_hz: Iterable[float], median_window: int = 7, thresh
     return out
 
 
-def pitch_curve_for_notes(ppq: int, bpm: float, notes: Sequence[Note], frame_ms: float = 10.0) -> Tuple[np.ndarray, np.ndarray]:
-    """Build target time/F0 curve in seconds/Hz, with NaN in rests."""
+
+def interpolated_pitch_cents(points: Sequence, offset_ms: float) -> float:
+    """Linearly interpolate a per-note pitch-handle curve in cents."""
+    if not points:
+        return 0.0
+    ordered = sorted(points, key=lambda point: point.offset_ms)
+    if offset_ms <= ordered[0].offset_ms:
+        return float(ordered[0].cents)
+    if offset_ms >= ordered[-1].offset_ms:
+        return float(ordered[-1].cents)
+    for left, right in zip(ordered, ordered[1:]):
+        if left.offset_ms <= offset_ms <= right.offset_ms:
+            span = max(1e-9, right.offset_ms - left.offset_ms)
+            ratio = (offset_ms - left.offset_ms) / span
+            return float(left.cents + (right.cents - left.cents) * ratio)
+    return 0.0
+
+
+def vibrato_envelope(note: Note, offset_ms: float, duration_ms: float) -> float:
+    """Return the deterministic vibrato amplitude envelope for a note-local offset."""
+    vibrato = note.vibrato
+    if not vibrato or duration_ms <= 0:
+        return 0.0
+    start_ms = vibrato.start_ratio * duration_ms
+    if offset_ms < start_ms or offset_ms > duration_ms:
+        return 0.0
+    span_ms = max(1e-9, duration_ms - start_ms)
+    attack_ms = max(0.0, min(1.0, vibrato.attack_ratio)) * span_ms
+    release_ms = max(0.0, min(1.0, vibrato.release_ratio)) * span_ms
+    attack = 1.0 if attack_ms <= 0 else max(0.0, min(1.0, (offset_ms - start_ms) / attack_ms))
+    release = 1.0 if release_ms <= 0 else max(0.0, min(1.0, (duration_ms - offset_ms) / release_ms))
+    return float(min(attack, release))
+
+
+def note_expression_cents(note: Note, offset_ms: float, duration_ms: float) -> float:
+    """Return deterministic per-note vibrato plus interpolated pitch-handle cents."""
+    cents = interpolated_pitch_cents(note.pitch_curve, offset_ms)
+    if note.vibrato and duration_ms > 0:
+        envelope = vibrato_envelope(note, offset_ms, duration_ms)
+        if envelope:
+            cents += max(0.0, min(2.0, note.pitch_modulation)) * envelope * note.vibrato.depth_cents * np.sin(
+                2.0 * np.pi * note.vibrato.frequency_hz * offset_ms / 1000.0 + note.vibrato.phase
+            )
+    return float(cents)
+
+
+def pitch_envelope_state(points: Sequence, tick: float) -> Tuple[float, bool]:
+    """Return interpolated pitch cents plus the forward-held user voicing state.
+
+    Missing `voiced` metadata means default voiced behavior; a later legacy/unknown
+    point therefore resets an earlier explicit voiceless segment instead of leaking it.
+    """
+    if not points:
+        return 0.0, True
+    ordered = sorted(points, key=lambda point: point.ticks)
+    if tick <= ordered[0].ticks:
+        cents = float(ordered[0].value)
+    elif tick >= ordered[-1].ticks:
+        cents = float(ordered[-1].value)
+    else:
+        cents = 0.0
+        for left, right in zip(ordered, ordered[1:]):
+            if left.ticks <= tick <= right.ticks:
+                span = max(1e-9, right.ticks - left.ticks)
+                ratio = (tick - left.ticks) / span
+                cents = float(left.value + (right.value - left.value) * ratio)
+                break
+    voiced = True
+    for point in ordered:
+        if point.ticks > tick:
+            break
+        voiced = True if point.voiced is None else bool(point.voiced)
+    return cents, voiced
+
+def pitch_curve_for_notes(project: Project, notes: Sequence[Note], frame_ms: float = 10.0, pitch_automation: Sequence | None = None) -> Tuple[np.ndarray, np.ndarray]:
+    """Build target time/F0 curve in seconds/Hz through the piecewise tempo map."""
     if not notes:
         return np.zeros(0), np.zeros(0)
-    seconds_per_tick = 60.0 / bpm / ppq
-    end_s = max(n.end_ticks for n in notes) * seconds_per_tick
+    end_s = max(project.ticks_to_seconds(note.end_ticks) for note in notes)
     frames = max(1, int(np.ceil(end_s * 1000.0 / frame_ms)) + 1)
     times = np.arange(frames) * frame_ms / 1000.0
     f0 = np.full(frames, np.nan)
     for note in notes:
-        start = int(np.floor(note.start_ticks * seconds_per_tick * 1000.0 / frame_ms))
-        end = int(np.ceil(note.end_ticks * seconds_per_tick * 1000.0 / frame_ms))
-        f0[start:min(end, frames)] = midi_to_hz(note.pitch)
+        note_start_ms = project.ticks_to_seconds(note.start_ticks) * 1000.0
+        note_end_ms = project.ticks_to_seconds(note.end_ticks) * 1000.0
+        duration_ms = max(1e-9, note_end_ms - note_start_ms)
+        start = int(np.floor(note_start_ms / frame_ms))
+        end = int(np.ceil(note_end_ms / frame_ms))
+        base = midi_to_hz(note.pitch)
+        for frame in range(start, min(end, frames)):
+            absolute_ms = frame * frame_ms
+            offset_ms = absolute_ms - note_start_ms
+            cents = note_expression_cents(note, offset_ms, duration_ms)
+            voiced = True
+            if pitch_automation is not None:
+                absolute_ticks = project.seconds_to_ticks_float(absolute_ms / 1000.0)
+                automation_cents, voiced = pitch_envelope_state(pitch_automation, absolute_ticks)
+                cents += automation_cents
+            if voiced:
+                f0[frame] = base * (2.0 ** (cents / 1200.0))
     return times, f0

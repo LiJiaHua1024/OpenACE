@@ -1,0 +1,41 @@
+{
+  "top_texture": {
+    "lyric": {
+      "pixels": 2110,
+      "y_mean": 133.96682464454977,
+      "y_min": 112,
+      "y_max": 157,
+      "x_mean": 954.5957345971564
+    },
+    "neighbor_diff": 0.08674928060892974,
+    "column_mean_std": 4.946691400207478,
+    "row_mean_std": 1.7441836405989497,
+    "bytes": 141056
+  },
+  "center_grid": {
+    "lyric": {
+      "pixels": 2100,
+      "y_mean": 541.9809523809524,
+      "y_min": 520,
+      "y_max": 565,
+      "x_mean": 954.3657142857143
+    },
+    "neighbor_diff": 0.1582706766917293,
+    "column_mean_std": 2.0181013664155336,
+    "row_mean_std": 7.659777071462843,
+    "bytes": 125238
+  },
+  "bottom_clean": {
+    "lyric": {
+      "pixels": 2104,
+      "y_mean": 949.9543726235742,
+      "y_min": 928,
+      "y_max": 973,
+      "x_mean": 954.3051330798479
+    },
+    "neighbor_diff": 0.06443887496519075,
+    "column_mean_std": 3.8034521485363735,
+    "row_mean_std": 0.6956621717699283,
+    "bytes": 75568
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "after_edit": {
+    "enabled": false,
+    "title": "Selected vocal render is stale; render it first",
+    "hint": "input: selected vocal render",
+    "stale_badges": 1
+  },
+  "rerender_job": {
+    "id": "job_ea246e15cb45",
+    "project_id": "project_00d47d7aaeff",
+    "track_id": "track_dfcd46b3f185",
+    "mode": "svs_score",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_ea246e15cb45/vocal.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_ea246e15cb45/diagnostic.png",
+    "created_at": 1795843252.6022098,
+    "finished_at": 1795843254.841339,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": null,
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": null,
+    "source_start_s": null,
+    "source_end_s": null,
+    "arrangement_start_ticks": null
+  },
+  "after_rerender": {
+    "enabled": true,
+    "title": "Use the selected vocal track render as input",
+    "hint": "input: selected vocal render",
+    "stale_badges": 0
+  }
+}

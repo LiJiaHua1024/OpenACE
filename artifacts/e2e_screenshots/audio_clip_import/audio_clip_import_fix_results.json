@@ -1,0 +1,102 @@
+{
+  "console_errors": [],
+  "network_failures": [
+    "http://127.0.0.1:8787/api/events :: net::ERR_ABORTED",
+    "http://127.0.0.1:8787/api/events :: net::ERR_ABORTED"
+  ],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:8787/uploads/clip_1aa009c0549a_clipimport.wav",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/uploads/clip_1aa009c0549a_clipimport.wav",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8787/uploads/clip_1aa009c0549a_clipimport.wav",
+      "status": 200
+    }
+  ],
+  "clip": {
+    "id": "clip_83849672e1d5",
+    "path": "/home/ubuntu/repos/OpenACE/data/uploads/clip_1aa009c0549a_clipimport.wav",
+    "start_ticks": 1371,
+    "duration_ticks": 720,
+    "offset_ticks": 0,
+    "fade_in_ticks": 0,
+    "fade_out_ticks": 0,
+    "gain_db": 0.0,
+    "label": "clipimport"
+  },
+  "direct_upload_fetch": {
+    "url": "/uploads/clip_1aa009c0549a_clipimport.wav",
+    "status": 200,
+    "bytes": 88244,
+    "content_type": "audio/x-wav"
+  },
+  "waveform_scan": {
+    "bright": 790,
+    "interiorBright": 332,
+    "minX": 383,
+    "maxX": 552,
+    "width": 169,
+    "dpr": 1
+  },
+  "playback": {
+    "button_class_while_playing": "play-button playing",
+    "transport_after_1300ms": "00:01.28",
+    "upload_resource_entries_after_play": [
+      {
+        "name": "http://127.0.0.1:8787/uploads/clip_1aa009c0549a_clipimport.wav",
+        "duration": 1.5,
+        "transferSize": 0,
+        "encodedBodySize": 88244
+      }
+    ],
+    "upload_response_events": [
+      {
+        "url": "http://127.0.0.1:8787/uploads/clip_1aa009c0549a_clipimport.wav",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:8787/uploads/clip_1aa009c0549a_clipimport.wav",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:8787/uploads/clip_1aa009c0549a_clipimport.wav",
+        "status": 200
+      }
+    ]
+  },
+  "after_reload_scan": {
+    "bright": 790,
+    "interiorBright": 332,
+    "minX": 383,
+    "maxX": 552,
+    "width": 169,
+    "dpr": 1
+  },
+  "after_reload_project": {
+    "id": "clip_83849672e1d5",
+    "path": "/home/ubuntu/repos/OpenACE/data/uploads/clip_1aa009c0549a_clipimport.wav",
+    "start_ticks": 1371,
+    "duration_ticks": 720,
+    "offset_ticks": 0,
+    "fade_in_ticks": 0,
+    "fade_out_ticks": 0,
+    "gain_db": 0.0,
+    "label": "clipimport"
+  },
+  "checks": {
+    "upload_bytes_served": true,
+    "real_waveform_peaks": true,
+    "waveform_stronger_than_broken_baseline": true,
+    "playback_loaded_no_media_error": true,
+    "playhead_advanced": true,
+    "reload_waveform_still_real": true,
+    "reload_persistence": true,
+    "no_console_network_errors": true
+  },
+  "passed": true
+}

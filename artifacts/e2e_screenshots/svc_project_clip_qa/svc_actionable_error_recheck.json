@@ -1,0 +1,54 @@
+{
+  "after_clip_click": {
+    "path": "clip_d275beb12e77_svc_clip_control_source.wav",
+    "selectedTrack": 1,
+    "svcDisabled": false,
+    "svcTitle": "Convert the exact visible arrangement clip segment",
+    "hints": [
+      "Vocal2BGM/SVC input: visible clip segment \u00b7 aligned to clip start"
+    ],
+    "voice": "Zero-shot reference slot"
+  },
+  "after_svc_click_without_reference": {
+    "error": "Select a vocal track with an uploaded reference voice before SVC conversion",
+    "svcDisabled": false
+  },
+  "after_vocal_reselect": {
+    "path": "clip_d275beb12e77_svc_clip_control_source.wav",
+    "selectedTrack": 0,
+    "svcDisabled": false,
+    "svcTitle": "Convert the exact visible arrangement clip segment",
+    "hints": [
+      "Vocal2BGM/SVC input: visible clip segment \u00b7 aligned to clip start"
+    ],
+    "voice": "svc_reference_voice",
+    "error": "Select a vocal track with an uploaded reference voice before SVC conversion"
+  },
+  "conversion_job": {
+    "id": "job_a357938deda0",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "svc",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed; added to arrangement as SVC \u2014 clip_d275beb12e77_svc_clip_control_source",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_a357938deda0/svc.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_a357938deda0/diagnostic.png",
+    "created_at": 1795845219.454016,
+    "finished_at": 1795845223.8609126,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav",
+    "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_34959253571a_svc_reference_voice.wav",
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_e32e014fd922",
+    "source_start_s": 0.5,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 960
+  },
+  "console": [],
+  "badnet": []
+}

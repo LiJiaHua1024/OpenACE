@@ -115,6 +115,177 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
 
             page.mouse.click(box["x"] + 170, box["y"] + 315, button="right")
             assert page.locator(".piano-context-menu").count() == 1
+            page.locator(".piano-context-menu button", has_text="Vibrato").click()
+            assert page.locator(".vibrato-editor").count() == 1
+            page.locator(".vibrato-enable input").check()
+            page.locator(".vibrato-editor input[type='range']").nth(1).evaluate(
+                """(el) => {
+                  Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, '80')
+                  el.dispatchEvent(new Event('input', { bubbles: true }))
+                  el.dispatchEvent(new Event('change', { bubbles: true }))
+                }"""
+            )
+            page.locator(".vibrato-header button").click()
+            page.wait_for_timeout(700)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert first["vibrato"]["depth_cents"] == 80
+            assert first["vibrato"]["frequency_hz"] == 5.2
+            page.keyboard.press("Control+z")
+            page.wait_for_timeout(700)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert first["vibrato"] is None
+
+            # Shortcut 4 enables the direct vibrato tool. Dragging right-to-left
+            # inside the first note creates an undoable vibrato whose length follows
+            # the horizontal gesture and whose depth follows vertical distance.
+            page.keyboard.press("4")
+            assert "active" in (page.locator('button[title^="Vibrato tool"]').get_attribute("class") or "")
+            page.mouse.move(box["x"] + 190, box["y"] + 315)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 165, box["y"] + 345, steps=5)
+            page.mouse.up()
+            page.wait_for_timeout(650)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            direct_vibrato = dict(first["vibrato"])
+            assert 0.0 < direct_vibrato["start_ratio"] < 1.0
+            assert direct_vibrato["depth_cents"] > 0
+            page.keyboard.press("Control+z")
+            page.wait_for_timeout(650)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert first["vibrato"] is None
+            page.keyboard.press("Control+Shift+z")
+            page.wait_for_timeout(650)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert first["vibrato"] == direct_vibrato
+            page.keyboard.press("Control+z")
+            page.wait_for_timeout(650)
+
+            # Manual phoneme override is timed by the backend and round-trips into the note.
+            httpx.patch(
+                f"{base}/api/projects/{project_id}/tracks/{project['tracks'][0]['id']}/notes/{first['id']}",
+                json={"lyric": "你"},
+            )
+            page.wait_for_timeout(450)
+            page.mouse.click(box["x"] + 170, box["y"] + 315, button="right")
+            page.locator(".piano-context-menu button", has_text="Phonemes").click()
+            assert page.locator(".phoneme-editor").count() == 1
+            page.locator(".phoneme-editor input").first.fill("m i")
+            page.locator(".phoneme-actions button", has_text="Apply").click()
+            page.wait_for_timeout(750)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert [item["symbol"] for item in first["phonemes"]] == ["m", "i"]
+            assert first["phonemes"][0]["start_ms"] < 0
+            assert first["phonemes"][1]["start_ms"] == 0
+            page.mouse.click(box["x"] + 170, box["y"] + 315, button="right")
+            page.locator(".piano-context-menu button", has_text="Phonemes").click()
+            page.locator(".phoneme-actions button", has_text="Reset auto").click()
+            page.wait_for_timeout(750)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert first["phonemes"][0]["symbol"] == "n"
+
+            # Phoneme boundaries are draggable in the Breath & Phoneme lane while preserving contiguity.
+            track_id = project["tracks"][0]["id"]
+            project["tracks"][0]["language"] = "en"
+            httpx.put(f"{base}/api/projects/{project_id}", json=project).raise_for_status()
+            response = httpx.patch(f"{base}/api/projects/{project_id}/tracks/{track_id}/notes/{first['id']}", json={"lyric": "sing", "phonemes": []})
+            assert response.status_code == 200, response.text
+            page.wait_for_timeout(600)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert [item["symbol"] for item in first["phonemes"]] == ["s", "ɪ", "ŋ"]
+            page.locator('button', has_text="Breath & Phoneme").click()
+            page.wait_for_timeout(250)
+            automation_box = page.locator(".automation-canvas-wrap canvas").bounding_box()
+            assert automation_box
+            duration_ms = first["duration_ticks"] * 60000 / project["bpm"] / project["ppq"]
+            note_x = 64 + (first["start_ticks"] / project["ppq"]) * 112
+            note_w = (first["duration_ticks"] / project["ppq"]) * 112
+            px_per_ms = note_w / duration_ms
+            vowel = first["phonemes"][1]
+            original_boundary = vowel["start_ms"] + vowel["duration_ms"]
+            boundary_x = automation_box["x"] + note_x + original_boundary * px_per_ms
+            boundary_y = automation_box["y"] + 95
+            page.mouse.move(boundary_x, boundary_y)
+            page.mouse.down()
+            page.mouse.move(boundary_x + 10, boundary_y, steps=4)
+            page.mouse.up()
+            page.wait_for_timeout(750)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            moved_vowel, moved_coda = first["phonemes"][1], first["phonemes"][2]
+            assert moved_coda["start_ms"] > original_boundary + 20
+            assert abs(moved_vowel["start_ms"] + moved_vowel["duration_ms"] - moved_coda["start_ms"]) < 0.8
+            page.keyboard.press("Control+z")
+            page.wait_for_timeout(750)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert abs(first["phonemes"][2]["start_ms"] - original_boundary) < 0.8
+
+            # ACE-style pitch anchors are created as one curve session: double-click starts,
+            # subsequent clicks append, and right-click commits.
+            page.locator('button[title^="Per-note pitch anchors"]').click()
+            page.mouse.click(box["x"] + 170, box["y"] + 322, click_count=2)
+            page.wait_for_timeout(120)
+            page.mouse.click(box["x"] + 190, box["y"] + 315)
+            page.wait_for_timeout(80)
+            page.mouse.click(box["x"] + 210, box["y"] + 329)
+            page.wait_for_timeout(80)
+            page.mouse.click(box["x"] + 220, box["y"] + 322, button="right")
+            page.wait_for_timeout(700)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert len(first["pitch_curve"]) == 3
+            assert max(point["cents"] for point in first["pitch_curve"]) > 30
+            assert min(point["cents"] for point in first["pitch_curve"]) < -30
+
+            point = sorted(first["pitch_curve"], key=lambda item: item["offset_ms"])[0]
+            duration_ms = first["duration_ticks"] * 60000 / project["bpm"] / project["ppq"]
+            note_x = 64 + (first["start_ticks"] / project["ppq"]) * 112
+            note_w = (first["duration_ticks"] / project["ppq"]) * 112
+            note_y = 30 + (79 - first["pitch"]) * 15
+            handle_x = box["x"] + note_x + 2 + (point["offset_ms"] / duration_ms) * max(1, note_w - 4)
+            handle_y = box["y"] + note_y + 7.5 - point["cents"] / 100 * 15
+            before_cents = point["cents"]
+            page.mouse.move(handle_x, handle_y)
+            page.mouse.down()
+            page.mouse.move(handle_x, handle_y + 3, steps=3)
+            page.mouse.up()
+            page.wait_for_timeout(700)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            moved = min(first["pitch_curve"], key=lambda item: abs(item["offset_ms"] - point["offset_ms"]))
+            assert moved["cents"] < before_cents
+
+            page.keyboard.down("Alt")
+            page.mouse.move(handle_x, handle_y + 3)
+            page.mouse.down()
+            page.mouse.up()
+            page.keyboard.up("Alt")
+            page.wait_for_timeout(700)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert len(first["pitch_curve"]) == 2
+
+            # Clipboard persists across vocal-track switches inside the shared editor.
+            page.locator('button[title="Select/move (V)"]').click()
+            page.mouse.click(box["x"] + 170, box["y"] + 315)
+            page.keyboard.press("Control+c")
+            page.locator('button', has_text="+ Vocal").click()
+            page.wait_for_timeout(350)
+            page.locator('.track-card').last.click()
+            page.keyboard.press("Control+v")
+            page.wait_for_timeout(750)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            assert len(project["tracks"]) == 2
+            assert len(project["tracks"][1]["notes"]) == 1
+            assert project["tracks"][1]["notes"][0]["pitch"] == 60
             assert errors == []
             browser.close()
     finally:

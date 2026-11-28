@@ -1,0 +1,321 @@
+{
+  "version": 153,
+  "time": {
+    "meter": [
+      {
+        "index": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ],
+    "tempo": [
+      {
+        "position": 0,
+        "bpm": 120.0
+      }
+    ]
+  },
+  "library": [],
+  "tracks": [
+    {
+      "name": "Lead Vocal",
+      "dispColor": "7367ff",
+      "dispOrder": 0,
+      "renderEnabled": true,
+      "mixer": {
+        "gainDecibel": -1.938200260161128,
+        "pan": 0.0,
+        "mute": false,
+        "solo": false,
+        "display": true
+      },
+      "mainGroup": {
+        "uuid": "2087f79b-7232-56e2-ab69-9c9e0a8cdd49",
+        "name": "Lead Vocal",
+        "notes": [
+          {
+            "musicalType": "singing",
+            "onset": 1058400000,
+            "duration": 882000000,
+            "lyrics": "你好",
+            "phonemes": "n i x au",
+            "accent": "",
+            "pitch": 64,
+            "detune": 0,
+            "instantMode": true,
+            "attributes": {
+              "evenSyllableDuration": false,
+              "tF0Left": 0.04,
+              "tF0Right": 0.04,
+              "dF0Left": 0.0,
+              "dF0Right": 0.0,
+              "dF0Vbr": 0.0,
+              "fF0Vbr": 5.5,
+              "tF0VbrStart": 0.25
+            },
+            "systemAttributes": {},
+            "pitchTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "timbreTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "expressionTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            }
+          },
+          {
+            "musicalType": "singing",
+            "onset": 2822400000,
+            "duration": 882000000,
+            "lyrics": "好",
+            "phonemes": "x au",
+            "accent": "",
+            "pitch": 68,
+            "detune": 0,
+            "instantMode": true,
+            "attributes": {
+              "evenSyllableDuration": false,
+              "tF0Left": 0.04,
+              "tF0Right": 0.04,
+              "dF0Left": 0.0,
+              "dF0Right": 0.0,
+              "dF0Vbr": 0.0,
+              "fF0Vbr": 5.5,
+              "tF0VbrStart": 0.25
+            },
+            "systemAttributes": {},
+            "pitchTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "timbreTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "expressionTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            }
+          }
+        ],
+        "parameters": {
+          "pitchDelta": {
+            "mode": "linear",
+            "points": [
+              258720000,
+              -0.0258,
+              352800000,
+              0.081699,
+              446880000,
+              0.189198,
+              542430000,
+              0.296698,
+              636510000,
+              0.404197,
+              730590000,
+              0.219298,
+              824670000,
+              0.0344,
+              920220000,
+              -0.150499,
+              1014300000,
+              -0.335397,
+              1124550000,
+              -0.180599,
+              1234800000,
+              -0.0258,
+              1345050000,
+              0.128999,
+              1455300000,
+              0.283798
+            ]
+          },
+          "loudness": {
+            "mode": "linear",
+            "points": []
+          },
+          "tension": {
+            "mode": "linear",
+            "points": [
+              258720000,
+              0.027027,
+              352800000,
+              0.13964,
+              446880000,
+              0.252252,
+              542430000,
+              0.364865,
+              636510000,
+              0.477477,
+              730590000,
+              0.283784,
+              824670000,
+              0.09009,
+              920220000,
+              -0.103604,
+              1014300000,
+              -0.297297,
+              1124550000,
+              -0.135135,
+              1234800000,
+              0.027027,
+              1345050000,
+              0.189189,
+              1455300000,
+              0.351351
+            ]
+          },
+          "breathiness": {
+            "mode": "linear",
+            "points": [
+              258720000,
+              0.027027,
+              352800000,
+              0.13964,
+              446880000,
+              0.252252,
+              542430000,
+              0.364865,
+              636510000,
+              0.477477,
+              730590000,
+              0.283784,
+              824670000,
+              0.09009,
+              920220000,
+              -0.103604,
+              1014300000,
+              -0.297297,
+              1124550000,
+              -0.135135,
+              1234800000,
+              0.027027,
+              1345050000,
+              0.189189,
+              1455300000,
+              0.351351
+            ]
+          },
+          "voicing": {
+            "mode": "linear",
+            "points": []
+          },
+          "gender": {
+            "mode": "linear",
+            "points": []
+          },
+          "toneShift": {
+            "mode": "linear",
+            "points": []
+          }
+        }
+      },
+      "mainRef": {
+        "groupID": "2087f79b-7232-56e2-ab69-9c9e0a8cdd49",
+        "blickOffset": 0,
+        "blickAbsoluteBegin": 0,
+        "pitchOffset": 0,
+        "database": {
+          "name": "voice_9d0507989312"
+        },
+        "voice": {
+          "vocalModeParams": {},
+          "tension": 0.0,
+          "breathiness": 0.0,
+          "gender": 0.0,
+          "voicing": 1.0,
+          "toneShift": 0.0
+        },
+        "isInstrumental": false
+      },
+      "groups": []
+    },
+    {
+      "name": "ACE-Step BGM",
+      "dispColor": "2fb996",
+      "dispOrder": 1,
+      "renderEnabled": true,
+      "mixer": {
+        "gainDecibel": -1.938200260161128,
+        "pan": 0.0,
+        "mute": false,
+        "solo": false,
+        "display": true
+      },
+      "mainGroup": {
+        "uuid": "6a2be75c-7fc6-5f50-8544-792f7b0de7c0",
+        "name": "ACE-Step BGM",
+        "notes": [],
+        "parameters": {}
+      },
+      "mainRef": {
+        "groupID": "6a2be75c-7fc6-5f50-8544-792f7b0de7c0",
+        "blickOffset": 0,
+        "blickAbsoluteBegin": 0,
+        "pitchOffset": 0,
+        "database": {
+          "name": "zero-shot-reference"
+        },
+        "voice": {
+          "vocalModeParams": {},
+          "tension": 0.0,
+          "breathiness": 0.0,
+          "gender": 0.0,
+          "voicing": 1.0,
+          "toneShift": 0.0
+        },
+        "isInstrumental": true
+      },
+      "groups": []
+    },
+    {
+      "name": "SVC — upload_b78cb4ecad73_vocal",
+      "dispColor": "ff8f5a",
+      "dispOrder": 2,
+      "renderEnabled": true,
+      "mixer": {
+        "gainDecibel": -1.938200260161128,
+        "pan": 0.0,
+        "mute": false,
+        "solo": false,
+        "display": true
+      },
+      "mainGroup": {
+        "uuid": "4e975bbf-48ae-58a4-9f7b-a417cb92dbf8",
+        "name": "SVC — upload_b78cb4ecad73_vocal",
+        "notes": [],
+        "parameters": {}
+      },
+      "mainRef": {
+        "groupID": "4e975bbf-48ae-58a4-9f7b-a417cb92dbf8",
+        "blickOffset": 0,
+        "blickAbsoluteBegin": 0,
+        "pitchOffset": 0,
+        "database": {
+          "name": "zero-shot-reference"
+        },
+        "voice": {
+          "vocalModeParams": {},
+          "tension": 0.0,
+          "breathiness": 0.0,
+          "gender": 0.0,
+          "voicing": 1.0,
+          "toneShift": 0.0
+        },
+        "isInstrumental": true
+      },
+      "groups": []
+    }
+  ],
+  "renderConfig": {
+    "sampleRate": 48000,
+    "bitDepth": 24,
+    "numChannels": 2,
+    "aspirationFormat": "wav",
+    "exportMixDown": true
+  }
+}

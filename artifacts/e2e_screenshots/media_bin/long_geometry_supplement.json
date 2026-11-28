@@ -1,0 +1,53 @@
+{
+  "inner": [
+    1272,
+    837
+  ],
+  "right": {
+    "sw": 311,
+    "cw": 311,
+    "rect": {
+      "x": 950,
+      "y": 58,
+      "width": 322,
+      "height": 779,
+      "top": 58,
+      "right": 1272,
+      "bottom": 837,
+      "left": 950
+    }
+  },
+  "list": {
+    "sw": 513,
+    "cw": 277,
+    "rect": {
+      "x": 963,
+      "y": 996,
+      "width": 287,
+      "height": 245,
+      "top": 996,
+      "right": 1250,
+      "bottom": 1241,
+      "left": 963
+    }
+  },
+  "row": {
+    "sw": 509,
+    "cw": 509,
+    "rect": {
+      "x": 963,
+      "y": 996,
+      "width": 511.4140625,
+      "height": 98,
+      "top": 996,
+      "right": 1474.4140625,
+      "bottom": 1094,
+      "left": 963
+    },
+    "inside": false,
+    "strongSw": 427,
+    "strongCw": 427,
+    "audioSw": 493,
+    "audioCw": 493
+  }
+}

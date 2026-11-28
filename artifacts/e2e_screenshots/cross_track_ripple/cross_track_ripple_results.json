@@ -1,0 +1,245 @@
+{
+  "out": {
+    "pid": "project_2faa9dd1e995",
+    "console": [],
+    "network": [],
+    "menu": {
+      "w": 204,
+      "h": 156,
+      "inside": false,
+      "text": "Split at cursorCopyPaste at cursorDuplicateDeleteRipple deleteRipple delete across tracksClip gaindB"
+    },
+    "single": {
+      "clips": [
+        [
+          "a_early",
+          0
+        ],
+        [
+          "a_overlap",
+          1200
+        ],
+        [
+          "a_after",
+          1920
+        ],
+        [
+          "b_sel2",
+          960
+        ],
+        [
+          "b_after",
+          2400
+        ]
+      ],
+      "notes": [
+        [
+          "n_before",
+          480
+        ],
+        [
+          "n_end",
+          960
+        ],
+        [
+          "n_inside",
+          1200
+        ],
+        [
+          "n_after",
+          1920
+        ]
+      ],
+      "breaths": [
+        [
+          "b_before",
+          480
+        ],
+        [
+          "b_inside",
+          1200
+        ],
+        [
+          "b_end",
+          960
+        ],
+        [
+          "b_after",
+          1920
+        ]
+      ],
+      "auto": [
+        [
+          480
+        ],
+        [
+          960
+        ],
+        [
+          1200
+        ],
+        [
+          1920
+        ]
+      ]
+    },
+    "undo_matches_canonical": true,
+    "redo_matches_single": false,
+    "multi": {
+      "clips": [
+        [
+          "a_early",
+          0
+        ],
+        [
+          "a_overlap",
+          1200
+        ],
+        [
+          "a_after",
+          1920
+        ],
+        [
+          "b_sel2",
+          960
+        ],
+        [
+          "b_after",
+          2400
+        ]
+      ],
+      "notes": [
+        [
+          "n_before",
+          480
+        ],
+        [
+          "n_end",
+          960
+        ],
+        [
+          "n_inside",
+          1200
+        ],
+        [
+          "n_after",
+          1920
+        ]
+      ],
+      "breaths": [
+        [
+          "b_before",
+          480
+        ],
+        [
+          "b_inside",
+          1200
+        ],
+        [
+          "b_end",
+          960
+        ],
+        [
+          "b_after",
+          1920
+        ]
+      ],
+      "auto": [
+        [
+          480
+        ],
+        [
+          960
+        ],
+        [
+          1200
+        ],
+        [
+          1920
+        ]
+      ]
+    },
+    "multi_undo_matches_canonical": true,
+    "multi_redo_matches_multi": false,
+    "reload_matches_multi": false,
+    "playing": true
+  },
+  "canonical": {
+    "clips": [
+      [
+        "a_early",
+        0
+      ],
+      [
+        "a_sel1",
+        960
+      ],
+      [
+        "a_overlap",
+        1200
+      ],
+      [
+        "a_after",
+        2400
+      ],
+      [
+        "b_sel2",
+        1440
+      ],
+      [
+        "b_after",
+        2880
+      ]
+    ],
+    "notes": [
+      [
+        "n_before",
+        480
+      ],
+      [
+        "n_inside",
+        1200
+      ],
+      [
+        "n_end",
+        1440
+      ],
+      [
+        "n_after",
+        2400
+      ]
+    ],
+    "breaths": [
+      [
+        "b_before",
+        480
+      ],
+      [
+        "b_inside",
+        1200
+      ],
+      [
+        "b_end",
+        1440
+      ],
+      [
+        "b_after",
+        2400
+      ]
+    ],
+    "auto": [
+      [
+        480
+      ],
+      [
+        1200
+      ],
+      [
+        1440
+      ],
+      [
+        2400
+      ]
+    ]
+  }
+}

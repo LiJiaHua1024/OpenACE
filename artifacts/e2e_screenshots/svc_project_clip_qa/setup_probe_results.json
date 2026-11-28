@@ -1,0 +1,89 @@
+{
+  "pid": "project_832a3769a65b",
+  "info": {
+    "url": "http://127.0.0.1:8787/?qa=svcclip_1795844400",
+    "arr": [
+      {
+        "cls": "",
+        "x": 18,
+        "y": 309.5,
+        "w": 199,
+        "h": 44
+      },
+      {
+        "cls": "",
+        "x": 236,
+        "y": 58,
+        "w": 712,
+        "h": 132
+      },
+      {
+        "cls": "",
+        "x": 236,
+        "y": 190,
+        "w": 722,
+        "h": 54
+      },
+      {
+        "cls": "piano-roll-canvas",
+        "x": 236,
+        "y": 284,
+        "w": 722,
+        "h": 363
+      },
+      {
+        "cls": "piano-playhead-overlay",
+        "x": 236,
+        "y": 284,
+        "w": 722,
+        "h": 363
+      },
+      {
+        "cls": "",
+        "x": 236,
+        "y": 688,
+        "w": 722,
+        "h": 153
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Upload",
+        "x": 971,
+        "y": 207,
+        "w": 113.234375,
+        "h": 27,
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "Render vocal",
+        "x": 971,
+        "y": 348,
+        "w": 287,
+        "h": 37.5,
+        "disabled": true,
+        "title": ""
+      },
+      {
+        "text": "Import audio as clip at playhead",
+        "x": 971,
+        "y": 581.5,
+        "w": 287,
+        "h": 39.5,
+        "disabled": false,
+        "title": ""
+      },
+      {
+        "text": "SVC voice conversion",
+        "x": 971,
+        "y": 991.5,
+        "w": 287,
+        "h": 39.5,
+        "disabled": true,
+        "title": "Convert the uploaded source file"
+      }
+    ],
+    "body": "OA\nLOCAL\nFolderQA Beta\nFolderQA Alpha\nPinTag QA Alpha\nUntitled OpenACE Project\nProject Ops\nInterop Test\nInterop Test\nvocal\nVocal2BGM Aware QA\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nClip Repaint QA\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop Test\nvocal\nProject Ops\nInterop Test\nInterop T"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "task": "arrangement_multi_clip_selection_editing",
+  "project_id": "project_af15424e895a",
+  "viewport": {"width": 1272, "height": 837},
+  "implementation_modified": false,
+  "overall": "passed_no_confirmed_implementation_defects",
+  "fixture": {
+    "tracks": {
+      "MS Audio A": [
+        {"label": "A1", "start_ticks": 480, "duration_ticks": 960},
+        {"label": "A2", "start_ticks": 1920, "duration_ticks": 960}
+      ],
+      "MS Audio B": [
+        {"label": "B1", "start_ticks": 960, "duration_ticks": 960}
+      ]
+    },
+    "audio_path": "/uploads/svclyrics_words.wav"
+  },
+  "tests": {
+    "single_click_white_outline": {"status": "passed", "evidence": "canvaszoom_01_single_selected.png"},
+    "ctrl_click_adds_cross_track_clip": {"status": "passed", "evidence": "17_retest_ctrl_add.png"},
+    "marquee_selects_intersecting_clips": {"status": "passed", "evidence": "canvaszoom_19_retest_marquee_selected.png"},
+    "additive_ctrl_marquee_preserves_and_extends_selection": {"status": "passed", "evidence": "canvaszoom_25_final_additive_marquee_selected.png"},
+    "group_drag": {
+      "status": "passed",
+      "initial": {"A1": 480, "A2": 1920, "B1": 960},
+      "after": {"A1": 720, "A2": 2160, "B1": 1200},
+      "uniform_delta_ticks": 240,
+      "relative_offsets_preserved": true,
+      "track_membership_preserved": true
+    },
+    "group_drag_zero_clamp": {
+      "status": "passed",
+      "after": {"A1": 0, "A2": 1440, "B1": 480},
+      "minimum_start": 0,
+      "relative_offsets_preserved": true
+    },
+    "trim_single_clip": {
+      "status": "passed",
+      "target": "A1",
+      "duration_before": 960,
+      "duration_after": 840,
+      "other_clips_unchanged": true
+    },
+    "fade_single_clip": {
+      "status": "passed",
+      "target": "A2",
+      "fade_in_ticks_after_exact_edge_probe": 120,
+      "positions_unchanged": true,
+      "other_clips_unchanged": true
+    },
+    "duplicate_group": {
+      "status": "passed",
+      "selected_original_starts": {"A1": 120, "B1": 600, "A2": 1440},
+      "duplicate_starts": {"A1": 2400, "B1": 2880, "A2": 3720},
+      "uniform_shift_ticks": 2280,
+      "original_tracks_preserved": true
+    },
+    "delete_group": {
+      "status": "passed",
+      "clip_count_before": 6,
+      "clip_count_after": 3,
+      "all_selected_duplicates_removed": true
+    },
+    "undo_redo_group_delete": {
+      "status": "passed",
+      "undo_clip_count": 6,
+      "redo_clip_count": 3,
+      "same_ids_restored_on_undo": true
+    },
+    "copy_paste_group": {
+      "status": "passed",
+      "clipboard_source_starts": {"A1": 120, "B1": 600, "A2": 1440},
+      "pasted_starts": {"A1": 2520, "B1": 3000, "A2": 3840},
+      "relative_offsets": {"B1_minus_A1": 480, "A2_minus_A1": 1320},
+      "original_tracks_preserved": true
+    },
+    "layout_console_network": {
+      "status": "passed",
+      "body": {"scrollWidth": 1272, "clientWidth": 1272},
+      "arrangement_canvas": {"scrollWidth": 714, "clientWidth": 714},
+      "console_messages": 0,
+      "network_failures": 0,
+      "http_errors": 0
+    }
+  },
+  "harness_notes": [
+    "Early fade/marquee misses were hit-coordinate harness artifacts. A controlled exact-edge fade probe produced fade_in_ticks=120, and a corrected additive marquee produced all three white outlines.",
+    "Fixture was reset to the canonical three-clip arrangement after mutation tests before final health capture."
+  ],
+  "defects": [],
+  "recording": "/home/ubuntu/screencasts/arrangement-multiselect-qa/arrangement-multiselect-qa-edited.mp4"
+}

@@ -1,0 +1,102 @@
+{
+  "first_starts": [
+    {
+      "when": 0.034829931972789115,
+      "offset": 0,
+      "duration": 3,
+      "bufferDuration": 3
+    },
+    {
+      "when": 1.0348299319727892,
+      "offset": 0.5,
+      "duration": 2,
+      "bufferDuration": 3
+    },
+    {
+      "when": 0.08482993197278912,
+      "offset": 1,
+      "duration": 0.5,
+      "bufferDuration": 3
+    },
+    {
+      "when": 0.5348299319727892,
+      "offset": 0,
+      "duration": 2,
+      "bufferDuration": 1.9999773242630385
+    },
+    {
+      "when": 1.0348299319727892,
+      "offset": 0,
+      "duration": 2,
+      "bufferDuration": 1.9999773242630385
+    },
+    {
+      "when": 1.0348299319727892,
+      "offset": 0,
+      "duration": 2,
+      "bufferDuration": 1.9999773242630385
+    },
+    {
+      "when": 0.034829931972789115,
+      "offset": 0,
+      "duration": 1.5,
+      "bufferDuration": 1.5
+    },
+    {
+      "when": 0.08482993197278912,
+      "offset": 0,
+      "duration": 0.5,
+      "bufferDuration": 0.49997732426303854
+    },
+    {
+      "when": 1.0348299319727892,
+      "offset": 0,
+      "duration": 2,
+      "bufferDuration": 1.9999773242630385
+    }
+  ],
+  "pos1": "1.4.3\n00:01.82",
+  "playing1": "play-button playing",
+  "second_starts": [
+    {
+      "when": 2.426485260770975,
+      "offset": 2.0083333333333333,
+      "duration": 0.9916666666666667,
+      "bufferDuration": 3
+    },
+    {
+      "when": 2.426485260770975,
+      "offset": 1.5083333333333333,
+      "duration": 0.9916666666666667,
+      "bufferDuration": 3
+    },
+    {
+      "when": 2.426485260770975,
+      "offset": 1.5083333333333333,
+      "duration": 0.4916666666666667,
+      "bufferDuration": 1.9999773242630385
+    },
+    {
+      "when": 2.426485260770975,
+      "offset": 1.0083333333333333,
+      "duration": 0.9916666666666667,
+      "bufferDuration": 1.9999773242630385
+    },
+    {
+      "when": 2.426485260770975,
+      "offset": 1.0083333333333333,
+      "duration": 0.9916666666666667,
+      "bufferDuration": 1.9999773242630385
+    },
+    {
+      "when": 2.426485260770975,
+      "offset": 1.0083333333333333,
+      "duration": 0.9916666666666667,
+      "bufferDuration": 1.9999773242630385
+    }
+  ],
+  "pos2": "2.3.4\n00:03.41",
+  "playing2": "play-button playing",
+  "console": [],
+  "badnet": []
+}

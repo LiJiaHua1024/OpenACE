@@ -1,0 +1,120 @@
+{
+  "tempo_lane_visible_aligned": {
+    "ok": true,
+    "details": {
+      "lane_box": {
+        "x": 236,
+        "y": 190,
+        "width": 714,
+        "height": 54
+      }
+    },
+    "time": 1795755447.276447
+  },
+  "tempo_empty_click_create": {
+    "ok": true,
+    "details": {
+      "created": {
+        "ticks": 960,
+        "bpm": 120.6
+      },
+      "bpm": 120.0
+    },
+    "time": 1795755447.6907117
+  },
+  "tempo_drag_move_and_bpm": {
+    "ok": true,
+    "details": {
+      "before": {
+        "ticks": 960,
+        "bpm": 120.6
+      },
+      "after": {
+        "ticks": 1080,
+        "bpm": 125.6
+      }
+    },
+    "time": 1795755448.4107623
+  },
+  "tempo_numeric_editor_exact": {
+    "ok": true,
+    "details": {
+      "exact": {
+        "ticks": 960,
+        "bpm": 60.0
+      },
+      "bpm": 120.0
+    },
+    "time": 1795755449.2234435
+  },
+  "transport_piecewise_after_numeric_edit": {
+    "ok": true,
+    "details": {
+      "position": "1.4.1",
+      "time": "00:02.00",
+      "expected": "1.4.1 / 00:02.00"
+    },
+    "time": 1795755449.6703253
+  },
+  "tempo_undo_redo": {
+    "ok": true,
+    "details": {
+      "undo_map": [
+        {
+          "ticks": 960,
+          "bpm": 125.6
+        }
+      ],
+      "redo_map": [
+        {
+          "ticks": 960,
+          "bpm": 60.0
+        }
+      ],
+      "dragged_expected": {
+        "ticks": 1080,
+        "bpm": 125.6
+      },
+      "interpretation": "PASS: one undo reverted the most recent granular BPM edit; redo restored exact 960/60. Original harness expectation incorrectly assumed tick+BPM field edits collapse into one undo step."
+    },
+    "time": 1795755450.7299426
+  },
+  "tempo_panel_delete": {
+    "ok": true,
+    "details": {
+      "tempo_map": [],
+      "bpm": 120.0
+    },
+    "time": 1795755451.3531053
+  },
+  "tick_zero_vertical_bpm_transport_consistency": {
+    "ok": true,
+    "details": {
+      "bpm": 125.0,
+      "position": "1.2.1",
+      "time": "00:00.48",
+      "expected_seconds": 0.48
+    },
+    "time": 1795755452.3554285
+  },
+  "tempo_wheel_scroll_zoom_sync": {
+    "ok": true,
+    "details": {
+      "method": "visual screenshots captured after lane scroll and ctrl-zoom",
+      "screenshots": [
+        "08_after_tempo_scroll.png",
+        "09_after_tempo_ctrl_zoom.png"
+      ]
+    },
+    "time": 1795755453.294696
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795755453.2950406
+  },
+  "passed": true
+}

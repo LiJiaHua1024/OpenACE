@@ -1,0 +1,49 @@
+{
+  "visible_zip_import_ui": {
+    "ok": true,
+    "details": {
+      "method": "file_chooser",
+      "accept": ".ustx,.zip",
+      "status": 200,
+      "title": "Zip Wave Import QA",
+      "arrangement_canvas": true
+    },
+    "time": 1795750442.0118635
+  },
+  "backend_clip_persistent_media": {
+    "ok": true,
+    "details": {
+      "checks": {
+        "one_track": true,
+        "track_type": true,
+        "one_clip": true,
+        "label": true,
+        "timing": true,
+        "persistent_existing_media": true
+      },
+      "clip": {
+        "id": "clip_cc06ff2df46b",
+        "path": "/home/ubuntu/repos/OpenACE/data/uploads/ustx_packages/pkg_6izxapm_/media.wav",
+        "start_ticks": 480,
+        "duration_ticks": 480,
+        "offset_ticks": 240,
+        "fade_in_ticks": 48,
+        "fade_out_ticks": 96,
+        "gain_db": 0.0,
+        "label": "Hook"
+      },
+      "media_exists": true,
+      "media_size": 288044
+    },
+    "time": 1795750442.0120993
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795750442.0122364
+  },
+  "passed": true
+}

@@ -1,0 +1,308 @@
+name: Creative Loop 验收
+comment: Exported by OpenACE
+output_dir: Vocal
+cache_dir: UCache
+ustx_version: '0.10'
+expressions: {}
+exp_selectors:
+- dyn
+- pitd
+- clr
+- eng
+- vel
+- vol
+- atk
+- dec
+- gen
+- bre
+exp_primary: 0
+exp_secondary: 1
+key: 0
+time_signatures:
+- bar_position: 0
+  beat_per_bar: 4
+  beat_unit: 4
+tempos:
+- position: 0
+  bpm: 120.0
+tracks:
+- track_name: Lead Vocal
+  track_color: Blue
+  singer: ''
+  phonemizer: OpenUtau.Core.DefaultPhonemizer
+  mute: false
+  solo: false
+  volume: -1.938
+  pan: 0.0
+- track_name: ACE-Step BGM
+  track_color: Green
+  singer: ''
+  phonemizer: OpenUtau.Core.DefaultPhonemizer
+  mute: false
+  solo: false
+  volume: -1.938
+  pan: 0.0
+- track_name: SVC score — upload_585e190b17c7_vocal
+  track_color: Purple
+  singer: ''
+  phonemizer: OpenUtau.Core.DefaultPhonemizer
+  mute: false
+  solo: false
+  volume: -1.938
+  pan: 0.0
+- track_name: SVC — upload_585e190b17c7_vocal
+  track_color: Orange
+  singer: ''
+  phonemizer: OpenUtau.Core.DefaultPhonemizer
+  mute: false
+  solo: false
+  volume: -1.938
+  pan: 0.0
+voice_parts:
+- name: Lead Vocal
+  comment: 'OpenACE voice_id: voice_f65683675d96'
+  track_no: 0
+  position: 0
+  duration: 2880
+  notes:
+  - position: 720
+    duration: 540
+    tone: 64
+    lyric: 你好
+    pitch:
+      data:
+      - x: -40
+        y: 0
+        shape: io
+      - x: 40
+        y: 0
+        shape: io
+      snap_first: true
+    vibrato:
+      length: 0
+      period: 175
+      depth: 25
+      in: 10
+      out: 10
+      shift: 0
+      drift: 0
+      vol_link: 0
+    tuning: 0
+    phoneme_expressions: []
+    phoneme_overrides:
+    - index: 0
+      phoneme: n
+    - index: 1
+      phoneme: i
+    - index: 2
+      phoneme: x
+    - index: 3
+      phoneme: au
+  - position: 1920
+    duration: 540
+    tone: 68
+    lyric: 好
+    pitch:
+      data:
+      - x: -40
+        y: 0
+        shape: io
+      - x: 40
+        y: 0
+        shape: io
+      snap_first: true
+    vibrato:
+      length: 0
+      period: 175
+      depth: 25
+      in: 10
+      out: 10
+      shift: 0
+      drift: 0
+      vol_link: 0
+    tuning: 0
+    phoneme_expressions: []
+    phoneme_overrides:
+    - index: 0
+      phoneme: x
+    - index: 1
+      phoneme: au
+  curves:
+  - abbr: pitd
+    xs:
+    - 176
+    - 240
+    - 304
+    - 369
+    - 433
+    - 497
+    - 561
+    - 626
+    - 690
+    - 765
+    - 840
+    - 915
+    - 990
+    ys:
+    - -15
+    - 49
+    - 114
+    - 178
+    - 243
+    - 132
+    - 21
+    - -90
+    - -201
+    - -108
+    - -15
+    - 77
+    - 170
+  masked_curves: []
+- name: SVC score — upload_585e190b17c7_vocal
+  comment: 'OpenACE voice_id: zero-shot-reference'
+  track_no: 2
+  position: 0
+  duration: 2400
+  notes:
+  - position: 0
+    duration: 480
+    tone: 60
+    lyric: ''
+    pitch:
+      data:
+      - x: -40
+        y: 0
+        shape: io
+      - x: 0.0
+        y: 1.0
+        shape: io
+      - x: 30.0
+        y: 0.0
+        shape: io
+      - x: 490.0
+        y: 0.0
+        shape: io
+      snap_first: true
+    vibrato:
+      length: 0
+      period: 175
+      depth: 25
+      in: 10
+      out: 10
+      shift: 0
+      drift: 0
+      vol_link: 0
+    tuning: 0
+    phoneme_expressions: []
+    phoneme_overrides: []
+  - position: 490
+    duration: 460
+    tone: 62
+    lyric: ''
+    pitch:
+      data:
+      - x: -40
+        y: 0
+        shape: io
+      - x: 0.0
+        y: -1.0
+        shape: io
+      - x: 30.0
+        y: 0.0
+        shape: io
+      - x: 470.0
+        y: 0.0
+        shape: io
+      snap_first: true
+    vibrato:
+      length: 0
+      period: 175
+      depth: 25
+      in: 10
+      out: 10
+      shift: 0
+      drift: 0
+      vol_link: 0
+    tuning: 0
+    phoneme_expressions: []
+    phoneme_overrides: []
+  - position: 960
+    duration: 480
+    tone: 64
+    lyric: ''
+    pitch:
+      data:
+      - x: -40
+        y: 0
+        shape: io
+      - x: 0.0
+        y: -1.0
+        shape: io
+      - x: 30.0
+        y: 0.0
+        shape: io
+      - x: 490.0
+        y: 0.0
+        shape: io
+      snap_first: true
+    vibrato:
+      length: 0
+      period: 175
+      depth: 25
+      in: 10
+      out: 10
+      shift: 0
+      drift: 0
+      vol_link: 0
+    tuning: 0
+    phoneme_expressions: []
+    phoneme_overrides: []
+  - position: 1459
+    duration: 499
+    tone: 67
+    lyric: ''
+    pitch:
+      data:
+      - x: -40
+        y: 0
+        shape: io
+      - x: 0.0
+        y: 0.0
+        shape: io
+      - x: 510.0
+        y: 0.0
+        shape: io
+      snap_first: true
+    vibrato:
+      length: 0
+      period: 175
+      depth: 25
+      in: 10
+      out: 10
+      shift: 0
+      drift: 0
+      vol_link: 0
+    tuning: 0
+    phoneme_expressions: []
+    phoneme_overrides: []
+  curves: []
+  masked_curves: []
+wave_parts:
+- name: Repaint
+  track_no: 1
+  position: 0
+  relative_path: ../renders/project_706a0c233a5d/job_61d793c79ce3/accompaniment.wav
+  file_duration_ms: 2500.0
+  skip: 0
+  trim: 0
+  fadein: 0
+  fadeout: 0
+- name: 'SVC: upload_585e190b17c7_vocal'
+  track_no: 3
+  position: 0
+  relative_path: ../renders/project_706a0c233a5d/job_a5ca29e13f07/svc.wav
+  file_duration_ms: 2500.0
+  skip: 0
+  trim: 0
+  fadein: 0
+  fadeout: 0

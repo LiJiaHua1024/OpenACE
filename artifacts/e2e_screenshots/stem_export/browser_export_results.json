@@ -1,0 +1,160 @@
+{
+  "initial_states": {
+    "Lead Vocal": {
+      "mute": false,
+      "solo": false,
+      "volume": 0.8
+    },
+    "Harmony Vocal": {
+      "mute": false,
+      "solo": false,
+      "volume": 0.5
+    }
+  },
+  "console_errors": [],
+  "page_errors": [],
+  "network_errors": [],
+  "baseline_zip_download": {
+    "suggested": "Stem Export QA_stems.zip",
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/stem_export/baseline_stems.zip",
+    "size": 271543
+  },
+  "baseline_master_download": {
+    "suggested": "Stem Export QA.wav",
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/stem_export/baseline_master.wav",
+    "size": 432044
+  },
+  "mute_states": {
+    "Lead Vocal": {
+      "mute": false,
+      "solo": false,
+      "volume": 0.8
+    },
+    "Harmony Vocal": {
+      "mute": true,
+      "solo": false,
+      "volume": 0.5
+    }
+  },
+  "mute_zip_download": {
+    "suggested": "Stem Export QA_stems.zip",
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/stem_export/mute_harmony_stems.zip",
+    "size": 138579
+  },
+  "mute_master_download": {
+    "suggested": "Stem Export QA.wav",
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/stem_export/mute_harmony_master.wav",
+    "size": 288044
+  },
+  "solo_states": {
+    "Lead Vocal": {
+      "mute": false,
+      "solo": false,
+      "volume": 0.8
+    },
+    "Harmony Vocal": {
+      "mute": false,
+      "solo": true,
+      "volume": 0.5
+    }
+  },
+  "solo_zip_download": {
+    "suggested": "Stem Export QA_stems.zip",
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/stem_export/solo_harmony_stems.zip",
+    "size": 133322
+  },
+  "solo_master_download": {
+    "suggested": "Stem Export QA.wav",
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/stem_export/solo_harmony_master.wav",
+    "size": 432044
+  },
+  "restored_states": {
+    "Lead Vocal": {
+      "mute": false,
+      "solo": false,
+      "volume": 0.8
+    },
+    "Harmony Vocal": {
+      "mute": false,
+      "solo": false,
+      "volume": 0.5
+    }
+  },
+  "layout": {
+    "panel": {
+      "cls": "right-panel",
+      "clientWidth": 311,
+      "scrollWidth": 311,
+      "clientHeight": 942,
+      "scrollHeight": 1823
+    },
+    "buttons": [
+      {
+        "text": "WAV",
+        "x": 1291,
+        "y": 657,
+        "w": 91,
+        "h": 32,
+        "visible": true
+      },
+      {
+        "text": "STEMS",
+        "x": 1389,
+        "y": 657,
+        "w": 91,
+        "h": 32,
+        "visible": true
+      },
+      {
+        "text": "MP4",
+        "x": 1487,
+        "y": 657,
+        "w": 91,
+        "h": 32,
+        "visible": true
+      },
+      {
+        "text": "MID",
+        "x": 1291,
+        "y": 696,
+        "w": 91,
+        "h": 32,
+        "visible": true
+      },
+      {
+        "text": "LRC",
+        "x": 1389,
+        "y": 696,
+        "w": 91,
+        "h": 32,
+        "visible": true
+      },
+      {
+        "text": "USTX",
+        "x": 1487,
+        "y": 696,
+        "w": 91,
+        "h": 32,
+        "visible": true
+      },
+      {
+        "text": "SVP",
+        "x": 1291,
+        "y": 735,
+        "w": 91,
+        "h": 32,
+        "visible": true
+      },
+      {
+        "text": "VPR",
+        "x": 1389,
+        "y": 735,
+        "w": 91,
+        "h": 32,
+        "visible": true
+      }
+    ],
+    "bodyScrollWidth": 1600,
+    "innerWidth": 1600
+  }
+}

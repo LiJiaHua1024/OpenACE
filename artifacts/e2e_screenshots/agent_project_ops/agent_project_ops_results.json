@@ -1,0 +1,797 @@
+{
+  "console_errors": [],
+  "network_failures": [],
+  "cli": {
+    "create": {
+      "args": [
+        "create-project",
+        "--title",
+        "Agent Ops External"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"id\": \"project_a3ad47636d0d\",\n  \"schema_version\": 1,\n  \"title\": \"Agent Ops External\",\n  \"ppq\": 480,\n  \"bpm\": 120.0,\n  \"tempo_map\": [\n    {\n      \"ticks\": 0,\n      \"bpm\": 120.0\n    }\n  ],\n  \"time_signature\": {\n    \"numerator\": 4,\n    \"denominator\": 4\n  },\n  \"tracks\": [\n    {\n      \"id\": \"track_2d88483ecfd5\",\n      \"name\": \"Lead Vocal\",\n      \"type\": \"vocal\",\n      \"color\": \"#7367ff\",\n      \"voice_id\": \"zero-shot-reference\",\n      \"reference_voice_path\": null,\n      \"language\": \"zh\",\n      \"notes\": [],\n      \"clips\": [],\n      \"automation\": {\n        \"pitch_cents\": [],\n        \"dynamic\": [],\n        \"air\": [],\n        \"falsetto\": [],\n        \"tension\": [],\n        \"energy\": []\n      },\n      \"breaths\": [],\n      \"mute\": false,\n      \"solo\": false,\n      \"volume\": 0.8,\n      \"pan\": 0.0,\n      \"render_path\": null,\n      \"render_revision\": 0\n    }\n  ],\n  \"created_at\": 1795761163.23265,\n  \"updated_at\": 1795761163.2326987,\n  \"metadata\": {}\n}\n",
+      "stderr": ""
+    },
+    "duplicate": {
+      "args": [
+        "duplicate-project",
+        "project_a3ad47636d0d",
+        "--title",
+        "Agent Ops Duplicate"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"id\": \"project_e73bd444ab73\",\n  \"schema_version\": 1,\n  \"title\": \"Agent Ops Duplicate\",\n  \"ppq\": 480,\n  \"bpm\": 120.0,\n  \"tempo_map\": [\n    {\n      \"ticks\": 0,\n      \"bpm\": 120.0\n    }\n  ],\n  \"time_signature\": {\n    \"numerator\": 4,\n    \"denominator\": 4\n  },\n  \"tracks\": [\n    {\n      \"id\": \"track_2d88483ecfd5\",\n      \"name\": \"Lead Vocal\",\n      \"type\": \"vocal\",\n      \"color\": \"#7367ff\",\n      \"voice_id\": \"zero-shot-reference\",\n      \"reference_voice_path\": null,\n      \"language\": \"zh\",\n      \"notes\": [],\n      \"clips\": [],\n      \"automation\": {\n        \"pitch_cents\": [],\n        \"dynamic\": [],\n        \"air\": [],\n        \"falsetto\": [],\n        \"tension\": [],\n        \"energy\": []\n      },\n      \"breaths\": [],\n      \"mute\": false,\n      \"solo\": false,\n      \"volume\": 0.8,\n      \"pan\": 0.0,\n      \"render_path\": null,\n      \"render_revision\": 0\n    }\n  ],\n  \"created_at\": 1795761163.23265,\n  \"updated_at\": 1795761164.064157,\n  \"metadata\": {}\n}\n",
+      "stderr": ""
+    },
+    "delete": {
+      "args": [
+        "delete-project",
+        "project_e73bd444ab73"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"deleted\": true,\n  \"project\": \"project_e73bd444ab73\"\n}\n",
+      "stderr": ""
+    }
+  },
+  "before_count": 170,
+  "before_untitled_count": 25,
+  "created_id": "project_a3ad47636d0d",
+  "create_selector_wait": true,
+  "duplicate_id": "project_e73bd444ab73",
+  "duplicate_selector_wait": true,
+  "selected_before_external_delete": "project_e73bd444ab73",
+  "external_delete_ui_wait": true,
+  "external_delete": {
+    "before_count": 172,
+    "after_count": 171,
+    "backend_absent": true,
+    "current_after": "project_a3ad47636d0d",
+    "untitled_count": 25,
+    "duplicate_options": 0
+  },
+  "local_delete_target": "project_a3ad47636d0d",
+  "local_delete_wait": true,
+  "local_delete": {
+    "before_count": 171,
+    "after_count": 170,
+    "backend_absent": true,
+    "current_after": "project_a5b124d4d912",
+    "untitled_count": 25,
+    "dialogs": [
+      "Delete project \u201cAgent Ops External\u201d? This cannot be undone."
+    ]
+  },
+  "final_options": [
+    {
+      "value": "project_a5b124d4d912",
+      "text": "vocal"
+    },
+    {
+      "value": "project_3c2eaf6f3c02",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_70125ca5afa5",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_a3dae592d74a",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_1d6179bdbd03",
+      "text": "vocal"
+    },
+    {
+      "value": "project_2e49d9bbd148",
+      "text": "Lyric Correction QA"
+    },
+    {
+      "value": "project_0475cc80fb63",
+      "text": "Lyric Correction QA"
+    },
+    {
+      "value": "project_a185d1dd1d54",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_2db934da371e",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_0a04d2039482",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_cb28f73b6757",
+      "text": "vocal"
+    },
+    {
+      "value": "project_f09b4cabc87a",
+      "text": "Time Signature QA"
+    },
+    {
+      "value": "project_219516c6cebc",
+      "text": "Time Signature QA"
+    },
+    {
+      "value": "project_08357b4d815d",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_5faca7a84cde",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_9e8c853603bb",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_994440246a4e",
+      "text": "vocal"
+    },
+    {
+      "value": "project_1711300fbb50",
+      "text": "Stem Separation QA"
+    },
+    {
+      "value": "project_695e9f8cb5ea",
+      "text": "Stem Separation QA"
+    },
+    {
+      "value": "project_c7aeefa4645c",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_ac43835a7f15",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_ce9f3d055409",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_a7f8708de222",
+      "text": "vocal"
+    },
+    {
+      "value": "project_376cbef4220f",
+      "text": "Agent Editing QA"
+    },
+    {
+      "value": "project_387bec1f2ac9",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_e92baa5e9927",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_cfcb79244655",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_837156f37e27",
+      "text": "vocal"
+    },
+    {
+      "value": "project_a1d17f7a7aad",
+      "text": "Voice Library QA"
+    },
+    {
+      "value": "project_6e947d74aeb1",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_f24a182a722c",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_f4963863504e",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_acb28078ca5d",
+      "text": "vocal"
+    },
+    {
+      "value": "project_a74227b8edad",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_40ab0cc79558",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_9fdb8ae13a7b",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_ae2a1aae83b4",
+      "text": "vocal"
+    },
+    {
+      "value": "project_1c093a015ab1",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_7c4f9a220e5f",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_97cd33f752e6",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_5cf679acbce7",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_d69fce74b55e",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_7a5a13921eba",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_cfffcb5dce47",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_8363813226a7",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_fcf4d0d4aff8",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_0f58cd7787c0",
+      "text": "vocal"
+    },
+    {
+      "value": "project_824ffd12a5a6",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_842e5d88881f",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_6bd8655566dc",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_87759bda8b6a",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_e297353c6880",
+      "text": "vocal"
+    },
+    {
+      "value": "project_52633f4781d3",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_ce96d684c616",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_a5af8fcd0982",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_cf0d2e714611",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_0f4f9bab4de5",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_e5ff19535e80",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_88f9e3bbb175",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_149ad3d2ebae",
+      "text": "vocal"
+    },
+    {
+      "value": "project_782575894882",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_424ebbd0a0db",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_37c0a43224c4",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_dd9b93ac4c8b",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_85079cea37c0",
+      "text": "vocal"
+    },
+    {
+      "value": "project_ae28cd75d4d4",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_2f815c6cd00a",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_2b1409c08b59",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_b145aef07fb7",
+      "text": "vocal"
+    },
+    {
+      "value": "project_ff1061ad5d5c",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_b3659140cd1b",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_59fec2b30c04",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_63874536d9c6",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_4da074ac888c",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_490e16241cde",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_a1ab03a5ce05",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_dcfe53cf5f5b",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_691da01fa536",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_923f030eaad6",
+      "text": "vocal"
+    },
+    {
+      "value": "project_093f2d7433f3",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_ac4317493204",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_abdd6178d122",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_78433db2d42c",
+      "text": "vocal"
+    },
+    {
+      "value": "project_c8b847ed8210",
+      "text": "tempo_change_fixture"
+    },
+    {
+      "value": "project_559cf268f4d6",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_42e24803ead5",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_76cee3cf54c4",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_667ed63bd374",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_b1a666e98b93",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_28eacdb5758a",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_6b67b38d1e61",
+      "text": "vocal"
+    },
+    {
+      "value": "project_5215f322a228",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_95c3506ab264",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_b855eb3d7554",
+      "text": "Project Ops"
+    },
+    {
+      "value": "project_1b50e3d5cc5d",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_9c6b4e56d1c9",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_6eab93176ef7",
+      "text": "vocal"
+    },
+    {
+      "value": "project_d934ee7ed376",
+      "text": "Zip Wave Import QA"
+    },
+    {
+      "value": "project_0984e7914c73",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_c2752b2622ff",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_df4a237e06c5",
+      "text": "vocal"
+    },
+    {
+      "value": "project_bb0cb3a14f04",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_bcf93c45dc27",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_f037385c6bb9",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_5c5ea9703400",
+      "text": "vocal"
+    },
+    {
+      "value": "project_4ec10494206b",
+      "text": "USTX \u5bfc\u5165\u9a8c\u8bc1"
+    },
+    {
+      "value": "project_99235b4d3385",
+      "text": "Interop Test"
+    },
+    {
+      "value": "project_061544f2911e",
+      "text": "ustx_import_roundtrip"
+    },
+    {
+      "value": "project_28495ac9fc2f",
+      "text": "endpoint"
+    },
+    {
+      "value": "project_e87e176f55d0",
+      "text": "endpoint"
+    },
+    {
+      "value": "project_d55ab7b5014a",
+      "text": "vocal"
+    },
+    {
+      "value": "project_871b2cc19a32",
+      "text": "USTX Wave QA"
+    },
+    {
+      "value": "project_56b36fbc8e91",
+      "text": "vocal"
+    },
+    {
+      "value": "project_88002ac438cc",
+      "text": "SVP Contract QA"
+    },
+    {
+      "value": "project_546d0d638c0c",
+      "text": "vocal"
+    },
+    {
+      "value": "project_e7fe15a9b6d1",
+      "text": "vocal"
+    },
+    {
+      "value": "project_0eef7b1b6db1",
+      "text": "USTX Contract QA"
+    },
+    {
+      "value": "project_9fe6afbf3d51",
+      "text": "vocal"
+    },
+    {
+      "value": "project_ffbcdd982db4",
+      "text": "en_prompt"
+    },
+    {
+      "value": "project_faec1b98647f",
+      "text": "en_prompt"
+    },
+    {
+      "value": "project_e955025d04d0",
+      "text": "vocal"
+    },
+    {
+      "value": "project_31a088f3b124",
+      "text": "vocal"
+    },
+    {
+      "value": "project_ad6d159a4098",
+      "text": "Track Delete Edge QA"
+    },
+    {
+      "value": "project_920b53bd706a",
+      "text": "Track Ops QA"
+    },
+    {
+      "value": "project_6aa59c90f8c9",
+      "text": "Track Ops QA"
+    },
+    {
+      "value": "project_186572183144",
+      "text": "Track Delete Edge QA"
+    },
+    {
+      "value": "project_4feb50fa2280",
+      "text": "Perf Dense QA"
+    },
+    {
+      "value": "project_841b7ec8d454",
+      "text": "Perf Sparse QA"
+    },
+    {
+      "value": "project_88f32af00433",
+      "text": "Perf Sparse QA"
+    },
+    {
+      "value": "project_a5ed5ec8112d",
+      "text": "Perf Dense QA"
+    },
+    {
+      "value": "project_56e7cbe88f49",
+      "text": "Perf Sparse QA"
+    },
+    {
+      "value": "project_e118e7ffcb11",
+      "text": "Menu Overflow Recheck"
+    },
+    {
+      "value": "project_3ffce66d69d6",
+      "text": "Menu Overflow Recheck"
+    },
+    {
+      "value": "project_c51755914b78",
+      "text": "Clip Ops QA"
+    },
+    {
+      "value": "project_78f3e6fa1963",
+      "text": "XF Badge Recheck"
+    },
+    {
+      "value": "project_20951d120efc",
+      "text": "Crossfade QA"
+    },
+    {
+      "value": "project_1cdbb8bf2296",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_a4cf2bb4a39d",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_33f3e6725e29",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_4a425419eadb",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_852c4e48e709",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_e3f52a65d029",
+      "text": "Final QA \u9a8c\u6536"
+    },
+    {
+      "value": "project_85e0b6f2f965",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_54aed0a27055",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_f05abda7620e",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_1b06855e0533",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_93a92fbd3ebf",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_e1ee6df18a10",
+      "text": "Piano Depth QA"
+    },
+    {
+      "value": "project_25a443320cd4",
+      "text": "Piano Depth QA"
+    },
+    {
+      "value": "project_81e4387f2671",
+      "text": "Piano Depth QA"
+    },
+    {
+      "value": "project_a3910a59fcc4",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_05884f6f6dcc",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_fef142b85b6f",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_14d008a78586",
+      "text": "Final QA \u9a8c\u6536"
+    },
+    {
+      "value": "project_a05770105385",
+      "text": "Final QA \u9a8c\u6536"
+    },
+    {
+      "value": "project_66fb382fd5fd",
+      "text": "vocal"
+    },
+    {
+      "value": "project_4e0849cd4355",
+      "text": "\u4e25\u82db\u9a8c\u6536_UI\u95ed\u73af"
+    },
+    {
+      "value": "project_4f7c10a9a777",
+      "text": "Untitled OpenACE Project"
+    },
+    {
+      "value": "project_e93ec5272093",
+      "text": "E2E Smoke"
+    },
+    {
+      "value": "project_9c2e63e1932e",
+      "text": "x"
+    },
+    {
+      "value": "project_508c1dfa8304",
+      "text": "x"
+    },
+    {
+      "value": "project_0f0a9115ba4b",
+      "text": "x"
+    },
+    {
+      "value": "project_528b80496cdb",
+      "text": "x"
+    },
+    {
+      "value": "project_b833f5286f0f",
+      "text": "x"
+    },
+    {
+      "value": "project_e195324d5c4e",
+      "text": "E2E Smoke"
+    },
+    {
+      "value": "project_2e969c669937",
+      "text": "x"
+    },
+    {
+      "value": "project_fa6f6a25d9eb",
+      "text": "E2E Smoke"
+    },
+    {
+      "value": "project_515d9904b04e",
+      "text": "Debug"
+    },
+    {
+      "value": "project_8e7dd1506af1",
+      "text": "E2E Smoke"
+    },
+    {
+      "value": "project_d6f016d98083",
+      "text": "E2E Smoke"
+    }
+  ],
+  "layout": {
+    "select": {
+      "x": 100.828125,
+      "y": 14.5,
+      "width": 126,
+      "height": 28
+    },
+    "transport": {
+      "x": 0,
+      "y": 0,
+      "width": 1272,
+      "height": 58
+    }
+  },
+  "import_audio_help": {
+    "returncode": 0,
+    "stdout": "usage: openace-tool import-audio [-h] [--title TITLE] path\n\npositional arguments:\n  path\n\noptions:\n  -h, --help     show this help message and exit\n  --title TITLE\n",
+    "stderr": ""
+  },
+  "audio_import_availability": {
+    "faster_whisper_installed": true,
+    "tiny_model_cache_exists": true,
+    "test_audio_exists": true
+  },
+  "checks": {
+    "cli_create_selector_live": true,
+    "cli_duplicate_selector_live": true,
+    "external_delete_live_fallback": true,
+    "no_extra_untitled_external": true,
+    "local_delete_exactly_once": true,
+    "import_audio_help": true,
+    "layout_professional": true,
+    "no_console_network_errors": true,
+    "import_audio_real_project": true
+  },
+  "passed": true,
+  "audio_import": {
+    "attempted": true,
+    "project_id": "project_29fcb07f9df4",
+    "selector_live": true,
+    "note_count": 4,
+    "lyrics": [
+      "Ooh,",
+      "",
+      "ooh,",
+      "ooh,"
+    ],
+    "language": "en",
+    "title": "Agent Audio Import QA",
+    "nonempty_lyrics": 3
+  }
+}

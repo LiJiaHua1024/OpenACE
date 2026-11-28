@@ -1,0 +1,93 @@
+{
+  "console": [],
+  "badnet": [],
+  "backend_track_count": 14,
+  "dom_track_count": 14,
+  "dom_names": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "conversion_count": 6,
+  "conversion_modes": [
+    {
+      "job_id": "job_3128a198b3c6",
+      "pitch_shift": null,
+      "auto_shift": null,
+      "output_exists": true
+    },
+    {
+      "job_id": "job_2f846ce5358b",
+      "pitch_shift": 0,
+      "auto_shift": false,
+      "output_exists": true
+    },
+    {
+      "job_id": "job_437946095819",
+      "pitch_shift": -3,
+      "auto_shift": false,
+      "output_exists": true
+    },
+    {
+      "job_id": "job_0295c41254d2",
+      "pitch_shift": 0,
+      "auto_shift": true,
+      "output_exists": true
+    },
+    {
+      "job_id": "job_6f0ad252b1b6",
+      "pitch_shift": 1,
+      "auto_shift": false,
+      "output_exists": true
+    },
+    {
+      "job_id": "job_beddcfd04ba3",
+      "pitch_shift": 2,
+      "auto_shift": false,
+      "output_exists": true
+    }
+  ],
+  "jobs": [
+    {
+      "id": "job_0295c41254d2",
+      "status": "completed",
+      "pitch_shift": 0,
+      "auto_shift": true,
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_0295c41254d2/svc.wav",
+      "engine": "explicit CI synthesis fixture",
+      "fixture": true,
+      "error": null
+    },
+    {
+      "id": "job_437946095819",
+      "status": "completed",
+      "pitch_shift": -3,
+      "auto_shift": false,
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_437946095819/svc.wav",
+      "engine": "explicit CI synthesis fixture",
+      "fixture": true,
+      "error": null
+    },
+    {
+      "id": "job_2f846ce5358b",
+      "status": "completed",
+      "pitch_shift": 0,
+      "auto_shift": false,
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_2f846ce5358b/svc.wav",
+      "engine": "explicit CI synthesis fixture",
+      "fixture": true,
+      "error": null
+    }
+  ]
+}

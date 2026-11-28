@@ -1,0 +1,86 @@
+{
+  "console_errors": [],
+  "network_failures": [],
+  "create_status": 200,
+  "created": {
+    "id": "voice_7a74aa510acd",
+    "name": "gamma_api",
+    "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_7a74aa510acd_gamma_api.wav",
+    "created_at": 1795758169.331187,
+    "duration_seconds": 1.2,
+    "sample_rate": 44100,
+    "channels": 1,
+    "size_bytes": 105884
+  },
+  "create_ui_wait": true,
+  "options_after_create": [
+    {
+      "value": "",
+      "text": "No reference assigned"
+    },
+    {
+      "value": "voice_7a74aa510acd",
+      "text": "gamma_api \u00b7 1.2s"
+    },
+    {
+      "value": "voice_7239c0fa3cbc",
+      "text": "beta_voice \u00b7 1.2s"
+    }
+  ],
+  "assign_wait": true,
+  "assignment": {
+    "voice_id": "voice_7a74aa510acd",
+    "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/voices/voice_7a74aa510acd_gamma_api.wav"
+  },
+  "rename_status": 200,
+  "rename_ui_wait": true,
+  "card_name_after_rename": "External Renamed",
+  "options_after_rename": [
+    {
+      "value": "",
+      "text": "No reference assigned"
+    },
+    {
+      "value": "voice_7a74aa510acd",
+      "text": "External Renamed \u00b7 1.2s"
+    },
+    {
+      "value": "voice_7239c0fa3cbc",
+      "text": "beta_voice \u00b7 1.2s"
+    }
+  ],
+  "delete_status": 200,
+  "delete_ui_wait": true,
+  "after_delete": {
+    "assignment": {
+      "voice_id": "",
+      "reference_voice_path": null
+    },
+    "card": "Zero-shot reference slot",
+    "options": [
+      {
+        "value": "",
+        "text": "No reference assigned"
+      },
+      {
+        "value": "voice_7239c0fa3cbc",
+        "text": "beta_voice \u00b7 1.2s"
+      }
+    ],
+    "api_ids": [
+      "voice_7239c0fa3cbc"
+    ],
+    "file_exists": false
+  },
+  "duplicate_option_values": [],
+  "stale_created_option_present": false,
+  "checks": {
+    "external_create_refreshed": true,
+    "visible_assignment": true,
+    "external_rename_refreshed": true,
+    "external_delete_unassign_refreshed": true,
+    "no_duplicate_or_stale_entries": true,
+    "no_console_network_errors": true
+  },
+  "passed": true
+}

@@ -1,0 +1,45 @@
+2026-11-27 21:32:28.915 +00:00 [INF] Initializing culture.
+2026-11-27 21:32:28.921 +00:00 [INF] Initialized culture.
+2026-11-27 21:32:28.922 +00:00 [INF] Initializing theme.
+2026-11-27 21:32:28.929 +00:00 [INF] Initialized theme.
+2026-11-27 21:32:28.929 +00:00 [INF] Initialized application.
+2026-11-27 21:32:28.930 +00:00 [INF] Framework initialization completed.
+2026-11-27 21:32:29.015 +00:00 [INF] Initializing OpenUtau.
+2026-11-27 21:32:29.030 +00:00 [INF] Search all plugins: 00:00:00.0128379
+2026-11-27 21:32:29.031 +00:00 [INF] Search all legacy plugins: 00:00:00.0009183
+2026-11-27 21:32:29.033 +00:00 [INF] Searching singers.
+2026-11-27 21:32:29.061 +00:00 [INF] Search all singers: 00:00:00.0285590
+2026-11-27 21:32:29.062 +00:00 [INF] Initialized OpenUtau.
+2026-11-27 21:32:29.062 +00:00 [INF] Initializing audio.
+2026-11-27 21:32:29.062 +00:00 [INF] ReleaseSourceTemp /home/ubuntu/.cache/OpenUtau
+2026-11-27 21:32:29.067 +00:00 [INF] Initialized audio.
+2026-11-27 21:32:29.072 +00:00 [INF] Creating main window.
+2026-11-27 21:32:29.157 +00:00 [INF] Initialized main window component.
+2026-11-27 21:32:29.160 +00:00 [INF] Main window checking Update.
+2026-11-27 21:32:29.161 +00:00 [INF] Created main window.
+2026-11-27 21:32:29.233 +00:00 [INF] Attach singer to track: 友人
+2026-11-27 21:32:29.330 +00:00 [INF] SchedulePreRender
+2026-11-27 21:32:29.363 +00:00 [INF] Publish notification Load project
+2026-11-27 21:32:29.368 +00:00 [INF] SchedulePreRender
+2026-11-27 21:32:29.368 +00:00 [INF] Publish notification Pre-render notification.
+2026-11-27 21:32:29.368 +00:00 [INF] Publish notification Voice color remapping.
+2026-11-27 21:32:29.368 +00:00 [ERR] Failed to select appcast to update.
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 (rate limit exceeded).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at OpenUtau.App.ViewModels.UpdaterViewModel.SelectRelease() in /home/runner/work/OpenUtau/OpenUtau/OpenUtau/ViewModels/UpdaterViewModel.cs:line 136
+   at OpenUtau.App.ViewModels.UpdaterViewModel.NewUpdaterAsync() in /home/runner/work/OpenUtau/OpenUtau/OpenUtau/ViewModels/UpdaterViewModel.cs:line 86
+2026-11-27 21:32:29.384 +00:00 [INF] Publish notification Phonemized
+2026-11-27 21:32:30.293 +00:00 [WRN] Waveform rendered and ready not on main thread
+2026-11-27 21:32:30.295 +00:00 [WRN] Part rendered. not on main thread
+2026-11-27 21:32:30.295 +00:00 [WRN] Waveform rendered and ready not on main thread
+2026-11-27 21:32:30.295 +00:00 [INF] Publish notification Part rendered.
+2026-11-27 21:32:57.465 +00:00 [INF] StartPlayback at 00:00:00
+2026-11-27 21:32:57.471 +00:00 [WRN] Waveform rendered and ready not on main thread
+2026-11-27 21:32:57.471 +00:00 [WRN] Part rendered. not on main thread
+2026-11-27 21:32:57.471 +00:00 [WRN] Waveform rendered and ready not on main thread
+2026-11-27 21:32:57.472 +00:00 [INF] Publish notification Part rendered.
+2026-11-27 21:32:59.158 +00:00 [INF] Autosave skipped.
+2026-11-27 21:33:29.159 +00:00 [INF] Autosave skipped.
+2026-11-27 21:33:31.299 +00:00 [INF] StartPlayback at 00:00:05.3937500
+2026-11-27 21:33:52.343 +00:00 [INF] StartPlayback at 00:00:05.3937500
+2026-11-27 21:33:59.159 +00:00 [INF] Autosave skipped.

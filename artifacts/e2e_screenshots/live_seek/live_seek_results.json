@@ -1,0 +1,135 @@
+{
+  "checks": [
+    {
+      "name": "viewport fixture",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "live arrangement seek forward restarts exactly once near target",
+      "passed": false,
+      "details": {
+        "ticks": 960,
+        "new": [
+          {
+            "when": 0.011609977324263039,
+            "offset": 1,
+            "duration": 0.5,
+            "ms": 1432.9000000059605,
+            "ct": 0.011609977324263039
+          },
+          {
+            "when": 0.011609977324263039,
+            "offset": 0.5,
+            "duration": 1,
+            "ms": 1441.9000000059605,
+            "ct": 0.011609977324263039
+          }
+        ],
+        "position": 0.5,
+        "stops": 2
+      }
+    },
+    {
+      "name": "live arrangement seek backward restarts exactly once near target",
+      "passed": true,
+      "details": {
+        "ticks": 480,
+        "new": [
+          {
+            "when": 0.011609977324263039,
+            "offset": 0.5,
+            "duration": 1,
+            "ms": 1958.2000000029802,
+            "ct": 0.011609977324263039
+          }
+        ],
+        "position": 0.5,
+        "stops": 3
+      }
+    },
+    {
+      "name": "live arrangement seek forward2 restarts exactly once near target",
+      "passed": false,
+      "details": {
+        "ticks": 960,
+        "new": [
+          {
+            "when": 0.011609977324263039,
+            "offset": 1,
+            "duration": 0.5,
+            "ms": 2475.5,
+            "ct": 0.011609977324263039
+          },
+          {
+            "when": 0.011609977324263039,
+            "offset": 0.5,
+            "duration": 1,
+            "ms": 2476.9000000059605,
+            "ct": 0.011609977324263039
+          }
+        ],
+        "position": 0.5,
+        "stops": 5
+      }
+    },
+    {
+      "name": "paused piano seek then play starts at target",
+      "passed": true,
+      "details": {
+        "paused": 0.5,
+        "starts": [
+          {
+            "when": 0.4179591836734694,
+            "offset": 0.5,
+            "duration": 1,
+            "ms": 3464.2999999970198,
+            "ct": 0.4179591836734694
+          }
+        ]
+      }
+    },
+    {
+      "name": "loop seek inside outside does not deadlock",
+      "passed": true,
+      "details": {
+        "starts": [
+          {
+            "when": 0.4179591836734694,
+            "offset": 0.5,
+            "duration": 1,
+            "ms": 3464.2999999970198,
+            "ct": 0.4179591836734694
+          },
+          {
+            "when": 1.1493877551020408,
+            "offset": 0.5,
+            "duration": 1,
+            "ms": 4190.5999999940395,
+            "ct": 1.1493877551020408
+          }
+        ],
+        "pos": 2.2
+      }
+    },
+    {
+      "name": "stop resets after live seeks",
+      "passed": true,
+      "details": {
+        "pos": 0.0
+      }
+    },
+    {
+      "name": "console network clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "network": [],
+        "http": []
+      }
+    }
+  ],
+  "console": [],
+  "network": [],
+  "http": []
+}

@@ -1,0 +1,23 @@
+{
+  "job_87e443564989": {
+    "excerpt_seconds": 2.0,
+    "output_seconds": 2.0,
+    "excerpt_exact": true,
+    "excerpt_max_error": 0.0,
+    "fixture_tremolo_max_error": 3.0515852520738088e-05
+  },
+  "job_7e1b417d4c93": {
+    "excerpt_seconds": 2.0,
+    "output_seconds": 2.0,
+    "excerpt_exact": true,
+    "excerpt_max_error": 0.0,
+    "fixture_tremolo_max_error": 3.0515852520738088e-05
+  },
+  "job_d2709f0cb582": {
+    "excerpt_seconds": 0.5,
+    "output_seconds": 0.5,
+    "excerpt_exact": true,
+    "excerpt_max_error": 0.0,
+    "fixture_tremolo_max_error": 3.051511521709807e-05
+  }
+}

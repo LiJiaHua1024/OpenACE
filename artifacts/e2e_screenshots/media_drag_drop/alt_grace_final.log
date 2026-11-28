@@ -1,0 +1,57 @@
+{
+  "project_id": "project_d373a5e94303",
+  "alt_diag": {
+    "inside": null,
+    "outside": null,
+    "post": null,
+    "target": [
+      440,
+      186
+    ]
+  },
+  "tracks": [
+    {
+      "type": "vocal",
+      "clips": []
+    },
+    {
+      "type": "audio",
+      "clips": [
+        [
+          480,
+          1920
+        ]
+      ]
+    },
+    {
+      "type": "accompaniment",
+      "clips": []
+    },
+    {
+      "type": "audio",
+      "clips": [
+        [
+          600,
+          1920
+        ]
+      ]
+    }
+  ],
+  "leave": {
+    "inside": {
+      "left": "400px",
+      "top": "24px",
+      "height": "34px",
+      "display": "block",
+      "color": "rgb(103, 232, 249)"
+    },
+    "outside": null,
+    "post": null,
+    "target": [
+      580,
+      98
+    ],
+    "track_count_before": 4,
+    "track_count_after": 4
+  }
+}

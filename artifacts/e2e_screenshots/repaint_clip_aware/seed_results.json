@@ -1,0 +1,16 @@
+{
+  "put_status": 200,
+  "clip_ids": {
+    "target": "clip_0de208e26647",
+    "same": "clip_681eb1c03ad2",
+    "other": "clip_6467ce4eb9e7"
+  },
+  "sse_live_tracks": false,
+  "sse_error": "Page.wait_for_function: Timeout 5000ms exceeded.",
+  "cards": [
+    "\u22ef vocal \u00b7 zh \u00b7 0 notes M S OpenUtau host",
+    "\u22ef accompaniment \u00b7 zh \u00b7 0 notes M S",
+    "\u22ef accompaniment \u00b7 zh \u00b7 0 notes M S",
+    "\u22ef accompaniment \u00b7 zh \u00b7 0 notes M S"
+  ]
+}

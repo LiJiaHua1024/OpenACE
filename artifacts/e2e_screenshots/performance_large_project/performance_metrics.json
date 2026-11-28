@@ -1,0 +1,16 @@
+{
+  "note_count": 3000,
+  "viewport": "1400x900@2x",
+  "playback": {
+    "label": "playback",
+    "frames": 239,
+    "fps": 59.752987649382476,
+    "p95_ms": 16.800000000000182
+  },
+  "scroll": {
+    "label": "scroll",
+    "frames": 239,
+    "fps": 60.00200843542882,
+    "p95_ms": 16.799999999999272
+  }
+}

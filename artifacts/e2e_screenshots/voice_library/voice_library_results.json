@@ -1,0 +1,151 @@
+{
+  "console_errors": [],
+  "network_failures": [],
+  "second_voice": {
+    "id": "voice_7239c0fa3cbc",
+    "name": "beta_voice",
+    "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_7239c0fa3cbc_beta_voice.wav",
+    "created_at": 1795757795.8784509,
+    "duration_seconds": 1.2,
+    "sample_rate": 44100,
+    "channels": 1,
+    "size_bytes": 105884
+  },
+  "assign_beta_wait": true,
+  "beta_assignment": {
+    "voice_id": "voice_7239c0fa3cbc",
+    "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/voices/voice_7239c0fa3cbc_beta_voice.wav",
+    "notes": 1
+  },
+  "safe_delete_probe": {
+    "status": 409,
+    "body": "{\"detail\":\"voice is in use by project 'Voice Library QA' track 'Lead Vocal'\"}"
+  },
+  "reload_beta": {
+    "voice_id": "voice_7239c0fa3cbc",
+    "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/voices/voice_7239c0fa3cbc_beta_voice.wav",
+    "ui_value": "voice_7239c0fa3cbc",
+    "rename_enabled": true
+  },
+  "render_job": {
+    "id": "job_a8e9303e766e",
+    "project_id": "project_a1d17f7a7aad",
+    "track_id": "track_32072b61aeb9",
+    "mode": "svs_score",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_a1d17f7a7aad/job_a8e9303e766e/vocal.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_a1d17f7a7aad/job_a8e9303e766e/diagnostic.png",
+    "created_at": 1795757939.427252,
+    "finished_at": 1795757940.2473872,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": null,
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null
+  },
+  "layout": {
+    "boxes": {
+      "panel": {
+        "x": 2238,
+        "y": 58,
+        "width": 322,
+        "height": 1598
+      },
+      "card": {
+        "x": 2251,
+        "y": 93,
+        "width": 297,
+        "height": 64
+      },
+      "select": {
+        "x": 2251,
+        "y": 173,
+        "width": 297,
+        "height": 30
+      },
+      "actions": {
+        "x": 2251,
+        "y": 209,
+        "width": 297,
+        "height": 27
+      }
+    },
+    "buttons": [
+      {
+        "x": 2251,
+        "y": 209,
+        "width": 117.34375,
+        "height": 27
+      },
+      {
+        "x": 2374.34375,
+        "y": 209,
+        "width": 83.828125,
+        "height": 27
+      },
+      {
+        "x": 2464.171875,
+        "y": 209,
+        "width": 83.8125,
+        "height": 27
+      }
+    ],
+    "button_overlap_pairs": [],
+    "viewport": null
+  },
+  "alpha_prior": {
+    "id": "voice_8c9e74ebfda2",
+    "path": "/home/ubuntu/repos/OpenACE/data/voices/voice_8c9e74ebfda2_alpha_voice.wav",
+    "renamed_ui_screenshot": "03_after_rename.png",
+    "file_exists_after_delete": false,
+    "absent_from_api": true,
+    "track_cleared": true
+  },
+  "checks": {
+    "metadata_uploaded": true,
+    "assignment_exact": true,
+    "reload_persisted": true,
+    "safe_delete_409": true,
+    "alpha_delete_unassigned_no_reload": true,
+    "render_with_library_voice": true,
+    "layout_professional": true,
+    "no_console_network_errors": true
+  },
+  "passed": true,
+  "exact_layout_recheck": {
+    "viewport": {
+      "width": 1272,
+      "height": 837
+    },
+    "panel": {
+      "x": 950,
+      "y": 58,
+      "width": 322,
+      "height": 779
+    },
+    "card": {
+      "x": 963,
+      "y": 93,
+      "width": 287,
+      "height": 64
+    },
+    "select": {
+      "x": 963,
+      "y": 173,
+      "width": 287,
+      "height": 30
+    },
+    "actions": {
+      "x": 963,
+      "y": 209,
+      "width": 287,
+      "height": 27
+    },
+    "screenshot": "08_exact_1272x837_layout.png"
+  }
+}

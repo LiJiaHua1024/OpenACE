@@ -1,0 +1,32 @@
+{
+  "internal_title_preserved_http200": {
+    "ok": true,
+    "details": {
+      "method": "file_chooser",
+      "status": 200,
+      "backend_title": "USTX 导入验证",
+      "ui_title": "USTX 导入验证"
+    },
+    "time": 1795749161.2974408
+  },
+  "notes_still_render": {
+    "ok": true,
+    "details": {
+      "lyrics": [
+        "你",
+        "好"
+      ],
+      "white_text_pixels_inside_notes": 341
+    },
+    "time": 1795749161.333127
+  },
+  "console_network_health": {
+    "ok": true,
+    "details": {
+      "console_errors": [],
+      "network_failures": []
+    },
+    "time": 1795749161.333325
+  },
+  "passed": true
+}

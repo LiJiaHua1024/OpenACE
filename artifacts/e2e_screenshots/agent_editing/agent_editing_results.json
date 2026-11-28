@@ -1,0 +1,340 @@
+{
+  "console_errors": [],
+  "network_failures": [],
+  "cli": {
+    "batch_add_notes": {
+      "args": [
+        "batch-add-notes",
+        "project_376cbef4220f",
+        "track_32e9c0faa9bc",
+        "[{\"start_ticks\": 0, \"duration_ticks\": 240, \"pitch\": 64, \"lyric\": \"\", \"velocity\": 90}, {\"start_ticks\": 480, \"duration_ticks\": 240, \"pitch\": 67, \"lyric\": \"\", \"velocity\": 92}]"
+      ],
+      "returncode": 0,
+      "stdout": "[\n  {\n    \"id\": \"note_b82c8b4b1a7a\",\n    \"start_ticks\": 0,\n    \"duration_ticks\": 240,\n    \"pitch\": 64,\n    \"lyric\": \"\",\n    \"velocity\": 90,\n    \"phonemes\": [],\n    \"pitch_curve\": [],\n    \"vibrato\": null,\n    \"techniques\": []\n  },\n  {\n    \"id\": \"note_081afa6458cf\",\n    \"start_ticks\": 480,\n    \"duration_ticks\": 240,\n    \"pitch\": 67,\n    \"lyric\": \"\",\n    \"velocity\": 92,\n    \"phonemes\": [],\n    \"pitch_curve\": [],\n    \"vibrato\": null,\n    \"techniques\": []\n  }\n]\n",
+      "stderr": ""
+    },
+    "set_expression": {
+      "args": [
+        "set-expression",
+        "project_376cbef4220f",
+        "track_32e9c0faa9bc",
+        "dynamic",
+        "[{\"ticks\": 0, \"value\": 0.2}, {\"ticks\": 480, \"value\": 0.95}, {\"ticks\": 960, \"value\": 0.35}]"
+      ],
+      "returncode": 0,
+      "stdout": "[\n  {\n    \"ticks\": 0,\n    \"value\": 0.2,\n    \"curve\": \"linear\"\n  },\n  {\n    \"ticks\": 480,\n    \"value\": 0.95,\n    \"curve\": \"linear\"\n  },\n  {\n    \"ticks\": 960,\n    \"value\": 0.35,\n    \"curve\": \"linear\"\n  }\n]\n",
+      "stderr": ""
+    },
+    "upsert_breath": {
+      "args": [
+        "upsert-breath",
+        "project_376cbef4220f",
+        "track_32e9c0faa9bc",
+        "{\"start_ticks\": 480, \"duration_ticks\": 180, \"intensity\": 1.8, \"timbre\": \"strong\"}"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"id\": \"br_9be1c0099d1f\",\n  \"start_ticks\": 480,\n  \"duration_ticks\": 180,\n  \"intensity\": 1.8,\n  \"timbre\": \"strong\"\n}\n",
+      "stderr": ""
+    },
+    "upsert_clip": {
+      "args": [
+        "upsert-clip",
+        "project_376cbef4220f",
+        "track_8daac07a-d28",
+        "{\"path\": \"/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/voice_library/beta_voice.wav\", \"start_ticks\": 0, \"duration_ticks\": 960, \"offset_ticks\": 0, \"label\": \"CLI Wave\"}"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"id\": \"clip_cf0a1ff22974\",\n  \"path\": \"/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/voice_library/beta_voice.wav\",\n  \"start_ticks\": 0,\n  \"duration_ticks\": 960,\n  \"offset_ticks\": 0,\n  \"fade_in_ticks\": 0,\n  \"fade_out_ticks\": 0,\n  \"gain_db\": 0.0,\n  \"label\": \"CLI Wave\"\n}\n",
+      "stderr": ""
+    },
+    "set_tempo": {
+      "args": [
+        "set-tempo",
+        "project_376cbef4220f",
+        "--bpm",
+        "120",
+        "--points-json",
+        "[{\"ticks\": 960, \"bpm\": 60}]"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"bpm\": 120.0,\n  \"tempo_map\": [\n    {\n      \"ticks\": 960,\n      \"bpm\": 60.0\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    "update_note": {
+      "args": [
+        "update-note",
+        "project_376cbef4220f",
+        "track_32e9c0faa9bc",
+        "note_b82c8b4b1a7a",
+        "{\"pitch\": 69}"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"id\": \"note_b82c8b4b1a7a\",\n  \"start_ticks\": 0,\n  \"duration_ticks\": 240,\n  \"pitch\": 69,\n  \"lyric\": \"\",\n  \"velocity\": 90,\n  \"phonemes\": [],\n  \"pitch_curve\": [],\n  \"vibrato\": null,\n  \"techniques\": []\n}\n",
+      "stderr": ""
+    },
+    "tempo_correction": {
+      "args": [
+        "set-tempo",
+        "project_376cbef4220f",
+        "--bpm",
+        "120",
+        "--points-json",
+        "[{\"ticks\": 960, \"bpm\": 60}]"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"bpm\": 120.0,\n  \"tempo_map\": [\n    {\n      \"ticks\": 960,\n      \"bpm\": 60.0\n    }\n  ]\n}\n",
+      "stderr": ""
+    }
+  },
+  "project_id": "project_376cbef4220f",
+  "track_setup": [
+    {
+      "id": "track_32e9c0faa9bc",
+      "name": "Lead Vocal",
+      "type": "vocal"
+    },
+    {
+      "id": "track_8daac07a-d28",
+      "name": "BGM 2",
+      "type": "accompaniment"
+    }
+  ],
+  "vocal_track": "track_32e9c0faa9bc",
+  "audio_track": "track_8daac07a-d28",
+  "added_notes": [
+    {
+      "id": "note_b82c8b4b1a7a",
+      "start_ticks": 0,
+      "duration_ticks": 240,
+      "pitch": 64,
+      "lyric": "",
+      "velocity": 90,
+      "phonemes": [],
+      "pitch_curve": [],
+      "vibrato": null,
+      "techniques": []
+    },
+    {
+      "id": "note_081afa6458cf",
+      "start_ticks": 480,
+      "duration_ticks": 240,
+      "pitch": 67,
+      "lyric": "",
+      "velocity": 92,
+      "phonemes": [],
+      "pitch_curve": [],
+      "vibrato": null,
+      "techniques": []
+    }
+  ],
+  "expression": [
+    {
+      "ticks": 0,
+      "value": 0.2,
+      "curve": "linear"
+    },
+    {
+      "ticks": 480,
+      "value": 0.95,
+      "curve": "linear"
+    },
+    {
+      "ticks": 960,
+      "value": 0.35,
+      "curve": "linear"
+    }
+  ],
+  "breath": {
+    "id": "br_9be1c0099d1f",
+    "start_ticks": 480,
+    "duration_ticks": 180,
+    "intensity": 1.8,
+    "timbre": "strong"
+  },
+  "clip": {
+    "id": "clip_cf0a1ff22974",
+    "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/voice_library/beta_voice.wav",
+    "start_ticks": 0,
+    "duration_ticks": 960,
+    "offset_ticks": 0,
+    "fade_in_ticks": 0,
+    "fade_out_ticks": 0,
+    "gain_db": 0.0,
+    "label": "CLI Wave"
+  },
+  "tempo": {
+    "bpm": 120.0,
+    "tempo_map": [
+      {
+        "ticks": 960,
+        "bpm": 60.0
+      }
+    ]
+  },
+  "transport_after_seek": "1.4.100:02.00",
+  "revised_note": {
+    "id": "note_b82c8b4b1a7a",
+    "start_ticks": 0,
+    "duration_ticks": 240,
+    "pitch": 69,
+    "lyric": "",
+    "velocity": 90,
+    "phonemes": [],
+    "pitch_curve": [],
+    "vibrato": null,
+    "techniques": []
+  },
+  "final_project": {
+    "id": "project_376cbef4220f",
+    "schema_version": 1,
+    "title": "Agent Editing QA",
+    "ppq": 480,
+    "bpm": 120.0,
+    "tempo_map": [
+      {
+        "ticks": 960,
+        "bpm": 60.0
+      }
+    ],
+    "time_signature": {
+      "numerator": 4,
+      "denominator": 4
+    },
+    "tracks": [
+      {
+        "id": "track_32e9c0faa9bc",
+        "name": "Lead Vocal",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "language": "zh",
+        "notes": [
+          {
+            "id": "note_b82c8b4b1a7a",
+            "start_ticks": 0,
+            "duration_ticks": 240,
+            "pitch": 69,
+            "lyric": "",
+            "velocity": 90,
+            "phonemes": [],
+            "pitch_curve": [],
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "note_081afa6458cf",
+            "start_ticks": 480,
+            "duration_ticks": 240,
+            "pitch": 67,
+            "lyric": "",
+            "velocity": 92,
+            "phonemes": [],
+            "pitch_curve": [],
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [
+            {
+              "ticks": 0,
+              "value": 0.2,
+              "curve": "linear"
+            },
+            {
+              "ticks": 480,
+              "value": 0.95,
+              "curve": "linear"
+            },
+            {
+              "ticks": 960,
+              "value": 0.35,
+              "curve": "linear"
+            }
+          ],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": []
+        },
+        "breaths": [
+          {
+            "id": "br_9be1c0099d1f",
+            "start_ticks": 480,
+            "duration_ticks": 180,
+            "intensity": 1.8,
+            "timbre": "strong"
+          }
+        ],
+        "mute": false,
+        "solo": false,
+        "volume": 0.8,
+        "pan": 0.0,
+        "render_path": null,
+        "render_revision": 0
+      },
+      {
+        "id": "track_8daac07a-d28",
+        "name": "BGM 2",
+        "type": "accompaniment",
+        "color": "#2fb996",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "language": "zh",
+        "notes": [],
+        "clips": [
+          {
+            "id": "clip_cf0a1ff22974",
+            "path": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/voice_library/beta_voice.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "CLI Wave"
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 0.8,
+        "pan": 0.0,
+        "render_path": null,
+        "render_revision": 0
+      }
+    ],
+    "created_at": 1795758657.683094,
+    "updated_at": 1795758723.3453732,
+    "metadata": {}
+  },
+  "checks": {
+    "visible_setup": true,
+    "batch_notes_backend": true,
+    "expression_backend": true,
+    "breath_backend": true,
+    "audio_clip_backend": true,
+    "tempo_backend": true,
+    "piecewise_transport": true,
+    "revision_backend": true,
+    "no_console_network_errors": true
+  },
+  "passed": true,
+  "tempo_positive_points": [
+    [
+      960,
+      60.0
+    ]
+  ]
+}

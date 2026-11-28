@@ -1,0 +1,99 @@
+{
+  "task": "live_playback_reconstruction_fixed_regression",
+  "project_id": "project_d152f8c8ae7d",
+  "viewport": {"width": 1272, "height": 837},
+  "implementation_modified": false,
+  "overall": "passed_no_confirmed_defects_in_regression",
+  "fixture": {
+    "canonical_clips": [
+      {"label": "A1", "track": "MS Audio A", "start_ticks": 480, "duration_ticks": 1440},
+      {"label": "B1", "track": "MS Audio B", "start_ticks": 1920, "duration_ticks": 1440},
+      {"label": "A2", "track": "MS Audio A", "start_ticks": 3360, "duration_ticks": 1440}
+    ],
+    "audio_path": "/uploads/svclyrics_words.wav",
+    "initial_probe_seek_seconds": 2.5,
+    "active_operations_seek_seconds": 0.5
+  },
+  "initial_playback_positioning": {
+    "result": "passed",
+    "click_to_decode_ms": 48.7,
+    "click_to_first_source_create_ms": 52.3,
+    "in_progress_clip_offset_seconds": 0.5,
+    "future_clip_scheduled_ahead_seconds": 1.0,
+    "note": "The ~1.85s wait before visual movement is the previously established Linux Chrome AudioContext warm-up limitation, not a new regression."
+  },
+  "controlled_cases": {
+    "clip_drag": {
+      "result": "passed",
+      "project_change": "B1 start 1920 -> 2040 ticks",
+      "counts": {"before": {"created": 24, "start": 8, "stop": 21}, "after": {"created": 27, "start": 11, "stop": 24}},
+      "timer_delay_ms": 126.8,
+      "interaction_mark_to_rebuild_ms": 171.7
+    },
+    "left_trim": {
+      "result": "passed",
+      "project_change": "B1 start/duration/offset 2040/1440/0 -> 2160/1320/120",
+      "counts": {"before": {"created": 27, "start": 11, "stop": 24}, "after": {"created": 30, "start": 14, "stop": 27}},
+      "timer_delay_ms": 126.9,
+      "mouse_release_to_rebuild_ms": 88.2
+    },
+    "undo": {
+      "result": "passed",
+      "project_change": "B1 restored to 2040/1440/0",
+      "counts": {"before": {"created": 30, "start": 14, "stop": 27}, "after": {"created": 33, "start": 16, "stop": 30}},
+      "timer_delay_ms": 122.0,
+      "click_to_rebuild_ms": 166.3
+    },
+    "redo": {
+      "result": "passed",
+      "project_change": "B1 reapplied to 2160/1320/120",
+      "counts": {"before": {"created": 33, "start": 16, "stop": 30}, "after": {"created": 36, "start": 18, "stop": 33}},
+      "timer_delay_ms": 120.2,
+      "click_to_rebuild_ms": 163.3
+    }
+  },
+  "rapid_edit_debounce": {
+    "result": "passed",
+    "edit_span_ms": 13.8,
+    "timer_behavior": "first 120ms timer cleared 4.6ms after scheduling; replacement timer fired once after 120.3ms",
+    "final_input_to_rebuild_ms": 118.7,
+    "counts": {"before": {"created": 41, "start": 20, "stop": 40}, "after": {"created": 44, "start": 20, "stop": 41}},
+    "note": "Only one reconstruction batch occurred for the sub-120ms burst. Count deltas are state-dependent because mute/solo changes alter how many clips are audible."
+  },
+  "ordering_and_continuity": {
+    "result": "passed",
+    "old_sources_stop_before_new_create_start": true,
+    "unexpected_playhead_decreases": 0,
+    "unexpected_forward_jumps_over_0_2s": 0,
+    "playhead_rate_vs_wall_clock": 1.003
+  },
+  "decode_cache": {
+    "result": "passed",
+    "decode_audio_data_calls": 1,
+    "note": "Repeated reconstructions and stop/restart did not re-decode the unchanged audio URL."
+  },
+  "stop_restart": {
+    "result": "passed",
+    "pause_readout": "00:04.41",
+    "restart_readout_after_about_500ms": "00:04.90",
+    "transport_reset_and_restart_previously_checked": true
+  },
+  "final_health": {
+    "result": "passed",
+    "layout": {"innerWidth": 1272, "innerHeight": 837, "body_scrollWidth": 1272, "body_clientWidth": 1272, "transport_scrollWidth": 1272, "transport_clientWidth": 1272},
+    "console_messages": 0,
+    "network_failures": 0,
+    "http_errors": 0
+  },
+  "environment_limitations": [
+    "Linux Chrome AudioContext clock warm-up can stall visual playhead movement for about 2 seconds; this was previously shown with a raw fresh AudioContext and is not attributed to the implementation.",
+    "Fade-during-playback remains untested in this focused regression; the feasible repeated controlled case was left trim."
+  ],
+  "key_artifacts": {
+    "recording": "/home/ubuntu/screencasts/live-playback-reconstruction-regression-qa/live-playback-reconstruction-regression-qa-edited.mp4",
+    "full_event_data": "artifacts/e2e_screenshots/live_playback_reconstruction/live_regression_full_data.json",
+    "compact_ops": "artifacts/e2e_screenshots/live_playback_reconstruction/live_regression_compact_ops.json",
+    "fast_rapid": "artifacts/e2e_screenshots/live_playback_reconstruction/live_regression_fast_rapid.json",
+    "final_layout_screenshot": "artifacts/e2e_screenshots/live_playback_reconstruction/40_regression_final_layout.png"
+  }
+}

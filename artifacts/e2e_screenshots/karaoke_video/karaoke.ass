@@ -1,0 +1,16 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Lyrics,Noto Sans CJK SC,66,&H0000BFFF,&H00D9D9D9,&HCC07101E,&H66000000,-1,0,0,0,100,100,1.2,0,1,4,1,2,100,100,96,1
+Style: Title,Noto Sans CJK SC,30,&H00E8EFFF,&H00E8EFFF,&HAA07101E,&H66000000,-1,0,0,0,100,100,1,0,1,2,0,7,72,72,44,1
+Style: Brand,Noto Sans CJK SC,22,&H00908EC8,&H00908EC8,&HAA07101E,&H66000000,0,0,0,0,100,100,1.5,0,1,1.5,0,9,72,72,42,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:02.00,Title,,0,0,0,,Karaoke 验证
+Dialogue: 0,0:00:00.00,0:00:02.00,Brand,,0,0,0,,OPENACE
+Dialogue: 0,0:00:00.00,0:00:01.00,Lyrics,,0,0,0,,{\fad(160,140)}{\kf50}你{\kf50}好

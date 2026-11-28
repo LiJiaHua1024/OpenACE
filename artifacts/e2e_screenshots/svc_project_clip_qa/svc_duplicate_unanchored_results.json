@@ -1,0 +1,82 @@
+{
+  "seed_duplicate_status": 200,
+  "ambiguous_without_clip_id": {
+    "status": 422,
+    "text": "{\"detail\":\"multiple arrangement clips use this source audio; pass clip_id explicitly\"}"
+  },
+  "correction_lane": {
+    "sections": 1,
+    "words": [
+      "for",
+      "watching!"
+    ],
+    "rows": 2,
+    "pageText": false
+  },
+  "duplicate_click_ui": {
+    "path": "svc.wav",
+    "hints": [
+      "Vocal2BGM/SVC input: visible clip segment \u00b7 aligned to clip start"
+    ],
+    "svcDisabled": false,
+    "svcTitle": "Convert the exact visible arrangement clip segment"
+  },
+  "duplicate_explicit_job": {
+    "id": "job_946f409ac519",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "svc",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed; added to arrangement as SVC \u2014 svc",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_946f409ac519/svc.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_946f409ac519/diagnostic.png",
+    "created_at": 1795844791.6057487,
+    "finished_at": 1795844795.5891218,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_7e1b417d4c93/svc.wav",
+    "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_34959253571a_svc_reference_voice.wav",
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_a08186746c23",
+    "source_start_s": 0.0,
+    "source_end_s": 2.0,
+    "arrangement_start_ticks": 960
+  },
+  "unanchored_ui": {
+    "path": "upload_124cbe561773_svc_unanchored_source.wav",
+    "hints": [],
+    "svcDisabled": false,
+    "svcTitle": "Convert the uploaded source file"
+  },
+  "unanchored_job": {
+    "id": "job_006aa4e224fa",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "svc",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed; added to arrangement as SVC \u2014 upload_124cbe561773_svc_unanchored_source",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_006aa4e224fa/svc.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_006aa4e224fa/diagnostic.png",
+    "created_at": 1795844797.7724469,
+    "finished_at": 1795844804.8222556,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/upload_124cbe561773_svc_unanchored_source.wav",
+    "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_34959253571a_svc_reference_voice.wav",
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": null,
+    "source_start_s": null,
+    "source_end_s": null,
+    "arrangement_start_ticks": 0
+  },
+  "console": [],
+  "badnet": []
+}

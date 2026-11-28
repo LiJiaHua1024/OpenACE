@@ -1,0 +1,25 @@
+{
+  "job": {
+    "id": "job_e123ebc2a527",
+    "project_id": "project_f05abda7620e",
+    "track_id": "track_d49c775d3d5f",
+    "mode": "svs_score",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed with Dynamic post-processing",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_f05abda7620e/job_e123ebc2a527/vocal.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_f05abda7620e/job_e123ebc2a527/diagnostic.png",
+    "created_at": 1795697196.7724423,
+    "finished_at": 1795697199.5997078,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true
+  },
+  "job_card_text": "svs_score · CI FIXTURE\ncompleted\ncompleted with Dynamic post-processing",
+  "message_exact": true,
+  "card_contains": true,
+  "diagnostic_exists": true,
+  "console_errors": [],
+  "network_failures": [],
+  "passed": true
+}

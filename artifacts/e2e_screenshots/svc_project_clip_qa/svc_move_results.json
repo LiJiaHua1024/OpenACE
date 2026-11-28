@@ -1,0 +1,159 @@
+{
+  "pre_move_svc_ui": {
+    "path": "clip_d275beb12e77_svc_clip_control_source.wav",
+    "hints": [
+      "Vocal2BGM/SVC input: visible clip segment \u00b7 aligned to clip start"
+    ],
+    "svcDisabled": false,
+    "svcTitle": "Convert the exact visible arrangement clip segment",
+    "voice": "svc_reference_voice"
+  },
+  "job_after_click": {
+    "id": "job_7e1b417d4c93",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "svc",
+    "status": "running",
+    "progress": 0.84,
+    "message": "transcribing and integrating converted vocal",
+    "output_path": null,
+    "diagnostic_path": null,
+    "created_at": 1795844721.7070887,
+    "finished_at": null,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav",
+    "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_34959253571a_svc_reference_voice.wav",
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_e32e014fd922",
+    "source_start_s": 0.5,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 480
+  },
+  "moved_clip": {
+    "clip_id": "clip_e32e014fd922",
+    "start_ticks": 960,
+    "duration_ticks": 1920,
+    "offset_ticks": 480,
+    "path": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav"
+  },
+  "job_status_after_move": {
+    "id": "job_7e1b417d4c93",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "svc",
+    "status": "running",
+    "progress": 0.84,
+    "message": "transcribing and integrating converted vocal",
+    "output_path": null,
+    "diagnostic_path": null,
+    "created_at": 1795844721.7070887,
+    "finished_at": null,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav",
+    "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_34959253571a_svc_reference_voice.wav",
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_e32e014fd922",
+    "source_start_s": 0.5,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 480
+  },
+  "job_final": {
+    "id": "job_7e1b417d4c93",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "svc",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed; added to arrangement as SVC \u2014 clip_d275beb12e77_svc_clip_control_source",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_7e1b417d4c93/svc.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_7e1b417d4c93/diagnostic.png",
+    "created_at": 1795844721.7070887,
+    "finished_at": 1795844725.9696338,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav",
+    "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_34959253571a_svc_reference_voice.wav",
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_e32e014fd922",
+    "source_start_s": 0.5,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 480
+  },
+  "svc_clips": [
+    {
+      "track_id": "track_cbd7f91616f3",
+      "name": "SVC \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "clips": [
+        {
+          "id": "clip_e0f13912fbee",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_87e443564989/svc.wav",
+          "start_ticks": 480,
+          "duration_ticks": 1920,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "SVC: clip_d275beb12e77_svc_clip_control_source",
+          "transcribed_lyrics": [
+            {
+              "text": "for",
+              "start": 0.0,
+              "end": 0.4
+            },
+            {
+              "text": "watching!",
+              "start": 0.4,
+              "end": 1.94
+            }
+          ],
+          "created_by_job_id": "job_87e443564989",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "track_id": "track_711af0b60980",
+      "name": "SVC \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "clips": [
+        {
+          "id": "clip_a08186746c23",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_7e1b417d4c93/svc.wav",
+          "start_ticks": 960,
+          "duration_ticks": 1920,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "SVC: clip_d275beb12e77_svc_clip_control_source",
+          "transcribed_lyrics": [
+            {
+              "text": "for",
+              "start": 0.0,
+              "end": 0.4
+            },
+            {
+              "text": "watching!",
+              "start": 0.4,
+              "end": 1.94
+            }
+          ],
+          "created_by_job_id": "job_7e1b417d4c93",
+          "updated_by_job_id": null
+        }
+      ]
+    }
+  ],
+  "console": [],
+  "badnet": []
+}

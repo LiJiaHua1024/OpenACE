@@ -1,0 +1,134 @@
+{
+  "console": [],
+  "badnet": [],
+  "pid": "project_f8d587dc4370",
+  "vibrato_button_active": "tool active",
+  "handle_regressions": {
+    "before": {
+      "start_ratio": 0.35,
+      "depth_cents": 50.0,
+      "frequency_hz": 5.5,
+      "phase": 0.25,
+      "attack_ratio": 0.15,
+      "release_ratio": 0.3
+    },
+    "after_depth": {
+      "start_ratio": 0.35,
+      "depth_cents": 80.0,
+      "frequency_hz": 5.5,
+      "phase": 0.25,
+      "attack_ratio": 0.15,
+      "release_ratio": 0.3
+    },
+    "after_attack": {
+      "start_ratio": 0.35,
+      "depth_cents": 80.0,
+      "frequency_hz": 5.5,
+      "phase": 0.25,
+      "attack_ratio": 0.35,
+      "release_ratio": 0.3
+    },
+    "after_release": {
+      "start_ratio": 0.35,
+      "depth_cents": 80.0,
+      "frequency_hz": 5.5,
+      "phase": 0.25,
+      "attack_ratio": 0.35,
+      "release_ratio": 0.5
+    },
+    "depth_pass": true,
+    "attack_pass": true,
+    "release_pass": true,
+    "other_params_preserved": true
+  },
+  "direct_create_regression": {
+    "created": {
+      "start_ratio": 0.23214285714285715,
+      "depth_cents": 30.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.0,
+      "release_ratio": 0.0
+    },
+    "created_present": true,
+    "undo_removed": true,
+    "redo_exact": true
+  },
+  "blank_click_no_phantom_edit": {
+    "unchanged": true,
+    "before": {
+      "vibratos": {
+        "vd": {
+          "start_ratio": 0.35,
+          "depth_cents": 80.0,
+          "frequency_hz": 5.5,
+          "phase": 0.25,
+          "attack_ratio": 0.35,
+          "release_ratio": 0.5
+        },
+        "ve": {
+          "start_ratio": 0.23214285714285715,
+          "depth_cents": 30.0,
+          "frequency_hz": 5.2,
+          "phase": 0.0,
+          "attack_ratio": 0.0,
+          "release_ratio": 0.0
+        }
+      },
+      "geometry": [
+        {
+          "id": "vd",
+          "start_ticks": 1800,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "ve",
+          "start_ticks": 2400,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        }
+      ],
+      "note_count": 2
+    },
+    "after": {
+      "vibratos": {
+        "vd": {
+          "start_ratio": 0.35,
+          "depth_cents": 80.0,
+          "frequency_hz": 5.5,
+          "phase": 0.25,
+          "attack_ratio": 0.35,
+          "release_ratio": 0.5
+        },
+        "ve": {
+          "start_ratio": 0.23214285714285715,
+          "depth_cents": 30.0,
+          "frequency_hz": 5.2,
+          "phase": 0.0,
+          "attack_ratio": 0.0,
+          "release_ratio": 0.0
+        }
+      },
+      "geometry": [
+        {
+          "id": "vd",
+          "start_ticks": 1800,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        },
+        {
+          "id": "ve",
+          "start_ticks": 2400,
+          "duration_ticks": 480,
+          "pitch": 65,
+          "velocity": 90
+        }
+      ],
+      "note_count": 2
+    }
+  }
+}

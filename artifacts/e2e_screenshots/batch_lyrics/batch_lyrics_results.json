@@ -1,0 +1,160 @@
+{
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    }
+  ],
+  "pageerrors": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:8787/api/projects/project_c4bccc903fcc",
+      "status": 422
+    }
+  ],
+  "checks": {
+    "initial": [
+      "\u54c8",
+      "\u54a9",
+      "\u545c"
+    ],
+    "melisma": {
+      "count": "3 lyric tokens \u2192 3 track notes",
+      "before": [
+        "\u54c8",
+        "\u54a9",
+        "\u545c"
+      ],
+      "after": [
+        "\u54c8",
+        "\u54a9",
+        "\u545c"
+      ],
+      "expected_tokens": [
+        "\u4f60",
+        "\u597d",
+        "-"
+      ],
+      "backend_changed": false,
+      "passed": false
+    },
+    "valid_count": "3 lyric tokens \u2192 3 track notes",
+    "valid_distribution": {
+      "before": [
+        "\u54c8",
+        "\u54a9",
+        "\u545c"
+      ],
+      "after": [
+        "\u4f60",
+        "\u597d",
+        "\u5417"
+      ],
+      "passed": true
+    },
+    "undo_redo": {
+      "after_undo": [
+        "\u54c8",
+        "\u54a9",
+        "\u545c"
+      ],
+      "after_redo": [
+        "\u4f60",
+        "\u597d",
+        "\u5417"
+      ],
+      "passed": true
+    },
+    "reload_persist": {
+      "lyrics": [
+        "\u4f60",
+        "\u597d",
+        "\u5417"
+      ],
+      "passed": true
+    },
+    "subset_count": "0 lyric tokens \u2192 1 selected notes",
+    "subset_distribution": {
+      "after": [
+        "\u4f60",
+        "\u661f",
+        "\u5417"
+      ],
+      "passed": false
+    },
+    "subset_undo": {
+      "after": [
+        "\u4f60",
+        "\u597d",
+        "\u5417"
+      ],
+      "passed": true
+    },
+    "mismatch_warning": {
+      "count": "1 lyric tokens \u2192 1 selected notes",
+      "warning": "",
+      "visible": false
+    },
+    "mismatch_partial": {
+      "after": [
+        "\u4f60",
+        "\u5b64",
+        "\u5417"
+      ],
+      "passed": false
+    },
+    "escape": {
+      "closed": true,
+      "lyrics": [
+        "\u4f60",
+        "\u597d",
+        "\u5417"
+      ],
+      "passed": true
+    },
+    "continuous_tab_regression": {
+      "editor_count": 1,
+      "editor_value": "\u597d",
+      "passed": true
+    },
+    "layout": {
+      "box": {
+        "x": 577,
+        "y": 406,
+        "width": 360,
+        "height": 205
+      },
+      "viewport": null,
+      "passed": true
+    },
+    "final_lyrics": [
+      "\u6625",
+      "\u597d",
+      "\u5417"
+    ],
+    "subset_corrected": {
+      "count": "0 lyric tokens \u2192 2 selected notes",
+      "after": [
+        "\u661f",
+        "\u8fb0",
+        "\u5417"
+      ],
+      "passed": true
+    },
+    "mismatch_corrected": {
+      "count": "1 lyric tokens \u2192 2 selected notes",
+      "warning": "Notes beyond the supplied tokens keep their existing lyrics.",
+      "after": [
+        "\u5b64",
+        "\u597d",
+        "\u5417"
+      ],
+      "passed": true
+    },
+    "final_after_corrected_undo": [
+      "\u6625",
+      "\u597d",
+      "\u5417"
+    ]
+  }
+}

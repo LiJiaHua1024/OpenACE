@@ -1,0 +1,208 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "checks": {
+    "initial_lyrics": [
+      [
+        "audit_n1",
+        "\u5566"
+      ],
+      [
+        "audit_n2",
+        "\u563f"
+      ],
+      [
+        "audit_n3",
+        "\u5440"
+      ]
+    ],
+    "open_first": {
+      "count": 1,
+      "value": "\u5566",
+      "focused": true
+    },
+    "tab_to_second": {
+      "state": {
+        "count": 1,
+        "value": "\u563f",
+        "focused": true
+      },
+      "expected_value": "\u563f",
+      "passed": true
+    },
+    "tab_to_third": {
+      "state": {
+        "count": 1,
+        "value": "\u5440",
+        "focused": true
+      },
+      "expected_value": "\u5440",
+      "passed": true
+    },
+    "continuous_commit": {
+      "lyrics": [
+        [
+          "audit_n1",
+          "\u554a"
+        ],
+        [
+          "audit_n2",
+          "\u5417"
+        ],
+        [
+          "audit_n3",
+          "\u545c"
+        ]
+      ],
+      "end_state": {
+        "count": 0,
+        "value": null,
+        "focused": false
+      },
+      "expected": [
+        [
+          "audit_n1",
+          "\u554a"
+        ],
+        [
+          "audit_n2",
+          "\u5417"
+        ],
+        [
+          "audit_n3",
+          "\u545c"
+        ]
+      ],
+      "passed": true
+    },
+    "shift_tab_previous": {
+      "state": {
+        "count": 1,
+        "value": "\u5417",
+        "focused": true
+      },
+      "expected_value": "\u5417",
+      "passed": true
+    },
+    "shift_tab_edit_enter": {
+      "lyrics": [
+        [
+          "audit_n1",
+          "\u554a"
+        ],
+        [
+          "audit_n2",
+          "\u54a9"
+        ],
+        [
+          "audit_n3",
+          "\u545c"
+        ]
+      ],
+      "editor": {
+        "count": 0,
+        "value": null,
+        "focused": false
+      },
+      "passed": true
+    },
+    "escape_cancel": {
+      "lyrics": [
+        [
+          "audit_n1",
+          "\u554a"
+        ],
+        [
+          "audit_n2",
+          "\u54a9"
+        ],
+        [
+          "audit_n3",
+          "\u545c"
+        ]
+      ],
+      "editor": {
+        "count": 0,
+        "value": null,
+        "focused": false
+      },
+      "passed": true
+    },
+    "blur_commit": {
+      "lyrics": [
+        [
+          "audit_n1",
+          "\u54c8"
+        ],
+        [
+          "audit_n2",
+          "\u54a9"
+        ],
+        [
+          "audit_n3",
+          "\u545c"
+        ]
+      ],
+      "editor": {
+        "count": 0,
+        "value": null,
+        "focused": false
+      },
+      "passed": true
+    },
+    "undo_redo": {
+      "after_undo": "\u554a",
+      "after_redo": "\u54c8",
+      "passed": true
+    },
+    "boundary_tab_last": {
+      "editor": {
+        "count": 0,
+        "value": null,
+        "focused": false
+      },
+      "lyrics": [
+        [
+          "audit_n1",
+          "\u54c8"
+        ],
+        [
+          "audit_n2",
+          "\u54a9"
+        ],
+        [
+          "audit_n3",
+          "\u545c"
+        ]
+      ],
+      "passed": true
+    },
+    "final_lyrics": [
+      [
+        "audit_n1",
+        "\u54c8"
+      ],
+      [
+        "audit_n2",
+        "\u54a9"
+      ],
+      [
+        "audit_n3",
+        "\u545c"
+      ]
+    ]
+  },
+  "shots": [
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/continuous_lyrics/00_first_editor_open.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/continuous_lyrics/01_tab_second_focused.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/continuous_lyrics/02_tab_third_focused.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/continuous_lyrics/03_forward_chain_committed.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/continuous_lyrics/04_shift_tab_second_focused.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/continuous_lyrics/05_shift_edit_enter_committed.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/continuous_lyrics/06_escape_cancelled.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/continuous_lyrics/07_blur_committed.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/continuous_lyrics/08_undo_redo.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/continuous_lyrics/09_boundary_tab_last.png"
+  ]
+}

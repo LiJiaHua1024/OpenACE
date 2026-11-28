@@ -1,0 +1,25 @@
+{
+  "cli_range.wav": {
+    "frames": 64000,
+    "seconds": 1.3333333333333333,
+    "sr": 48000,
+    "last_half_second_peak": 0.3521106243133545,
+    "final_zero": false
+  },
+  "api_extended_range.wav": {
+    "frames": 256000,
+    "seconds": 5.333333333333333,
+    "sr": 48000,
+    "last_half_second_peak": 0.0,
+    "final_zero": true
+  },
+  "cli_stems_manifest_range": {
+    "start": 960,
+    "end": 1920
+  },
+  "cli_stem_seconds": [
+    1.3333333333333333,
+    1.3333333333333333,
+    1.3333333333333333
+  ]
+}

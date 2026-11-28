@@ -1,0 +1,405 @@
+{
+  "checks": [
+    {
+      "name": "regression dynamic arrangement height exposes four full lanes",
+      "passed": true,
+      "details": {
+        "canvas_height": 166,
+        "wrap_height": 166,
+        "expected_min": 166
+      }
+    },
+    {
+      "name": "regression fourth-lane accompaniment clip is visible and editable",
+      "passed": true,
+      "details": {
+        "id": "vd_c1",
+        "track_index": 3,
+        "track_name": "VD BGM C",
+        "track_type": "accompaniment",
+        "start": 600,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "C1"
+      }
+    },
+    {
+      "name": "regression undo restores fourth-lane edit",
+      "passed": true,
+      "details": {
+        "id": "vd_c1",
+        "track_index": 3,
+        "track_name": "VD BGM C",
+        "track_type": "accompaniment",
+        "start": 480,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "C1"
+      }
+    },
+    {
+      "name": "regression held-drag reversal returns to original lane",
+      "passed": true,
+      "details": {
+        "id": "vd_a1",
+        "track_index": 0,
+        "track_name": "VD Audio A",
+        "track_type": "audio",
+        "start": 480,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "regression horizontal adjustment after vertical migration remains live (+56px quantizes to 720)",
+      "passed": true,
+      "details": {
+        "id": "vd_a1",
+        "track_index": 2,
+        "track_name": "VD Audio B",
+        "track_type": "audio",
+        "start": 720,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "regression undo restores vertical-horizontal drag",
+      "passed": true,
+      "details": {
+        "id": "vd_a1",
+        "track_index": 0,
+        "track_name": "VD Audio A",
+        "track_type": "audio",
+        "start": 480,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "regression plus-28px horizontal adjustment quantizes start 480 to 600",
+      "passed": true,
+      "details": {
+        "id": "vd_a1",
+        "track_index": 2,
+        "track_name": "VD Audio B",
+        "track_type": "audio",
+        "start": 600,
+        "duration": 960,
+        "offset": 0,
+        "fade_in": 0,
+        "fade_out": 0,
+        "label": "A1"
+      }
+    },
+    {
+      "name": "regression bottom clamp preserves multi-track relative spacing",
+      "passed": true,
+      "details": {
+        "a": {
+          "id": "vd_a1",
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "b": {
+          "id": "vd_b1",
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        }
+      }
+    },
+    {
+      "name": "regression top clamp preserves multi-track relative spacing",
+      "passed": false,
+      "details": {
+        "a": {
+          "id": "vd_a1",
+          "track_index": 0,
+          "track_name": "VD Audio A",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "b": {
+          "id": "vd_b1",
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        }
+      }
+    },
+    {
+      "name": "regression selection remap allows repeated group drag",
+      "passed": false,
+      "details": {
+        "a": {
+          "id": "vd_a1",
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        },
+        "b": {
+          "id": "vd_b1",
+          "track_index": 3,
+          "track_name": "VD BGM C",
+          "track_type": "accompaniment",
+          "start": 1440,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "B1"
+        }
+      }
+    },
+    {
+      "name": "regression copy paste preserves tracks spacing and unique ids",
+      "passed": false,
+      "details": {
+        "pasted": [
+          {
+            "id": "clip_44f81f3d-599",
+            "track_index": 3,
+            "track_name": "VD BGM C",
+            "track_type": "accompaniment",
+            "start": 1680,
+            "duration": 960,
+            "offset": 0,
+            "fade_in": 0,
+            "fade_out": 0,
+            "label": "C1"
+          }
+        ],
+        "paste_enabled": true
+      }
+    },
+    {
+      "name": "regression context delete removes pasted group",
+      "passed": false,
+      "details": {
+        "remaining": [
+          "clip_44f81f3d-599"
+        ]
+      }
+    },
+    {
+      "name": "regression undo restores deleted pasted group",
+      "passed": false,
+      "details": {
+        "restored": [
+          {
+            "id": "clip_44f81f3d-599",
+            "track_index": 3,
+            "track_name": "VD BGM C",
+            "track_type": "accompaniment",
+            "start": 1680,
+            "duration": 960,
+            "offset": 0,
+            "fade_in": 0,
+            "fade_out": 0,
+            "label": "C1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "regression live playback reconstruction survives vertical drag",
+      "passed": true,
+      "details": {
+        "before": {
+          "created": 5,
+          "start": 5,
+          "stop": 0,
+          "decode": 1,
+          "startErrors": 0,
+          "stopErrors": 0
+        },
+        "after": {
+          "created": 10,
+          "start": 10,
+          "stop": 5,
+          "decode": 1,
+          "startErrors": 0,
+          "stopErrors": 0
+        },
+        "latency": [
+          192.3,
+          192.6
+        ],
+        "clip": {
+          "id": "vd_a1",
+          "track_index": 2,
+          "track_name": "VD Audio B",
+          "track_type": "audio",
+          "start": 480,
+          "duration": 960,
+          "offset": 0,
+          "fade_in": 0,
+          "fade_out": 0,
+          "label": "A1"
+        }
+      }
+    }
+  ],
+  "phases": {},
+  "reset_status": 200,
+  "initial_layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "wrapHeight": 166,
+    "canvasHeight": 166,
+    "canvasWidth": 714,
+    "canvasX": 236,
+    "canvasY": 58,
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    }
+  },
+  "live": {
+    "before": {
+      "created": 5,
+      "start": 5,
+      "stop": 0,
+      "decode": 1,
+      "startErrors": 0,
+      "stopErrors": 0
+    },
+    "after": {
+      "created": 10,
+      "start": 10,
+      "stop": 5,
+      "decode": 1,
+      "startErrors": 0,
+      "stopErrors": 0
+    },
+    "latency": [
+      192.3,
+      192.6
+    ],
+    "clip": {
+      "id": "vd_a1",
+      "track_index": 2,
+      "track_name": "VD Audio B",
+      "track_type": "audio",
+      "start": 480,
+      "duration": 960,
+      "offset": 0,
+      "fade_in": 0,
+      "fade_out": 0,
+      "label": "A1"
+    }
+  },
+  "layout": {
+    "innerWidth": 1272,
+    "innerHeight": 837,
+    "body": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "sidebar": {
+      "scrollWidth": 235,
+      "clientWidth": 235,
+      "scrollHeight": 779,
+      "clientHeight": 779
+    },
+    "transport": {
+      "scrollWidth": 1272,
+      "clientWidth": 1272
+    },
+    "arrangement": {
+      "wrapHeight": 166,
+      "canvasHeight": 166,
+      "canvasWidth": 714,
+      "scrollWidth": 714,
+      "clientWidth": 714
+    }
+  },
+  "console": [],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:8787/api/events",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "http_errors": []
+}

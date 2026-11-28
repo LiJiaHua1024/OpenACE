@@ -1,0 +1,109 @@
+{
+  "project_id": "project_4ca9232b530b",
+  "track_id": "track_4c77577f74a3",
+  "initial_job": {
+    "id": "job_c4bce71ed91c",
+    "project_id": "project_4ca9232b530b",
+    "track_id": "track_4c77577f74a3",
+    "mode": "svs_score",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_c4bce71ed91c/vocal.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_c4bce71ed91c/diagnostic.png",
+    "created_at": 1795816694.7452052,
+    "finished_at": 1795816701.968349,
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true,
+    "source_audio": null,
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null
+  },
+  "track_after_initial": {
+    "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_c4bce71ed91c/vocal.wav",
+    "render_fingerprint": "fe0875d230909a89",
+    "render_revision": 1
+  },
+  "notes": [
+    {
+      "id": "note_90c4888f06d8",
+      "start_ticks": 0,
+      "duration_ticks": 480,
+      "pitch": 60,
+      "lyric": "啊",
+      "velocity": 90,
+      "phonemes": [
+        {
+          "symbol": "a",
+          "start_ms": 0.0,
+          "duration_ms": 500.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "pitch_curve": [],
+      "pitch_snap_first": true,
+      "vibrato": null,
+      "techniques": []
+    },
+    {
+      "id": "note_267409fa85c7",
+      "start_ticks": 480,
+      "duration_ticks": 480,
+      "pitch": 62,
+      "lyric": "卡",
+      "velocity": 90,
+      "phonemes": [
+        {
+          "symbol": "kʰ",
+          "start_ms": -45.0,
+          "duration_ms": 45.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "a",
+          "start_ms": 0.0,
+          "duration_ms": 500.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "pitch_curve": [],
+      "pitch_snap_first": true,
+      "vibrato": null,
+      "techniques": []
+    },
+    {
+      "id": "note_abb90a693ba9",
+      "start_ticks": 960,
+      "duration_ticks": 480,
+      "pitch": 64,
+      "lyric": "萨",
+      "velocity": 90,
+      "phonemes": [
+        {
+          "symbol": "s",
+          "start_ms": -45.0,
+          "duration_ms": 45.0,
+          "is_vowel": false,
+          "locked": false
+        },
+        {
+          "symbol": "a",
+          "start_ms": 0.0,
+          "duration_ms": 500.0,
+          "is_vowel": true,
+          "locked": false
+        }
+      ],
+      "pitch_curve": [],
+      "pitch_snap_first": true,
+      "vibrato": null,
+      "techniques": []
+    }
+  ]
+}

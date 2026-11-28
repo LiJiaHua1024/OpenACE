@@ -1,0 +1,35 @@
+{
+  "transport_start": 46.16126984126984,
+  "boundary": 48.16126984126984,
+  "mute_audio_time": 46.99718820861678,
+  "mute_lead_before_boundary_ms": 1164.0816326530653,
+  "first_post_mute_source_creation_delta_ms": 371.51927437641774,
+  "first_post_mute_source_creation_before_boundary_minus550ms": true,
+  "post_mute_source_count_before_capture": 5,
+  "intervals": [
+    0.5,
+    0.5
+  ],
+  "click_stats": {
+    "audible_count": 3,
+    "canceled_future_noise": 8,
+    "exact_audible_duplicate_count": 0,
+    "intervals": [
+      0.5,
+      0.5
+    ],
+    "short_intervals_under350ms": 0,
+    "min_interval_ms": 500.0,
+    "max_interval_ms": 500.0,
+    "freqs": [
+      1175,
+      1175,
+      1175
+    ]
+  },
+  "position_during": "1.4.2\n00:01.66",
+  "playing_button": "\u275a\u275a",
+  "console": [],
+  "pageerrors": [],
+  "network_failures": []
+}

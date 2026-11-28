@@ -1,0 +1,1639 @@
+{
+  "checks": [
+    {
+      "name": "fixture project with two vocal tracks loaded",
+      "passed": true,
+      "details": {
+        "title": "Render Queue QA",
+        "project_id": "project_bfcddef52bb2"
+      }
+    },
+    {
+      "name": "first wave second remains queued while first running",
+      "passed": true,
+      "details": {
+        "job1": {
+          "id": "job_425a9b79f6e3",
+          "project_id": "project_bfcddef52bb2",
+          "track_id": "rq_vocal_1",
+          "mode": "svs_score",
+          "status": "running",
+          "progress": 0.05,
+          "message": "rendering vocal with explicit CI synthesis fixture",
+          "output_path": null,
+          "diagnostic_path": null,
+          "created_at": 1795782976.6959186,
+          "finished_at": null,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        },
+        "job2": {
+          "id": "job_9372cbcfe32e",
+          "project_id": "project_bfcddef52bb2",
+          "track_id": "rq_vocal_2",
+          "mode": "svs_score",
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued",
+          "output_path": null,
+          "diagnostic_path": null,
+          "created_at": 1795782976.9430666,
+          "finished_at": null,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        },
+        "states_at_screenshot": {
+          "job_9372cbcfe32e": "queued",
+          "job_425a9b79f6e3": "running"
+        }
+      }
+    },
+    {
+      "name": "first wave both complete",
+      "passed": true,
+      "details": [
+        {
+          "id": "job_9372cbcfe32e",
+          "project_id": "project_bfcddef52bb2",
+          "track_id": "rq_vocal_2",
+          "mode": "svs_score",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_bfcddef52bb2/job_9372cbcfe32e/vocal.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_bfcddef52bb2/job_9372cbcfe32e/diagnostic.png",
+          "created_at": 1795782976.9430666,
+          "finished_at": 1795782981.4089098,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        },
+        {
+          "id": "job_425a9b79f6e3",
+          "project_id": "project_bfcddef52bb2",
+          "track_id": "rq_vocal_1",
+          "mode": "svs_score",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_bfcddef52bb2/job_425a9b79f6e3/vocal.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_bfcddef52bb2/job_425a9b79f6e3/diagnostic.png",
+          "created_at": 1795782976.6959186,
+          "finished_at": 1795782979.777392,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        }
+      ]
+    },
+    {
+      "name": "second wave second remains queued while first running",
+      "passed": true,
+      "details": {
+        "job1": {
+          "id": "job_5055cc92eda1",
+          "project_id": "project_bfcddef52bb2",
+          "track_id": "rq_vocal_1",
+          "mode": "svs_score",
+          "status": "running",
+          "progress": 0.05,
+          "message": "rendering vocal with explicit CI synthesis fixture",
+          "output_path": null,
+          "diagnostic_path": null,
+          "created_at": 1795782981.85711,
+          "finished_at": null,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        },
+        "job2": {
+          "id": "job_5149abbda024",
+          "project_id": "project_bfcddef52bb2",
+          "track_id": "rq_vocal_2",
+          "mode": "svs_score",
+          "status": "queued",
+          "progress": 0.0,
+          "message": "queued",
+          "output_path": null,
+          "diagnostic_path": null,
+          "created_at": 1795782982.1077273,
+          "finished_at": null,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        },
+        "states_at_screenshot": {
+          "job_5149abbda024": "queued",
+          "job_5055cc92eda1": "running",
+          "job_9372cbcfe32e": "completed",
+          "job_425a9b79f6e3": "completed"
+        }
+      }
+    },
+    {
+      "name": "second wave both complete",
+      "passed": true,
+      "details": [
+        {
+          "id": "job_5149abbda024",
+          "project_id": "project_bfcddef52bb2",
+          "track_id": "rq_vocal_2",
+          "mode": "svs_score",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_bfcddef52bb2/job_5149abbda024/vocal.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_bfcddef52bb2/job_5149abbda024/diagnostic.png",
+          "created_at": 1795782982.1077273,
+          "finished_at": 1795782985.2219071,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        },
+        {
+          "id": "job_5055cc92eda1",
+          "project_id": "project_bfcddef52bb2",
+          "track_id": "rq_vocal_1",
+          "mode": "svs_score",
+          "status": "completed",
+          "progress": 1.0,
+          "message": "completed",
+          "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_bfcddef52bb2/job_5055cc92eda1/vocal.wav",
+          "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_bfcddef52bb2/job_5055cc92eda1/diagnostic.png",
+          "created_at": 1795782981.85711,
+          "finished_at": 1795782983.538883,
+          "error": null,
+          "engine": "explicit CI synthesis fixture",
+          "fixture": true,
+          "source_audio": null,
+          "reference_voice": null,
+          "caption": "",
+          "start_s": null,
+          "end_s": null
+        }
+      ]
+    },
+    {
+      "name": "normal playback starts after rendered queue completion",
+      "passed": true,
+      "details": {
+        "playing_class": true
+      }
+    },
+    {
+      "name": "render panel playback and exact layout have no horizontal overflow",
+      "passed": true,
+      "details": {
+        "innerWidth": 1272,
+        "innerHeight": 837,
+        "body": {
+          "sw": 1272,
+          "cw": 1272
+        },
+        "right": {
+          "x": 950,
+          "width": 322,
+          "right": 1272,
+          "sw": 311,
+          "cw": 311
+        },
+        "transport": {
+          "width": 1272,
+          "right": 1272
+        },
+        "jobs": [
+          {
+            "sw": 285,
+            "cw": 285
+          },
+          {
+            "sw": 285,
+            "cw": 285
+          },
+          {
+            "sw": 285,
+            "cw": 285
+          },
+          {
+            "sw": 285,
+            "cw": 285
+          }
+        ]
+      }
+    },
+    {
+      "name": "jobs complete in FIFO order and next starts only after prior completion",
+      "passed": true,
+      "details": {
+        "reason": [],
+        "first_events": [
+          [
+            "job_425a9b79f6e3",
+            "queued",
+            1795782976.6967108,
+            "rq_vocal_1"
+          ],
+          [
+            "job_425a9b79f6e3",
+            "running",
+            1795782976.6980991,
+            "rq_vocal_1"
+          ],
+          [
+            "job_9372cbcfe32e",
+            "queued",
+            1795782976.9437213,
+            "rq_vocal_2"
+          ],
+          [
+            "job_425a9b79f6e3",
+            "completed",
+            1795782979.7780063,
+            "rq_vocal_1"
+          ],
+          [
+            "job_9372cbcfe32e",
+            "running",
+            1795782979.7785754,
+            "rq_vocal_2"
+          ],
+          [
+            "job_9372cbcfe32e",
+            "completed",
+            1795782981.4095228,
+            "rq_vocal_2"
+          ],
+          [
+            "job_5055cc92eda1",
+            "queued",
+            1795782981.858233,
+            "rq_vocal_1"
+          ],
+          [
+            "job_5055cc92eda1",
+            "running",
+            1795782981.8597276,
+            "rq_vocal_1"
+          ],
+          [
+            "job_5149abbda024",
+            "queued",
+            1795782982.109279,
+            "rq_vocal_2"
+          ],
+          [
+            "job_5055cc92eda1",
+            "completed",
+            1795782983.53961,
+            "rq_vocal_1"
+          ],
+          [
+            "job_5149abbda024",
+            "running",
+            1795782983.5402784,
+            "rq_vocal_2"
+          ],
+          [
+            "job_5149abbda024",
+            "completed",
+            1795782985.2225013,
+            "rq_vocal_2"
+          ]
+        ],
+        "transitions": {
+          "job_425a9b79f6e3": {
+            "queued": [
+              {
+                "event_time": 1795782976.6967108,
+                "observed_at": 1795782976.697339,
+                "id": "job_425a9b79f6e3",
+                "track_id": "rq_vocal_1",
+                "status": "queued",
+                "progress": 0.0,
+                "message": "queued",
+                "created_at": 1795782976.6959186,
+                "finished_at": null
+              }
+            ],
+            "running": [
+              {
+                "event_time": 1795782976.6980991,
+                "observed_at": 1795782976.6989048,
+                "id": "job_425a9b79f6e3",
+                "track_id": "rq_vocal_1",
+                "status": "running",
+                "progress": 0.05,
+                "message": "rendering vocal with explicit CI synthesis fixture",
+                "created_at": 1795782976.6959186,
+                "finished_at": null
+              }
+            ],
+            "completed": [
+              {
+                "event_time": 1795782979.7780063,
+                "observed_at": 1795782979.779426,
+                "id": "job_425a9b79f6e3",
+                "track_id": "rq_vocal_1",
+                "status": "completed",
+                "progress": 1.0,
+                "message": "completed",
+                "created_at": 1795782976.6959186,
+                "finished_at": 1795782979.777392
+              }
+            ],
+            "failed": []
+          },
+          "job_9372cbcfe32e": {
+            "queued": [
+              {
+                "event_time": 1795782976.9437213,
+                "observed_at": 1795782976.944197,
+                "id": "job_9372cbcfe32e",
+                "track_id": "rq_vocal_2",
+                "status": "queued",
+                "progress": 0.0,
+                "message": "queued",
+                "created_at": 1795782976.9430666,
+                "finished_at": null
+              }
+            ],
+            "running": [
+              {
+                "event_time": 1795782979.7785754,
+                "observed_at": 1795782979.7794483,
+                "id": "job_9372cbcfe32e",
+                "track_id": "rq_vocal_2",
+                "status": "running",
+                "progress": 0.05,
+                "message": "rendering vocal with explicit CI synthesis fixture",
+                "created_at": 1795782976.9430666,
+                "finished_at": null
+              }
+            ],
+            "completed": [
+              {
+                "event_time": 1795782981.4095228,
+                "observed_at": 1795782981.4100251,
+                "id": "job_9372cbcfe32e",
+                "track_id": "rq_vocal_2",
+                "status": "completed",
+                "progress": 1.0,
+                "message": "completed",
+                "created_at": 1795782976.9430666,
+                "finished_at": 1795782981.4089098
+              }
+            ],
+            "failed": []
+          },
+          "job_5055cc92eda1": {
+            "queued": [
+              {
+                "event_time": 1795782981.858233,
+                "observed_at": 1795782981.8589025,
+                "id": "job_5055cc92eda1",
+                "track_id": "rq_vocal_1",
+                "status": "queued",
+                "progress": 0.0,
+                "message": "queued",
+                "created_at": 1795782981.85711,
+                "finished_at": null
+              }
+            ],
+            "running": [
+              {
+                "event_time": 1795782981.8597276,
+                "observed_at": 1795782981.8602026,
+                "id": "job_5055cc92eda1",
+                "track_id": "rq_vocal_1",
+                "status": "running",
+                "progress": 0.05,
+                "message": "rendering vocal with explicit CI synthesis fixture",
+                "created_at": 1795782981.85711,
+                "finished_at": null
+              }
+            ],
+            "completed": [
+              {
+                "event_time": 1795782983.53961,
+                "observed_at": 1795782983.5408823,
+                "id": "job_5055cc92eda1",
+                "track_id": "rq_vocal_1",
+                "status": "completed",
+                "progress": 1.0,
+                "message": "completed",
+                "created_at": 1795782981.85711,
+                "finished_at": 1795782983.538883
+              }
+            ],
+            "failed": []
+          },
+          "job_5149abbda024": {
+            "queued": [
+              {
+                "event_time": 1795782982.109279,
+                "observed_at": 1795782982.11017,
+                "id": "job_5149abbda024",
+                "track_id": "rq_vocal_2",
+                "status": "queued",
+                "progress": 0.0,
+                "message": "queued",
+                "created_at": 1795782982.1077273,
+                "finished_at": null
+              }
+            ],
+            "running": [
+              {
+                "event_time": 1795782983.5402784,
+                "observed_at": 1795782983.5409124,
+                "id": "job_5149abbda024",
+                "track_id": "rq_vocal_2",
+                "status": "running",
+                "progress": 0.05,
+                "message": "rendering vocal with explicit CI synthesis fixture",
+                "created_at": 1795782982.1077273,
+                "finished_at": null
+              }
+            ],
+            "completed": [
+              {
+                "event_time": 1795782985.2225013,
+                "observed_at": 1795782985.2230618,
+                "id": "job_5149abbda024",
+                "track_id": "rq_vocal_2",
+                "status": "completed",
+                "progress": 1.0,
+                "message": "completed",
+                "created_at": 1795782982.1077273,
+                "finished_at": 1795782985.2219071
+              }
+            ],
+            "failed": []
+          }
+        },
+        "sse_event_count": 12
+      }
+    },
+    {
+      "name": "no two render jobs ever running simultaneously",
+      "passed": true,
+      "details": {
+        "max_running_count": 1,
+        "overlap_samples": []
+      }
+    },
+    {
+      "name": "console network and http clean",
+      "passed": true,
+      "details": {
+        "console": [],
+        "http": [],
+        "fail": []
+      }
+    }
+  ],
+  "fixture_status": 200,
+  "project_id": "project_bfcddef52bb2",
+  "sse_events": [
+    {
+      "event_time": 1795782976.6967108,
+      "observed_at": 1795782976.697339,
+      "id": "job_425a9b79f6e3",
+      "track_id": "rq_vocal_1",
+      "status": "queued",
+      "progress": 0.0,
+      "message": "queued",
+      "created_at": 1795782976.6959186,
+      "finished_at": null
+    },
+    {
+      "event_time": 1795782976.6980991,
+      "observed_at": 1795782976.6989048,
+      "id": "job_425a9b79f6e3",
+      "track_id": "rq_vocal_1",
+      "status": "running",
+      "progress": 0.05,
+      "message": "rendering vocal with explicit CI synthesis fixture",
+      "created_at": 1795782976.6959186,
+      "finished_at": null
+    },
+    {
+      "event_time": 1795782976.9437213,
+      "observed_at": 1795782976.944197,
+      "id": "job_9372cbcfe32e",
+      "track_id": "rq_vocal_2",
+      "status": "queued",
+      "progress": 0.0,
+      "message": "queued",
+      "created_at": 1795782976.9430666,
+      "finished_at": null
+    },
+    {
+      "event_time": 1795782979.7780063,
+      "observed_at": 1795782979.779426,
+      "id": "job_425a9b79f6e3",
+      "track_id": "rq_vocal_1",
+      "status": "completed",
+      "progress": 1.0,
+      "message": "completed",
+      "created_at": 1795782976.6959186,
+      "finished_at": 1795782979.777392
+    },
+    {
+      "event_time": 1795782979.7785754,
+      "observed_at": 1795782979.7794483,
+      "id": "job_9372cbcfe32e",
+      "track_id": "rq_vocal_2",
+      "status": "running",
+      "progress": 0.05,
+      "message": "rendering vocal with explicit CI synthesis fixture",
+      "created_at": 1795782976.9430666,
+      "finished_at": null
+    },
+    {
+      "event_time": 1795782981.4095228,
+      "observed_at": 1795782981.4100251,
+      "id": "job_9372cbcfe32e",
+      "track_id": "rq_vocal_2",
+      "status": "completed",
+      "progress": 1.0,
+      "message": "completed",
+      "created_at": 1795782976.9430666,
+      "finished_at": 1795782981.4089098
+    },
+    {
+      "event_time": 1795782981.858233,
+      "observed_at": 1795782981.8589025,
+      "id": "job_5055cc92eda1",
+      "track_id": "rq_vocal_1",
+      "status": "queued",
+      "progress": 0.0,
+      "message": "queued",
+      "created_at": 1795782981.85711,
+      "finished_at": null
+    },
+    {
+      "event_time": 1795782981.8597276,
+      "observed_at": 1795782981.8602026,
+      "id": "job_5055cc92eda1",
+      "track_id": "rq_vocal_1",
+      "status": "running",
+      "progress": 0.05,
+      "message": "rendering vocal with explicit CI synthesis fixture",
+      "created_at": 1795782981.85711,
+      "finished_at": null
+    },
+    {
+      "event_time": 1795782982.109279,
+      "observed_at": 1795782982.11017,
+      "id": "job_5149abbda024",
+      "track_id": "rq_vocal_2",
+      "status": "queued",
+      "progress": 0.0,
+      "message": "queued",
+      "created_at": 1795782982.1077273,
+      "finished_at": null
+    },
+    {
+      "event_time": 1795782983.53961,
+      "observed_at": 1795782983.5408823,
+      "id": "job_5055cc92eda1",
+      "track_id": "rq_vocal_1",
+      "status": "completed",
+      "progress": 1.0,
+      "message": "completed",
+      "created_at": 1795782981.85711,
+      "finished_at": 1795782983.538883
+    },
+    {
+      "event_time": 1795782983.5402784,
+      "observed_at": 1795782983.5409124,
+      "id": "job_5149abbda024",
+      "track_id": "rq_vocal_2",
+      "status": "running",
+      "progress": 0.05,
+      "message": "rendering vocal with explicit CI synthesis fixture",
+      "created_at": 1795782982.1077273,
+      "finished_at": null
+    },
+    {
+      "event_time": 1795782985.2225013,
+      "observed_at": 1795782985.2230618,
+      "id": "job_5149abbda024",
+      "track_id": "rq_vocal_2",
+      "status": "completed",
+      "progress": 1.0,
+      "message": "completed",
+      "created_at": 1795782982.1077273,
+      "finished_at": 1795782985.2219071
+    }
+  ],
+  "poll_samples_tail": [
+    {
+      "t": 1795782981.812607,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782981.8666975,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782981.9210174,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782981.9753544,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.0299945,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.0849602,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.1388087,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.1929374,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.24678,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.3013587,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.3555398,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.4095104,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.4698265,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.5235677,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.5780518,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.6319826,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782982.6865926,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.114273,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.1711006,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.233334,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.3236976,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.381475,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.437403,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.491105,
+      "running": [
+        "job_5055cc92eda1"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "queued",
+        "job_5055cc92eda1": "running",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.5451221,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.5996068,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.6535244,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.7067013,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.7606666,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.8144908,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.868583,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.9229727,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782983.9768236,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.0307918,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.0848284,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.1385114,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.1922274,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.2463362,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.3001022,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.354379,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.4084194,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.8176038,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.8793344,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782984.9457839,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.011983,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.0703685,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.126612,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.1809902,
+      "running": [
+        "job_5149abbda024"
+      ],
+      "running_count": 1,
+      "statuses": {
+        "job_5149abbda024": "running",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.2341874,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.2881563,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.3446217,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.3989363,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.453193,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.5073261,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.5622485,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.616715,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.671041,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.7258592,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.781011,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.8357594,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.8902879,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782985.946412,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.000681,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.0556567,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.1096835,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.166413,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.2225792,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.2769487,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.333403,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.3993487,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.458369,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.525775,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.5850585,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.6456468,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.7041447,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.7758958,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.8368452,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.8909583,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.945573,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    },
+    {
+      "t": 1795782986.9998953,
+      "running": [],
+      "running_count": 0,
+      "statuses": {
+        "job_5149abbda024": "completed",
+        "job_5055cc92eda1": "completed",
+        "job_9372cbcfe32e": "completed",
+        "job_425a9b79f6e3": "completed"
+      }
+    }
+  ],
+  "console": [],
+  "network_failures": [],
+  "http_errors": []
+}

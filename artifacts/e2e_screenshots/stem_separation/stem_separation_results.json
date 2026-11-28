@@ -1,0 +1,200 @@
+{
+  "console_errors": [],
+  "network_failures": [],
+  "project_id": "project_1711300fbb50",
+  "source_uploaded_visible": true,
+  "job": {
+    "id": "job_ec926df50e1b",
+    "project_id": "project_1711300fbb50",
+    "track_id": null,
+    "mode": "separate",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed; added separated vocal/instrumental tracks for mixed_source",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_vocal.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/diagnostic.png",
+    "created_at": 1795759310.2883656,
+    "finished_at": 1795759310.6355507,
+    "error": null,
+    "engine": "explicit CI music fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/mixed_source.wav",
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null
+  },
+  "tracks": {
+    "vocal": {
+      "id": "track_09d515681b6a",
+      "name": "Separated vocal \u2014 mixed_source",
+      "type": "audio",
+      "color": "#ff7b9c",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [
+        {
+          "id": "clip_4f13b4e5f194",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_vocal.wav",
+          "start_ticks": 0,
+          "duration_ticks": 1920,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated vocal"
+        }
+      ],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_vocal.wav",
+      "render_revision": 1
+    },
+    "instrumental": {
+      "id": "track_0ebd8e7674cf",
+      "name": "Separated instrumental \u2014 mixed_source",
+      "type": "audio",
+      "color": "#42c6a8",
+      "voice_id": "zero-shot-reference",
+      "reference_voice_path": null,
+      "language": "zh",
+      "notes": [],
+      "clips": [
+        {
+          "id": "clip_4f20b8f64ae0",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_accompaniment.wav",
+          "start_ticks": 0,
+          "duration_ticks": 1920,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated instrumental"
+        }
+      ],
+      "automation": {
+        "pitch_cents": [],
+        "dynamic": [],
+        "air": [],
+        "falsetto": [],
+        "tension": [],
+        "energy": []
+      },
+      "breaths": [],
+      "mute": false,
+      "solo": false,
+      "volume": 0.8,
+      "pan": 0.0,
+      "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_accompaniment.wav",
+      "render_revision": 1
+    },
+    "count": 3
+  },
+  "metadata": {
+    "job_id": "job_ec926df50e1b",
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/mixed_source.wav",
+    "vocal_track_id": "track_09d515681b6a",
+    "accompaniment_track_id": "track_0ebd8e7674cf",
+    "vocal_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_vocal.wav",
+    "accompaniment_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_accompaniment.wav",
+    "engine": "explicit CI separation fixture"
+  },
+  "export_statuses": [
+    200,
+    200
+  ],
+  "ratio_before_mute": 0.7493016989093136,
+  "mute_persisted": true,
+  "ratio_after_mute": 0.00011416864490292189,
+  "clip_edit": {
+    "before": {
+      "id": "clip_4f13b4e5f194",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_vocal.wav",
+      "start_ticks": 0,
+      "duration_ticks": 1920,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Separated vocal"
+    },
+    "after_drag": {
+      "id": "clip_4f13b4e5f194",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_vocal.wav",
+      "start_ticks": 120,
+      "duration_ticks": 1920,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Separated vocal"
+    },
+    "after_trim": {
+      "id": "clip_4f13b4e5f194",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_vocal.wav",
+      "start_ticks": 120,
+      "duration_ticks": 1920,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Separated vocal"
+    },
+    "trim_retry": {
+      "before": {
+        "id": "clip_4f13b4e5f194",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_vocal.wav",
+        "start_ticks": 120,
+        "duration_ticks": 1920,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "Separated vocal"
+      },
+      "after": {
+        "id": "clip_4f13b4e5f194",
+        "path": "/home/ubuntu/repos/OpenACE/data/renders/project_1711300fbb50/job_ec926df50e1b/separated_vocal.wav",
+        "start_ticks": 120,
+        "duration_ticks": 1680,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "Separated vocal"
+      }
+    }
+  },
+  "diagnostic_exists": true,
+  "cli_visibility": {
+    "returncode": 0,
+    "has_usage": true,
+    "stdout": "usage: openace-tool separate [-h] [--track TRACK] project source_audio\n\npositional arguments:\n  project\n  source_audio\n\noptions:\n  -h, --help     show this help message and exit\n  --track TRACK\n"
+  },
+  "mcp_visibility": true,
+  "checks": {
+    "job_completed": true,
+    "both_tracks_no_reload": true,
+    "metadata_paths_durations": true,
+    "mute_persisted": true,
+    "quantitative_mute_difference": true,
+    "clip_drag_trim": true,
+    "diagnostic_exists": true,
+    "api_cli_mcp_visibility": true,
+    "no_console_network_errors": true
+  },
+  "passed": true
+}

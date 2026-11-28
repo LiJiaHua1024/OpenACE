@@ -1,0 +1,428 @@
+{
+  "console_errors": [],
+  "network_failures": [],
+  "initial": {
+    "rows": [
+      {
+        "index": 1,
+        "lyric": "Ooh,",
+        "top": 528,
+        "bottom": 559,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "uw"
+      },
+      {
+        "index": 2,
+        "lyric": "",
+        "top": 562,
+        "bottom": 593,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": ""
+      },
+      {
+        "index": 3,
+        "lyric": "ooh,",
+        "top": 596,
+        "bottom": 627,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "uw"
+      },
+      {
+        "index": 4,
+        "lyric": "ooh,",
+        "top": 630,
+        "bottom": 661,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "uw"
+      },
+      {
+        "index": 5,
+        "lyric": "la",
+        "top": 664,
+        "bottom": 695,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 6,
+        "lyric": "la",
+        "top": 698,
+        "bottom": 729,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 7,
+        "lyric": "la",
+        "top": 732,
+        "bottom": 763,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 8,
+        "lyric": "la",
+        "top": 766,
+        "bottom": 797,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 9,
+        "lyric": "la",
+        "top": 800,
+        "bottom": 831,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 10,
+        "lyric": "la",
+        "top": 834,
+        "bottom": 865,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 11,
+        "lyric": "la",
+        "top": 868,
+        "bottom": 899,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 12,
+        "lyric": "la",
+        "top": 902,
+        "bottom": 933,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 13,
+        "lyric": "la",
+        "top": 936,
+        "bottom": 967,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 14,
+        "lyric": "la",
+        "top": 970,
+        "bottom": 1001,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 15,
+        "lyric": "la",
+        "top": 1004,
+        "bottom": 1035,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      }
+    ],
+    "assessment": {
+      "gaps": [
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34
+      ],
+      "vertical_overlaps": [],
+      "horizontal_input_phoneme_overlaps": [],
+      "aligned": true,
+      "no_overlap": true
+    },
+    "count": 15,
+    "summary": "30 notes \u00b7 1 missing lyrics"
+  },
+  "scroll_top_after_wheel": 640,
+  "scrolled": {
+    "rows": [
+      {
+        "index": 15,
+        "lyric": "la",
+        "top": 364,
+        "bottom": 395,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 16,
+        "lyric": "la",
+        "top": 398,
+        "bottom": 429,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 17,
+        "lyric": "la",
+        "top": 432,
+        "bottom": 463,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 18,
+        "lyric": "la",
+        "top": 466,
+        "bottom": 497,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 19,
+        "lyric": "la",
+        "top": 500,
+        "bottom": 531,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 20,
+        "lyric": "la",
+        "top": 534,
+        "bottom": 565,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 21,
+        "lyric": "la",
+        "top": 568,
+        "bottom": 599,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 22,
+        "lyric": "la",
+        "top": 602,
+        "bottom": 633,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 23,
+        "lyric": "la",
+        "top": 636,
+        "bottom": 667,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 24,
+        "lyric": "hey",
+        "top": 670,
+        "bottom": 701,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "hh ey"
+      },
+      {
+        "index": 25,
+        "lyric": "yo",
+        "top": 704,
+        "bottom": 735,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "y ow"
+      },
+      {
+        "index": 26,
+        "lyric": "yeah",
+        "top": 738,
+        "bottom": 769,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "y ae"
+      },
+      {
+        "index": 27,
+        "lyric": "la",
+        "top": 772,
+        "bottom": 803,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 28,
+        "lyric": "la",
+        "top": 806,
+        "bottom": 837,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      },
+      {
+        "index": 29,
+        "lyric": "la",
+        "top": 840,
+        "bottom": 871,
+        "height": 31,
+        "inputRight": 1142.734375,
+        "phonemeLeft": 1147.734375,
+        "phoneme": "l aa"
+      }
+    ],
+    "assessment": {
+      "gaps": [
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34
+      ],
+      "vertical_overlaps": [],
+      "horizontal_input_phoneme_overlaps": [],
+      "aligned": true,
+      "no_overlap": true
+    },
+    "count": 15
+  },
+  "found_row27": true,
+  "edit": {
+    "before": "la",
+    "target_index": 27,
+    "backend_row27_lyric": "hey",
+    "backend_row27_phonemes": [
+      "hh",
+      "ey"
+    ],
+    "visible_value": ""
+  },
+  "dense1200": {
+    "summary": "1200 notes \u00b7 1200 missing lyrics",
+    "mounted_row_count": 15,
+    "scroll_height": 40800,
+    "client_height": 220,
+    "first_indices": [
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "assessment": {
+      "gaps": [
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34,
+        34
+      ],
+      "vertical_overlaps": [],
+      "horizontal_input_phoneme_overlaps": [],
+      "aligned": true,
+      "no_overlap": true
+    }
+  },
+  "checks": {
+    "initial_30_summary": true,
+    "initial_rows_aligned": true,
+    "virtualized_initial": true,
+    "real_scroll_later_rows": true,
+    "scrolled_rows_correct_aligned": true,
+    "later_edit_persisted": true,
+    "dense_virtualized_not_thousands": true,
+    "no_console_network_errors": true,
+    "no_blank_after_track_switch": false
+  },
+  "passed": false,
+  "post_switch_blank_defect": {
+    "repro": "Scroll 30-note lyric list, switch to dense project, then select Dense Vocal track after a zero-note vocal track had unmounted the list.",
+    "observed": "Lyric list viewport blank; DOM scrollTop 0 while virtual window transform remained translateY(646px), first mounted row index 20 below viewport.",
+    "recovery": "A real mouse-wheel scroll inside the blank list made rows 12-17 appear, confirming stale virtual scroll state rather than missing data.",
+    "artifacts": [
+      "lyric_virtualization_blank_defect.png",
+      "lyric_virtualization_scroll_recovery.png",
+      "lyric_virtualization_check.png"
+    ]
+  }
+}
