@@ -9,7 +9,7 @@ import TempoLane from './components/TempoLane'
 import TransportBar from './components/TransportBar'
 import { crossfadeGainAt, crossfadeIntervals } from './crossfade'
 import { canonicalJson } from './renderFingerprint'
-import { barTicks, secondsBetweenTicks, secondsToTicks, tickDurationSeconds, ticksToSeconds } from './tempo'
+import { barTicks, beatUnitTicks, secondsBetweenTicks, secondsToTicks, tickDurationSeconds, ticksToSeconds } from './tempo'
 import type { AudioClip, LoudnessReading, Project, RenderJob, TimelineState, Track } from './types'
 
 function clone<T>(value: T): T {
@@ -202,6 +202,13 @@ export default function App() {
   const [loopRange, setLoopRange] = useState<{ start: number; end: number } | null>(null)
   const [loopEnabled, setLoopEnabled] = useState(false)
   const [followPlayback, setFollowPlayback] = useState(() => window.localStorage.getItem('openace_follow_playback') !== 'off')
+  const [metronomeEnabled, setMetronomeEnabled] = useState(() => window.localStorage.getItem('openace_metronome') === 'on')
+  const metronomeEnabledRef = useRef(false)
+  const metronomeTimer = useRef<number | null>(null)
+  const metronomeScheduled = useRef<Set<number>>(new Set())
+  const metronomeNodes = useRef<{ osc: OscillatorNode; gain: GainNode; end: number }[]>([])
+  const metronomeSession = useRef(0)
+  metronomeEnabledRef.current = metronomeEnabled
   const [jobs, setJobs] = useState<RenderJob[]>([])
   const [projectList, setProjectList] = useState<{ id: string; title: string; bpm?: number; track_count?: number; updated_at?: number; pinned?: boolean; tags?: string[]; folders?: string[] }[]>([])
   const [past, setPast] = useState<Project[]>([])
@@ -561,7 +568,63 @@ export default function App() {
 
   const selectedTrack = project?.tracks.find(t => t.id === selectedTrackId) || project?.tracks[0]
 
+  const clearMetronome = useCallback(() => {
+    metronomeSession.current += 1
+    if (metronomeTimer.current !== null) window.clearInterval(metronomeTimer.current)
+    metronomeTimer.current = null
+    metronomeScheduled.current.clear()
+    const nodes = metronomeNodes.current.splice(0)
+    nodes.forEach(({ osc, gain }) => {
+      try { osc.stop(0) } catch {}
+      try { osc.disconnect() } catch {}
+      try { gain.disconnect() } catch {}
+    })
+  }, [])
+
+  const scheduleMetronome = useCallback((targetProject: Project) => {
+    clearMetronome()
+    const ctx = playback.current.ctx
+    if (!ctx || !metronomeEnabledRef.current) return
+    const session = metronomeSession.current
+    const unit = beatUnitTicks(targetProject)
+    const numerator = Math.max(1, targetProject.time_signature.numerator)
+    const transportStartSeconds = ticksToSeconds(targetProject, playback.current.startTicks)
+    const scheduleAhead = () => {
+      if (!metronomeEnabledRef.current || playback.current.ctx !== ctx || session !== metronomeSession.current) return
+      const horizon = ctx.currentTime + 2.25
+      const elapsed = Math.max(0, ctx.currentTime - playback.current.startContextTime)
+      const nowTicks = secondsToTicks(targetProject, transportStartSeconds + elapsed)
+      let tick = Math.max(0, Math.floor(nowTicks / unit) * unit)
+      if (tick < nowTicks - 1) tick += unit
+      for (let count = 0; count < 96; count++, tick += unit) {
+        const at = playback.current.startContextTime + ticksToSeconds(targetProject, tick) - transportStartSeconds
+        if (at > horizon) break
+        if (at < ctx.currentTime + 0.01 || metronomeScheduled.current.has(tick)) continue
+        metronomeScheduled.current.add(tick)
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        const downbeat = Math.round(tick / unit) % numerator === 0
+        osc.frequency.value = downbeat ? 1760 : 1175
+        gain.gain.setValueAtTime(0.0001, at)
+        gain.gain.exponentialRampToValueAtTime(downbeat ? 0.22 : 0.14, at + 0.003)
+        gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.055)
+        osc.connect(gain).connect(ctx.destination)
+        metronomeNodes.current.push({ osc, gain, end: at + 0.075 })
+        osc.start(at)
+        osc.stop(at + 0.065)
+      }
+      metronomeNodes.current = metronomeNodes.current.filter(node => node.end >= ctx.currentTime - 0.2)
+      for (const tickValue of Array.from(metronomeScheduled.current)) {
+        const at = playback.current.startContextTime + ticksToSeconds(targetProject, tickValue) - transportStartSeconds
+        if (at < ctx.currentTime - 0.2) metronomeScheduled.current.delete(tickValue)
+      }
+    }
+    scheduleAhead()
+    if (session === metronomeSession.current) metronomeTimer.current = window.setInterval(scheduleAhead, 250)
+  }, [clearMetronome])
+
   const stopPlaybackAudio = useCallback(() => {
+    clearMetronome()
     playback.current.generation += 1
     playback.current.sources.forEach(source => { try { source.stop() } catch {} })
     playback.current.sources = []
@@ -580,7 +643,7 @@ export default function App() {
     }, 30)
     // Keep the context alive: decoder and node creation are reused across transport starts.
     playback.current.ctx = undefined
-  }, [])
+  }, [clearMetronome])
 
   const getTrackLevel = useCallback((trackId: string) => analyserPeakLevel(playback.current.analysers[trackId]), [])
   const getMasterLevel = useCallback(() => analyserPeakLevel(playback.current.masterAnalyser), [])
@@ -694,14 +757,6 @@ export default function App() {
       } catch { return null }
     })))
     if (playback.current.generation !== generation) return false
-    if (!continuous) {
-      playback.current.startMs = performance.now()
-      playback.current.startTicks = startTicks
-      playback.current.startContextTime = ctx?.currentTime || 0
-    }
-    const scheduleOffsetSeconds = continuous && ctx
-      ? ticksToSeconds(targetProject, playback.current.startTicks) + (ctx.currentTime - playback.current.startContextTime)
-      : ticksToSeconds(targetProject, startTicks)
     playback.current.analysers = {}
     const masterInput = ctx.createGain()
     const masterAnalyser = ctx.createAnalyser()
@@ -744,6 +799,14 @@ export default function App() {
     } catch {
       playback.current.loudness.available = false
     }
+    if (!continuous) {
+      playback.current.startMs = performance.now()
+      playback.current.startTicks = startTicks
+      playback.current.startContextTime = ctx?.currentTime || 0
+    }
+    const scheduleOffsetSeconds = continuous && ctx
+      ? ticksToSeconds(targetProject, playback.current.startTicks) + (ctx.currentTime - playback.current.startContextTime)
+      : ticksToSeconds(targetProject, startTicks)
     const trackInputs = new Map<string, GainNode>()
     const inputForTrack = (track: Track) => {
       const existing = trackInputs.get(track.id)
@@ -837,8 +900,10 @@ export default function App() {
     }
     playback.current.sources = nextSources
     playback.current.transitionGains = nextTransitionGains
+    if (playback.current.generation !== generation) return false
+    scheduleMetronome(targetProject)
     return true
-  }, [])
+  }, [scheduleMetronome])
 
   const seekTransport = useCallback((ticks: number) => {
     const target = Math.max(0, Math.floor(ticks))
@@ -896,6 +961,18 @@ export default function App() {
     }
   }, [playing, followPlayback, project, playheadTicks, timeline.pxPerBeat, timeline.scrollTicks])
 
+  const previousMetronomeEnabled = useRef(metronomeEnabled)
+  useEffect(() => {
+    const wasEnabled = previousMetronomeEnabled.current
+    previousMetronomeEnabled.current = metronomeEnabled
+    if (wasEnabled === metronomeEnabled) return
+    if (!metronomeEnabled) {
+      clearMetronome()
+    } else if (playing && project) {
+      scheduleMetronome(project)
+    }
+  }, [metronomeEnabled, playing, project, clearMetronome, scheduleMetronome])
+
   const playToggle = useCallback(async () => {
     if (!project) return
     if (playing) {
@@ -908,9 +985,6 @@ export default function App() {
     playback.current.starting = true
     playbackSnapshotRef.current = playbackAudioSnapshot(project)
     await schedulePlayback(project, playheadTicks)
-    playback.current.startMs = performance.now()
-    playback.current.startTicks = playheadTicks
-    playback.current.startContextTime = playback.current.ctx?.currentTime || 0
     cancelAnimationFrame(playback.current.raf)
     const step = () => {
       const current = projectRef.current
@@ -1006,6 +1080,8 @@ export default function App() {
         onLoopToggle={toggleLoop}
         followPlayback={followPlayback}
         onFollowToggle={() => setFollowPlayback(value => { const next = !value; window.localStorage.setItem('openace_follow_playback', next ? 'on' : 'off'); return next })}
+        metronomeEnabled={metronomeEnabled}
+        onMetronomeToggle={() => setMetronomeEnabled(value => { const next = !value; window.localStorage.setItem('openace_metronome', next ? 'on' : 'off'); return next })}
         onTitleChange={title => updateProject(next => { next.title = title }, false)}
         onBpmChange={bpm => updateProject(next => { next.bpm = Math.max(30, Math.min(300, bpm)) }, false)}
         onTimeSignatureChange={(numerator, denominator) => updateProject(next => { next.time_signature = { numerator, denominator } }, false)}

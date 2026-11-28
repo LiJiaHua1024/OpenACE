@@ -10,6 +10,7 @@ interface Props {
   playheadTicks: number
   loopEnabled?: boolean
   followPlayback?: boolean
+  metronomeEnabled?: boolean
   canUndo: boolean
   canRedo: boolean
   onPlayToggle(): void
@@ -17,6 +18,7 @@ interface Props {
   onSeek(ticks: number): void
   onLoopToggle?(): void
   onFollowToggle?(): void
+  onMetronomeToggle?(): void
   onTitleChange(title: string): void
   onBpmChange(bpm: number): void
   onTimeSignatureChange(numerator: number, denominator: number): void
@@ -154,6 +156,7 @@ export default function TransportBar(props: Props) {
         <button className="icon-button" title="Stop" onClick={props.onStop}>■</button>
         <button className={props.loopEnabled ? 'icon-button loop-toggle active' : 'icon-button loop-toggle'} title="Loop playback" onClick={props.onLoopToggle}>Loop</button>
         <button className={props.followPlayback ? 'icon-button loop-toggle active' : 'icon-button loop-toggle'} title="Follow playhead during playback" onClick={props.onFollowToggle}>Follow</button>
+        <button className={props.metronomeEnabled ? 'icon-button loop-toggle active' : 'icon-button loop-toggle'} title="Metronome clicks during playback" onClick={props.onMetronomeToggle}>Metro</button>
         <button className={`play-button ${props.playing ? 'playing' : ''}`} title="Space" onClick={props.onPlayToggle}>{props.playing ? '❚❚' : '▶'}</button>
       </div>
       <button className={`save-state ${props.saveState}`} title={props.saveError || (props.saveState === 'saved' ? 'Project saved locally' : props.saveState === 'saving' ? 'Saving project…' : 'Save failed; click to retry')} onClick={props.saveState === 'error' ? props.onRetrySave : undefined}>{props.saveState === 'saved' ? 'Saved' : props.saveState === 'saving' ? 'Saving…' : 'Save failed — retry'}</button>

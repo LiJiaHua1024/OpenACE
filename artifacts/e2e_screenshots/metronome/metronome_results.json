@@ -1,0 +1,932 @@
+{
+  "baseline_constant_120": {
+    "t0": 291.92126984126986,
+    "rows": [
+      {
+        "i": 1,
+        "when": 292.42126984126986,
+        "expected": 292.42126984126986,
+        "residual_ms": 0.0,
+        "freq": 1175,
+        "downbeat_expected": false
+      },
+      {
+        "i": 2,
+        "when": 292.92126984126986,
+        "expected": 292.92126984126986,
+        "residual_ms": 0.0,
+        "freq": 1175,
+        "downbeat_expected": false
+      },
+      {
+        "i": 3,
+        "when": 293.42126984126986,
+        "expected": 293.42126984126986,
+        "residual_ms": 0.0,
+        "freq": 1175,
+        "downbeat_expected": false
+      },
+      {
+        "i": 4,
+        "when": 293.92126984126986,
+        "expected": 293.92126984126986,
+        "residual_ms": 0.0,
+        "freq": 1760,
+        "downbeat_expected": true
+      },
+      {
+        "i": 5,
+        "when": 294.43287981859413,
+        "expected": 294.42126984126986,
+        "residual_ms": 11.609977324269494,
+        "freq": 1175,
+        "downbeat_expected": false
+      },
+      {
+        "i": 6,
+        "when": 294.93287981859413,
+        "expected": 294.92126984126986,
+        "residual_ms": 11.609977324269494,
+        "freq": 1175,
+        "downbeat_expected": false
+      },
+      {
+        "i": 7,
+        "when": 295.43287981859413,
+        "expected": 295.42126984126986,
+        "residual_ms": 11.609977324269494,
+        "freq": 1175,
+        "downbeat_expected": false
+      },
+      {
+        "i": 8,
+        "when": 295.93287981859413,
+        "expected": 295.92126984126986,
+        "residual_ms": 11.609977324269494,
+        "freq": 1760,
+        "downbeat_expected": true
+      },
+      {
+        "i": 9,
+        "when": 296.43287981859413,
+        "expected": 296.42126984126986,
+        "residual_ms": 11.609977324269494,
+        "freq": 1175,
+        "downbeat_expected": false
+      },
+      {
+        "i": 10,
+        "when": 296.93287981859413,
+        "expected": 296.92126984126986,
+        "residual_ms": 11.609977324269494,
+        "freq": 1175,
+        "downbeat_expected": false
+      },
+      {
+        "i": 11,
+        "when": 297.43287981859413,
+        "expected": 297.42126984126986,
+        "residual_ms": 11.609977324269494,
+        "freq": 1175,
+        "downbeat_expected": false
+      }
+    ],
+    "intervals": [
+      0.5,
+      0.5,
+      0.5,
+      0.51161,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "max_abs_residual_ms": 11.609977324269494,
+    "freqs": [
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175
+    ]
+  },
+  "toggle_off": {
+    "events_after_drain": 0,
+    "playback_button_after_test": "\u275a\u275a",
+    "storage": "off",
+    "class": "icon-button loop-toggle"
+  },
+  "reload_off": {
+    "storage": "off",
+    "class": "icon-button loop-toggle"
+  },
+  "reload_on": {
+    "storage": "on",
+    "class": "icon-button loop-toggle active"
+  },
+  "seek_restart": {
+    "count": 15,
+    "exact_duplicate_count": 0,
+    "short_interval_count_under350ms": 9,
+    "min_interval_ms": 164.0816326530583,
+    "intervals": [
+      0.5,
+      0.335918,
+      0.164082,
+      0.335918,
+      0.164082,
+      0.335918,
+      0.175692,
+      0.324308,
+      0.175692,
+      0.324308,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "events": [
+      {
+        "when": 37.094648526077094,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 36.594648526077094,
+        "perf": 36.90579999998212
+      },
+      {
+        "when": 37.594648526077094,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 36.594648526077094,
+        "perf": 36.90579999998212
+      },
+      {
+        "when": 37.930566893424036,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 37.430566893424036,
+        "perf": 37.7445
+      },
+      {
+        "when": 38.094648526077094,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 36.594648526077094,
+        "perf": 36.90579999998212
+      },
+      {
+        "when": 38.430566893424036,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 37.430566893424036,
+        "perf": 37.7445
+      },
+      {
+        "when": 38.594648526077094,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 36.594648526077094,
+        "perf": 36.90579999998212
+      },
+      {
+        "when": 38.930566893424036,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 37.430566893424036,
+        "perf": 37.7445
+      },
+      {
+        "when": 39.106258503401364,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 36.86167800453515,
+        "perf": 37.176799999982116
+      },
+      {
+        "when": 39.430566893424036,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 37.430566893424036,
+        "perf": 37.7445
+      },
+      {
+        "when": 39.606258503401364,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 37.36090702947846,
+        "perf": 37.67819999998808
+      },
+      {
+        "when": 39.930566893424036,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 37.71791383219955,
+        "perf": 38.02889999997616
+      },
+      {
+        "when": 40.430566893424036,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 38.20843537414966,
+        "perf": 38.51969999998808
+      },
+      {
+        "when": 40.930566893424036,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 38.70766439909297,
+        "perf": 39.01629999998212
+      },
+      {
+        "when": 41.430566893424036,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 39.19528344671202,
+        "perf": 39.50489999997616
+      },
+      {
+        "when": 41.930566893424036,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 39.69451247165533,
+        "perf": 40.00959999999404
+      }
+    ],
+    "duplicate_events": []
+  },
+  "loop_restart": {
+    "count": 21,
+    "exact_duplicate_count": 8,
+    "short_interval_count_under350ms": 8,
+    "min_interval_ms": 0.0,
+    "intervals": [
+      0.5,
+      0.5,
+      0.5,
+      0.51161,
+      0.0,
+      0.5,
+      0.0,
+      0.5,
+      0.0,
+      0.5,
+      0.0,
+      0.5,
+      0.0,
+      0.5,
+      0.0,
+      0.5,
+      0.0,
+      0.5,
+      0.0,
+      0.5
+    ],
+    "events": [
+      {
+        "when": 41.042040816326534,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 40.542040816326534,
+        "perf": 40.85929999998212
+      },
+      {
+        "when": 41.542040816326534,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 40.542040816326534,
+        "perf": 40.85929999998212
+      },
+      {
+        "when": 42.042040816326534,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 40.542040816326534,
+        "perf": 40.859399999976155
+      },
+      {
+        "when": 42.542040816326534,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 40.542040816326534,
+        "perf": 40.859399999976155
+      },
+      {
+        "when": 43.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 40.820680272108845,
+        "perf": 41.13509999999404
+      },
+      {
+        "when": 43.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 42.573786848072565,
+        "perf": 42.88319999998808
+      },
+      {
+        "when": 43.553650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 41.319909297052156,
+        "perf": 41.63719999998808
+      },
+      {
+        "when": 43.553650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 42.573786848072565,
+        "perf": 42.88319999998808
+      },
+      {
+        "when": 44.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 41.83074829931973,
+        "perf": 42.14069999998808
+      },
+      {
+        "when": 44.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 42.573786848072565,
+        "perf": 42.88319999998808
+      },
+      {
+        "when": 44.553650793650796,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 42.32997732426304,
+        "perf": 42.64619999998808
+      },
+      {
+        "when": 44.553650793650796,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 42.573786848072565,
+        "perf": 42.88329999998212
+      },
+      {
+        "when": 45.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 42.82920634920635,
+        "perf": 43.14419999998808
+      },
+      {
+        "when": 45.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 44.55909297052154,
+        "perf": 44.87309999999404
+      },
+      {
+        "when": 45.553650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 43.340045351473925,
+        "perf": 43.64969999998808
+      },
+      {
+        "when": 45.553650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 44.55909297052154,
+        "perf": 44.87309999999404
+      },
+      {
+        "when": 46.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 43.83927437641724,
+        "perf": 44.15309999999404
+      },
+      {
+        "when": 46.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 44.55909297052154,
+        "perf": 44.87309999999404
+      },
+      {
+        "when": 46.553650793650796,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 44.32689342403628,
+        "perf": 44.64469999998808
+      },
+      {
+        "when": 46.553650793650796,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 44.55909297052154,
+        "perf": 44.87319999998808
+      },
+      {
+        "when": 47.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 44.82612244897959,
+        "perf": 45.13909999999404
+      }
+    ],
+    "duplicate_events": [
+      {
+        "when": 43.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 42.573786848072565,
+        "perf": 42.88319999998808
+      },
+      {
+        "when": 43.553650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 42.573786848072565,
+        "perf": 42.88319999998808
+      },
+      {
+        "when": 44.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 42.573786848072565,
+        "perf": 42.88319999998808
+      },
+      {
+        "when": 44.553650793650796,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 42.573786848072565,
+        "perf": 42.88329999998212
+      },
+      {
+        "when": 45.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 44.55909297052154,
+        "perf": 44.87309999999404
+      },
+      {
+        "when": 45.553650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 44.55909297052154,
+        "perf": 44.87309999999404
+      },
+      {
+        "when": 46.053650793650796,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 44.55909297052154,
+        "perf": 44.87309999999404
+      },
+      {
+        "when": 46.553650793650796,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 44.55909297052154,
+        "perf": 44.87319999998808
+      }
+    ]
+  },
+  "time_signature_3_4": {
+    "freqs": [
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1760
+    ],
+    "analysis": {
+      "t0": 12.353015873015874,
+      "rows": [
+        {
+          "i": 1,
+          "when": 12.853015873015874,
+          "expected": 12.853015873015874,
+          "residual_ms": 0.0,
+          "freq": 1175,
+          "downbeat_expected": false
+        },
+        {
+          "i": 2,
+          "when": 13.353015873015874,
+          "expected": 13.353015873015874,
+          "residual_ms": 0.0,
+          "freq": 1175,
+          "downbeat_expected": false
+        },
+        {
+          "i": 3,
+          "when": 13.853015873015874,
+          "expected": 13.853015873015874,
+          "residual_ms": 0.0,
+          "freq": 1760,
+          "downbeat_expected": true
+        },
+        {
+          "i": 4,
+          "when": 14.353015873015874,
+          "expected": 14.353015873015874,
+          "residual_ms": 0.0,
+          "freq": 1175,
+          "downbeat_expected": false
+        },
+        {
+          "i": 5,
+          "when": 14.864625850340136,
+          "expected": 14.853015873015874,
+          "residual_ms": 11.609977324262388,
+          "freq": 1175,
+          "downbeat_expected": false
+        },
+        {
+          "i": 6,
+          "when": 15.364625850340136,
+          "expected": 15.353015873015874,
+          "residual_ms": 11.609977324262388,
+          "freq": 1760,
+          "downbeat_expected": true
+        },
+        {
+          "i": 7,
+          "when": 15.864625850340136,
+          "expected": 15.853015873015874,
+          "residual_ms": 11.609977324262388,
+          "freq": 1175,
+          "downbeat_expected": false
+        },
+        {
+          "i": 8,
+          "when": 16.364625850340136,
+          "expected": 16.353015873015874,
+          "residual_ms": 11.609977324262388,
+          "freq": 1175,
+          "downbeat_expected": false
+        },
+        {
+          "i": 9,
+          "when": 16.864625850340136,
+          "expected": 16.853015873015874,
+          "residual_ms": 11.609977324262388,
+          "freq": 1760,
+          "downbeat_expected": true
+        }
+      ],
+      "intervals": [
+        0.5,
+        0.5,
+        0.5,
+        0.51161,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "max_abs_residual_ms": 11.609977324262388,
+      "freqs": [
+        1175,
+        1175,
+        1760,
+        1175,
+        1175,
+        1760,
+        1175,
+        1175,
+        1760
+      ]
+    }
+  },
+  "piecewise_created_point": {
+    "ticks": 1920,
+    "bpm": 130.0,
+    "curve": "step"
+  },
+  "piecewise_tempo": {
+    "t0": 16.207528344671204,
+    "rows": [
+      {
+        "i": 1,
+        "when": 16.707528344671204,
+        "expected": 16.707528344671204,
+        "residual_ms": 0.0,
+        "freq": 1175
+      },
+      {
+        "i": 2,
+        "when": 17.207528344671204,
+        "expected": 17.207528344671204,
+        "residual_ms": 0.0,
+        "freq": 1175
+      },
+      {
+        "i": 3,
+        "when": 17.707528344671204,
+        "expected": 17.707528344671204,
+        "residual_ms": 0.0,
+        "freq": 1175
+      },
+      {
+        "i": 4,
+        "when": 18.207528344671204,
+        "expected": 18.207528344671204,
+        "residual_ms": 0.0,
+        "freq": 1760
+      },
+      {
+        "i": 5,
+        "when": 18.680676783533926,
+        "expected": 18.669066806209663,
+        "residual_ms": 11.609977324262388,
+        "freq": 1175
+      },
+      {
+        "i": 6,
+        "when": 19.14221524507239,
+        "expected": 19.130605267748127,
+        "residual_ms": 11.609977324262388,
+        "freq": 1175
+      },
+      {
+        "i": 7,
+        "when": 19.60375370661085,
+        "expected": 19.592143729286587,
+        "residual_ms": 11.609977324262388,
+        "freq": 1175
+      },
+      {
+        "i": 8,
+        "when": 20.065292168149313,
+        "expected": 20.05368219082505,
+        "residual_ms": 11.609977324262388,
+        "freq": 1760
+      },
+      {
+        "i": 9,
+        "when": 20.526830629687773,
+        "expected": 20.51522065236351,
+        "residual_ms": 11.609977324262388,
+        "freq": 1175
+      },
+      {
+        "i": 10,
+        "when": 20.988369091226236,
+        "expected": 20.976759113901974,
+        "residual_ms": 11.609977324262388,
+        "freq": 1175
+      },
+      {
+        "i": 11,
+        "when": 21.449907552764696,
+        "expected": 21.438297575440433,
+        "residual_ms": 11.609977324262388,
+        "freq": 1175
+      }
+    ],
+    "intervals": [
+      0.5,
+      0.5,
+      0.5,
+      0.473148,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538
+    ],
+    "freqs": [
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175
+    ],
+    "max_abs_residual_ms": 11.609977324262388
+  },
+  "piecewise_cleanup_positive_count": 0,
+  "console": [],
+  "pageerrors": [],
+  "network_failures": [],
+  "export_wav": {
+    "file": "artifacts/e2e_screenshots/metronome/metronome_export.wav",
+    "sample_rate": 48000,
+    "seconds": 20.909083333333335,
+    "click_band_analysis": {
+      "1175": {
+        "bin_freq": 1171.875,
+        "max_ratio": 6.685893043673087,
+        "strong_peak_times": [
+          0.021,
+          0.491,
+          0.939
+        ],
+        "median": 0.004388676291241228,
+        "max": 0.029342220293228624
+      },
+      "1760": {
+        "bin_freq": 1757.8125,
+        "max_ratio": 16.470350749334465,
+        "strong_peak_times": [
+          0.085,
+          0.491,
+          0.96,
+          1.472,
+          1.963
+        ],
+        "median": 0.0015893278198895937,
+        "max": 0.026176786665727033
+      }
+    },
+    "interpretation": "Fixture source mixed_source.wav already contains periodic high-frequency click-like material predating the metronome work; therefore spectral clicks in this fixture export are not evidence of metronome leakage. The decisive isolation check is export_state_independence: Metro-on and Metro-off exports are byte-identical."
+  },
+  "export_state_independence": {
+    "metro_on_file": "artifacts/e2e_screenshots/metronome/metronome_export.wav",
+    "metro_off_file": "artifacts/e2e_screenshots/metronome/metronome_export_off.wav",
+    "byte_identical": true,
+    "note": "The fixture itself contains periodic high-frequency source material, so state-independent byte equality is the meaningful isolation check."
+  },
+  "follow_regression": {
+    "seek_before": "3.1.1 / 00:04.02",
+    "during_playback": "3.4.3 / 00:05.79",
+    "result": "Follow active; after paging the red playhead remained visible and aligned across arrangement, tempo lane, and piano roll in 12_follow_regression_after_paging.png"
+  },
+  "rebuild_restart": {
+    "count": 16,
+    "exact_duplicate_count": 3,
+    "short_interval_count_under350ms": 5,
+    "min_interval_ms": 0.0,
+    "intervals": [
+      0.5,
+      0.5,
+      0.01161,
+      0.48839,
+      0.01161,
+      0.5,
+      0.0,
+      0.5,
+      0.0,
+      0.5,
+      0.0,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "events": [
+      {
+        "when": 319.925306122449,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 319.425306122449,
+        "perf": 319.7136999999881
+      },
+      {
+        "when": 320.425306122449,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 319.425306122449,
+        "perf": 319.7136999999881
+      },
+      {
+        "when": 320.925306122449,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 319.425306122449,
+        "perf": 319.7136999999881
+      },
+      {
+        "when": 320.93691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 320.7140136054422,
+        "perf": 321.00389999997617
+      },
+      {
+        "when": 321.425306122449,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 319.425306122449,
+        "perf": 319.7136999999881
+      },
+      {
+        "when": 321.43691609977327,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 320.7140136054422,
+        "perf": 321.00389999997617
+      },
+      {
+        "when": 321.93691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 319.69233560090703,
+        "perf": 319.977
+      },
+      {
+        "when": 321.93691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 320.7140136054422,
+        "perf": 321.00389999997617
+      },
+      {
+        "when": 322.43691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 320.19156462585033,
+        "perf": 320.47839999997615
+      },
+      {
+        "when": 322.43691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 320.7140136054422,
+        "perf": 321.00389999997617
+      },
+      {
+        "when": 322.93691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 320.7140136054422,
+        "perf": 321.00109999999404
+      },
+      {
+        "when": 322.93691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 320.7140136054422,
+        "perf": 321.004
+      },
+      {
+        "when": 323.43691609977327,
+        "frequency": 1760,
+        "type": "sine",
+        "currentTime": 321.236462585034,
+        "perf": 321.523
+      },
+      {
+        "when": 323.93691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 321.7356916099773,
+        "perf": 322.02019999998805
+      },
+      {
+        "when": 324.43691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 322.2465306122449,
+        "perf": 322.5356999999881
+      },
+      {
+        "when": 324.93691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 322.7457596371882,
+        "perf": 323.029
+      }
+    ],
+    "duplicate_events": [
+      {
+        "when": 321.93691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 320.7140136054422,
+        "perf": 321.00389999997617
+      },
+      {
+        "when": 322.43691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 320.7140136054422,
+        "perf": 321.00389999997617
+      },
+      {
+        "when": 322.93691609977327,
+        "frequency": 1175,
+        "type": "sine",
+        "currentTime": 320.7140136054422,
+        "perf": 321.004
+      }
+    ]
+  }
+}
