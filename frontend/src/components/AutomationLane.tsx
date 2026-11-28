@@ -220,8 +220,8 @@ export default function AutomationLane(props: Props) {
       ctx.fillRect(0, 0, width, height)
       const barTicks = musicalBarTicks(props.project)
       const endTick = props.timeline.scrollTicks + ((width - KEY_WIDTH) / props.timeline.pxPerBeat) * ppq + barTicks
-      const firstTick = Math.floor(props.timeline.scrollTicks / (ppq / 4)) * (ppq / 4)
-      for (let t = firstTick; t < endTick; t += ppq / 4) {
+      const firstTick = Math.floor(props.timeline.scrollTicks / snapGrid) * snapGrid
+      for (let t = firstTick; t < endTick; t += snapGrid) {
         const x = xForTick(t)
         ctx.strokeStyle = t % barTicks === 0 ? '#414964' : t % ppq === 0 ? '#2c3248' : '#202536'
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke()

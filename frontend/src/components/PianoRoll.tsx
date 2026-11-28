@@ -196,11 +196,12 @@ export default function PianoRoll(props: Props) {
         ctx.fillRect(32, y, 30, view.rowHeight)
       }
 
+      const step = ppq / gridDivision
       const beatTicks = ppq
       const barTicks = musicalBarTicks(props.project)
-      const startTick = Math.floor(props.timeline.scrollTicks / (ppq / 4)) * (ppq / 4)
+      const startTick = Math.floor(props.timeline.scrollTicks / step) * step
       const endTick = props.timeline.scrollTicks + ((width - KEY_WIDTH) / props.timeline.pxPerBeat) * ppq + ppq
-      for (let tick = startTick; tick <= endTick; tick += ppq / 4) {
+      for (let tick = startTick; tick <= endTick; tick += step) {
         const x = xForTick(tick)
         const isBar = tick % barTicks === 0
         const isBeat = tick % beatTicks === 0
@@ -537,7 +538,7 @@ export default function PianoRoll(props: Props) {
     const { x, y } = pointerPos(event)
     canvasRef.current?.setPointerCapture(event.pointerId)
     if (y < RULER_HEIGHT) {
-      props.onSeek(snap(tickForX(x), ppq / 4))
+      props.onSeek(snap(tickForX(x), ppq / gridDivision))
       return
     }
     if (x < KEY_WIDTH) return

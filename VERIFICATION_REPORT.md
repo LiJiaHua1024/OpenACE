@@ -1326,3 +1326,9 @@ Validation after iteration 116: frontend production build passed; independent br
 A broad adversarial workstation audit verified core creation/editing/render/export flows but found seven implementable UX/state defects. Fixed and browser-retested: current project now persists across reload instead of opening the first pinned project; transport no longer clips at 1600px (`max right=1588`); Ctrl+Shift+Z redoes while Ctrl+Z/Ctrl+Y regressions remain exact; newly added tracks become selected; Escape fully closes the project manager; media drags honor the shared 1/32 grid (`raw≈330 → 360`) while Alt preserves raw fine placement (`330`); Media Bin “Add at playhead” reuses the selected non-vocal track instead of creating duplicates. Evidence: `artifacts/e2e_screenshots/global_workflow_audit/` and `artifacts/e2e_screenshots/global_audit_fixes/`.
 
 Validation after iteration 117: frontend production build passed; independent browser audit/fix retest passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
+
+## Iteration 118 — complete editor grid alignment
+
+Closed remaining hardcoded sixteenth-note editor behavior after the shared-grid audit. Piano-roll and automation visual subdivision density now follow the same selected grid as arrangement editing, redraw immediately when the selector changes, and piano-roll ruler seeking snaps with the selected resolution. Browser QA verified raw seek ≈1170 landing exactly on tick 960 at 1/4 and tick 1200 at 1/32, immediate 112px/14px subdivision spacing changes in both piano and automation surfaces, exact note-drag regression (`480→420` at 1/32) with undo, and clean console/network. Evidence: `artifacts/e2e_screenshots/grid_alignment/`.
+
+Validation after iteration 118: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
