@@ -52,6 +52,8 @@ class Vibrato(BaseModel):
     depth_cents: float = 35.0
     frequency_hz: float = 5.4
     phase: float = 0.0
+    attack_ratio: float = 0.0
+    release_ratio: float = 0.0
 
 
 class Note(BaseModel):

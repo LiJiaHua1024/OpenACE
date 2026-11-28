@@ -63,6 +63,8 @@ def _vibrato(raw) -> Vibrato | None:
         depth_cents=_clamp(float(raw.get("depth", 25.0)), 5.0, 200.0),
         frequency_hz=1000.0 / period,
         phase=(float(raw.get("shift", 0.0)) / 100.0) * 2.0 * math.pi,
+        attack_ratio=_clamp(float(raw.get("in", 0.0)) / 100.0, 0.0, 1.0),
+        release_ratio=_clamp(float(raw.get("out", 0.0)) / 100.0, 0.0, 1.0),
     )
 
 

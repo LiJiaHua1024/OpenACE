@@ -162,7 +162,7 @@ export default function PianoRoll(props: Props) {
   const pitchEraseRef = useRef<{ minTick: number; maxTick: number } | null>(null)
   const fixedStrokeRef = useRef<{ points: { ticks: number; value: number; curve: string }[]; minTick: number; maxTick: number } | null>(null)
   const fixedSourceF0Ref = useRef<RenderedF0Curve | null>(null)
-  const vibratoGestureRef = useRef<{ mode: 'create' | 'depth' | 'phase' | 'frequency'; noteId: string; startX: number; startY: number; original: NonNullable<Note['vibrato']> | null; moved: boolean } | null>(null)
+  const vibratoGestureRef = useRef<{ mode: 'create' | 'depth' | 'phase' | 'frequency' | 'attack' | 'release'; noteId: string; startX: number; startY: number; original: NonNullable<Note['vibrato']> | null; moved: boolean } | null>(null)
   const [renderedF0, setRenderedF0] = useState<RenderedF0Curve | null>(null)
   const clipboardRef = useRef<Note[]>([])
   const [clipboardCount, setClipboardCount] = useState(0)
@@ -387,7 +387,8 @@ export default function PianoRoll(props: Props) {
             for (let sx = startX; sx <= x + w - 3; sx += 3) {
               const elapsed = ((sx - x) / Math.max(1, w)) * seconds
               const phase = 2 * Math.PI * note.vibrato.frequency_hz * elapsed + note.vibrato.phase
-              const sy = y + view.rowHeight * 0.67 + Math.sin(phase) * amplitude
+              const envelope = vibratoEnvelopeAt(note, elapsed * 1000, seconds * 1000)
+              const sy = y + view.rowHeight * 0.67 + Math.sin(phase) * amplitude * envelope
               if (sx === startX) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy)
             }
             ctx.stroke()
@@ -410,6 +411,18 @@ export default function PianoRoll(props: Props) {
               ctx.fill()
               ctx.fillStyle = '#ffae5f'
               ctx.fillRect(endX - 3.5, bottomY - 3.5, 7, 7)
+              const spanX = Math.max(1, endX - startX)
+              const middleY = y + view.rowHeight * 0.67
+              const attackX = startX + Math.max(0, Math.min(1, note.vibrato.attack_ratio || 0)) * spanX
+              const releaseX = endX - Math.max(0, Math.min(1, note.vibrato.release_ratio || 0)) * spanX
+              ctx.fillStyle = '#b69cff'
+              ctx.beginPath()
+              ctx.arc(attackX, middleY, 3.5, 0, Math.PI * 2)
+              ctx.fill()
+              ctx.fillStyle = '#7ddea8'
+              ctx.beginPath()
+              ctx.arc(releaseX, middleY, 3.5, 0, Math.PI * 2)
+              ctx.fill()
             }
           }
           if (drawDenseLabels && w > 24) {
@@ -670,8 +683,9 @@ export default function PianoRoll(props: Props) {
         }
       }
     }
-    if (note.vibrato && offsetMs / durationMs >= note.vibrato.start_ratio) {
-      cents += note.vibrato.depth_cents * Math.sin(2 * Math.PI * note.vibrato.frequency_hz * offsetMs / 1000 + note.vibrato.phase)
+    if (note.vibrato) {
+      const envelope = vibratoEnvelopeAt(note, offsetMs, durationMs)
+      cents += envelope * note.vibrato.depth_cents * Math.sin(2 * Math.PI * note.vibrato.frequency_hz * offsetMs / 1000 + note.vibrato.phase)
     }
     return cents
   }
@@ -783,6 +797,8 @@ export default function PianoRoll(props: Props) {
       amplitude: { x: startX, y: rect.y + 3 },
       phase: { x: startX, y: rect.y + view.rowHeight - 3 },
       frequency: { x: endX, y: rect.y + view.rowHeight - 3 },
+      attack: { x: startX + Math.max(0, Math.min(1, note.vibrato?.attack_ratio || 0)) * Math.max(1, endX - startX), y: rect.y + view.rowHeight * 0.67 },
+      release: { x: endX - Math.max(0, Math.min(1, note.vibrato?.release_ratio || 0)) * Math.max(1, endX - startX), y: rect.y + view.rowHeight * 0.67 },
     }
   }
 
@@ -792,10 +808,12 @@ export default function PianoRoll(props: Props) {
       const note = props.track.notes[index]
       if (!note.vibrato) continue
       const positions = vibratoHandlePositions(note)
-      const tests: { mode: 'depth' | 'phase' | 'frequency'; x: number; y: number }[] = [
+      const tests: { mode: 'depth' | 'phase' | 'frequency' | 'attack' | 'release'; x: number; y: number }[] = [
         { mode: 'depth', ...positions.amplitude },
         { mode: 'phase', ...positions.phase },
         { mode: 'frequency', ...positions.frequency },
+        { mode: 'attack', ...positions.attack },
+        { mode: 'release', ...positions.release },
       ]
       for (const test of tests) {
         if (Math.hypot(test.x - x, test.y - y) <= 7.5) return { note, mode: test.mode }
@@ -808,12 +826,25 @@ export default function PianoRoll(props: Props) {
     return Math.max(min, Math.min(max, value))
   }
 
+  function vibratoEnvelopeAt(note: Note, offsetMs: number, durationMs: number) {
+    const vibrato = note.vibrato
+    if (!vibrato || durationMs <= 0) return 0
+    const startMs = vibrato.start_ratio * durationMs
+    if (offsetMs < startMs || offsetMs > durationMs) return 0
+    const spanMs = Math.max(1e-9, durationMs - startMs)
+    const attackMs = clampNumber(vibrato.attack_ratio || 0, 0, 1) * spanMs
+    const releaseMs = clampNumber(vibrato.release_ratio || 0, 0, 1) * spanMs
+    const attack = attackMs <= 0 ? 1 : clampNumber((offsetMs - startMs) / attackMs, 0, 1)
+    const release = releaseMs <= 0 ? 1 : clampNumber((durationMs - offsetMs) / releaseMs, 0, 1)
+    return Math.min(attack, release)
+  }
+
   function updateVibratoGesture(x: number, y: number) {
     const gesture = vibratoGestureRef.current
     if (!gesture || !props.track) return
     const sourceNote = props.track.notes.find(note => note.id === gesture.noteId)
     if (!sourceNote) return
-    const base = gesture.original || { start_ratio: 0.55, depth_cents: 35, frequency_hz: 5.2, phase: 0 }
+    const base = gesture.original || { start_ratio: 0.55, depth_cents: 35, frequency_hz: 5.2, phase: 0, attack_ratio: 0, release_ratio: 0 }
     let next = { ...base }
     if (gesture.mode === 'create') {
       const rect = noteRect(sourceNote)
@@ -828,13 +859,17 @@ export default function PianoRoll(props: Props) {
       next.phase = base.phase + (x - gesture.startX) / 40
     } else if (gesture.mode === 'frequency') {
       next.frequency_hz = clampNumber(base.frequency_hz + (x - gesture.startX) / 30, 2.5, 8)
+    } else if (gesture.mode === 'attack') {
+      next.attack_ratio = clampNumber((base.attack_ratio || 0) + (x - gesture.startX) / 160, 0, 1)
+    } else if (gesture.mode === 'release') {
+      next.release_ratio = clampNumber((base.release_ratio || 0) + (gesture.startX - x) / 160, 0, 1)
     }
     gesture.moved = true
     mutateTrack(track => {
       const note = track.notes.find(item => item.id === gesture.noteId)
       if (note) note.vibrato = { ...next }
     }, true)
-    setPitchReadout(`vibrato ${next.depth_cents.toFixed(0)}¢ · ${next.frequency_hz.toFixed(1)}Hz · start ${(next.start_ratio * 100).toFixed(0)}%`)
+    setPitchReadout(`vibrato ${next.depth_cents.toFixed(0)}¢ · ${next.frequency_hz.toFixed(1)}Hz · start ${(next.start_ratio * 100).toFixed(0)}% · env ${(((next.attack_ratio || 0) + (next.release_ratio || 0)) * 100).toFixed(0)}%`)
   }
 
   function pitchPointPosition(note: Note, point: { offset_ms: number; cents: number }) {
@@ -1510,11 +1545,13 @@ export default function PianoRoll(props: Props) {
           depth_cents: 35,
           frequency_hz: 5.2,
           phase: 0,
+          attack_ratio: 0,
+          release_ratio: 0,
           ...(note.vibrato || {}),
           ...patch,
         }
       }
-    }, true)
+    }, false)
   }
 
   function openPhonemeEditor(x = 100, y = 92) {
@@ -1780,7 +1817,7 @@ export default function PianoRoll(props: Props) {
         {vibratoEditor && props.track && (() => {
           const note = props.track.notes.find(item => item.id === vibratoEditor.noteId)
           if (!note) return null
-          const vibrato = note.vibrato || { start_ratio: 0.35, depth_cents: 35, frequency_hz: 5.2, phase: 0 }
+          const vibrato = note.vibrato || { start_ratio: 0.35, depth_cents: 35, frequency_hz: 5.2, phase: 0, attack_ratio: 0, release_ratio: 0 }
           return (
             <div className="vibrato-editor" style={{ left: vibratoEditor.x, top: vibratoEditor.y }}>
               <div className="vibrato-header">
@@ -1802,6 +1839,12 @@ export default function PianoRoll(props: Props) {
               </label>
               <label>Phase {vibrato.phase.toFixed(2)}
                 <input type="range" min="0" max={Math.PI * 2} step="0.01" value={vibrato.phase} disabled={!note.vibrato} onChange={event => updateVibrato(note.id, { phase: Number(event.target.value) })} />
+              </label>
+              <label>Attack {((vibrato.attack_ratio || 0) * 100).toFixed(0)}%
+                <input type="range" min="0" max="1" step="0.01" value={vibrato.attack_ratio || 0} disabled={!note.vibrato} onChange={event => updateVibrato(note.id, { attack_ratio: Number(event.target.value) })} />
+              </label>
+              <label>Release {((vibrato.release_ratio || 0) * 100).toFixed(0)}%
+                <input type="range" min="0" max="1" step="0.01" value={vibrato.release_ratio || 0} disabled={!note.vibrato} onChange={event => updateVibrato(note.id, { release_ratio: Number(event.target.value) })} />
               </label>
             </div>
           )

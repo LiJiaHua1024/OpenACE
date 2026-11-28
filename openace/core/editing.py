@@ -247,6 +247,8 @@ def split_note(project: Project, track_id: str, note_id: str, split_ticks: int) 
         if "continuation" not in second.techniques:
             second.techniques.append("continuation")
 
+    if note.vibrato and (note.vibrato.attack_ratio > 0.000001 or note.vibrato.release_ratio > 0.000001):
+        raise ValueError("splitting vibrato attack/release envelopes is not yet truthful; clear the envelopes before splitting")
     if note.vibrato:
         split_ratio = left_ticks / note.duration_ticks
         vibrato_start = note.vibrato.start_ratio
@@ -392,6 +394,8 @@ def merge_notes(project: Project, track_id: str, note_ids: List[str]) -> Note:
                 continue
             if abs(note.vibrato.depth_cents - vibrato_template.depth_cents) > 0.01 or abs(note.vibrato.frequency_hz - vibrato_template.frequency_hz) > 0.001:
                 raise ValueError("split continuations have inconsistent vibrato depth/frequency and cannot be merged truthfully")
+            if note.vibrato.attack_ratio > 0.000001 or note.vibrato.release_ratio > 0.000001:
+                raise ValueError("merging vibrato attack/release envelopes is not yet truthful; clear the envelopes before merging")
             if note.vibrato.start_ratio > 0.000001 and vibrato_start_ms is not None and abs(candidate_start - vibrato_start_ms) > 1.0:
                 raise ValueError("split continuations have inconsistent vibrato start times and cannot be merged truthfully")
             if vibrato_phase is not None:

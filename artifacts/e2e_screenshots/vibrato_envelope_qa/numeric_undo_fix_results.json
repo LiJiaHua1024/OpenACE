@@ -1,0 +1,78 @@
+{
+  "console": [],
+  "badnet": [],
+  "pid": "project_2daf3070c064",
+  "exact_repro": {
+    "created": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.0,
+      "release_ratio": 0.0
+    },
+    "undo_enabled_after_create": true,
+    "after_five_steps": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.05,
+      "release_ratio": 0.0
+    },
+    "undo_enabled_while_slider_focused": true,
+    "undo_enabled_after_canvas_refocus": true,
+    "after_ctrl_z": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.0,
+      "release_ratio": 0.0
+    },
+    "after_ctrl_shift_z": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.05,
+      "release_ratio": 0.0
+    },
+    "undo_preserves_vibrato": true,
+    "redo_restores_numeric_edit": true
+  },
+  "numeric_exact_persistence": {
+    "before_reload": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.25,
+      "release_ratio": 0.2
+    },
+    "after_reload": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.25,
+      "release_ratio": 0.2
+    },
+    "exact": true,
+    "reload_exact": true
+  },
+  "canvas_handle_regression": {
+    "after_drag": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0,
+      "attack_ratio": 0.45,
+      "release_ratio": 0.2
+    },
+    "attack_exact": true,
+    "release_preserved": true,
+    "other_core_params_preserved": true,
+    "note_stable": true
+  }
+}

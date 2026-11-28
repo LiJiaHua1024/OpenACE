@@ -136,13 +136,29 @@ def interpolated_pitch_cents(points: Sequence, offset_ms: float) -> float:
     return 0.0
 
 
+def vibrato_envelope(note: Note, offset_ms: float, duration_ms: float) -> float:
+    """Return the deterministic vibrato amplitude envelope for a note-local offset."""
+    vibrato = note.vibrato
+    if not vibrato or duration_ms <= 0:
+        return 0.0
+    start_ms = vibrato.start_ratio * duration_ms
+    if offset_ms < start_ms or offset_ms > duration_ms:
+        return 0.0
+    span_ms = max(1e-9, duration_ms - start_ms)
+    attack_ms = max(0.0, min(1.0, vibrato.attack_ratio)) * span_ms
+    release_ms = max(0.0, min(1.0, vibrato.release_ratio)) * span_ms
+    attack = 1.0 if attack_ms <= 0 else max(0.0, min(1.0, (offset_ms - start_ms) / attack_ms))
+    release = 1.0 if release_ms <= 0 else max(0.0, min(1.0, (duration_ms - offset_ms) / release_ms))
+    return float(min(attack, release))
+
+
 def note_expression_cents(note: Note, offset_ms: float, duration_ms: float) -> float:
     """Return deterministic per-note vibrato plus interpolated pitch-handle cents."""
     cents = interpolated_pitch_cents(note.pitch_curve, offset_ms)
     if note.vibrato and duration_ms > 0:
-        ratio = offset_ms / duration_ms
-        if ratio >= note.vibrato.start_ratio:
-            cents += note.vibrato.depth_cents * np.sin(
+        envelope = vibrato_envelope(note, offset_ms, duration_ms)
+        if envelope:
+            cents += envelope * note.vibrato.depth_cents * np.sin(
                 2.0 * np.pi * note.vibrato.frequency_hz * offset_ms / 1000.0 + note.vibrato.phase
             )
     return float(cents)

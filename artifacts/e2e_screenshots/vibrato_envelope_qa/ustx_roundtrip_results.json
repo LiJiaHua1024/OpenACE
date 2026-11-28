@@ -1,0 +1,25 @@
+{
+  "export_status": 200,
+  "exported_vibrato": {
+    "length": 75.0,
+    "period": 192.308,
+    "depth": 45.0,
+    "in": 25.0,
+    "out": 20.0,
+    "shift": 0.0,
+    "drift": 0,
+    "vol_link": 0
+  },
+  "import_status": 200,
+  "imported_vibrato": {
+    "start_ratio": 0.25,
+    "depth_cents": 45.0,
+    "frequency_hz": 5.199991680013312,
+    "phase": 0.0,
+    "attack_ratio": 0.25,
+    "release_ratio": 0.2
+  },
+  "attack_exact": true,
+  "release_exact": true,
+  "frequency_roundtrip": 5.199991680013312
+}

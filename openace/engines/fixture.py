@@ -18,7 +18,7 @@ import numpy as np
 import soundfile as sf
 
 from openace.core.models import Project, Track
-from openace.core.pitch import midi_to_hz
+from openace.core.pitch import midi_to_hz, vibrato_envelope
 from openace.engines.processes import JobCancelled
 
 FIXTURE_ENV = "OPENACE_CI_SYNTH_FIXTURE"
@@ -79,12 +79,8 @@ class FixtureVocalEngine:
             else:
                 cents = np.zeros(len(t), dtype=np.float64)
             if note.vibrato:
-                active = offset_ms / duration_ms >= note.vibrato.start_ratio
-                cents = cents + np.where(
-                    active,
-                    note.vibrato.depth_cents * np.sin(2.0 * np.pi * note.vibrato.frequency_hz * offset_ms / 1000.0 + note.vibrato.phase),
-                    0.0,
-                )
+                envelope = np.array([vibrato_envelope(note, float(value), duration_ms) for value in offset_ms], dtype=np.float64)
+                cents = cents + envelope * note.vibrato.depth_cents * np.sin(2.0 * np.pi * note.vibrato.frequency_hz * offset_ms / 1000.0 + note.vibrato.phase)
             if len(automation_x):
                 ticks = np.array([project.seconds_to_ticks_float(float(value)) for value in absolute_seconds], dtype=np.float64)
                 cents = cents + np.interp(ticks, automation_x, automation_y)
