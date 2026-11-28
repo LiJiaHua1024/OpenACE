@@ -93,6 +93,8 @@ class EnvelopePoint(BaseModel):
     ticks: int
     value: float
     curve: str = "linear"
+    # Only pitch_cents uses this; None means default voiced behavior.
+    voiced: Optional[bool] = None
 
 
 class VocalAutomation(BaseModel):

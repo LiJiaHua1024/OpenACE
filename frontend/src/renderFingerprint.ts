@@ -49,6 +49,13 @@ export function vocalRenderInputHash(project: Project, track: Track): string {
   const automation = { ...(track.automation as any) }
   delete automation.volume
   delete automation.pan
+  for (const key of Object.keys(automation)) {
+    automation[key] = (automation[key] || []).map((point: any) => {
+      const copy = { ...point }
+      if (copy.voiced == null) delete copy.voiced
+      return copy
+    })
+  }
   return fnv1a64(canonicalJson({
     automation,
     breaths,

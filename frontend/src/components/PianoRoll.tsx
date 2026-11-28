@@ -163,7 +163,7 @@ export default function PianoRoll(props: Props) {
   const anchorMarqueeRef = useRef<{ startX: number; startY: number; additive: boolean } | null>(null)
   const [anchorMarquee, setAnchorMarquee] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null)
   const [selectedPitchAnchors, setSelectedPitchAnchors] = useState<string[]>([])
-  const pitchStrokeRef = useRef<{ points: { ticks: number; value: number; curve: string }[]; minTick: number; maxTick: number } | null>(null)
+  const pitchStrokeRef = useRef<{ points: { ticks: number; value: number; curve: string; voiced?: boolean }[]; minTick: number; maxTick: number } | null>(null)
   const pitchEraseRef = useRef<{ minTick: number; maxTick: number } | null>(null)
   const fixedStrokeRef = useRef<{ points: { ticks: number; value: number; curve: string }[]; minTick: number; maxTick: number } | null>(null)
   const fixedSourceF0Ref = useRef<RenderedF0Curve | null>(null)
@@ -535,16 +535,24 @@ export default function PianoRoll(props: Props) {
             if (endX > startX) {
               ctx.strokeStyle = selected ? '#ffffffff' : '#f2f6ffd9'
               ctx.lineWidth = selected ? 1.9 : 1.4
-              ctx.beginPath()
-              let firstUserPoint = true
               const sampleStep = Math.max(2, Math.floor(w / 80))
+              let previousUserPoint: { x: number; y: number; voiced: boolean } | null = null
               for (let sx = startX; sx <= endX; sx += sampleStep) {
                 const tick = tickForX(sx)
                 const cents = pitchAutomationCentsAt(props.track.automation.pitch_cents, tick)
+                const voiced = pitchAutomationVoicedAt(props.track.automation.pitch_cents, tick)
                 const py = yForPitch(note.pitch + cents / 100) + view.rowHeight / 2
-                if (firstUserPoint) { ctx.moveTo(sx, py); firstUserPoint = false } else ctx.lineTo(sx, py)
+                if (previousUserPoint) {
+                  const segmentVoiced = previousUserPoint.voiced && voiced
+                  ctx.setLineDash(segmentVoiced ? [] : [5, 4])
+                  ctx.beginPath()
+                  ctx.moveTo(previousUserPoint.x, previousUserPoint.y)
+                  ctx.lineTo(sx, py)
+                  ctx.stroke()
+                }
+                previousUserPoint = { x: sx, y: py, voiced }
               }
-              ctx.stroke()
+              ctx.setLineDash([])
             }
           }
 
@@ -645,7 +653,18 @@ export default function PianoRoll(props: Props) {
     return 0
   }
 
-  function writePitchBrushAt(x: number, y: number) {
+  function pitchAutomationVoicedAt(points: { ticks: number; voiced?: boolean | null }[], ticks: number): boolean {
+    if (!points.length) return true
+    const ordered = [...points].sort((a, b) => a.ticks - b.ticks)
+    let voiced = true
+    for (const point of ordered) {
+      if (point.ticks > ticks) break
+      voiced = point.voiced == null ? true : point.voiced
+    }
+    return voiced
+  }
+
+  function writePitchBrushAt(x: number, y: number, altKey = false, shiftKey = false) {
     const stroke = pitchStrokeRef.current
     if (!stroke || !props.track) return
     const rawTick = tickForX(x)
@@ -656,15 +675,33 @@ export default function PianoRoll(props: Props) {
     stroke.minTick = Math.min(stroke.minTick, ticks)
     stroke.maxTick = Math.max(stroke.maxTick, ticks)
     const last = stroke.points[stroke.points.length - 1]
-    if (last && last.ticks === ticks) last.value = cents
-    else if (!last || Math.abs(ticks - last.ticks) >= 6 || Math.abs(cents - last.value) >= 3) stroke.points.push({ ticks, value: cents, curve: 'linear' })
+    const voiced = altKey ? shiftKey : true
+    if (last && last.ticks === ticks) {
+      last.value = cents
+      last.voiced = voiced
+    }
+    else if (!last || Math.abs(ticks - last.ticks) >= 6 || Math.abs(cents - last.value) >= 3 || last.voiced !== voiced) stroke.points.push({ ticks, value: cents, curve: 'linear', voiced })
     else return
     mutateTrack(track => {
       const outside = track.automation.pitch_cents.filter(point => point.ticks < stroke.minTick || point.ticks > stroke.maxTick)
       const rewritten = new Map(stroke.points.map(point => [point.ticks, point]))
       track.automation.pitch_cents = [...outside, ...rewritten.values()].sort((a, b) => a.ticks - b.ticks)
     }, true)
-    setPitchReadout(`${ticks} ticks · ${cents > 0 ? '+' : ''}${cents}¢ user pitch`)
+    setPitchReadout(`${ticks} ticks · ${cents > 0 ? '+' : ''}${cents}¢ ${voiced ? 'voiced' : 'voiceless'} pitch`)
+  }
+
+  function finalizePitchStrokeVoicing() {
+    const stroke = pitchStrokeRef.current
+    if (!stroke || !props.track || !stroke.points.length || !Number.isFinite(stroke.maxTick)) return
+    const rightmost = [...stroke.points].sort((a, b) => b.ticks - a.ticks)[0]
+    if (!rightmost || rightmost.voiced !== false) return
+    const boundaryTick = stroke.maxTick + 1
+    mutateTrack(track => {
+      if (!track.automation.pitch_cents.some(point => point.ticks === boundaryTick)) {
+        track.automation.pitch_cents.push({ ticks: boundaryTick, value: rightmost.value, curve: 'linear', voiced: true })
+        track.automation.pitch_cents.sort((a, b) => a.ticks - b.ticks)
+      }
+    }, true)
   }
 
   function midiToHz(pitch: number) {
@@ -1092,7 +1129,7 @@ export default function PianoRoll(props: Props) {
     if (tool === 'pitchBrush') {
       props.beginTransaction()
       pitchStrokeRef.current = { points: [], minTick: Number.POSITIVE_INFINITY, maxTick: Number.NEGATIVE_INFINITY }
-      writePitchBrushAt(x, y)
+      writePitchBrushAt(x, y, event.altKey, event.shiftKey)
       return
     }
 
@@ -1289,7 +1326,7 @@ export default function PianoRoll(props: Props) {
     const step = ppq / gridDivision
 
     if (pitchStrokeRef.current) {
-      writePitchBrushAt(x, y)
+      writePitchBrushAt(x, y, event.altKey, event.shiftKey)
       return
     }
 
@@ -1426,6 +1463,7 @@ export default function PianoRoll(props: Props) {
 
   function onPointerUp(event: React.PointerEvent) {
     if (pitchStrokeRef.current) {
+      finalizePitchStrokeVoicing()
       props.endTransaction()
       pitchStrokeRef.current = null
       window.setTimeout(() => setPitchReadout(null), 1600)
@@ -1968,7 +2006,7 @@ export default function PianoRoll(props: Props) {
           <button className={tool === 'select' ? 'tool active' : 'tool'} onClick={() => setTool('select')} title="Select/move (V)">➤</button>
           <button className={tool === 'pencil' ? 'tool active' : 'tool'} onClick={() => setTool('pencil')} title="Note brush (B)">✎</button>
           <button className={tool === 'erase' ? 'tool active' : 'tool'} onClick={() => setTool('erase')} title="Eraser (E)">⌫</button>
-          <button className={tool === 'pitchBrush' ? 'tool active' : 'tool'} onClick={() => setTool('pitchBrush')} title="Freehand user-pitch brush (1); left-drag draws continuous pitch automation, right-drag erases it">🖌 Pitch</button>
+          <button className={tool === 'pitchBrush' ? 'tool active' : 'tool'} onClick={() => setTool('pitchBrush')} title="Freehand user-pitch brush (1); left-drag draws voiced pitch, Alt draws dashed voiceless pitch, Shift+Alt forces voiced, right-drag erases">🖌 Pitch</button>
           <button className={tool === 'fixedBrush' ? 'tool active' : 'tool'} onClick={() => setTool('fixedBrush')} title="Fixed brush (2); lock fresh rendered pitch when available, otherwise the deterministic target pitch, as user pitch">▣ Fixed</button>
           <button className={tool === 'pitchEraser' ? 'tool active' : 'tool'} onClick={() => setTool('pitchEraser')} title="Pitch eraser (3); drag to erase user-pitch automation and per-note anchors while preserving outside automation">⌦ Pitch</button>
           <button className={tool === 'modulation' ? 'tool active' : 'tool'} onClick={() => setTool('modulation')} title="Pitch modulation (5); drag vertically on a note: down flattens deterministic vibrato, up amplifies it">⇕ Mod</button>

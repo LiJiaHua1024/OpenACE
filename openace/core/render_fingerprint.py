@@ -62,6 +62,13 @@ def vocal_render_input_hash(project: Project, track: Track) -> str:
     automation = track.automation.model_dump(mode="json")
     automation.pop("volume", None)
     automation.pop("pan", None)
+    # Missing and explicit null voicing both mean default voiced behavior. Omit the
+    # key so legacy projects keep stable fingerprints and browser/server hashes agree.
+    for lane_points in automation.values():
+        if isinstance(lane_points, list):
+            for point in lane_points:
+                if isinstance(point, dict) and point.get("voiced") is None:
+                    point.pop("voiced", None)
     payload = {
         "automation": automation,
         "breaths": breaths,

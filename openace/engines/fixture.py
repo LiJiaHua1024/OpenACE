@@ -18,7 +18,7 @@ import numpy as np
 import soundfile as sf
 
 from openace.core.models import Project, Track
-from openace.core.pitch import midi_to_hz, vibrato_envelope
+from openace.core.pitch import midi_to_hz, vibrato_envelope, pitch_envelope_state
 from openace.engines.processes import JobCancelled
 
 FIXTURE_ENV = "OPENACE_CI_SYNTH_FIXTURE"
@@ -81,9 +81,12 @@ class FixtureVocalEngine:
             if note.vibrato:
                 envelope = np.array([vibrato_envelope(note, float(value), duration_ms) for value in offset_ms], dtype=np.float64)
                 cents = cents + max(0.0, min(2.0, note.pitch_modulation)) * envelope * note.vibrato.depth_cents * np.sin(2.0 * np.pi * note.vibrato.frequency_hz * offset_ms / 1000.0 + note.vibrato.phase)
+            voiced_mask = np.ones(len(t), dtype=np.float64)
             if len(automation_x):
                 ticks = np.array([project.seconds_to_ticks_float(float(value)) for value in absolute_seconds], dtype=np.float64)
                 cents = cents + np.interp(ticks, automation_x, automation_y)
+                states = [pitch_envelope_state(automation_points, float(tick))[1] for tick in ticks]
+                voiced_mask = np.array(states, dtype=np.float64)
             instantaneous_f0 = midi_to_hz(note.pitch) * np.power(2.0, cents / 1200.0)
             phase = 2.0 * np.pi * np.cumsum(instantaneous_f0) / sr
             # Harmonic fixture intentionally sounds artificial; it validates control flow only.
@@ -92,7 +95,7 @@ class FixtureVocalEngine:
                 0.30 * np.sin(phase)
                 + 0.14 * np.sin(2.0 * phase)
                 + 0.06 * np.sin(3.0 * phase)
-            ) * env
+            ) * env * voiced_mask
             out[start:end] += signal.astype(np.float32)
         if progress: progress(0.82, "writing fixture vocal output")
         return write_fixture_wav(output_path, out, sr)

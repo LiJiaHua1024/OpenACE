@@ -15,7 +15,7 @@ from pypinyin import Style, lazy_pinyin
 
 from openace.core.models import Note, Project, Track
 from openace.core.phonemes import PhonemeError, cantonese_jyutping_syllables, ensure_note_phonemes, phonemes_for_text
-from openace.core.pitch import midi_to_hz, note_expression_cents
+from openace.core.pitch import midi_to_hz, note_expression_cents, pitch_envelope_state
 from openace.core.timing import validate_absolute_beat_anchor
 
 from .base import EngineUnavailable
@@ -410,11 +410,14 @@ def _f0_for_notes(project: Project, notes: Sequence[Note], end_ms: int, pitch_au
             absolute_ms = frame * HOP_MS
             t_ms = absolute_ms - note_start_ms
             cents = note_expression_cents(note, t_ms, note_duration_ms)
+            voiced = True
             if pitch_automation is not None:
                 project_ms = max(0.0, absolute_ms - leading_ms)
                 absolute_ticks = project.seconds_to_ticks_float(project_ms / 1000.0)
-                cents += _envelope_cents(pitch_automation, absolute_ticks)
-            f0[frame] = base * (2.0 ** (cents / 1200.0))
+                automation_cents, voiced = pitch_envelope_state(pitch_automation, absolute_ticks)
+                cents += automation_cents
+            if voiced:
+                f0[frame] = base * (2.0 ** (cents / 1200.0))
     return [round(float(x), 1) for x in f0]
 
 

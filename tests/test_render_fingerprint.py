@@ -41,3 +41,22 @@ def test_mix_automation_does_not_invalidate_vocal_render(tmp_path):
     track.automation.volume.append(EnvelopePoint(ticks=0, value=0.2))
     track.automation.pan.append(EnvelopePoint(ticks=480, value=1.0))
     assert vocal_render_input_hash(project, track) == before
+
+
+def test_voiceless_pitch_metadata_changes_hash_but_null_matches_legacy():
+    from openace.core.models import EnvelopePoint, Note, Project, Track
+
+    project = Project(bpm=120)
+    legacy = Track(name="lead")
+    legacy.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="la"))
+    legacy.automation.pitch_cents = [EnvelopePoint(ticks=0, value=0.0)]
+    project.tracks = [legacy]
+    legacy_hash = vocal_render_input_hash(project, legacy)
+
+    explicit_null = legacy.model_copy(deep=True)
+    explicit_null.automation.pitch_cents = [EnvelopePoint(ticks=0, value=0.0, voiced=None)]
+    assert vocal_render_input_hash(project, explicit_null) == legacy_hash
+
+    voiceless = legacy.model_copy(deep=True)
+    voiceless.automation.pitch_cents = [EnvelopePoint(ticks=0, value=0.0, voiced=False)]
+    assert vocal_render_input_hash(project, voiceless) != legacy_hash

@@ -163,6 +163,35 @@ def note_expression_cents(note: Note, offset_ms: float, duration_ms: float) -> f
             )
     return float(cents)
 
+
+def pitch_envelope_state(points: Sequence, tick: float) -> Tuple[float, bool]:
+    """Return interpolated pitch cents plus the forward-held user voicing state.
+
+    Missing `voiced` metadata means default voiced behavior; a later legacy/unknown
+    point therefore resets an earlier explicit voiceless segment instead of leaking it.
+    """
+    if not points:
+        return 0.0, True
+    ordered = sorted(points, key=lambda point: point.ticks)
+    if tick <= ordered[0].ticks:
+        cents = float(ordered[0].value)
+    elif tick >= ordered[-1].ticks:
+        cents = float(ordered[-1].value)
+    else:
+        cents = 0.0
+        for left, right in zip(ordered, ordered[1:]):
+            if left.ticks <= tick <= right.ticks:
+                span = max(1e-9, right.ticks - left.ticks)
+                ratio = (tick - left.ticks) / span
+                cents = float(left.value + (right.value - left.value) * ratio)
+                break
+    voiced = True
+    for point in ordered:
+        if point.ticks > tick:
+            break
+        voiced = True if point.voiced is None else bool(point.voiced)
+    return cents, voiced
+
 def pitch_curve_for_notes(project: Project, notes: Sequence[Note], frame_ms: float = 10.0, pitch_automation: Sequence | None = None) -> Tuple[np.ndarray, np.ndarray]:
     """Build target time/F0 curve in seconds/Hz through the piecewise tempo map."""
     if not notes:
@@ -182,10 +211,11 @@ def pitch_curve_for_notes(project: Project, notes: Sequence[Note], frame_ms: flo
             absolute_ms = frame * frame_ms
             offset_ms = absolute_ms - note_start_ms
             cents = note_expression_cents(note, offset_ms, duration_ms)
+            voiced = True
             if pitch_automation is not None:
-                from openace.core.expression import envelope_value
-
                 absolute_ticks = project.seconds_to_ticks_float(absolute_ms / 1000.0)
-                cents += envelope_value(pitch_automation, absolute_ticks, default=0.0)
-            f0[frame] = base * (2.0 ** (cents / 1200.0))
+                automation_cents, voiced = pitch_envelope_state(pitch_automation, absolute_ticks)
+                cents += automation_cents
+            if voiced:
+                f0[frame] = base * (2.0 ** (cents / 1200.0))
     return times, f0

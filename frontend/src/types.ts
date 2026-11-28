@@ -27,6 +27,7 @@ export interface EnvelopePoint {
   ticks: number
   value: number
   curve: string
+  voiced?: boolean | null
 }
 
 export interface VocalAutomation {

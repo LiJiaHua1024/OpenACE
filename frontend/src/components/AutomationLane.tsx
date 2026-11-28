@@ -52,7 +52,7 @@ export default function AutomationLane(props: Props) {
   const [selectedBreathId, setSelectedBreathId] = useState<string | null>(null)
   const [selection, setSelection] = useState<{ start: number; end: number } | null>(null)
   const selectionDragRef = useRef<{ anchorTicks: number; startX: number; moved: boolean } | null>(null)
-  const automationClipboardRef = useRef<{ lane: LaneKey; spanTicks: number; points: { deltaTicks: number; value: number; curve: string }[] } | null>(null)
+  const automationClipboardRef = useRef<{ lane: LaneKey; spanTicks: number; points: { deltaTicks: number; value: number; curve: string; voiced?: boolean }[] } | null>(null)
   const [, setAutomationClipboardVersion] = useState(0)
   const ppq = props.project.ppq
   const snapGrid = Math.max(1, Math.round(ppq / Math.max(1, props.timeline.gridDivision ?? 4)))
@@ -606,19 +606,28 @@ export default function AutomationLane(props: Props) {
     canvasRef.current?.releasePointerCapture(event.pointerId)
   }
 
+  function automationVoicedAt(source: { ticks: number; voiced?: boolean | null }[], tick: number) {
+    let voiced: boolean | undefined = undefined
+    for (const point of source) {
+      if (point.ticks > tick) break
+      voiced = point.voiced == null ? undefined : point.voiced
+    }
+    return voiced
+  }
+
   function copyAutomationSelection() {
     if (!props.track || !selection || selection.end <= selection.start) return
     const source = [...pointsFor(props.track, lane)].sort((a, b) => a.ticks - b.ticks)
-    const copied = new Map<number, { value: number; curve: string }>()
-    copied.set(0, { value: automationValueAt(source, selection.start), curve: 'linear' })
-    copied.set(selection.end - selection.start, { value: automationValueAt(source, selection.end), curve: 'linear' })
+    const copied = new Map<number, { value: number; curve: string; voiced?: boolean }>()
+    copied.set(0, { value: automationValueAt(source, selection.start), curve: 'linear', voiced: automationVoicedAt(source, selection.start) })
+    copied.set(selection.end - selection.start, { value: automationValueAt(source, selection.end), curve: 'linear', voiced: automationVoicedAt(source, selection.end) })
     for (const point of source) {
-      if (point.ticks > selection.start && point.ticks < selection.end) copied.set(point.ticks - selection.start, { value: point.value, curve: point.curve || 'linear' })
+      if (point.ticks > selection.start && point.ticks < selection.end) copied.set(point.ticks - selection.start, { value: point.value, curve: point.curve || 'linear', voiced: point.voiced == null ? undefined : point.voiced })
     }
     automationClipboardRef.current = {
       lane,
       spanTicks: selection.end - selection.start,
-      points: Array.from(copied.entries()).sort((a, b) => a[0] - b[0]).map(([deltaTicks, point]) => ({ deltaTicks, value: point.value, curve: point.curve })),
+      points: Array.from(copied.entries()).sort((a, b) => a[0] - b[0]).map(([deltaTicks, point]) => ({ deltaTicks, value: point.value, curve: point.curve, voiced: point.voiced })),
     }
     setAutomationClipboardVersion(version => version + 1)
   }
@@ -633,7 +642,11 @@ export default function AutomationLane(props: Props) {
       const track = project.tracks.find(item => item.id === trackId)
       if (!track) return
       const kept = clonePoints(pointsFor(track, lane)).filter(point => point.ticks < targetStart || point.ticks > targetEnd)
-      const pasted = clipboard.points.map(point => ({ ticks: Math.round(targetStart + point.deltaTicks), value: point.value, curve: point.curve || 'linear' }))
+      const pasted = clipboard.points.map(point => {
+        const pastedPoint: any = { ticks: Math.round(targetStart + point.deltaTicks), value: point.value, curve: point.curve || 'linear' }
+        if (point.voiced !== undefined) pastedPoint.voiced = point.voiced
+        return pastedPoint
+      })
       ;(track.automation as any)[lane] = [...kept, ...pasted].sort((a, b) => a.ticks - b.ticks)
     }, false)
     setSelection({ start: targetStart, end: targetEnd })
