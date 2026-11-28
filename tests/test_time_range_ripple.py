@@ -1,3 +1,5 @@
+import pytest
+
 from openace.core.editing import ripple_delete_time_range
 from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, Project, Track, TempoPoint
 
@@ -45,3 +47,26 @@ def test_time_range_ripple_delete_rejects_invalid_range():
         assert "start_ticks" in str(exc)
     else:
         raise AssertionError("invalid range accepted")
+
+
+def test_time_range_ripple_shifts_volume_and_pan_automation():
+    project = Project(bpm=120)
+    track = Track(name="Lead")
+    project.add_track(track)
+    track.automation.volume = [
+        EnvelopePoint(ticks=240, value=0.2),
+        EnvelopePoint(ticks=720, value=0.8),
+        EnvelopePoint(ticks=1680, value=0.4),
+    ]
+    track.automation.pan = [
+        EnvelopePoint(ticks=240, value=-0.5),
+        EnvelopePoint(ticks=720, value=0.5),
+        EnvelopePoint(ticks=1680, value=-1.0),
+    ]
+
+    result = ripple_delete_time_range(project, 480, 960)
+
+    assert result["removed"]["automation_points"] == 2
+    updated = project.tracks[0]
+    assert [(point.ticks, point.value) for point in updated.automation.volume] == [(240, 0.2), (480, pytest.approx(0.7)), (1200, 0.4)]
+    assert [(point.ticks, point.value) for point in updated.automation.pan] == [(240, -0.5), (480, pytest.approx(0.125)), (1200, -1.0)]

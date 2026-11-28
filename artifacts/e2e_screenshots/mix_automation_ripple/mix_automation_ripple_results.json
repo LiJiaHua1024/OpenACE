@@ -1,0 +1,276 @@
+{
+  "console": [],
+  "network": [],
+  "checks": {
+    "authored": {
+      "volume": [
+        {
+          "ticks": 480,
+          "value": 0.2,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 0.4,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1800,
+          "value": 0.7000001099732545,
+          "curve": "linear"
+        },
+        {
+          "ticks": 2400,
+          "value": 0.9,
+          "curve": "linear"
+        }
+      ],
+      "pan": [
+        {
+          "ticks": 480,
+          "value": -0.8,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": -0.4,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1800,
+          "value": 0.3999996808619281,
+          "curve": "linear"
+        },
+        {
+          "ticks": 2400,
+          "value": 0.8,
+          "curve": "linear"
+        }
+      ],
+      "passed": true
+    },
+    "ripple": {
+      "volume": [
+        {
+          "ticks": 480,
+          "value": 0.2,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 0.4,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1680,
+          "value": 0.8200000439893018,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1920,
+          "value": 0.9,
+          "curve": "linear"
+        }
+      ],
+      "pan": [
+        {
+          "ticks": 480,
+          "value": -0.8,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": -0.4,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1680,
+          "value": 0.6399998723447713,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1920,
+          "value": 0.8,
+          "curve": "linear"
+        }
+      ],
+      "expected_volume": [
+        {
+          "ticks": 480,
+          "value": 0.2
+        },
+        {
+          "ticks": 960,
+          "value": 0.4
+        },
+        {
+          "ticks": 1680,
+          "value": 0.8200000439893018
+        },
+        {
+          "ticks": 1920,
+          "value": 0.9
+        }
+      ],
+      "expected_pan": [
+        {
+          "ticks": 480,
+          "value": -0.8
+        },
+        {
+          "ticks": 960,
+          "value": -0.4
+        },
+        {
+          "ticks": 1680,
+          "value": 0.6399998723447713
+        },
+        {
+          "ticks": 1920,
+          "value": 0.8
+        }
+      ],
+      "passed": true
+    },
+    "undo_redo": {
+      "undo_volume": [
+        {
+          "ticks": 480,
+          "value": 0.2,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 0.4,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1800,
+          "value": 0.7000001099732545,
+          "curve": "linear"
+        },
+        {
+          "ticks": 2400,
+          "value": 0.9,
+          "curve": "linear"
+        }
+      ],
+      "undo_pan": [
+        {
+          "ticks": 480,
+          "value": -0.8,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": -0.4,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1800,
+          "value": 0.3999996808619281,
+          "curve": "linear"
+        },
+        {
+          "ticks": 2400,
+          "value": 0.8,
+          "curve": "linear"
+        }
+      ],
+      "redo_volume": [
+        {
+          "ticks": 480,
+          "value": 0.2,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 0.4,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1680,
+          "value": 0.8200000439893018,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1920,
+          "value": 0.9,
+          "curve": "linear"
+        }
+      ],
+      "redo_pan": [
+        {
+          "ticks": 480,
+          "value": -0.8,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": -0.4,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1680,
+          "value": 0.6399998723447713,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1920,
+          "value": 0.8,
+          "curve": "linear"
+        }
+      ],
+      "passed": true
+    },
+    "reload": {
+      "volume": [
+        {
+          "ticks": 480,
+          "value": 0.2,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": 0.4,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1680,
+          "value": 0.8200000439893018,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1920,
+          "value": 0.9,
+          "curve": "linear"
+        }
+      ],
+      "pan": [
+        {
+          "ticks": 480,
+          "value": -0.8,
+          "curve": "linear"
+        },
+        {
+          "ticks": 960,
+          "value": -0.4,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1680,
+          "value": 0.6399998723447713,
+          "curve": "linear"
+        },
+        {
+          "ticks": 1920,
+          "value": 0.8,
+          "curve": "linear"
+        }
+      ],
+      "passed": true
+    },
+    "playback_regression": "started_without_crash",
+    "expectation_note": "Initial expected values in test script used 50%; corrected exact interpolation is 60% because end boundary 2160 is 360 ticks after interior point 1800 within a 600-tick segment."
+  }
+}

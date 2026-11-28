@@ -8,7 +8,7 @@ from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, Phoneme,
 from openace.core.phonemes import ensure_note_phonemes, ensure_ordered_note_phonemes
 from openace.core.timing import validate_absolute_beat_anchor
 
-AUTOMATION_KEYS = {"pitch_cents", "dynamic", "air", "falsetto", "tension", "energy"}
+AUTOMATION_KEYS = {"pitch_cents", "dynamic", "air", "falsetto", "tension", "energy", "volume", "pan"}
 
 
 def validate_project(project: Project) -> None:
@@ -188,6 +188,9 @@ def set_automation_lane(project: Project, track_id: str, lane: str, points: List
     if lane == "pitch_cents":
         if any(point.value < -600 or point.value > 600 for point in parsed):
             raise ValueError("pitch_cents values must be within ±600 cents")
+    elif lane == "pan":
+        if any(point.value < -1 or point.value > 1 for point in parsed):
+            raise ValueError("pan values must be normalized in [-1, 1]")
     elif any(point.value < 0 or point.value > 1 for point in parsed):
         raise ValueError(f"{lane} values must be normalized in [0, 1]")
     setattr(track.automation, lane, parsed)

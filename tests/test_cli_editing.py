@@ -4,9 +4,12 @@ import subprocess
 import sys
 
 import numpy as np
+import pytest
 import soundfile as sf
 
 from openace.cli import json_payload
+from openace.core.editing import set_automation_lane
+from openace.core.models import Project, Track
 from openace.core.project_store import ProjectStore
 
 
@@ -130,3 +133,18 @@ def test_cli_ripple_delete_range_persists_cross_track_edit(tmp_path):
     track = stored.track(track_id)
     assert [(note.start_ticks, note.duration_ticks, note.lyric) for note in track.notes] == [(0, 480, "你"), (960, 480, "好")]
     assert [(clip.start_ticks, clip.duration_ticks, clip.offset_ticks) for clip in track.clips] == [(0, 480, 0), (480, 960, 960)]
+
+
+def test_mix_automation_lane_validation_and_ranges():
+    project = Project(bpm=120)
+    track = Track(name="Mix", type="vocal", language="zh")
+    project.add_track(track)
+
+    volume = set_automation_lane(project, track.id, "volume", [{"ticks": 480, "value": 0.25}])
+    pan = set_automation_lane(project, track.id, "pan", [{"ticks": 480, "value": -0.75}])
+    assert volume[0].value == pytest.approx(0.25)
+    assert pan[0].value == pytest.approx(-0.75)
+    with pytest.raises(ValueError, match="pan values"):
+        set_automation_lane(project, track.id, "pan", [{"ticks": 480, "value": -1.01}])
+    with pytest.raises(ValueError, match="volume values"):
+        set_automation_lane(project, track.id, "volume", [{"ticks": 480, "value": 1.01}])
