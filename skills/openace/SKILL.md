@@ -45,6 +45,11 @@ openace-tool set-expression <project-id> <track-id> dynamic '[{"ticks":0,"value"
 openace-tool upsert-breath <project-id> <track-id> '{"start_ticks":960,"duration_ticks":120,"intensity":1.2,"timbre":"natural"}'
 openace-tool upsert-clip <project-id> <track-id> '{"path":"/path/audio.wav","start_ticks":0,"duration_ticks":960}'
 openace-tool set-tempo <project-id> --bpm 120 --points-json '[{"ticks":960,"bpm":60}]'
+openace-tool import-voice /path/reference.wav --name "Lead reference"
+openace-tool list-voices
+openace-tool trim-voice <voice-id> <start-seconds> <end-seconds>
+openace-tool rename-voice <voice-id> "New display name"
+openace-tool delete-voice <voice-id> --unassign   # only when intentionally clearing project assignments
 openace-tool assign-voice <project-id> <track-id> <voice-id> --reference-voice /path/reference.wav
 openace-tool duplicate-project <project-id> --title "Copy"
 openace-tool organize-project <project-id> --pinned true --tags "lead,draft"
@@ -80,5 +85,5 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `ripple_delete_range`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `organize_project`, `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, queued/running render cancellation (`cancel_render_job`), separation, conversion, repaint, and export.
+Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `ripple_delete_range`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `organize_project`, voice-library atoms (`list_voices`, `import_voice`, `trim_voice`, `rename_voice`, `delete_voice`), `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, queued/running render cancellation (`cancel_render_job`), separation, conversion, repaint, and export.
 Media-library atoms: `openace-tool list-media`, `openace-tool place-media-clip <project> <media_name> --start-ticks <ticks> [--track-id <id>]`, and `openace-tool delete-media <media_name>`. Deletion is safe and fails while arrangement clips reference the media.

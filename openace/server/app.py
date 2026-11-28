@@ -23,6 +23,7 @@ from openace.core.phonemes import PhonemeError, ensure_note_phonemes, ensure_ord
 from openace.core.editing import merge_notes as merge_notes_operation, ripple_delete_time_range, split_note as split_note_operation
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.voice_library import VoiceLibrary
+from openace.core.voice_operations import delete_voice_with_project_cleanup
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_compressed_master, export_lyrics_video, export_master_wav, export_stems_zip
 from openace.exporters.midi_lrc import export_lrc, export_midi
@@ -247,6 +248,13 @@ def internal_media_updated(payload: Dict[str, Any]):
     action = str(payload.get("action") or "updated")
     media = payload.get("media") or {}
     event_bus.publish("media_library", {"action": action, "media": media})
+    return {"ok": True}
+
+
+@app.post("/api/internal/voice-library-updated")
+def internal_voice_library_updated(payload: Dict[str, Any]):
+    action = str(payload.get("action") or "updated")
+    event_bus.publish("voice_library", dict(payload, action=action))
     return {"ok": True}
 
 
@@ -614,42 +622,13 @@ def rename_voice(voice_id: str, request: VoiceRenameRequest):
 @app.delete("/api/voices/{voice_id}")
 def delete_voice(voice_id: str, unassign: bool = False):
     try:
-        voice = voice_library.get(voice_id)
+        result = delete_voice_with_project_cleanup(store, voice_library, voice_id, unassign=unassign, publish_project=publish_project)
     except KeyError as exc:
         raise HTTPException(404, str(exc)) from exc
-    usages = []
-    projects = []
-    for path in PROJECTS.glob("*.openace.json"):
-        try:
-            project = Project.load(path)
-        except Exception:
-            continue
-        projects.append(project)
-        for track in project.tracks:
-            if track.voice_id == voice_id or track.reference_voice_path == voice.path:
-                usages.append((project, track))
-    if usages and not unassign:
-        project, track = usages[0]
-        raise HTTPException(409, f"voice is in use by project '{project.title}' track '{track.name}'")
-    if usages:
-        for project in projects:
-            changed = False
-            for track in project.tracks:
-                if track.voice_id == voice_id:
-                    track.voice_id = ""
-                    changed = True
-                if track.reference_voice_path == voice.path:
-                    track.reference_voice_path = None
-                    changed = True
-            if changed:
-                store.save(project)
-                publish_project(project)
-    try:
-        deleted = voice_library.delete(voice_id)
-    except KeyError as exc:
-        raise HTTPException(404, str(exc)) from exc
-    event_bus.publish("voice_library", {"action": "deleted", "voice_id": voice_id, "unassigned": len(usages)})
-    return {"ok": True, "deleted": deleted.model_dump(mode="json"), "unassigned": len(usages)}
+    except RuntimeError as exc:
+        raise HTTPException(409, str(exc)) from exc
+    event_bus.publish("voice_library", {"action": "deleted", "voice_id": voice_id, "unassigned": result["unassigned"]})
+    return {"ok": True, **result}
 
 
 @app.post("/api/upload")

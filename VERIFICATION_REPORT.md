@@ -1569,3 +1569,17 @@ A fresh adversarial visible-Chrome audit after playback hardening and range expo
 Implemented truthful contiguous note merging across UI, API, CLI, and MCP. Merging preserves different written pitches as exact cent offsets in the merged per-note pitch curve rather than flattening melody, concatenates lyrics, regenerates coherent continuous phoneme timing for distinct syllables, and coalesces split `-` continuation chains back into one sustained vowel. Cases one note cannot represent truthfully—gaps/overlaps, custom phoneme overrides, differing velocity or pitch-snap behavior, duplicate ids, and independent vibrato-bearing spans—are rejected loudly without mutation. Split continuation chains instead reconstruct continuous vibrato; this exposed and fixed a real phase-continuity bug in split itself, because vibrato phase is note-local oscillator phase rather than activation-relative phase.
 
 Validation: focused core/API tests passed, production build passed. Independent visible-Chrome QA merged three distinct-pitch contiguous notes into one `你好吗` note of exactly 1440 ticks, verified coherent `n i x au m a` phonemes, exact pitch-step preservation (`20c → 270c → 110c`), undo/redo, reload persistence, split→merge restoration of a 1000ms sustained `啊` vowel, exact nonzero-phase vibrato restoration (`ratio=0.25, depth=42c, frequency=6.1Hz, phase=0.35`) after split/merge with undo/redo/reload, actionable no-mutation failures for gaps/velocity/custom phonemes/independent vibrato, CLI smoke, and clean console/network. Evidence: `artifacts/e2e_screenshots/merge_notes_qa/MERGE_NOTES_QA_REPORT.md` and recording `/home/ubuntu/screencasts/merge-notes-qa/merge-notes-qa-edited.mp4`. Full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
+
+## Iteration 154 — agent-native persistent reference voices
+
+### Implemented
+
+- Added shared `openace/core/voice_operations.py` cleanup logic so API, CLI, and MCP use the same truthful voice-deletion semantics rather than diverging.
+- Added CLI atoms: `list-voices`, `import-voice`, `trim-voice`, `rename-voice`, and `delete-voice [--unassign]`.
+- Added MCP tools: `list_voices`, `import_voice`, `trim_voice`, `rename_voice`, and `delete_voice`.
+- Added the loopback `/api/internal/voice-library-updated` SSE bridge so external CLI/MCP voice-library changes refresh an open workstation without reload.
+- Reworked server-side voice deletion to use the shared project-reference scan/cleanup path. Active assignments still reject by default; explicit unassignment durably clears `voice_id`/`reference_voice_path` before deleting the library voice.
+
+### Verification
+
+Focused unit/integration regression passed for persistent cleanup semantics and direct CLI/MCP atom behavior. Visible-Chrome adversarial QA used the real `.venv/bin/openace-tool` CLI while the reference panel remained open: real 2.5s WAV import appeared without reload in effectively 14ms; assignment preserved exact backend `voice_id`/path through undo/redo; CLI trim created an exact 1.5s source-linked profile and appeared in effectively 10ms; CLI rename appeared in effectively 10ms; deleting while assigned failed actionably without mutation; `--unassign` deletion cleared the option, visible selection, and backend assignment live; reload persistence held; unsupported `.txt` input failed actionably; console/network were clean. Evidence: `artifacts/e2e_screenshots/voice_library_atoms_qa/`.

@@ -13,6 +13,8 @@ from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
 from openace.core.media_library import delete_media_file, list_media, place_media_clip
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
+from openace.core.voice_library import VoiceLibrary
+from openace.core.voice_operations import delete_voice_with_project_cleanup
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.importers.audio import project_from_audio
@@ -67,6 +69,16 @@ def notify_media(media: dict, action: str) -> None:
         import urllib.request
         body = json.dumps({"action": action, "media": media}).encode("utf-8")
         req = urllib.request.Request("http://127.0.0.1:8787/api/internal/media-updated", data=body, headers={"Content-Type": "application/json"}, method="POST")
+        urllib.request.urlopen(req, timeout=0.25).read()
+    except Exception:
+        pass
+
+
+def notify_voice_library(payload: dict) -> None:
+    try:
+        import urllib.request
+        body = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request("http://127.0.0.1:8787/api/internal/voice-library-updated", data=body, headers={"Content-Type": "application/json"}, method="POST")
         urllib.request.urlopen(req, timeout=0.25).read()
     except Exception:
         pass
@@ -349,6 +361,53 @@ def set_tempo_map(project_id: str, bpm: Optional[float] = None, points: Optional
     return dumps({"bpm": project.bpm, "tempo_map": [point.model_dump(mode="json") for point in tempo_map]})
 
 
+def voice_library() -> VoiceLibrary:
+    return VoiceLibrary(DATA / "voices")
+
+
+def list_voices() -> str:
+    """List persistent zero-shot reference voices with truthful measured quality metadata."""
+    return dumps([voice.model_dump(mode="json") for voice in voice_library().list()])
+
+
+def import_voice(path: str, name: str = "") -> str:
+    """Import a local reference audio file into the persistent voice library."""
+    source = Path(path)
+    if not source.exists():
+        raise FileNotFoundError(f"reference voice not found: {source}")
+    library = voice_library()
+    with source.open("rb") as stream:
+        voice = library.create(source.name, stream)
+    if name.strip():
+        voice = library.rename(voice.id, name)
+    notify_voice_library({"action": "created", "voice": voice.model_dump(mode="json")})
+    return dumps(voice.model_dump(mode="json"))
+
+
+def trim_voice(voice_id: str, start_seconds: float, end_seconds: float) -> str:
+    """Create an exact sample-based trimmed copy of a reference voice."""
+    voice = voice_library().create_trimmed_copy(voice_id, start_seconds, end_seconds)
+    notify_voice_library({"action": "created", "voice": voice.model_dump(mode="json")})
+    return dumps(voice.model_dump(mode="json"))
+
+
+def rename_voice(voice_id: str, name: str) -> str:
+    """Rename a persistent zero-shot reference voice."""
+    voice = voice_library().rename(voice_id, name)
+    notify_voice_library({"action": "renamed", "voice": voice.model_dump(mode="json")})
+    return dumps(voice.model_dump(mode="json"))
+
+
+def delete_voice(voice_id: str, unassign: bool = False) -> str:
+    """Delete a reference voice; active project use requires explicit unassign=true."""
+    try:
+        result = delete_voice_with_project_cleanup(store, voice_library(), voice_id, unassign=unassign, publish_project=notify_web)
+    except RuntimeError as exc:
+        raise ValueError(str(exc) + "; pass unassign=true to remove the assignment explicitly") from exc
+    notify_voice_library({"action": "deleted", "voice_id": voice_id, "unassigned": result["unassigned"]})
+    return dumps({"ok": True, **result})
+
+
 def assign_voice(project_id: str, track_id: str, voice_id: str, reference_voice_path: Optional[str] = None) -> str:
     project = store.get(project_id)
     result = editing.assign_voice(project, track_id, voice_id, reference_voice_path)
@@ -411,6 +470,11 @@ def build_mcp_server():
     mcp.tool()(upsert_audio_clip)
     mcp.tool()(delete_audio_clip)
     mcp.tool()(set_tempo_map)
+    mcp.tool()(list_voices)
+    mcp.tool()(import_voice)
+    mcp.tool()(trim_voice)
+    mcp.tool()(rename_voice)
+    mcp.tool()(delete_voice)
     mcp.tool()(assign_voice)
     mcp.tool()(import_audio_project)
     mcp.tool()(import_midi_project)

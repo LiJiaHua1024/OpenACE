@@ -140,7 +140,7 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-The MCP tools mirror the atomic CLI: create/duplicate/delete projects, create tracks/notes, batch/edit notes, write expression lanes and breath events, edit audio clips and tempo maps, assign reference voices, transpose with interval conservation, render, separate stems, repaint, convert voices, import real audio/MIDI projects, and export project formats. External project creation/import/deletion and render-produced arrangement changes issue best-effort loopback SSE notifications so an already-open workstation updates without reload. No hosted model or vendor API key is involved.
+The MCP tools mirror the atomic CLI: create/duplicate/delete projects, create tracks/notes, batch/edit notes, write expression lanes and breath events, edit audio clips and tempo maps, import/list/trim/rename/delete reference voices with explicit in-use unassignment, assign reference voices, transpose with interval conservation, render, separate stems, repaint, convert voices, import real audio/MIDI projects, and export project formats. External project creation/import/deletion and render-produced arrangement changes issue best-effort loopback SSE notifications so an already-open workstation updates without reload. No hosted model or vendor API key is involved.
 
 ## Repository layout
 

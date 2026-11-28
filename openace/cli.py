@@ -14,6 +14,8 @@ from openace.core.phonemes import ensure_note_phonemes
 from openace.core.pitch import transpose_notes_preserve_intervals
 from openace.core.media_library import delete_media_file, list_media, place_media_clip
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
+from openace.core.voice_library import VoiceLibrary
+from openace.core.voice_operations import delete_voice_with_project_cleanup
 from openace.core.timing import validate_absolute_beat_anchor
 from openace.exporters.master import export_compressed_master, export_master_wav, export_stems_zip
 from openace.importers.audio import project_from_audio
@@ -74,6 +76,16 @@ def notify_media(media: dict, action: str) -> None:
         import urllib.request
         body = json.dumps({"action": action, "media": media}).encode("utf-8")
         request = urllib.request.Request("http://127.0.0.1:8787/api/internal/media-updated", data=body, headers={"Content-Type": "application/json"}, method="POST")
+        urllib.request.urlopen(request, timeout=0.25).read()
+    except Exception:
+        pass
+
+
+def notify_voice_library(payload: dict) -> None:
+    try:
+        import urllib.request
+        body = json.dumps(payload).encode("utf-8")
+        request = urllib.request.Request("http://127.0.0.1:8787/api/internal/voice-library-updated", data=body, headers={"Content-Type": "application/json"}, method="POST")
         urllib.request.urlopen(request, timeout=0.25).read()
     except Exception:
         pass
@@ -425,6 +437,50 @@ def cmd_set_tempo(args) -> None:
     emit({"bpm": project.bpm, "tempo_map": [point.model_dump(mode="json") for point in tempo_map]})
 
 
+def voice_library() -> VoiceLibrary:
+    return VoiceLibrary(DATA / "voices")
+
+
+def cmd_list_voices(args) -> None:
+    emit([voice.model_dump(mode="json") for voice in voice_library().list()])
+
+
+def cmd_import_voice(args) -> None:
+    path = Path(args.path)
+    if not path.exists():
+        raise FileNotFoundError(f"reference voice not found: {path}")
+    library = voice_library()
+    with path.open("rb") as stream:
+        voice = library.create(path.name, stream)
+    if args.name:
+        voice = library.rename(voice.id, args.name)
+    notify_voice_library({"action": "created", "voice": voice.model_dump(mode="json")})
+    emit(voice.model_dump(mode="json"))
+
+
+def cmd_trim_voice(args) -> None:
+    voice = voice_library().create_trimmed_copy(args.voice, args.start_seconds, args.end_seconds)
+    notify_voice_library({"action": "created", "voice": voice.model_dump(mode="json")})
+    emit(voice.model_dump(mode="json"))
+
+
+def cmd_rename_voice(args) -> None:
+    voice = voice_library().rename(args.voice, args.name)
+    notify_voice_library({"action": "renamed", "voice": voice.model_dump(mode="json")})
+    emit(voice.model_dump(mode="json"))
+
+
+def cmd_delete_voice(args) -> None:
+    store, _ = services()
+    library = voice_library()
+    try:
+        result = delete_voice_with_project_cleanup(store, library, args.voice, unassign=args.unassign, publish_project=notify_web)
+    except RuntimeError as exc:
+        raise ValueError(str(exc) + "; pass --unassign to remove the assignment explicitly") from exc
+    notify_voice_library({"action": "deleted", "voice_id": args.voice, "unassigned": result["unassigned"]})
+    emit({"ok": True, **result})
+
+
 def cmd_assign_voice(args) -> None:
     store, _ = services()
     project = store.get(args.project)
@@ -595,6 +651,25 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("set-tempo")
     p.add_argument("project"); p.add_argument("--bpm", type=float); p.add_argument("--points-json")
     p.set_defaults(func=cmd_set_tempo)
+
+    p = sub.add_parser("list-voices")
+    p.set_defaults(func=cmd_list_voices)
+
+    p = sub.add_parser("import-voice")
+    p.add_argument("path"); p.add_argument("--name")
+    p.set_defaults(func=cmd_import_voice)
+
+    p = sub.add_parser("trim-voice")
+    p.add_argument("voice"); p.add_argument("start_seconds", type=float); p.add_argument("end_seconds", type=float)
+    p.set_defaults(func=cmd_trim_voice)
+
+    p = sub.add_parser("rename-voice")
+    p.add_argument("voice"); p.add_argument("name")
+    p.set_defaults(func=cmd_rename_voice)
+
+    p = sub.add_parser("delete-voice")
+    p.add_argument("voice"); p.add_argument("--unassign", action="store_true", help="explicitly clear project assignments before deleting")
+    p.set_defaults(func=cmd_delete_voice)
 
     p = sub.add_parser("assign-voice")
     p.add_argument("project"); p.add_argument("track"); p.add_argument("voice_id"); p.add_argument("--reference-voice")
