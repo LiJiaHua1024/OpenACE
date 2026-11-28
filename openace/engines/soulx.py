@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import shutil
@@ -30,6 +31,103 @@ from .downloader import external_dir
 from .vram import VRAMManager
 
 HOP_MS = 20.0
+
+CACHE_SCHEMA_VERSION = "soulx-preprocess-v1"
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _repo_revision(repo: Path) -> str:
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(repo), "rev-parse", "HEAD"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=3,
+            check=False,
+        )
+        revision = result.stdout.strip()
+        if result.returncode == 0 and revision:
+            return revision
+    except (OSError, subprocess.SubprocessError):
+        pass
+    pipeline = repo / "preprocess" / "pipeline.py"
+    if pipeline.exists():
+        stat = pipeline.stat()
+        return f"pipeline-{stat.st_mtime_ns}-{stat.st_size}"
+    return "unknown"
+
+
+def _cache_root() -> Path:
+    configured = os.environ.get("OPENACE_SOULX_CACHE")
+    return Path(configured).expanduser().resolve() if configured else external_dir() / ".cache" / "soulx"
+
+
+def _preprocess_cache_key(audio: Path, kind: str, language: str, repo: Path, device: str) -> str:
+    payload = {
+        "schema": CACHE_SCHEMA_VERSION,
+        "kind": kind,
+        "language": language,
+        "device": device,
+        "audio_sha256": _sha256_file(audio),
+        "repo_revision": _repo_revision(repo),
+    }
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def _cached_artifact(audio: Path, kind: str, language: str, repo: Path, device: str, suffix: str) -> Path:
+    key = _preprocess_cache_key(audio, kind, language, repo, device)
+    return _cache_root() / kind / f"{key}{suffix}"
+
+
+def _atomic_copy(source: Path, destination: Path) -> Path:
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.with_name(f"{destination.name}.{os.getpid()}.tmp")
+    shutil.copyfile(source, temporary)
+    os.replace(temporary, destination)
+    return destination
+
+
+
+def _valid_reference_metadata_cache(path: Path) -> bool:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return False
+    return isinstance(data, list) and bool(data) and all(
+        isinstance(item, dict) and item.get("duration") and item.get("phoneme")
+        for item in data
+    )
+
+
+def _valid_f0_cache(path: Path) -> bool:
+    try:
+        values = np.load(path, allow_pickle=False)
+    except (OSError, ValueError):
+        return False
+    return isinstance(values, np.ndarray) and values.size > 0
+
+
+def _cache_hit(path: Path, validator) -> bool:
+    try:
+        return path.exists() and validator(path)
+    except OSError:
+        return False
+
+
+def _best_effort_atomic_copy(source: Path, destination: Path) -> Path:
+    try:
+        return _atomic_copy(source, destination)
+    except OSError:
+        return source
 
 
 def soulx_repo_path() -> Path:
@@ -269,6 +367,10 @@ class SoulXSingerEngine:
             "--midi_transcribe",
             "True",
         ]
+        cache_path = _cached_artifact(reference_voice, "reference-metadata", canonical_language, self.repo, self.device, ".json")
+        if _cache_hit(cache_path, _valid_reference_metadata_cache):
+            if progress: progress(0.22, "reference voice cache hit")
+            return cache_path
         env = os.environ.copy()
         env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
         if progress: progress(0.12, "preprocessing reference voice")
@@ -277,7 +379,7 @@ class SoulXSingerEngine:
         metadata_path = work_dir / "metadata.json"
         if not metadata_path.exists():
             raise EngineUnavailable(f"preprocess did not produce expected metadata: {metadata_path}")
-        return metadata_path
+        return _best_effort_atomic_copy(metadata_path, cache_path)
 
     def render_score(self, project: Project, track: Track, output_path: Path, reference_voice: Optional[Path] = None, cancellation: Optional[CancellationToken] = None, progress=None) -> Path:
         self._require()
@@ -352,13 +454,16 @@ class SoulXSingerEngine:
             "--midi_transcribe",
             "False",
         ]
+        cache_path = _cached_artifact(audio, "f0", "Mandarin", self.repo, self.device, ".npy")
+        if _cache_hit(cache_path, _valid_f0_cache):
+            return cache_path
         env = os.environ.copy()
         env["PYTHONPATH"] = str(self.repo) + os.pathsep + env.get("PYTHONPATH", "")
         _run_checked(cmd, cancellation, self.repo, env, "SoulX F0 preprocessing")
         f0 = work_dir / "vocal_f0.npy"
         if not f0.exists():
             raise EngineUnavailable(f"F0 extraction did not produce {f0}")
-        return f0
+        return _best_effort_atomic_copy(f0, cache_path)
 
     def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation: Optional[CancellationToken] = None, progress=None) -> Path:
         self._require()

@@ -46,6 +46,8 @@ python scripts/verify_local_gpu.py --hf-endpoint https://hf-mirror.com  # option
 
 `verify_local_gpu.py` clones the upstream engines, downloads public weights without API keys, runs real SoulX-Singer and ACE-Step inference in separate subprocesses, and writes `artifacts/local_gpu/report.json`. Model subprocesses are serialized by `VRAMManager`; the two large model families are never intentionally resident together.
 
+Repeated iterative renders do not repeat unchanged zero-shot preprocessing: SoulX reference metadata and SVC F0 extraction are cached persistently by audio-content hash, language, device, upstream source revision, and cache-schema version. Cache writes are atomic; set `OPENACE_SOULX_CACHE` to override the default `external/.cache/soulx` location.
+
 ## CLI examples
 
 ```bash
