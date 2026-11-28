@@ -228,7 +228,7 @@ def cmd_repaint(args) -> None:
 
 def cmd_separate(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.SEPARATE, args.track, source_audio=args.source_audio)
+    job = service.create_job(args.project, RenderMode.SEPARATE, args.track, source_audio=args.source_audio, clip_id=args.clip_id)
     result = asyncio.run(service.run_separation(job.id, args.source_audio))
     notify_web(store.get(args.project))
     emit(result.model_dump(mode="json"))
@@ -500,7 +500,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("separate")
     p.add_argument("project")
-    p.add_argument("source_audio")
+    p.add_argument("source_audio", nargs="?", default=None)
+    p.add_argument("--clip-id", default=None, help="arrangement clip whose visible segment is the separation input")
     p.add_argument("--track", default=None)
     p.set_defaults(func=cmd_separate)
 

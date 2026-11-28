@@ -662,3 +662,51 @@ def test_svc_rejects_ambiguous_duplicate_source_clips_without_clip_id(tmp_path, 
     service = RenderService(store, tmp_path / "renders")
     with pytest.raises(ValueError, match="clip_id"):
         service.create_job(project.id, RenderMode.SVC, source_audio=str(source), reference_voice=str(tmp_path / "ref.wav"))
+
+
+def test_stem_separation_extracts_clip_segment_and_aligns_stems_to_current_position(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    sr = 24000
+    t = np.arange(sr * 3) / sr
+    source = tmp_path / "mixture.wav"
+    sf.write(str(source), 0.2 * np.sin(2 * np.pi * 220 * t) + 0.1 * np.sin(2 * np.pi * 880 * t), sr)
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("clip-aware-separation")
+    project.bpm = 120
+    audio_track = project.add_track(Track(name="Mixture", type=TrackType.AUDIO))
+    clip = AudioClip(path=str(source), start_ticks=960, duration_ticks=1920, offset_ticks=480)
+    audio_track.clips.append(clip)
+    store.save(project)
+
+    from openace.engines.fixture import fixture_separate_stems as real_fixture
+    seen = {}
+
+    def moving_fixture(source_audio: Path, vocal_output: Path, accompaniment_output: Path, progress=None):
+        seen["source"] = Path(source_audio)
+        current = store.get(project.id)
+        current.tracks[-1].clips[0].start_ticks = 1440
+        store.save(current)
+        return real_fixture(source_audio, vocal_output, accompaniment_output, progress=progress)
+
+    monkeypatch.setattr("openace.server.render_service.fixture_separate_stems", moving_fixture)
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(project.id, RenderMode.SEPARATE, source_audio=str(source), clip_id=clip.id)
+    assert job.source_start_s == pytest.approx(0.5)
+    assert job.source_end_s == pytest.approx(2.5)
+    assert job.arrangement_start_ticks == 960
+    result = asyncio.run(service.run_separation(job.id, str(source)))
+    assert result.status == RenderJobStatus.COMPLETED
+    excerpt, excerpt_sr = sf.read(str(seen["source"]))
+    original, original_sr = sf.read(str(source))
+    assert excerpt_sr == original_sr == sr
+    assert len(excerpt) == sr * 2
+    assert excerpt[0] == pytest.approx(original[sr // 2], abs=2e-5)
+
+    updated = store.get(project.id)
+    stem_tracks = updated.tracks[-2:]
+    assert [track.clips[0].start_ticks for track in stem_tracks] == [1440, 1440]
+    assert [track.clips[0].duration_ticks for track in stem_tracks] == [1920, 1920]
+    provenance = updated.metadata["stem_separations"][-1]
+    assert provenance["clip_id"] == clip.id
+    assert provenance["source_start_s"] == pytest.approx(0.5)
+    assert provenance["source_end_s"] == pytest.approx(2.5)

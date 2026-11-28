@@ -111,23 +111,23 @@ def resolve_vocal2bgm_source(project: Project, source_audio: Optional[str], trac
     return source_audio, 0, None, None, None
 
 
-def resolve_svc_source(project: Project, source_audio: Optional[str], clip_id: Optional[str]) -> tuple[str, int, Optional[float], Optional[float], Optional[str]]:
-    """Resolve an SVC input clip without inventing arrangement context."""
+def resolve_project_audio_source(project: Project, source_audio: Optional[str], clip_id: Optional[str], operation: str) -> tuple[str, int, Optional[float], Optional[float], Optional[str]]:
+    """Resolve a project audio input clip without inventing arrangement context."""
     def anchored_clip(clip: AudioClip) -> tuple[str, int, float, float, str]:
         clip_start, clip_end = clip_timeline_span_seconds(project, clip)
         offset = clip_source_offset_seconds(project, clip)
         visible = max(0.0, clip_end - clip_start)
         if visible <= 0:
-            raise ValueError("SVC source clip has no visible audio duration")
+            raise ValueError(f"{operation} source clip has no visible audio duration")
         return clip.path, clip.start_ticks, offset, offset + visible, clip.id
 
     if clip_id:
         _, clip = find_clip(project, clip_id)
         if clip is None:
-            raise ValueError(f"SVC source clip not found: {clip_id}")
+            raise ValueError(f"{operation} source clip not found: {clip_id}")
         return anchored_clip(clip)
     if not source_audio:
-        raise ValueError("SVC requires source_audio or clip_id")
+        raise ValueError(f"{operation} requires source_audio or clip_id")
     wanted = _path_identity(source_audio)
     matches = [clip for track in project.tracks for clip in track.clips if _path_identity(clip.path) == wanted]
     if len(matches) == 1:
@@ -135,6 +135,14 @@ def resolve_svc_source(project: Project, source_audio: Optional[str], clip_id: O
     if len(matches) > 1:
         raise ValueError("multiple arrangement clips use this source audio; pass clip_id explicitly")
     return source_audio, 0, None, None, None
+
+
+def resolve_svc_source(project: Project, source_audio: Optional[str], clip_id: Optional[str]) -> tuple[str, int, Optional[float], Optional[float], Optional[str]]:
+    return resolve_project_audio_source(project, source_audio, clip_id, "SVC")
+
+
+def resolve_separation_source(project: Project, source_audio: Optional[str], clip_id: Optional[str]) -> tuple[str, int, Optional[float], Optional[float], Optional[str]]:
+    return resolve_project_audio_source(project, source_audio, clip_id, "stem separation")
 
 
 def prepare_source_segment_input(source_audio: Path, workdir: Path, source_start_s: Optional[float], source_end_s: Optional[float]) -> tuple[Path, float]:
@@ -462,6 +470,13 @@ class RenderService:
                 source_audio,
                 clip_id,
             )
+        elif mode == RenderMode.SEPARATE:
+            project = self.store.get(project_id)
+            source_audio, arrangement_start_ticks, source_start_s, source_end_s, clip_id = resolve_separation_source(
+                project,
+                source_audio,
+                clip_id,
+            )
         job = RenderJob(
             project_id=project_id,
             track_id=track_id,
@@ -690,14 +705,22 @@ class RenderService:
         job.progress = 0.05
         self._publish_job(job)
         try:
+            source_audio = job.source_audio or source_audio
             project = self.store.get(job.project_id)
             outdir = self.output_dir(project.id, job.id)
+            engine_source, _ = await asyncio.to_thread(
+                prepare_source_segment_input,
+                Path(source_audio),
+                outdir,
+                job.source_start_s,
+                job.source_end_s,
+            )
             if self.fixture_mode:
                 vocals = outdir / "separated_vocal.wav"
                 accompaniment = outdir / "separated_accompaniment.wav"
-                await asyncio.to_thread(fixture_separate_stems, Path(source_audio), vocals, accompaniment, progress=self._progress_callback(job_id))
+                await asyncio.to_thread(fixture_separate_stems, engine_source, vocals, accompaniment, progress=self._progress_callback(job_id))
             else:
-                vocals, accompaniment = await asyncio.to_thread(self.stem_separator.separate, Path(source_audio), outdir, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
+                vocals, accompaniment = await asyncio.to_thread(self.stem_separator.separate, engine_source, outdir, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
             self.raise_if_cancelled(job_id)
             vocal_audio, vocal_sr = await asyncio.to_thread(read_audio, vocals)
             accompaniment_audio, accompaniment_sr = await asyncio.to_thread(read_audio, accompaniment)
@@ -705,18 +728,26 @@ class RenderService:
             self.raise_if_cancelled(job_id)
             source_name = Path(source_audio).stem or "source"
             completion_project = self.store.get(project.id)
+            arrangement_start_ticks = job.arrangement_start_ticks or 0
+            if job.clip_id:
+                _, source_clip = find_clip(completion_project, job.clip_id)
+                if source_clip is not None:
+                    arrangement_start_ticks = source_clip.start_ticks
             vocal_track = completion_project.add_track(Track(name=f"Separated vocal — {source_name}", type=TrackType.AUDIO, color="#ff7b9c", created_by_job_id=job.id))
-            vocal_track.clips.append(AudioClip(path=str(vocals), start_ticks=0, duration_ticks=completion_project.seconds_to_ticks(len(vocal_audio) / vocal_sr), label="Separated vocal", created_by_job_id=job.id))
+            vocal_track.clips.append(AudioClip(path=str(vocals), start_ticks=arrangement_start_ticks, duration_ticks=completion_project.seconds_to_ticks(len(vocal_audio) / vocal_sr), label="Separated vocal", created_by_job_id=job.id))
             vocal_track.render_path = str(vocals)
             vocal_track.render_revision += 1
             accompaniment_track = completion_project.add_track(Track(name=f"Separated instrumental — {source_name}", type=TrackType.AUDIO, color="#42c6a8", created_by_job_id=job.id))
-            accompaniment_track.clips.append(AudioClip(path=str(accompaniment), start_ticks=0, duration_ticks=completion_project.seconds_to_ticks(len(accompaniment_audio) / accompaniment_sr), label="Separated instrumental", created_by_job_id=job.id))
+            accompaniment_track.clips.append(AudioClip(path=str(accompaniment), start_ticks=arrangement_start_ticks, duration_ticks=completion_project.seconds_to_ticks(len(accompaniment_audio) / accompaniment_sr), label="Separated instrumental", created_by_job_id=job.id))
             accompaniment_track.render_path = str(accompaniment)
             accompaniment_track.render_revision += 1
             separations = list(completion_project.metadata.get("stem_separations", []))
             separations.append({
                 "job_id": job.id,
                 "source_audio": str(source_audio),
+                "clip_id": job.clip_id,
+                "source_start_s": job.source_start_s,
+                "source_end_s": job.source_end_s,
                 "vocal_track_id": vocal_track.id,
                 "accompaniment_track_id": accompaniment_track.id,
                 "vocal_path": str(vocals),

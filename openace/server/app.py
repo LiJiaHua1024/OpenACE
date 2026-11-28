@@ -486,9 +486,10 @@ async def render_repaint(project_id: str, request: RenderRequest):
 @app.post("/api/projects/{project_id}/render/separate")
 async def render_separation(project_id: str, request: RenderRequest):
     get_project(project_id)
-    if not request.source_audio:
-        raise HTTPException(400, "source_audio is required")
-    job = render_service.create_job(project_id, RenderMode.SEPARATE, request.track_id, source_audio=request.source_audio)
+    try:
+        job = render_service.create_job(project_id, RenderMode.SEPARATE, request.track_id, source_audio=request.source_audio, clip_id=request.clip_id)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
     render_service.enqueue_job(job.id)
     return job.model_dump(mode="json")
 

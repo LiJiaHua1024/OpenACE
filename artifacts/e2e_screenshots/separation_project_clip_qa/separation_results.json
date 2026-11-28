@@ -1,0 +1,602 @@
+{
+  "project_id": "project_832a3769a65b",
+  "ambiguous_no_clip": {
+    "status": 422,
+    "text": "{\"detail\":\"multiple arrangement clips use this source audio; pass clip_id explicitly\"}"
+  },
+  "pre_ui": {
+    "path": "clip_d275beb12e77_svc_clip_control_source.wav",
+    "hints": [
+      "Vocal2BGM/SVC/separation input: visible clip segment \u00b7 aligned to clip start"
+    ],
+    "sepDisabled": false,
+    "svcTitle": "Convert the exact visible arrangement clip segment",
+    "bgmTitle": "Use the matching arrangement clip segment as input"
+  },
+  "separation_job_initial": {
+    "id": "job_5b29d1759b3f",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "separate",
+    "status": "queued",
+    "progress": 0.0,
+    "message": "queued",
+    "output_path": null,
+    "diagnostic_path": null,
+    "created_at": 1795845707.9373317,
+    "finished_at": null,
+    "error": null,
+    "engine": "explicit CI music fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav",
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_e32e014fd922",
+    "source_start_s": 0.5,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 960
+  },
+  "separation_job_final": {
+    "id": "job_5b29d1759b3f",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "separate",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed; added separated vocal/instrumental tracks for clip_d275beb12e77_svc_clip_control_source",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_5b29d1759b3f/separated_vocal.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_5b29d1759b3f/diagnostic.png",
+    "created_at": 1795845707.9373317,
+    "finished_at": 1795845711.7723727,
+    "error": null,
+    "engine": "explicit CI music fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav",
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_e32e014fd922",
+    "source_start_s": 0.5,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 960
+  },
+  "duplicate_job": {
+    "id": "job_61037efd71ee",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "separate",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed; added separated vocal/instrumental tracks for clip_d275beb12e77_svc_clip_control_source",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_61037efd71ee/separated_vocal.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_61037efd71ee/diagnostic.png",
+    "created_at": 1795845712.9982572,
+    "finished_at": 1795845713.4966786,
+    "error": null,
+    "engine": "explicit CI music fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/clip_d275beb12e77_svc_clip_control_source.wav",
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": "clip_dup_svc_probe",
+    "source_start_s": 1.0,
+    "source_end_s": 1.5,
+    "arrangement_start_ticks": 48
+  },
+  "unanchored_ui": {
+    "path": "upload_35cd42cb121e_svc_unanchored_source.wav",
+    "hints": []
+  },
+  "unanchored_job": {
+    "id": "job_7191f8c4237b",
+    "project_id": "project_832a3769a65b",
+    "track_id": null,
+    "mode": "separate",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed; added separated vocal/instrumental tracks for upload_35cd42cb121e_svc_unanchored_source",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_7191f8c4237b/separated_vocal.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_7191f8c4237b/diagnostic.png",
+    "created_at": 1795845715.0870745,
+    "finished_at": 1795845715.62775,
+    "error": null,
+    "engine": "explicit CI music fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/upload_35cd42cb121e_svc_unanchored_source.wav",
+    "reference_voice": null,
+    "caption": "",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": null,
+    "source_start_s": null,
+    "source_end_s": null,
+    "arrangement_start_ticks": 0
+  },
+  "separation_tracks": [
+    {
+      "name": "Separated vocal \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_db3738c3f1a5",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_d0f3a9fca0ec/separated_vocal.wav",
+          "start_ticks": 0,
+          "duration_ticks": 2880,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated vocal",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_d0f3a9fca0ec",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated instrumental \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_a57ca12f4d42",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_d0f3a9fca0ec/separated_accompaniment.wav",
+          "start_ticks": 0,
+          "duration_ticks": 2880,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated instrumental",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_d0f3a9fca0ec",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated vocal \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_9e0a082a0f5a",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_4ca3a760fcf3/separated_vocal.wav",
+          "start_ticks": 0,
+          "duration_ticks": 2880,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated vocal",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_4ca3a760fcf3",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated instrumental \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_8574983c6ecb",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_4ca3a760fcf3/separated_accompaniment.wav",
+          "start_ticks": 0,
+          "duration_ticks": 2880,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated instrumental",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_4ca3a760fcf3",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated vocal \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_57e61266c900",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_0577da5df0bb/separated_vocal.wav",
+          "start_ticks": 0,
+          "duration_ticks": 2880,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated vocal",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_0577da5df0bb",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated instrumental \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_5d5d4829c684",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_0577da5df0bb/separated_accompaniment.wav",
+          "start_ticks": 0,
+          "duration_ticks": 2880,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated instrumental",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_0577da5df0bb",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated vocal \u2014 upload_7e55d3912e42_svc_unanchored_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_613b306eb50d",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_de3e3169dbf6/separated_vocal.wav",
+          "start_ticks": 0,
+          "duration_ticks": 1440,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated vocal",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_de3e3169dbf6",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated instrumental \u2014 upload_7e55d3912e42_svc_unanchored_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_9de122cc9282",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_de3e3169dbf6/separated_accompaniment.wav",
+          "start_ticks": 0,
+          "duration_ticks": 1440,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated instrumental",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_de3e3169dbf6",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated vocal \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_bcbb96d3c51e",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_5b29d1759b3f/separated_vocal.wav",
+          "start_ticks": 1440,
+          "duration_ticks": 1920,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated vocal",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_5b29d1759b3f",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated instrumental \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_36a121514476",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_5b29d1759b3f/separated_accompaniment.wav",
+          "start_ticks": 1440,
+          "duration_ticks": 1920,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated instrumental",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_5b29d1759b3f",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated vocal \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_0af53e8b98aa",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_61037efd71ee/separated_vocal.wav",
+          "start_ticks": 48,
+          "duration_ticks": 480,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated vocal",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_61037efd71ee",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated instrumental \u2014 clip_d275beb12e77_svc_clip_control_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_6c0f1823da88",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_61037efd71ee/separated_accompaniment.wav",
+          "start_ticks": 48,
+          "duration_ticks": 480,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated instrumental",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_61037efd71ee",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated vocal \u2014 upload_35cd42cb121e_svc_unanchored_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_a10b72b55572",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_7191f8c4237b/separated_vocal.wav",
+          "start_ticks": 0,
+          "duration_ticks": 1440,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated vocal",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_7191f8c4237b",
+          "updated_by_job_id": null
+        }
+      ]
+    },
+    {
+      "name": "Separated instrumental \u2014 upload_35cd42cb121e_svc_unanchored_source",
+      "mute": false,
+      "clips": [
+        {
+          "id": "clip_8558cf6a2d25",
+          "path": "/home/ubuntu/repos/OpenACE/data/renders/project_832a3769a65b/job_7191f8c4237b/separated_accompaniment.wav",
+          "start_ticks": 0,
+          "duration_ticks": 1440,
+          "offset_ticks": 0,
+          "fade_in_ticks": 0,
+          "fade_out_ticks": 0,
+          "gain_db": 0.0,
+          "label": "Separated instrumental",
+          "transcribed_lyrics": [],
+          "created_by_job_id": "job_7191f8c4237b",
+          "updated_by_job_id": null
+        }
+      ]
+    }
+  ],
+  "playback": {
+    "starts": [
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 3.5,
+        "bufferDuration": 3.5
+      },
+      {
+        "when": 0.09643990929705215,
+        "offset": 1,
+        "duration": 0.5,
+        "bufferDuration": 3
+      },
+      {
+        "when": 1.5464399092970522,
+        "offset": 0.5,
+        "duration": 2,
+        "bufferDuration": 3
+      },
+      {
+        "when": 0.5464399092970521,
+        "offset": 0,
+        "duration": 2,
+        "bufferDuration": 1.9999773242630385
+      },
+      {
+        "when": 1.0464399092970522,
+        "offset": 0,
+        "duration": 2,
+        "bufferDuration": 1.9999773242630385
+      },
+      {
+        "when": 1.0464399092970522,
+        "offset": 0,
+        "duration": 2,
+        "bufferDuration": 1.9999773242630385
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 1.5,
+        "bufferDuration": 1.5
+      },
+      {
+        "when": 0.09643990929705215,
+        "offset": 0,
+        "duration": 0.5,
+        "bufferDuration": 0.49997732426303854
+      },
+      {
+        "when": 1.0464399092970522,
+        "offset": 0,
+        "duration": 2,
+        "bufferDuration": 1.9999773242630385
+      },
+      {
+        "when": 1.0464399092970522,
+        "offset": 0,
+        "duration": 2,
+        "bufferDuration": 1.9999773242630385
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 3,
+        "bufferDuration": 3
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 3,
+        "bufferDuration": 3
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 3,
+        "bufferDuration": 3
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 3,
+        "bufferDuration": 3
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 3,
+        "bufferDuration": 3
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 3,
+        "bufferDuration": 3
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 1.5,
+        "bufferDuration": 1.5
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 1.5,
+        "bufferDuration": 1.5
+      },
+      {
+        "when": 1.5464399092970522,
+        "offset": 0,
+        "duration": 2,
+        "bufferDuration": 1.9999773242630385
+      },
+      {
+        "when": 1.5464399092970522,
+        "offset": 0,
+        "duration": 2,
+        "bufferDuration": 1.9999773242630385
+      },
+      {
+        "when": 0.09643990929705215,
+        "offset": 0,
+        "duration": 0.5,
+        "bufferDuration": 0.49997732426303854
+      },
+      {
+        "when": 0.09643990929705215,
+        "offset": 0,
+        "duration": 0.5,
+        "bufferDuration": 0.49997732426303854
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 1.5,
+        "bufferDuration": 1.5
+      },
+      {
+        "when": 0.046439909297052155,
+        "offset": 0,
+        "duration": 1.5,
+        "bufferDuration": 1.5
+      }
+    ],
+    "pos": "1.4.1\n00:01.61",
+    "cls": "play-button playing"
+  },
+  "quantitative": {
+    "job_5b29d1759b3f": {
+      "excerpt": {
+        "seconds": 2.0,
+        "exact": true,
+        "maxerr": 0.0
+      },
+      "vocal": {
+        "seconds": 2.0,
+        "samples": 48000,
+        "peak": 0.050750732421875
+      },
+      "instrumental": {
+        "seconds": 2.0,
+        "samples": 48000,
+        "peak": 0.355926513671875
+      }
+    },
+    "job_61037efd71ee": {
+      "excerpt": {
+        "seconds": 0.5,
+        "exact": true,
+        "maxerr": 0.0
+      },
+      "vocal": {
+        "seconds": 0.5,
+        "samples": 12000,
+        "peak": 3.0517578125e-05
+      },
+      "instrumental": {
+        "seconds": 0.5,
+        "samples": 12000,
+        "peak": 0.250030517578125
+      }
+    },
+    "job_7191f8c4237b": {
+      "vocal": {
+        "seconds": 1.5,
+        "samples": 36000,
+        "peak": 3.0517578125e-05
+      },
+      "instrumental": {
+        "seconds": 1.5,
+        "samples": 36000,
+        "peak": 0.200042724609375
+      }
+    }
+  },
+  "console": [],
+  "badnet": []
+}
