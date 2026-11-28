@@ -65,7 +65,7 @@ openace-tool vocal2bgm <project-id> <source.wav> [--clip-id <clip-id>] --caption
 openace-tool repaint <project-id> <source.wav> --start 1.0 --end 5.0 [--clip-id <clip-id>] --caption "warmer rock backing"
 # start/end are arrangement seconds; the source must exist as an intersecting arrangement clip
 openace-tool separate <project-id> [source.wav] [--clip-id <clip-id>]
-openace-tool svc <project-id> <source.wav> <reference.wav> [--clip-id <clip-id>]
+openace-tool svc <project-id> <source.wav> <reference.wav> [--clip-id <clip-id>] [--pitch-shift -2 | --auto-shift]
 openace-tool export <project-id> svp output.svp
 openace-tool export <project-id> ustx output.ustx
 openace-tool export <project-id> vpr output.vpr
@@ -85,5 +85,5 @@ openace-mcp --transport stdio
 openace-mcp --transport streamable-http --host 127.0.0.1 --port 8788
 ```
 
-Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `ripple_delete_range`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `organize_project`, voice-library atoms (`list_voices`, `import_voice`, `trim_voice`, `rename_voice`, `delete_voice`), `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, queued/running render cancellation (`cancel_render_job`), separation, conversion, repaint, and export.
+Use tools with the same semantics as the CLI. Prefer many small atomic calls over ad-hoc JSON mutation so validation and SSE synchronization remain intact. Available editing tools include `batch_add_notes`, `update_note`, `delete_note`, `ripple_delete_range`, `set_expression_lane`, `upsert_breath`, `delete_breath`, `upsert_audio_clip`, `delete_audio_clip`, `set_tempo_map`, `organize_project`, voice-library atoms (`list_voices`, `import_voice`, `trim_voice`, `rename_voice`, `delete_voice`), `assign_voice`, and `import_midi_project`, in addition to project/track/note creation, transposition, rendering, queued/running render cancellation (`cancel_render_job`), separation, conversion (including `pitch_shift`/`auto_shift` key modes), repaint, and export.
 Media-library atoms: `openace-tool list-media`, `openace-tool place-media-clip <project> <media_name> --start-ticks <ticks> [--track-id <id>]`, and `openace-tool delete-media <media_name>`. Deletion is safe and fails while arrangement clips reference the media.

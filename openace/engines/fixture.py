@@ -75,15 +75,45 @@ class FixtureVocalEngine:
         if progress: progress(0.82, "writing fixture vocal output")
         return write_fixture_wav(output_path, out, sr)
 
-    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None, progress=None) -> Path:
+    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None, progress=None, pitch_shift: int = 0, auto_shift: bool = False) -> Path:
         require_fixture_enabled()
         data, sr = sf.read(str(source_audio), always_2d=False)
         # A transparent pass-through would be misleading, so add a clear low-level fixture tremolo.
         mono = np.asarray(data, dtype=np.float32)
         if mono.ndim > 1:
             mono = mono.mean(axis=1)
-        t = np.arange(len(mono)) / sr
-        fixture = mono * (0.8 + 0.2 * np.sin(2 * np.pi * 5 * t))
+        shift = int(pitch_shift)
+        if auto_shift and shift == 0:
+            try:
+                import librosa
+
+                def median_f0(audio):
+                    f0 = librosa.yin(np.asarray(audio, dtype=np.float32), fmin=50, fmax=1000, sr=sr)
+                    voiced = f0[np.isfinite(f0) & (f0 > 0)]
+                    return float(np.median(voiced)) if len(voiced) else 0.0
+
+                ref_data, ref_sr = sf.read(str(reference_voice), always_2d=False)
+                ref = np.asarray(ref_data, dtype=np.float32)
+                if ref.ndim > 1:
+                    ref = ref.mean(axis=1)
+                if ref_sr != sr:
+                    ref = librosa.resample(ref, orig_sr=ref_sr, target_sr=sr)
+                source_median = median_f0(mono)
+                reference_median = median_f0(ref)
+                if source_median > 0 and reference_median > 0:
+                    shift = int(round(12.0 * np.log2(reference_median / source_median)))
+            except Exception:
+                shift = 0
+        fixture = mono
+        if shift:
+            try:
+                import librosa
+
+                fixture = librosa.effects.pitch_shift(np.asarray(mono, dtype=np.float32), sr=sr, n_steps=shift)
+            except Exception:
+                fixture = mono
+        t = np.arange(len(fixture)) / sr
+        fixture = fixture * (0.8 + 0.2 * np.sin(2 * np.pi * 5 * t))
         if progress: progress(0.82, "writing fixture conversion output")
         return write_fixture_wav(output_path, fixture, sr)
 

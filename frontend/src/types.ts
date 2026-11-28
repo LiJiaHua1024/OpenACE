@@ -172,6 +172,8 @@ export interface RenderJob {
   source_start_s?: number | null
   source_end_s?: number | null
   arrangement_start_ticks?: number | null
+  pitch_shift?: number
+  auto_shift?: boolean
 }
 
 export interface LoudnessHistoryPoint {

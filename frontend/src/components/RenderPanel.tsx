@@ -64,6 +64,8 @@ export default function RenderPanel(props: Props) {
   const [clockNow, setClockNow] = useState(() => Date.now())
   const [autoRender, setAutoRender] = useState(() => window.localStorage.getItem('openace.autoRender') === '1')
   const [exportRangeMode, setExportRangeMode] = useState<'full' | 'loop'>('full')
+  const [svcTransposeMode, setSvcTransposeMode] = useState<'preserve' | 'auto' | 'manual'>('preserve')
+  const [svcPitchShift, setSvcPitchShift] = useState('0')
   const autoRenderAttempts = useRef<Record<string, string>>({})
   const referenceInput = useRef<HTMLInputElement | null>(null)
   const lyricListRef = useRef<HTMLDivElement | null>(null)
@@ -572,12 +574,26 @@ export default function RenderPanel(props: Props) {
         <button disabled={!repaintClip || repaintEnd <= repaintStart || busy === 'repaint'} className="wide-action secondary" title={repaintClip ? `Repaint ${repaintClip.label || repaintClip.path.split('/').pop()} using source-file timing` : 'Draw a region overlapping an accompaniment clip'} onClick={() => repaintClip && run('repaint', () => api.repaint(props.project.id, repaintClip.path, repaintStart, repaintEnd, caption, repaintClip.id))}>Repaint selection</button>
         {repaintClip && <div className="hint repaint-target">target: {repaintClip.label || repaintClip.path.split('/').pop()}</div>}
         <button disabled={!sourceAudio || busy === 'separate'} className="wide-action secondary" onClick={() => run('separate', () => api.separate(props.project.id, sourceAudio, vocal2bgmClip?.id))}>{busy === 'separate' ? 'Separating…' : 'Separate vocal/instrumental'}</button>
+        <div className="svc-transpose-row">
+          <label className="field-label">SVC key/transposition
+            <select value={svcTransposeMode} onChange={event => setSvcTransposeMode(event.target.value as 'preserve' | 'auto' | 'manual')}>
+              <option value="preserve">Preserve source key</option>
+              <option value="auto">Auto-match reference voice</option>
+              <option value="manual">Manual semitone shift</option>
+            </select>
+          </label>
+          {svcTransposeMode === 'manual' && (
+            <label className="field-label svc-semitone-field">Semitones
+              <input type="number" min="-24" max="24" step="1" value={svcPitchShift} onChange={event => setSvcPitchShift(event.target.value)} onBlur={() => setSvcPitchShift(current => String(Math.max(-24, Math.min(24, Math.round(Number(current) || 0)))))} />
+            </label>
+          )}
+        </div>
         <button disabled={!sourceAudio || busy === 'svc'} className="wide-action secondary" title={vocal2bgmClip ? 'Convert the exact visible arrangement clip segment' : 'Convert the uploaded source file'} onClick={() => {
           if (!props.track?.reference_voice_path) {
             setError('Select a vocal track with an uploaded reference voice before SVC conversion')
             return
           }
-          void run('svc', () => api.svc(props.project.id, sourceAudio, props.track!.reference_voice_path!, vocal2bgmClip?.id))
+          void run('svc', () => api.svc(props.project.id, sourceAudio, props.track!.reference_voice_path!, vocal2bgmClip?.id, { pitchShift: svcTransposeMode === 'manual' ? Math.max(-24, Math.min(24, Math.round(Number(svcPitchShift) || 0))) : 0, autoShift: svcTransposeMode === 'auto' }))
         }}>SVC voice conversion</button>
       </section>
 
@@ -623,6 +639,7 @@ export default function RenderPanel(props: Props) {
             <div className="job-row"><strong>{job.mode}{job.fixture ? ' · CI FIXTURE' : ''}</strong><span>{job.status} · {Math.round(job.progress * 100)}%</span></div>
             <div className="progress"><div style={{ width: `${Math.round(job.progress * 100)}%` }} /></div>
             <div className="job-message">{job.error || job.message}</div>
+            {job.mode === 'svc' && <div className="job-message svc-key-mode">key: {job.auto_shift ? 'auto-match reference' : ((job.pitch_shift || 0) === 0 ? 'preserve source' : `${(job.pitch_shift || 0) > 0 ? '+' : ''}${job.pitch_shift} semitones`)}</div>}
             <div className="job-timing">{jobTiming(job)}</div>
             {(job.status === 'queued' || job.status === 'running') && <button className="job-cancel danger" onClick={() => void cancelRenderJob(job)}>{job.status === 'queued' ? 'Cancel queued job' : 'Cancel running job'}</button>}
             {job.output_path && renderFileUrl(job.output_path) && <audio controls src={renderFileUrl(job.output_path)!} />}

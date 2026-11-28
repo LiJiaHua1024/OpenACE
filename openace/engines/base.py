@@ -14,7 +14,7 @@ class VocalEngine(Protocol):
     def render_score(self, project: Project, track: Track, output_path: Path, reference_voice: Optional[Path] = None) -> Path:
         ...
 
-    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path) -> Path:
+    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, pitch_shift: int = 0, auto_shift: bool = False) -> Path:
         ...
 
 

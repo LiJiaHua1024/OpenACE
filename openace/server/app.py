@@ -131,6 +131,8 @@ class RenderRequest(BaseModel):
     start_s: float = 0.0
     end_s: float = -1.0
     clip_id: Optional[str] = None
+    pitch_shift: int = 0
+    auto_shift: bool = False
 
 
 def get_project(project_id: str) -> Project:
@@ -524,7 +526,7 @@ async def render_separation(project_id: str, request: RenderRequest):
 async def render_svc(project_id: str, request: RenderRequest):
     get_project(project_id)
     try:
-        job = render_service.create_job(project_id, RenderMode.SVC, request.track_id, source_audio=request.source_audio, reference_voice=request.reference_voice, clip_id=request.clip_id)
+        job = render_service.create_job(project_id, RenderMode.SVC, request.track_id, source_audio=request.source_audio, reference_voice=request.reference_voice, clip_id=request.clip_id, pitch_shift=request.pitch_shift, auto_shift=request.auto_shift)
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from exc
     render_service.enqueue_job(job.id)

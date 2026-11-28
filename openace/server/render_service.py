@@ -440,10 +440,19 @@ class RenderService:
         start_s: Optional[float] = None,
         end_s: Optional[float] = None,
         clip_id: Optional[str] = None,
+        pitch_shift: int = 0,
+        auto_shift: bool = False,
     ) -> RenderJob:
         source_start_s = None
         source_end_s = None
         arrangement_start_ticks = None
+        pitch_shift = int(pitch_shift)
+        if mode != RenderMode.SVC and (pitch_shift != 0 or auto_shift):
+            raise ValueError("pitch_shift/auto_shift apply only to SVC conversion jobs")
+        if pitch_shift < -24 or pitch_shift > 24:
+            raise ValueError("SVC pitch_shift must be between -24 and +24 semitones")
+        if auto_shift and pitch_shift != 0:
+            raise ValueError("choose either automatic SVC key matching or a nonzero manual pitch shift, not both")
         if mode == RenderMode.REPAINT:
             project = self.store.get(project_id)
             _, target_clip, source_start_s, source_end_s, _, _ = resolve_repaint_target(
@@ -490,6 +499,8 @@ class RenderService:
             source_start_s=source_start_s,
             source_end_s=source_end_s,
             arrangement_start_ticks=arrangement_start_ticks,
+            pitch_shift=pitch_shift if mode == RenderMode.SVC else 0,
+            auto_shift=bool(auto_shift) if mode == RenderMode.SVC else False,
         )
         job.fixture = self.fixture_mode
         job.engine = self.vocal_engine_name if mode in {RenderMode.SVS_SCORE, RenderMode.SVC} else ("Demucs" if mode == RenderMode.SEPARATE and not self.fixture_mode else self.music_engine_name)
@@ -794,7 +805,7 @@ class RenderService:
                 job.source_start_s,
                 job.source_end_s,
             )
-            await asyncio.to_thread(self.vocal_engine.convert_voice, engine_source, Path(reference_voice), wav, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
+            await asyncio.to_thread(self.vocal_engine.convert_voice, engine_source, Path(reference_voice), wav, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id), pitch_shift=job.pitch_shift, auto_shift=job.auto_shift)
             self.raise_if_cancelled(job_id)
             audio, sr = await asyncio.to_thread(read_audio, wav)
             self._report_job_progress(job_id, 0.84, "transcribing and integrating converted vocal")
@@ -885,6 +896,8 @@ class RenderService:
                     "track_id": conversion_track.id,
                     "source_audio": str(source_audio),
                     "reference_voice": str(reference_voice),
+                    "pitch_shift": job.pitch_shift,
+                    "auto_shift": job.auto_shift,
                     "clip_id": job.clip_id,
                     "source_start_s": job.source_start_s,
                     "source_end_s": job.source_end_s,

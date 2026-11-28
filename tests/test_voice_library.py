@@ -165,3 +165,85 @@ def cli_json(func, args):
     with contextlib.redirect_stdout(buffer):
         func(args)
     return json.dumps(json.loads(buffer.getvalue()))
+
+
+def test_svc_transpose_options_validate_and_persist_in_render_job(tmp_path):
+    from openace.core.models import RenderMode
+    from openace.core.project_store import ProjectStore
+    from openace.server.render_service import RenderService
+
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("SVC transpose")
+    service = RenderService(store, tmp_path / "renders")
+    source = tmp_path / "source.wav"
+    t = np.arange(24000) / 24000
+    sf.write(source, 0.1 * np.sin(2 * np.pi * 220 * t), 24000)
+
+    job = service.create_job(project.id, RenderMode.SVC, source_audio=str(source), reference_voice=str(source), pitch_shift=-3)
+    assert job.pitch_shift == -3
+    assert job.auto_shift is False
+    auto = service.create_job(project.id, RenderMode.SVC, source_audio=str(source), reference_voice=str(source), auto_shift=True)
+    assert auto.pitch_shift == 0
+    assert auto.auto_shift is True
+
+    with pytest.raises(ValueError, match="between -24"):
+        service.create_job(project.id, RenderMode.SVC, source_audio=str(source), reference_voice=str(source), pitch_shift=25)
+    with pytest.raises(ValueError, match="either automatic"):
+        service.create_job(project.id, RenderMode.SVC, source_audio=str(source), reference_voice=str(source), pitch_shift=2, auto_shift=True)
+    with pytest.raises(ValueError, match="only to SVC"):
+        service.create_job(project.id, RenderMode.SVS_SCORE, track_id=project.tracks[0].id, pitch_shift=99)
+
+
+def test_fixture_svc_manual_pitch_shift_is_real_measurable_dsp(tmp_path):
+    pytest.importorskip("librosa")
+    from openace.engines.fixture import FixtureVocalEngine
+
+    source = tmp_path / "source.wav"
+    reference = tmp_path / "reference.wav"
+    sr = 24000
+    t = np.arange(sr) / sr
+    sf.write(source, 0.2 * np.sin(2 * np.pi * 220 * t), sr)
+    sf.write(reference, 0.2 * np.sin(2 * np.pi * 220 * t), sr)
+    out = tmp_path / "converted.wav"
+    FixtureVocalEngine().convert_voice(source, reference, out, pitch_shift=2)
+    data, out_sr = sf.read(out)
+    assert out_sr == sr
+    assert len(data) == pytest.approx(sr, rel=0.02)
+    spectrum = np.abs(np.fft.rfft(data[:sr]))
+    peak_hz = np.fft.rfftfreq(sr, 1 / sr)[int(np.argmax(spectrum))]
+    assert peak_hz == pytest.approx(220 * 2 ** (2 / 12), rel=0.035)
+
+
+def test_project_save_is_atomic_for_concurrent_readers(tmp_path):
+    import threading
+
+    from openace.core.models import Project, Track
+
+    project = Project(title="Atomic persistence")
+    project.add_track(Track(name="Lead"))
+    path = tmp_path / "atomic.openace.json"
+    project.save(path)
+    failures = []
+    stop = threading.Event()
+
+    def reader():
+        while not stop.is_set():
+            try:
+                Project.load(path)
+            except Exception as exc:
+                failures.append(str(exc))
+                return
+
+    threads = [threading.Thread(target=reader) for _ in range(4)]
+    for thread in threads:
+        thread.start()
+    for index in range(80):
+        project.title = f"Atomic persistence {index}"
+        project.save(path)
+    stop.set()
+    for thread in threads:
+        thread.join()
+
+    assert failures == []
+    assert Project.load(path).title == "Atomic persistence 79"
+    assert list(tmp_path.glob("*.tmp")) == []

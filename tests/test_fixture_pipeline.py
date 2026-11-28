@@ -588,9 +588,9 @@ class RecordingVocalEngine(FixtureVocalEngine):
     def __init__(self):
         self.convert_calls = []
 
-    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None, progress=None) -> Path:
-        self.convert_calls.append({"source": Path(source_audio), "reference": Path(reference_voice)})
-        return super().convert_voice(source_audio, reference_voice, output_path, cancellation=cancellation, progress=progress)
+    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None, progress=None, pitch_shift=0, auto_shift=False) -> Path:
+        self.convert_calls.append({"source": Path(source_audio), "reference": Path(reference_voice), "pitch_shift": pitch_shift, "auto_shift": auto_shift})
+        return super().convert_voice(source_audio, reference_voice, output_path, cancellation=cancellation, progress=progress, pitch_shift=pitch_shift, auto_shift=auto_shift)
 
 
 def test_svc_extracts_trimmed_clip_segment_and_aligns_output_to_current_clip_position(tmp_path, monkeypatch):
@@ -613,11 +613,11 @@ def test_svc_extracts_trimmed_clip_segment_and_aligns_output_to_current_clip_pos
     )
 
     class MovingRecordingVocalEngine(RecordingVocalEngine):
-        def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None, progress=None) -> Path:
+        def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation=None, progress=None, pitch_shift=0, auto_shift=False) -> Path:
             current = store.get(project.id)
             current.tracks[-1].clips[0].start_ticks = 1440
             store.save(current)
-            return super().convert_voice(source_audio, reference_voice, output_path, cancellation=cancellation, progress=progress)
+            return super().convert_voice(source_audio, reference_voice, output_path, cancellation=cancellation, progress=progress, pitch_shift=pitch_shift, auto_shift=auto_shift)
 
     service = RenderService(store, tmp_path / "renders")
     recorder = MovingRecordingVocalEngine()
@@ -645,6 +645,10 @@ def test_svc_extracts_trimmed_clip_segment_and_aligns_output_to_current_clip_pos
     assert provenance["clip_id"] == clip.id
     assert provenance["source_start_s"] == pytest.approx(0.5)
     assert provenance["source_end_s"] == pytest.approx(2.5)
+    assert provenance["pitch_shift"] == 0
+    assert provenance["auto_shift"] is False
+    assert recorder.convert_calls[0]["pitch_shift"] == 0
+    assert recorder.convert_calls[0]["auto_shift"] is False
 
 
 def test_svc_rejects_ambiguous_duplicate_source_clips_without_clip_id(tmp_path, monkeypatch):

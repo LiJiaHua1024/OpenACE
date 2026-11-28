@@ -310,3 +310,32 @@ def test_svc_f0_extraction_and_inference_share_one_vram_reservation(tmp_path, mo
     engine.convert_voice(source, reference, tmp_path / "converted.wav")
 
     assert events == ["vram-enter", "f0:reference", "f0:source", "inference", "vram-exit"]
+
+
+def test_svc_manual_and_auto_transpose_map_to_upstream_contract(tmp_path, monkeypatch):
+    repo = _fake_repo(tmp_path)
+    (repo / "pretrained_models/SoulX-Singer/model-svc.pt").write_bytes(b"checkpoint")
+    engine = SoulXSingerEngine(repo_path=repo)
+    source = tmp_path / "source.wav"
+    reference = tmp_path / "reference.wav"
+    source.write_bytes(b"source")
+    reference.write_bytes(b"reference")
+    commands = []
+    monkeypatch.setattr(SoulXSingerEngine, "_extract_f0_with_preprocess", lambda self, audio, work_dir, *args, **kwargs: tmp_path / f"{audio.stem}_f0.npy")
+
+    def fake_run(cmd, cancellation, **kwargs):
+        commands.append(list(cmd))
+        save_dir = Path(cmd[cmd.index("--save_dir") + 1])
+        save_dir.mkdir(parents=True, exist_ok=True)
+        _write_generated_wav(save_dir / "generated.wav")
+        return SimpleNamespace(returncode=0, stdout="")
+
+    monkeypatch.setattr("openace.engines.soulx.run_cancellable", fake_run)
+    engine.convert_voice(source, reference, tmp_path / "down.wav", pitch_shift=-3)
+    engine.convert_voice(source, reference, tmp_path / "auto.wav", auto_shift=True)
+
+    manual, automatic = commands
+    assert manual[manual.index("--pitch_shift") + 1] == "-3"
+    assert "--auto_shift" not in manual
+    assert automatic[automatic.index("--pitch_shift") + 1] == "0"
+    assert "--auto_shift" in automatic

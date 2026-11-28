@@ -210,8 +210,9 @@ async def separate_stems(project_id: str, source_audio: str = "", clip_id: str =
     return dumps(result.model_dump(mode="json"))
 
 
-async def svc_convert(project_id: str, source_audio: str, reference_voice: str, clip_id: str = "") -> str:
-    job = render_service.create_job(project_id, RenderMode.SVC, source_audio=source_audio, reference_voice=reference_voice, clip_id=clip_id or None)
+async def svc_convert(project_id: str, source_audio: str, reference_voice: str, clip_id: str = "", pitch_shift: int = 0, auto_shift: bool = False) -> str:
+    """Convert source audio into a reference voice, optionally transposing by manual semitones or automatic median-F0 key matching."""
+    job = render_service.create_job(project_id, RenderMode.SVC, source_audio=source_audio, reference_voice=reference_voice, clip_id=clip_id or None, pitch_shift=pitch_shift, auto_shift=auto_shift)
     result = await render_service.run_svc(job.id, source_audio, reference_voice)
     notify_web(store.get(project_id))
     return dumps(result.model_dump(mode="json"))

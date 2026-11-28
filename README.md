@@ -5,7 +5,7 @@ OpenACE is a local-first, open-source virtual singer workstation built to replic
 ## Architecture
 
 - **Web workstation**: React + Canvas arrangement view, piano-roll editor, lyric editing, vocal automation lanes, track mixer, render jobs, acoustic diagnostics, and export center.
-- **Local API**: FastAPI project store, atomic editing endpoints, SSE synchronization, cancellable FIFO render orchestration, uploads, and format export.
+- **Local API**: FastAPI project store, atomic editing endpoints, atomic project-file persistence (fsynced temporary write + atomic replacement), SSE synchronization, cancellable FIFO render orchestration, uploads, and format export.
 - **Vocal core**: production adapter for [SoulX-Singer](https://github.com/Soul-AILab/SoulX-Singer) (Apache 2.0) score/melody SVS and SoulX-Singer-SVC.
 - **Music/edit core**: production adapter for [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5) (MIT), including ACE-Step `complete` Vocal2BGM and explicit interval repaint.
 - **Agent surface**: `openace-tool` atomic CLI, `openace-mcp` MCP server (`stdio` and `streamable-http`), and `skills/openace/SKILL.md`.
@@ -101,7 +101,7 @@ Vocal2BGM can use the selected vocal track's fresh render directly; stale render
 
 SVC uses the same truthful arrangement semantics: importing or selecting an audio clip makes that clip the conversion source, and OpenACE converts exactly its visible trimmed source segment rather than the whole file. The generated conversion clip is aligned to the source clip's current arrangement position; if the source clip moves while conversion is running, integration re-reads its completion-time position. When several arrangement clips share the same file, pass/choose an exact clip instead of guessing; unanchored uploaded files still convert as arbitrary inputs and are placed at zero.
 
-SVC additionally transcribes stable monophonic pitch and ASR-timed lyrics from the converted audio into an editable `SVC score` vocal track assigned to the target reference voice. This enables ACE-style hot-song editing: adjust extracted notes/lyrics and re-render in the converted voice instead of treating the conversion as immutable audio. Unsupported notes remain blank and extraction failure is explicit in job provenance; OpenACE never fabricates missing lyrics or pitches.
+SVC now exposes truthful key/transposition modes backed by the upstream SoulX-Singer-SVC contract: preserve the source key, automatically match reference/source median F0, or apply an explicit ±24-semitone manual shift. Preserve/manual/auto choices persist on render jobs and conversion provenance, while conflicting manual+auto requests and out-of-range shifts fail loudly. SVC additionally transcribes stable monophonic pitch and ASR-timed lyrics from the converted audio into an editable `SVC score` vocal track assigned to the target reference voice. This enables ACE-style hot-song editing: adjust extracted notes/lyrics and re-render in the converted voice instead of treating the conversion as immutable audio. Unsupported notes remain blank and extraction failure is explicit in job provenance; OpenACE never fabricates missing lyrics or pitches.
 
 ## Repaint region selection
 

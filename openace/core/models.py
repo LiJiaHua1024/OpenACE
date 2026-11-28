@@ -362,8 +362,23 @@ class Project(BaseModel):
         return cls.model_validate_json(text)
 
     def save(self, path: Path) -> None:
+        """Persist project JSON atomically so concurrent readers never see partial writes."""
+        import os
+        import tempfile
+
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(self.dump_json() + "\n", encoding="utf-8")
+        payload = self.dump_json() + "\n"
+        temporary_name = None
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, prefix=path.name + ".", suffix=".tmp", delete=False) as handle:
+            temporary_name = handle.name
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+        try:
+            os.replace(temporary_name, path)
+        finally:
+            if temporary_name and os.path.exists(temporary_name):
+                os.unlink(temporary_name)
 
     @classmethod
     def load(cls, path: Path) -> "Project":
@@ -402,6 +417,8 @@ class RenderJob(BaseModel):
     source_start_s: Optional[float] = None
     source_end_s: Optional[float] = None
     arrangement_start_ticks: Optional[int] = None
+    pitch_shift: int = 0
+    auto_shift: bool = False
 
 
 def project_to_yaml(project: Project) -> str:

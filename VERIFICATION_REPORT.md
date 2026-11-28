@@ -1583,3 +1583,19 @@ Validation: focused core/API tests passed, production build passed. Independent 
 ### Verification
 
 Focused unit/integration regression passed for persistent cleanup semantics and direct CLI/MCP atom behavior. Visible-Chrome adversarial QA used the real `.venv/bin/openace-tool` CLI while the reference panel remained open: real 2.5s WAV import appeared without reload in effectively 14ms; assignment preserved exact backend `voice_id`/path through undo/redo; CLI trim created an exact 1.5s source-linked profile and appeared in effectively 10ms; CLI rename appeared in effectively 10ms; deleting while assigned failed actionably without mutation; `--unassign` deletion cleared the option, visible selection, and backend assignment live; reload persistence held; unsupported `.txt` input failed actionably; console/network were clean. Evidence: `artifacts/e2e_screenshots/voice_library_atoms_qa/`.
+
+## Iteration 155 — truthful SVC key/transposition and atomic project persistence
+
+### Implemented
+
+- Added upstream-backed SVC key/transposition modes: preserve source key, automatic reference/source median-F0 matching, or explicit integer manual semitone shift within ±24.
+- Plumbed `pitch_shift`/`auto_shift` through the browser, API, durable render jobs, CLI, MCP, SoulX subprocess flags, fixture conversion DSP, conversion provenance, and restart-compatible job payloads.
+- Conflicting automatic+manual nonzero requests and out-of-range shifts now fail loudly with actionable validation instead of ambiguous upstream override behavior.
+- Fixture conversion now performs real measurable pitch-shift DSP for manual mode and computes automatic shifts from measured source/reference median F0; it remains explicitly fixture-labeled test audio.
+- Fixed the browser-discovered torn project-read race by making `Project.save()` write a unique fsynced temporary file and atomically replace the project JSON, so concurrent readers cannot observe partial writes.
+
+### Verification
+
+Unit/adapter regression proves exact upstream `cli.inference_svc` construction: manual `-3` emits `--pitch_shift -3` without `--auto_shift`; automatic mode emits `--pitch_shift 0 --auto_shift`; default preserve remains shift zero without auto. Focused service tests cover durable job fields and validation. Fixture DSP tests measure real spectral pitch movement rather than merely checking parameters.
+
+Visible-Chrome fixture QA verified the controls and negative-value typing, then measured preserve `+0.0008` semitones, manual `-3` as `-2.9936` semitones, automatic reference-key matching as `-21.9819` semitones, CLI `+2` as `+2.0047`, and MCP `+1` as `+0.9966`; conversion clips/provenance/reload/live external updates all passed, and invalid API/CLI combinations rejected actionably. QA initially exposed a concurrent project-read HTTP 500 caused by non-atomic JSON writes. After the atomic-save fix, a stress recheck completed three SVC conversions while 1598/1598 aggressive project polls returned valid HTTP 200 JSON, with zero console/network failures. A final production-bundle recheck also verified the job card visibly reports exact key mode (`key: -3 semitones`) without overflow. Evidence: `artifacts/e2e_screenshots/svc_transpose_qa/`.

@@ -248,7 +248,7 @@ def cmd_separate(args) -> None:
 
 def cmd_svc(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.SVC, args.track, source_audio=args.source_audio, reference_voice=args.reference_voice, clip_id=args.clip_id)
+    job = service.create_job(args.project, RenderMode.SVC, args.track, source_audio=args.source_audio, reference_voice=args.reference_voice, clip_id=args.clip_id, pitch_shift=args.pitch_shift, auto_shift=args.auto_shift)
     result = asyncio.run(service.run_svc(job.id, args.source_audio, args.reference_voice))
     notify_web(store.get(args.project))
     emit(result.model_dump(mode="json"))
@@ -582,6 +582,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("reference_voice")
     p.add_argument("--clip-id", default=None, help="arrangement clip whose visible segment is the conversion input")
     p.add_argument("--track", default=None)
+    p.add_argument("--pitch-shift", type=int, default=0, help="manual SVC transposition in semitones (-24..24); zero preserves source key")
+    p.add_argument("--auto-shift", action="store_true", help="automatically match reference/source median pitch when manual shift is zero")
     p.set_defaults(func=cmd_svc)
 
     p = sub.add_parser("cancel-render-job")

@@ -687,7 +687,7 @@ class SoulXSingerEngine:
             raise EngineUnavailable(f"F0 extraction did not produce {f0}")
         return _best_effort_atomic_copy(f0, cache_path)
 
-    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation: Optional[CancellationToken] = None, progress=None) -> Path:
+    def convert_voice(self, source_audio: Path, reference_voice: Path, output_path: Path, cancellation: Optional[CancellationToken] = None, progress=None, pitch_shift: int = 0, auto_shift: bool = False) -> Path:
         self._require()
         model = self._model_path(svc=True)
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -724,9 +724,11 @@ class SoulXSingerEngine:
                     "--save_dir",
                     str(save_dir),
                     "--pitch_shift",
-                    "0",
+                    str(int(pitch_shift)),
                     "--fp16",
                 ]
+                if auto_shift and int(pitch_shift) == 0:
+                    cmd.insert(cmd.index("--fp16"), "--auto_shift")
                 if progress: progress(0.46, "running SoulX-Singer-SVC inference")
                 _run_checked(cmd, cancellation, self.repo, env, "SoulX-Singer-SVC inference")
                 if progress: progress(0.78, "collecting SoulX-Singer-SVC output")

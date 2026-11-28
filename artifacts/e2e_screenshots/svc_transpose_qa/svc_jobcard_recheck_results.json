@@ -1,0 +1,37 @@
+{
+  "console": [],
+  "badnet": [],
+  "typed": "-3",
+  "job": {
+    "id": "job_e52c58ce2bbd",
+    "status": "completed",
+    "pitch_shift": -3,
+    "auto_shift": false,
+    "error": null,
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_68e4581f3701/job_e52c58ce2bbd/svc.wav"
+  },
+  "job_card": {
+    "visible": true,
+    "key_text": "key: -3 semitones",
+    "card_text": "svc \u00b7 CI FIXTURE\ncompleted \u00b7 100%\ncompleted; added to arrangement as SVC \u2014 upload_ce44b460986e_vocal\nkey: -3 semitones\n31s total",
+    "box": {
+      "x": 971,
+      "y": 91,
+      "width": 287,
+      "height": 140.5
+    },
+    "key_box": {
+      "x": 981,
+      "y": 156,
+      "width": 267,
+      "height": 12
+    },
+    "scroll_width": 285,
+    "client_width": 285
+  },
+  "controls_regression": {
+    "auto_hides_manual_input": true,
+    "manual_input_restored": true,
+    "typed_after_reselect": "-2"
+  }
+}
