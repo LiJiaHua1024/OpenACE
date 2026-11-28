@@ -157,7 +157,12 @@ export default function PianoRoll(props: Props) {
   const [phonemeEditor, setPhonemeEditor] = useState<{ noteId: string; x: number; y: number; value: string; error?: string } | null>(null)
   const [batchLyricEditor, setBatchLyricEditor] = useState<{ value: string } | null>(null)
   const dragRef = useRef<DragState | null>(null)
-  const pitchDragRef = useRef<{ noteId: string; pointIndex: number } | null>(null)
+  const pitchDragRef = useRef<{ noteId: string; pointIndex: number; startX: number; startY: number; originals: { noteId: string; pointIndex: number; offset_ms: number; cents: number }[] } | null>(null)
+  const anchorSessionRef = useRef<{ noteId: string } | null>(null)
+  const suppressAnchorContextMenuUntilRef = useRef(0)
+  const anchorMarqueeRef = useRef<{ startX: number; startY: number; additive: boolean } | null>(null)
+  const [anchorMarquee, setAnchorMarquee] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null)
+  const [selectedPitchAnchors, setSelectedPitchAnchors] = useState<string[]>([])
   const pitchStrokeRef = useRef<{ points: { ticks: number; value: number; curve: string }[]; minTick: number; maxTick: number } | null>(null)
   const pitchEraseRef = useRef<{ minTick: number; maxTick: number } | null>(null)
   const fixedStrokeRef = useRef<{ points: { ticks: number; value: number; curve: string }[]; minTick: number; maxTick: number } | null>(null)
@@ -495,10 +500,16 @@ export default function PianoRoll(props: Props) {
             ctx.stroke()
             for (const point of ordered) {
               const pos = pitchPointPosition(note, point)
-              ctx.fillStyle = selected ? '#effff8' : '#68dfb5'
+              const anchorSelected = selectedPitchAnchors.includes(pitchAnchorKey(note.id, point))
+              ctx.fillStyle = anchorSelected ? '#ffffff' : selected ? '#effff8' : '#68dfb5'
               ctx.beginPath()
-              ctx.arc(pos.x, pos.y, selected ? 3.2 : 2.6, 0, Math.PI * 2)
+              ctx.arc(pos.x, pos.y, anchorSelected ? 4 : selected ? 3.2 : 2.6, 0, Math.PI * 2)
               ctx.fill()
+              if (anchorSelected) {
+                ctx.strokeStyle = '#38d99a'
+                ctx.lineWidth = 1.5
+                ctx.stroke()
+              }
             }
           }
 
@@ -536,11 +547,12 @@ export default function PianoRoll(props: Props) {
         }
       }
 
-      if (marquee) {
-        const x = Math.min(marquee.x1, marquee.x2)
-        const y = Math.min(marquee.y1, marquee.y2)
-        const w = Math.abs(marquee.x2 - marquee.x1)
-        const h = Math.abs(marquee.y2 - marquee.y1)
+      const activeMarquee = marquee || anchorMarquee
+      if (activeMarquee) {
+        const x = Math.min(activeMarquee.x1, activeMarquee.x2)
+        const y = Math.min(activeMarquee.y1, activeMarquee.y2)
+        const w = Math.abs(activeMarquee.x2 - activeMarquee.x1)
+        const h = Math.abs(activeMarquee.y2 - activeMarquee.y1)
         ctx.fillStyle = '#6f8dff22'
         ctx.fillRect(x, y, w, h)
         ctx.strokeStyle = '#91a8ff'
@@ -555,7 +567,7 @@ export default function PianoRoll(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(wrap)
     return () => observer.disconnect()
-  }, [props.project, props.track, props.timeline, props.loopRange, props.loopEnabled, view, selectedNoteIds, marquee, xForTick, yForPitch, ppq, tool, freshRenderedF0])
+  }, [props.project, props.track, props.timeline, props.loopRange, props.loopEnabled, view, selectedNoteIds, selectedPitchAnchors, marquee, anchorMarquee, xForTick, yForPitch, ppq, tool, freshRenderedF0])
 
   useEffect(() => {
     const canvas = playheadCanvasRef.current
@@ -911,6 +923,61 @@ export default function PianoRoll(props: Props) {
   }
 
 
+  function pitchAnchorKey(noteId: string, point: { offset_ms: number; cents: number }) {
+    return `${noteId}:${Math.round(point.offset_ms * 1000) / 1000}:${Math.round(point.cents * 1000) / 1000}`
+  }
+
+  function pitchAnchorsInRect(x1: number, y1: number, x2: number, y2: number) {
+    if (!props.track) return []
+    const left = Math.min(x1, x2), right = Math.max(x1, x2)
+    const top = Math.min(y1, y2), bottom = Math.max(y1, y2)
+    const keys: string[] = []
+    for (const note of props.track.notes) {
+      for (const point of note.pitch_curve) {
+        const pos = pitchPointPosition(note, point)
+        if (pos.x >= left && pos.x <= right && pos.y >= top && pos.y <= bottom) keys.push(pitchAnchorKey(note.id, point))
+      }
+    }
+    return keys
+  }
+
+  function endAnchorSession() {
+    if (!anchorSessionRef.current) return
+    const noteId = anchorSessionRef.current.noteId
+    mutateTrack(track => {
+      const note = track.notes.find(item => item.id === noteId)
+      if (note) note.pitch_curve.sort((a, b) => a.offset_ms - b.offset_ms)
+    }, true)
+    anchorSessionRef.current = null
+    props.endTransaction()
+  }
+
+  function selectedAnchorIndices() {
+    if (!props.track) return []
+    const selected = new Set(selectedPitchAnchors)
+    const originals: { noteId: string; pointIndex: number; offset_ms: number; cents: number }[] = []
+    for (const note of props.track.notes) {
+      note.pitch_curve.forEach((point, pointIndex) => {
+        if (selected.has(pitchAnchorKey(note.id, point))) originals.push({ noteId: note.id, pointIndex, offset_ms: point.offset_ms, cents: point.cents })
+      })
+    }
+    return originals
+  }
+
+  function deleteSelectedPitchAnchors() {
+    if (!selectedPitchAnchors.length) return
+    const selected = new Set(selectedPitchAnchors)
+    props.beginTransaction()
+    mutateTrack(track => {
+      for (const note of track.notes) {
+        note.pitch_curve = note.pitch_curve.filter(point => !selected.has(pitchAnchorKey(note.id, point)))
+      }
+    }, true)
+    setSelectedPitchAnchors([])
+    props.endTransaction()
+  }
+
+
   function audition(pitch: number, force = false) {
     if (!auditionEnabled) return
     const now = performance.now()
@@ -931,6 +998,11 @@ export default function PianoRoll(props: Props) {
   function onPointerDown(event: React.PointerEvent) {
     if (!props.track) return
     if (event.button === 2) {
+      if (tool === 'pitch' && anchorSessionRef.current) {
+        suppressAnchorContextMenuUntilRef.current = Date.now() + 500
+        endAnchorSession()
+        return
+      }
       if (tool === 'pitchBrush') {
         setMenu(null)
         const { x, y } = pointerPos(event)
@@ -1035,36 +1107,46 @@ export default function PianoRoll(props: Props) {
 
     if (tool === 'pitch') {
       const hitPoint = hitPitchPoint(x, y)
+      if (anchorSessionRef.current) {
+        const hit = hitNote(x, y)
+        if (hit && hit.id === anchorSessionRef.current.noteId) {
+          selectOnly(hit.id)
+          const point = pitchPointAt(hit, x, y)
+          mutateTrack(track => {
+            const note = track.notes.find(item => item.id === hit.id)
+            if (note) note.pitch_curve.push(point)
+          }, true)
+          setPitchReadout(`${point.offset_ms} ms · ${point.cents > 0 ? '+' : ''}${point.cents}¢`)
+        }
+        return
+      }
       if (hitPoint && event.altKey) {
         props.beginTransaction()
         mutateTrack(track => {
           const note = track.notes.find(item => item.id === hitPoint.note.id)
           if (note) note.pitch_curve.splice(hitPoint.pointIndex, 1)
         }, true)
+        setSelectedPitchAnchors([])
         props.endTransaction()
         return
       }
       if (hitPoint) {
         selectOnly(hitPoint.note.id)
+        const point = hitPoint.note.pitch_curve[hitPoint.pointIndex]
+        const key = pitchAnchorKey(hitPoint.note.id, point)
+        let originals = selectedPitchAnchors.includes(key) ? selectedAnchorIndices() : []
+        if (!originals.length) {
+          originals = [{ noteId: hitPoint.note.id, pointIndex: hitPoint.pointIndex, offset_ms: point.offset_ms, cents: point.cents }]
+          setSelectedPitchAnchors([key])
+        }
         props.beginTransaction()
-        pitchDragRef.current = { noteId: hitPoint.note.id, pointIndex: hitPoint.pointIndex }
+        pitchDragRef.current = { noteId: hitPoint.note.id, pointIndex: hitPoint.pointIndex, startX: x, startY: y, originals }
         return
       }
       const hit = hitNote(x, y)
-      if (hit) {
-        selectOnly(hit.id)
-        const point = pitchPointAt(hit, x, y)
-        props.beginTransaction()
-        let pointIndex = 0
-        mutateTrack(track => {
-          const note = track.notes.find(item => item.id === hit.id)
-          if (note) {
-            note.pitch_curve.push(point)
-            pointIndex = note.pitch_curve.length - 1
-          }
-        }, true)
-        pitchDragRef.current = { noteId: hit.id, pointIndex }
-      }
+      if (hit) selectOnly(hit.id)
+      anchorMarqueeRef.current = { startX: x, startY: y, additive: event.shiftKey }
+      setAnchorMarquee({ x1: x, y1: y, x2: x, y2: y })
       return
     }
 
@@ -1186,19 +1268,34 @@ export default function PianoRoll(props: Props) {
       return
     }
 
+    if (anchorMarqueeRef.current) {
+      const marqueeDrag = anchorMarqueeRef.current
+      setAnchorMarquee({ x1: marqueeDrag.startX, y1: marqueeDrag.startY, x2: x, y2: y })
+      const hits = pitchAnchorsInRect(marqueeDrag.startX, marqueeDrag.startY, x, y)
+      setSelectedPitchAnchors(marqueeDrag.additive ? Array.from(new Set([...selectedPitchAnchors, ...hits])) : hits)
+      return
+    }
+
     const pitchDrag = pitchDragRef.current
     if (pitchDrag) {
       const sourceNote = props.track.notes.find(item => item.id === pitchDrag.noteId)
-      if (sourceNote) {
-        const point = pitchPointAt(sourceNote, x, y)
-        setPitchReadout(`${point.offset_ms} ms · ${point.cents > 0 ? '+' : ''}${point.cents}¢`)
-      }
+      const primary = pitchDrag.originals.find(item => item.noteId === pitchDrag.noteId && item.pointIndex === pitchDrag.pointIndex) || pitchDrag.originals[0]
+      if (!sourceNote || !primary) return
+      const rect = noteRect(sourceNote)
+      const durationMs = Math.max(1, noteDurationMs(sourceNote))
+      const deltaMs = ((x - pitchDrag.startX) / Math.max(1, rect.w - 4)) * durationMs
+      const deltaCents = ((pitchDrag.startY - y) / view.rowHeight) * 100
       mutateTrack(track => {
-        const note = track.notes.find(item => item.id === pitchDrag.noteId)
-        if (note?.pitch_curve[pitchDrag.pointIndex]) {
-          note.pitch_curve[pitchDrag.pointIndex] = pitchPointAt(note, x, y)
+        for (const original of pitchDrag.originals) {
+          const note = track.notes.find(item => item.id === original.noteId)
+          const point = note?.pitch_curve[original.pointIndex]
+          if (!note || !point) continue
+          const noteDuration = Math.max(1, noteDurationMs(note))
+          point.offset_ms = Math.round(Math.max(0, Math.min(noteDuration, original.offset_ms + deltaMs)))
+          point.cents = Math.round(Math.max(-600, Math.min(600, original.cents + deltaCents)))
         }
       }, true)
+      setPitchReadout(`${Math.round(primary.offset_ms + deltaMs)} ms · ${Math.round(primary.cents + deltaCents) > 0 ? '+' : ''}${Math.round(primary.cents + deltaCents)}¢${pitchDrag.originals.length > 1 ? ` · ${pitchDrag.originals.length} anchors` : ''}`)
       return
     }
 
@@ -1294,12 +1391,25 @@ export default function PianoRoll(props: Props) {
       vibratoGestureRef.current = null
       window.setTimeout(() => setPitchReadout(null), 1600)
     }
+    if (anchorMarqueeRef.current) {
+      anchorMarqueeRef.current = null
+      setAnchorMarquee(null)
+    }
     const pitchDrag = pitchDragRef.current
     if (pitchDrag) {
+      const nextKeys: string[] = []
       mutateTrack(track => {
-        const note = track.notes.find(item => item.id === pitchDrag.noteId)
-        if (note) note.pitch_curve.sort((a, b) => a.offset_ms - b.offset_ms)
+        const affected = new Set(pitchDrag.originals.map(item => item.noteId))
+        for (const original of pitchDrag.originals) {
+          const note = track.notes.find(item => item.id === original.noteId)
+          const point = note?.pitch_curve[original.pointIndex]
+          if (note && point) nextKeys.push(pitchAnchorKey(note.id, point))
+        }
+        for (const note of track.notes) {
+          if (affected.has(note.id)) note.pitch_curve.sort((a, b) => a.offset_ms - b.offset_ms)
+        }
       }, true)
+      setSelectedPitchAnchors(nextKeys)
       props.endTransaction()
       pitchDragRef.current = null
       window.setTimeout(() => setPitchReadout(null), 1600)
@@ -1327,6 +1437,27 @@ export default function PianoRoll(props: Props) {
     if (!props.track) return
     const { x, y } = pointerPos(event)
     const hit = hitNote(x, y)
+    if (tool === 'pitch') {
+      if (!hit) return
+      if (anchorSessionRef.current && anchorSessionRef.current.noteId !== hit.id) endAnchorSession()
+      if (!anchorSessionRef.current) {
+        props.beginTransaction()
+        anchorSessionRef.current = { noteId: hit.id }
+      }
+      selectOnly(hit.id)
+      const existing = hitPitchPoint(x, y)
+      if (!existing || existing.note.id !== hit.id) {
+        const point = pitchPointAt(hit, x, y)
+        mutateTrack(track => {
+          const note = track.notes.find(item => item.id === hit.id)
+          if (note) note.pitch_curve.push(point)
+        }, true)
+        setPitchReadout(`${point.offset_ms} ms · ${point.cents > 0 ? '+' : ''}${point.cents}¢`)
+      }
+      anchorMarqueeRef.current = null
+      setAnchorMarquee(null)
+      return
+    }
     if (hit) setEditing({ note: hit, x, y, value: hit.lyric })
   }
 
@@ -1705,8 +1836,22 @@ export default function PianoRoll(props: Props) {
       if (key === '5') setTool('modulation')
       if (key === 'q') quantizeSelection()
     }
+    if (event.key === 'Escape' && anchorSessionRef.current) {
+      event.preventDefault()
+      endAnchorSession()
+      return
+    }
+    if ((event.key === 'Delete' || event.key === 'Backspace') && selectedPitchAnchors.length) {
+      event.preventDefault()
+      deleteSelectedPitchAnchors()
+      return
+    }
     if ((event.key === 'Delete' || event.key === 'Backspace') && selectedNoteIds.length) deleteSelection()
   }
+
+  useEffect(() => {
+    if (tool !== 'pitch') endAnchorSession()
+  }, [tool])
 
   useEffect(() => {
     function listener(event: KeyboardEvent) {
@@ -1719,6 +1864,14 @@ export default function PianoRoll(props: Props) {
   function onContextMenu(event: React.MouseEvent) {
     event.preventDefault()
     if (tool === 'pitchBrush') return
+    if (Date.now() < suppressAnchorContextMenuUntilRef.current) {
+      suppressAnchorContextMenuUntilRef.current = 0
+      return
+    }
+    if (tool === 'pitch' && anchorSessionRef.current) {
+      endAnchorSession()
+      return
+    }
     const { x, y } = pointerPos(event)
     const hit = hitNote(x, y)
     if (hit && !selectedSet.has(hit.id)) selectOnly(hit.id)
@@ -1741,7 +1894,7 @@ export default function PianoRoll(props: Props) {
           <button className={tool === 'fixedBrush' ? 'tool active' : 'tool'} onClick={() => setTool('fixedBrush')} title="Fixed brush (2); lock fresh rendered pitch when available, otherwise the deterministic target pitch, as user pitch">▣ Fixed</button>
           <button className={tool === 'pitchEraser' ? 'tool active' : 'tool'} onClick={() => setTool('pitchEraser')} title="Pitch eraser (3); drag to erase user-pitch automation and per-note anchors while preserving outside automation">⌦ Pitch</button>
           <button className={tool === 'modulation' ? 'tool active' : 'tool'} onClick={() => setTool('modulation')} title="Pitch modulation (5); drag vertically on a note: down flattens deterministic vibrato, up amplifies it">⇕ Mod</button>
-          <button className={tool === 'pitch' ? 'tool active' : 'tool'} onClick={() => setTool('pitch')} title="Per-note pitch anchor handles (P); Alt+click deletes a handle">∿ Anchor</button>
+          <button className={tool === 'pitch' ? 'tool active' : 'tool'} onClick={() => setTool('pitch')} title="Per-note pitch anchors (P); double-click starts a curve, clicks append, right-click/Escape ends, marquee selects, Alt+click deletes">∿ Anchor</button>
           <button className={auditionEnabled ? 'tool active' : 'tool'} onClick={toggleAudition} title="Editor note audition preview; not vocal synthesis">♪ Audition</button>
         </div>
         <div className="tool-group edit-actions">

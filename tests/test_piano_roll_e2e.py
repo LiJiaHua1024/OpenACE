@@ -228,22 +228,22 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
             first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
             assert abs(first["phonemes"][2]["start_ms"] - original_boundary) < 0.8
 
-            # Per-note pitch handles are created and dragged directly on the note body.
-            page.locator('button[title^="Per-note pitch anchor handles"]').click()
-            page.mouse.move(box["x"] + 170, box["y"] + 322)
-            page.mouse.down()
-            page.mouse.move(box["x"] + 170, box["y"] + 307, steps=3)
-            page.mouse.up()
-            page.mouse.move(box["x"] + 190, box["y"] + 322)
-            page.mouse.down()
-            page.mouse.move(box["x"] + 190, box["y"] + 337, steps=3)
-            page.mouse.up()
+            # ACE-style pitch anchors are created as one curve session: double-click starts,
+            # subsequent clicks append, and right-click commits.
+            page.locator('button[title^="Per-note pitch anchors"]').click()
+            page.mouse.click(box["x"] + 170, box["y"] + 322, click_count=2)
+            page.wait_for_timeout(120)
+            page.mouse.click(box["x"] + 190, box["y"] + 315)
+            page.wait_for_timeout(80)
+            page.mouse.click(box["x"] + 210, box["y"] + 329)
+            page.wait_for_timeout(80)
+            page.mouse.click(box["x"] + 220, box["y"] + 322, button="right")
             page.wait_for_timeout(700)
             project = httpx.get(f"{base}/api/projects/{project_id}").json()
             first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
-            assert len(first["pitch_curve"]) == 2
-            assert max(point["cents"] for point in first["pitch_curve"]) > 80
-            assert min(point["cents"] for point in first["pitch_curve"]) < -40
+            assert len(first["pitch_curve"]) == 3
+            assert max(point["cents"] for point in first["pitch_curve"]) > 30
+            assert min(point["cents"] for point in first["pitch_curve"]) < -30
 
             point = sorted(first["pitch_curve"], key=lambda item: item["offset_ms"])[0]
             duration_ms = first["duration_ticks"] * 60000 / project["bpm"] / project["ppq"]
@@ -271,7 +271,7 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
             page.wait_for_timeout(700)
             project = httpx.get(f"{base}/api/projects/{project_id}").json()
             first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
-            assert len(first["pitch_curve"]) == 1
+            assert len(first["pitch_curve"]) == 2
 
             # Clipboard persists across vocal-track switches inside the shared editor.
             page.locator('button[title="Select/move (V)"]').click()
