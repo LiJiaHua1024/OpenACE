@@ -73,6 +73,16 @@ function noteName(pitch: number) {
   return `${names[pitch % 12]}${Math.floor(pitch / 12) - 1}`
 }
 
+const VOICELESS_CONSONANTS = new Set([
+  'p', 'pʰ', 't', 'tʰ', 'k', 'kʰ', 'f', 's', 'x', 'h', 'ç', 'ɸ',
+  'tɕ', 'tɕʰ', 'ɕ', 'ʈʂ', 'ʈʂʰ', 'ʂ', 'ts', 'tsʰ',
+  'sh', 'th', 'ch', 'hh',
+])
+
+function canonicalConsonant(symbol: string) {
+  return symbol.trim().replace(/[0-9]+$/g, '').toLowerCase()
+}
+
 let auditionContext: AudioContext | null = null
 
 function auditionNotePitch(pitch: number) {
@@ -664,6 +674,16 @@ export default function PianoRoll(props: Props) {
     return voiced
   }
 
+  function isVoicelessConsonantAt(note: Note, ticks: number) {
+    if (!note.phonemes.length) return false
+    const offsetMs = (ticksToSeconds(props.project, ticks) - ticksToSeconds(props.project, note.start_ticks)) * 1000
+    return note.phonemes.some(phoneme => {
+      if (phoneme.is_vowel) return false
+      if (!VOICELESS_CONSONANTS.has(canonicalConsonant(phoneme.symbol))) return false
+      return offsetMs >= phoneme.start_ms && offsetMs < phoneme.start_ms + phoneme.duration_ms
+    })
+  }
+
   function writePitchBrushAt(x: number, y: number, altKey = false, shiftKey = false) {
     const stroke = pitchStrokeRef.current
     if (!stroke || !props.track) return
@@ -675,7 +695,7 @@ export default function PianoRoll(props: Props) {
     stroke.minTick = Math.min(stroke.minTick, ticks)
     stroke.maxTick = Math.max(stroke.maxTick, ticks)
     const last = stroke.points[stroke.points.length - 1]
-    const voiced = altKey ? shiftKey : true
+    const voiced = altKey ? shiftKey : !isVoicelessConsonantAt(note, ticks)
     if (last && last.ticks === ticks) {
       last.value = cents
       last.voiced = voiced
@@ -2006,7 +2026,7 @@ export default function PianoRoll(props: Props) {
           <button className={tool === 'select' ? 'tool active' : 'tool'} onClick={() => setTool('select')} title="Select/move (V)">➤</button>
           <button className={tool === 'pencil' ? 'tool active' : 'tool'} onClick={() => setTool('pencil')} title="Note brush (B)">✎</button>
           <button className={tool === 'erase' ? 'tool active' : 'tool'} onClick={() => setTool('erase')} title="Eraser (E)">⌫</button>
-          <button className={tool === 'pitchBrush' ? 'tool active' : 'tool'} onClick={() => setTool('pitchBrush')} title="Freehand user-pitch brush (1); left-drag draws voiced pitch, Alt draws dashed voiceless pitch, Shift+Alt forces voiced, right-drag erases">🖌 Pitch</button>
+          <button className={tool === 'pitchBrush' ? 'tool active' : 'tool'} onClick={() => setTool('pitchBrush')} title="Freehand user-pitch brush (1); left-drag draws voiced pitch, Alt draws dashed voiceless pitch, voiceless consonants default dashed, Shift+Alt forces voiced, right-drag erases">🖌 Pitch</button>
           <button className={tool === 'fixedBrush' ? 'tool active' : 'tool'} onClick={() => setTool('fixedBrush')} title="Fixed brush (2); lock fresh rendered pitch when available, otherwise the deterministic target pitch, as user pitch">▣ Fixed</button>
           <button className={tool === 'pitchEraser' ? 'tool active' : 'tool'} onClick={() => setTool('pitchEraser')} title="Pitch eraser (3); drag to erase user-pitch automation and per-note anchors while preserving outside automation">⌦ Pitch</button>
           <button className={tool === 'modulation' ? 'tool active' : 'tool'} onClick={() => setTool('modulation')} title="Pitch modulation (5); drag vertically on a note: down flattens deterministic vibrato, up amplifies it">⇕ Mod</button>
