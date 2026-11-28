@@ -95,6 +95,8 @@ Vocal2BGM can use the selected vocal track's fresh render directly; stale render
 
 SVC uses the same truthful arrangement semantics: importing or selecting an audio clip makes that clip the conversion source, and OpenACE converts exactly its visible trimmed source segment rather than the whole file. The generated conversion clip is aligned to the source clip's current arrangement position; if the source clip moves while conversion is running, integration re-reads its completion-time position. When several arrangement clips share the same file, pass/choose an exact clip instead of guessing; unanchored uploaded files still convert as arbitrary inputs and are placed at zero.
 
+SVC additionally transcribes stable monophonic pitch and ASR-timed lyrics from the converted audio into an editable `SVC score` vocal track assigned to the target reference voice. This enables ACE-style hot-song editing: adjust extracted notes/lyrics and re-render in the converted voice instead of treating the conversion as immutable audio. Unsupported notes remain blank and extraction failure is explicit in job provenance; OpenACE never fabricates missing lyrics or pitches.
+
 ## Repaint region selection
 
 In the arrangement canvas, hold **Alt** and drag across the timeline to draw the yellow repaint region over an accompaniment clip. The panel resolves the overlapping target clip, clamps the region to that clip, converts it into source-file time using the clip start/offset, and passes only that source interval to the ACE-Step repaint job.

@@ -710,3 +710,39 @@ def test_stem_separation_extracts_clip_segment_and_aligns_stems_to_current_posit
     assert provenance["clip_id"] == clip.id
     assert provenance["source_start_s"] == pytest.approx(0.5)
     assert provenance["source_end_s"] == pytest.approx(2.5)
+
+
+def test_svc_creates_editable_score_track_aligned_to_clip(monkeypatch, tmp_path):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    sr = 24000
+    source = tmp_path / "svc-source.wav"
+    reference = tmp_path / "svc-reference.wav"
+    sf.write(str(source), np.linspace(-0.2, 0.2, sr * 2, dtype=np.float32), sr)
+    sf.write(str(reference), np.zeros(sr, dtype=np.float32), sr)
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("editable-svc-score")
+    audio_track = project.add_track(Track(name="Source", type=TrackType.AUDIO))
+    clip = AudioClip(path=str(source), start_ticks=960, duration_ticks=1920)
+    audio_track.clips.append(clip)
+    store.save(project)
+    monkeypatch.setattr("openace.importers.audio.transcribe_lyric_words", lambda _path: ([{"text": "hello", "start": 0.1, "end": 0.5}], "en"))
+    monkeypatch.setattr(
+        "openace.importers.audio.audio_to_midi_notes",
+        lambda _path, _project: [Note(start_ticks=0, duration_ticks=480, pitch=60)],
+    )
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(project.id, RenderMode.SVC, source_audio=str(source), reference_voice=str(reference), clip_id=clip.id)
+    result = asyncio.run(service.run_svc(job.id, str(source), str(reference)))
+    assert result.status == RenderJobStatus.COMPLETED
+    updated = store.get(project.id)
+    score_tracks = [track for track in updated.tracks if track.name.startswith("SVC score —")]
+    assert len(score_tracks) == 1
+    score = score_tracks[0]
+    assert score.type == TrackType.VOCAL
+    assert score.reference_voice_path == str(reference)
+    assert score.notes[0].start_ticks == 960
+    assert score.notes[0].lyric == "hello"
+    provenance = updated.metadata["svc_conversions"][-1]
+    assert provenance["editable_track_id"] == score.id
+    assert provenance["editable_note_count"] == 1
+    assert provenance["editable_score_error"] is None

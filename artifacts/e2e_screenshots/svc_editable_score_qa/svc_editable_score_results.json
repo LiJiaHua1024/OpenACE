@@ -1,0 +1,226 @@
+{
+  "static_click": {
+    "x": 396.79999999999995,
+    "y": 201,
+    "track_index": 3,
+    "clip_start": 480
+  },
+  "correction_lane": {
+    "visible": true,
+    "rows": 1,
+    "text": "SVC CLIP LYRICS\n1 ASR words · SVC: clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source\n+\n×"
+  },
+  "playback": {
+    "starts": [
+      {
+        "when": 245.44730158730158,
+        "offset": 0,
+        "duration": 3,
+        "bufferDuration": 3
+      },
+      {
+        "when": 244.94730158730158,
+        "offset": 0,
+        "duration": 4.010408163265306,
+        "bufferDuration": 4.010408163265306
+      },
+      {
+        "when": 245.44730158730158,
+        "offset": 0,
+        "duration": 3,
+        "bufferDuration": 3
+      }
+    ],
+    "pos": "1.1.1\n00:00.01",
+    "playing": true
+  },
+  "project_id": "project_5bf625fb46bb",
+  "svc_job": {
+    "id": "job_3128a198b3c6",
+    "status": "completed",
+    "error": null,
+    "clip_id": "clip_875f53fa87c0",
+    "source_start_s": 0.0,
+    "source_end_s": 3.0,
+    "arrangement_start_ticks": 480,
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_5bf625fb46bb/job_3128a198b3c6/svc.wav",
+    "message": "completed; added to arrangement as SVC — clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source"
+  },
+  "svc_provenance": {
+    "job_id": "job_3128a198b3c6",
+    "track_id": "track_7449ed5305da",
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source.wav",
+    "reference_voice": "/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav",
+    "clip_id": "clip_875f53fa87c0",
+    "source_start_s": 0,
+    "source_end_s": 3,
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_5bf625fb46bb/job_3128a198b3c6/svc.wav",
+    "lyric_language": "en",
+    "lyric_word_count": 1,
+    "lyric_transcription_error": null,
+    "editable_track_id": "track_840432d59d5e",
+    "editable_note_count": 3,
+    "editable_score_error": null
+  },
+  "editable_track": {
+    "id": "track_840432d59d5e",
+    "name": "SVC score — clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+    "type": "vocal",
+    "language": "en",
+    "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/voices/voice_328da1a4cb92_svc_reference_voice.wav",
+    "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_5bf625fb46bb/job_59433a996584/vocal.wav",
+    "render_revision": 2,
+    "render_fingerprint": "f2836ed23fdcd983",
+    "created_by_job_id": "job_3128a198b3c6"
+  },
+  "editable_notes": [
+    {
+      "start_ticks": 480,
+      "duration_ticks": 941,
+      "pitch": 46,
+      "lyric": "You",
+      "phonemes": [
+        "j",
+        "u"
+      ],
+      "pitch_points": 13
+    },
+    {
+      "start_ticks": 1478,
+      "duration_ticks": 893,
+      "pitch": 58,
+      "lyric": "",
+      "phonemes": [],
+      "pitch_points": 2
+    },
+    {
+      "start_ticks": 2410,
+      "duration_ticks": 960,
+      "pitch": 65,
+      "lyric": "",
+      "phonemes": [],
+      "pitch_points": 3
+    }
+  ],
+  "static_track": {
+    "id": "track_7449ed5305da",
+    "name": "SVC — clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+    "type": "audio",
+    "created_by_job_id": "job_3128a198b3c6"
+  },
+  "static_clips": [
+    {
+      "id": "clip_115803978dca",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_5bf625fb46bb/job_3128a198b3c6/svc.wav",
+      "start_ticks": 480,
+      "duration_ticks": 2880,
+      "offset_ticks": 0,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "SVC: clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+      "transcribed_lyrics": [
+        {
+          "text": "You",
+          "start": 0.0,
+          "end": 1.42
+        }
+      ],
+      "created_by_job_id": "job_3128a198b3c6",
+      "updated_by_job_id": null
+    }
+  ],
+  "editable_renders": [
+    {
+      "id": "job_59433a996584",
+      "status": "completed",
+      "error": null,
+      "track_id": "track_840432d59d5e",
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_5bf625fb46bb/job_59433a996584/vocal.wav"
+    },
+    {
+      "id": "job_309412a1e7da",
+      "status": "completed",
+      "error": null,
+      "track_id": "track_840432d59d5e",
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_5bf625fb46bb/job_309412a1e7da/vocal.wav"
+    }
+  ],
+  "final": {
+    "tracks": [
+      [
+        "Lead Vocal",
+        "vocal",
+        0,
+        0
+      ],
+      [
+        "Audio — clip_d275beb12e77_svc_clip_control_source",
+        "audio",
+        0,
+        1
+      ],
+      [
+        "SVC score — clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+        "vocal",
+        3,
+        0
+      ],
+      [
+        "SVC — clip_782920c8e899_clip_d275beb12e77_svc_clip_control_source",
+        "audio",
+        0,
+        1
+      ]
+    ],
+    "static_still_present": true
+  },
+  "console": [],
+  "badnet": [],
+  "playback_recheck_after_reload": {
+    "pos0": "1.1.1\n00:00.00",
+    "pos1": "1.4.3\n00:01.79",
+    "playing": true,
+    "starts": [
+      {
+        "when": 0.5232199546485261,
+        "offset": 0,
+        "duration": 3,
+        "bufferDuration": 3
+      },
+      {
+        "when": 0.023219954648526078,
+        "offset": 0,
+        "duration": 4.010408163265306,
+        "bufferDuration": 4.010408163265306
+      },
+      {
+        "when": 0.5232199546485261,
+        "offset": 0,
+        "duration": 3,
+        "bufferDuration": 3
+      }
+    ]
+  },
+  "render_file_facts": {
+    "svc_static": {
+      "seconds": 3.0,
+      "frames": 72000,
+      "rate": 24000,
+      "bytes": 144044
+    },
+    "editable_initial": {
+      "seconds": 4.010416666666667,
+      "frames": 96250,
+      "rate": 24000,
+      "bytes": 192544
+    },
+    "editable_postedit": {
+      "seconds": 4.010416666666667,
+      "frames": 96250,
+      "rate": 24000,
+      "bytes": 192544
+    }
+  },
+  "notes_visibility": "Low extracted notes and lyric were visible after Shift+wheel vertical pitch scrolling; see 11_editable_score_low_notes_lyrics_visible.png"
+}

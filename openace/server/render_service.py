@@ -820,15 +820,52 @@ class RenderService:
                 lyric_error = str(exc)
 
             completion_project = self.store.get(project.id)
-            duration_ticks = completion_project.seconds_to_ticks(len(audio) / sr) if sr else None
-            conversion_track = completion_project.add_track(
-                Track(name=f"SVC — {source_name}", type=TrackType.AUDIO, color="#ff8f5a", created_by_job_id=job.id)
-            )
             arrangement_start_ticks = job.arrangement_start_ticks or 0
             if job.clip_id:
                 _, source_clip = find_clip(completion_project, job.clip_id)
                 if source_clip is not None:
                     arrangement_start_ticks = source_clip.start_ticks
+            editable_track = None
+            editable_error = None
+            try:
+                from openace.importers.audio import assign_lyrics_to_notes, audio_to_midi_notes
+
+                editable_notes = await asyncio.to_thread(audio_to_midi_notes, wav, completion_project)
+                if not editable_notes:
+                    raise RuntimeError("no stable monophonic pitch contour found in converted audio")
+                assigned = assign_lyrics_to_notes(
+                    editable_notes,
+                    [{"text": word.text, "start": word.start, "end": word.end} for word in transcribed_lyrics],
+                    completion_project,
+                    lyric_language or "en",
+                )
+                if transcribed_lyrics and not assigned:
+                    raise RuntimeError("transcribed lyrics could not be aligned to the converted melody")
+                for note in editable_notes:
+                    note.start_ticks += arrangement_start_ticks
+                lyric_text = "".join(word.text for word in transcribed_lyrics)
+                has_han = any("\u3400" <= char <= "\u9fff" or "\uf900" <= char <= "\ufaff" for char in lyric_text)
+                has_latin = any(("a" <= char.lower() <= "z") for char in lyric_text)
+                editable_language = "mixed" if has_han and has_latin else (lyric_language or "en")
+                editable_track = completion_project.add_track(
+                    Track(
+                        name=f"SVC score — {source_name}",
+                        type=TrackType.VOCAL,
+                        color="#c78bff",
+                        language=editable_language,
+                        reference_voice_path=str(reference_voice),
+                        created_by_job_id=job.id,
+                    )
+                )
+                editable_track.notes = editable_notes
+            except Exception as exc:
+                # The converted audio remains truthful and usable; editable-score extraction
+                # is reported explicitly rather than replaced with fabricated notes/lyrics.
+                editable_error = str(exc)
+            duration_ticks = completion_project.seconds_to_ticks(len(audio) / sr) if sr else None
+            conversion_track = completion_project.add_track(
+                Track(name=f"SVC — {source_name}", type=TrackType.AUDIO, color="#ff8f5a", created_by_job_id=job.id)
+            )
             conversion_track.clips.append(
                 AudioClip(
                     path=str(wav),
@@ -855,6 +892,9 @@ class RenderService:
                     "lyric_language": lyric_language,
                     "lyric_word_count": len(transcribed_lyrics),
                     "lyric_transcription_error": lyric_error,
+                    "editable_track_id": editable_track.id if editable_track is not None else None,
+                    "editable_note_count": len(editable_track.notes) if editable_track is not None else 0,
+                    "editable_score_error": editable_error,
                 }
             )
             completion_project.metadata["svc_conversions"] = conversions

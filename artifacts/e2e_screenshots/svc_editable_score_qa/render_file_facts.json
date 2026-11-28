@@ -1,0 +1,20 @@
+{
+  "svc_static": {
+    "seconds": 3.0,
+    "frames": 72000,
+    "rate": 24000,
+    "bytes": 144044
+  },
+  "editable_initial": {
+    "seconds": 4.010416666666667,
+    "frames": 96250,
+    "rate": 24000,
+    "bytes": 192544
+  },
+  "editable_postedit": {
+    "seconds": 4.010416666666667,
+    "frames": 96250,
+    "rate": 24000,
+    "bytes": 192544
+  }
+}
