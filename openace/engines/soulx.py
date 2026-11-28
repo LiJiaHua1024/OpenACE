@@ -317,11 +317,10 @@ class SoulXSingerEngine:
                 "soulxsinger/utils/phoneme/phone_set.json",
                 "--save_dir",
                 str(save_dir),
-                "--auto_shift",
                 "--pitch_shift",
                 "0",
                 "--control",
-                "score",
+                "melody",
                 "--fp16",
             ]
             with self.vram.acquire("soulx-singer", estimated_gb=5.5):
@@ -395,7 +394,6 @@ class SoulXSingerEngine:
                 str(target_f0),
                 "--save_dir",
                 str(save_dir),
-                "--auto_shift",
                 "--pitch_shift",
                 "0",
                 "--fp16",
