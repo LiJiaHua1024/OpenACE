@@ -415,6 +415,12 @@ def _bounded_int(value: object, default: int, minimum: int, maximum: int) -> int
     return max(minimum, min(maximum, number))
 
 
+def _font_family(value: object) -> str:
+    text = str(value or "Noto Sans CJK SC").strip()
+    text = "".join(ch for ch in text if ch not in ",\r\n\t" and ord(ch) >= 32)
+    return (text or "Noto Sans CJK SC")[:80]
+
+
 def karaoke_style_settings(project: Project) -> dict[str, object]:
     raw = (project.metadata or {}).get("karaoke_style") or {}
     if not isinstance(raw, dict):
@@ -429,6 +435,14 @@ def karaoke_style_settings(project: Project) -> dict[str, object]:
         "background_motion": bool(raw.get("background_motion", True)),
         "show_title": bool(raw.get("show_title", True)),
         "show_brand": bool(raw.get("show_brand", True)),
+        "font_family": _font_family(raw.get("font_family")),
+        "lyric_position": str(raw.get("lyric_position") or "bottom") if str(raw.get("lyric_position") or "bottom") in {"bottom", "center", "top"} else "bottom",
+        "lyric_bold": bool(raw.get("lyric_bold", True)),
+        "outline_width": _bounded_int(raw.get("outline_width", 4), 4, 0, 8),
+        "shadow_depth": _bounded_int(raw.get("shadow_depth", 1), 1, 0, 6),
+        "letter_spacing": _bounded_int(raw.get("letter_spacing", 1), 1, 0, 8),
+        "lane_font_step": _bounded_int(raw.get("lane_font_step", 5), 5, 0, 12),
+        "background_effect": str(raw.get("background_effect") or "clean") if str(raw.get("background_effect") or "clean") in {"clean", "texture", "grid"} else "clean",
     }
 
 
@@ -493,9 +507,11 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
     for lane in range(lane_count):
         style_name = "Lyrics" if lane == 0 else f"LyricsLane{lane}"
         lyric_style_names.append(style_name)
-        font_size = max(30, int(style['font_size']) - lane * 5)
+        font_size = max(30, int(style['font_size']) - lane * int(style['lane_font_step']))
         margin_v = 96 + lane * int(style['lane_spacing'])
-        lines.insert(8 + lane, f"Style: {style_name},Noto Sans CJK SC,{font_size},{_ass_color(str(style['sung_color']))},{_ass_color(str(style['unsung_color']))},&HCC07101E,&H66000000,-1,0,0,0,100,100,1.2,0,1,4,1,2,100,100,{margin_v},1")
+        alignment = {"bottom": 2, "center": 5, "top": 8}[str(style["lyric_position"])]
+        bold = -1 if style["lyric_bold"] else 0
+        lines.insert(8 + lane, f"Style: {style_name},{style['font_family']},{font_size},{_ass_color(str(style['sung_color']))},{_ass_color(str(style['unsung_color']))},&HCC07101E,&H66000000,{bold},0,0,0,100,100,{style['letter_spacing']},0,1,{style['outline_width']},{style['shadow_depth']},{alignment},100,100,{margin_v},1")
     video_end = _ass_timestamp(duration)
     if style["show_title"]:
         lines.append(f"Dialogue: 0,0:00:00.00,{video_end},Title,,0,0,0,,{_ass_escape(project.title)}")
@@ -519,12 +535,18 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
         f"gradients=s=1920x1080:r=30:c0={c0}:c1={c1}:c2={c2}:"
         f"nb_colors=3:x0=0:y0=0:x1=1920:y1=1080:speed={0.025 if style['background_motion'] else 0.00001}"
     )
+    video_filters = []
+    if style["background_effect"] == "texture":
+        video_filters.extend(["noise=alls=5:allf=t+u", "vignette=PI/6"])
+    elif style["background_effect"] == "grid":
+        video_filters.extend(["drawgrid=w=120:h=120:t=1:c=white@0.04", "vignette=PI/6"])
+    video_filters.append(f"subtitles='{filter_path}'")
     cmd = [
         "ffmpeg", "-y",
         "-f", "lavfi", "-i", gradient,
         "-i", str(master_wav),
         "-t", f"{duration:.3f}",
-        "-vf", f"subtitles='{filter_path}'",
+        "-vf", ",".join(video_filters),
         "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", "-movflags", "+faststart",
         "-metadata", f"title={project.title}",
         str(output_path),

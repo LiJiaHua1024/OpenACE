@@ -1,0 +1,42 @@
+{
+  "karaoke_bottom_clean.mp4": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video"
+    },
+    {
+      "codec_name": "aac",
+      "codec_type": "audio"
+    }
+  ],
+  "karaoke_center_grid.mp4": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video"
+    },
+    {
+      "codec_name": "aac",
+      "codec_type": "audio"
+    }
+  ],
+  "karaoke_lane_step_proof.mp4": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video"
+    },
+    {
+      "codec_name": "aac",
+      "codec_type": "audio"
+    }
+  ],
+  "karaoke_top_texture.mp4": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video"
+    },
+    {
+      "codec_name": "aac",
+      "codec_type": "audio"
+    }
+  ]
+}

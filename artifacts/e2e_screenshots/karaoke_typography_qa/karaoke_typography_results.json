@@ -1,0 +1,91 @@
+{
+  "console": [],
+  "badnet": [],
+  "cases": {
+    "top_texture": {
+      "mp4": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/karaoke_typography_qa/karaoke_top_texture.mp4",
+      "bytes": 122676,
+      "duration": 3.067,
+      "ftyp": true,
+      "ass": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/karaoke_typography_qa/karaoke_top_texture.ass",
+      "ass_exists": true
+    },
+    "center_grid": {
+      "mp4": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/karaoke_typography_qa/karaoke_center_grid.mp4",
+      "bytes": 129296,
+      "duration": 3.067,
+      "ftyp": true,
+      "ass": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/karaoke_typography_qa/karaoke_center_grid.ass",
+      "ass_exists": true
+    },
+    "bottom_clean": {
+      "mp4": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/karaoke_typography_qa/karaoke_bottom_clean.mp4",
+      "bytes": 78711,
+      "duration": 3.067,
+      "ftyp": true,
+      "ass": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/karaoke_typography_qa/karaoke_bottom_clean.ass",
+      "ass_exists": true
+    }
+  },
+  "layout": {
+    "viewport": [
+      1272,
+      837
+    ],
+    "bodyOverflow": false,
+    "panelOverflow": 0,
+    "editorCount": 16,
+    "labels": [
+      "Lyric font",
+      "Font size",
+      "Lane spacing",
+      "Sung",
+      "Unsung",
+      "Position\nBottom\nCenter\nTop",
+      "Outline",
+      "Shadow",
+      "Spacing",
+      "Lane step",
+      "Theme\nMidnight\nEmber\nForest\nMonochrome",
+      "Effect\nClean gradient\nAnimated texture\nStudio",
+      "Bold",
+      "Motion",
+      "Title",
+      "Brand"
+    ]
+  },
+  "metadata_after_edit": {
+    "font_size": 72,
+    "lane_spacing": 88,
+    "sung_color": "#00ffff",
+    "unsung_color": "#ff00ff",
+    "background_theme": "forest",
+    "background_motion": false,
+    "show_title": false,
+    "show_brand": false,
+    "font_family": "Odd, Font ☃",
+    "lyric_position": "top",
+    "lyric_bold": false,
+    "outline_width": 7,
+    "shadow_depth": 4,
+    "letter_spacing": 6,
+    "lane_font_step": 9,
+    "background_effect": "texture"
+  },
+  "persisted_ui": {
+    "font": "Odd, Font ☃",
+    "font_size": "72",
+    "lane_spacing": "88",
+    "position": "top",
+    "outline": "7",
+    "shadow": "4",
+    "spacing": "6",
+    "lane_step": "9",
+    "theme": "forest",
+    "effect": "texture",
+    "bold": false,
+    "motion": false,
+    "title": false,
+    "brand": false
+  }
+}

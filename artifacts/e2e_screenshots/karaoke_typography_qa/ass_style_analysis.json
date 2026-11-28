@@ -1,0 +1,59 @@
+{
+  "karaoke_bottom_clean": {
+    "styles": [
+      {
+        "name": "Lyrics",
+        "font": "Odd Font ☃",
+        "size": "72",
+        "bold": "0",
+        "spacing": "6",
+        "outline": "7",
+        "shadow": "4",
+        "alignment": "2",
+        "marginv": "96"
+      }
+    ],
+    "style_count": 1,
+    "first_style_line": "Style: Lyrics,Odd Font ☃,72,&H00FFFF00,&H00FF00FF,&HCC07101E,&H66000000,0,0,0,0,100,100,6,0,1,7,4,2,100,100,96,1",
+    "has_title": true,
+    "has_brand": true
+  },
+  "karaoke_center_grid": {
+    "styles": [
+      {
+        "name": "Lyrics",
+        "font": "Odd Font ☃",
+        "size": "72",
+        "bold": "0",
+        "spacing": "6",
+        "outline": "7",
+        "shadow": "4",
+        "alignment": "5",
+        "marginv": "96"
+      }
+    ],
+    "style_count": 1,
+    "first_style_line": "Style: Lyrics,Odd Font ☃,72,&H00FFFF00,&H00FF00FF,&HCC07101E,&H66000000,0,0,0,0,100,100,6,0,1,7,4,5,100,100,96,1",
+    "has_title": true,
+    "has_brand": true
+  },
+  "karaoke_top_texture": {
+    "styles": [
+      {
+        "name": "Lyrics",
+        "font": "Odd Font ☃",
+        "size": "72",
+        "bold": "0",
+        "spacing": "6",
+        "outline": "7",
+        "shadow": "4",
+        "alignment": "8",
+        "marginv": "96"
+      }
+    ],
+    "style_count": 1,
+    "first_style_line": "Style: Lyrics,Odd Font ☃,72,&H00FFFF00,&H00FF00FF,&HCC07101E,&H66000000,0,0,0,0,100,100,6,0,1,7,4,8,100,100,96,1",
+    "has_title": true,
+    "has_brand": true
+  }
+}

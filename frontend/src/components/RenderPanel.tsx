@@ -405,6 +405,14 @@ export default function RenderPanel(props: Props) {
     background_motion: true,
     show_title: true,
     show_brand: true,
+    font_family: 'Noto Sans CJK SC',
+    lyric_position: 'bottom',
+    lyric_bold: true,
+    outline_width: 4,
+    shadow_depth: 1,
+    letter_spacing: 1,
+    lane_font_step: 5,
+    background_effect: 'clean',
     ...((props.project.metadata?.karaoke_style && typeof props.project.metadata.karaoke_style === 'object') ? props.project.metadata.karaoke_style : {}),
   }
 
@@ -671,16 +679,32 @@ export default function RenderPanel(props: Props) {
         {exportRangeMode === 'loop' && !playbackLoop && <div className="export-range-hint warning">No valid playback loop range is saved in this project.</div>}
         <div className="karaoke-style-editor">
           <div className="panel-subtitle">Karaoke video style</div>
+          <label>Lyric font<input value={karaokeStyle.font_family} onChange={event => updateKaraokeStyle({ font_family: event.target.value })} /></label>
           <label>Font size<input type="number" min="36" max="96" value={karaokeStyle.font_size} onChange={event => updateKaraokeStyle({ font_size: Number(event.target.value) })} /></label>
           <label>Lane spacing<input type="number" min="52" max="112" value={karaokeStyle.lane_spacing} onChange={event => updateKaraokeStyle({ lane_spacing: Number(event.target.value) })} /></label>
           <label>Sung<input type="color" value={karaokeStyle.sung_color} onChange={event => updateKaraokeStyle({ sung_color: event.target.value })} /></label>
           <label>Unsung<input type="color" value={karaokeStyle.unsung_color} onChange={event => updateKaraokeStyle({ unsung_color: event.target.value })} /></label>
+          <label>Position<select value={karaokeStyle.lyric_position} onChange={event => updateKaraokeStyle({ lyric_position: event.target.value })}>
+            <option value="bottom">Bottom</option>
+            <option value="center">Center</option>
+            <option value="top">Top</option>
+          </select></label>
+          <label>Outline<input type="number" min="0" max="8" value={karaokeStyle.outline_width} onChange={event => updateKaraokeStyle({ outline_width: Number(event.target.value) })} /></label>
+          <label>Shadow<input type="number" min="0" max="6" value={karaokeStyle.shadow_depth} onChange={event => updateKaraokeStyle({ shadow_depth: Number(event.target.value) })} /></label>
+          <label>Spacing<input type="number" min="0" max="8" value={karaokeStyle.letter_spacing} onChange={event => updateKaraokeStyle({ letter_spacing: Number(event.target.value) })} /></label>
+          <label>Lane step<input type="number" min="0" max="12" value={karaokeStyle.lane_font_step} onChange={event => updateKaraokeStyle({ lane_font_step: Number(event.target.value) })} /></label>
           <label>Theme<select value={karaokeStyle.background_theme} onChange={event => updateKaraokeStyle({ background_theme: event.target.value })}>
             <option value="midnight">Midnight</option>
             <option value="ember">Ember</option>
             <option value="forest">Forest</option>
             <option value="monochrome">Monochrome</option>
           </select></label>
+          <label>Effect<select value={karaokeStyle.background_effect} onChange={event => updateKaraokeStyle({ background_effect: event.target.value })}>
+            <option value="clean">Clean gradient</option>
+            <option value="texture">Animated texture</option>
+            <option value="grid">Studio grid</option>
+          </select></label>
+          <label className="check-row"><input type="checkbox" checked={karaokeStyle.lyric_bold} onChange={event => updateKaraokeStyle({ lyric_bold: event.target.checked })} /> Bold</label>
           <label className="check-row"><input type="checkbox" checked={karaokeStyle.background_motion} onChange={event => updateKaraokeStyle({ background_motion: event.target.checked })} /> Motion</label>
           <label className="check-row"><input type="checkbox" checked={karaokeStyle.show_title} onChange={event => updateKaraokeStyle({ show_title: event.target.checked })} /> Title</label>
           <label className="check-row"><input type="checkbox" checked={karaokeStyle.show_brand} onChange={event => updateKaraokeStyle({ show_brand: event.target.checked })} /> Brand</label>

@@ -716,3 +716,31 @@ def test_cli_and_mcp_export_atoms_support_mp4(tmp_path, monkeypatch):
     assert payload["bytes"] == len(b"ftyp-mp4")
     assert mcp_output.read_bytes() == b"ftyp-mp4"
     assert [call[0] for call in calls] == [project.id, project.id]
+
+
+def test_karaoke_typography_position_and_background_effects_are_real(tmp_path):
+    import numpy as np
+    from openace.core.audio import write_wav
+    from openace.exporters.master import export_lyrics_video, karaoke_style_settings
+
+    project = sample_project()
+    project.metadata = {"karaoke_style": {
+        "font_family": "Noto Sans CJK SC",
+        "lyric_position": "center",
+        "lyric_bold": False,
+        "outline_width": 6,
+        "shadow_depth": 2,
+        "letter_spacing": 3,
+        "lane_font_step": 8,
+        "background_effect": "texture",
+    }}
+    wav = tmp_path / "master.wav"
+    write_wav(wav, np.zeros((12000, 2), dtype=np.float32), 24000)
+    out = export_lyrics_video(project, wav, tmp_path / "typography.mp4")
+    assert out.exists() and out.stat().st_size > 1000
+    ass_text = (tmp_path / "typography.ass").read_text(encoding="utf-8")
+    assert "Style: Lyrics,Noto Sans CJK SC,66" in ass_text
+    assert ",0,0,0,0,100,100,3,0,1,6,2,5,100,100,96,1" in ass_text
+    style = karaoke_style_settings(project)
+    assert style["lyric_position"] == "center"
+    assert style["background_effect"] == "texture"
