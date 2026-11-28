@@ -2,6 +2,8 @@
 
 - Media-bin drag/drop placement is functionally correct, including Alt fine placement, but the cyan insertion indicator can disappear on one narrow Alt lower-diagonal native HTML5 drag path despite dragleave grace-timer hardening. Direct steady-position drags and normal placements show correct feedback; documented after three browser reproduction/fix attempts rather than blocking the workflow.
 - Web playback media now preloads/decodes offline and realistic post-interaction first playback is verified below 20ms audio-clock lag, but a direct cold press of play as the very first browser gesture can still incur the host Chrome/audio-device startup cost (about 2 seconds in this sandbox). This is an environment/browser output initialization limitation, not a decode-cache miss.
+- True ACE-style weighted voice mixing is architecturally blocked by current upstream SoulX-Singer: inference accepts only the first prompt segment and conditions on prompt waveform/mel features, not an exposed speaker embedding or weighted multi-prompt interface. OpenACE intentionally does not fake mixing by blending raw reference audio.
+
 ## Critical validation gaps
 
 - Real GPU inference has not been run in this CPU-only cloud sandbox. `scripts/verify_local_gpu.py` is the required acceptance gate on a 12GB NVIDIA machine.
