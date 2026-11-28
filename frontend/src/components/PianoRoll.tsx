@@ -104,6 +104,7 @@ export default function PianoRoll(props: Props) {
   const [view, setView] = useState<ViewState>({ rowHeight: 15, topPitch: 79 })
   const [selectedNoteIds, setSelectedNoteIds] = useState<string[]>([])
   const [editing, setEditing] = useState<{ note: Note; x: number; y: number; value: string } | null>(null)
+  const skipLyricBlurCommitRef = useRef(false)
   const [marquee, setMarquee] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null)
   const [menu, setMenu] = useState<{ x: number; y: number; noteId?: string; splitTicks?: number } | null>(null)
   const [splitError, setSplitError] = useState<string | null>(null)
@@ -800,10 +801,16 @@ export default function PianoRoll(props: Props) {
     if (hit) setEditing({ note: hit, x, y, value: hit.lyric })
   }
 
-  function commitLyric() {
+  function commitLyric(advance: -1 | 0 | 1 = 0) {
     if (!editing) return
     const value = editing.value.trim()
     const noteId = editing.note.id
+    let nextNote: Note | null = null
+    if (advance && props.track) {
+      const ordered = [...props.track.notes].sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+      const index = ordered.findIndex(note => note.id === noteId)
+      nextNote = ordered[index + advance] || null
+    }
     props.beginTransaction()
     mutateTrack(track => {
       const note = track.notes.find(n => n.id === noteId)
@@ -813,7 +820,12 @@ export default function PianoRoll(props: Props) {
       }
     }, true)
     props.endTransaction()
-    setEditing(null)
+    if (nextNote) {
+      const rect = noteRect(nextNote)
+      setEditing({ note: nextNote, x: rect.x + rect.w / 2, y: rect.y + rect.h / 2, value: nextNote.lyric })
+    } else {
+      setEditing(null)
+    }
   }
 
   function selectedNotes(): Note[] {
@@ -1146,7 +1158,7 @@ export default function PianoRoll(props: Props) {
         </div>
         <div className="selection-count">{selectedNoteIds.length ? `${selectedNoteIds.length} selected` : ''}</div>
         <div className="pitch-readout">{pitchReadout || ''}</div>
-        <div className="editor-hint">V/B/E/P · arrows nudge · Ctrl+C/V/D/E</div>
+        <div className="editor-hint">V/B/E/P · arrows nudge · Ctrl+C/V/D/E · Tab lyric next</div>
       </div>
       <div className="piano-roll-wrap" ref={wrapRef} tabIndex={0}>
         {splitError && <div className="split-error">{splitError}</div>}
@@ -1181,8 +1193,8 @@ export default function PianoRoll(props: Props) {
             autoFocus
             value={editing.value}
             onChange={e => setEditing({ ...editing, value: e.target.value })}
-            onBlur={commitLyric}
-            onKeyDown={e => { if (e.key === 'Enter') commitLyric(); if (e.key === 'Escape') setEditing(null) }}
+            onBlur={() => { if (skipLyricBlurCommitRef.current) return; commitLyric() }}
+            onKeyDown={e => { if (e.key === 'Enter') commitLyric(); if (e.key === 'Tab') { e.preventDefault(); skipLyricBlurCommitRef.current = true; window.setTimeout(() => { skipLyricBlurCommitRef.current = false }, 80); commitLyric(e.shiftKey ? -1 : 1) }; if (e.key === 'Escape') setEditing(null) }}
           />
         )}
         {phonemeEditor && (

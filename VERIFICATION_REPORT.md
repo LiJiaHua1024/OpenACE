@@ -1338,3 +1338,9 @@ Validation after iteration 118: frontend production build passed; independent br
 Added shared eighth-note and sixteenth-note triplet snapping to the workstation grid selector. Because grid division is shared across piano roll, arrangement, automation, tempo editing, and ruler seeking, `1/8T` now produces exact 160-tick steps and `1/16T` exact 80-tick steps at PPQ 480 rather than approximating them visually. Browser QA verified selector labels/persistence, exact ruler seeks (`1120` at 1/8T, `1200` at 1/16T), arrangement clip moves (`+160`/`+80`), piano note creation (`2560/160` and `2480/80`), immediate triplet visual subdivision spacing in piano/automation, undo/reload regression, and clean console/network. Evidence: `artifacts/e2e_screenshots/triplet_grid/`.
 
 Validation after iteration 119: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
+
+## Iteration 120 — continuous lyric entry
+
+Implemented vocal-editor-style continuous lyric entry. The lyric editor now commits with Tab and moves focus to the next time-sorted note, Shift+Tab moves backward, Enter still commits/closes, Escape cancels, and normal blur commits; a guard prevents the programmatic focus transition from double-committing the old editor. Browser QA verified exact forward chain `啊/吗/呜` across three notes without duplicate commits, clean boundary close, Shift+Tab editing, Enter/Escape/blur regressions, exact undo/redo, and clean console/network. Invalid ASCII lyrics on a Mandarin track correctly failed backend validation rather than being silently accepted. Evidence: `artifacts/e2e_screenshots/continuous_lyrics/`.
+
+Validation after iteration 120: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
