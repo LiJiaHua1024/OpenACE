@@ -212,7 +212,7 @@ def cmd_render_vocal(args) -> None:
 
 def cmd_vocal2bgm(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.VOCAL2BGM, args.track, source_audio=args.source_audio, caption=args.caption)
+    job = service.create_job(args.project, RenderMode.VOCAL2BGM, args.track, source_audio=args.source_audio, caption=args.caption, clip_id=args.clip_id)
     result = asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption))
     notify_web(store.get(args.project))
     emit(result.model_dump(mode="json"))
@@ -482,8 +482,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("vocal2bgm")
     p.add_argument("project")
-    p.add_argument("source_audio")
-    p.add_argument("--track", default=None)
+    p.add_argument("source_audio", nargs="?", default=None, help="source audio file; optional when --track names a rendered vocal track")
+    p.add_argument("--track", default=None, help="rendered vocal track to use as project-aware input")
+    p.add_argument("--clip-id", default=None, help="arrangement clip whose visible segment is the input")
     p.add_argument("--caption", default="professional instrumental accompaniment")
     p.set_defaults(func=cmd_vocal2bgm)
 

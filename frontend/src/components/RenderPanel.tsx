@@ -16,6 +16,13 @@ interface Props {
   onJobCreated(job: RenderJob): void
 }
 
+function sourceClipForPath(project: Project, path: string, playheadTicks: number) {
+  if (!path) return null
+  const matches = project.tracks.flatMap(track => track.clips).filter(clip => clip.path === path)
+  if (!matches.length) return null
+  return matches.find(clip => clip.duration_ticks && playheadTicks >= clip.start_ticks && playheadTicks < clip.start_ticks + clip.duration_ticks) || matches[0]
+}
+
 function overlappingRepaintClip(project: Project, startS: number, endS: number, preferredPath: string) {
   let best: { clip: import('../types').AudioClip; overlap: number; pathMatch: boolean } | null = null
   for (const track of project.tracks) {
@@ -92,6 +99,10 @@ export default function RenderPanel(props: Props) {
   }
   const staleRender = props.track ? vocalRenderIsStale(props.project, props.track) : false
   const repaintClip = overlappingRepaintClip(props.project, repaintStart, repaintEnd, sourceAudio)
+  const selectedVocalRender = props.track?.type === 'vocal' ? (props.track.render_path || '') : ''
+  const usesSelectedVocalRender = !sourceAudio && Boolean(selectedVocalRender)
+  const effectiveSourceAudio = sourceAudio || selectedVocalRender
+  const vocal2bgmClip = sourceAudio ? sourceClipForPath(props.project, sourceAudio, props.playheadTicks) : null
 
   useEffect(() => {
     window.localStorage.setItem('openace.autoRender', autoRender ? '1' : '0')
@@ -528,11 +539,13 @@ export default function RenderPanel(props: Props) {
         <button className="wide-button" onClick={() => audioInput.current?.click()}>Upload vocal/audio source</button>
         <input ref={clipInput} hidden type="file" accept="audio/*,.wav,.mp3,.flac,.ogg,.aiff,.aif" onChange={e => { const file = e.target.files?.[0]; if (file) void importClipFile(file); e.target.value = '' }} />
         <button className="wide-action secondary" onClick={() => clipInput.current?.click()}>Import audio as clip at playhead</button>
-        <div className="path-readout">{sourceAudio ? sourceAudio.split('/').pop() : 'no source selected'}</div>
+        <div className="path-readout">{sourceAudio ? sourceAudio.split('/').pop() : (usesSelectedVocalRender ? 'selected vocal render' : 'no source selected')}</div>
         <label className="field-label">Style caption
           <textarea value={caption} onChange={e => setCaption(e.target.value)} rows={3} />
         </label>
-        <button disabled={!sourceAudio || busy === 'bgm'} className="wide-action" onClick={() => run('bgm', () => api.vocal2bgm(props.project.id, sourceAudio, caption))}>Vocal2BGM</button>
+        <button disabled={!effectiveSourceAudio || (usesSelectedVocalRender && staleRender) || busy === 'bgm'} className="wide-action" title={usesSelectedVocalRender && staleRender ? 'Selected vocal render is stale; render it first' : usesSelectedVocalRender ? 'Use the selected vocal track render as input' : (vocal2bgmClip ? 'Use the matching arrangement clip segment as input' : 'Use the uploaded source file as input')} onClick={() => run('bgm', () => api.vocal2bgm(props.project.id, effectiveSourceAudio, caption, usesSelectedVocalRender ? props.track?.id : undefined, vocal2bgmClip?.id))}>Vocal2BGM</button>
+        {usesSelectedVocalRender && <div className="hint vocal2bgm-source">input: selected vocal render</div>}
+        {vocal2bgmClip && <div className="hint vocal2bgm-source">input: visible clip segment · aligned to clip start</div>}
         <p className="hint">Alt-drag on the arrangement timeline to draw the repaint region.</p>
         <div className="repaint-grid">
           <label>Start<input type="number" min="0" step="0.1" value={Number(repaintStart.toFixed(2))} onChange={e => props.onRepaintRange({ start: Number(e.target.value), end: repaintEnd })} /></label>

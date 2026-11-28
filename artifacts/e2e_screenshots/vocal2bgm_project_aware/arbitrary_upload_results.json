@@ -1,0 +1,69 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "media_item": {
+    "id": "upload_4ad536d092cc_vocal2bgm_arbitrary_source.wav",
+    "name": "vocal2bgm_arbitrary_source.wav",
+    "file_name": "upload_4ad536d092cc_vocal2bgm_arbitrary_source.wav",
+    "path": "/home/ubuntu/repos/OpenACE/data/uploads/upload_4ad536d092cc_vocal2bgm_arbitrary_source.wav",
+    "size": 72044,
+    "modified_at": 1795843476.049787,
+    "valid": true,
+    "duration_seconds": 1.5,
+    "sample_rate": 24000,
+    "channels": 1,
+    "tags": [],
+    "folders": []
+  },
+  "pre_click": {
+    "path_readout": "upload_4ad536d092cc_vocal2bgm_arbitrary_source.wav",
+    "hint_count": 0,
+    "enabled": true,
+    "title": "Use the uploaded source file as input"
+  },
+  "job": {
+    "id": "job_89efbc8cfc69",
+    "project_id": "project_00d47d7aaeff",
+    "track_id": null,
+    "mode": "vocal2bgm",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_89efbc8cfc69/accompaniment.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_89efbc8cfc69/diagnostic.png",
+    "created_at": 1795843477.5403385,
+    "finished_at": 1795843477.9794335,
+    "error": null,
+    "engine": "explicit CI music fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/uploads/upload_4ad536d092cc_vocal2bgm_arbitrary_source.wav",
+    "reference_voice": null,
+    "caption": "lush modern pop accompaniment, tight drums, warm bass, cinematic polish",
+    "start_s": null,
+    "end_s": null,
+    "clip_id": null,
+    "source_start_s": null,
+    "source_end_s": null,
+    "arrangement_start_ticks": 0
+  },
+  "newest_clip": {
+    "id": "clip_70971eb5e183",
+    "path": "/home/ubuntu/repos/OpenACE/data/renders/project_00d47d7aaeff/job_89efbc8cfc69/accompaniment.wav",
+    "start_ticks": 0,
+    "duration_ticks": 1440,
+    "offset_ticks": 0,
+    "fade_in_ticks": 0,
+    "fade_out_ticks": 0,
+    "gain_db": 0.0,
+    "label": "Vocal2BGM",
+    "transcribed_lyrics": [],
+    "created_by_job_id": "job_89efbc8cfc69",
+    "updated_by_job_id": null
+  },
+  "output_audio": {
+    "samples": 36000,
+    "sample_rate": 24000,
+    "duration": 1.5
+  }
+}

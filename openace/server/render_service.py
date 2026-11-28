@@ -71,6 +71,64 @@ def find_clip(project: Project, clip_id: str) -> tuple[Track, AudioClip] | tuple
     return None, None
 
 
+def resolve_vocal2bgm_source(project: Project, source_audio: Optional[str], track_id: Optional[str], clip_id: Optional[str]) -> tuple[str, int, Optional[float], Optional[float], Optional[str]]:
+    """Resolve Vocal2BGM input and arrangement anchoring without inventing timeline context."""
+    if track_id:
+        try:
+            track = project.track(track_id)
+        except KeyError as exc:
+            raise ValueError(f"Vocal2BGM track not found: {track_id}") from exc
+        if track.type != TrackType.VOCAL:
+            raise ValueError("Vocal2BGM track must be a vocal track")
+        if not track.render_path:
+            raise ValueError("selected vocal track has no rendered audio; render it before Vocal2BGM")
+        if not track.render_fingerprint or track.render_fingerprint != vocal_render_input_hash(project, track):
+            raise ValueError("selected vocal render is stale; render the current vocal before Vocal2BGM")
+        return track.render_path, 0, None, None, None
+
+    def anchored_clip(clip: AudioClip) -> tuple[str, int, float, float, str]:
+        clip_start, clip_end = clip_timeline_span_seconds(project, clip)
+        offset = clip_source_offset_seconds(project, clip)
+        visible = max(0.0, clip_end - clip_start)
+        if visible <= 0:
+            raise ValueError("Vocal2BGM source clip has no visible audio duration")
+        return clip.path, clip.start_ticks, offset, offset + visible, clip.id
+
+    if clip_id:
+        _, clip = find_clip(project, clip_id)
+        if clip is None:
+            raise ValueError(f"Vocal2BGM source clip not found: {clip_id}")
+        return anchored_clip(clip)
+
+    if not source_audio:
+        raise ValueError("Vocal2BGM requires a rendered vocal track, source_audio, or clip_id")
+    wanted = _path_identity(source_audio)
+    matches = [clip for track in project.tracks for clip in track.clips if _path_identity(clip.path) == wanted]
+    if len(matches) == 1:
+        return anchored_clip(matches[0])
+    if len(matches) > 1:
+        raise ValueError("multiple arrangement clips use this source audio; pass clip_id explicitly")
+    return source_audio, 0, None, None, None
+
+
+def prepare_vocal2bgm_input(source_audio: Path, workdir: Path, source_start_s: Optional[float], source_end_s: Optional[float]) -> tuple[Path, float]:
+    """Materialize the exact visible source segment and return its truthful duration."""
+    if source_start_s is None and source_end_s is None:
+        info = sf.info(str(source_audio))
+        return source_audio, info.frames / float(info.samplerate)
+    data, sample_rate = sf.read(str(source_audio), always_2d=True)
+    total = len(data) / float(sample_rate)
+    start = max(0.0, float(source_start_s or 0.0))
+    end = total if source_end_s is None else min(total, float(source_end_s))
+    if end <= start:
+        raise ValueError("Vocal2BGM source clip resolves to an empty audio segment")
+    excerpt = workdir / "vocal2bgm_source_excerpt.wav"
+    workdir.mkdir(parents=True, exist_ok=True)
+    segment = data[int(round(start * sample_rate)):int(round(end * sample_rate))]
+    sf.write(str(excerpt), segment, sample_rate, subtype="PCM_24")
+    return excerpt, len(segment) / float(sample_rate)
+
+
 def resolve_repaint_target(project: Project, source_audio: Optional[str], clip_id: Optional[str], start_s: float, end_s: float) -> tuple[Track, AudioClip, float, float, float, float]:
     """Resolve arrangement repaint selection into source-audio seconds.
 
@@ -351,6 +409,7 @@ class RenderService:
     ) -> RenderJob:
         source_start_s = None
         source_end_s = None
+        arrangement_start_ticks = None
         if mode == RenderMode.REPAINT:
             project = self.store.get(project_id)
             _, target_clip, source_start_s, source_end_s, _, _ = resolve_repaint_target(
@@ -362,6 +421,14 @@ class RenderService:
             )
             clip_id = target_clip.id
             source_audio = target_clip.path
+        elif mode == RenderMode.VOCAL2BGM:
+            project = self.store.get(project_id)
+            source_audio, arrangement_start_ticks, source_start_s, source_end_s, clip_id = resolve_vocal2bgm_source(
+                project,
+                source_audio,
+                track_id,
+                clip_id,
+            )
         job = RenderJob(
             project_id=project_id,
             track_id=track_id,
@@ -374,6 +441,7 @@ class RenderService:
             clip_id=clip_id,
             source_start_s=source_start_s,
             source_end_s=source_end_s,
+            arrangement_start_ticks=arrangement_start_ticks,
         )
         job.fixture = self.fixture_mode
         job.engine = self.vocal_engine_name if mode in {RenderMode.SVS_SCORE, RenderMode.SVC} else ("Demucs" if mode == RenderMode.SEPARATE and not self.fixture_mode else self.music_engine_name)
@@ -499,7 +567,6 @@ class RenderService:
             project = self.store.get(job.project_id)
             outdir = self.output_dir(project.id, job.id)
             wav = outdir / "accompaniment.wav"
-            duration = project.ticks_to_seconds(project.duration_ticks())
             if job.mode == RenderMode.REPAINT:
                 if not source_audio:
                     raise ValueError("repaint requires source_audio")
@@ -510,7 +577,14 @@ class RenderService:
             else:
                 if not source_audio:
                     raise ValueError("vocal2bgm requires source_audio")
-                await asyncio.to_thread(self.music_engine.vocal_to_bgm, Path(source_audio), wav, caption, duration, project.bpm, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
+                engine_source, source_duration_s = await asyncio.to_thread(
+                    prepare_vocal2bgm_input,
+                    Path(source_audio),
+                    outdir,
+                    job.source_start_s,
+                    job.source_end_s,
+                )
+                await asyncio.to_thread(self.music_engine.vocal_to_bgm, engine_source, wav, caption, source_duration_s, project.bpm, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
                 self.raise_if_cancelled(job_id)
             audio, sr = await asyncio.to_thread(read_audio, wav)
             self._report_job_progress(job_id, 0.84, "integrating accompaniment into arrangement")
@@ -540,10 +614,15 @@ class RenderService:
                 repaint_parent.render_path = str(wav)
                 repaint_parent.render_revision += 1
             else:
+                arrangement_start_ticks = job.arrangement_start_ticks or 0
+                if job.clip_id:
+                    _, source_clip = find_clip(completion_project, job.clip_id)
+                    if source_clip is not None:
+                        arrangement_start_ticks = source_clip.start_ticks
                 accompaniment.clips.append(
                     AudioClip(
                         path=str(wav),
-                        start_ticks=0,
+                        start_ticks=arrangement_start_ticks,
                         duration_ticks=duration_ticks,
                         label="Vocal2BGM",
                         created_by_job_id=job.id,

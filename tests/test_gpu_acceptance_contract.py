@@ -13,6 +13,7 @@ def test_gpu_acceptance_exercises_openace_soulx_adapter_not_upstream_example_onl
     assert "ACEStepEngine(device=\"auto\").vocal_to_bgm" in source
     assert "ace_verify.toml" not in source
     assert '"task_type": "complete"' in source
+    assert 'duration=vocal_info.frames / float(vocal_info.samplerate)' in source
 
 
 def test_gpu_acceptance_prefers_nvml_before_torch_cuda_fallback():

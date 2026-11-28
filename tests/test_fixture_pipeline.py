@@ -7,10 +7,10 @@ import pytest
 import soundfile as sf
 
 from openace.core.audio import read_audio
-from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, RenderJobStatus, RenderMode, Track, TrackType
+from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, RenderJob, RenderJobStatus, RenderMode, Track, TrackType
 from openace.core.project_store import ProjectStore
 from openace.core.render_fingerprint import vocal_render_input_hash
-from openace.engines.fixture import FixtureVocalEngine
+from openace.engines.fixture import FixtureMusicEngine, FixtureVocalEngine
 from openace.server.render_service import RenderService
 
 
@@ -105,7 +105,8 @@ def test_unrecoverable_interrupted_music_job_fails_loudly(tmp_path, monkeypatch)
     store = ProjectStore(tmp_path / "projects")
     project = store.create("legacy-durable")
     service = RenderService(store, tmp_path / "renders")
-    job = service.create_job(project.id, RenderMode.VOCAL2BGM)
+    job = RenderJob(project_id=project.id, mode=RenderMode.VOCAL2BGM)
+    service.jobs[job.id] = job
     service.jobs[job.id].status = RenderJobStatus.RUNNING
     service._publish_job(service.jobs[job.id])
 
@@ -470,3 +471,114 @@ def test_repaint_requires_intersecting_arrangement_clip_and_honors_explicit_clip
     assert job.clip_id == second.id
     assert job.source_start_s == pytest.approx(0.25)
     assert job.source_end_s == pytest.approx(0.75)
+
+
+class RecordingMusicEngine(FixtureMusicEngine):
+    def __init__(self):
+        self.vocal_calls = []
+
+    def vocal_to_bgm(self, vocal_audio: Path, output_path: Path, caption: str, duration: float, bpm: float, cancellation=None, progress=None) -> Path:
+        self.vocal_calls.append({"source": Path(vocal_audio), "duration": duration, "bpm": bpm})
+        return super().vocal_to_bgm(vocal_audio, output_path, caption, duration, bpm, cancellation=cancellation, progress=progress)
+
+
+def test_vocal2bgm_uses_selected_vocal_render_and_measured_source_duration(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("project-aware-bgm")
+    track = project.add_track(Track(name="Lead", type=TrackType.VOCAL))
+    render = tmp_path / "lead-render.wav"
+    sf.write(str(render), np.zeros(24000 * 3, dtype=np.float32), 24000)
+    track.render_path = str(render)
+    track.render_fingerprint = vocal_render_input_hash(project, track)
+    store.save(project)
+
+    service = RenderService(store, tmp_path / "renders")
+    recorder = RecordingMusicEngine()
+    service.music_engine = recorder
+    job = service.create_job(project.id, RenderMode.VOCAL2BGM, track.id, caption="test backing")
+    assert job.source_audio == str(render)
+    assert job.arrangement_start_ticks == 0
+    result = asyncio.run(service.run_music_generation(job.id, None, "test backing"))
+
+    assert result.status == "completed"
+    assert recorder.vocal_calls[0]["duration"] == pytest.approx(3.0)
+    generated = store.get(project.id).tracks[-1].clips[0]
+    assert generated.start_ticks == 0
+    assert generated.duration_ticks == 2880
+
+
+def test_vocal2bgm_extracts_trimmed_clip_segment_and_follows_clip_position(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("clip-aware-bgm")
+    project.bpm = 120
+    source = tmp_path / "source.wav"
+    sf.write(str(source), np.linspace(-0.2, 0.2, 24000 * 3, dtype=np.float32), 24000)
+    audio_track = project.add_track(Track(name="Reference vocal", type=TrackType.AUDIO))
+    clip = AudioClip(path=str(source), start_ticks=960, duration_ticks=1920, offset_ticks=480)
+    audio_track.clips.append(clip)
+    store.save(project)
+
+    class MovingRecordingEngine(RecordingMusicEngine):
+        def vocal_to_bgm(self, vocal_audio: Path, output_path: Path, caption: str, duration: float, bpm: float, cancellation=None, progress=None) -> Path:
+            current = store.get(project.id)
+            current.tracks[-1].clips[0].start_ticks = 1440
+            store.save(current)
+            return super().vocal_to_bgm(vocal_audio, output_path, caption, duration, bpm, cancellation=cancellation, progress=progress)
+
+    service = RenderService(store, tmp_path / "renders")
+    recorder = MovingRecordingEngine()
+    service.music_engine = recorder
+    job = service.create_job(project.id, RenderMode.VOCAL2BGM, source_audio=str(source), clip_id=clip.id, caption="clip backing")
+    assert job.source_start_s == pytest.approx(0.5)
+    assert job.source_end_s == pytest.approx(2.5)
+    assert job.arrangement_start_ticks == 960
+
+    result = asyncio.run(service.run_music_generation(job.id, str(source), "clip backing"))
+    assert result.status == "completed"
+    call = recorder.vocal_calls[0]
+    assert call["source"].name == "vocal2bgm_source_excerpt.wav"
+    assert call["duration"] == pytest.approx(2.0)
+    excerpt, sr = sf.read(str(call["source"]))
+    original, original_sr = sf.read(str(source))
+    assert sr == original_sr == 24000
+    assert len(excerpt) == 48000
+    assert excerpt[0] == pytest.approx(original[12000], abs=2e-5)
+
+    updated = store.get(project.id)
+    generated = updated.tracks[-1].clips[-1]
+    assert generated.start_ticks == 1440
+    assert generated.duration_ticks == 1920
+
+
+def test_vocal2bgm_rejects_ambiguous_duplicate_source_clips_without_clip_id(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("ambiguous-bgm")
+    source = tmp_path / "source.wav"
+    sf.write(str(source), np.zeros(24000, dtype=np.float32), 24000)
+    track = project.add_track(Track(name="Audio", type=TrackType.AUDIO))
+    track.clips.extend([
+        AudioClip(path=str(source), start_ticks=0, duration_ticks=960),
+        AudioClip(path=str(source), start_ticks=960, duration_ticks=960),
+    ])
+    store.save(project)
+    service = RenderService(store, tmp_path / "renders")
+    with pytest.raises(ValueError, match="clip_id"):
+        service.create_job(project.id, RenderMode.VOCAL2BGM, source_audio=str(source))
+
+
+def test_vocal2bgm_rejects_stale_selected_vocal_render(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("stale-bgm-input")
+    track = project.add_track(Track(name="Lead", type=TrackType.VOCAL))
+    render = tmp_path / "lead.wav"
+    sf.write(str(render), np.zeros(24000, dtype=np.float32), 24000)
+    track.render_path = str(render)
+    track.render_fingerprint = "stale-or-legacy"
+    store.save(project)
+    service = RenderService(store, tmp_path / "renders")
+    with pytest.raises(ValueError, match="stale"):
+        service.create_job(project.id, RenderMode.VOCAL2BGM, track.id)

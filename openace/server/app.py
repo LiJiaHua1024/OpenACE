@@ -464,7 +464,10 @@ async def render_vocal(project_id: str, request: RenderRequest):
 @app.post("/api/projects/{project_id}/render/vocal2bgm")
 async def render_vocal2bgm(project_id: str, request: RenderRequest):
     get_project(project_id)
-    job = render_service.create_job(project_id, RenderMode.VOCAL2BGM, request.track_id, source_audio=request.source_audio, caption=request.caption)
+    try:
+        job = render_service.create_job(project_id, RenderMode.VOCAL2BGM, request.track_id, source_audio=request.source_audio, caption=request.caption, clip_id=request.clip_id)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
     render_service.enqueue_job(job.id)
     return job.model_dump(mode="json")
 
@@ -472,7 +475,10 @@ async def render_vocal2bgm(project_id: str, request: RenderRequest):
 @app.post("/api/projects/{project_id}/render/repaint")
 async def render_repaint(project_id: str, request: RenderRequest):
     get_project(project_id)
-    job = render_service.create_job(project_id, RenderMode.REPAINT, request.track_id, source_audio=request.source_audio, caption=request.caption, start_s=request.start_s, end_s=request.end_s, clip_id=request.clip_id)
+    try:
+        job = render_service.create_job(project_id, RenderMode.REPAINT, request.track_id, source_audio=request.source_audio, caption=request.caption, start_s=request.start_s, end_s=request.end_s, clip_id=request.clip_id)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
     render_service.enqueue_job(job.id)
     return job.model_dump(mode="json")
 

@@ -266,11 +266,14 @@ def main() -> int:
     ace_telemetry = NvidiaMemoryTelemetry()
     ace_telemetry.start()
     try:
+        import soundfile as sf
+
+        vocal_info = sf.info(str(vocal_out))
         ACEStepEngine(device="auto").vocal_to_bgm(
             vocal_out,
             bgm_out,
             caption="short polished cinematic pop accompaniment verification",
-            duration=10,
+            duration=vocal_info.frames / float(vocal_info.samplerate),
             bpm=120,
             progress=ace_progress,
         )

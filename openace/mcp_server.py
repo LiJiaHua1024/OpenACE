@@ -177,8 +177,8 @@ async def render_vocal(project_id: str, track_id: str) -> str:
     return dumps(result.model_dump(mode="json"))
 
 
-async def vocal2bgm(project_id: str, source_audio: str, caption: str = "professional instrumental accompaniment") -> str:
-    job = render_service.create_job(project_id, RenderMode.VOCAL2BGM, source_audio=source_audio, caption=caption)
+async def vocal2bgm(project_id: str, source_audio: str = "", caption: str = "professional instrumental accompaniment", track_id: str = "", clip_id: str = "") -> str:
+    job = render_service.create_job(project_id, RenderMode.VOCAL2BGM, track_id or None, source_audio=source_audio or None, caption=caption, clip_id=clip_id or None)
     result = await render_service.run_music_generation(job.id, source_audio, caption)
     notify_web(store.get(project_id))
     return dumps(result.model_dump(mode="json"))

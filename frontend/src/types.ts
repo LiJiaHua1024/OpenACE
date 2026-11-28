@@ -171,6 +171,7 @@ export interface RenderJob {
   clip_id?: string | null
   source_start_s?: number | null
   source_end_s?: number | null
+  arrangement_start_ticks?: number | null
 }
 
 export interface LoudnessHistoryPoint {

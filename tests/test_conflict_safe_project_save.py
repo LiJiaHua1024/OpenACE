@@ -101,3 +101,23 @@ def test_stale_autosave_merges_repaint_output_without_losing_user_clip_edits(tmp
     assert merged["start_ticks"] == 480
     assert merged["gain_db"] == -3.0
     assert merged["updated_by_job_id"] == "job_repaint"
+
+
+def test_vocal2bgm_input_validation_returns_actionable_422(tmp_path, monkeypatch):
+    client, store, _ = make_client(tmp_path, monkeypatch)
+    project = store.create("vocal2bgm validation")
+    audio = project.add_track(Track(name="Audio", type=TrackType.AUDIO))
+    audio.clips.extend([
+        AudioClip(path="/tmp/shared.wav", start_ticks=0, duration_ticks=960),
+        AudioClip(path="/tmp/shared.wav", start_ticks=960, duration_ticks=960),
+    ])
+    vocal = project.add_track(Track(name="Lead", type=TrackType.VOCAL, render_path="/tmp/lead.wav", render_fingerprint="stale"))
+    store.save(project)
+
+    response = client.post(f"/api/projects/{project.id}/render/vocal2bgm", json={"source_audio": "/tmp/shared.wav"})
+    assert response.status_code == 422
+    assert "clip_id" in response.json()["detail"]
+
+    response = client.post(f"/api/projects/{project.id}/render/vocal2bgm", json={"track_id": vocal.id})
+    assert response.status_code == 422
+    assert "stale" in response.json()["detail"]

@@ -401,6 +401,7 @@ class RenderJob(BaseModel):
     clip_id: Optional[str] = None
     source_start_s: Optional[float] = None
     source_end_s: Optional[float] = None
+    arrangement_start_ticks: Optional[int] = None
 
 
 def project_to_yaml(project: Project) -> str:

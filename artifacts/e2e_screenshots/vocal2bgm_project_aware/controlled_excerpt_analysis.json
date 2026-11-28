@@ -1,0 +1,32 @@
+{
+  "files": {
+    "data/uploads/upload_2c545b1a0fae_vocal2bgm_control_source.wav": true,
+    "data/renders/project_00d47d7aaeff/job_335613909e4d/vocal2bgm_source_excerpt.wav": true,
+    "data/renders/project_00d47d7aaeff/job_335613909e4d/accompaniment.wav": true
+  },
+  "sr": [
+    24000,
+    24000,
+    24000
+  ],
+  "lengths": [
+    72000,
+    48000,
+    48000
+  ],
+  "durations": [
+    3.0,
+    2.0,
+    2.0
+  ],
+  "excerpt_exact": {
+    "expected_len": 48000,
+    "len_matches": true,
+    "max_abs_error_vs_source_segment": 0.0,
+    "first_excerpt": -0.13336181640625,
+    "expected_first": -0.13336181640625,
+    "last_excerpt": 0.133087158203125,
+    "expected_last": 0.133087158203125
+  },
+  "output_duration_expected_2s": 2.0
+}
