@@ -1,0 +1,46 @@
+{
+  "pid": "project_59cd5e0867ec",
+  "create": {
+    "start_ratio": 0.25,
+    "depth_cents": 45.0,
+    "frequency_hz": 5.2,
+    "phase": 0.0
+  },
+  "undo_disabled_after_create": true,
+  "handles": {
+    "base": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0
+    },
+    "depth": {
+      "start_ratio": 0.25,
+      "depth_cents": 75.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0
+    },
+    "phase": {
+      "start_ratio": 0.25,
+      "depth_cents": 75.0,
+      "frequency_hz": 5.2,
+      "phase": 1.0
+    },
+    "freq": {
+      "start_ratio": 0.25,
+      "depth_cents": 75.0,
+      "frequency_hz": 6.2,
+      "phase": 1.0
+    },
+    "note": {
+      "start_ticks": 120,
+      "duration_ticks": 480,
+      "pitch": 65
+    },
+    "original_note": {
+      "start_ticks": 120,
+      "duration_ticks": 480,
+      "pitch": 65
+    }
+  }
+}

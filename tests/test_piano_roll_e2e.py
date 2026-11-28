@@ -137,6 +137,34 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
             first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
             assert first["vibrato"] is None
 
+            # Shortcut 4 enables the direct vibrato tool. Dragging right-to-left
+            # inside the first note creates an undoable vibrato whose length follows
+            # the horizontal gesture and whose depth follows vertical distance.
+            page.keyboard.press("4")
+            assert "active" in (page.locator('button[title^="Vibrato tool"]').get_attribute("class") or "")
+            page.mouse.move(box["x"] + 190, box["y"] + 315)
+            page.mouse.down()
+            page.mouse.move(box["x"] + 165, box["y"] + 345, steps=5)
+            page.mouse.up()
+            page.wait_for_timeout(650)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            direct_vibrato = dict(first["vibrato"])
+            assert 0.0 < direct_vibrato["start_ratio"] < 1.0
+            assert direct_vibrato["depth_cents"] > 0
+            page.keyboard.press("Control+z")
+            page.wait_for_timeout(650)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert first["vibrato"] is None
+            page.keyboard.press("Control+Shift+z")
+            page.wait_for_timeout(650)
+            project = httpx.get(f"{base}/api/projects/{project_id}").json()
+            first = next(note for note in project["tracks"][0]["notes"] if note["start_ticks"] == 360)
+            assert first["vibrato"] == direct_vibrato
+            page.keyboard.press("Control+z")
+            page.wait_for_timeout(650)
+
             # Manual phoneme override is timed by the backend and round-trips into the note.
             httpx.patch(
                 f"{base}/api/projects/{project_id}/tracks/{project['tracks'][0]['id']}/notes/{first['id']}",

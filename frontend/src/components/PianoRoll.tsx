@@ -11,7 +11,7 @@ const VELOCITY_HEIGHT = 54
 const MIN_PITCH = 24
 const MAX_PITCH = 96
 
-type Tool = 'select' | 'pencil' | 'erase' | 'pitch' | 'pitchBrush' | 'fixedBrush' | 'pitchEraser'
+type Tool = 'select' | 'pencil' | 'erase' | 'pitch' | 'pitchBrush' | 'fixedBrush' | 'pitchEraser' | 'vibrato'
 
 interface ViewState {
   rowHeight: number
@@ -162,6 +162,7 @@ export default function PianoRoll(props: Props) {
   const pitchEraseRef = useRef<{ minTick: number; maxTick: number } | null>(null)
   const fixedStrokeRef = useRef<{ points: { ticks: number; value: number; curve: string }[]; minTick: number; maxTick: number } | null>(null)
   const fixedSourceF0Ref = useRef<RenderedF0Curve | null>(null)
+  const vibratoGestureRef = useRef<{ mode: 'create' | 'depth' | 'phase' | 'frequency'; noteId: string; startX: number; startY: number; original: NonNullable<Note['vibrato']> | null; moved: boolean } | null>(null)
   const [renderedF0, setRenderedF0] = useState<RenderedF0Curve | null>(null)
   const clipboardRef = useRef<Note[]>([])
   const [clipboardCount, setClipboardCount] = useState(0)
@@ -390,6 +391,26 @@ export default function PianoRoll(props: Props) {
               if (sx === startX) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy)
             }
             ctx.stroke()
+            if (tool === 'vibrato') {
+              const endX = x + w - 3
+              const topY = y + 3
+              const bottomY = y + view.rowHeight - 3
+              ctx.strokeStyle = '#ffe29a88'
+              ctx.setLineDash([3, 3])
+              ctx.beginPath()
+              ctx.moveTo(startX, bottomY)
+              ctx.lineTo(endX, bottomY)
+              ctx.stroke()
+              ctx.setLineDash([])
+              ctx.fillStyle = '#ffe66d'
+              ctx.fillRect(startX - 3.5, topY - 3.5, 7, 7)
+              ctx.fillStyle = '#79e7ff'
+              ctx.beginPath()
+              ctx.arc(startX, bottomY, 3.7, 0, Math.PI * 2)
+              ctx.fill()
+              ctx.fillStyle = '#ffae5f'
+              ctx.fillRect(endX - 3.5, bottomY - 3.5, 7, 7)
+            }
           }
           if (drawDenseLabels && w > 24) {
             ctx.fillStyle = '#f7f8ff'
@@ -752,6 +773,70 @@ export default function PianoRoll(props: Props) {
     return tickDurationSeconds(props.project, note.start_ticks, note.duration_ticks) * 1000
   }
 
+  function vibratoHandlePositions(note: Note) {
+    const rect = noteRect(note)
+    const startX = rect.x + Math.max(0, Math.min(0.95, note.vibrato?.start_ratio ?? 0.55)) * rect.w
+    const endX = rect.x + rect.w - 3
+    return {
+      startX,
+      endX,
+      amplitude: { x: startX, y: rect.y + 3 },
+      phase: { x: startX, y: rect.y + view.rowHeight - 3 },
+      frequency: { x: endX, y: rect.y + view.rowHeight - 3 },
+    }
+  }
+
+  function hitVibratoHandle(x: number, y: number) {
+    if (!props.track || y >= laneTop()) return null
+    for (let index = props.track.notes.length - 1; index >= 0; index--) {
+      const note = props.track.notes[index]
+      if (!note.vibrato) continue
+      const positions = vibratoHandlePositions(note)
+      const tests: { mode: 'depth' | 'phase' | 'frequency'; x: number; y: number }[] = [
+        { mode: 'depth', ...positions.amplitude },
+        { mode: 'phase', ...positions.phase },
+        { mode: 'frequency', ...positions.frequency },
+      ]
+      for (const test of tests) {
+        if (Math.hypot(test.x - x, test.y - y) <= 7.5) return { note, mode: test.mode }
+      }
+    }
+    return null
+  }
+
+  function clampNumber(value: number, min: number, max: number) {
+    return Math.max(min, Math.min(max, value))
+  }
+
+  function updateVibratoGesture(x: number, y: number) {
+    const gesture = vibratoGestureRef.current
+    if (!gesture || !props.track) return
+    const sourceNote = props.track.notes.find(note => note.id === gesture.noteId)
+    if (!sourceNote) return
+    const base = gesture.original || { start_ratio: 0.55, depth_cents: 35, frequency_hz: 5.2, phase: 0 }
+    let next = { ...base }
+    if (gesture.mode === 'create') {
+      const rect = noteRect(sourceNote)
+      next = {
+        ...base,
+        start_ratio: clampNumber((x - rect.x) / Math.max(1, rect.w), 0, 0.95),
+        depth_cents: clampNumber(Math.abs(y - gesture.startY) * 1.5, 5, 120),
+      }
+    } else if (gesture.mode === 'depth') {
+      next.depth_cents = clampNumber(base.depth_cents + (gesture.startY - y) * 1.5, 0, 120)
+    } else if (gesture.mode === 'phase') {
+      next.phase = base.phase + (x - gesture.startX) / 40
+    } else if (gesture.mode === 'frequency') {
+      next.frequency_hz = clampNumber(base.frequency_hz + (x - gesture.startX) / 30, 2.5, 8)
+    }
+    gesture.moved = true
+    mutateTrack(track => {
+      const note = track.notes.find(item => item.id === gesture.noteId)
+      if (note) note.vibrato = { ...next }
+    }, true)
+    setPitchReadout(`vibrato ${next.depth_cents.toFixed(0)}¢ · ${next.frequency_hz.toFixed(1)}Hz · start ${(next.start_ratio * 100).toFixed(0)}%`)
+  }
+
   function pitchPointPosition(note: Note, point: { offset_ms: number; cents: number }) {
     const rect = noteRect(note)
     const durationMs = Math.max(1, noteDurationMs(note))
@@ -849,6 +934,37 @@ export default function PianoRoll(props: Props) {
       props.beginTransaction()
       pitchEraseRef.current = { minTick: Number.POSITIVE_INFINITY, maxTick: Number.NEGATIVE_INFINITY }
       erasePitchAutomationAt(x)
+      return
+    }
+
+    if (tool === 'vibrato') {
+      const handle = hitVibratoHandle(x, y)
+      if (handle) {
+        selectOnly(handle.note.id)
+        props.beginTransaction()
+        vibratoGestureRef.current = {
+          mode: handle.mode,
+          noteId: handle.note.id,
+          startX: x,
+          startY: y,
+          original: handle.note.vibrato ? { ...handle.note.vibrato } : null,
+          moved: false,
+        }
+        return
+      }
+      const hit = hitNote(x, y)
+      if (hit) {
+        selectOnly(hit.id)
+        props.beginTransaction()
+        vibratoGestureRef.current = {
+          mode: 'create',
+          noteId: hit.id,
+          startX: x,
+          startY: y,
+          original: hit.vibrato ? { ...hit.vibrato } : null,
+          moved: false,
+        }
+      }
       return
     }
 
@@ -988,6 +1104,11 @@ export default function PianoRoll(props: Props) {
       return
     }
 
+    if (vibratoGestureRef.current) {
+      updateVibratoGesture(x, y)
+      return
+    }
+
     const pitchDrag = pitchDragRef.current
     if (pitchDrag) {
       const sourceNote = props.track.notes.find(item => item.id === pitchDrag.noteId)
@@ -1084,6 +1205,11 @@ export default function PianoRoll(props: Props) {
     if (pitchEraseRef.current) {
       props.endTransaction()
       pitchEraseRef.current = null
+      window.setTimeout(() => setPitchReadout(null), 1600)
+    }
+    if (vibratoGestureRef.current) {
+      props.endTransaction()
+      vibratoGestureRef.current = null
       window.setTimeout(() => setPitchReadout(null), 1600)
     }
     const pitchDrag = pitchDragRef.current
@@ -1491,6 +1617,7 @@ export default function PianoRoll(props: Props) {
       if (key === '1') setTool('pitchBrush')
       if (key === '2') setTool('fixedBrush')
       if (key === '3') setTool('pitchEraser')
+      if (key === '4') setTool('vibrato')
       if (key === 'q') quantizeSelection()
     }
     if ((event.key === 'Delete' || event.key === 'Backspace') && selectedNoteIds.length) deleteSelection()
@@ -1537,7 +1664,8 @@ export default function PianoRoll(props: Props) {
           <button className="tool" onClick={quantizeSelection} title="Quantize selection/all (Q)">Quant</button>
           <button className="tool" onClick={splitSelectedAtPlayhead} disabled={!selectedNoteContainsPlayhead()} title="Split selected note at playhead (Ctrl+E)">Split</button>
           <button className="tool" onClick={() => void mergeSelectedNotes()} disabled={selectedNoteIds.length < 2} title="Merge exactly contiguous selected notes (Ctrl+J)">Merge</button>
-          <button className="tool" onClick={() => openVibratoEditor()} disabled={selectedNoteIds.length !== 1} title="Edit vibrato for selected note">Vibrato</button>
+          <button className={tool === 'vibrato' ? 'tool active' : 'tool'} onClick={() => setTool('vibrato')} title="Vibrato tool (4); drag right-to-left on a note to reshape vibrato length/amplitude, or drag canvas handles for depth/phase/frequency">∿ Vib</button>
+          <button className="tool" onClick={() => openVibratoEditor()} disabled={selectedNoteIds.length !== 1} title="Edit vibrato numerically for selected note">Vibrato…</button>
           <button className="tool" onClick={() => setBatchLyricEditor({ value: '' })} disabled={!props.track?.notes.length} title="Distribute a phrase across selected notes, or all notes when nothing is selected">Lyrics…</button>
         </div>
         <label>Grid

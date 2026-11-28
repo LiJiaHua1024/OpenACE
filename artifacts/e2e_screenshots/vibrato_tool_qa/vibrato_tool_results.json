@@ -1,0 +1,71 @@
+{
+  "console": [
+    "Failed to load resource: the server responded with a status of 409 (Conflict)"
+  ],
+  "badnet": [
+    "http://127.0.0.1:8787/api/projects/project_ef06bce6de84/tracks/track_c896737b3dd8/rendered-f0"
+  ],
+  "pid": "project_6d176cf2f7f1",
+  "note": {
+    "start_ticks": 120,
+    "duration_ticks": 480,
+    "pitch": 65
+  },
+  "shortcut_active": true,
+  "create": {
+    "vibrato": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0
+    },
+    "expected_start_approx": 0.25,
+    "start_matches": true,
+    "depth_positive": true,
+    "note_unmoved": true
+  },
+  "undo_redo": {
+    "undo_null": false,
+    "redo_exact": true
+  },
+  "reload_exact": true,
+  "handles": {
+    "base": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0
+    },
+    "after_depth": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0
+    },
+    "after_phase": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0
+    },
+    "after_frequency": {
+      "start_ratio": 0.25,
+      "depth_cents": 45.0,
+      "frequency_hz": 5.2,
+      "phase": 0.0
+    },
+    "depth_increase": 0.0,
+    "phase_delta": 0.0,
+    "freq_delta": 0.0,
+    "note_unmoved": false
+  },
+  "select": {
+    "moved": false,
+    "undo": true
+  },
+  "brush": {
+    "wrote": true,
+    "undo_empty": true
+  },
+  "eraser_blank_clean": true
+}
