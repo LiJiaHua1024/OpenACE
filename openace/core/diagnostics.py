@@ -40,12 +40,12 @@ def extract_f0(path: Path, frame_ms: float = 10.0) -> Tuple[np.ndarray, np.ndarr
 def beat_offsets_ms(project: Project, notes: Sequence[Note], actual_onsets_s: Optional[Sequence[float]] = None) -> np.ndarray:
     """Return per-note onset deviations in milliseconds.
 
-    If measured onsets are unavailable, the expected deviation is zero because symbolic
-    beat anchoring has already been enforced. This function never fabricates errors.
+    If measured onsets are unavailable, deviations are NaN. Returning zero here would
+    fabricate perfect rendered-audio timing evidence that was never measured.
     """
     expected = np.array([project.ticks_to_seconds(note.start_ticks) for note in notes], dtype=float)
     if actual_onsets_s is None:
-        return np.zeros(len(notes))
+        return np.full(len(notes), np.nan)
     actual = np.asarray(actual_onsets_s, dtype=float)
     if len(actual) != len(expected):
         raise ValueError("actual onset count does not match note count")
@@ -82,6 +82,7 @@ def write_diagnostic(
     actual_f0_hz: Optional[Tuple[np.ndarray, np.ndarray]] = None,
     provenance: str = "OpenACE render",
     pitch_automation=None,
+    actual_onsets_s: Optional[Sequence[float]] = None,
 ) -> Path:
     """Write the acoustic X-ray diagnostic PNG required by every render."""
     import matplotlib
@@ -119,15 +120,28 @@ def write_diagnostic(
     ax.legend(facecolor="#171923", labelcolor="white")
 
     ax = axes[1]
-    offsets = beat_offsets_ms(project, notes)
-    x = [project.ticks_to_seconds(n.start_ticks) for n in notes]
-    if x:
-        ax.stem(x, offsets, linefmt="#f2cc60", markerfmt="o", basefmt=" ")
-        ax.axhline(0, color="#79b8ff", linewidth=0.8)
+    offsets = beat_offsets_ms(project, notes, actual_onsets_s)
+    x = np.array([project.ticks_to_seconds(n.start_ticks) for n in notes], dtype=float)
+    measured = np.isfinite(offsets)
+    if len(x):
+        ax.vlines(x, 0, 1, color="#46506e", linewidth=0.8, alpha=0.55, label="symbolic vowel anchor")
+        if measured.any():
+            ax.stem(x[measured], offsets[measured], linefmt="#f2cc60", markerfmt="o", basefmt=" ")
+            ax.axhline(0, color="#79b8ff", linewidth=0.8)
+        if not measured.all():
+            ax.text(
+                0.5,
+                0.82,
+                "Rendered onset measurement unavailable; zero error is not fabricated",
+                transform=ax.transAxes,
+                ha="center",
+                color="#ffb86b",
+                fontsize=9,
+            )
     else:
         ax.text(0.5, 0.5, "No vocal notes in project", transform=ax.transAxes, ha="center", color="#8ea0c9")
     ax.set_ylabel("ms", color="#c9d1e3")
-    ax.set_title("Per-note beat offset (vowel onset anchor)", color="white")
+    ax.set_title("Vowel-anchor timing: measured offsets plus symbolic positions", color="white")
 
     ax = axes[2]
     if rendered_audio is not None and len(rendered_audio):

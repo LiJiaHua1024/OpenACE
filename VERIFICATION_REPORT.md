@@ -1479,3 +1479,10 @@ Focused contract coverage proves the production repaint call, `task_type: repain
 The physical acceptance path now inspects the actual SoulX output instead of treating file existence as acoustic proof. A reusable diagnostic helper extracts F0 with librosa/pyin, rejects isolated noise by requiring sustained voiced frames, reports the first voiced onset against symbolic project time zero, and estimates the C4→D4 transition around the exact 0.5s second-note boundary using the geometric mean pitch threshold. `report.json` includes measured/expected times, millisecond errors, voiced-region count, and an explicit frame-level precision limitation. Acceptance hard-fails only when sustained voicing or the pitch transition is impossible to measure; it does not fabricate sample-accurate onset precision from noisy pyin frames.
 
 Focused tests cover sustained onset detection, exact/noisy pitch-transition crossing, and static verifier integration. Validation: full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0); real numerical accuracy still requires the NVIDIA host.
+
+
+## Iteration 141 — diagnostics no longer fabricate zero beat offsets
+
+Closed a serious evidence-integrity defect: every render diagnostic previously called `beat_offsets_ms` without measured rendered onsets, and the helper returned zeros, producing a perfect 0ms stem plot that looked like measured acoustic confirmation but was only symbolic input validation. The helper now returns NaN when rendered onset measurements do not exist. Diagnostic panels draw symbolic vowel-anchor positions and explicitly state “Rendered onset measurement unavailable; zero error is not fabricated”; if real per-note measurements are later supplied, finite measured offsets still render as before. GPU acceptance retains its separate frame-level sustained-onset/pitch-transition measurements.
+
+Regression coverage proves unmeasured offsets are NaN and a supplied 0.52s onset against a 0.5s anchor yields +20ms. Focused acoustic tests passed. Validation: full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).

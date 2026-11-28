@@ -395,3 +395,14 @@ def test_vocal_alignment_helpers_measure_sustained_onset_and_transition():
     noisy[50] = np.nan
     noisy[51] = np.nan
     assert measured_pitch_transition(times, noisy, 0.5, 261.0, 294.0) == pytest.approx(0.52)
+
+
+def test_beat_offsets_are_nan_until_rendered_onsets_are_measured():
+    from openace.core.diagnostics import beat_offsets_ms
+
+    project = Project(bpm=120)
+    notes = [Note(start_ticks=480, duration_ticks=480, pitch=60, lyric="你")]
+    offsets = beat_offsets_ms(project, notes)
+    assert np.isnan(offsets[0])
+    measured = beat_offsets_ms(project, notes, [0.52])
+    assert measured[0] == pytest.approx(20.0)
