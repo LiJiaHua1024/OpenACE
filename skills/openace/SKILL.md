@@ -66,6 +66,10 @@ openace-tool repaint <project-id> <source.wav> --start 1.0 --end 5.0 [--clip-id 
 # start/end are arrangement seconds; the source must exist as an intersecting arrangement clip
 openace-tool separate <project-id> [source.wav] [--clip-id <clip-id>]
 openace-tool svc <project-id> <source.wav> <reference.wav> [--clip-id <clip-id>] [--pitch-shift -2 | --auto-shift]
+openace-tool update-track <project-id> <track-id> '{"name":"Lead","volume":0.8,"pan":0}'
+openace-tool duplicate-track <project-id> <track-id> --name "Harmony"
+openace-tool reorder-track <project-id> <track-id> 0
+openace-tool delete-track <project-id> <track-id>
 openace-tool export <project-id> svp output.svp
 openace-tool export <project-id> ustx output.ustx
 openace-tool export <project-id> vpr output.vpr

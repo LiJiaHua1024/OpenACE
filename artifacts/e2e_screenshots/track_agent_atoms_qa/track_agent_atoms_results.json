@@ -1,0 +1,332 @@
+{
+  "console": [],
+  "badnet": [],
+  "before": {
+    "ui_names": [
+      "Lead Vocal",
+      "ACE-Step BGM",
+      "SVC score — vocal",
+      "SVC — vocal"
+    ],
+    "backend_order": [
+      "track_77549b970160",
+      "track_761c92cded7d",
+      "track_1b17bfe11b60",
+      "track_513fd655d3e4"
+    ],
+    "count": 4
+  },
+  "cli_update": {
+    "returncode": 0,
+    "stdout": ": [],\n    \"air\": [\n      {\n        \"ticks\": 0,\n        \"value\": 0.2,\n        \"curve\": \"linear\"\n      },\n      {\n        \"ticks\": 960,\n        \"value\": 0.7,\n        \"curve\": \"linear\"\n      }\n    ],\n    \"falsetto\": [],\n    \"tension\": [\n      {\n        \"ticks\": 0,\n        \"value\": 0.3,\n        \"curve\": \"linear\"\n      },\n      {\n        \"ticks\": 960,\n        \"value\": 0.8,\n        \"curve\": \"linear\"\n      }\n    ],\n    \"energy\": [],\n    \"volume\": [],\n    \"pan\": []\n  },\n  \"breaths\": [],\n  \"mute\": true,\n  \"solo\": false,\n  \"volume\": 0.55,\n  \"pan\": -0.25,\n  \"midi_channel\": 3,\n  \"midi_program\": 18,\n  \"created_by_job_id\": null,\n  \"render_path\": \"/home/ubuntu/repos/OpenACE/data/renders/project_ccbb037d0c35/job_c84cd6f8565e/vocal.wav\",\n  \"render_revision\": 1,\n  \"render_fingerprint\": \"e1de400f8defe3fa\"\n}\n",
+    "stderr": ""
+  },
+  "update": {
+    "ui": {
+      "names": [
+        "Agent QA Lead",
+        "ACE-Step BGM",
+        "SVC score — vocal",
+        "SVC — vocal"
+      ],
+      "mute_active": true,
+      "volume": "0.55",
+      "pan": "-0.25",
+      "color": "rgb(34, 204, 255)",
+      "singer": "Agent Singer",
+      "phonemizer": "ZH",
+      "live_update": true
+    },
+    "backend": {
+      "name": "Agent QA Lead",
+      "color": "#22ccff",
+      "language": "mixed",
+      "mute": true,
+      "solo": false,
+      "volume": 0.55,
+      "pan": -0.25,
+      "midi_channel": 3,
+      "midi_program": 18,
+      "openutau_singer": "Agent Singer",
+      "openutau_phonemizer": "ZH"
+    },
+    "render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_ccbb037d0c35/job_c84cd6f8565e/vocal.wav",
+    "render_revision": 1
+  },
+  "invalid_patch": {
+    "returncode": 2,
+    "stdout": "{\n  \"error\": \"track volume must be normalized in [0, 1]\",\n  \"type\": \"ValueError\"\n}\n",
+    "stderr": "",
+    "before": {
+      "name": "Agent QA Lead",
+      "color": "#22ccff",
+      "volume": 0.55
+    },
+    "after": {
+      "name": "Agent QA Lead",
+      "color": "#22ccff",
+      "volume": 0.55
+    },
+    "ui_names": [
+      "Agent QA Lead",
+      "ACE-Step BGM",
+      "SVC score — vocal",
+      "SVC — vocal"
+    ]
+  },
+  "cli_duplicate": {
+    "returncode": 0,
+    "stdout": " \"pitch_cents\": [\n      {\n        \"ticks\": 0,\n        \"value\": 0.0,\n        \"curve\": \"linear\"\n      },\n      {\n        \"ticks\": 480,\n        \"value\": 80.0,\n        \"curve\": \"linear\"\n      },\n      {\n        \"ticks\": 960,\n        \"value\": -60.0,\n        \"curve\": \"linear\"\n      }\n    ],\n    \"dynamic\": [],\n    \"air\": [\n      {\n        \"ticks\": 0,\n        \"value\": 0.2,\n        \"curve\": \"linear\"\n      },\n      {\n        \"ticks\": 960,\n        \"value\": 0.7,\n        \"curve\": \"linear\"\n      }\n    ],\n    \"falsetto\": [],\n    \"tension\": [\n      {\n        \"ticks\": 0,\n        \"value\": 0.3,\n        \"curve\": \"linear\"\n      },\n      {\n        \"ticks\": 960,\n        \"value\": 0.8,\n        \"curve\": \"linear\"\n      }\n    ],\n    \"energy\": [],\n    \"volume\": [],\n    \"pan\": []\n  },\n  \"breaths\": [],\n  \"mute\": true,\n  \"solo\": false,\n  \"volume\": 0.55,\n  \"pan\": -0.25,\n  \"midi_channel\": 3,\n  \"midi_program\": 18,\n  \"created_by_job_id\": null,\n  \"render_path\": null,\n  \"render_revision\": 0,\n  \"render_fingerprint\": null\n}\n",
+    "stderr": ""
+  },
+  "duplicate": {
+    "live_update": true,
+    "ui_names": [
+      "Agent QA Lead",
+      "Agent QA Copy",
+      "ACE-Step BGM",
+      "SVC score — vocal",
+      "SVC — vocal"
+    ],
+    "backend_count": 5,
+    "expected_count": 5,
+    "duplicate_id": "track_38e177640588",
+    "fresh_track_id": true,
+    "fresh_note_ids": true,
+    "note_count": 3,
+    "render_path": null,
+    "render_revision": 0,
+    "render_fingerprint": null,
+    "created_by_job_id": null,
+    "source_render_path": "/home/ubuntu/repos/OpenACE/data/renders/project_ccbb037d0c35/job_c84cd6f8565e/vocal.wav",
+    "source_render_revision": 1
+  },
+  "mcp_reorder": {
+    "isError": false,
+    "value": {
+      "track": {
+        "id": "track_38e177640588",
+        "name": "Agent QA Copy",
+        "type": "vocal",
+        "color": "#22ccff",
+        "voice_id": "voice_b9cc35f19665",
+        "reference_voice_path": "/home/ubuntu/repos/OpenACE/data/voices/voice_b9cc35f19665_vocal.wav",
+        "openutau_singer": "Agent Singer",
+        "openutau_phonemizer": "ZH",
+        "language": "mixed",
+        "notes": [
+          {
+            "id": "note_912dca6aa069",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 64,
+            "lyric": "你",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "n",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "i",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "note_2fcb22ce12be",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 67,
+            "lyric": "好",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "x",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "au",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "note_436cdc118eb4",
+            "start_ticks": 960,
+            "duration_ticks": 960,
+            "pitch": 69,
+            "lyric": "唱",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "ʈʂʰ",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "aŋ",
+                "start_ms": 0.0,
+                "duration_ms": 1000.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [],
+        "automation": {
+          "pitch_cents": [
+            {
+              "ticks": 0,
+              "value": 0.0,
+              "curve": "linear"
+            },
+            {
+              "ticks": 480,
+              "value": 80.0,
+              "curve": "linear"
+            },
+            {
+              "ticks": 960,
+              "value": -60.0,
+              "curve": "linear"
+            }
+          ],
+          "dynamic": [],
+          "air": [
+            {
+              "ticks": 0,
+              "value": 0.2,
+              "curve": "linear"
+            },
+            {
+              "ticks": 960,
+              "value": 0.7,
+              "curve": "linear"
+            }
+          ],
+          "falsetto": [],
+          "tension": [
+            {
+              "ticks": 0,
+              "value": 0.3,
+              "curve": "linear"
+            },
+            {
+              "ticks": 960,
+              "value": 0.8,
+              "curve": "linear"
+            }
+          ],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": true,
+        "solo": false,
+        "volume": 0.55,
+        "pan": -0.25,
+        "midi_channel": 3,
+        "midi_program": 18,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      },
+      "order": [
+        "track_38e177640588",
+        "track_77549b970160",
+        "track_761c92cded7d",
+        "track_1b17bfe11b60",
+        "track_513fd655d3e4"
+      ]
+    }
+  },
+  "reorder": {
+    "live_update": true,
+    "ui_names": [
+      "Agent QA Copy",
+      "Agent QA Lead",
+      "ACE-Step BGM",
+      "SVC score — vocal",
+      "SVC — vocal"
+    ],
+    "backend_order": [
+      "track_38e177640588",
+      "track_77549b970160",
+      "track_761c92cded7d",
+      "track_1b17bfe11b60",
+      "track_513fd655d3e4"
+    ]
+  },
+  "mcp_delete": {
+    "isError": false,
+    "value": {
+      "deleted": true,
+      "track_id": "track_38e177640588"
+    }
+  },
+  "delete": {
+    "live_update": true,
+    "ui_names": [
+      "Agent QA Lead",
+      "ACE-Step BGM",
+      "SVC score — vocal",
+      "SVC — vocal"
+    ],
+    "backend_count": 4,
+    "backend_has_dup": false
+  },
+  "reload": {
+    "ui_names": [
+      "Agent QA Lead",
+      "ACE-Step BGM",
+      "SVC score — vocal",
+      "SVC — vocal"
+    ],
+    "first_volume": "0.55",
+    "first_pan": "-0.25",
+    "backend": {
+      "name": "Agent QA Lead",
+      "color": "#22ccff",
+      "language": "mixed",
+      "mute": true,
+      "solo": false,
+      "volume": 0.55,
+      "pan": -0.25,
+      "midi_channel": 3,
+      "midi_program": 18,
+      "openutau_singer": "Agent Singer",
+      "openutau_phonemizer": "ZH"
+    },
+    "backend_count": 4
+  }
+}

@@ -159,6 +159,38 @@ def add_track(project_id: str, name: str, language: str = "zh") -> str:
     return dumps(track.model_dump(mode="json"))
 
 
+def update_track(project_id: str, track_id: str, patch: dict) -> str:
+    """Update validated track metadata/mixer fields such as name, color, language, mute/solo, volume/pan, MIDI channel/program, or OpenUtau host mapping."""
+    project = store.get(project_id)
+    track = editing.update_track(project, track_id, patch)
+    save_and_notify(project)
+    return dumps(track.model_dump(mode="json"))
+
+
+def duplicate_track(project_id: str, track_id: str, name: Optional[str] = None) -> str:
+    """Duplicate a track with fresh note/clip/breath ids; source media paths are shared but render provenance is not faked."""
+    project = store.get(project_id)
+    track = editing.duplicate_track(project, track_id, name)
+    save_and_notify(project)
+    return dumps(track.model_dump(mode="json"))
+
+
+def delete_track(project_id: str, track_id: str) -> str:
+    """Delete a track object without deleting underlying media/render files."""
+    project = store.get(project_id)
+    editing.delete_track(project, track_id)
+    save_and_notify(project)
+    return dumps({"deleted": True, "track_id": track_id})
+
+
+def reorder_track(project_id: str, track_id: str, index: int) -> str:
+    """Move a track to an exact zero-based arrangement index."""
+    project = store.get(project_id)
+    track = editing.reorder_track(project, track_id, index)
+    save_and_notify(project)
+    return dumps({"track": track.model_dump(mode="json"), "order": [item.id for item in project.tracks]})
+
+
 def add_note(project_id: str, track_id: str, start_ticks: int, duration_ticks: int, pitch: int, lyric: str, velocity: int = 90) -> str:
     project = store.get(project_id)
     track = project.track(track_id)
@@ -453,6 +485,10 @@ def build_mcp_server():
     mcp.tool()(place_media)
     mcp.tool()(delete_media)
     mcp.tool()(add_track)
+    mcp.tool()(update_track)
+    mcp.tool()(duplicate_track)
+    mcp.tool()(delete_track)
+    mcp.tool()(reorder_track)
     mcp.tool()(add_note)
     mcp.tool()(transpose_track)
     mcp.tool()(render_vocal)

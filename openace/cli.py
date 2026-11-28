@@ -168,6 +168,38 @@ def cmd_add_track(args) -> None:
     emit(track.model_dump(mode="json"))
 
 
+def cmd_update_track(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    track = editing.update_track(project, args.track, json_payload(args.patch_json))
+    save_and_notify(store, project)
+    emit(track.model_dump(mode="json"))
+
+
+def cmd_duplicate_track(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    track = editing.duplicate_track(project, args.track, args.name)
+    save_and_notify(store, project)
+    emit(track.model_dump(mode="json"))
+
+
+def cmd_delete_track(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    editing.delete_track(project, args.track)
+    save_and_notify(store, project)
+    emit({"deleted": True, "track": args.track})
+
+
+def cmd_reorder_track(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    track = editing.reorder_track(project, args.track, args.index)
+    save_and_notify(store, project)
+    emit({"track": track.model_dump(mode="json"), "order": [item.id for item in project.tracks]})
+
+
 def cmd_add_note(args) -> None:
     store, _ = services()
     project = store.get(args.project)
@@ -527,6 +559,23 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--name", required=True)
     p.add_argument("--language", default="zh")
     p.set_defaults(func=cmd_add_track)
+
+
+    p = sub.add_parser("update-track")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("patch_json")
+    p.set_defaults(func=cmd_update_track)
+
+    p = sub.add_parser("duplicate-track")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("--name")
+    p.set_defaults(func=cmd_duplicate_track)
+
+    p = sub.add_parser("delete-track")
+    p.add_argument("project"); p.add_argument("track")
+    p.set_defaults(func=cmd_delete_track)
+
+    p = sub.add_parser("reorder-track")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("index", type=int)
+    p.set_defaults(func=cmd_reorder_track)
 
     p = sub.add_parser("add-note")
     p.add_argument("project")

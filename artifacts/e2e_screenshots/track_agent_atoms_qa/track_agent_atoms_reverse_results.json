@@ -1,0 +1,61 @@
+{
+  "mcp_update": {
+    "isError": false,
+    "value_subset": {
+      "pan": -0.2,
+      "solo": true,
+      "midi_channel": 4,
+      "midi_program": 24
+    }
+  },
+  "mcp_update_verify": {
+    "live": true,
+    "ui_pan": "-0.2",
+    "ui_solo_active": true,
+    "backend": {
+      "pan": -0.2,
+      "solo": true,
+      "midi_channel": 4,
+      "midi_program": 24
+    }
+  },
+  "mcp_duplicate": {
+    "isError": false,
+    "id": "track_8a5c6edff722",
+    "render_path": null,
+    "render_revision": 0,
+    "created_by_job_id": null
+  },
+  "mcp_duplicate_live": true,
+  "cli_reorder": {
+    "returncode": 0,
+    "stderr": ""
+  },
+  "cli_reorder_verify": {
+    "live": true,
+    "ui_names": [
+      "MCP QA Copy",
+      "Agent QA Lead",
+      "ACE-Step BGM",
+      "SVC score — vocal",
+      "SVC — vocal"
+    ],
+    "backend_first": "track_8a5c6edff722"
+  },
+  "cli_delete": {
+    "returncode": 0,
+    "stdout": "{\n  \"deleted\": true,\n  \"track\": \"track_8a5c6edff722\"\n}\n",
+    "stderr": ""
+  },
+  "cli_delete_verify": {
+    "live": true,
+    "ui_names": [
+      "Agent QA Lead",
+      "ACE-Step BGM",
+      "SVC score — vocal",
+      "SVC — vocal"
+    ],
+    "backend_has_dup": false,
+    "backend_count": 4
+  }
+}

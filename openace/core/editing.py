@@ -3,9 +3,10 @@ from __future__ import annotations
 
 from pathlib import Path
 import math
+import re
 from typing import Any, Dict, List, Optional
 
-from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, Phoneme, PitchPoint, Project, TempoPoint, Vibrato, new_id
+from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, Phoneme, PitchPoint, Project, TempoPoint, Track, Vibrato, new_id
 from openace.core.phonemes import ensure_note_phonemes, ensure_ordered_note_phonemes, phonemes_for_text
 from openace.core.timing import validate_absolute_beat_anchor
 
@@ -24,6 +25,107 @@ def validate_project(project: Project) -> None:
             lambda note: project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0,
         )
         validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm, project=project)
+
+
+_TRACK_PATCH_FIELDS = {
+    "name", "color", "language", "mute", "solo", "volume", "pan",
+    "midi_channel", "midi_program", "openutau_singer", "openutau_phonemizer",
+}
+_SUPPORTED_LANGUAGES = {
+    "zh", "zh-cn", "mandarin", "cmn",
+    "en", "en-us", "en-gb", "english",
+    "yue", "cantonese", "zh-hk",
+    "mixed", "multilingual", "zh-en", "en-zh",
+    "mixed-yue", "yue-en", "en-yue", "cantonese-english",
+}
+
+
+def update_track(project: Project, track_id: str, patch: Dict[str, Any]) -> Track:
+    """Update validated track metadata/mixer fields without weakening musical validation."""
+    unknown = sorted(set(patch) - _TRACK_PATCH_FIELDS)
+    if unknown:
+        raise ValueError("unsupported track patch fields: " + ", ".join(unknown))
+    track = project.track(track_id)
+    original = track.model_copy(deep=True)
+    try:
+        for key, value in patch.items():
+            if key == "name":
+                value = str(value).strip()
+                if not value:
+                    raise ValueError("track name must not be empty")
+            elif key == "color":
+                value = str(value)
+                if not re.fullmatch(r"#[0-9a-fA-F]{6}", value):
+                    raise ValueError("track color must be a #RRGGBB hex color")
+            elif key == "language":
+                value = str(value).lower()
+                if value not in _SUPPORTED_LANGUAGES:
+                    raise ValueError(f"unsupported lyric language: {value}")
+            elif key == "volume":
+                value = float(value)
+                if not 0.0 <= value <= 1.0:
+                    raise ValueError("track volume must be normalized in [0, 1]")
+            elif key == "pan":
+                value = float(value)
+                if not -1.0 <= value <= 1.0:
+                    raise ValueError("track pan must be normalized in [-1, 1]")
+            elif key in {"mute", "solo"}:
+                value = bool(value)
+            elif key in {"midi_channel", "midi_program"} and value is not None:
+                value = int(value)
+                limit = 15 if key == "midi_channel" else 127
+                if not 0 <= value <= limit:
+                    raise ValueError(f"{key} must be within [0, {limit}] or null")
+            setattr(track, key, value)
+        validate_project(project)
+    except Exception:
+        project.tracks = [original if item.id == track_id else item for item in project.tracks]
+        raise
+    return track
+
+
+def duplicate_track(project: Project, track_id: str, name: Optional[str] = None) -> Track:
+    """Duplicate a track with fresh object ids while sharing only immutable source media paths."""
+    source = project.track(track_id)
+    duplicate = source.model_copy(deep=True)
+    duplicate.id = new_id("track")
+    duplicate.name = (name or f"{source.name} copy").strip() or f"{source.name} copy"
+    duplicate.created_by_job_id = None
+    duplicate.render_path = None
+    duplicate.render_revision = 0
+    duplicate.render_fingerprint = None
+    for note in duplicate.notes:
+        note.id = new_id("note")
+    for breath in duplicate.breaths:
+        breath.id = new_id("br")
+    for clip in duplicate.clips:
+        clip.id = new_id("clip")
+        clip.created_by_job_id = None
+        clip.updated_by_job_id = None
+    index = project.tracks.index(source)
+    project.tracks.insert(index + 1, duplicate)
+    validate_project(project)
+    return duplicate
+
+
+def delete_track(project: Project, track_id: str) -> bool:
+    """Delete a track object; media/render files are user assets and are not removed."""
+    before = len(project.tracks)
+    project.tracks = [track for track in project.tracks if track.id != track_id]
+    if len(project.tracks) == before:
+        raise KeyError(f"track not found: {track_id}")
+    validate_project(project)
+    return True
+
+
+def reorder_track(project: Project, track_id: str, index: int) -> Track:
+    """Move a track to an exact zero-based arrangement index."""
+    track = project.track(track_id)
+    if index < 0 or index >= len(project.tracks):
+        raise ValueError(f"track index must be within [0, {len(project.tracks) - 1}]")
+    project.tracks.remove(track)
+    project.tracks.insert(index, track)
+    return track
 
 
 def add_notes(project: Project, track_id: str, note_payloads: List[Dict[str, Any]]) -> List[Note]:
