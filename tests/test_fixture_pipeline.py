@@ -40,6 +40,11 @@ def test_explicit_ci_fixture_renders_wav_and_diagnostic(monkeypatch, tmp_path):
     assert Path(result.output_path).exists()
     assert Path(result.diagnostic_path).exists()
     assert Path(result.output_path).stat().st_size > 1000
+    f0_path = Path(result.output_path).parent / "f0.json"
+    assert f0_path.exists()
+    import json
+    f0_payload = json.loads(f0_path.read_text())
+    assert len(f0_payload["times"]) == len(f0_payload["f0_hz"]) > 10
     stored = store.get(project.id)
     stored_track = stored.track(track.id)
     assert stored_track.render_fingerprint == vocal_render_input_hash(stored, stored_track)

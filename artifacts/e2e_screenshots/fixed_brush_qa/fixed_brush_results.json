@@ -1,0 +1,270 @@
+{
+  "console": [],
+  "badnet": [],
+  "pid": "project_ef06bce6de84",
+  "fallback": {
+    "readout": "420 ticks \u00b7 fixed target pitch +72\u00a2",
+    "points": [
+      {
+        "ticks": 240,
+        "value": 66.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 263,
+        "value": 60.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 285,
+        "value": 65.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 308,
+        "value": 77.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 330,
+        "value": 91.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 353,
+        "value": 99.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 375,
+        "value": 98.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 398,
+        "value": 86.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 420,
+        "value": 72.0,
+        "curve": "linear"
+      }
+    ],
+    "nonzero": true,
+    "undo_empty": true
+  },
+  "render": {
+    "status": "completed",
+    "f0json": "/home/ubuntu/repos/OpenACE/data/renders/project_ef06bce6de84/job_b01a1121bc2f/f0.json",
+    "f0exists": true
+  },
+  "endpoint_fresh": {
+    "status": 200,
+    "frames": 226,
+    "nulls": 111,
+    "source": "fresh-rendered-f0"
+  },
+  "rendered_brush": {
+    "readout": "520 ticks \u00b7 fixed rendered pitch +90\u00a2",
+    "points": [
+      {
+        "ticks": 180,
+        "value": 80.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 220,
+        "value": 71.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 260,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 300,
+        "value": 73.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 325,
+        "value": 89.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 327,
+        "value": 90.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 340,
+        "value": 90.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 350,
+        "value": 95.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 355,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 375,
+        "value": 90.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 380,
+        "value": 90.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 383,
+        "value": 90.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 400,
+        "value": 83.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 410,
+        "value": 80.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 420,
+        "value": 73.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 425,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 438,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 450,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 460,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 465,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 475,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 492,
+        "value": 80.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 500,
+        "value": 80.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 520,
+        "value": 90.0,
+        "curve": "linear"
+      }
+    ],
+    "count": 24,
+    "max_abs_diff_cents": 0.49469161155732877,
+    "compared": 24
+  },
+  "stale_after_mutation": {
+    "status": 409,
+    "dark_hidden_expected": true
+  },
+  "undo_redo": {
+    "undo_empty": true,
+    "redo_exact": true
+  },
+  "reload_exact": true,
+  "eraser3": {
+    "automation": [
+      {
+        "ticks": 140,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 430,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 438,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 450,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 460,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 465,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 475,
+        "value": 70.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 492,
+        "value": 80.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 500,
+        "value": 80.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 520,
+        "value": 90.0,
+        "curve": "linear"
+      }
+    ],
+    "anchor_count": 0,
+    "removes_both": false
+  },
+  "brush_regression": {
+    "changed": true,
+    "undo_exact": true
+  },
+  "pencil_created": true,
+  "layout": {
+    "body": false,
+    "right": 0
+  }
+}

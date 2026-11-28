@@ -11,7 +11,7 @@ import soundfile as sf
 
 from openace.core.audio import read_audio
 from openace.core.breath import apply_breath_events, load_reference_audio
-from openace.core.diagnostics import extract_f0, write_diagnostic
+from openace.core.diagnostics import extract_f0, write_diagnostic, write_f0_json
 from openace.core.expression import apply_air_envelope, apply_dynamic_envelope, apply_energy_envelope, apply_falsetto_envelope, apply_note_velocity, apply_tension_envelope
 from openace.core.models import AudioClip, Project, RenderJob, RenderJobStatus, RenderMode, TimedLyric, Track, TrackType
 from openace.core.project_store import ProjectStore
@@ -561,6 +561,11 @@ class RenderService:
                 actual_f0 = await asyncio.to_thread(extract_f0, wav)
             except RuntimeError:
                 actual_f0 = None
+            f0_path = outdir / "f0.json"
+            if actual_f0 is not None:
+                await asyncio.to_thread(write_f0_json, f0_path, actual_f0[0], actual_f0[1])
+            elif f0_path.exists():
+                f0_path.unlink()
             provenance = "OPENACE_CI_SYNTH_FIXTURE=1 — ORCHESTRATION TEST AUDIO, NOT MODEL OUTPUT" if self.fixture_mode else self.vocal_engine_name
             if breath_result.applied:
                 provenance += " + Breath events real donor-noise overlays (post-render DSP, not neural conditioning)"

@@ -37,6 +37,24 @@ def extract_f0(path: Path, frame_ms: float = 10.0) -> Tuple[np.ndarray, np.ndarr
         raise RuntimeError("F0 extraction requires the optional audio dependency librosa") from exc
 
 
+
+def write_f0_json(output_path: Path, times, f0_hz, frame_ms: float = 10.0) -> Path:
+    """Persist extracted rendered F0 as compact JSON with NaN frames encoded as null."""
+    import json
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    times_array = np.asarray(times, dtype=float)
+    f0_array = np.asarray(f0_hz, dtype=float)
+    if len(times_array) != len(f0_array):
+        raise ValueError("F0 time and value arrays must have the same length")
+    payload = {
+        "frame_ms": float(frame_ms),
+        "times": [round(float(value), 6) for value in times_array],
+        "f0_hz": [round(float(value), 4) if np.isfinite(value) and value > 0 else None for value in f0_array],
+    }
+    output_path.write_text(json.dumps(payload, separators=(",", ":")), encoding="utf-8")
+    return output_path
+
 def beat_offsets_ms(project: Project, notes: Sequence[Note], actual_onsets_s: Optional[Sequence[float]] = None) -> np.ndarray:
     """Return per-note onset deviations in milliseconds.
 

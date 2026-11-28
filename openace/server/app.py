@@ -22,6 +22,8 @@ from openace.core.models import AudioClip, Note, Project, RenderMode, Track, Tra
 from openace.core.phonemes import PhonemeError, ensure_note_phonemes, ensure_ordered_note_phonemes, timed_phonemes, tokens_from_symbols
 from openace.core.editing import merge_notes as merge_notes_operation, ripple_delete_time_range, split_note as split_note_operation
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
+from openace.core.render_fingerprint import vocal_render_input_hash
+from openace.core.diagnostics import extract_f0, write_f0_json
 from openace.core.voice_library import VoiceLibrary
 from openace.core.voice_operations import delete_voice_with_project_cleanup
 from openace.core.timing import validate_absolute_beat_anchor
@@ -477,6 +479,36 @@ def time_manual_phonemes(request: PhonemeTimingRequest):
         return [item.model_dump(mode="json") for item in timed_phonemes(tokens, request.duration_ms)]
     except PhonemeError as exc:
         raise HTTPException(422, str(exc)) from exc
+
+
+@app.get("/api/projects/{project_id}/tracks/{track_id}/rendered-f0")
+def rendered_f0(project_id: str, track_id: str):
+    """Return extracted F0 for a fresh vocal render so pitch tools can inspect real output."""
+    project = get_project(project_id)
+    try:
+        track = project.track(track_id)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc)) from exc
+    if track.type != TrackType.VOCAL or not track.render_path:
+        raise HTTPException(404, "fresh vocal render is not available")
+    if not track.render_fingerprint or track.render_fingerprint != vocal_render_input_hash(project, track):
+        raise HTTPException(409, "vocal render is stale; render the current score before inspecting rendered pitch")
+    wav = Path(track.render_path)
+    if not wav.exists():
+        raise HTTPException(404, "vocal render file is missing")
+    f0_path = wav.parent / "f0.json"
+    if not f0_path.exists():
+        try:
+            times, values = extract_f0(wav)
+            write_f0_json(f0_path, times, values)
+        except RuntimeError as exc:
+            raise HTTPException(422, str(exc)) from exc
+    try:
+        payload = json.loads(f0_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise HTTPException(500, "rendered F0 cache is unreadable") from exc
+    payload["source"] = "fresh-rendered-f0"
+    return payload
 
 
 @app.post("/api/projects/{project_id}/render/vocal")

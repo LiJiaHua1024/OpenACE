@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { api } from '../api'
 import type { Note, Project, TimelineState, Track } from '../types'
-import { barTicks as musicalBarTicks, tickDurationSeconds } from '../tempo'
+import { barTicks as musicalBarTicks, secondsToTicks, tickDurationSeconds, ticksToSeconds } from '../tempo'
 import { zoomTimelineAt } from '../timelineZoom'
+import { vocalRenderIsStale } from '../renderFingerprint'
 
 const KEY_WIDTH = 64
 const RULER_HEIGHT = 30
@@ -10,7 +11,7 @@ const VELOCITY_HEIGHT = 54
 const MIN_PITCH = 24
 const MAX_PITCH = 96
 
-type Tool = 'select' | 'pencil' | 'erase' | 'pitch' | 'pitchBrush' | 'pitchEraser'
+type Tool = 'select' | 'pencil' | 'erase' | 'pitch' | 'pitchBrush' | 'fixedBrush' | 'pitchEraser'
 
 interface ViewState {
   rowHeight: number
@@ -32,6 +33,13 @@ interface DragState {
   originalDuration: number
   originalPitch: number
   originals: Record<string, NoteSnapshot>
+}
+
+interface RenderedF0Curve {
+  frame_ms: number
+  times: number[]
+  f0_hz: (number | null)[]
+  source?: string
 }
 
 interface Props {
@@ -152,6 +160,9 @@ export default function PianoRoll(props: Props) {
   const pitchDragRef = useRef<{ noteId: string; pointIndex: number } | null>(null)
   const pitchStrokeRef = useRef<{ points: { ticks: number; value: number; curve: string }[]; minTick: number; maxTick: number } | null>(null)
   const pitchEraseRef = useRef<{ minTick: number; maxTick: number } | null>(null)
+  const fixedStrokeRef = useRef<{ points: { ticks: number; value: number; curve: string }[]; minTick: number; maxTick: number } | null>(null)
+  const fixedSourceF0Ref = useRef<RenderedF0Curve | null>(null)
+  const [renderedF0, setRenderedF0] = useState<RenderedF0Curve | null>(null)
   const clipboardRef = useRef<Note[]>([])
   const [clipboardCount, setClipboardCount] = useState(0)
   const [pitchReadout, setPitchReadout] = useState<string | null>(null)
@@ -196,6 +207,25 @@ export default function PianoRoll(props: Props) {
     }
     return null
   }, [props.track, noteRect, laneTop])
+
+  const trackId = props.track?.id
+  const trackRenderPath = props.track?.render_path
+  const trackRenderRevision = props.track?.render_revision
+  const trackRenderFingerprint = props.track?.render_fingerprint
+
+  useEffect(() => {
+    let cancelled = false
+    if (!props.track || props.track.type !== 'vocal' || !props.track.render_path) {
+      setRenderedF0(null)
+      return
+    }
+    api.renderedF0(props.project.id, props.track.id)
+      .then(curve => { if (!cancelled) setRenderedF0(curve) })
+      .catch(() => { if (!cancelled) setRenderedF0(null) })
+    return () => { cancelled = true }
+  }, [props.project.id, trackId, trackRenderPath, trackRenderRevision, trackRenderFingerprint])
+
+  const freshRenderedF0 = renderedF0 && props.track && props.track.type === 'vocal' && !vocalRenderIsStale(props.project, props.track) ? renderedF0 : null
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -372,6 +402,40 @@ export default function PianoRoll(props: Props) {
             ctx.fillText(note.phonemes.map(p => p.symbol).join(' '), x + 5, y + view.rowHeight + 9)
           }
 
+          if ((tool === 'pitch' || tool === 'pitchBrush' || tool === 'fixedBrush' || tool === 'pitchEraser') && freshRenderedF0) {
+            ctx.strokeStyle = '#101927e8'
+            ctx.lineWidth = 2.4
+            ctx.beginPath()
+            let renderedSegmentOpen = false
+            const frameSeconds = Math.max(0.001, (freshRenderedF0.frame_ms || 10) / 1000)
+            const firstFrame = Math.max(0, Math.floor(ticksToSeconds(props.project, note.start_ticks) / frameSeconds) - 1)
+            const lastFrame = Math.min(freshRenderedF0.times.length - 1, Math.ceil(ticksToSeconds(props.project, note.start_ticks + note.duration_ticks) / frameSeconds) + 1)
+            for (let index = firstFrame; index <= lastFrame; index++) {
+              const hz = freshRenderedF0.f0_hz[index]
+              const seconds = freshRenderedF0.times[index]
+              const ticks = secondsToTicks(props.project, seconds)
+              const inNote = hz != null && hz > 0 && ticks >= note.start_ticks && ticks <= note.start_ticks + note.duration_ticks
+              if (!inNote) {
+                renderedSegmentOpen = false
+                continue
+              }
+              const sx = xForTick(ticks)
+              if (sx < Math.max(KEY_WIDTH, x) - 2 || sx > Math.min(width, x + w) + 2) {
+                renderedSegmentOpen = false
+                continue
+              }
+              const midi = 69 + 12 * Math.log2(hz / 440)
+              const sy = yForPitch(midi) + view.rowHeight / 2
+              if (!renderedSegmentOpen) {
+                ctx.moveTo(sx, sy)
+                renderedSegmentOpen = true
+              } else {
+                ctx.lineTo(sx, sy)
+              }
+            }
+            ctx.stroke()
+          }
+
           if (note.pitch_curve.length) {
             const durationMs = Math.max(1, noteDurationMs(note))
             const ordered = [...note.pitch_curve].sort((a, b) => a.offset_ms - b.offset_ms)
@@ -397,7 +461,7 @@ export default function PianoRoll(props: Props) {
             }
           }
 
-          if ((tool === 'pitch' || tool === 'pitchBrush' || tool === 'pitchEraser') && props.track.automation?.pitch_cents?.length) {
+          if ((tool === 'pitch' || tool === 'pitchBrush' || tool === 'fixedBrush' || tool === 'pitchEraser') && props.track.automation?.pitch_cents?.length) {
             const startX = Math.max(x, KEY_WIDTH)
             const endX = Math.min(x + w, width)
             if (endX > startX) {
@@ -450,7 +514,7 @@ export default function PianoRoll(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(wrap)
     return () => observer.disconnect()
-  }, [props.project, props.track, props.timeline, props.loopRange, props.loopEnabled, view, selectedNoteIds, marquee, xForTick, yForPitch, ppq, tool])
+  }, [props.project, props.track, props.timeline, props.loopRange, props.loopEnabled, view, selectedNoteIds, marquee, xForTick, yForPitch, ppq, tool, freshRenderedF0])
 
   useEffect(() => {
     const canvas = playheadCanvasRef.current
@@ -534,6 +598,84 @@ export default function PianoRoll(props: Props) {
     setPitchReadout(`${ticks} ticks · ${cents > 0 ? '+' : ''}${cents}¢ user pitch`)
   }
 
+  function midiToHz(pitch: number) {
+    return 440 * Math.pow(2, (pitch - 69) / 12)
+  }
+
+  function renderedF0HzAt(curve: RenderedF0Curve | null, seconds: number): number | null {
+    if (!curve || !curve.times.length) return null
+    if (seconds < curve.times[0] || seconds > curve.times[curve.times.length - 1]) return null
+    for (let index = 0; index < curve.times.length - 1; index++) {
+      const leftTime = curve.times[index]
+      const rightTime = curve.times[index + 1]
+      if (leftTime <= seconds && seconds <= rightTime) {
+        const left = curve.f0_hz[index]
+        const right = curve.f0_hz[index + 1]
+        if (left == null || right == null || left <= 0 || right <= 0) return null
+        const ratio = (seconds - leftTime) / Math.max(1e-9, rightTime - leftTime)
+        return left * Math.pow(2, Math.log2(right / left) * ratio)
+      }
+    }
+    const last = curve.f0_hz[curve.f0_hz.length - 1]
+    return last != null && last > 0 ? last : null
+  }
+
+  function fixedPitchCentsAt(note: Note, ticks: number) {
+    const seconds = ticksToSeconds(props.project, ticks)
+    const renderedHz = renderedF0HzAt(fixedSourceF0Ref.current, seconds)
+    if (renderedHz && Number.isFinite(renderedHz) && renderedHz > 0) {
+      return 1200 * Math.log2(renderedHz / midiToHz(note.pitch))
+    }
+    return algorithmicPitchCentsAt(note, ticks)
+  }
+
+  function algorithmicPitchCentsAt(note: Note, ticks: number) {
+    const startMs = ticksToSeconds(props.project, note.start_ticks) * 1000
+    const absoluteMs = ticksToSeconds(props.project, ticks) * 1000
+    const offsetMs = Math.max(0, absoluteMs - startMs)
+    const durationMs = Math.max(1e-9, noteDurationMs(note))
+    const ordered = [...note.pitch_curve].sort((a, b) => a.offset_ms - b.offset_ms)
+    let cents = 0
+    if (ordered.length) {
+      if (offsetMs <= ordered[0].offset_ms) cents = ordered[0].cents
+      else if (offsetMs >= ordered[ordered.length - 1].offset_ms) cents = ordered[ordered.length - 1].cents
+      else {
+        for (let index = 0; index < ordered.length - 1; index++) {
+          const left = ordered[index], right = ordered[index + 1]
+          if (left.offset_ms <= offsetMs && offsetMs <= right.offset_ms) {
+            cents = left.cents + (right.cents - left.cents) * ((offsetMs - left.offset_ms) / Math.max(1e-9, right.offset_ms - left.offset_ms))
+            break
+          }
+        }
+      }
+    }
+    if (note.vibrato && offsetMs / durationMs >= note.vibrato.start_ratio) {
+      cents += note.vibrato.depth_cents * Math.sin(2 * Math.PI * note.vibrato.frequency_hz * offsetMs / 1000 + note.vibrato.phase)
+    }
+    return cents
+  }
+
+  function writeFixedBrushAt(x: number) {
+    const stroke = fixedStrokeRef.current
+    if (!stroke || !props.track) return
+    const ticks = Math.max(0, Math.round(tickForX(x)))
+    const note = props.track.notes.find(item => ticks >= item.start_ticks && ticks < item.start_ticks + item.duration_ticks)
+    if (!note) return
+    const cents = Math.max(-600, Math.min(600, Math.round(fixedPitchCentsAt(note, ticks))))
+    stroke.minTick = Math.min(stroke.minTick, ticks)
+    stroke.maxTick = Math.max(stroke.maxTick, ticks)
+    const last = stroke.points[stroke.points.length - 1]
+    if (last && last.ticks === ticks) last.value = cents
+    else if (!last || Math.abs(ticks - last.ticks) >= 3 || Math.abs(cents - last.value) >= 1) stroke.points.push({ ticks, value: cents, curve: 'linear' })
+    else return
+    mutateTrack(track => {
+      const outside = track.automation.pitch_cents.filter(point => point.ticks < stroke.minTick || point.ticks > stroke.maxTick)
+      const rewritten = new Map(stroke.points.map(point => [point.ticks, point]))
+      track.automation.pitch_cents = [...outside, ...rewritten.values()].sort((a, b) => a.ticks - b.ticks)
+    }, true)
+    setPitchReadout(`${ticks} ticks · fixed ${fixedSourceF0Ref.current ? 'rendered' : 'target'} pitch ${cents > 0 ? '+' : ''}${cents}¢`)
+  }
+
   function erasePitchAutomationAt(x: number) {
     const stroke = pitchEraseRef.current
     if (!stroke || !props.track) return
@@ -551,6 +693,13 @@ export default function PianoRoll(props: Props) {
         if (stroke.maxTick !== stroke.minTick) next.push({ ticks: stroke.maxTick, value: 0, curve: 'linear' })
       }
       track.automation.pitch_cents = next.sort((a, b) => a.ticks - b.ticks)
+      for (const note of track.notes) {
+        const noteStartSeconds = ticksToSeconds(props.project, note.start_ticks)
+        note.pitch_curve = note.pitch_curve.filter(point => {
+          const pointTicks = secondsToTicks(props.project, noteStartSeconds + point.offset_ms / 1000)
+          return pointTicks < stroke.minTick || pointTicks > stroke.maxTick
+        })
+      }
     }, true)
     setPitchReadout(`${ticks} ticks · erased user pitch`)
   }
@@ -688,6 +837,14 @@ export default function PianoRoll(props: Props) {
       return
     }
 
+    if (tool === 'fixedBrush') {
+      props.beginTransaction()
+      fixedStrokeRef.current = { points: [], minTick: Number.POSITIVE_INFINITY, maxTick: Number.NEGATIVE_INFINITY }
+      fixedSourceF0Ref.current = freshRenderedF0
+      writeFixedBrushAt(x)
+      return
+    }
+
     if (tool === 'pitchEraser') {
       props.beginTransaction()
       pitchEraseRef.current = { minTick: Number.POSITIVE_INFINITY, maxTick: Number.NEGATIVE_INFINITY }
@@ -821,6 +978,11 @@ export default function PianoRoll(props: Props) {
       return
     }
 
+    if (fixedStrokeRef.current) {
+      writeFixedBrushAt(x)
+      return
+    }
+
     if (pitchEraseRef.current) {
       erasePitchAutomationAt(x)
       return
@@ -911,6 +1073,12 @@ export default function PianoRoll(props: Props) {
     if (pitchStrokeRef.current) {
       props.endTransaction()
       pitchStrokeRef.current = null
+      window.setTimeout(() => setPitchReadout(null), 1600)
+    }
+    if (fixedStrokeRef.current) {
+      props.endTransaction()
+      fixedStrokeRef.current = null
+      fixedSourceF0Ref.current = null
       window.setTimeout(() => setPitchReadout(null), 1600)
     }
     if (pitchEraseRef.current) {
@@ -1321,7 +1489,8 @@ export default function PianoRoll(props: Props) {
       if (key === 'e') setTool('erase')
       if (key === 'p') setTool('pitch')
       if (key === '1') setTool('pitchBrush')
-      if (key === '2') setTool('pitchEraser')
+      if (key === '2') setTool('fixedBrush')
+      if (key === '3') setTool('pitchEraser')
       if (key === 'q') quantizeSelection()
     }
     if ((event.key === 'Delete' || event.key === 'Backspace') && selectedNoteIds.length) deleteSelection()
@@ -1356,7 +1525,8 @@ export default function PianoRoll(props: Props) {
           <button className={tool === 'pencil' ? 'tool active' : 'tool'} onClick={() => setTool('pencil')} title="Note brush (B)">✎</button>
           <button className={tool === 'erase' ? 'tool active' : 'tool'} onClick={() => setTool('erase')} title="Eraser (E)">⌫</button>
           <button className={tool === 'pitchBrush' ? 'tool active' : 'tool'} onClick={() => setTool('pitchBrush')} title="Freehand user-pitch brush (1); drag across notes to rewrite continuous pitch automation">🖌 Pitch</button>
-          <button className={tool === 'pitchEraser' ? 'tool active' : 'tool'} onClick={() => setTool('pitchEraser')} title="Pitch eraser (2); drag to remove user-pitch automation while preserving outside automation">⌦ Pitch</button>
+          <button className={tool === 'fixedBrush' ? 'tool active' : 'tool'} onClick={() => setTool('fixedBrush')} title="Fixed brush (2); lock fresh rendered pitch when available, otherwise the deterministic target pitch, as user pitch">▣ Fixed</button>
+          <button className={tool === 'pitchEraser' ? 'tool active' : 'tool'} onClick={() => setTool('pitchEraser')} title="Pitch eraser (3); drag to erase user-pitch automation and per-note anchors while preserving outside automation">⌦ Pitch</button>
           <button className={tool === 'pitch' ? 'tool active' : 'tool'} onClick={() => setTool('pitch')} title="Per-note pitch anchor handles (P); Alt+click deletes a handle">∿ Anchor</button>
           <button className={auditionEnabled ? 'tool active' : 'tool'} onClick={toggleAudition} title="Editor note audition preview; not vocal synthesis">♪ Audition</button>
         </div>
