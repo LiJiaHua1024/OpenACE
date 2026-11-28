@@ -1,0 +1,148 @@
+{
+  "project_id": "project_57245938035d",
+  "imported_clip": {
+    "id": "clip_3dc4bd36ee8c",
+    "path": "/home/ubuntu/repos/OpenACE/data/uploads/clip_465fd4be8fb6_vocal.wav",
+    "start_ticks": 0,
+    "duration_ticks": 2400,
+    "offset_ticks": 0,
+    "fade_in_ticks": 0,
+    "fade_out_ticks": 0,
+    "gain_db": 0.0,
+    "label": "vocal",
+    "transcribed_lyrics": [],
+    "created_by_job_id": null,
+    "updated_by_job_id": null
+  },
+  "import_ui": {
+    "path": "clip_465fd4be8fb6_vocal.wav",
+    "hints": [
+      "Vocal2BGM/SVC/separation input: visible clip segment · aligned to clip start"
+    ]
+  },
+  "separation_job": {
+    "id": "job_b8b79ace0bc8",
+    "status": "completed",
+    "clip_id": "clip_3dc4bd36ee8c",
+    "source_start_s": 0.0,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 0,
+    "error": null
+  },
+  "svc_error_on_audio_track": "Select a vocal track with an uploaded reference voice before SVC conversion",
+  "svc_context_after_reselect": {
+    "path": "clip_465fd4be8fb6_vocal.wav",
+    "disabled": false,
+    "title": "Convert the exact visible arrangement clip segment",
+    "voice": "vocal"
+  },
+  "svc_job": {
+    "id": "job_6fa02d9b72de",
+    "status": "completed",
+    "clip_id": "clip_3dc4bd36ee8c",
+    "source_start_s": 0.0,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 0,
+    "error": null
+  },
+  "bgm_job": {
+    "id": "job_5a020c96ab54",
+    "status": "completed",
+    "clip_id": "clip_3dc4bd36ee8c",
+    "source_start_s": 0.0,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 0,
+    "error": null
+  },
+  "mixed_apply_disabled": false,
+  "mixed_notes": [
+    [
+      "你好",
+      [
+        "n",
+        "i",
+        "x",
+        "au"
+      ]
+    ],
+    [
+      "好",
+      [
+        "x",
+        "au"
+      ]
+    ],
+    [
+      "好",
+      [
+        "x",
+        "au"
+      ]
+    ]
+  ],
+  "persistence": {
+    "track_count": 7,
+    "separation_tracks": 2,
+    "lyrics": [
+      "你",
+      "hello",
+      "世"
+    ]
+  },
+  "playback": {
+    "starts": [
+      {
+        "when": 0.023219954648526078,
+        "offset": 0,
+        "duration": 3.0624943310657597,
+        "bufferDuration": 3.0624943310657597
+      },
+      {
+        "when": 0.023219954648526078,
+        "offset": 0,
+        "duration": 2.5,
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "when": 0.023219954648526078,
+        "offset": 0,
+        "duration": 2.5,
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "when": 0.023219954648526078,
+        "offset": 0,
+        "duration": 2.5,
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "when": 0.023219954648526078,
+        "offset": 0,
+        "duration": 2.5,
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "when": 0.023219954648526078,
+        "offset": 0,
+        "duration": 2.5,
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "when": 0.023219954648526078,
+        "offset": 0,
+        "duration": 2.5,
+        "bufferDuration": 2.4999773242630385
+      },
+      {
+        "when": 0.023219954648526078,
+        "offset": 0,
+        "duration": 2.5,
+        "bufferDuration": 2.4999773242630385
+      }
+    ],
+    "pos": "1.3.4\n00:01.47",
+    "cls": "play-button playing"
+  },
+  "console": [],
+  "badnet": []
+}

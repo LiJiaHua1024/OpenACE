@@ -1,0 +1,26 @@
+{
+  "mp3": {
+    "ok": true,
+    "bytes": 124845,
+    "suggested": "Creative Loop \u9a8c\u6536.mp3",
+    "path": "artifacts/e2e_screenshots/global_audit_current/downloads/project_57245938035d.mp3"
+  },
+  "flac": {
+    "ok": true,
+    "bytes": 165215,
+    "suggested": "Creative Loop \u9a8c\u6536.flac",
+    "path": "artifacts/e2e_screenshots/global_audit_current/downloads/project_57245938035d.flac"
+  },
+  "ogg": {
+    "ok": true,
+    "bytes": 21224,
+    "suggested": "Creative Loop \u9a8c\u6536.ogg",
+    "path": "artifacts/e2e_screenshots/global_audit_current/downloads/project_57245938035d.ogg"
+  },
+  "stems": {
+    "ok": true,
+    "bytes": 1854038,
+    "suggested": "Creative Loop \u9a8c\u6536_stems.zip",
+    "path": "artifacts/e2e_screenshots/global_audit_current/downloads/project_57245938035d.stems.zip"
+  }
+}
