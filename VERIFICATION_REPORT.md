@@ -1388,3 +1388,9 @@ Fixed a live-playback correctness gap: playback snapshot invalidation previously
 Quantitative browser QA verified automatic 120→90 and 90→130 BPM rebuilds with exact 666.667ms/461.538ms metronome spacing, monotonic musical-position continuity without inverse-conversion jumps, automatic 4/4→3/4 accent rebuild with exact beat/accent spacing, zero click/source/rebuild storms, and clean loop/seek/Follow regressions. Evidence: `artifacts/e2e_screenshots/live_tempo_rebuild/`.
 
 Validation after iteration 126: frontend production build passed; independent quantitative browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
+
+## Iteration 127 — cursor-anchored timeline zoom
+
+Implemented shared cursor-anchored horizontal zoom math across arrangement, piano roll, tempo lane, and automation lane. Ctrl/Cmd+wheel now preserves the musical point under the cursor using correct gutter compensation rather than jumping the viewport; automation lane also gained wheel zoom/scroll and shared-timeline control. Browser QA made 24 quantitative measurements across all four surfaces, x positions, and zoom directions: maximum error was only 4.547e-13 ticks. Rapid alternating zoom showed zero drift/NaN/flicker, clamps were exact at 32/360 px-per-beat, scroll never went negative, all modifier scroll regressions passed, and playback/Follow remained correct. Evidence: `artifacts/e2e_screenshots/anchored_zoom/`.
+
+Validation after iteration 127: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).

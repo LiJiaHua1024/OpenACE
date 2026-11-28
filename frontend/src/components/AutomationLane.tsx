@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Breath, BreathTimbre, EnvelopePoint, Note, Phoneme, Project, TimelineState, Track } from '../types'
 import { barTicks as musicalBarTicks, tickDurationSeconds } from '../tempo'
+import { zoomTimelineAt } from '../timelineZoom'
 
 const LANE_HEIGHT = 148
 const KEY_WIDTH = 64
@@ -16,6 +17,7 @@ interface Props {
   endTransaction(): void
   updateProject(mutator: (project: Project) => void, transient?: boolean): void
   timeline: TimelineState
+  onTimelineChange(timeline: TimelineState): void
 }
 
 function clonePoints(points: EnvelopePoint[]) {
@@ -684,6 +686,15 @@ export default function AutomationLane(props: Props) {
     <button className={lane === key ? 'param-tab active' : 'param-tab'} onClick={() => { setTab(key === 'pitch_cents' ? 'pitch' : key === 'dynamic' ? 'dynamic' : 'advanced'); setLane(key) }}>{label}</button>
   )
 
+
+  function onWheel(event: React.WheelEvent) {
+    if (event.ctrlKey || event.metaKey) {
+      const rect = event.currentTarget.getBoundingClientRect()
+      props.onTimelineChange(zoomTimelineAt(props.timeline, event.clientX - rect.left, KEY_WIDTH, event.deltaY > 0 ? 0.9 : 1.1, props.project.ppq))
+    } else {
+      props.onTimelineChange({ ...props.timeline, scrollTicks: Math.max(0, props.timeline.scrollTicks + event.deltaY * 2 + event.deltaX * 2) })
+    }
+  }
   return (
     <section className="automation-panel">
       <div className="automation-header">
@@ -712,7 +723,7 @@ export default function AutomationLane(props: Props) {
         )}
       </div>
       <div className="automation-canvas-wrap">
-        <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onContextMenu={e => e.preventDefault()} />
+        <canvas ref={canvasRef} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onWheel={onWheel} onContextMenu={e => e.preventDefault()} />
         {tab !== 'breath' && (selection || automationClipboardRef.current?.lane === lane) && (
           <div className="automation-range-actions">
             {selection && <span>{Math.round(selection.end - selection.start)}t</span>}

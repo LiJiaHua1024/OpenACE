@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { barTicks as musicalBarTicks, bpmAt, normalizedTempoMap } from '../tempo'
+import { zoomTimelineAt } from '../timelineZoom'
 import type { Project, TimelineState } from '../types'
 
 const HEIGHT = 54
@@ -337,7 +338,8 @@ export default function TempoLane(props: Props) {
 
   function onWheel(event: React.WheelEvent) {
     if (event.ctrlKey || event.metaKey) {
-      props.onTimelineChange({ ...props.timeline, pxPerBeat: Math.max(32, Math.min(360, pxPerBeat * (event.deltaY > 0 ? .9 : 1.1))) })
+      const rect = event.currentTarget.getBoundingClientRect()
+      props.onTimelineChange(zoomTimelineAt(props.timeline, event.clientX - rect.left, LABEL_WIDTH, event.deltaY > 0 ? .9 : 1.1, props.project.ppq))
     } else {
       props.onTimelineChange({ ...props.timeline, scrollTicks: Math.max(0, scrollTicks + event.deltaY * 2 + event.deltaX * 2) })
     }

@@ -3,6 +3,7 @@ import { api, renderFileUrl } from '../api'
 import { crossfadeGainAt, crossfadeIntervals } from '../crossfade'
 import type { AudioClip, Project, TimelineState, Track } from '../types'
 import { barTicks as musicalBarTicks, secondsBetweenTicks, secondsToTicks, secondsToTicksFrom, tickDurationSeconds, ticksToSeconds } from '../tempo'
+import { zoomTimelineAt } from '../timelineZoom'
 
 const LABEL_WIDTH = 64
 const RULER_HEIGHT = 24
@@ -347,7 +348,8 @@ export default function ArrangementView(props: Props) {
     const handleNativeWheel = (event: WheelEvent) => {
       if (event.ctrlKey || event.metaKey) {
         event.preventDefault()
-        props.onTimelineChange({ ...props.timeline, pxPerBeat: Math.max(32, Math.min(360, pxPerBeat * (event.deltaY > 0 ? .9 : 1.1))) })
+        const rect = canvas.getBoundingClientRect()
+        props.onTimelineChange(zoomTimelineAt(props.timeline, event.clientX - rect.left, LABEL_WIDTH, event.deltaY > 0 ? .9 : 1.1, ppq))
       } else if (event.shiftKey) {
         event.preventDefault()
         props.onTimelineChange({ ...props.timeline, scrollTicks: Math.max(0, scrollTicks + event.deltaY * 2 + event.deltaX * 2) })

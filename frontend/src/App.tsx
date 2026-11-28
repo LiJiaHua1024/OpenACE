@@ -1380,6 +1380,7 @@ export default function App() {
             endTransaction={endTransaction}
             updateProject={updateProject}
             timeline={timeline}
+            onTimelineChange={setTimeline}
           />
         </main>
         <RenderPanel

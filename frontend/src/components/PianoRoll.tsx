@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { api } from '../api'
 import type { Note, Project, TimelineState, Track } from '../types'
 import { barTicks as musicalBarTicks, tickDurationSeconds } from '../tempo'
+import { zoomTimelineAt } from '../timelineZoom'
 
 const KEY_WIDTH = 64
 const RULER_HEIGHT = 30
@@ -1007,7 +1008,8 @@ export default function PianoRoll(props: Props) {
   function onWheel(event: React.WheelEvent) {
     if (event.ctrlKey || event.metaKey) {
       const factor = event.deltaY > 0 ? 0.9 : 1.1
-      props.onTimelineChange({ ...props.timeline, pxPerBeat: Math.max(32, Math.min(360, props.timeline.pxPerBeat * factor)) })
+      const rect = event.currentTarget.getBoundingClientRect()
+      props.onTimelineChange(zoomTimelineAt(props.timeline, event.clientX - rect.left, KEY_WIDTH, factor, ppq))
     } else if (event.altKey) {
       const factor = event.deltaY > 0 ? 0.9 : 1.1
       setView(v => ({ ...v, rowHeight: Math.max(8, Math.min(28, v.rowHeight * factor)) }))
