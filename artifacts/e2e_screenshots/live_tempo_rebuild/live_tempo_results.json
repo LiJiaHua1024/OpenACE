@@ -1,0 +1,197 @@
+{
+  "transport_start": 0.011609977324263039,
+  "edit90_audio": 1.3351473922902495,
+  "edit130_audio": 3.3436734693877552,
+  "create90": 1.6950566893424037,
+  "create130": 3.622312925170068,
+  "rebuild90_latency_ms": 359.9092970521542,
+  "rebuild130_latency_ms": 278.63945578231284,
+  "post90_source_count": 13,
+  "post130_source_count": 6,
+  "post90_click_group": {
+    "count": 3,
+    "times": [
+      2.1326077097505665,
+      2.7992743764172343,
+      3.4659410430839004
+    ],
+    "intervals": [
+      0.666667,
+      0.666667
+    ],
+    "freqs": [
+      1760,
+      1175,
+      1175
+    ],
+    "schedule_range": [
+      1.6950566893424037,
+      1.6950566893424037
+    ]
+  },
+  "post130_click_group": {
+    "count": 10,
+    "times": [
+      3.9684493284493287,
+      4.42998778998779,
+      4.891526251526252,
+      5.353064713064712,
+      5.814603174603175,
+      6.276141636141635,
+      6.737680097680099,
+      7.199218559218559,
+      7.660757020757022,
+      8.122295482295481
+    ],
+    "intervals": [
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538
+    ],
+    "freqs": [
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760
+    ],
+    "schedule_range": [
+      3.633922902494331,
+      6.013968253968254
+    ]
+  },
+  "click_stats": {
+    "audible_count": 16,
+    "canceled_future_noise": 7,
+    "exact_audible_duplicate_count": 0,
+    "intervals": [
+      0.5,
+      0.5,
+      0.620998,
+      0.666667,
+      0.666667,
+      0.502508,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538
+    ],
+    "short_intervals_under350ms": 0,
+    "min_interval_ms": 461.538,
+    "max_interval_ms": 666.667,
+    "freqs": [
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760
+    ]
+  },
+  "position_samples": [
+    {
+      "label": "before_90_edit",
+      "text": "1.3.2\n00:01.19",
+      "approx_ticks": 1080,
+      "audio_time": 1.3119274376417234
+    },
+    {
+      "label": "just_after_90_input",
+      "text": "1.4.1\n00:02.09",
+      "approx_ticks": 1440,
+      "audio_time": 1.6253968253968254
+    },
+    {
+      "label": "after_90_rebuild_window",
+      "text": "2.1.1\n00:02.73",
+      "approx_ticks": 1920,
+      "audio_time": 2.2755555555555556
+    },
+    {
+      "label": "90_stable",
+      "text": "2.2.3\n00:03.78",
+      "approx_ticks": 2640,
+      "audio_time": 3.320453514739229
+    },
+    {
+      "label": "just_after_130_input",
+      "text": "2.3.1\n00:02.81",
+      "approx_ticks": 2880,
+      "audio_time": 3.564263038548753
+    },
+    {
+      "label": "after_130_rebuild_window",
+      "text": "2.4.2\n00:03.42",
+      "approx_ticks": 3480,
+      "audio_time": 4.20281179138322
+    },
+    {
+      "label": "130_stable",
+      "text": "3.4.2\n00:05.25",
+      "approx_ticks": 5400,
+      "audio_time": 6.03718820861678
+    }
+  ],
+  "position_deltas": [
+    {
+      "from": "before_90_edit",
+      "to": "just_after_90_input",
+      "delta_ticks": 360
+    },
+    {
+      "from": "just_after_90_input",
+      "to": "after_90_rebuild_window",
+      "delta_ticks": 480
+    },
+    {
+      "from": "after_90_rebuild_window",
+      "to": "90_stable",
+      "delta_ticks": 720
+    },
+    {
+      "from": "90_stable",
+      "to": "just_after_130_input",
+      "delta_ticks": 240
+    },
+    {
+      "from": "just_after_130_input",
+      "to": "after_130_rebuild_window",
+      "delta_ticks": 600
+    },
+    {
+      "from": "after_130_rebuild_window",
+      "to": "130_stable",
+      "delta_ticks": 1920
+    }
+  ],
+  "playing_button": "\u275a\u275a",
+  "console": [],
+  "pageerrors": [],
+  "network_failures": []
+}

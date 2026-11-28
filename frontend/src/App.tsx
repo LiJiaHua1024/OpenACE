@@ -55,6 +55,8 @@ function decodePlaybackBuffer(ctx: BaseAudioContext, url: string): Promise<Audio
 
 function playbackAudioSnapshot(project: Project): string {
   return JSON.stringify({
+    bpm: project.bpm,
+    time_signature: project.time_signature,
     tempo_map: project.tempo_map,
     tracks: project.tracks.map(track => ({
       id: track.id,
@@ -79,6 +81,7 @@ function playbackAudioSnapshot(project: Project): string {
 }
 
 interface PlaybackGraph {
+  project: Project
   sources: AudioBufferSourceNode[]
   transitionGains: GainNode[]
   analysers: Record<string, AnalyserNode>
@@ -105,6 +108,7 @@ interface PlaybackState {
   loudnessFeed?: GainNode
   loudness: LoudnessReading
   pendingGraph?: PlaybackGraph
+  timingProject?: Project
 }
 
 function emptyLoudnessReading(): LoudnessReading {
@@ -724,6 +728,7 @@ export default function App() {
     playback.current.loudnessFeed = pending.loudnessFeed
     playback.current.startTicks = meta.startTicks
     playback.current.startContextTime = meta.boundaryClock
+    playback.current.timingProject = pending.project
     playback.current.startMs = performance.now() - Math.max(0, ((playback.current.ctx?.currentTime || meta.boundaryClock) - meta.boundaryClock) * 1000)
     playback.current.pendingGraph = undefined
     pendingLoopRestart.current = null
@@ -865,6 +870,7 @@ export default function App() {
       playback.current.startMs = performance.now()
       playback.current.startTicks = startTicks
       playback.current.startContextTime = ctx?.currentTime || 0
+      if (!continuous) playback.current.timingProject = targetProject
     }
     const tracksAndBuffers = await Promise.all(audible.flatMap(track => track.playbackSources.map(async sourceSpec => {
       const url = renderFileUrl(sourceSpec.path)
@@ -1024,6 +1030,7 @@ export default function App() {
     }
     if (playback.current.generation !== generation) return false
     const graph: PlaybackGraph = {
+      project: targetProject,
       sources: nextSources,
       transitionGains: nextTransitionGains,
       analysers: nextAnalysers,
@@ -1041,6 +1048,7 @@ export default function App() {
       playback.current.analysers = nextAnalysers
       playback.current.masterAnalyser = masterAnalyser
       playback.current.loudnessFeed = nextLoudnessFeed
+      playback.current.timingProject = targetProject
       scheduleMetronome(targetProject)
     }
     return true
@@ -1080,10 +1088,11 @@ export default function App() {
         if (!current || !playing) return
         const ctx = playback.current.ctx
         const activeLoop = loopEnabledRef.current ? loopRangeRef.current : null
+        const currentTimingProject = playback.current.timingProject || current
         let boundaryClock: number | null = null
         if (ctx && activeLoop) {
-          const epochStartSeconds = ticksToSeconds(current, playback.current.startTicks)
-          boundaryClock = playback.current.startContextTime + ticksToSeconds(current, activeLoop.end) - epochStartSeconds
+          const epochStartSeconds = ticksToSeconds(currentTimingProject, playback.current.startTicks)
+          boundaryClock = playback.current.startContextTime + ticksToSeconds(currentTimingProject, activeLoop.end) - epochStartSeconds
         }
         const timeUntilBoundary = ctx && boundaryClock !== null ? boundaryClock - ctx.currentTime : Number.POSITIVE_INFINITY
         if (pendingLoopRestart.current || (timeUntilBoundary > 0 && timeUntilBoundary < 0.55)) {
@@ -1091,7 +1100,8 @@ export default function App() {
           return
         }
         const elapsed = ctx ? ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
-        const ticks = secondsToTicks(current, ticksToSeconds(current, playback.current.startTicks) + elapsed)
+        const timingProject = playback.current.timingProject || current
+        const ticks = secondsToTicks(timingProject, ticksToSeconds(timingProject, playback.current.startTicks) + elapsed)
         fadeOutPlaybackGraph()
         await schedulePlayback(current, ticks, true, 0.09)
       })()
@@ -1155,7 +1165,8 @@ export default function App() {
         if (!commitPendingLoopGraph()) pendingLoopRestart.current = null
       }
       const elapsed = ctx ? ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
-      let ticks = secondsToTicks(current, ticksToSeconds(current, playback.current.startTicks) + elapsed)
+      const timingProject = playback.current.timingProject || current
+      let ticks = secondsToTicks(timingProject, ticksToSeconds(timingProject, playback.current.startTicks) + elapsed)
       if (activeLoop && ctx && !pendingLoopRestart.current) {
         const epochStartSeconds = ticksToSeconds(current, playback.current.startTicks)
         const boundaryClock = playback.current.startContextTime + ticksToSeconds(current, activeLoop.end) - epochStartSeconds

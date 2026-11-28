@@ -1380,3 +1380,11 @@ Replaced reactive loop restart with professional lookahead scheduling. While pla
 Initial quantitative browser QA proved exact core behavior but exposed an intermittent mute/edit race at the boundary. Rebuilds now defer in short steps while a loop commit is pending or imminent, then reanchor after the commit. Retest passed 5/5 boundary rebuild attempts: boundary downbeat preserved, every click interval exactly 500ms, zero phase shift/duplicates/storms, rebuild-source creation after exact commit, and normal mid-loop rebuilds not endlessly deferred. Broader QA verified 0.0ms outgoing-stop/replacement-start deviation at repeated boundaries, exact non-bar and piecewise 120→130 BPM looping, pending seek/disable invalidation, Follow/playhead/loop-band regressions, and clean console/network. Evidence: `artifacts/e2e_screenshots/lookahead_loop/`.
 
 Validation after iteration 125: frontend production build passed; independent quantitative browser QA passed after race fix; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
+
+## Iteration 126 — live base tempo and meter rebuild
+
+Fixed a live-playback correctness gap: playback snapshot invalidation previously watched `tempo_map` but not the base transport BPM or time signature, so projects using the BPM control could fail to rebuild until manual restart. Playback invalidation now includes both. Because changing tempo makes the new project's inverse tick conversion invalid for audio already in flight, the transport now also tracks the project tempo map associated with the current audio epoch; rebuild position is computed with the pre-edit timing project and only then reanchored to the edited project.
+
+Quantitative browser QA verified automatic 120→90 and 90→130 BPM rebuilds with exact 666.667ms/461.538ms metronome spacing, monotonic musical-position continuity without inverse-conversion jumps, automatic 4/4→3/4 accent rebuild with exact beat/accent spacing, zero click/source/rebuild storms, and clean loop/seek/Follow regressions. Evidence: `artifacts/e2e_screenshots/live_tempo_rebuild/`.
+
+Validation after iteration 126: frontend production build passed; independent quantitative browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
