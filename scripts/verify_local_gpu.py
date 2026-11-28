@@ -188,8 +188,8 @@ def main() -> int:
     project = Project(title="OpenACE local GPU acceptance", bpm=120)
     track = Track(name="GPU acceptance vocal", language="zh")
     track.reference_voice_path = str(reference_copy)
-    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
-    track.add_note(Note(start_ticks=480, duration_ticks=480, pitch=62, lyric="好"))
+    for index, (pitch, lyric) in enumerate([(60, "你"), (62, "好"), (64, "世"), (65, "界"), (67, "唱"), (65, "一"), (62, "首"), (60, "歌")]):
+        track.add_note(Note(start_ticks=index * 480, duration_ticks=480, pitch=pitch, lyric=lyric))
     project.add_track(track)
     progress_events = []
 
@@ -298,11 +298,19 @@ def main() -> int:
     repaint_telemetry = NvidiaMemoryTelemetry()
     repaint_telemetry.start()
     try:
+        import soundfile as sf
+
+        bgm_info = sf.info(str(bgm_out))
+        bgm_seconds = bgm_info.frames / float(bgm_info.samplerate)
+        repaint_start = round(bgm_seconds * 0.25, 3)
+        repaint_end = round(min(bgm_seconds - 0.05, max(repaint_start + 0.25, bgm_seconds * 0.75)), 3)
+        if bgm_seconds < 0.75 or repaint_end <= repaint_start:
+            raise RuntimeError(f"ACE-Step accompaniment is too short for repaint acceptance: {bgm_seconds:.3f}s")
         ACEStepEngine(device="auto").repaint(
             bgm_out,
             repaint_out,
-            start_s=2.0,
-            end_s=4.0,
+            start_s=repaint_start,
+            end_s=repaint_end,
             caption="seamlessly regenerate the selected cinematic pop accompaniment region",
             progress=repaint_progress,
         )
@@ -323,11 +331,15 @@ def main() -> int:
     audio_report = {}
     for name, path in {"soulx": vocal_out, "soulx_svc": svc_out, "acestep": bgm_out, "acestep_repaint": repaint_out}.items():
         data, sr = read_audio(path)
+        peak = float(max(0.0, abs(data).max())) if len(data) else 0.0
         audio_report[name] = {
             "seconds": round(len(data) / sr, 2),
+            "peak": round(peak, 6),
             "integrated_lufs": round(integrated_loudness_lufs(data, sr), 2),
             "true_peak_dbtp_approx": round(true_peak_db(data, sr), 2),
         }
+        if len(data) < sr * 0.2 or peak < 1e-5:
+            raise RuntimeError(f"{name} output is silent or too short for real GPU acceptance: " + json.dumps(audio_report[name]))
     report["audio"] = audio_report
 
     if not args.skip_separation:

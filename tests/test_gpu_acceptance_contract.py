@@ -5,8 +5,9 @@ def test_gpu_acceptance_exercises_openace_soulx_adapter_not_upstream_example_onl
     source = Path("scripts/verify_local_gpu.py").read_text(encoding="utf-8")
     assert "SoulXSingerEngine(device=\"cuda\").render_score" in source
     assert "OpenACE local GPU acceptance" in source
-    assert 'lyric="你"' in source
-    assert 'lyric="好"' in source
+    assert '(60, "你")' in source
+    assert '(62, "好")' in source
+    assert '(60, "歌")' in source
     assert "--target_metadata_path" not in source
     assert '"--control",' not in source
     assert "preprocessing cache integration" in source
@@ -64,3 +65,15 @@ def test_gpu_acceptance_reports_rendered_vocal_alignment_measurement():
     assert '"alignment": alignment' in source
     assert 'first_voiced_onset_s' in source
     assert 'pitch_transition_s' in source
+
+
+
+def test_gpu_acceptance_repaint_range_is_derived_and_outputs_are_nonsilent():
+    source = Path("scripts/verify_local_gpu.py").read_text()
+    assert "bgm_seconds = bgm_info.frames / float(bgm_info.samplerate)" in source
+    assert "start_s=repaint_start" in source
+    assert "end_s=repaint_end" in source
+    assert "start_s=2.0" not in source
+    assert '"peak": round(peak, 6)' in source
+    assert "peak < 1e-5" in source
+    assert "silent or too short for real GPU acceptance" in source
