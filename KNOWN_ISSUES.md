@@ -1,6 +1,5 @@
 # Known Issues / Escape-Hatch Register
 
-- Loop playback restarts are no longer duplicated or drifting visually, but quantitative metronome instrumentation still measures about 35ms of audio-clock latency at each loop boundary because restart scheduling is reactive rather than lookahead/pre-scheduled. Sample-accurate loop restart remains a required P1 fix.
 - Media-bin drag/drop placement is functionally correct, including Alt fine placement, but the cyan insertion indicator can disappear on one narrow Alt lower-diagonal native HTML5 drag path despite dragleave grace-timer hardening. Direct steady-position drags and normal placements show correct feedback; documented after three browser reproduction/fix attempts rather than blocking the workflow.
 - Web playback media now preloads/decodes offline and realistic post-interaction first playback is verified below 20ms audio-clock lag, but a direct cold press of play as the very first browser gesture can still incur the host Chrome/audio-device startup cost (about 2 seconds in this sandbox). This is an environment/browser output initialization limitation, not a decode-cache miss.
 ## Critical validation gaps

@@ -78,6 +78,35 @@ function playbackAudioSnapshot(project: Project): string {
   })
 }
 
+interface PlaybackGraph {
+  sources: AudioBufferSourceNode[]
+  transitionGains: GainNode[]
+  analysers: Record<string, AnalyserNode>
+  masterAnalyser?: AnalyserNode
+  loudnessFeed?: GainNode
+  startTicks: number
+  startContextTime: number
+}
+
+interface PlaybackState {
+  startMs: number
+  startTicks: number
+  startContextTime: number
+  raf: number
+  sources: AudioBufferSourceNode[]
+  transitionGains: GainNode[]
+  ctx?: AudioContext
+  starting?: boolean
+  generation: number
+  analysers: Record<string, AnalyserNode>
+  masterAnalyser?: AnalyserNode
+  loudnessNode?: AudioWorkletNode
+  loudnessSink?: GainNode
+  loudnessFeed?: GainNode
+  loudness: LoudnessReading
+  pendingGraph?: PlaybackGraph
+}
+
 function emptyLoudnessReading(): LoudnessReading {
   return { available: false, exact48k: false, sampleRate: 0, momentary: -120, shortTerm: -120, maxMomentary: -120, maxShortTerm: -120, history: [] }
 }
@@ -115,15 +144,16 @@ function scheduleTrackMixAutomation(
   key: 'volume' | 'pan',
   fallback: number,
   scheduleOffsetSeconds: number,
+  baseClock = ctx.currentTime,
 ) {
   const points = [...(((track.automation as any)?.[key] || []) as { ticks: number; value: number }[])].sort((a, b) => a.ticks - b.ticks)
-  param.cancelScheduledValues(ctx.currentTime)
+  param.cancelScheduledValues(baseClock)
   const startTicks = Math.max(0, secondsToTicks(project, scheduleOffsetSeconds))
   const valueAt = (ticks: number) => {
     const raw = mixEnvelopeValueAt(points, ticks, fallback)
     return key === 'pan' ? Math.max(-1, Math.min(1, raw)) : Math.max(0, Math.min(2, raw))
   }
-  param.setValueAtTime(valueAt(startTicks), ctx.currentTime)
+  param.setValueAtTime(valueAt(startTicks), baseClock)
   if (!points.length) return
   const eventTicks = new Set<number>()
   for (let index = 0; index < points.length - 1; index++) {
@@ -137,11 +167,11 @@ function scheduleTrackMixAutomation(
     for (let step = 1; step < divisions; step++) eventTicks.add(Math.round(left + (right - left) * step / divisions))
   }
   if (points.length) eventTicks.add(Math.max(0, Math.round(points[points.length - 1].ticks)))
-  let lastClock = ctx.currentTime
+  let lastClock = baseClock
   for (const ticks of Array.from(eventTicks).sort((a, b) => a - b)) {
     if (ticks <= startTicks + 0.001) continue
-    const clock = ctx.currentTime + ticksToSeconds(project, ticks) - scheduleOffsetSeconds
-    if (!Number.isFinite(clock) || clock <= ctx.currentTime + 0.002 || clock <= lastClock + 0.0005) continue
+    const clock = baseClock + ticksToSeconds(project, ticks) - scheduleOffsetSeconds
+    if (!Number.isFinite(clock) || clock <= baseClock + 0.002 || clock <= lastClock + 0.0005) continue
     param.linearRampToValueAtTime(valueAt(ticks), clock)
     lastClock = clock
   }
@@ -205,8 +235,8 @@ export default function App() {
   const [metronomeEnabled, setMetronomeEnabled] = useState(() => window.localStorage.getItem('openace_metronome') === 'on')
   const metronomeEnabledRef = useRef(false)
   const metronomeTimer = useRef<number | null>(null)
-  const metronomeScheduled = useRef<Set<number>>(new Set())
-  const metronomeNodes = useRef<{ osc: OscillatorNode; gain: GainNode; end: number }[]>([])
+  const metronomeSessions = useRef<{ id: number; project: Project; startTicks: number; startContextTime: number; endContextTime?: number; scheduled: Set<number> }[]>([])
+  const metronomeNodes = useRef<{ sessionId: number; osc: OscillatorNode; gain: GainNode; at: number; end: number }[]>([])
   const metronomeSession = useRef(0)
   metronomeEnabledRef.current = metronomeEnabled
   const [jobs, setJobs] = useState<RenderJob[]>([])
@@ -223,10 +253,11 @@ export default function App() {
   const lastDirectEdit = useRef<{ key: string; time: number }>({ key: '', time: 0 })
   const locallyDeletingProjectId = useRef<string | null>(null)
   const saveTimer = useRef<number | null>(null)
-  const playback = useRef<{ startMs: number; startTicks: number; startContextTime: number; raf: number; sources: AudioBufferSourceNode[]; transitionGains: GainNode[]; ctx?: AudioContext; starting?: boolean; generation: number; analysers: Record<string, AnalyserNode>; masterAnalyser?: AnalyserNode; loudnessNode?: AudioWorkletNode; loudnessSink?: GainNode; loudnessFeed?: GainNode; loudness: LoudnessReading }>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], transitionGains: [], starting: false, generation: 0, analysers: {}, loudness: emptyLoudnessReading() })
+  const playback = useRef<PlaybackState>({ startMs: 0, startTicks: 0, startContextTime: 0, raf: 0, sources: [], transitionGains: [], starting: false, generation: 0, analysers: {}, loudness: emptyLoudnessReading() })
   const playbackSnapshotRef = useRef('')
   const playbackRebuildTimer = useRef<number | null>(null)
   const loopRestarting = useRef(false)
+  const pendingLoopRestart = useRef<{ startTicks: number; endTicks: number; boundaryClock: number; scheduling: boolean } | null>(null)
   const loopRangeRef = useRef<{ start: number; end: number } | null>(null)
   const loopEnabledRef = useRef(false)
   loopRangeRef.current = loopRange
@@ -572,7 +603,7 @@ export default function App() {
     metronomeSession.current += 1
     if (metronomeTimer.current !== null) window.clearInterval(metronomeTimer.current)
     metronomeTimer.current = null
-    metronomeScheduled.current.clear()
+    metronomeSessions.current = []
     const nodes = metronomeNodes.current.splice(0)
     nodes.forEach(({ osc, gain }) => {
       try { osc.stop(0) } catch {}
@@ -581,50 +612,133 @@ export default function App() {
     })
   }, [])
 
-  const scheduleMetronome = useCallback((targetProject: Project) => {
-    clearMetronome()
+  const scheduleMetronome = useCallback((targetProject: Project, startTicks = playback.current.startTicks, startContextTime = playback.current.startContextTime, endContextTime?: number, replace = true) => {
+    if (replace) clearMetronome()
     const ctx = playback.current.ctx
     if (!ctx || !metronomeEnabledRef.current) return
-    const session = metronomeSession.current
-    const unit = beatUnitTicks(targetProject)
-    const numerator = Math.max(1, targetProject.time_signature.numerator)
-    const transportStartSeconds = ticksToSeconds(targetProject, playback.current.startTicks)
+    const session = {
+      id: ++metronomeSession.current,
+      project: targetProject,
+      startTicks,
+      startContextTime,
+      endContextTime,
+      scheduled: new Set<number>(),
+    }
+    metronomeSessions.current.push(session)
     const scheduleAhead = () => {
-      if (!metronomeEnabledRef.current || playback.current.ctx !== ctx || session !== metronomeSession.current) return
+      if (!metronomeEnabledRef.current || playback.current.ctx !== ctx) return
       const horizon = ctx.currentTime + 2.25
-      const elapsed = Math.max(0, ctx.currentTime - playback.current.startContextTime)
-      const nowTicks = secondsToTicks(targetProject, transportStartSeconds + elapsed)
-      let tick = Math.max(0, Math.floor(nowTicks / unit) * unit)
-      if (tick < nowTicks - 1) tick += unit
-      for (let count = 0; count < 96; count++, tick += unit) {
-        const at = playback.current.startContextTime + ticksToSeconds(targetProject, tick) - transportStartSeconds
-        if (at > horizon) break
-        if (at < ctx.currentTime + 0.01 || metronomeScheduled.current.has(tick)) continue
-        metronomeScheduled.current.add(tick)
-        const osc = ctx.createOscillator()
-        const gain = ctx.createGain()
-        const downbeat = Math.round(tick / unit) % numerator === 0
-        osc.frequency.value = downbeat ? 1760 : 1175
-        gain.gain.setValueAtTime(0.0001, at)
-        gain.gain.exponentialRampToValueAtTime(downbeat ? 0.22 : 0.14, at + 0.003)
-        gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.055)
-        osc.connect(gain).connect(ctx.destination)
-        metronomeNodes.current.push({ osc, gain, end: at + 0.075 })
-        osc.start(at)
-        osc.stop(at + 0.065)
+      for (const item of [...metronomeSessions.current]) {
+        const unit = beatUnitTicks(item.project)
+        const numerator = Math.max(1, item.project.time_signature.numerator)
+        const transportStartSeconds = ticksToSeconds(item.project, item.startTicks)
+        const elapsed = Math.max(0, ctx.currentTime - item.startContextTime)
+        const nowTicks = ctx.currentTime < item.startContextTime
+          ? item.startTicks
+          : secondsToTicks(item.project, transportStartSeconds + elapsed)
+        let tick = Math.max(0, Math.floor(nowTicks / unit) * unit)
+        if (tick < nowTicks - 1) tick += unit
+        for (let count = 0; count < 96; count++, tick += unit) {
+          const at = item.startContextTime + ticksToSeconds(item.project, tick) - transportStartSeconds
+          if (item.endContextTime !== undefined && at >= item.endContextTime - 0.0005) break
+          if (at > horizon) break
+          if (at < ctx.currentTime + 0.01 || item.scheduled.has(tick)) continue
+          item.scheduled.add(tick)
+          const osc = ctx.createOscillator()
+          const gain = ctx.createGain()
+          const downbeat = Math.round(tick / unit) % numerator === 0
+          osc.frequency.value = downbeat ? 1760 : 1175
+          gain.gain.setValueAtTime(0.0001, at)
+          gain.gain.exponentialRampToValueAtTime(downbeat ? 0.22 : 0.14, at + 0.003)
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.055)
+          osc.connect(gain).connect(ctx.destination)
+          metronomeNodes.current.push({ sessionId: item.id, osc, gain, at, end: at + 0.075 })
+          osc.start(at)
+          osc.stop(at + 0.065)
+        }
+        for (const tickValue of Array.from(item.scheduled)) {
+          const at = item.startContextTime + ticksToSeconds(item.project, tickValue) - transportStartSeconds
+          if (at < ctx.currentTime - 0.2) item.scheduled.delete(tickValue)
+        }
       }
+      metronomeSessions.current = metronomeSessions.current.filter(item => item.endContextTime === undefined || item.endContextTime >= ctx.currentTime - 0.3)
       metronomeNodes.current = metronomeNodes.current.filter(node => node.end >= ctx.currentTime - 0.2)
-      for (const tickValue of Array.from(metronomeScheduled.current)) {
-        const at = playback.current.startContextTime + ticksToSeconds(targetProject, tickValue) - transportStartSeconds
-        if (at < ctx.currentTime - 0.2) metronomeScheduled.current.delete(tickValue)
-      }
     }
     scheduleAhead()
-    if (session === metronomeSession.current) metronomeTimer.current = window.setInterval(scheduleAhead, 250)
+    if (metronomeTimer.current === null) metronomeTimer.current = window.setInterval(scheduleAhead, 180)
   }, [clearMetronome])
+
+  const capMetronomeSessionsAt = useCallback((clock: number) => {
+    for (const session of metronomeSessions.current) {
+      session.endContextTime = Math.min(session.endContextTime ?? Number.POSITIVE_INFINITY, clock)
+      const transportStartSeconds = ticksToSeconds(session.project, session.startTicks)
+      for (const tick of Array.from(session.scheduled)) {
+        const at = session.startContextTime + ticksToSeconds(session.project, tick) - transportStartSeconds
+        if (at >= clock - 0.0005) session.scheduled.delete(tick)
+      }
+    }
+    const canceled = metronomeNodes.current.filter(node => node.at >= clock - 0.0005)
+    metronomeNodes.current = metronomeNodes.current.filter(node => node.at < clock - 0.0005)
+    canceled.forEach(({ osc, gain }) => {
+      try { osc.stop(0) } catch {}
+      try { osc.disconnect() } catch {}
+      try { gain.disconnect() } catch {}
+    })
+  }, [])
+
+  const discardPendingLoopGraph = useCallback(() => {
+    const pending = playback.current.pendingGraph
+    if (pending) {
+      pending.sources.forEach(source => {
+        try { source.stop(0) } catch {}
+        try { source.disconnect() } catch {}
+      })
+      pending.transitionGains.forEach(gain => { try { gain.disconnect() } catch {} })
+      try { pending.masterAnalyser?.disconnect() } catch {}
+      if (pending.loudnessFeed && playback.current.loudnessNode) {
+        try { pending.loudnessFeed.disconnect(playback.current.loudnessNode) } catch {}
+      }
+    }
+    playback.current.pendingGraph = undefined
+    pendingLoopRestart.current = null
+  }, [])
+
+  const stopActiveSourcesAt = useCallback((clock: number) => {
+    playback.current.sources.forEach(source => {
+      try { source.stop(clock) } catch {}
+    })
+  }, [])
+
+  const commitPendingLoopGraph = useCallback(() => {
+    const pending = playback.current.pendingGraph
+    const meta = pendingLoopRestart.current
+    if (!pending || !meta) return false
+    const oldMasterAnalyser = playback.current.masterAnalyser
+    const oldLoudnessFeed = playback.current.loudnessFeed
+    const loudnessNode = playback.current.loudnessNode
+    playback.current.sources.forEach(source => { try { source.stop() } catch {} })
+    playback.current.sources = pending.sources
+    playback.current.transitionGains = pending.transitionGains
+    playback.current.analysers = pending.analysers
+    playback.current.masterAnalyser = pending.masterAnalyser
+    playback.current.loudnessFeed = pending.loudnessFeed
+    playback.current.startTicks = meta.startTicks
+    playback.current.startContextTime = meta.boundaryClock
+    playback.current.startMs = performance.now() - Math.max(0, ((playback.current.ctx?.currentTime || meta.boundaryClock) - meta.boundaryClock) * 1000)
+    playback.current.pendingGraph = undefined
+    pendingLoopRestart.current = null
+    window.setTimeout(() => {
+      try { oldMasterAnalyser?.disconnect() } catch {}
+      if (oldLoudnessFeed && loudnessNode) {
+        try { oldLoudnessFeed.disconnect(loudnessNode) } catch {}
+      }
+    }, 120)
+    return true
+  }, [])
 
   const stopPlaybackAudio = useCallback(() => {
     clearMetronome()
+    discardPendingLoopGraph()
     playback.current.generation += 1
     playback.current.sources.forEach(source => { try { source.stop() } catch {} })
     playback.current.sources = []
@@ -643,7 +757,7 @@ export default function App() {
     }, 30)
     // Keep the context alive: decoder and node creation are reused across transport starts.
     playback.current.ctx = undefined
-  }, [clearMetronome])
+  }, [clearMetronome, discardPendingLoopGraph])
 
   const getTrackLevel = useCallback((trackId: string) => analyserPeakLevel(playback.current.analysers[trackId]), [])
   const getMasterLevel = useCallback(() => analyserPeakLevel(playback.current.masterAnalyser), [])
@@ -683,6 +797,7 @@ export default function App() {
   }, [])
 
   const fadeOutPlaybackGraph = useCallback((fadeSeconds = 0.09) => {
+    discardPendingLoopGraph()
     const ctx = playback.current.ctx
     const oldSources = playback.current.sources
     const oldGains = playback.current.transitionGains
@@ -719,11 +834,12 @@ export default function App() {
       } catch {}
     })
     window.setTimeout(cleanup, Math.ceil((fadeSeconds + 0.08) * 1000))
-  }, [])
+  }, [discardPendingLoopGraph])
 
-  const schedulePlayback = useCallback(async (targetProject: Project, startTicks: number, continuous = false, transitionFadeInSeconds = 0) => {
-    const generation = playback.current.generation + 1
-    playback.current.generation = generation
+  const schedulePlayback = useCallback(async (targetProject: Project, startTicks: number, continuous = false, transitionFadeInSeconds = 0, deferredStartClock?: number) => {
+    const deferred = deferredStartClock !== undefined && Number.isFinite(deferredStartClock)
+    const generation = deferred ? playback.current.generation : playback.current.generation + 1
+    if (!deferred) playback.current.generation = generation
     const rendered = targetProject.tracks
       .map(track => {
         const clipPaths = new Set((track.clips || []).map(clip => clip.path))
@@ -745,9 +861,11 @@ export default function App() {
     const audible = rendered.filter(track => !anySolo || track.solo)
     const ctx = playbackContext()
     playback.current.ctx = ctx
-    playback.current.startMs = performance.now()
-    playback.current.startTicks = startTicks
-    playback.current.startContextTime = ctx?.currentTime || 0
+    if (!deferred) {
+      playback.current.startMs = performance.now()
+      playback.current.startTicks = startTicks
+      playback.current.startContextTime = ctx?.currentTime || 0
+    }
     const tracksAndBuffers = await Promise.all(audible.flatMap(track => track.playbackSources.map(async sourceSpec => {
       const url = renderFileUrl(sourceSpec.path)
       if (!url || !ctx) return null
@@ -757,13 +875,13 @@ export default function App() {
       } catch { return null }
     })))
     if (playback.current.generation !== generation) return false
-    playback.current.analysers = {}
+    const nextAnalysers: Record<string, AnalyserNode> = {}
     const masterInput = ctx.createGain()
     const masterAnalyser = ctx.createAnalyser()
     masterAnalyser.fftSize = 512
     masterInput.connect(masterAnalyser)
     masterAnalyser.connect(ctx.destination)
-    playback.current.masterAnalyser = masterAnalyser
+    let nextLoudnessFeed: GainNode | undefined
     try {
       if (ctx.audioWorklet) {
         await ctx.audioWorklet.addModule('/loudness-worklet.js')
@@ -794,18 +912,24 @@ export default function App() {
           playback.current.loudnessSink = loudnessSink
         }
         masterInput.connect(loudnessNode)
-        playback.current.loudnessFeed = masterInput
+        nextLoudnessFeed = masterInput
       }
     } catch {
       playback.current.loudness.available = false
     }
-    if (!continuous) {
+    if (!continuous && !deferred) {
       playback.current.startMs = performance.now()
       playback.current.startTicks = startTicks
       playback.current.startContextTime = ctx?.currentTime || 0
     }
-    const scheduleOffsetSeconds = continuous && ctx
-      ? ticksToSeconds(targetProject, playback.current.startTicks) + (ctx.currentTime - playback.current.startContextTime)
+    const baseClock = deferred ? deferredStartClock! : ctx.currentTime
+    if (deferred && baseClock <= ctx.currentTime + 0.003) {
+      try { masterInput.disconnect() } catch {}
+      try { masterAnalyser.disconnect() } catch {}
+      return false
+    }
+    const scheduleOffsetSeconds = continuous && !deferred
+      ? ticksToSeconds(targetProject, playback.current.startTicks) + (baseClock - playback.current.startContextTime)
       : ticksToSeconds(targetProject, startTicks)
     const trackInputs = new Map<string, GainNode>()
     const inputForTrack = (track: Track) => {
@@ -816,13 +940,13 @@ export default function App() {
       volume.gain.value = track.volume
       const panner = ctx.createStereoPanner()
       panner.pan.value = track.pan
-      scheduleTrackMixAutomation(volume.gain, ctx, targetProject, track, 'volume', track.volume, scheduleOffsetSeconds)
-      scheduleTrackMixAutomation(panner.pan, ctx, targetProject, track, 'pan', track.pan, scheduleOffsetSeconds)
+      scheduleTrackMixAutomation(volume.gain, ctx, targetProject, track, 'volume', track.volume, scheduleOffsetSeconds, baseClock)
+      scheduleTrackMixAutomation(panner.pan, ctx, targetProject, track, 'pan', track.pan, scheduleOffsetSeconds, baseClock)
       const analyser = ctx.createAnalyser()
       analyser.fftSize = 512
       input.connect(volume).connect(panner).connect(analyser)
       analyser.connect(masterInput)
-      playback.current.analysers[track.id] = analyser
+      nextAnalysers[track.id] = analyser
       trackInputs.set(track.id, input)
       return input
     }
@@ -845,7 +969,7 @@ export default function App() {
         ? tickDurationSeconds(targetProject, item.sourceStartTicks, item.sourceDurationTicks)
         : Math.max(0, item.buffer.duration - sourceOffsetSeconds)
       const localOffset = scheduleOffsetSeconds - sourceStartSeconds
-      const clipStartClock = ctx.currentTime - localOffset
+      const clipStartClock = baseClock - localOffset
       const fadeInSeconds = tickDurationSeconds(targetProject, item.sourceStartTicks, item.fadeInTicks || 0)
       const clipEndTicks = item.sourceStartTicks + (item.sourceDurationTicks || 0)
       const fadeOutSeconds = item.sourceDurationTicks
@@ -872,25 +996,25 @@ export default function App() {
           }
         }
       }
-      const audibleStartClock = Math.max(ctx.currentTime, clipStartClock + positionNow)
+      const audibleStartClock = Math.max(baseClock, clipStartClock + positionNow)
       gain.gain.setValueAtTime(Math.max(0.0001, baseGain * fadeGainAt(positionNow)), audibleStartClock)
       let lastClock = audibleStartClock
       for (const position of Array.from(automationPositions).sort((a, b) => a - b)) {
         if (position <= positionNow + 0.0001 || position > clipDurationSeconds + 0.0001) continue
         const clock = clipStartClock + position
-        if (clock <= ctx.currentTime + 0.001 || clock <= lastClock + 0.0005) continue
+        if (clock <= baseClock + 0.001 || clock <= lastClock + 0.0005) continue
         gain.gain.linearRampToValueAtTime(Math.max(0.0001, baseGain * fadeGainAt(position)), clock)
         lastClock = clock
       }
       if (localOffset >= 0 && localOffset < clipDurationSeconds) {
         const audioOffset = sourceOffsetSeconds + localOffset
         const remaining = Math.max(0.01, clipDurationSeconds - localOffset)
-        source.start(ctx.currentTime, Math.min(Math.max(0, item.buffer.duration - 0.03), audioOffset), remaining)
+        source.start(baseClock, Math.min(Math.max(0, item.buffer.duration - 0.03), audioOffset), remaining)
       } else if (localOffset < 0) {
-        source.start(ctx.currentTime - localOffset, sourceOffsetSeconds, Math.max(0.01, clipDurationSeconds))
+        source.start(baseClock - localOffset, sourceOffsetSeconds, Math.max(0.01, clipDurationSeconds))
       }
       if (transitionFadeInSeconds > 0.001) {
-        const now = ctx.currentTime
+        const now = baseClock
         const curve = new Float32Array(17)
         for (let step = 0; step < curve.length; step++) curve[step] = Math.max(0.0001, Math.sin((step / (curve.length - 1)) * Math.PI / 2))
         transitionGain.gain.setValueCurveAtTime(curve, now, transitionFadeInSeconds)
@@ -898,10 +1022,27 @@ export default function App() {
       nextSources.push(source)
       nextTransitionGains.push(transitionGain)
     }
-    playback.current.sources = nextSources
-    playback.current.transitionGains = nextTransitionGains
     if (playback.current.generation !== generation) return false
-    scheduleMetronome(targetProject)
+    const graph: PlaybackGraph = {
+      sources: nextSources,
+      transitionGains: nextTransitionGains,
+      analysers: nextAnalysers,
+      masterAnalyser,
+      loudnessFeed: nextLoudnessFeed,
+      startTicks,
+      startContextTime: baseClock,
+    }
+    if (deferred) {
+      playback.current.pendingGraph = graph
+      scheduleMetronome(targetProject, startTicks, baseClock, undefined, false)
+    } else {
+      playback.current.sources = nextSources
+      playback.current.transitionGains = nextTransitionGains
+      playback.current.analysers = nextAnalysers
+      playback.current.masterAnalyser = masterAnalyser
+      playback.current.loudnessFeed = nextLoudnessFeed
+      scheduleMetronome(targetProject)
+    }
     return true
   }, [scheduleMetronome])
 
@@ -932,17 +1073,30 @@ export default function App() {
     if (snapshot === playbackSnapshotRef.current) return
     playbackSnapshotRef.current = snapshot
     if (playbackRebuildTimer.current) window.clearTimeout(playbackRebuildTimer.current)
-    playbackRebuildTimer.current = window.setTimeout(() => {
+    const attemptRebuild = () => {
       playbackRebuildTimer.current = null
       void (async () => {
         const current = projectRef.current
         if (!current || !playing) return
-        const elapsed = playback.current.ctx ? playback.current.ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
+        const ctx = playback.current.ctx
+        const activeLoop = loopEnabledRef.current ? loopRangeRef.current : null
+        let boundaryClock: number | null = null
+        if (ctx && activeLoop) {
+          const epochStartSeconds = ticksToSeconds(current, playback.current.startTicks)
+          boundaryClock = playback.current.startContextTime + ticksToSeconds(current, activeLoop.end) - epochStartSeconds
+        }
+        const timeUntilBoundary = ctx && boundaryClock !== null ? boundaryClock - ctx.currentTime : Number.POSITIVE_INFINITY
+        if (pendingLoopRestart.current || (timeUntilBoundary > 0 && timeUntilBoundary < 0.55)) {
+          playbackRebuildTimer.current = window.setTimeout(attemptRebuild, 80)
+          return
+        }
+        const elapsed = ctx ? ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
         const ticks = secondsToTicks(current, ticksToSeconds(current, playback.current.startTicks) + elapsed)
         fadeOutPlaybackGraph()
         await schedulePlayback(current, ticks, true, 0.09)
       })()
-    }, 120)
+    }
+    playbackRebuildTimer.current = window.setTimeout(attemptRebuild, 120)
   }, [project, playing, schedulePlayback, stopPlaybackAudio, fadeOutPlaybackGraph])
 
   useEffect(() => {
@@ -989,16 +1143,45 @@ export default function App() {
     const step = () => {
       const current = projectRef.current
       if (!current) return
-      const elapsed = playback.current.ctx ? playback.current.ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
-      let ticks = secondsToTicks(current, ticksToSeconds(current, playback.current.startTicks) + elapsed)
+      const ctx = playback.current.ctx
       const activeLoop = loopEnabledRef.current ? loopRangeRef.current : null
+      const pending = pendingLoopRestart.current
+      if (pending && (!activeLoop || pending.startTicks !== activeLoop.start || pending.endTicks !== activeLoop.end)) {
+        discardPendingLoopGraph()
+        clearMetronome()
+        if (ctx && metronomeEnabledRef.current) scheduleMetronome(current)
+      }
+      if (ctx && pendingLoopRestart.current && ctx.currentTime >= pendingLoopRestart.current.boundaryClock) {
+        if (!commitPendingLoopGraph()) pendingLoopRestart.current = null
+      }
+      const elapsed = ctx ? ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
+      let ticks = secondsToTicks(current, ticksToSeconds(current, playback.current.startTicks) + elapsed)
+      if (activeLoop && ctx && !pendingLoopRestart.current) {
+        const epochStartSeconds = ticksToSeconds(current, playback.current.startTicks)
+        const boundaryClock = playback.current.startContextTime + ticksToSeconds(current, activeLoop.end) - epochStartSeconds
+        const timeUntilBoundary = boundaryClock - ctx.currentTime
+        if (timeUntilBoundary > 0.025 && timeUntilBoundary < 0.45) {
+          const pendingRestart = { startTicks: activeLoop.start, endTicks: activeLoop.end, boundaryClock, scheduling: true }
+          pendingLoopRestart.current = pendingRestart
+          stopActiveSourcesAt(boundaryClock)
+          capMetronomeSessionsAt(boundaryClock)
+          void schedulePlayback(current, activeLoop.start, false, 0, boundaryClock).then(success => {
+            if (!success && pendingLoopRestart.current === pendingRestart) pendingLoopRestart.current = null
+          })
+        }
+      }
       if (activeLoop && ticks >= activeLoop.end && !loopRestarting.current) {
-        loopRestarting.current = true
-        const span = Math.max(1, activeLoop.end - activeLoop.start)
-        const restartTicks = activeLoop.start + ((ticks - activeLoop.end) % span)
-        ticks = restartTicks
-        stopPlaybackAudio()
-        void schedulePlayback(current, restartTicks).finally(() => { loopRestarting.current = false })
+        const activePending = pendingLoopRestart.current
+        if (activePending && playback.current.pendingGraph && ctx && ctx.currentTime < activePending.boundaryClock + 0.05) {
+          ticks = activeLoop.end
+        } else {
+          loopRestarting.current = true
+          const span = Math.max(1, activeLoop.end - activeLoop.start)
+          const restartTicks = activeLoop.start + ((ticks - activeLoop.end) % span)
+          ticks = restartTicks
+          stopPlaybackAudio()
+          void schedulePlayback(current, restartTicks).finally(() => { loopRestarting.current = false })
+        }
       }
       setPlayheadTicks(Math.floor(ticks))
       playback.current.raf = requestAnimationFrame(step)
@@ -1006,7 +1189,7 @@ export default function App() {
     playback.current.raf = requestAnimationFrame(step)
     playback.current.starting = false
     setPlaying(true)
-  }, [project, playing, playheadTicks, schedulePlayback, stopPlaybackAudio])
+  }, [project, playing, playheadTicks, schedulePlayback, stopPlaybackAudio, capMetronomeSessionsAt, clearMetronome, commitPendingLoopGraph, discardPendingLoopGraph, scheduleMetronome, stopActiveSourcesAt])
 
   const stop = useCallback(() => {
     setPlaying(false)

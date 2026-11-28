@@ -1,0 +1,51 @@
+{
+  "tempo_map": [
+    {
+      "ticks": 960,
+      "bpm": 130.0,
+      "curve": "step"
+    }
+  ],
+  "click_stats": {
+    "audible_count": 14,
+    "canceled_future_noise": 8,
+    "exact_audible_duplicate_count": 0,
+    "intervals": [
+      0.5,
+      0.461538,
+      0.461538,
+      0.5,
+      0.5,
+      0.461538,
+      0.461538,
+      0.5,
+      0.5,
+      0.461538,
+      0.461538,
+      0.461538,
+      0.461538
+    ],
+    "short_intervals_under350ms": 0,
+    "min_interval_ms": 461.538,
+    "max_interval_ms": 500.0,
+    "freqs": [
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175
+    ]
+  },
+  "console": [],
+  "pageerrors": [],
+  "network_failures": []
+}

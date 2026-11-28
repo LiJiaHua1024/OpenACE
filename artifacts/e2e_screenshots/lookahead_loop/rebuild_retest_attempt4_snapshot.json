@@ -1,0 +1,6329 @@
+{
+  "nodes": [
+    {
+      "id": 1,
+      "type": "gain",
+      "createdAt": 0.7662585034013606,
+      "events": []
+    },
+    {
+      "id": 2,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 3,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 4,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 5,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 6,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 7,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 8,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 9,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 10,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 11,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 12,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 13,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 14,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 15,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 16,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 17,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 18,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 19,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 20,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 21,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 22,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 23,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 24,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 25,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 26,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 27,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 28,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 29,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 30,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 31,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 32,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 33,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 34,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 35,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 36,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 37,
+      "type": "bufferSource",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 38,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 39,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 40,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 41,
+      "type": "gain",
+      "createdAt": 0.7778684807256235,
+      "events": []
+    },
+    {
+      "id": 42,
+      "type": "bufferSource",
+      "createdAt": 0.7807709750566894,
+      "events": []
+    },
+    {
+      "id": 43,
+      "type": "gain",
+      "createdAt": 0.7807709750566894,
+      "events": []
+    },
+    {
+      "id": 44,
+      "type": "gain",
+      "createdAt": 0.7807709750566894,
+      "events": []
+    },
+    {
+      "id": 45,
+      "type": "bufferSource",
+      "createdAt": 0.7807709750566894,
+      "events": []
+    },
+    {
+      "id": 46,
+      "type": "gain",
+      "createdAt": 0.7807709750566894,
+      "events": []
+    },
+    {
+      "id": 47,
+      "type": "gain",
+      "createdAt": 0.7807709750566894,
+      "events": []
+    },
+    {
+      "id": 48,
+      "type": "gain",
+      "createdAt": 0.7807709750566894,
+      "events": []
+    },
+    {
+      "id": 49,
+      "type": "gain",
+      "createdAt": 0.7807709750566894,
+      "events": []
+    },
+    {
+      "id": 50,
+      "type": "bufferSource",
+      "createdAt": 0.7836734693877551,
+      "events": []
+    },
+    {
+      "id": 51,
+      "type": "gain",
+      "createdAt": 0.7836734693877551,
+      "events": []
+    },
+    {
+      "id": 52,
+      "type": "gain",
+      "createdAt": 0.7836734693877551,
+      "events": []
+    },
+    {
+      "id": 53,
+      "type": "oscillator",
+      "createdAt": 0.8010884353741496,
+      "events": []
+    },
+    {
+      "id": 54,
+      "type": "gain",
+      "createdAt": 0.8010884353741496,
+      "events": []
+    },
+    {
+      "id": 55,
+      "type": "oscillator",
+      "createdAt": 0.8010884353741496,
+      "events": []
+    },
+    {
+      "id": 56,
+      "type": "gain",
+      "createdAt": 0.8010884353741496,
+      "events": []
+    },
+    {
+      "id": 57,
+      "type": "oscillator",
+      "createdAt": 0.8010884353741496,
+      "events": []
+    },
+    {
+      "id": 58,
+      "type": "gain",
+      "createdAt": 0.8010884353741496,
+      "events": []
+    },
+    {
+      "id": 59,
+      "type": "oscillator",
+      "createdAt": 0.8010884353741496,
+      "events": []
+    },
+    {
+      "id": 60,
+      "type": "gain",
+      "createdAt": 0.8010884353741496,
+      "events": []
+    },
+    {
+      "id": 61,
+      "type": "oscillator",
+      "createdAt": 1.18421768707483,
+      "events": []
+    },
+    {
+      "id": 62,
+      "type": "gain",
+      "createdAt": 1.18421768707483,
+      "events": []
+    },
+    {
+      "id": 63,
+      "type": "oscillator",
+      "createdAt": 1.5441269841269842,
+      "events": []
+    },
+    {
+      "id": 64,
+      "type": "gain",
+      "createdAt": 1.5441269841269842,
+      "events": []
+    },
+    {
+      "id": 65,
+      "type": "oscillator",
+      "createdAt": 2.066575963718821,
+      "events": []
+    },
+    {
+      "id": 66,
+      "type": "gain",
+      "createdAt": 2.066575963718821,
+      "events": []
+    },
+    {
+      "id": 67,
+      "type": "gain",
+      "createdAt": 2.3336054421768706,
+      "events": []
+    },
+    {
+      "id": 68,
+      "type": "bufferSource",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 69,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 70,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 71,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 72,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 73,
+      "type": "bufferSource",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 74,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 75,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 76,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 77,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 78,
+      "type": "bufferSource",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 79,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 80,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 81,
+      "type": "bufferSource",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 82,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 83,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 84,
+      "type": "bufferSource",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 85,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 86,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 87,
+      "type": "bufferSource",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 88,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 89,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 90,
+      "type": "bufferSource",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 91,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 92,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 93,
+      "type": "bufferSource",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 94,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 95,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 96,
+      "type": "bufferSource",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 97,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 98,
+      "type": "gain",
+      "createdAt": 2.36843537414966,
+      "events": []
+    },
+    {
+      "id": 99,
+      "type": "bufferSource",
+      "createdAt": 2.374240362811791,
+      "events": []
+    },
+    {
+      "id": 100,
+      "type": "gain",
+      "createdAt": 2.3771428571428572,
+      "events": []
+    },
+    {
+      "id": 101,
+      "type": "gain",
+      "createdAt": 2.3771428571428572,
+      "events": []
+    },
+    {
+      "id": 102,
+      "type": "bufferSource",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 103,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 104,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 105,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 106,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 107,
+      "type": "bufferSource",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 108,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 109,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 110,
+      "type": "bufferSource",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 111,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 112,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 113,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 114,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 115,
+      "type": "bufferSource",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 116,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 117,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 118,
+      "type": "oscillator",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 119,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 120,
+      "type": "oscillator",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 121,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 122,
+      "type": "oscillator",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 123,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 124,
+      "type": "oscillator",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 125,
+      "type": "gain",
+      "createdAt": 2.380045351473923,
+      "events": []
+    },
+    {
+      "id": 126,
+      "type": "oscillator",
+      "createdAt": 2.6586848072562357,
+      "events": []
+    },
+    {
+      "id": 127,
+      "type": "gain",
+      "createdAt": 2.6586848072562357,
+      "events": []
+    },
+    {
+      "id": 128,
+      "type": "gain",
+      "createdAt": 2.8908843537414968,
+      "events": []
+    },
+    {
+      "id": 129,
+      "type": "bufferSource",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 130,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 131,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 132,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 133,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 134,
+      "type": "bufferSource",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 135,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 136,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 137,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 138,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 139,
+      "type": "bufferSource",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 140,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 141,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 142,
+      "type": "bufferSource",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 143,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 144,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 145,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 146,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 147,
+      "type": "bufferSource",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 148,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 149,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 150,
+      "type": "oscillator",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 151,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 152,
+      "type": "oscillator",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 153,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 154,
+      "type": "oscillator",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 155,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 156,
+      "type": "oscillator",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 157,
+      "type": "gain",
+      "createdAt": 2.9373242630385485,
+      "events": []
+    },
+    {
+      "id": 158,
+      "type": "oscillator",
+      "createdAt": 3.1463038548752835,
+      "events": []
+    },
+    {
+      "id": 159,
+      "type": "gain",
+      "createdAt": 3.1463038548752835,
+      "events": []
+    },
+    {
+      "id": 160,
+      "type": "oscillator",
+      "createdAt": 3.7035827664399092,
+      "events": []
+    },
+    {
+      "id": 161,
+      "type": "gain",
+      "createdAt": 3.7035827664399092,
+      "events": []
+    },
+    {
+      "id": 162,
+      "type": "oscillator",
+      "createdAt": 4.028662131519274,
+      "events": []
+    },
+    {
+      "id": 163,
+      "type": "gain",
+      "createdAt": 4.028662131519274,
+      "events": []
+    },
+    {
+      "id": 164,
+      "type": "gain",
+      "createdAt": 4.330521541950113,
+      "events": []
+    },
+    {
+      "id": 165,
+      "type": "bufferSource",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 166,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 167,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 168,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 169,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 170,
+      "type": "bufferSource",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 171,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 172,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 173,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 174,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 175,
+      "type": "bufferSource",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 176,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 177,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 178,
+      "type": "bufferSource",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 179,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 180,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 181,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 182,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 183,
+      "type": "bufferSource",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 184,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 185,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 186,
+      "type": "oscillator",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 187,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 188,
+      "type": "oscillator",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 189,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 190,
+      "type": "oscillator",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 191,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 192,
+      "type": "oscillator",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 193,
+      "type": "gain",
+      "createdAt": 4.365351473922902,
+      "events": []
+    },
+    {
+      "id": 194,
+      "type": "gain",
+      "createdAt": 4.876190476190477,
+      "events": []
+    },
+    {
+      "id": 195,
+      "type": "bufferSource",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 196,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 197,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 198,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 199,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 200,
+      "type": "bufferSource",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 201,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 202,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 203,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 204,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 205,
+      "type": "bufferSource",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 206,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 207,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 208,
+      "type": "bufferSource",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 209,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 210,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 211,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 212,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 213,
+      "type": "bufferSource",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 214,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 215,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 216,
+      "type": "oscillator",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 217,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 218,
+      "type": "oscillator",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 219,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 220,
+      "type": "oscillator",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 221,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 222,
+      "type": "oscillator",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 223,
+      "type": "gain",
+      "createdAt": 4.887800453514739,
+      "events": []
+    },
+    {
+      "id": 224,
+      "type": "oscillator",
+      "createdAt": 5.259319727891157,
+      "events": []
+    },
+    {
+      "id": 225,
+      "type": "gain",
+      "createdAt": 5.259319727891157,
+      "events": []
+    },
+    {
+      "id": 226,
+      "type": "oscillator",
+      "createdAt": 5.804988662131519,
+      "events": []
+    },
+    {
+      "id": 227,
+      "type": "gain",
+      "createdAt": 5.804988662131519,
+      "events": []
+    },
+    {
+      "id": 228,
+      "type": "oscillator",
+      "createdAt": 6.164897959183674,
+      "events": []
+    },
+    {
+      "id": 229,
+      "type": "gain",
+      "createdAt": 6.164897959183674,
+      "events": []
+    },
+    {
+      "id": 230,
+      "type": "gain",
+      "createdAt": 6.443537414965986,
+      "events": []
+    },
+    {
+      "id": 231,
+      "type": "bufferSource",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 232,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 233,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 234,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 235,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 236,
+      "type": "bufferSource",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 237,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 238,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 239,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 240,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 241,
+      "type": "bufferSource",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 242,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 243,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 244,
+      "type": "bufferSource",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 245,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 246,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 247,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 248,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 249,
+      "type": "bufferSource",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 250,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 251,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 252,
+      "type": "oscillator",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 253,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 254,
+      "type": "oscillator",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 255,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 256,
+      "type": "oscillator",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 257,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 258,
+      "type": "oscillator",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 259,
+      "type": "gain",
+      "createdAt": 6.478367346938776,
+      "events": []
+    },
+    {
+      "id": 260,
+      "type": "oscillator",
+      "createdAt": 6.733786848072563,
+      "events": []
+    },
+    {
+      "id": 261,
+      "type": "gain",
+      "createdAt": 6.733786848072563,
+      "events": []
+    },
+    {
+      "id": 262,
+      "type": "gain",
+      "createdAt": 6.942766439909297,
+      "events": []
+    },
+    {
+      "id": 263,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 264,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 265,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 266,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 267,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 268,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 269,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 270,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 271,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 272,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 273,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 274,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 275,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 276,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 277,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 278,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 279,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 280,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 281,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 282,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 283,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 284,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 285,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 286,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 287,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 288,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 289,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 290,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 291,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 292,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 293,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 294,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 295,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 296,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 297,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 298,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 299,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 300,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 301,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 302,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 303,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 304,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 305,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 306,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 307,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 308,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 309,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 310,
+      "type": "bufferSource",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 311,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 312,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 313,
+      "type": "oscillator",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 314,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 315,
+      "type": "oscillator",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 316,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 317,
+      "type": "oscillator",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 318,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 319,
+      "type": "oscillator",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 320,
+      "type": "gain",
+      "createdAt": 6.977596371882086,
+      "events": []
+    },
+    {
+      "id": 321,
+      "type": "oscillator",
+      "createdAt": 7.174965986394557,
+      "events": []
+    },
+    {
+      "id": 322,
+      "type": "gain",
+      "createdAt": 7.174965986394557,
+      "events": []
+    },
+    {
+      "id": 323,
+      "type": "oscillator",
+      "createdAt": 7.732244897959184,
+      "events": []
+    },
+    {
+      "id": 324,
+      "type": "gain",
+      "createdAt": 7.732244897959184,
+      "events": []
+    },
+    {
+      "id": 325,
+      "type": "oscillator",
+      "createdAt": 8.25469387755102,
+      "events": []
+    },
+    {
+      "id": 326,
+      "type": "gain",
+      "createdAt": 8.25469387755102,
+      "events": []
+    },
+    {
+      "id": 327,
+      "type": "gain",
+      "createdAt": 8.823582766439909,
+      "events": []
+    },
+    {
+      "id": 328,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 329,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 330,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 331,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 332,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 333,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 334,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 335,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 336,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 337,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 338,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 339,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 340,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 341,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 342,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 343,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 344,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 345,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 346,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 347,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 348,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 349,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 350,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 351,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 352,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 353,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 354,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 355,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 356,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 357,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 358,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 359,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 360,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 361,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 362,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 363,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 364,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 365,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 366,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 367,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 368,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 369,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 370,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 371,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 372,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 373,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 374,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 375,
+      "type": "bufferSource",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 376,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 377,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 378,
+      "type": "oscillator",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 379,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 380,
+      "type": "oscillator",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 381,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 382,
+      "type": "oscillator",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 383,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 384,
+      "type": "oscillator",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 385,
+      "type": "gain",
+      "createdAt": 8.846802721088435,
+      "events": []
+    },
+    {
+      "id": 386,
+      "type": "oscillator",
+      "createdAt": 9.229931972789116,
+      "events": []
+    },
+    {
+      "id": 387,
+      "type": "gain",
+      "createdAt": 9.229931972789116,
+      "events": []
+    },
+    {
+      "id": 388,
+      "type": "oscillator",
+      "createdAt": 9.601451247165533,
+      "events": []
+    },
+    {
+      "id": 389,
+      "type": "gain",
+      "createdAt": 9.601451247165533,
+      "events": []
+    },
+    {
+      "id": 390,
+      "type": "oscillator",
+      "createdAt": 10.12390022675737,
+      "events": []
+    },
+    {
+      "id": 391,
+      "type": "gain",
+      "createdAt": 10.12390022675737,
+      "events": []
+    },
+    {
+      "id": 392,
+      "type": "gain",
+      "createdAt": 10.402539682539683,
+      "events": []
+    },
+    {
+      "id": 393,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 394,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 395,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 396,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 397,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 398,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 399,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 400,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 401,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 402,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 403,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 404,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 405,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 406,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 407,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 408,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 409,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 410,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 411,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 412,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 413,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 414,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 415,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 416,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 417,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 418,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 419,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 420,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 421,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 422,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 423,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 424,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 425,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 426,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 427,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 428,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 429,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 430,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 431,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 432,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 433,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 434,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 435,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 436,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 437,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 438,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 439,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 440,
+      "type": "bufferSource",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 441,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 442,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 443,
+      "type": "oscillator",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 444,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 445,
+      "type": "oscillator",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 446,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 447,
+      "type": "oscillator",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 448,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 449,
+      "type": "oscillator",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 450,
+      "type": "gain",
+      "createdAt": 10.460589569160998,
+      "events": []
+    },
+    {
+      "id": 451,
+      "type": "oscillator",
+      "createdAt": 10.727619047619047,
+      "events": []
+    },
+    {
+      "id": 452,
+      "type": "gain",
+      "createdAt": 10.727619047619047,
+      "events": []
+    },
+    {
+      "id": 453,
+      "type": "gain",
+      "createdAt": 10.948208616780045,
+      "events": []
+    },
+    {
+      "id": 454,
+      "type": "bufferSource",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 455,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 456,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 457,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 458,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 459,
+      "type": "bufferSource",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 460,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 461,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 462,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 463,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 464,
+      "type": "bufferSource",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 465,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 466,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 467,
+      "type": "bufferSource",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 468,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 469,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 470,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 471,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 472,
+      "type": "bufferSource",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 473,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 474,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 475,
+      "type": "oscillator",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 476,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 477,
+      "type": "oscillator",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 478,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 479,
+      "type": "oscillator",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 480,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 481,
+      "type": "oscillator",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 482,
+      "type": "gain",
+      "createdAt": 10.994648526077098,
+      "events": []
+    },
+    {
+      "id": 483,
+      "type": "oscillator",
+      "createdAt": 11.19201814058957,
+      "events": []
+    },
+    {
+      "id": 484,
+      "type": "gain",
+      "createdAt": 11.19201814058957,
+      "events": []
+    },
+    {
+      "id": 485,
+      "type": "oscillator",
+      "createdAt": 11.737687074829932,
+      "events": []
+    },
+    {
+      "id": 486,
+      "type": "gain",
+      "createdAt": 11.737687074829932,
+      "events": []
+    },
+    {
+      "id": 487,
+      "type": "oscillator",
+      "createdAt": 12.283356009070294,
+      "events": []
+    },
+    {
+      "id": 488,
+      "type": "gain",
+      "createdAt": 12.283356009070294,
+      "events": []
+    },
+    {
+      "id": 489,
+      "type": "gain",
+      "createdAt": 12.712925170068027,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.712925170068027,
+          "perf": 13.00119999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.013800000011921,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.872380952380952,
+          "perf": 15.16190000000596,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 490,
+      "type": "bufferSource",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20.90907029478458,
+          "currentTime": 12.72453514739229,
+          "perf": 13.013800000011921,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 12.72453514739229,
+          "frequency": null,
+          "bufferDuration": 20.90907029478458,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 20.90907029478458
+        },
+        {
+          "kind": "stop",
+          "when": 14.72453514739229,
+          "frequency": null,
+          "bufferDuration": 20.90907029478458,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": null,
+          "bufferDuration": 20.90907029478458,
+          "currentTime": 14.733061224489797,
+          "perf": 15.018,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 491,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.013800000011921,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 492,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 493,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 494,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 495,
+      "type": "bufferSource",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 13.22453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 1.25
+        },
+        {
+          "kind": "stop",
+          "when": 14.72453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.733061224489797,
+          "perf": 15.018,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 496,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 497,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 498,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 499,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 500,
+      "type": "bufferSource",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01409999999404,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 14.47453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01409999999404,
+          "ok": true,
+          "error": null,
+          "offset": 1.75,
+          "duration": 20.05
+        },
+        {
+          "kind": "stop",
+          "when": 14.72453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.733061224489797,
+          "perf": 15.018,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 501,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01409999999404,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 502,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01409999999404,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 503,
+      "type": "bufferSource",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01409999999404,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 13.22453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 1.25
+        },
+        {
+          "kind": "stop",
+          "when": 14.72453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.733061224489797,
+          "perf": 15.018,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 504,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01409999999404,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 505,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 506,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 507,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 508,
+      "type": "bufferSource",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 14.47453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null,
+          "offset": 1.75,
+          "duration": 20.05
+        },
+        {
+          "kind": "stop",
+          "when": 14.72453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.733061224489797,
+          "perf": 15.018099999994039,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 509,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 510,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 511,
+      "type": "oscillator",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 13.22453514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 13.28953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 512,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 513,
+      "type": "oscillator",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 13.72453514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 13.78953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 514,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.01419999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 515,
+      "type": "oscillator",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014300000011922,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 14.22453514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014300000011922,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 14.28953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014300000011922,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 516,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014300000011922,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 517,
+      "type": "oscillator",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014300000011922,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 14.72453514739229,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014300000011922,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 14.78953514739229,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014300000011922,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 518,
+      "type": "gain",
+      "createdAt": 12.72453514739229,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 12.72453514739229,
+          "perf": 13.014300000011922,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 519,
+      "type": "oscillator",
+      "createdAt": 13.10766439909297,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 13.10766439909297,
+          "perf": 13.397199999988079,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.22453514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 13.10766439909297,
+          "perf": 13.397199999988079,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 15.28953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 13.10766439909297,
+          "perf": 13.397199999988079,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 520,
+      "type": "gain",
+      "createdAt": 13.10766439909297,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 13.10766439909297,
+          "perf": 13.397199999988079,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 521,
+      "type": "oscillator",
+      "createdAt": 13.64172335600907,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 13.64172335600907,
+          "perf": 13.93719999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.72453514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 13.64172335600907,
+          "perf": 13.93719999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 15.78953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 13.64172335600907,
+          "perf": 13.93719999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 522,
+      "type": "gain",
+      "createdAt": 13.64172335600907,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 13.64172335600907,
+          "perf": 13.93719999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 523,
+      "type": "oscillator",
+      "createdAt": 14.02485260770975,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.02485260770975,
+          "perf": 14.30980000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.224535147392288,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.02485260770975,
+          "perf": 14.30980000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 16.28953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.02485260770975,
+          "perf": 14.30980000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 524,
+      "type": "gain",
+      "createdAt": 14.02485260770975,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.02485260770975,
+          "perf": 14.30980000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.5835,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 525,
+      "type": "gain",
+      "createdAt": 14.291882086167801,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.291882086167801,
+          "perf": 14.58369999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.62390000000596,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.918820861678004,
+          "perf": 15.205,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 526,
+      "type": "bufferSource",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20.90907029478458,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 14.72453514739229,
+          "frequency": null,
+          "bufferDuration": 20.90907029478458,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 20.90907029478458
+        },
+        {
+          "kind": "stop",
+          "when": 14.853061224489796,
+          "frequency": null,
+          "bufferDuration": 20.90907029478458,
+          "currentTime": 14.733061224489797,
+          "perf": 15.023699999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 527,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.918820861678004,
+          "perf": 15.20490000000596,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 528,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 529,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 530,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 531,
+      "type": "bufferSource",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.22453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 1.25
+        },
+        {
+          "kind": "stop",
+          "when": 14.853061224489796,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.733061224489797,
+          "perf": 15.023699999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 532,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.918820861678004,
+          "perf": 15.20490000000596,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 533,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 534,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 535,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 536,
+      "type": "bufferSource",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.474535147392288,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null,
+          "offset": 1.75,
+          "duration": 20.05
+        },
+        {
+          "kind": "stop",
+          "when": 14.853061224489796,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.733061224489797,
+          "perf": 15.023699999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 537,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624199999988079,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.918820861678004,
+          "perf": 15.20490000000596,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 538,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 539,
+      "type": "bufferSource",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.22453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 1.25
+        },
+        {
+          "kind": "stop",
+          "when": 14.853061224489796,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.733061224489797,
+          "perf": 15.023699999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 540,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.918820861678004,
+          "perf": 15.20490000000596,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 541,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 542,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 543,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 544,
+      "type": "bufferSource",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.474535147392288,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null,
+          "offset": 1.75,
+          "duration": 20.05
+        },
+        {
+          "kind": "stop",
+          "when": 14.853061224489796,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.733061224489797,
+          "perf": 15.023699999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 545,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.918820861678004,
+          "perf": 15.20490000000596,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 546,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624300000011921,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 547,
+      "type": "oscillator",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 14.72453514739229,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 14.78953514739229,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 548,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 549,
+      "type": "oscillator",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.22453514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 15.28953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 550,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 551,
+      "type": "oscillator",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.72453514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 15.78953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 552,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 553,
+      "type": "oscillator",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.224535147392288,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 16.28953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 554,
+      "type": "gain",
+      "createdAt": 14.338321995464852,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.338321995464852,
+          "perf": 14.624400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 555,
+      "type": "oscillator",
+      "createdAt": 14.547301587301588,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.547301587301588,
+          "perf": 14.84140000000596,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.724535147392288,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.547301587301588,
+          "perf": 14.8415,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 16.78953514739229,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.547301587301588,
+          "perf": 14.8415,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 0,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 556,
+      "type": "gain",
+      "createdAt": 14.547301587301588,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.547301587301588,
+          "perf": 14.8415,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "disconnect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 557,
+      "type": "gain",
+      "createdAt": 14.733061224489797,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.733061224489797,
+          "perf": 15.02380000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.05990000000596,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 558,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20.90907029478458,
+          "currentTime": 14.767891156462586,
+          "perf": 15.05990000000596,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 14.767891156462586,
+          "frequency": null,
+          "bufferDuration": 20.90907029478458,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060099999994039,
+          "ok": true,
+          "error": null,
+          "offset": 0.0433560090702958,
+          "duration": 20.865714285714283
+        }
+      ]
+    },
+    {
+      "id": 559,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.05990000000596,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 560,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060099999994039,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 561,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060099999994039,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 562,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060099999994039,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 563,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 1.9999773242630385,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060099999994039,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 14.767891156462586,
+          "frequency": null,
+          "bufferDuration": 1.9999773242630385,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060300000011921,
+          "ok": true,
+          "error": null,
+          "offset": 0.2933560090702958,
+          "duration": 0.9566439909297042
+        }
+      ]
+    },
+    {
+      "id": 564,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060099999994039,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 565,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060199999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 566,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060199999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 567,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060199999988079,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 568,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060300000011921,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.06828514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060300000011921,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 1.40625
+        }
+      ]
+    },
+    {
+      "id": 569,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060300000011921,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 570,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060300000011921,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 571,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.09953514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060400000005961,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 1.375
+        }
+      ]
+    },
+    {
+      "id": 572,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060400000005961,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 573,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060400000005961,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 574,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060400000005961,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.72453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06059999999404,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 0.75
+        }
+      ]
+    },
+    {
+      "id": 575,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060400000005961,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 576,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.0605,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 577,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 2,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06059999999404,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.224535147392288,
+          "frequency": null,
+          "bufferDuration": 2,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06069999998808,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 0.25
+        }
+      ]
+    },
+    {
+      "id": 578,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06059999999404,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 579,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06059999999404,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 580,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06069999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.474535147392288,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06069999998808,
+          "ok": true,
+          "error": null,
+          "offset": 1.90625,
+          "duration": 19.89375
+        }
+      ]
+    },
+    {
+      "id": 581,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06069999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 582,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06069999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 583,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060800000011922,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.474535147392288,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06090000000596,
+          "ok": true,
+          "error": null,
+          "offset": 1.875,
+          "duration": 19.925
+        }
+      ]
+    },
+    {
+      "id": 584,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060800000011922,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 585,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.060800000011922,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 586,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06090000000596,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.474535147392288,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06090000000596,
+          "ok": true,
+          "error": null,
+          "offset": 1.25,
+          "duration": 20.55
+        }
+      ]
+    },
+    {
+      "id": 587,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06090000000596,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 588,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06090000000596,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 589,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 2,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.474535147392288,
+          "frequency": null,
+          "bufferDuration": 2,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061,
+          "ok": true,
+          "error": null,
+          "offset": 0.75,
+          "duration": 0.25
+        }
+      ]
+    },
+    {
+      "id": 590,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 591,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 592,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.22453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 1.25
+        }
+      ]
+    },
+    {
+      "id": 593,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 594,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 595,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 596,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 597,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06109999999404,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.474535147392288,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06109999999404,
+          "ok": true,
+          "error": null,
+          "offset": 1.75,
+          "duration": 20.05
+        }
+      ]
+    },
+    {
+      "id": 598,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06109999999404,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 599,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06109999999404,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 600,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06109999999404,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.22453514739229,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null,
+          "offset": 0,
+          "duration": 1.25
+        }
+      ]
+    },
+    {
+      "id": 601,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 602,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 603,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 604,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 605,
+      "type": "bufferSource",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.474535147392288,
+          "frequency": null,
+          "bufferDuration": 20,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null,
+          "offset": 1.75,
+          "duration": 20.05
+        }
+      ]
+    },
+    {
+      "id": 606,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 607,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 608,
+      "type": "oscillator",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.061199999988078,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.22453514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 15.28953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 609,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 610,
+      "type": "oscillator",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 15.72453514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 15.78953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 611,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 612,
+      "type": "oscillator",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.224535147392288,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 16.28953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 613,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 614,
+      "type": "oscillator",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 16.724535147392288,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 16.78953514739229,
+          "frequency": 1760,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 615,
+      "type": "gain",
+      "createdAt": 14.767891156462586,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.767891156462586,
+          "perf": 15.06130000001192,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 616,
+      "type": "oscillator",
+      "createdAt": 14.988480725623583,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.988480725623583,
+          "perf": 15.278300000011921,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 17.224535147392288,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.988480725623583,
+          "perf": 15.278300000011921,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 17.28953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 14.988480725623583,
+          "perf": 15.278300000011921,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 617,
+      "type": "gain",
+      "createdAt": 14.988480725623583,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 14.988480725623583,
+          "perf": 15.278300000011921,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 618,
+      "type": "oscillator",
+      "createdAt": 15.522539682539682,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 15.522539682539682,
+          "perf": 15.81069999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "start",
+          "when": 17.724535147392288,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 15.522539682539682,
+          "perf": 15.81069999998808,
+          "ok": true,
+          "error": null
+        },
+        {
+          "kind": "stop",
+          "when": 17.78953514739229,
+          "frequency": 1175,
+          "bufferDuration": null,
+          "currentTime": 15.522539682539682,
+          "perf": 15.81069999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": 619,
+      "type": "gain",
+      "createdAt": 15.522539682539682,
+      "events": [
+        {
+          "kind": "connect",
+          "when": null,
+          "frequency": null,
+          "bufferDuration": null,
+          "currentTime": 15.522539682539682,
+          "perf": 15.81069999998808,
+          "ok": true,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "now": 15.963718820861677,
+  "sampleRate": 44100
+}

@@ -1,0 +1,246 @@
+{
+  "click_stats": {
+    "audible_count": 14,
+    "canceled_future_noise": 12,
+    "exact_audible_duplicate_count": 0,
+    "intervals": [
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "short_intervals_under350ms": 0,
+    "min_interval_ms": 500.0,
+    "max_interval_ms": 500.0,
+    "freqs": [
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1760,
+      1175,
+      1175,
+      1175,
+      1760,
+      1175
+    ]
+  },
+  "boundary_stats": [
+    {
+      "boundary": 391.95514739229026,
+      "crossing_count": 6,
+      "max_abs_scheduled_stop_deviation_ms": 0.0,
+      "loopstart_source_count": 3,
+      "early_new_sources": [],
+      "late_loopstart_sources": [],
+      "audible_overruns_past_boundary": [],
+      "crossing": [
+        {
+          "id": 1404,
+          "start": 390.45514739229026,
+          "end": 391.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            391.95514739229026
+          ]
+        },
+        {
+          "id": 1414,
+          "start": 390.79889739229026,
+          "end": 391.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            391.95514739229026
+          ]
+        },
+        {
+          "id": 1417,
+          "start": 390.83014739229026,
+          "end": 391.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            391.95514739229026
+          ]
+        },
+        {
+          "id": 1438,
+          "start": 390.95514739229026,
+          "end": 391.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            391.95514739229026
+          ]
+        },
+        {
+          "id": 1446,
+          "start": 390.95514739229026,
+          "end": 391.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            391.95514739229026
+          ]
+        },
+        {
+          "id": 1420,
+          "start": 391.45514739229026,
+          "end": 391.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            391.95514739229026
+          ]
+        }
+      ]
+    },
+    {
+      "boundary": 393.45514739229026,
+      "crossing_count": 6,
+      "max_abs_scheduled_stop_deviation_ms": 0.0,
+      "loopstart_source_count": 3,
+      "early_new_sources": [],
+      "late_loopstart_sources": [],
+      "audible_overruns_past_boundary": [],
+      "crossing": [
+        {
+          "id": 1467,
+          "start": 391.95514739229026,
+          "end": 393.45514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            393.45514739229026
+          ]
+        },
+        {
+          "id": 1477,
+          "start": 392.29889739229026,
+          "end": 393.45514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            393.45514739229026
+          ]
+        },
+        {
+          "id": 1480,
+          "start": 392.33014739229026,
+          "end": 393.45514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            393.45514739229026
+          ]
+        },
+        {
+          "id": 1501,
+          "start": 392.45514739229026,
+          "end": 393.45514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            393.45514739229026
+          ]
+        },
+        {
+          "id": 1509,
+          "start": 392.45514739229026,
+          "end": 393.45514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            393.45514739229026
+          ]
+        },
+        {
+          "id": 1483,
+          "start": 392.95514739229026,
+          "end": 393.45514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            393.45514739229026
+          ]
+        }
+      ]
+    },
+    {
+      "boundary": 394.95514739229026,
+      "crossing_count": 6,
+      "max_abs_scheduled_stop_deviation_ms": 0.0,
+      "loopstart_source_count": 3,
+      "early_new_sources": [],
+      "late_loopstart_sources": [],
+      "audible_overruns_past_boundary": [],
+      "crossing": [
+        {
+          "id": 1532,
+          "start": 393.45514739229026,
+          "end": 394.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            394.95514739229026
+          ]
+        },
+        {
+          "id": 1542,
+          "start": 393.79889739229026,
+          "end": 394.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            394.95514739229026
+          ]
+        },
+        {
+          "id": 1545,
+          "start": 393.83014739229026,
+          "end": 394.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            394.95514739229026
+          ]
+        },
+        {
+          "id": 1566,
+          "start": 393.95514739229026,
+          "end": 394.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            394.95514739229026
+          ]
+        },
+        {
+          "id": 1574,
+          "start": 393.95514739229026,
+          "end": 394.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            394.95514739229026
+          ]
+        },
+        {
+          "id": 1548,
+          "start": 394.45514739229026,
+          "end": 394.95514739229026,
+          "stopdev_ms": 0.0,
+          "positive_stops": [
+            394.95514739229026
+          ]
+        }
+      ]
+    }
+  ],
+  "console": [],
+  "pageerrors": [],
+  "network_failures": [],
+  "manual_boundaries": [
+    391.95514739229026,
+    393.45514739229026,
+    394.95514739229026
+  ]
+}
