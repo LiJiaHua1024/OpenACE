@@ -1,0 +1,64 @@
+{
+  "console": [],
+  "badnet": [],
+  "projects": {
+    "toolbar": "project_0e4fc1cb90fc",
+    "ctrlz": "project_85c81016a082"
+  },
+  "rapid": [
+    {
+      "i": 1,
+      "method": "toolbar",
+      "delay": 30,
+      "backend_count": 0,
+      "ui": "⋯\nvocal · zh · 0 notes\nM\nS\nOpenUtau host"
+    },
+    {
+      "i": 2,
+      "method": "ctrlz",
+      "delay": 45,
+      "backend_count": 0,
+      "ui": "⋯\nvocal · zh · 0 notes\nM\nS\nOpenUtau host"
+    },
+    {
+      "i": 3,
+      "method": "toolbar",
+      "delay": 80,
+      "backend_count": 0,
+      "ui": "⋯\nvocal · zh · 0 notes\nM\nS\nOpenUtau host"
+    },
+    {
+      "i": 4,
+      "method": "ctrlz",
+      "delay": 120,
+      "backend_count": 0,
+      "ui": "⋯\nvocal · zh · 0 notes\nM\nS\nOpenUtau host"
+    },
+    {
+      "i": 5,
+      "method": "toolbar",
+      "delay": 150,
+      "backend_count": 0,
+      "ui": "⋯\nvocal · zh · 0 notes\nM\nS\nOpenUtau host"
+    }
+  ],
+  "lyric": {
+    "committed": "你",
+    "undone": "",
+    "count_undo": 1,
+    "redone": "你",
+    "count_redo": 1
+  },
+  "toolbar_once": {
+    "editor_before": 1,
+    "backend_count": 0,
+    "ui": "⋯\nvocal · zh · 0 notes\nM\nS\nOpenUtau host",
+    "can_undo": false
+  },
+  "ctrlz_once": {
+    "editor_before": 1,
+    "backend_count": 0,
+    "ui": "⋯\nvocal · zh · 0 notes\nM\nS\nOpenUtau host",
+    "editor_after": 0
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "flac": {
+    "bytes": 146634,
+    "ffprobe_duration": 3.0625,
+    "frames": 147000,
+    "sr": 48000,
+    "soundfile_duration": 3.0625,
+    "peak": 0.41144096851348877
+  },
+  "svp": {
+    "bytes": 7761,
+    "ffprobe_duration": null,
+    "utf8_or_magic": "utf8",
+    "text_prefix": "{\n  \"version\": 153,\n  \"time\": {\n    \"meter\": [\n      {\n        \"index\": 0,\n        \"numerator\": 4,\n        \"denominator\": 4\n      }\n    ],\n    \"tempo\": [\n      "
+  },
+  "stems": {
+    "bytes": 392166,
+    "ffprobe_duration": null,
+    "is_zip": true,
+    "zip_names": [
+      "stems_manifest.json",
+      "01_Lead_Vocal.wav",
+      "02_ACE-Step_BGM.wav"
+    ],
+    "zip_count": 3,
+    "manifest": {
+      "sample_rate": 48000,
+      "format": "pcm_s24le wav",
+      "processing": "static/automated track volume/pan, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization",
+      "range_ticks": null,
+      "tracks": [
+        {
+          "track_id": "track_2d8a4c50ceb8",
+          "track_name": "Lead Vocal",
+          "type": "vocal",
+          "file": "01_Lead_Vocal.wav",
+          "peak": 0.24375052750110626,
+          "rms": 0.09520725160837173,
+          "volume": 0.8,
+          "pan": 0.0,
+          "solo": false,
+          "mute": false
+        },
+        {
+          "track_id": "track_ad12fcfe54d1",
+          "track_name": "ACE-Step BGM",
+          "type": "accompaniment",
+          "file": "02_ACE-Step_BGM.wav",
+          "peak": 0.075337253510952,
+          "rms": 0.03592132776975632,
+          "volume": 0.8,
+          "pan": 0.0,
+          "solo": false,
+          "mute": false
+        }
+      ],
+      "skipped": []
+    }
+  },
+  "lrc": {
+    "bytes": 118,
+    "ffprobe_duration": null,
+    "utf8_or_magic": "utf8",
+    "text_prefix": "[ti:Creative Loop 验收]\n[ar:OpenACE]\n[al:OpenACE Project]\n[by:OpenACE]\n[00:00.12]你好\n[00:00.75]好\n[00:02.00]唱\n"
+  },
+  "vpr": {
+    "bytes": 748,
+    "ffprobe_duration": null,
+    "utf8_or_magic": "binary",
+    "hex_prefix": "504b0304140000000800e2497c5dbde7"
+  },
+  "ogg": {
+    "bytes": 19387,
+    "ffprobe_duration": 3.0625,
+    "frames": 147000,
+    "sr": 48000,
+    "soundfile_duration": 3.0625,
+    "peak": 0.4158361852169037
+  },
+  "wav": {
+    "bytes": 882044,
+    "ffprobe_duration": 3.0625,
+    "frames": 147000,
+    "sr": 48000,
+    "soundfile_duration": 3.0625,
+    "peak": 0.41144096851348877
+  },
+  "mp4": {
+    "bytes": 268176,
+    "ffprobe_duration": 3.067,
+    "ftyp": true
+  },
+  "ustx": {
+    "bytes": 2829,
+    "ffprobe_duration": null,
+    "utf8_or_magic": "utf8",
+    "text_prefix": "name: Creative Loop 验收\ncomment: Exported by OpenACE\noutput_dir: Vocal\ncache_dir: UCache\nustx_version: '0.10'\nexpressions: {}\nexp_selectors:\n- dyn\n- pitd\n- clr\n-"
+  },
+  "mp3": {
+    "bytes": 124845,
+    "ffprobe_duration": 3.096
+  },
+  "mid": {
+    "bytes": 291,
+    "ffprobe_duration": null,
+    "utf8_or_magic": "binary",
+    "hex_prefix": "4d546864000000060001000201e04d54"
+  }
+}

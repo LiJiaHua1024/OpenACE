@@ -1,0 +1,20 @@
+{
+  "browser": {
+    "exists": true,
+    "bytes": 268176,
+    "ftyp": true,
+    "duration": 3.067
+  },
+  "mcp": {
+    "exists": true,
+    "bytes": 210582,
+    "ftyp": true,
+    "duration": 2.5
+  },
+  "cli": {
+    "exists": true,
+    "bytes": 293013,
+    "ftyp": true,
+    "duration": 2.5
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "console": [],
+  "pos0": "1.1.1\n00:00.00",
+  "samples": [
+    "1.1.1\n00:00.01",
+    "1.1.1\n00:00.01",
+    "1.1.1\n00:00.01",
+    "1.1.1\n00:00.01",
+    "1.1.1\n00:00.01",
+    "1.1.1\n00:00.01"
+  ],
+  "advanced": true,
+  "toast": [
+    "Audio output clock stalled; playback was stopped instead of pretending transport time was advancing. Press Play again to rebuild the audio engine."
+  ]
+}

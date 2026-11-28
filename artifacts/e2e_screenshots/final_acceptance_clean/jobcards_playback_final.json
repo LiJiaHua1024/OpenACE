@@ -1,0 +1,38 @@
+{
+  "console": [],
+  "badnet": [],
+  "requests": [],
+  "reload": {
+    "before_tracks": 10,
+    "after_tracks": 10,
+    "before_clips": 5,
+    "after_clips": 5,
+    "svc_conversions": 4
+  },
+  "svc_cards": [
+    {
+      "text": "svc · CI FIXTURE\ncompleted · 100%\ncompleted; added to arrangement as SVC — upload_1187850ddb58_vocal\nkey: -3 semitones\n23s total",
+      "key": "key: -3 semitones"
+    },
+    {
+      "text": "svc · CI FIXTURE\ncompleted · 100%\ncompleted; added to arrangement as SVC — upload_1187850ddb58_vocal\nkey: preserve source\n5.7s total",
+      "key": "key: preserve source"
+    },
+    {
+      "text": "svc · CI FIXTURE\ncompleted · 100%\ncompleted; added to arrangement as SVC — upload_1187850ddb58_vocal\nkey: auto-match reference\n3.6s total",
+      "key": "key: auto-match reference"
+    },
+    {
+      "text": "svc · CI FIXTURE\ncompleted · 100%\ncompleted; added to arrangement as SVC — upload_71f0548c4c86_vocal\nkey: -3 semitones\n44s total",
+      "key": "key: -3 semitones"
+    }
+  ],
+  "playback": {
+    "pos0": "1.1.1\n00:00.00",
+    "pos1": "1.1.1\n00:00.01",
+    "advanced": true,
+    "expected_count": 6,
+    "requested": [],
+    "requested_count": 0
+  }
+}

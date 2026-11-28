@@ -1,0 +1,317 @@
+{
+  "version": 153,
+  "time": {
+    "meter": [
+      {
+        "index": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ],
+    "tempo": [
+      {
+        "position": 0,
+        "bpm": 120.0
+      }
+    ]
+  },
+  "library": [],
+  "tracks": [
+    {
+      "name": "Lead Vocal",
+      "dispColor": "7367ff",
+      "dispOrder": 0,
+      "renderEnabled": true,
+      "mixer": {
+        "gainDecibel": -1.938200260161128,
+        "pan": 0.0,
+        "mute": false,
+        "solo": false,
+        "display": true
+      },
+      "mainGroup": {
+        "uuid": "fd094dac-e332-5b30-8101-bd1a459b130c",
+        "name": "Lead Vocal",
+        "notes": [
+          {
+            "musicalType": "singing",
+            "onset": 176400000,
+            "duration": 882000000,
+            "lyrics": "你好",
+            "phonemes": "n i x au",
+            "accent": "",
+            "pitch": 64,
+            "detune": 0,
+            "instantMode": true,
+            "attributes": {
+              "evenSyllableDuration": false,
+              "tF0Left": 0.04,
+              "tF0Right": 0.04,
+              "dF0Left": 0.0,
+              "dF0Right": 0.0,
+              "dF0Vbr": 0.0,
+              "fF0Vbr": 5.5,
+              "tF0VbrStart": 0.25
+            },
+            "systemAttributes": {},
+            "pitchTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "timbreTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "expressionTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            }
+          },
+          {
+            "musicalType": "singing",
+            "onset": 1058400000,
+            "duration": 793800000,
+            "lyrics": "好",
+            "phonemes": "x au",
+            "accent": "",
+            "pitch": 67,
+            "detune": 0,
+            "instantMode": true,
+            "attributes": {
+              "evenSyllableDuration": false,
+              "tF0Left": 0.04,
+              "tF0Right": 0.04,
+              "dF0Left": 0.0,
+              "dF0Right": 0.0,
+              "dF0Vbr": 0.0,
+              "fF0Vbr": 5.5,
+              "tF0VbrStart": 0.25
+            },
+            "systemAttributes": {},
+            "pitchTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "timbreTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "expressionTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            }
+          },
+          {
+            "musicalType": "singing",
+            "onset": 2822400000,
+            "duration": 793800000,
+            "lyrics": "唱",
+            "phonemes": "ʈʂʰ aŋ",
+            "accent": "",
+            "pitch": 70,
+            "detune": 0,
+            "instantMode": true,
+            "attributes": {
+              "evenSyllableDuration": false,
+              "tF0Left": 0.04,
+              "tF0Right": 0.04,
+              "dF0Left": 0.0,
+              "dF0Right": 0.0,
+              "dF0Vbr": 0.0,
+              "fF0Vbr": 5.5,
+              "tF0VbrStart": 0.25
+            },
+            "systemAttributes": {},
+            "pitchTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "timbreTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            },
+            "expressionTakes": {
+              "activeTakeId": 0,
+              "takes": []
+            }
+          }
+        ],
+        "parameters": {
+          "pitchDelta": {
+            "mode": "linear",
+            "points": [
+              258720000,
+              -15.479876,
+              352800000,
+              49.019608,
+              446880000,
+              113.519092,
+              542430000,
+              178.018576,
+              636510000,
+              242.51806,
+              730590000,
+              131.578947,
+              824670000,
+              20.639835,
+              920220000,
+              -90.299278,
+              1014300000,
+              -201.23839,
+              1124550000,
+              -108.359133,
+              1234800000,
+              -15.479876,
+              1345050000,
+              77.399381,
+              1455300000,
+              170.278638
+            ]
+          },
+          "loudness": {
+            "mode": "linear",
+            "points": []
+          },
+          "tension": {
+            "mode": "linear",
+            "points": [
+              258720000,
+              0.027027,
+              352800000,
+              0.13964,
+              446880000,
+              0.252252,
+              542430000,
+              0.364865,
+              636510000,
+              0.477477,
+              730590000,
+              0.283784,
+              824670000,
+              0.09009,
+              920220000,
+              -0.103604,
+              1014300000,
+              -0.297297,
+              1124550000,
+              -0.135135,
+              1234800000,
+              0.027027,
+              1345050000,
+              0.189189,
+              1455300000,
+              0.351351
+            ]
+          },
+          "breathiness": {
+            "mode": "linear",
+            "points": [
+              258720000,
+              0.027027,
+              352800000,
+              0.13964,
+              446880000,
+              0.252252,
+              542430000,
+              0.364865,
+              636510000,
+              0.477477,
+              730590000,
+              0.283784,
+              824670000,
+              0.09009,
+              920220000,
+              -0.103604,
+              1014300000,
+              -0.297297,
+              1124550000,
+              -0.135135,
+              1234800000,
+              0.027027,
+              1345050000,
+              0.189189,
+              1455300000,
+              0.351351
+            ]
+          },
+          "voicing": {
+            "mode": "linear",
+            "points": []
+          },
+          "gender": {
+            "mode": "linear",
+            "points": []
+          },
+          "toneShift": {
+            "mode": "linear",
+            "points": []
+          }
+        }
+      },
+      "mainRef": {
+        "groupID": "fd094dac-e332-5b30-8101-bd1a459b130c",
+        "blickOffset": 0,
+        "blickAbsoluteBegin": 0,
+        "pitchOffset": 0,
+        "database": {
+          "name": ""
+        },
+        "voice": {
+          "vocalModeParams": {},
+          "tension": 0.0,
+          "breathiness": 0.0,
+          "gender": 0.0,
+          "voicing": 1.0,
+          "toneShift": 0.0
+        },
+        "isInstrumental": false
+      },
+      "groups": []
+    },
+    {
+      "name": "ACE-Step BGM",
+      "dispColor": "2fb996",
+      "dispOrder": 1,
+      "renderEnabled": true,
+      "mixer": {
+        "gainDecibel": -1.938200260161128,
+        "pan": 0.0,
+        "mute": false,
+        "solo": false,
+        "display": true
+      },
+      "mainGroup": {
+        "uuid": "061a8b65-b6ae-59bb-b9fe-1cb9b8cde259",
+        "name": "ACE-Step BGM",
+        "notes": [],
+        "parameters": {}
+      },
+      "mainRef": {
+        "groupID": "061a8b65-b6ae-59bb-b9fe-1cb9b8cde259",
+        "blickOffset": 0,
+        "blickAbsoluteBegin": 0,
+        "pitchOffset": 0,
+        "database": {
+          "name": ""
+        },
+        "voice": {
+          "vocalModeParams": {},
+          "tension": 0.0,
+          "breathiness": 0.0,
+          "gender": 0.0,
+          "voicing": 1.0,
+          "toneShift": 0.0
+        },
+        "isInstrumental": true
+      },
+      "groups": []
+    }
+  ],
+  "renderConfig": {
+    "sampleRate": 48000,
+    "bitDepth": 24,
+    "numChannels": 2,
+    "aspirationFormat": "wav",
+    "exportMixDown": true
+  }
+}

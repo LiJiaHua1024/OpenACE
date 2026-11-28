@@ -2,7 +2,7 @@
 
 Status legend: **Done** (implemented and exercised end-to-end in this repository), **Partial** (real implementation exists but production depth or validation is incomplete), **Gap** (missing). This is an adversarial living audit, not marketing copy.
 
-Last audit iteration: 2026-11-28, after final creative-loop acceptance defect closure.
+Last audit iteration: 2026-11-28, after final clean-revision creative-loop acceptance.
 
 ## P0 — synthesis cores and acoustic invariants
 
