@@ -1,0 +1,637 @@
+{
+  "corrected_run": true,
+  "open_project_verified": true,
+  "initial": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "after_add_track_echo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "track_undo_enabled_after_echo": false,
+  "created_track": [
+    "track_e64eadbd-f32",
+    "Vocal 2",
+    "vocal",
+    0,
+    0
+  ],
+  "track_undo_click": "disabled_or_failed:Locator.click: Timeout 1800ms exceeded.",
+  "after_track_undo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "track_redo_enabled": false,
+  "track_redo_click": "disabled_or_failed:Locator.click: Timeout 1800ms exceeded.",
+  "after_track_redo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "after_note_echo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        3,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ],
+      [
+        "note_0cd69e45-4d3",
+        1200,
+        60,
+        70,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "note_undo_enabled_after_echo": true,
+  "created_note": [
+    "note_0cd69e45-4d3",
+    1200,
+    60,
+    70,
+    true
+  ],
+  "note_undo_click": "clicked",
+  "after_note_undo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "note_redo_enabled": true,
+  "note_redo_click": "clicked",
+  "after_note_redo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        3,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ],
+      [
+        "note_0cd69e45-4d3",
+        1200,
+        60,
+        70,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "after_breath_echo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        3,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ],
+      [
+        "note_0cd69e45-4d3",
+        1200,
+        60,
+        70,
+        true
+      ]
+    ],
+    "first_breaths": [
+      [
+        "br_bf282e8e",
+        1170,
+        120,
+        1.0,
+        "natural"
+      ]
+    ],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "breath_undo_enabled_after_echo": true,
+  "created_breath": [
+    "br_bf282e8e",
+    1170,
+    120,
+    1.0,
+    "natural"
+  ],
+  "breath_undo_click": "clicked",
+  "after_breath_undo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        3,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ],
+      [
+        "note_0cd69e45-4d3",
+        1200,
+        60,
+        70,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "breath_redo_enabled": true,
+  "breath_redo_click": "clicked",
+  "after_breath_redo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        3,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ],
+      [
+        "note_0cd69e45-4d3",
+        1200,
+        60,
+        70,
+        true
+      ]
+    ],
+    "first_breaths": [
+      [
+        "br_bf282e8e",
+        1170,
+        120,
+        1.0,
+        "natural"
+      ]
+    ],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "after_clip_drag": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        3,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ],
+      [
+        "note_0cd69e45-4d3",
+        1200,
+        60,
+        70,
+        true
+      ]
+    ],
+    "first_breaths": [
+      [
+        "br_bf282e8e",
+        1170,
+        120,
+        1.0,
+        "natural"
+      ]
+    ],
+    "first_clips": [
+      [
+        "snap_clip",
+        60,
+        960
+      ]
+    ]
+  },
+  "clip_undo_click": "clicked",
+  "after_clip_undo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        3,
+        1
+      ],
+      [
+        "track_e64eadbd-f32",
+        "Vocal 2",
+        "vocal",
+        0,
+        0
+      ]
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ],
+      [
+        "note_0cd69e45-4d3",
+        1200,
+        60,
+        70,
+        true
+      ]
+    ],
+    "first_breaths": [
+      [
+        "br_bf282e8e",
+        1170,
+        120,
+        1.0,
+        "natural"
+      ]
+    ],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "console_errors": [],
+  "page_errors": [],
+  "network_errors": [],
+  "passed": {
+    "open_project_verified": true,
+    "track_created": true,
+    "track_undo_enabled_after_echo": false,
+    "track_undo_removed": false,
+    "track_redo_restored": true,
+    "note_exact": true,
+    "note_undo_enabled_after_echo": true,
+    "note_undo_removed": true,
+    "note_redo_exact": true,
+    "breath_created": true,
+    "breath_undo_enabled_after_echo": true,
+    "breath_undo_removed": true,
+    "breath_redo_exact": true,
+    "clip_snap_and_undo": true,
+    "console_network_clean": true
+  },
+  "interpretation_note": "note_exact corrected after raw tuple/list comparison artifact in collection script; backend tick evidence was exact."
+}

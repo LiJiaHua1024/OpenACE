@@ -8,6 +8,7 @@ import TrackList from './components/TrackList'
 import TempoLane from './components/TempoLane'
 import TransportBar from './components/TransportBar'
 import { crossfadeGainAt, crossfadeIntervals } from './crossfade'
+import { canonicalJson } from './renderFingerprint'
 import { barTicks, secondsBetweenTicks, secondsToTicks, tickDurationSeconds, ticksToSeconds } from './tempo'
 import type { AudioClip, LoudnessReading, Project, RenderJob, TimelineState, Track } from './types'
 
@@ -153,12 +154,42 @@ function undoSemanticSignature(project: Project): string {
     delete (track as any).render_path
     delete (track as any).render_fingerprint
     ;(track as any).render_revision = 0
+    if ((track as any).reference_voice_path === undefined) (track as any).reference_voice_path = null
+    if ((track as any).openutau_singer === undefined) (track as any).openutau_singer = ''
+    if ((track as any).openutau_phonemizer === undefined) (track as any).openutau_phonemizer = ''
+    if ((track as any).midi_channel === undefined) (track as any).midi_channel = null
+    if ((track as any).midi_program === undefined) (track as any).midi_program = null
+    if ((track as any).created_by_job_id === undefined) (track as any).created_by_job_id = null
+    const automation = (track as any).automation || ((track as any).automation = {})
+    for (const lane of ['pitch_cents', 'dynamic', 'air', 'falsetto', 'tension', 'energy', 'volume', 'pan']) {
+      if (automation[lane] === undefined) automation[lane] = []
+      for (const point of automation[lane] || []) if ((point as any).curve === undefined) (point as any).curve = 'linear'
+    }
+    for (const clip of (track as any).clips || []) {
+      if ((clip as any).duration_ticks === undefined) (clip as any).duration_ticks = null
+      if ((clip as any).offset_ticks === undefined) (clip as any).offset_ticks = 0
+      if ((clip as any).fade_in_ticks === undefined) (clip as any).fade_in_ticks = 0
+      if ((clip as any).fade_out_ticks === undefined) (clip as any).fade_out_ticks = 0
+      if ((clip as any).gain_db === undefined) (clip as any).gain_db = 0
+      if ((clip as any).label === undefined) (clip as any).label = ''
+      if ((clip as any).transcribed_lyrics === undefined) (clip as any).transcribed_lyrics = []
+      if ((clip as any).created_by_job_id === undefined) (clip as any).created_by_job_id = null
+    }
+    for (const breath of (track as any).breaths || []) {
+      if ((breath as any).intensity === undefined) (breath as any).intensity = 1
+      if ((breath as any).timbre === undefined) (breath as any).timbre = 'natural'
+    }
     for (const note of track.notes) {
       ;(note as any).phonemes = []
+      if ((note as any).lyric === undefined) (note as any).lyric = ''
+      if ((note as any).velocity === undefined) (note as any).velocity = 90
+      if ((note as any).pitch_curve === undefined) (note as any).pitch_curve = []
       if ((note as any).pitch_snap_first === undefined) (note as any).pitch_snap_first = true
+      if ((note as any).vibrato === undefined) (note as any).vibrato = null
+      if ((note as any).techniques === undefined) (note as any).techniques = []
     }
   }
-  return JSON.stringify(copy)
+  return canonicalJson(copy)
 }
 
 export default function App() {

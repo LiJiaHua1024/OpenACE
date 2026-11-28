@@ -1,0 +1,1727 @@
+{
+  "initial": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "after_add_track_echo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "track_undo_enabled_after_echo": true,
+  "created_track": null,
+  "track_undo_click": "clicked",
+  "after_track_undo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "track_redo_enabled": true,
+  "track_redo_click": "clicked",
+  "after_track_redo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "after_note_echo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "note_undo_enabled_after_echo": false,
+  "created_note": null,
+  "note_undo_click": "disabled_or_failed:Locator.click: Timeout 1800ms exceeded.",
+  "after_note_undo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "note_redo_enabled": false,
+  "note_redo_click": "disabled_or_failed:Locator.click: Timeout 1800ms exceeded.",
+  "after_note_redo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "after_breath_echo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [
+          {
+            "id": "br_80a7aefa",
+            "start_ticks": 1170,
+            "duration_ticks": 120,
+            "intensity": 1.0,
+            "timbre": "natural"
+          }
+        ],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [
+      [
+        "br_80a7aefa",
+        1170,
+        120,
+        1.0,
+        "natural"
+      ]
+    ],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "breath_undo_enabled_after_echo": true,
+  "created_breath": [
+    "br_80a7aefa",
+    1170,
+    120,
+    1.0,
+    "natural"
+  ],
+  "breath_undo_click": "clicked",
+  "after_breath_undo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "breath_redo_enabled": true,
+  "breath_redo_click": "clicked",
+  "after_breath_redo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [
+          {
+            "id": "br_80a7aefa",
+            "start_ticks": 1170,
+            "duration_ticks": 120,
+            "intensity": 1.0,
+            "timbre": "natural"
+          }
+        ],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [
+      [
+        "br_80a7aefa",
+        1170,
+        120,
+        1.0,
+        "natural"
+      ]
+    ],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "after_clip_drag": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 60,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [
+          {
+            "id": "br_80a7aefa",
+            "start_ticks": 1170,
+            "duration_ticks": 120,
+            "intensity": 1.0,
+            "timbre": "natural"
+          }
+        ],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [
+      [
+        "br_80a7aefa",
+        1170,
+        120,
+        1.0,
+        "natural"
+      ]
+    ],
+    "first_clips": [
+      [
+        "snap_clip",
+        60,
+        960
+      ]
+    ]
+  },
+  "clip_undo_click": "clicked",
+  "after_clip_undo": {
+    "tracks": [
+      [
+        "track_snapqa",
+        "Snap QA",
+        "vocal",
+        2,
+        1
+      ]
+    ],
+    "track_details": [
+      {
+        "id": "track_snapqa",
+        "name": "Snap QA",
+        "type": "vocal",
+        "color": "#7367ff",
+        "voice_id": "zero-shot-reference",
+        "reference_voice_path": null,
+        "openutau_singer": "",
+        "openutau_phonemizer": "",
+        "language": "zh",
+        "notes": [
+          {
+            "id": "snap_n1",
+            "start_ticks": 0,
+            "duration_ticks": 480,
+            "pitch": 60,
+            "lyric": "啦",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "l",
+                "start_ms": -45.0,
+                "duration_ms": 45.0,
+                "is_vowel": false,
+                "locked": false
+              },
+              {
+                "symbol": "a",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          },
+          {
+            "id": "snap_n2",
+            "start_ticks": 480,
+            "duration_ticks": 480,
+            "pitch": 62,
+            "lyric": "呜",
+            "velocity": 90,
+            "phonemes": [
+              {
+                "symbol": "u",
+                "start_ms": 0.0,
+                "duration_ms": 500.0,
+                "is_vowel": true,
+                "locked": false
+              }
+            ],
+            "pitch_curve": [],
+            "pitch_snap_first": true,
+            "vibrato": null,
+            "techniques": []
+          }
+        ],
+        "clips": [
+          {
+            "id": "snap_clip",
+            "path": "/home/ubuntu/repos/OpenACE/data/renders/project_4ca9232b530b/job_e3fd88274832/vocal.wav",
+            "start_ticks": 0,
+            "duration_ticks": 960,
+            "offset_ticks": 0,
+            "fade_in_ticks": 0,
+            "fade_out_ticks": 0,
+            "gain_db": 0.0,
+            "label": "snap fixture clip",
+            "transcribed_lyrics": [],
+            "created_by_job_id": null
+          }
+        ],
+        "automation": {
+          "pitch_cents": [],
+          "dynamic": [],
+          "air": [],
+          "falsetto": [],
+          "tension": [],
+          "energy": [],
+          "volume": [],
+          "pan": []
+        },
+        "breaths": [
+          {
+            "id": "br_80a7aefa",
+            "start_ticks": 1170,
+            "duration_ticks": 120,
+            "intensity": 1.0,
+            "timbre": "natural"
+          }
+        ],
+        "mute": false,
+        "solo": false,
+        "volume": 1.0,
+        "pan": 0.0,
+        "midi_channel": null,
+        "midi_program": null,
+        "created_by_job_id": null,
+        "render_path": null,
+        "render_revision": 0,
+        "render_fingerprint": null
+      }
+    ],
+    "first_notes": [
+      [
+        "snap_n1",
+        0,
+        480,
+        60,
+        true
+      ],
+      [
+        "snap_n2",
+        480,
+        480,
+        62,
+        true
+      ]
+    ],
+    "first_breaths": [
+      [
+        "br_80a7aefa",
+        1170,
+        120,
+        1.0,
+        "natural"
+      ]
+    ],
+    "first_clips": [
+      [
+        "snap_clip",
+        0,
+        960
+      ]
+    ]
+  },
+  "console_errors": [],
+  "page_errors": [],
+  "network_errors": [],
+  "passed": {
+    "track_created": false,
+    "track_undo_enabled_after_echo": true,
+    "track_undo_removed": false,
+    "track_redo_restored": false,
+    "note_exact": false,
+    "note_undo_enabled_after_echo": false,
+    "note_undo_removed": false,
+    "note_redo_exact": false,
+    "breath_created": true,
+    "breath_undo_enabled_after_echo": true,
+    "breath_undo_removed": true,
+    "breath_redo_exact": true,
+    "clip_snap_and_undo": true,
+    "console_network_clean": true
+  }
+}
