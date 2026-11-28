@@ -1131,7 +1131,7 @@ export default function PianoRoll(props: Props) {
         </div>
         <label>Grid
           <select value={gridDivision} onChange={e => { const value = Number(e.target.value); window.localStorage.setItem('openace_grid_division', String(value)); props.onTimelineChange({ ...props.timeline, gridDivision: value }) }}>
-            <option value={1}>1/4</option><option value={2}>1/8</option><option value={4}>1/16</option><option value={8}>1/32</option>
+            <option value={1}>1/4</option><option value={2}>1/8</option><option value={3}>1/8T</option><option value={4}>1/16</option><option value={6}>1/16T</option><option value={8}>1/32</option>
           </select>
         </label>
         <label>Zoom<input type="range" min="32" max="360" value={props.timeline.pxPerBeat} onChange={e => props.onTimelineChange({ ...props.timeline, pxPerBeat: Number(e.target.value) })} /></label>

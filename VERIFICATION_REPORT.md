@@ -1332,3 +1332,9 @@ Validation after iteration 117: frontend production build passed; independent br
 Closed remaining hardcoded sixteenth-note editor behavior after the shared-grid audit. Piano-roll and automation visual subdivision density now follow the same selected grid as arrangement editing, redraw immediately when the selector changes, and piano-roll ruler seeking snaps with the selected resolution. Browser QA verified raw seek ≈1170 landing exactly on tick 960 at 1/4 and tick 1200 at 1/32, immediate 112px/14px subdivision spacing changes in both piano and automation surfaces, exact note-drag regression (`480→420` at 1/32) with undo, and clean console/network. Evidence: `artifacts/e2e_screenshots/grid_alignment/`.
 
 Validation after iteration 118: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
+
+## Iteration 119 — triplet musical grid resolutions
+
+Added shared eighth-note and sixteenth-note triplet snapping to the workstation grid selector. Because grid division is shared across piano roll, arrangement, automation, tempo editing, and ruler seeking, `1/8T` now produces exact 160-tick steps and `1/16T` exact 80-tick steps at PPQ 480 rather than approximating them visually. Browser QA verified selector labels/persistence, exact ruler seeks (`1120` at 1/8T, `1200` at 1/16T), arrangement clip moves (`+160`/`+80`), piano note creation (`2560/160` and `2480/80`), immediate triplet visual subdivision spacing in piano/automation, undo/reload regression, and clean console/network. Evidence: `artifacts/e2e_screenshots/triplet_grid/`.
+
+Validation after iteration 119: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
