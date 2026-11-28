@@ -1,0 +1,510 @@
+{
+  "console": [],
+  "badnet": [],
+  "project_id": "project_1afdcb6efa28",
+  "layout_1272": {
+    "w": 1272,
+    "h": 837,
+    "bodyOverflow": false,
+    "transportOverflow": 0,
+    "rightPanelOverflow": 0
+  },
+  "notes": [
+    {
+      "id": "note_4aa690c4-c66",
+      "start_ticks": 120,
+      "duration_ticks": 480,
+      "pitch": 65,
+      "lyric": "你"
+    },
+    {
+      "id": "note_6875c8ec-a06",
+      "start_ticks": 1200,
+      "duration_ticks": 480,
+      "pitch": 68,
+      "lyric": "好"
+    }
+  ],
+  "baseline_render": {
+    "id": "job_b5f4681841c2",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1afdcb6efa28/job_b5f4681841c2/vocal.wav",
+    "sha256": "8ef6df534192e20566b35ef90237d46d069e98592db4af8982b24ece7404b042",
+    "bytes": 108044,
+    "track_fingerprint": "4f2ba87c1a2708f7",
+    "computed_input_fingerprint": "4f2ba87c1a2708f7"
+  },
+  "eraser_shortcut_active": true,
+  "blank_erase": {
+    "readout": "520 ticks · erased user pitch",
+    "automation": [],
+    "pollution_free": true
+  },
+  "seed_brush": {
+    "readout": "",
+    "points": [
+      {
+        "ticks": 180,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 233,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 285,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 338,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 390,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 443,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 495,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 548,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1230,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1283,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1335,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1388,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1440,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1493,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1545,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1598,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1650,
+        "value": -200.0,
+        "curve": "linear"
+      }
+    ]
+  },
+  "brushed_render": {
+    "id": "job_ddc379a4a874",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1afdcb6efa28/job_ddc379a4a874/vocal.wav",
+    "sha256": "cdd6f3a40fa7fb134abdda05836c13eb73dd4afe2e7c6f8b95342b2c49cb13d3",
+    "bytes": 108044,
+    "track_fingerprint": "acabec5e78cd27df",
+    "computed_input_fingerprint": "acabec5e78cd27df"
+  },
+  "erase": {
+    "readout": "520 ticks · erased user pitch",
+    "path_ticks": [
+      400,
+      500,
+      350,
+      520
+    ],
+    "points": [
+      {
+        "ticks": 180,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 233,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 285,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 338,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 350,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 520,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 548,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1230,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1283,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1335,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1388,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1440,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1493,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1545,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1598,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1650,
+        "value": -200.0,
+        "curve": "linear"
+      }
+    ]
+  },
+  "undo_redo": {
+    "undo_equals_seeded": true,
+    "redo_equals_erased": true,
+    "undo_count": 17,
+    "redo_count": 16
+  },
+  "reload": {
+    "points": [
+      {
+        "ticks": 180,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 233,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 285,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 338,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 350,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 520,
+        "value": 0.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 548,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1230,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1283,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1335,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1388,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1440,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1493,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1545,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1598,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1650,
+        "value": -200.0,
+        "curve": "linear"
+      }
+    ],
+    "exact": true
+  },
+  "erased_render": {
+    "id": "job_14d15650dd24",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_1afdcb6efa28/job_14d15650dd24/vocal.wav",
+    "sha256": "e7a5d500230b9b8b0afe7b9615091cfa73c05d325c64d0485154b86dd980695a",
+    "bytes": 108044,
+    "track_fingerprint": "eeb8b8e19eb39839",
+    "computed_input_fingerprint": "eeb8b8e19eb39839"
+  },
+  "erase_analysis": {
+    "zeros": [
+      350,
+      520
+    ],
+    "range": [
+      350,
+      520
+    ],
+    "range_matches_backtracking": true,
+    "zero_boundary_count": 2,
+    "outside_exactly_survive": true,
+    "interior_nonzero_remaining": [],
+    "interior_removed": true,
+    "interp_before_center": 100.0,
+    "interp_after_center": 0.0,
+    "boundary_semantics_prevent_nonzero": true,
+    "outside_seed": [
+      {
+        "ticks": 180,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 233,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 285,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 338,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 548,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1230,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1283,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1335,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1388,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1440,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1493,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1545,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1598,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1650,
+        "value": -200.0,
+        "curve": "linear"
+      }
+    ],
+    "outside_after": [
+      {
+        "ticks": 180,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 233,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 285,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 338,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 548,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1230,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1283,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1335,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1388,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1440,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1493,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1545,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1598,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1650,
+        "value": -200.0,
+        "curve": "linear"
+      }
+    ]
+  },
+  "audio_metrics": {
+    "brush_vs_base_mad": 0.10664136646412037,
+    "erased_vs_base_mad": 0.10190665803132234,
+    "erased_vs_brush_mad": 0.026312367757161458,
+    "brush_differs": true,
+    "erased_differs_from_brush": true,
+    "erased_closer_to_base": true
+  },
+  "audio_hashes": {
+    "baseline": "8ef6df534192e20566b35ef90237d46d069e98592db4af8982b24ece7404b042",
+    "brushed": "cdd6f3a40fa7fb134abdda05836c13eb73dd4afe2e7c6f8b95342b2c49cb13d3",
+    "erased": "e7a5d500230b9b8b0afe7b9615091cfa73c05d325c64d0485154b86dd980695a",
+    "brush_changed": true,
+    "erase_changed": true
+  }
+}

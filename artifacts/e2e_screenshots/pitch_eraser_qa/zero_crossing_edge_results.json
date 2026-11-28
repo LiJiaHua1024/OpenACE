@@ -1,0 +1,54 @@
+{
+  "seeded": [
+    {
+      "ticks": 0,
+      "value": -100.0,
+      "curve": "linear"
+    },
+    {
+      "ticks": 400,
+      "value": 100.0,
+      "curve": "linear"
+    }
+  ],
+  "readout": "300 ticks \u00b7 erased user pitch",
+  "erased": [
+    {
+      "ticks": 0,
+      "value": -100.0,
+      "curve": "linear"
+    },
+    {
+      "ticks": 300,
+      "value": 0.0,
+      "curve": "linear"
+    },
+    {
+      "ticks": 400,
+      "value": 100.0,
+      "curve": "linear"
+    }
+  ],
+  "zeros": [
+    300
+  ],
+  "samples": {
+    "200": -33.33333333333334,
+    "225": -25.0,
+    "250": -16.666666666666657,
+    "275": -8.333333333333343,
+    "300": 0.0
+  },
+  "interior_nonzero": {
+    "200": -33.33333333333334,
+    "225": -25.0,
+    "250": -16.666666666666657,
+    "275": -8.333333333333343
+  },
+  "expected_boundary_zeros": [
+    200,
+    300
+  ],
+  "both_boundary_zero_anchors_present": false,
+  "nonzero_leaks_through_erased_span": true
+}
