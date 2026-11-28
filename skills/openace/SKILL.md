@@ -55,7 +55,8 @@ openace-tool render-vocal <project-id> <track-id>
 # If a queued server-side render was a mistake:
 openace-tool cancel-render-job <job-id>
 openace-tool vocal2bgm <project-id> <source.wav> --caption "professional instrumental accompaniment"
-openace-tool repaint <project-id> <source.wav> --start 1.0 --end 5.0 --caption "warmer rock backing"
+openace-tool repaint <project-id> <source.wav> --start 1.0 --end 5.0 [--clip-id <clip-id>] --caption "warmer rock backing"
+# start/end are arrangement seconds; the source must exist as an intersecting arrangement clip
 openace-tool separate <project-id> <source.wav>
 openace-tool svc <project-id> <source.wav> <reference.wav>
 openace-tool export <project-id> svp output.svp

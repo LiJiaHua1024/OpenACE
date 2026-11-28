@@ -120,6 +120,9 @@ def test_music_job_recovery_parameters_are_durable(tmp_path, monkeypatch):
     monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
     store = ProjectStore(tmp_path / "projects")
     project = store.create("music-durable")
+    accompaniment = project.add_track(Track(name="BGM", type=TrackType.ACCOMPANIMENT))
+    accompaniment.clips.append(AudioClip(path="/tmp/source.wav", start_ticks=0, duration_ticks=1920))
+    store.save(project)
     service = RenderService(store, tmp_path / "renders")
     job = service.create_job(
         project.id,
@@ -140,6 +143,9 @@ def test_music_job_recovery_parameters_are_durable(tmp_path, monkeypatch):
     assert restored.caption == "warmer drums"
     assert restored.start_s == 1.25
     assert restored.end_s == 2.5
+    assert restored.clip_id is not None
+    assert restored.source_start_s == pytest.approx(1.25)
+    assert restored.source_end_s == pytest.approx(2.0)
 
 
 def test_air_automation_postprocesses_fixture_render(monkeypatch, tmp_path):
@@ -379,11 +385,11 @@ def test_repaint_replacement_preserves_creation_and_records_update_provenance(tm
     monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
     store = ProjectStore(tmp_path / "projects")
     project = store.create("repaint-provenance")
-    accompaniment = project.add_track(Track(name="BGM", type=TrackType.ACCOMPANIMENT))
-    accompaniment.clips.append(AudioClip(path=str(tmp_path / "old.wav"), start_ticks=0, duration_ticks=480, created_by_job_id="job_original"))
-    store.save(project)
     source = tmp_path / "source.wav"
     sf.write(str(source), np.zeros(24000, dtype=np.float32), 24000)
+    accompaniment = project.add_track(Track(name="BGM", type=TrackType.ACCOMPANIMENT))
+    accompaniment.clips.append(AudioClip(path=str(source), start_ticks=0, duration_ticks=480, created_by_job_id="job_original"))
+    store.save(project)
 
     service = RenderService(store, tmp_path / "renders")
     job = service.create_job(project.id, RenderMode.REPAINT, source_audio=str(source), start_s=0.0, end_s=0.5)
@@ -394,3 +400,73 @@ def test_repaint_replacement_preserves_creation_and_records_update_provenance(tm
     assert updated.created_by_job_id == "job_original"
     assert updated.updated_by_job_id == job.id
     assert updated.path.endswith(f"{job.id}/accompaniment.wav")
+
+
+def test_repaint_maps_arrangement_selection_into_source_file_time_and_preserves_clip(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("repaint-source-mapping")
+    project.bpm = 120
+    source = tmp_path / "trimmed-source.wav"
+    sf.write(str(source), np.zeros(24000 * 3, dtype=np.float32), 24000)
+    accompaniment = project.add_track(Track(name="BGM", type=TrackType.ACCOMPANIMENT))
+    clip = AudioClip(
+        path=str(source),
+        start_ticks=960,
+        duration_ticks=1920,
+        offset_ticks=480,
+        fade_in_ticks=24,
+        fade_out_ticks=36,
+        gain_db=-3.0,
+        created_by_job_id="job_original",
+    )
+    accompaniment.clips.append(clip)
+    store.save(project)
+
+    service = RenderService(store, tmp_path / "renders")
+    # At 120 BPM the clip occupies 1-3s on the arrangement. The selected 1.25-2.25s
+    # visible range maps 0.25-1.25s into the clip, plus its 0.5s source offset.
+    job = service.create_job(project.id, RenderMode.REPAINT, source_audio=str(source), start_s=1.25, end_s=2.25, clip_id=clip.id)
+    assert job.clip_id == clip.id
+    assert job.source_start_s == pytest.approx(0.75)
+    assert job.source_end_s == pytest.approx(1.75)
+
+    result = asyncio.run(service.run_music_generation(job.id, str(source), "", 1.25, 2.25))
+    assert result.status == "completed"
+    output, sr = sf.read(result.output_path)
+    assert sr == 24000
+    assert np.max(np.abs(output[: int(0.74 * sr)])) == 0
+    assert np.max(np.abs(output[int(0.8 * sr): int(1.7 * sr)])) > 0.05
+    assert np.max(np.abs(output[int(1.76 * sr):])) == 0
+
+    updated = store.get(project.id).tracks[-1].clips[0]
+    assert updated.created_by_job_id == "job_original"
+    assert updated.updated_by_job_id == job.id
+    assert updated.path.endswith(f"{job.id}/accompaniment.wav")
+    assert updated.start_ticks == 960
+    assert updated.duration_ticks == 1920
+    assert updated.offset_ticks == 480
+    assert updated.fade_in_ticks == 24
+    assert updated.fade_out_ticks == 36
+    assert updated.gain_db == pytest.approx(-3.0)
+
+
+def test_repaint_requires_intersecting_arrangement_clip_and_honors_explicit_clip_id(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("repaint-targeting")
+    source = tmp_path / "shared-source.wav"
+    sf.write(str(source), np.zeros(24000 * 2, dtype=np.float32), 24000)
+    accompaniment = project.add_track(Track(name="BGM", type=TrackType.ACCOMPANIMENT))
+    first = AudioClip(path=str(source), start_ticks=0, duration_ticks=960)
+    second = AudioClip(path=str(source), start_ticks=960, duration_ticks=960)
+    accompaniment.clips.extend([first, second])
+    store.save(project)
+
+    service = RenderService(store, tmp_path / "renders")
+    with pytest.raises(ValueError, match="does not intersect"):
+        service.create_job(project.id, RenderMode.REPAINT, source_audio=str(source), start_s=5.0, end_s=6.0)
+    job = service.create_job(project.id, RenderMode.REPAINT, source_audio=str(source), start_s=1.25, end_s=1.75, clip_id=second.id)
+    assert job.clip_id == second.id
+    assert job.source_start_s == pytest.approx(0.25)
+    assert job.source_end_s == pytest.approx(0.75)

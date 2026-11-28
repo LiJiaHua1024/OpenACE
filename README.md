@@ -89,7 +89,7 @@ The canvas piano roll supports brush/select/erase tools, marquee multi-select, m
 
 ## Repaint region selection
 
-In the arrangement canvas, hold **Alt** and drag across the timeline to draw the yellow repaint region. The same region is reflected in the Vocal2BGM/Repaint panel as numeric seconds and is passed to the ACE-Step repaint job.
+In the arrangement canvas, hold **Alt** and drag across the timeline to draw the yellow repaint region over an accompaniment clip. The panel resolves the overlapping target clip, clamps the region to that clip, converts it into source-file time using the clip start/offset, and passes only that source interval to the ACE-Step repaint job.
 
 ## Audio-to-MIDI and local ASR lyrics
 

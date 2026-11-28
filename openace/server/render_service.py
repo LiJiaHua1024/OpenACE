@@ -35,6 +35,91 @@ def first_vocal_notes(project: Project):
     return []
 
 
+
+def _path_identity(path: str) -> str:
+    try:
+        return str(Path(path).resolve())
+    except OSError:
+        return str(path)
+
+
+def clip_source_offset_seconds(project: Project, clip: AudioClip) -> float:
+    offset_ticks = int(clip.offset_ticks or 0)
+    if offset_ticks <= 0:
+        return 0.0
+    return project.tick_duration_seconds(clip.start_ticks - offset_ticks, offset_ticks)
+
+
+def clip_timeline_span_seconds(project: Project, clip: AudioClip) -> tuple[float, float]:
+    start_s = project.ticks_to_seconds(clip.start_ticks)
+    if clip.duration_ticks is not None:
+        duration_s = project.tick_duration_seconds(clip.start_ticks, clip.duration_ticks)
+    else:
+        try:
+            info = sf.info(str(clip.path))
+            duration_s = max(0.0, info.frames / float(info.samplerate) - clip_source_offset_seconds(project, clip))
+        except Exception:
+            duration_s = 0.0
+    return start_s, start_s + duration_s
+
+
+def find_clip(project: Project, clip_id: str) -> tuple[Track, AudioClip] | tuple[None, None]:
+    for track in project.tracks:
+        for clip in track.clips:
+            if clip.id == clip_id:
+                return track, clip
+    return None, None
+
+
+def resolve_repaint_target(project: Project, source_audio: Optional[str], clip_id: Optional[str], start_s: float, end_s: float) -> tuple[Track, AudioClip, float, float, float, float]:
+    """Resolve arrangement repaint selection into source-audio seconds.
+
+    ACE-Step expects times in the source file, while the workstation selection is in
+    arrangement time. The intersection is clamped to the visible clip span and then
+    shifted by the clip's source offset. Times remain seconds because clips are not
+    time-stretched; piecewise tempo conversion only determines the timeline endpoints.
+    """
+    if end_s != -1 and end_s <= start_s:
+        raise ValueError("repaint end must be greater than start")
+    candidates: list[tuple[Track, AudioClip]] = []
+    if clip_id:
+        track, clip = find_clip(project, clip_id)
+        if clip is None or track is None:
+            raise ValueError(f"repaint target clip not found: {clip_id}")
+        candidates.append((track, clip))
+        if not source_audio:
+            source_audio = clip.path
+    else:
+        if not source_audio:
+            raise ValueError("repaint requires source_audio or clip_id")
+        wanted = _path_identity(source_audio)
+        for track in project.tracks:
+            for clip in track.clips:
+                if _path_identity(clip.path) == wanted:
+                    candidates.append((track, clip))
+        if not candidates:
+            raise ValueError("repaint source audio must be present as an arrangement clip so timeline selection can be mapped truthfully")
+
+    best = None
+    requested_end = float("inf") if end_s == -1 else end_s
+    for track, clip in candidates:
+        clip_start, clip_end = clip_timeline_span_seconds(project, clip)
+        overlap_start = max(float(start_s), clip_start)
+        overlap_end = min(requested_end, clip_end)
+        if overlap_end <= overlap_start:
+            continue
+        offset = clip_source_offset_seconds(project, clip)
+        source_start = offset + (overlap_start - clip_start)
+        source_end = offset + (overlap_end - clip_start)
+        overlap = overlap_end - overlap_start
+        if best is None or overlap > best[-1]:
+            best = (track, clip, source_start, source_end, overlap_start, overlap_end, overlap)
+    if best is None:
+        raise ValueError("repaint range does not intersect the source arrangement clip")
+    track, clip, source_start, source_end, overlap_start, overlap_end, _ = best
+    return track, clip, source_start, source_end, overlap_start, overlap_end
+
+
 class RenderService:
     def __init__(self, store: ProjectStore, render_root: Path):
         self.store = store
@@ -262,7 +347,21 @@ class RenderService:
         caption: str = "",
         start_s: Optional[float] = None,
         end_s: Optional[float] = None,
+        clip_id: Optional[str] = None,
     ) -> RenderJob:
+        source_start_s = None
+        source_end_s = None
+        if mode == RenderMode.REPAINT:
+            project = self.store.get(project_id)
+            _, target_clip, source_start_s, source_end_s, _, _ = resolve_repaint_target(
+                project,
+                source_audio,
+                clip_id,
+                float(start_s or 0.0),
+                float(end_s if end_s is not None else -1.0),
+            )
+            clip_id = target_clip.id
+            source_audio = target_clip.path
         job = RenderJob(
             project_id=project_id,
             track_id=track_id,
@@ -272,6 +371,9 @@ class RenderService:
             caption=caption,
             start_s=start_s,
             end_s=end_s,
+            clip_id=clip_id,
+            source_start_s=source_start_s,
+            source_end_s=source_end_s,
         )
         job.fixture = self.fixture_mode
         job.engine = self.vocal_engine_name if mode in {RenderMode.SVS_SCORE, RenderMode.SVC} else ("Demucs" if mode == RenderMode.SEPARATE and not self.fixture_mode else self.music_engine_name)
@@ -392,18 +494,18 @@ class RenderService:
         job.progress = 0.05
         self._publish_job(job)
         try:
+            source_audio = job.source_audio or source_audio
+            caption = job.caption or caption
             project = self.store.get(job.project_id)
             outdir = self.output_dir(project.id, job.id)
             wav = outdir / "accompaniment.wav"
             duration = project.ticks_to_seconds(project.duration_ticks())
-            repaint_target_clip_id = None
             if job.mode == RenderMode.REPAINT:
-                source_accompaniment = next((t for t in project.tracks if t.type == TrackType.ACCOMPANIMENT), None)
-                if source_accompaniment is not None and source_accompaniment.clips:
-                    repaint_target_clip_id = source_accompaniment.clips[-1].id
                 if not source_audio:
                     raise ValueError("repaint requires source_audio")
-                await asyncio.to_thread(self.music_engine.repaint, Path(source_audio), wav, start_s, end_s, caption, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
+                engine_start_s = job.source_start_s if job.source_start_s is not None else start_s
+                engine_end_s = job.source_end_s if job.source_end_s is not None else end_s
+                await asyncio.to_thread(self.music_engine.repaint, Path(source_audio), wav, engine_start_s, engine_end_s, caption, cancellation=self.cancellation_token(job_id), progress=self._progress_callback(job_id))
                 self.raise_if_cancelled(job_id)
             else:
                 if not source_audio:
@@ -420,27 +522,35 @@ class RenderService:
                     Track(name="ACE-Step BGM", type=TrackType.ACCOMPANIMENT, color="#2fb996", created_by_job_id=job.id)
                 )
             self.raise_if_cancelled(job_id)
-            repaint_target = next((clip for clip in accompaniment.clips if clip.id == repaint_target_clip_id), None) if repaint_target_clip_id else None
-            if job.mode == RenderMode.REPAINT and repaint_target is not None:
-                # Repaint returns a full-length revised accompaniment. Replace only
-                # the clip captured at job start; never overwrite a different clip
-                # created or moved by the user while generation was running.
+            repaint_parent = None
+            repaint_target = None
+            if job.mode == RenderMode.REPAINT and job.clip_id:
+                repaint_parent, repaint_target = find_clip(completion_project, job.clip_id)
+            if job.mode == RenderMode.REPAINT:
+                if repaint_target is None or repaint_parent is None:
+                    raise RuntimeError("repaint target clip was deleted before render completion; output was not adopted")
+                # Repaint returns a full-length revised source file aligned with the
+                # original file. Preserve the user's arrangement position, trim,
+                # source offset, fades, and gain exactly; only the media identity and
+                # provenance change. The visible intersection was already converted to
+                # source-file seconds when the job was created.
                 repaint_target.path = str(wav)
-                repaint_target.duration_ticks = duration_ticks
                 repaint_target.label = "Repaint"
                 repaint_target.updated_by_job_id = job.id
+                repaint_parent.render_path = str(wav)
+                repaint_parent.render_revision += 1
             else:
                 accompaniment.clips.append(
                     AudioClip(
                         path=str(wav),
                         start_ticks=0,
                         duration_ticks=duration_ticks,
-                        label="Repaint" if job.mode == RenderMode.REPAINT else "Vocal2BGM",
+                        label="Vocal2BGM",
                         created_by_job_id=job.id,
                     )
                 )
-            accompaniment.render_path = str(wav)
-            accompaniment.render_revision += 1
+                accompaniment.render_path = str(wav)
+                accompaniment.render_revision += 1
             self.raise_if_cancelled(job_id)
             self.store.save(completion_project)
             self._publish_project(completion_project)

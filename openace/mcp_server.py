@@ -184,8 +184,8 @@ async def vocal2bgm(project_id: str, source_audio: str, caption: str = "professi
     return dumps(result.model_dump(mode="json"))
 
 
-async def repaint(project_id: str, source_audio: str, start_s: float, end_s: float, caption: str = "") -> str:
-    job = render_service.create_job(project_id, RenderMode.REPAINT, source_audio=source_audio, caption=caption, start_s=start_s, end_s=end_s)
+async def repaint(project_id: str, source_audio: str, start_s: float, end_s: float, caption: str = "", clip_id: str = "") -> str:
+    job = render_service.create_job(project_id, RenderMode.REPAINT, source_audio=source_audio, caption=caption, start_s=start_s, end_s=end_s, clip_id=clip_id or None)
     result = await render_service.run_music_generation(job.id, source_audio, caption, start_s, end_s)
     notify_web(store.get(project_id))
     return dumps(result.model_dump(mode="json"))

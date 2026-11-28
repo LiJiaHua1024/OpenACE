@@ -168,6 +168,9 @@ export interface RenderJob {
   fixture?: boolean
   created_at: number
   finished_at?: number | null
+  clip_id?: string | null
+  source_start_s?: number | null
+  source_end_s?: number | null
 }
 
 export interface LoudnessHistoryPoint {

@@ -125,6 +125,7 @@ class RenderRequest(BaseModel):
     caption: str = ""
     start_s: float = 0.0
     end_s: float = -1.0
+    clip_id: Optional[str] = None
 
 
 def get_project(project_id: str) -> Project:
@@ -201,8 +202,12 @@ def merge_unacknowledged_render_outputs(current: Project, incoming: Project) -> 
 
         incoming_clips = {clip.id: clip for clip in incoming_track.clips}
         for current_clip in current_track.clips:
-            job_id = current_clip.created_by_job_id or _render_job_id_for_path(current_clip.path, current.id)
-            if not _unacknowledged_render_job(job_id, awareness):
+            job_ids = [
+                current_clip.created_by_job_id,
+                current_clip.updated_by_job_id,
+                _render_job_id_for_path(current_clip.path, current.id),
+            ]
+            if not any(_unacknowledged_render_job(job_id, awareness) for job_id in job_ids):
                 continue
             incoming_clip = incoming_clips.get(current_clip.id)
             if incoming_clip is None:
@@ -210,7 +215,8 @@ def merge_unacknowledged_render_outputs(current: Project, incoming: Project) -> 
                     incoming_track.clips.append(current_clip.model_copy(deep=True))
                 continue
             incoming_clip.path = current_clip.path
-            incoming_clip.duration_ticks = current_clip.duration_ticks
+            # Repaint output is a full-length replacement aligned with the original
+            # source file; duration remains a user-controlled trim, not job output.
             incoming_clip.label = current_clip.label
             incoming_clip.created_by_job_id = current_clip.created_by_job_id
             incoming_clip.updated_by_job_id = current_clip.updated_by_job_id
@@ -466,7 +472,7 @@ async def render_vocal2bgm(project_id: str, request: RenderRequest):
 @app.post("/api/projects/{project_id}/render/repaint")
 async def render_repaint(project_id: str, request: RenderRequest):
     get_project(project_id)
-    job = render_service.create_job(project_id, RenderMode.REPAINT, request.track_id, source_audio=request.source_audio, caption=request.caption, start_s=request.start_s, end_s=request.end_s)
+    job = render_service.create_job(project_id, RenderMode.REPAINT, request.track_id, source_audio=request.source_audio, caption=request.caption, start_s=request.start_s, end_s=request.end_s, clip_id=request.clip_id)
     render_service.enqueue_job(job.id)
     return job.model_dump(mode="json")
 

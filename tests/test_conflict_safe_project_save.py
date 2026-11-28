@@ -96,7 +96,7 @@ def test_stale_autosave_merges_repaint_output_without_losing_user_clip_edits(tmp
     payload = put(client, stale)
     merged = payload["tracks"][-1]["clips"][0]
     assert merged["path"].endswith("job_repaint/accompaniment.wav")
-    assert merged["duration_ticks"] == 960
+    assert merged["duration_ticks"] == 480
     assert merged["label"] == "Repaint"
     assert merged["start_ticks"] == 480
     assert merged["gain_db"] == -3.0

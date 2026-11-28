@@ -1,0 +1,96 @@
+{
+  "clips": [
+    {
+      "track": "BGM Target",
+      "track_id": "track_dc73006a5756",
+      "id": "clip_0de208e26647",
+      "path": "/home/ubuntu/repos/OpenACE/data/renders/project_c706171a3614/job_f2468c141366/accompaniment.wav",
+      "start_ticks": 960,
+      "duration_ticks": 1920,
+      "offset_ticks": 480,
+      "fade_in_ticks": 24,
+      "fade_out_ticks": 36,
+      "gain_db": -3.0,
+      "label": "Repaint",
+      "transcribed_lyrics": [],
+      "created_by_job_id": "job_seed_target",
+      "updated_by_job_id": "job_f2468c141366"
+    },
+    {
+      "track": "BGM Same Source Decoy",
+      "track_id": "track_2de81027628c",
+      "id": "clip_681eb1c03ad2",
+      "path": "/home/ubuntu/repos/OpenACE/data/qa_sources/repaint_clip_control_source.wav",
+      "start_ticks": 960,
+      "duration_ticks": 1920,
+      "offset_ticks": 480,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Decoy same source",
+      "transcribed_lyrics": [],
+      "created_by_job_id": "job_seed_same",
+      "updated_by_job_id": null
+    },
+    {
+      "track": "BGM Other Source Decoy",
+      "track_id": "track_a7dc1d9f35c2",
+      "id": "clip_6467ce4eb9e7",
+      "path": "/home/ubuntu/repos/OpenACE/data/qa_sources/repaint_clip_control_other.wav",
+      "start_ticks": 960,
+      "duration_ticks": 1920,
+      "offset_ticks": 480,
+      "fade_in_ticks": 0,
+      "fade_out_ticks": 0,
+      "gain_db": 0.0,
+      "label": "Decoy other source",
+      "transcribed_lyrics": [],
+      "created_by_job_id": "job_seed_other",
+      "updated_by_job_id": null
+    }
+  ],
+  "state_checks": {
+    "target_path_is_job_output": true,
+    "target_created_by": "job_seed_target",
+    "target_updated_by": "job_f2468c141366",
+    "target_geometry": {
+      "start_ticks": 960,
+      "duration_ticks": 1920,
+      "offset_ticks": 480,
+      "fade_in_ticks": 24,
+      "fade_out_ticks": 36,
+      "gain_db": -3.0,
+      "label": "Repaint"
+    },
+    "same_path": "/home/ubuntu/repos/OpenACE/data/qa_sources/repaint_clip_control_source.wav",
+    "same_created_by": "job_seed_same",
+    "same_updated_by": null,
+    "other_path": "/home/ubuntu/repos/OpenACE/data/qa_sources/repaint_clip_control_other.wav",
+    "other_created_by": "job_seed_other",
+    "other_updated_by": null
+  },
+  "sample_rates": [
+    24000,
+    24000
+  ],
+  "lengths": [
+    72000,
+    72000
+  ],
+  "audio_analysis": {
+    "expected_source_interval_s": [
+      0.5,
+      1.75
+    ],
+    "expected_samples": [
+      12000,
+      42000
+    ],
+    "max_abs_diff_outside_interval": 0.0,
+    "max_abs_error_vs_exact_220hz_sine_inside": 3.022923969676905e-05,
+    "rms_error_vs_exact_220hz_sine_inside": 1.7550254014388065e-05,
+    "max_abs_inside": 0.120025634765625,
+    "max_abs_original_inside": 0.02001953125,
+    "nonzero_sample_max_outside_output_minus_input": 0.0
+  }
+}

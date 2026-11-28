@@ -398,6 +398,9 @@ class RenderJob(BaseModel):
     caption: str = ""
     start_s: Optional[float] = None
     end_s: Optional[float] = None
+    clip_id: Optional[str] = None
+    source_start_s: Optional[float] = None
+    source_end_s: Optional[float] = None
 
 
 def project_to_yaml(project: Project) -> str:

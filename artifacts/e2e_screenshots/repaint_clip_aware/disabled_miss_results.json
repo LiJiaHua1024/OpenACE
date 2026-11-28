@@ -1,0 +1,9 @@
+{
+  "range": [
+    "10",
+    "11"
+  ],
+  "disabled": true,
+  "target_hint_count": 0,
+  "button_title": "Draw a region overlapping an accompaniment clip"
+}

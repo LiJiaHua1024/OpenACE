@@ -220,7 +220,7 @@ def cmd_vocal2bgm(args) -> None:
 
 def cmd_repaint(args) -> None:
     store, service = services()
-    job = service.create_job(args.project, RenderMode.REPAINT, args.track, source_audio=args.source_audio, caption=args.caption, start_s=args.start, end_s=args.end)
+    job = service.create_job(args.project, RenderMode.REPAINT, args.track, source_audio=args.source_audio, caption=args.caption, start_s=args.start, end_s=args.end, clip_id=args.clip_id)
     result = asyncio.run(service.run_music_generation(job.id, args.source_audio, args.caption, args.start, args.end))
     notify_web(store.get(args.project))
     emit(result.model_dump(mode="json"))
@@ -493,6 +493,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--track", default=None)
     p.add_argument("--start", type=float, required=True)
     p.add_argument("--end", type=float, required=True)
+    p.add_argument("--clip-id", default=None, help="exact arrangement clip id when several clips use the same source")
     p.add_argument("--caption", default="")
     p.set_defaults(func=cmd_repaint)
 

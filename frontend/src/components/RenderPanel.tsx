@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { api, importAudioClip, renderFileUrl, uploadFile, uploadVoice, voiceAudioUrl } from '../api'
-import { barTicks, ticksToSeconds } from '../tempo'
+import { barTicks, tickDurationSeconds, ticksToSeconds } from '../tempo'
 import type { MediaFile, Note, Project, RenderJob, Track, VoiceProfile } from '../types'
 import { vocalRenderInputHash, vocalRenderIsStale } from '../renderFingerprint'
 
@@ -14,6 +14,25 @@ interface Props {
   onPatchTrack(trackId: string, patch: Partial<Track>): void
   updateProject(mutator: (project: Project) => void, transient?: boolean): void
   onJobCreated(job: RenderJob): void
+}
+
+function overlappingRepaintClip(project: Project, startS: number, endS: number, preferredPath: string) {
+  let best: { clip: import('../types').AudioClip; overlap: number; pathMatch: boolean } | null = null
+  for (const track of project.tracks) {
+    if (track.type !== 'accompaniment') continue
+    for (const clip of track.clips) {
+      if (!clip.duration_ticks) continue
+      const clipStart = ticksToSeconds(project, clip.start_ticks)
+      const clipEnd = clipStart + tickDurationSeconds(project, clip.start_ticks, clip.duration_ticks)
+      const overlap = Math.min(endS, clipEnd) - Math.max(startS, clipStart)
+      if (overlap <= 0) continue
+      const pathMatch = Boolean(preferredPath) && clip.path === preferredPath
+      if (!best || (pathMatch && !best.pathMatch) || (pathMatch === best.pathMatch && overlap > best.overlap)) {
+        best = { clip, overlap, pathMatch }
+      }
+    }
+  }
+  return best?.clip || null
 }
 
 export default function RenderPanel(props: Props) {
@@ -72,6 +91,7 @@ export default function RenderPanel(props: Props) {
     return `${formatted}s total`
   }
   const staleRender = props.track ? vocalRenderIsStale(props.project, props.track) : false
+  const repaintClip = overlappingRepaintClip(props.project, repaintStart, repaintEnd, sourceAudio)
 
   useEffect(() => {
     window.localStorage.setItem('openace.autoRender', autoRender ? '1' : '0')
@@ -518,7 +538,8 @@ export default function RenderPanel(props: Props) {
           <label>Start<input type="number" min="0" step="0.1" value={Number(repaintStart.toFixed(2))} onChange={e => props.onRepaintRange({ start: Number(e.target.value), end: repaintEnd })} /></label>
           <label>End<input type="number" min="0" step="0.1" value={Number(repaintEnd.toFixed(2))} onChange={e => props.onRepaintRange({ start: repaintStart, end: Number(e.target.value) })} /></label>
         </div>
-        <button disabled={!sourceAudio || repaintEnd <= repaintStart || busy === 'repaint'} className="wide-action secondary" onClick={() => run('repaint', () => api.repaint(props.project.id, sourceAudio, repaintStart, repaintEnd, caption))}>Repaint selection</button>
+        <button disabled={!repaintClip || repaintEnd <= repaintStart || busy === 'repaint'} className="wide-action secondary" title={repaintClip ? `Repaint ${repaintClip.label || repaintClip.path.split('/').pop()} using source-file timing` : 'Draw a region overlapping an accompaniment clip'} onClick={() => repaintClip && run('repaint', () => api.repaint(props.project.id, repaintClip.path, repaintStart, repaintEnd, caption, repaintClip.id))}>Repaint selection</button>
+        {repaintClip && <div className="hint repaint-target">target: {repaintClip.label || repaintClip.path.split('/').pop()}</div>}
         <button disabled={!sourceAudio || busy === 'separate'} className="wide-action secondary" onClick={() => run('separate', () => api.separate(props.project.id, sourceAudio))}>{busy === 'separate' ? 'Separating…' : 'Separate vocal/instrumental'}</button>
         <button disabled={!sourceAudio || !props.track?.reference_voice_path || busy === 'svc'} className="wide-action secondary" onClick={() => run('svc', () => api.svc(props.project.id, sourceAudio, props.track!.reference_voice_path!))}>SVC voice conversion</button>
       </section>

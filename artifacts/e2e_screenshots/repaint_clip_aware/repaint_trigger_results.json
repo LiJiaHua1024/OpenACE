@@ -1,0 +1,41 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "after_alt_drag_range": [
+    "0.75",
+    "2.25"
+  ],
+  "exact_range": [
+    "0.75",
+    "2.25"
+  ],
+  "enabled": true,
+  "target_hint_count": 1,
+  "target_hint": "target: Target clip",
+  "button_title": "Repaint Target clip using source-file timing",
+  "job": {
+    "id": "job_f2468c141366",
+    "project_id": "project_c706171a3614",
+    "track_id": null,
+    "mode": "repaint",
+    "status": "completed",
+    "progress": 1.0,
+    "message": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_c706171a3614/job_f2468c141366/accompaniment.wav",
+    "diagnostic_path": "/home/ubuntu/repos/OpenACE/data/renders/project_c706171a3614/job_f2468c141366/diagnostic.png",
+    "created_at": 1795842060.699299,
+    "finished_at": 1795842061.3744555,
+    "error": null,
+    "engine": "explicit CI music fixture",
+    "fixture": true,
+    "source_audio": "/home/ubuntu/repos/OpenACE/data/qa_sources/repaint_clip_control_source.wav",
+    "reference_voice": null,
+    "caption": "lush modern pop accompaniment, tight drums, warm bass, cinematic polish",
+    "start_s": 0.75,
+    "end_s": 2.25,
+    "clip_id": "clip_0de208e26647",
+    "source_start_s": 0.5,
+    "source_end_s": 1.75
+  }
+}
