@@ -71,6 +71,11 @@ openace-tool export <project-id> ustx output.ustx
 openace-tool export <project-id> vpr output.vpr
 openace-tool export <project-id> mid output.mid
 openace-tool export <project-id> wav output.wav
+openace-tool export <project-id> mp3 output.mp3
+openace-tool export <project-id> flac output.flac
+openace-tool export <project-id> ogg output.ogg
+openace-tool export <project-id> stems output_stems.zip
+openace-tool export <project-id> mp4 output.mp4
 ```
 
 JSON arguments may be inline JSON or paths to JSON files. Use exact musical ticks. `ripple-delete-range` destructively cuts that musical interval across all tracks, truthfully splitting boundary vocal notes/audio clips and shifting downstream material; confirm the user wants destructive ripple editing before using it. Expression values are normalized 0–1 except `pitch_cents` (±100 cents). Breath intensity is 0–2 and timbre is `soft`, `natural`, or `strong`.

@@ -839,6 +839,10 @@ export default function PianoRoll(props: Props) {
     if (hit) setEditing({ note: hit, x, y, value: hit.lyric })
   }
 
+  useEffect(() => {
+    if (editing && props.track && !props.track.notes.some(note => note.id === editing.note.id)) setEditing(null)
+  }, [editing, props.track])
+
   function commitLyric(advance: -1 | 0 | 1 = 0) {
     if (!editing) return
     const value = editing.value.trim()
@@ -849,15 +853,18 @@ export default function PianoRoll(props: Props) {
       const index = ordered.findIndex(note => note.id === noteId)
       nextNote = ordered[index + advance] || null
     }
-    props.beginTransaction()
-    mutateTrack(track => {
-      const note = track.notes.find(n => n.id === noteId)
-      if (note) {
-        note.lyric = value
-        note.phonemes = []
-      }
-    }, true)
-    props.endTransaction()
+    const currentLyric = props.track?.notes.find(note => note.id === noteId)?.lyric ?? ''
+    if (value !== currentLyric) {
+      props.beginTransaction()
+      mutateTrack(track => {
+        const note = track.notes.find(n => n.id === noteId)
+        if (note) {
+          note.lyric = value
+          note.phonemes = []
+        }
+      }, true)
+      props.endTransaction()
+    }
     if (nextNote) {
       const rect = noteRect(nextNote)
       setEditing({ note: nextNote, x: rect.x + rect.w / 2, y: rect.y + rect.h / 2, value: nextNote.lyric })

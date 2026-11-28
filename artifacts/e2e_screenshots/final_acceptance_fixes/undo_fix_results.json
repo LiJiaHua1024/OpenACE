@@ -1,0 +1,46 @@
+{
+  "console": [],
+  "badnet": [],
+  "rapid": [
+    {
+      "iteration": 1,
+      "method": "toolbar",
+      "delay": 30,
+      "backend_count": 1,
+      "ui": "⋯\nvocal · zh · 1 notes\nM\nS\nOpenUtau host",
+      "editor_open": 0
+    },
+    {
+      "iteration": 2,
+      "method": "ctrlz",
+      "delay": 60,
+      "backend_count": 2,
+      "ui": "⋯\nvocal · zh · 2 notes\nM\nS\nOpenUtau host",
+      "editor_open": 1
+    },
+    {
+      "iteration": 3,
+      "method": "toolbar",
+      "delay": 120,
+      "backend_count": 3,
+      "ui": "⋯\nvocal · zh · 3 notes\nM\nS\nOpenUtau host",
+      "editor_open": 0
+    },
+    {
+      "iteration": 4,
+      "method": "ctrlz",
+      "delay": 180,
+      "backend_count": 4,
+      "ui": "⋯\nvocal · zh · 4 notes\nM\nS\nOpenUtau host",
+      "editor_open": 1
+    }
+  ],
+  "lyric": {
+    "before": "",
+    "after_undo": "",
+    "count_after_undo": 5,
+    "after_redo": "",
+    "count_after_redo": 5
+  },
+  "project_id": "project_45871a8f96b6"
+}

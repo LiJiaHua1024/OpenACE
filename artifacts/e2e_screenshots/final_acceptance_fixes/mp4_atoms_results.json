@@ -1,0 +1,19 @@
+{
+  "mcp": {
+    "isError": false,
+    "text": "{\n  \"output\": \"/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/final_acceptance_fixes/mcp_export_test.mp4\",\n  \"bytes\": 135075\n}",
+    "exists": true,
+    "bytes": 135075,
+    "duration": 2.5,
+    "ftyp": true
+  },
+  "cli": {
+    "returncode": 0,
+    "stdout": "{\n  \"output\": \"/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/final_acceptance_fixes/cli_export_test.mp4\",\n  \"format\": \"mp4\",\n  \"bytes\": 77794\n}\n",
+    "stderr": "",
+    "exists": true,
+    "bytes": 77794,
+    "duration": 2.5,
+    "ftyp": true
+  }
+}

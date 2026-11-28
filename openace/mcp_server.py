@@ -20,7 +20,7 @@ from openace.exporters.midi_lrc import export_lrc, export_midi
 from openace.importers.audio import project_from_audio
 from openace.importers.midi import import_midi
 from openace.exporters.svp import export_svp
-from openace.exporters.master import export_compressed_master, export_master_wav, export_stems_zip
+from openace.exporters.master import export_compressed_master, export_lyrics_video_master, export_master_wav, export_stems_zip
 from openace.exporters.ustx import export_ustx
 from openace.exporters.vpr import export_vpr
 from openace.server.render_service import RenderService
@@ -249,6 +249,9 @@ def export_project(project_id: str, fmt: str, output_path: str, start_ticks: int
     exporters = {"mid": export_midi, "lrc": export_lrc, "ustx": export_ustx, "svp": export_svp, "vpr": export_vpr, "wav": export_master_wav, "stems": export_stems_zip}
     if fmt in {"mp3", "flac", "ogg"}:
         export_compressed_master(project, output, fmt, start_ticks=start, end_ticks=end)
+        return dumps({"output": str(output), "bytes": output.stat().st_size})
+    if fmt == "mp4":
+        export_lyrics_video_master(project, output)
         return dumps({"output": str(output), "bytes": output.stat().st_size})
     if fmt not in exporters:
         raise ValueError(f"unsupported format: {fmt}")

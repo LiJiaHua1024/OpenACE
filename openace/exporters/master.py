@@ -534,3 +534,11 @@ def export_lyrics_video(project: Project, master_wav: Path, output_path: Path) -
     except (subprocess.CalledProcessError, FileNotFoundError) as exc:
         raise RuntimeError("ffmpeg MP4 export failed; install ffmpeg with libx264/libass") from exc
     return output_path
+
+
+def export_lyrics_video_master(project: Project, output_path: Path) -> Path:
+    """Render a karaoke MP4 directly from the project master for CLI/MCP export atoms."""
+    with tempfile.TemporaryDirectory(prefix="openace_mp4_") as temporary:
+        master = Path(temporary) / "master.wav"
+        export_master_wav(project, master)
+        return export_lyrics_video(project, master, output_path)

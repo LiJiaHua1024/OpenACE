@@ -683,3 +683,36 @@ def test_ustx_snap_first_transitions_are_regenerated_not_frozen(tmp_path):
     reexported = export_ustx(imported, tmp_path / "snap-reordered.ustx")
     regenerated = yaml.safe_load(reexported.read_text(encoding="utf-8"))
     assert regenerated["voice_parts"][0]["notes"][1]["pitch"]["data"][0]["y"] == 20
+
+
+def test_cli_and_mcp_export_atoms_support_mp4(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    import openace.cli as cli
+    import openace.mcp_server as mcp
+    from openace.core.project_store import ProjectStore
+
+    project = sample_project()
+    store = ProjectStore(tmp_path / "projects")
+    store.save(project)
+    calls = []
+
+    def fake_mp4_export(target, output):
+        calls.append((target.id, output))
+        output.write_bytes(b"ftyp-mp4")
+        return output
+
+    monkeypatch.setattr(cli, "services", lambda: (store, None))
+    monkeypatch.setattr(cli, "export_lyrics_video_master", fake_mp4_export)
+    monkeypatch.setattr(mcp, "store", store)
+    monkeypatch.setattr(mcp, "export_lyrics_video_master", fake_mp4_export)
+
+    cli_output = tmp_path / "cli.mp4"
+    cli.cmd_export(SimpleNamespace(project=project.id, format="mp4", output=str(cli_output), start_ticks=None, end_ticks=None))
+    assert cli_output.read_bytes() == b"ftyp-mp4"
+
+    mcp_output = tmp_path / "mcp.mp4"
+    payload = json.loads(mcp.export_project(project.id, "mp4", str(mcp_output)))
+    assert payload["bytes"] == len(b"ftyp-mp4")
+    assert mcp_output.read_bytes() == b"ftyp-mp4"
+    assert [call[0] for call in calls] == [project.id, project.id]

@@ -2,7 +2,7 @@
 
 Status legend: **Done** (implemented and exercised end-to-end in this repository), **Partial** (real implementation exists but production depth or validation is incomplete), **Gap** (missing). This is an adversarial living audit, not marketing copy.
 
-Last audit iteration: 2026-11-28, after truthful SVC key/transposition validation.
+Last audit iteration: 2026-11-28, after final creative-loop acceptance defect closure.
 
 ## P0 — synthesis cores and acoustic invariants
 
@@ -59,7 +59,7 @@ Last audit iteration: 2026-11-28, after truthful SVC key/transposition validatio
 
 | Capability | Requirement | Status | Evidence and remaining gap |
 |---|---|---:|---|
-| Atomic CLI | Complete agent operation without keys | **Partial** | Project/track/note/transpose/render/export plus validated batch note update/delete, expression lanes, breaths, audio clips, tempo maps, voice assignment, and MIDI import commands are implemented with persisted-state subprocess regression and live browser SSE proof. Real audio import, project duplicate/delete, batch clip operations, project pinning/tag/folder organization (`organize-project`), note splitting, media-library list/place/delete atoms, destructive time-range ripple delete, queued render-job cancellation, validated volume/pan mix-automation lane writes, persistent reference-voice import/list/trim/rename/delete atoms, and explicit/automatic SVC transposition controls are now exposed. |
+| Atomic CLI | Complete agent operation without keys | **Partial** | Project/track/note/transpose/render/export plus validated batch note update/delete, expression lanes, breaths, audio clips, tempo maps, voice assignment, and MIDI import commands are implemented with persisted-state subprocess regression and live browser SSE proof. Real audio import, project duplicate/delete, batch clip operations, project pinning/tag/folder organization (`organize-project`), note splitting, media-library list/place/delete atoms, destructive time-range ripple delete, queued render-job cancellation, validated volume/pan mix-automation lane writes, persistent reference-voice import/list/trim/rename/delete atoms, explicit/automatic SVC transposition controls, and full export-format parity including karaoke MP4 are now exposed. Remaining breadth gaps are command coverage polish rather than a separate export feature set. |
 | MCP stdio | Standard agent integration | **Done** | Real MCP client protocol smoke test passes: initialize, list tools, create project, add validated note. |
 | MCP streamable HTTP | HTTP agent transport | **Done** | Real MCP streamable HTTP client smoke test passes. |
 | MCP→UI live synchronization | External agent edits appear in workstation | **Done** | MCP/CLI writes persist then issue best-effort loopback publish into the FastAPI SSE bus; browser verification showed note edits, externally created/duplicated/imported projects, and external deletion fallback without manual reload. |

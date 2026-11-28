@@ -293,12 +293,19 @@ export default function App() {
   }, [])
 
   const saveVersion = useRef(0)
+  const saveChain = useRef<Promise<void>>(Promise.resolve())
   const saveProjectNow = useCallback(async (next: Project) => {
+    if (saveTimer.current) {
+      window.clearTimeout(saveTimer.current)
+      saveTimer.current = null
+    }
     const version = ++saveVersion.current
     setSaveState('saving')
     setSaveError('')
+    const request = saveChain.current.catch(() => {}).then(() => api.saveProject(next))
+    saveChain.current = request.then(() => undefined, () => undefined)
     try {
-      await api.saveProject(next)
+      await request
       if (saveVersion.current === version) setSaveState('saved')
     } catch (e: any) {
       if (saveVersion.current === version) {
@@ -1282,7 +1289,14 @@ export default function App() {
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
       const target = event.target as HTMLElement
-      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') return
+      const isUndoGesture = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z'
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') {
+        if (isUndoGesture && target.classList.contains('lyric-editor') && !(target as HTMLInputElement).value) {
+          event.preventDefault()
+          event.shiftKey ? redo() : undo()
+        }
+        return
+      }
       if (event.code === 'Space') { event.preventDefault(); playToggle() }
       if (!event.ctrlKey && !event.metaKey && !event.altKey && event.key.toLowerCase() === 'l') { event.preventDefault(); toggleLoop() }
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') { event.preventDefault(); event.shiftKey ? redo() : undo() }

@@ -17,7 +17,7 @@ from openace.core.project_store import ProjectStore, normalize_project_folders, 
 from openace.core.voice_library import VoiceLibrary
 from openace.core.voice_operations import delete_voice_with_project_cleanup
 from openace.core.timing import validate_absolute_beat_anchor
-from openace.exporters.master import export_compressed_master, export_master_wav, export_stems_zip
+from openace.exporters.master import export_compressed_master, export_lyrics_video_master, export_master_wav, export_stems_zip
 from openace.importers.audio import project_from_audio
 from openace.importers.midi import import_midi
 from openace.exporters.midi_lrc import export_lrc, export_midi
@@ -313,6 +313,8 @@ def cmd_export(args) -> None:
         export_stems_zip(project, output, start_ticks=args.start_ticks, end_ticks=args.end_ticks)
     elif args.format in {"mp3", "flac", "ogg"}:
         export_compressed_master(project, output, args.format, start_ticks=args.start_ticks, end_ticks=args.end_ticks)
+    elif args.format == "mp4":
+        export_lyrics_video_master(project, output)
     else:
         raise SystemExit(f"unsupported format {args.format}")
     emit({"output": str(output), "format": args.format, "bytes": output.stat().st_size})
@@ -687,7 +689,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("export")
     p.add_argument("project")
-    p.add_argument("format", choices=["mid", "lrc", "ustx", "svp", "vpr", "wav", "stems", "mp3", "flac", "ogg"])
+    p.add_argument("format", choices=["mid", "lrc", "ustx", "svp", "vpr", "wav", "stems", "mp3", "flac", "ogg", "mp4"])
     p.add_argument("output")
     p.add_argument("--start-ticks", type=int, default=None, help="optional export range start in project ticks for audio masters/stems")
     p.add_argument("--end-ticks", type=int, default=None, help="optional export range end in project ticks for audio masters/stems")

@@ -1,0 +1,9 @@
+{
+  "project_id": "project_1d66f5adac39",
+  "sequence": [
+    {"action": "first toolbar Undo click while auto lyric editor was open", "backend_count": 1, "editor_open": 0, "can_undo": true},
+    {"action": "second toolbar Undo click after editor had closed", "backend_count": 0, "editor_open": 0, "can_undo": false},
+    {"action": "ctrl+z after editor closed", "backend_count": 0, "editor_open": 0, "can_undo": false}
+  ],
+  "interpretation": "first click is consumed closing the lyric editor rather than activating Undo; rapid ctrl+z while editor remains open also fails to undo note creation"
+}
