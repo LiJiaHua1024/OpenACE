@@ -66,9 +66,21 @@ def test_soulx_metadata_uses_piecewise_tempo_note_timing():
         Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json"),
     )[0]
     durations = [float(value) for value in metadata["duration"].split()]
-    # Each one-character note is one SoulX syllable token. At 120 BPM the first
-    # two beats last 1s; after the 60 BPM tempo change the next beat also lasts 1s.
-    assert durations[:2] == pytest.approx([1.0, 1.0], abs=0.001)
+    phonemes = metadata["phoneme"].split()
+    starts = []
+    cursor = 0.0
+    for duration, phoneme in zip(durations, phonemes):
+        starts.append((cursor - 0.1, duration, phoneme))
+        cursor += duration
+    sung = [item for item in starts if item[2] != "<SP>"]
+    # Each one-character note is one SoulX syllable token. The symbolic onset is the
+    # beat-anchored vowel; the token begins 45ms earlier for the pre-vowel consonant.
+    # The second adjacent note therefore starts 45ms before its one-second tempo-map
+    # boundary while still ending exactly at its musical end.
+    assert [item[2] for item in sung] == ["zh_ni3", "zh_hao3"]
+    assert sung[0][0] == pytest.approx(-0.045, abs=0.001)
+    assert sung[1][0] == pytest.approx(0.955, abs=0.001)
+    assert sung[1][0] + sung[1][1] == pytest.approx(2.0, abs=0.001)
 
 
 def test_tempo_maps_are_written_to_ustx_svp_and_vpr(tmp_path):

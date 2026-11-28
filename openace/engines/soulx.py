@@ -31,6 +31,11 @@ from .downloader import external_dir
 from .vram import VRAMManager
 
 HOP_MS = 20.0
+# Score metadata gets a small leading pre-roll so pre-vowel consonants can
+# begin before the symbolic project start. The production renderer trims exactly
+# this duration from the generated wav, preserving project-time alignment.
+SCORE_PREROLL_S = 0.1
+
 
 CACHE_SCHEMA_VERSION = "soulx-preprocess-v1"
 
@@ -230,12 +235,12 @@ def _envelope_cents(points, tick: float) -> float:
     return 0.0
 
 
-def _f0_for_notes(project: Project, notes: Sequence[Note], end_ms: int, pitch_automation=None) -> List[float]:
+def _f0_for_notes(project: Project, notes: Sequence[Note], end_ms: int, pitch_automation=None, leading_ms: float = 0.0) -> List[float]:
     frames = max(1, int(round(end_ms / HOP_MS)) + 1)
     f0 = np.zeros(frames, dtype=np.float64)
     for note in notes:
-        note_start_ms = project.ticks_to_seconds(note.start_ticks) * 1000.0
-        note_end_ms = project.ticks_to_seconds(note.end_ticks) * 1000.0
+        note_start_ms = project.ticks_to_seconds(note.start_ticks) * 1000.0 + leading_ms
+        note_end_ms = project.ticks_to_seconds(note.end_ticks) * 1000.0 + leading_ms
         note_duration_ms = max(1e-9, note_end_ms - note_start_ms)
         start = int(round(note_start_ms / HOP_MS))
         end = int(round(note_end_ms / HOP_MS))
@@ -245,13 +250,14 @@ def _f0_for_notes(project: Project, notes: Sequence[Note], end_ms: int, pitch_au
             t_ms = absolute_ms - note_start_ms
             cents = note_expression_cents(note, t_ms, note_duration_ms)
             if pitch_automation is not None:
-                absolute_ticks = project.seconds_to_ticks_float(absolute_ms / 1000.0)
+                project_ms = max(0.0, absolute_ms - leading_ms)
+                absolute_ticks = project.seconds_to_ticks_float(project_ms / 1000.0)
                 cents += _envelope_cents(pitch_automation, absolute_ticks)
             f0[frame] = base * (2.0 ** (cents / 1200.0))
     return [round(float(x), 1) for x in f0]
 
 
-def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: Path) -> List[dict]:
+def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: Path, preroll_s: float = SCORE_PREROLL_S) -> List[dict]:
     notes = track.sorted_notes()
     if not notes:
         raise ValueError("cannot render an empty vocal track")
@@ -268,21 +274,44 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
     types: List[int] = []
     cursor_s = 0.0
 
-    def spacer(duration_s: float) -> None:
-        if duration_s <= 0.001:
+    def append_item(duration_s: float, text_value: str, phoneme_value: str, pitch: int, note_type: int) -> None:
+        if duration_s <= 0.0005:
             return
-        durations.append(round(duration_s, 3))
-        text.append("<SP>")
-        phonemes.append("<SP>")
-        pitches.append(0)
-        types.append(1)
+        durations.append(float(duration_s))
+        text.append(text_value)
+        phonemes.append(phoneme_value)
+        pitches.append(pitch)
+        types.append(note_type)
+
+    def spacer(duration_s: float) -> None:
+        append_item(duration_s, "<SP>", "<SP>", 0, 1)
+
+    def steal_time_before_onset(amount_s: float, note: Note) -> None:
+        """Make room for a pre-vowel onset without overlapping the flattened stream."""
+        remaining = float(amount_s)
+        index = len(durations) - 1
+        while remaining > 1e-9 and index >= 0:
+            minimum = 0.0 if types[index] == 1 else 0.02
+            reducible = max(0.0, durations[index] - minimum)
+            take = min(reducible, remaining)
+            durations[index] -= take
+            remaining -= take
+            if types[index] == 1 and durations[index] <= 0.0005:
+                remaining -= durations[index]
+                for values in (durations, text, phonemes, pitches, types):
+                    values.pop(index)
+            index -= 1
+        if remaining > 1e-6:
+            raise PhonemeError(
+                f"note {note.id} does not have enough preceding silence or sustained tail for its consonant preonset"
+            )
 
     continuation_token = None
     continuation_lyric = None
     for note in notes:
-        start_s = project.ticks_to_seconds(note.start_ticks)
+        project_start_s = project.ticks_to_seconds(note.start_ticks)
         duration_s = project.tick_duration_seconds(note.start_ticks, note.duration_ticks)
-        spacer(start_s - cursor_s)
+        project_end_s = project_start_s + duration_s
         is_continuation = note.lyric.strip() == "-"
         if is_continuation:
             if continuation_token is None or continuation_lyric is None:
@@ -290,25 +319,45 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
             tokens = [continuation_token]
             text_value = continuation_lyric
             note_type = 3
+            preonset_s = 0.0
         else:
             tokens = lyric_to_soulx_tokens(note.lyric, track.language, phoneset)
             text_value = note.lyric
             note_type = 2
             continuation_token = tokens[-1]
             continuation_lyric = note.lyric
-        each = duration_s / len(tokens)
-        for token in tokens:
-            durations.append(round(each, 3))
-            text.append(text_value)
-            phonemes.append(token)
-            pitches.append(note.pitch)
-            types.append(note_type)
-        cursor_s = start_s + duration_s
+            negative_onsets = [p.start_ms for p in note.phonemes if not p.is_vowel and p.start_ms < 0]
+            preonset_s = abs(min(negative_onsets)) / 1000.0 if negative_onsets else 0.0
 
-    end_s = max(cursor_s + 0.25, project.ticks_to_seconds(project.duration_ticks()) + 0.05)
-    spacer(end_s - cursor_s)
-    end_ms = int(round(end_s * 1000.0))
-    f0 = _f0_for_notes(project, notes, end_ms, track.automation.pitch_cents)
+        # Symbolic note onset is the first-vowel anchor. SoulX's public score format
+        # only exposes syllable/word token durations, so the token onset is shifted
+        # earlier by the validated 40-90ms pre-vowel consonant span. A leading
+        # pre-roll makes that representable even at project time zero; the renderer
+        # trims the pre-roll after synthesis. This is an upstream-format approximation
+        # of sub-syllable timing, not a claim that SoulX exposes exact phoneme boundaries.
+        desired_start_s = project_start_s - preonset_s + preroll_s
+        end_s = project_end_s + preroll_s
+        if desired_start_s > cursor_s:
+            spacer(desired_start_s - cursor_s)
+        elif desired_start_s < cursor_s:
+            steal_time_before_onset(cursor_s - desired_start_s, note)
+        cursor_s = desired_start_s
+
+        total_s = end_s - desired_start_s
+        if total_s <= 0.02:
+            raise PhonemeError(f"note {note.id} is too short to render truthfully")
+        each = total_s / len(tokens)
+        for token in tokens:
+            append_item(each, text_value, token, note.pitch, note_type)
+        cursor_s = end_s
+
+    project_end_timeline_s = max(
+        cursor_s + 0.25,
+        project.ticks_to_seconds(project.duration_ticks()) + preroll_s + 0.05,
+    )
+    spacer(project_end_timeline_s - cursor_s)
+    end_ms = int(round(project_end_timeline_s * 1000.0))
+    f0 = _f0_for_notes(project, notes, end_ms, track.automation.pitch_cents, leading_ms=preroll_s * 1000.0)
     return [
         {
             "index": f"openace_{track.id}",
@@ -322,6 +371,16 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
             "f0": " ".join(str(x) for x in f0),
         }
     ]
+
+
+def _trim_score_preroll(generated: Path, output_path: Path, preroll_s: float = SCORE_PREROLL_S) -> None:
+    import soundfile as sf
+
+    audio, sample_rate = sf.read(str(generated), always_2d=True)
+    trim_samples = int(round(preroll_s * sample_rate))
+    if audio.shape[0] <= trim_samples:
+        raise EngineUnavailable("SoulX-Singer output is shorter than the score pre-roll")
+    sf.write(str(output_path), audio[trim_samples:], sample_rate)
 
 
 class SoulXSingerEngine:
@@ -433,7 +492,7 @@ class SoulXSingerEngine:
             generated = save_dir / "generated.wav"
             if not generated.exists():
                 raise EngineUnavailable(f"SoulX-Singer completed without output: {generated}")
-            shutil.copyfile(generated, output_path)
+            _trim_score_preroll(generated, output_path)
         return output_path
 
     def _extract_f0_with_preprocess(self, audio: Path, work_dir: Path, cancellation: Optional[CancellationToken] = None, progress=None) -> Path:

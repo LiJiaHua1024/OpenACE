@@ -264,3 +264,60 @@ def test_project_validation_rejects_orphan_melisma_continuation():
     project.add_track(track)
     with pytest.raises(PhonemeError, match="before a sung lyric"):
         validate_project(project)
+
+
+def _soulx_timeline_items(metadata):
+    durations = [float(value) for value in metadata["duration"].split()]
+    phonemes = metadata["phoneme"].split()
+    types = [int(value) for value in metadata["note_type"].split()]
+    items = []
+    cursor = 0.0
+    for duration, phoneme, note_type in zip(durations, phonemes, types):
+        items.append({"start": cursor - 0.1, "end": cursor + duration - 0.1, "phoneme": phoneme, "type": note_type})
+        cursor += duration
+    return items
+
+
+def test_soulx_preonset_consumes_preceding_silence_without_moving_vowel_anchor():
+    from openace.engines.soulx import build_soulx_target_metadata
+
+    project = Project(bpm=120)
+    track = Track(name="Preonset", language="zh")
+    track.add_note(Note(start_ticks=960, duration_ticks=480, pitch=60, lyric="你"))
+    project.add_track(track)
+    metadata = build_soulx_target_metadata(
+        project,
+        track,
+        Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json"),
+    )[0]
+    items = _soulx_timeline_items(metadata)
+    sung = next(item for item in items if item["type"] == 2)
+    # At 120 BPM tick 960 is exactly 1s. The 45ms consonant preonset begins in the
+    # preceding silence, leaving the vowel anchor at the symbolic onset.
+    assert sung["start"] == pytest.approx(0.955, abs=0.001)
+    assert sung["end"] == pytest.approx(1.5, abs=0.001)
+    assert items[0]["phoneme"] == "<SP>"
+    assert items[0]["end"] == pytest.approx(0.955, abs=0.001)
+    f0 = [float(value) for value in metadata["f0"].split()]
+    first_voiced = next(index for index, value in enumerate(f0) if value > 0)
+    assert first_voiced * 20 == pytest.approx(1100, abs=10)  # metadata 1.1s == project 1.0s + preroll
+
+
+def test_soulx_melisma_continuation_starts_exactly_at_symbolic_onset():
+    from openace.engines.soulx import build_soulx_target_metadata
+
+    project = Project(bpm=120)
+    track = Track(name="Melisma timing", language="zh")
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    track.add_note(Note(start_ticks=480, duration_ticks=480, pitch=62, lyric="-"))
+    project.add_track(track)
+    metadata = build_soulx_target_metadata(
+        project,
+        track,
+        Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json"),
+    )[0]
+    sung = [item for item in _soulx_timeline_items(metadata) if item["type"] in {2, 3}]
+    assert sung[0]["start"] == pytest.approx(-0.045, abs=0.001)
+    assert sung[0]["end"] == pytest.approx(0.5, abs=0.001)
+    assert sung[1]["start"] == pytest.approx(0.5, abs=0.001)
+    assert sung[1]["end"] == pytest.approx(1.0, abs=0.001)

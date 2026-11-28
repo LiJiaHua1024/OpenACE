@@ -1,11 +1,19 @@
 import json
 
 import numpy as np
+import pytest
 from pathlib import Path
 from types import SimpleNamespace
 
 from openace.core.models import Note, Project, Track
 from openace.engines.soulx import SoulXSingerEngine
+
+
+def _write_generated_wav(path: Path) -> None:
+    import soundfile as sf
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    sf.write(str(path), np.linspace(0.0, 1.0, 7200, dtype=np.float32), 24000)
 
 
 def _fake_repo(tmp_path: Path) -> Path:
@@ -40,11 +48,17 @@ def test_score_render_uses_melody_f0_control_without_auto_transpose(tmp_path, mo
         commands.append(cmd)
         save_dir = Path(cmd[cmd.index("--save_dir") + 1])
         save_dir.mkdir(parents=True, exist_ok=True)
-        (save_dir / "generated.wav").write_bytes(b"generated")
+        _write_generated_wav(save_dir / "generated.wav")
         return SimpleNamespace(returncode=0, stdout="")
 
     monkeypatch.setattr("openace.engines.soulx.run_cancellable", fake_run)
-    engine.render_score(project, track, tmp_path / "out.wav", reference_voice=reference)
+    output = engine.render_score(project, track, tmp_path / "out.wav", reference_voice=reference)
+
+    import soundfile as sf
+    rendered, sample_rate = sf.read(str(output))
+    assert sample_rate == 24000
+    assert len(rendered) == 4800
+    assert rendered[0] == pytest.approx(1.0 / 3.0, abs=0.002)
 
     assert len(commands) == 1
     cmd = commands[0]
@@ -69,7 +83,7 @@ def test_svc_preserves_source_absolute_pitch_without_auto_transpose(tmp_path, mo
         commands.append(cmd)
         save_dir = Path(cmd[cmd.index("--save_dir") + 1])
         save_dir.mkdir(parents=True, exist_ok=True)
-        (save_dir / "generated.wav").write_bytes(b"generated")
+        _write_generated_wav(save_dir / "generated.wav")
         return SimpleNamespace(returncode=0, stdout="")
 
     monkeypatch.setattr("openace.engines.soulx.run_cancellable", fake_run)
@@ -171,7 +185,7 @@ def test_repeated_score_render_reuses_reference_preprocess_cache(tmp_path, monke
         else:
             save_dir = Path(cmd[cmd.index("--save_dir") + 1])
             save_dir.mkdir(parents=True, exist_ok=True)
-            (save_dir / "generated.wav").write_bytes(b"generated")
+            _write_generated_wav(save_dir / "generated.wav")
         return SimpleNamespace(returncode=0, stdout="")
 
     monkeypatch.setattr("openace.engines.soulx.run_cancellable", fake_run)
@@ -249,7 +263,7 @@ def test_score_preprocess_and_inference_share_one_vram_reservation(tmp_path, mon
         events.append("inference")
         save_dir = Path(cmd[cmd.index("--save_dir") + 1])
         save_dir.mkdir(parents=True, exist_ok=True)
-        (save_dir / "generated.wav").write_bytes(b"generated")
+        _write_generated_wav(save_dir / "generated.wav")
         return SimpleNamespace(returncode=0, stdout="")
 
     monkeypatch.setattr(SoulXSingerEngine, "preprocess_reference", preprocess)
@@ -288,7 +302,7 @@ def test_svc_f0_extraction_and_inference_share_one_vram_reservation(tmp_path, mo
         events.append("inference")
         save_dir = Path(cmd[cmd.index("--save_dir") + 1])
         save_dir.mkdir(parents=True, exist_ok=True)
-        (save_dir / "generated.wav").write_bytes(b"generated")
+        _write_generated_wav(save_dir / "generated.wav")
         return SimpleNamespace(returncode=0, stdout="")
 
     monkeypatch.setattr(SoulXSingerEngine, "_extract_f0_with_preprocess", extract)
