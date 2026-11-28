@@ -201,6 +201,7 @@ export default function App() {
   const [repaintRange, setRepaintRange] = useState({ start: 0, end: 0 })
   const [loopRange, setLoopRange] = useState<{ start: number; end: number } | null>(null)
   const [loopEnabled, setLoopEnabled] = useState(false)
+  const [followPlayback, setFollowPlayback] = useState(() => window.localStorage.getItem('openace_follow_playback') !== 'off')
   const [jobs, setJobs] = useState<RenderJob[]>([])
   const [projectList, setProjectList] = useState<{ id: string; title: string; bpm?: number; track_count?: number; updated_at?: number; pinned?: boolean; tags?: string[]; folders?: string[] }[]>([])
   const [past, setPast] = useState<Project[]>([])
@@ -879,6 +880,22 @@ export default function App() {
     }, 120)
   }, [project, playing, schedulePlayback, stopPlaybackAudio, fadeOutPlaybackGraph])
 
+  useEffect(() => {
+    if (!playing || !followPlayback || !project) return
+    const workspace = document.querySelector<HTMLElement>('.center-workspace')
+    const width = Math.max(240, (workspace?.clientWidth || 900) - 64)
+    const visibleTicks = (width / Math.max(1, timeline.pxPerBeat)) * project.ppq
+    const leadIn = visibleTicks * 0.05
+    const leadOut = visibleTicks * 0.85
+    const position = playheadTicks - timeline.scrollTicks
+    if (position < leadIn || position > leadOut) {
+      const targetScroll = Math.max(0, playheadTicks - visibleTicks * 0.18)
+      if (Math.abs(targetScroll - timeline.scrollTicks) > 1) {
+        setTimeline(current => ({ ...current, scrollTicks: targetScroll }))
+      }
+    }
+  }, [playing, followPlayback, project, playheadTicks, timeline.pxPerBeat, timeline.scrollTicks])
+
   const playToggle = useCallback(async () => {
     if (!project) return
     if (playing) {
@@ -987,6 +1004,8 @@ export default function App() {
         onSeek={seekTransport}
         loopEnabled={loopEnabled}
         onLoopToggle={toggleLoop}
+        followPlayback={followPlayback}
+        onFollowToggle={() => setFollowPlayback(value => { const next = !value; window.localStorage.setItem('openace_follow_playback', next ? 'on' : 'off'); return next })}
         onTitleChange={title => updateProject(next => { next.title = title }, false)}
         onBpmChange={bpm => updateProject(next => { next.bpm = Math.max(30, Math.min(300, bpm)) }, false)}
         onTimeSignatureChange={(numerator, denominator) => updateProject(next => { next.time_signature = { numerator, denominator } }, false)}

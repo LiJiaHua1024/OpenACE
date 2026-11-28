@@ -1358,3 +1358,9 @@ Validation after iteration 121: focused acoustic/CLI tests passed; independent b
 Completed shared editing semantics for the previously browser-only volume/pan automation lanes. Core automation operations now accept `volume` and `pan` through the same CLI/MCP-compatible lane API with correct ranges (`volume` 0–1, `pan` −1–1), and destructive time-range ripple deletion now processes those lanes instead of silently leaving them unshifted. Regression tests cover lane validation and exact ripple behavior. Browser QA verified authored interior points, removal inside the deleted range, exact interpolated boundary anchors, downstream one-time shifting, undo/redo, reload persistence, playback regression, and clean console/network. Evidence: `artifacts/e2e_screenshots/mix_automation_ripple/`.
 
 Validation after iteration 122: focused ripple/CLI tests passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
+
+## Iteration 123 — playback follow scrolling
+
+Added a persistent Follow transport control (default on). During playback, when the playhead leaves the visible shared musical viewport, the timeline page-scrolls so the playhead reappears near the left rather than continuously jittering every frame. Browser QA quantitatively verified paging, stable scroll while playback advanced, synchronized arrangement/tempo/piano playhead alignment, Follow-off behavior, immediate re-enable paging, reload persistence, exact manual seek, loop regression, and clean console/network. Evidence: `artifacts/e2e_screenshots/playback_follow/`.
+
+Validation after iteration 123: frontend production build passed; independent browser QA passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
