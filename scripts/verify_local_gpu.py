@@ -167,6 +167,7 @@ def main() -> int:
     vocal_out = artifacts / "soulx_real.wav"
     svc_out = artifacts / "soulx_svc_real.wav"
     bgm_out = artifacts / "acestep_real.wav"
+    repaint_out = artifacts / "acestep_repaint_real.wav"
     env = os.environ.copy()
     env["PYTHONPATH"] = str(ROOT) + os.pathsep + env.get("PYTHONPATH", "")
 
@@ -279,10 +280,39 @@ def main() -> int:
         "memory": ace_memory,
     })
 
+    repaint_progress_events = []
+
+    def repaint_progress(fraction, message):
+        repaint_progress_events.append({"fraction": round(float(fraction), 3), "message": message})
+        print(f"ACE-Step repaint adapter {fraction:.0%}: {message}", flush=True)
+
+    repaint_telemetry = NvidiaMemoryTelemetry()
+    repaint_telemetry.start()
+    try:
+        ACEStepEngine(device="auto").repaint(
+            bgm_out,
+            repaint_out,
+            start_s=2.0,
+            end_s=4.0,
+            caption="seamlessly regenerate the selected cinematic pop accompaniment region",
+            progress=repaint_progress,
+        )
+    finally:
+        repaint_memory = repaint_telemetry.stop()
+    if not repaint_out.exists() or repaint_out.stat().st_size == 0:
+        raise RuntimeError("OpenACE ACE-Step repaint adapter did not produce a nonempty wav")
+    report["steps"].append({
+        "acestep_repaint_real_render": str(repaint_out),
+        "adapter": "ACEStepEngine.repaint",
+        "task_type": "repaint",
+        "progress_events": repaint_progress_events,
+        "memory": repaint_memory,
+    })
+
     from openace.core.audio import integrated_loudness_lufs, read_audio, true_peak_db
 
     audio_report = {}
-    for name, path in {"soulx": vocal_out, "soulx_svc": svc_out, "acestep": bgm_out}.items():
+    for name, path in {"soulx": vocal_out, "soulx_svc": svc_out, "acestep": bgm_out, "acestep_repaint": repaint_out}.items():
         data, sr = read_audio(path)
         audio_report[name] = {
             "seconds": round(len(data) / sr, 2),
@@ -336,7 +366,7 @@ def main() -> int:
     report["ok"] = True
     (artifacts / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    print(f"\nLocal GPU acceptance passed. Listen to:\n  {vocal_out}\n  {svc_out}\n  {bgm_out}")
+    print(f"\nLocal GPU acceptance passed. Listen to:\n  {vocal_out}\n  {svc_out}\n  {bgm_out}\n  {repaint_out}")
     return 0
 
 

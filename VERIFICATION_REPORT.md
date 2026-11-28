@@ -1465,3 +1465,10 @@ Static acceptance contracts prove all three heavyweight stages start telemetry a
 Closed an acceptance-coverage defect: the verifier preflighted `model-svc.pt` but never used it, so a broken SVC CLI/checkpoint contract could still pass. After the production SVS render, the script now converts that real vocal through `SoulXSingerEngine.convert_voice` using the public reference voice, records truthful adapter progress and NVML memory telemetry, validates a nonempty output, includes the converted wav in loudness/true-peak inspection, and prints it as a required listening artifact. This remains stage-wise serialized rather than co-resident with ACE-Step or Demucs.
 
 Focused contract coverage proves the production `convert_voice` call, report step, audio inspection inclusion, telemetry start, and memory summary are present. Validation: full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0); physical SVC quality still requires the NVIDIA host.
+
+
+## Iteration 139 — production ACE-Step repaint exercised in GPU acceptance
+
+Closed the remaining one-sided ACE-Step acceptance gap: the verifier already exercised production Vocal2BGM/`complete`, but interval regeneration could still be broken while acceptance passed. The script now repaints a real 2–4s interval from the newly generated accompaniment through production `ACEStepEngine.repaint`, records truthful progress and NVML memory telemetry, validates nonempty output, includes it in loudness/true-peak inspection, and prints it as a listening artifact. This keeps synthesis stages sequential for the 12GB budget.
+
+Focused contract coverage proves the production repaint call, `task_type: repaint`, report/audio-inspection inclusion, telemetry start, and memory summary. Validation: full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0); physical repaint quality still requires the NVIDIA host.

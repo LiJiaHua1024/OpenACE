@@ -45,3 +45,13 @@ def test_gpu_acceptance_exercises_production_svc_adapter():
     assert '"soulx_svc": svc_out' in source
     assert "svc_telemetry.start()" in source
     assert '"memory": svc_memory' in source
+
+
+def test_gpu_acceptance_exercises_production_repaint_adapter():
+    source = Path("scripts/verify_local_gpu.py").read_text()
+    assert "ACEStepEngine(device=\"auto\").repaint" in source
+    assert '"acestep_repaint_real_render"' in source
+    assert '"task_type": "repaint"' in source
+    assert '"acestep_repaint": repaint_out' in source
+    assert "repaint_telemetry.start()" in source
+    assert '"memory": repaint_memory' in source
