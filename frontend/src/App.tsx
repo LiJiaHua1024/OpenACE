@@ -33,6 +33,22 @@ function playbackContext(): AudioContext {
 }
 
 
+async function ensurePlaybackContextRunning(ctx: AudioContext): Promise<boolean> {
+  if (ctx.state === 'running') return true
+  if (ctx.state === 'closed') return false
+  const resumed = await Promise.race([
+    ctx.resume().then(() => true).catch(() => false),
+    new Promise<boolean>(resolve => window.setTimeout(() => resolve(false), 1500)),
+  ])
+  return resumed && String(ctx.state) === 'running'
+}
+
+function closeSharedPlaybackContext() {
+  const ctx = sharedPlaybackContext
+  sharedPlaybackContext = null
+  if (ctx && ctx.state !== 'closed') void ctx.close().catch(() => {})
+}
+
 function playbackDecodeContext(): BaseAudioContext {
   if (!sharedDecodeContext) sharedDecodeContext = new OfflineAudioContext(1, 1, 44100)
   return sharedDecodeContext
@@ -266,6 +282,7 @@ export default function App() {
   const pendingLoopRestart = useRef<{ startTicks: number; endTicks: number; boundaryClock: number; scheduling: boolean } | null>(null)
   const loopRangeRef = useRef<{ start: number; end: number } | null>(null)
   const loopEnabledRef = useRef(false)
+  const playbackClockProbe = useRef({ clock: -1, wall: 0 })
   loopRangeRef.current = loopRange
   loopEnabledRef.current = loopEnabled
 
@@ -775,6 +792,14 @@ export default function App() {
     playback.current.ctx = undefined
   }, [clearMetronome, discardPendingLoopGraph])
 
+  const invalidatePlaybackOutput = useCallback(() => {
+    playback.current.loudnessNode = undefined
+    playback.current.loudnessSink = undefined
+    playback.current.ctx = undefined
+    playbackClockProbe.current = { clock: -1, wall: 0 }
+    closeSharedPlaybackContext()
+  }, [])
+
   const getTrackLevel = useCallback((trackId: string) => analyserPeakLevel(playback.current.analysers[trackId]), [])
   const getMasterLevel = useCallback(() => analyserPeakLevel(playback.current.masterAnalyser), [])
   const getLoudness = useCallback(() => playback.current.loudness, [])
@@ -876,6 +901,10 @@ export default function App() {
     const anySolo = rendered.some(track => track.solo)
     const audible = rendered.filter(track => !anySolo || track.solo)
     const ctx = playbackContext()
+    if (!(await ensurePlaybackContextRunning(ctx))) {
+      setError('Audio output could not start. Check the browser/system audio device, then press Play again.')
+      return false
+    }
     playback.current.ctx = ctx
     if (!deferred) {
       playback.current.startMs = performance.now()
@@ -1158,60 +1187,90 @@ export default function App() {
     }
     if (playback.current.starting) return
     playback.current.starting = true
-    playbackSnapshotRef.current = playbackAudioSnapshot(project)
-    await schedulePlayback(project, playheadTicks)
-    cancelAnimationFrame(playback.current.raf)
-    const step = () => {
-      const current = projectRef.current
-      if (!current) return
-      const ctx = playback.current.ctx
-      const activeLoop = loopEnabledRef.current ? loopRangeRef.current : null
-      const pending = pendingLoopRestart.current
-      if (pending && (!activeLoop || pending.startTicks !== activeLoop.start || pending.endTicks !== activeLoop.end)) {
-        discardPendingLoopGraph()
-        clearMetronome()
-        if (ctx && metronomeEnabledRef.current) scheduleMetronome(current)
+    try {
+      playbackSnapshotRef.current = playbackAudioSnapshot(project)
+      const scheduled = await schedulePlayback(project, playheadTicks)
+      if (!scheduled) {
+        stopPlaybackAudio()
+        cancelAnimationFrame(playback.current.raf)
+        return
       }
-      if (ctx && pendingLoopRestart.current && ctx.currentTime >= pendingLoopRestart.current.boundaryClock) {
-        if (!commitPendingLoopGraph()) pendingLoopRestart.current = null
-      }
-      const elapsed = ctx ? ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
-      const timingProject = playback.current.timingProject || current
-      let ticks = secondsToTicks(timingProject, ticksToSeconds(timingProject, playback.current.startTicks) + elapsed)
-      if (activeLoop && ctx && !pendingLoopRestart.current) {
-        const epochStartSeconds = ticksToSeconds(current, playback.current.startTicks)
-        const boundaryClock = playback.current.startContextTime + ticksToSeconds(current, activeLoop.end) - epochStartSeconds
-        const timeUntilBoundary = boundaryClock - ctx.currentTime
-        if (timeUntilBoundary > 0.025 && timeUntilBoundary < 0.45) {
-          const pendingRestart = { startTicks: activeLoop.start, endTicks: activeLoop.end, boundaryClock, scheduling: true }
-          pendingLoopRestart.current = pendingRestart
-          stopActiveSourcesAt(boundaryClock)
-          capMetronomeSessionsAt(boundaryClock)
-          void schedulePlayback(current, activeLoop.start, false, 0, boundaryClock).then(success => {
-            if (!success && pendingLoopRestart.current === pendingRestart) pendingLoopRestart.current = null
-          })
+      playbackClockProbe.current = playback.current.ctx
+        ? { clock: playback.current.ctx.currentTime, wall: performance.now() }
+        : { clock: -1, wall: performance.now() }
+      cancelAnimationFrame(playback.current.raf)
+      const step = () => {
+        const current = projectRef.current
+        if (!current) return
+        const ctx = playback.current.ctx
+        if (ctx) {
+          const wallNow = performance.now()
+          const clockNow = ctx.currentTime
+          if (playbackClockProbe.current.clock < 0 || clockNow > playbackClockProbe.current.clock + 0.0001) {
+            playbackClockProbe.current = { clock: clockNow, wall: wallNow }
+          } else if (wallNow - playbackClockProbe.current.wall > 750) {
+            setPlaying(false)
+            stopPlaybackAudio()
+            cancelAnimationFrame(playback.current.raf)
+            invalidatePlaybackOutput()
+            setError('Audio output clock stalled; playback was stopped instead of pretending transport time was advancing. Press Play again to rebuild the audio engine.')
+            return
+          }
         }
-      }
-      if (activeLoop && ticks >= activeLoop.end && !loopRestarting.current) {
-        const activePending = pendingLoopRestart.current
-        if (activePending && playback.current.pendingGraph && ctx && ctx.currentTime < activePending.boundaryClock + 0.05) {
-          ticks = activeLoop.end
-        } else {
-          loopRestarting.current = true
-          const span = Math.max(1, activeLoop.end - activeLoop.start)
-          const restartTicks = activeLoop.start + ((ticks - activeLoop.end) % span)
-          ticks = restartTicks
-          stopPlaybackAudio()
-          void schedulePlayback(current, restartTicks).finally(() => { loopRestarting.current = false })
+        const activeLoop = loopEnabledRef.current ? loopRangeRef.current : null
+        const pending = pendingLoopRestart.current
+        if (pending && (!activeLoop || pending.startTicks !== activeLoop.start || pending.endTicks !== activeLoop.end)) {
+          discardPendingLoopGraph()
+          clearMetronome()
+          if (ctx && metronomeEnabledRef.current) scheduleMetronome(current)
         }
+        if (ctx && pendingLoopRestart.current && ctx.currentTime >= pendingLoopRestart.current.boundaryClock) {
+          if (!commitPendingLoopGraph()) pendingLoopRestart.current = null
+        }
+        const elapsed = ctx ? ctx.currentTime - playback.current.startContextTime : (performance.now() - playback.current.startMs) / 1000
+        const timingProject = playback.current.timingProject || current
+        let ticks = secondsToTicks(timingProject, ticksToSeconds(timingProject, playback.current.startTicks) + elapsed)
+        if (activeLoop && ctx && !pendingLoopRestart.current) {
+          const epochStartSeconds = ticksToSeconds(current, playback.current.startTicks)
+          const boundaryClock = playback.current.startContextTime + ticksToSeconds(current, activeLoop.end) - epochStartSeconds
+          const timeUntilBoundary = boundaryClock - ctx.currentTime
+          if (timeUntilBoundary > 0.025 && timeUntilBoundary < 0.45) {
+            const pendingRestart = { startTicks: activeLoop.start, endTicks: activeLoop.end, boundaryClock, scheduling: true }
+            pendingLoopRestart.current = pendingRestart
+            stopActiveSourcesAt(boundaryClock)
+            capMetronomeSessionsAt(boundaryClock)
+            void schedulePlayback(current, activeLoop.start, false, 0, boundaryClock).then(success => {
+              if (!success && pendingLoopRestart.current === pendingRestart) pendingLoopRestart.current = null
+            })
+          }
+        }
+        if (activeLoop && ticks >= activeLoop.end && !loopRestarting.current) {
+          const activePending = pendingLoopRestart.current
+          if (activePending && playback.current.pendingGraph && ctx && ctx.currentTime < activePending.boundaryClock + 0.05) {
+            ticks = activeLoop.end
+          } else {
+            loopRestarting.current = true
+            const span = Math.max(1, activeLoop.end - activeLoop.start)
+            const restartTicks = activeLoop.start + ((ticks - activeLoop.end) % span)
+            ticks = restartTicks
+            stopPlaybackAudio()
+            void schedulePlayback(current, restartTicks).finally(() => { loopRestarting.current = false })
+          }
+        }
+        setPlayheadTicks(Math.floor(ticks))
+        playback.current.raf = requestAnimationFrame(step)
       }
-      setPlayheadTicks(Math.floor(ticks))
       playback.current.raf = requestAnimationFrame(step)
+      setError(current => current.startsWith('Audio output') ? '' : current)
+      setPlaying(true)
+    } catch (e: any) {
+      stopPlaybackAudio()
+      cancelAnimationFrame(playback.current.raf)
+      setError(e?.message || String(e))
+    } finally {
+      playback.current.starting = false
     }
-    playback.current.raf = requestAnimationFrame(step)
-    playback.current.starting = false
-    setPlaying(true)
-  }, [project, playing, playheadTicks, schedulePlayback, stopPlaybackAudio, capMetronomeSessionsAt, clearMetronome, commitPendingLoopGraph, discardPendingLoopGraph, scheduleMetronome, stopActiveSourcesAt])
+  }, [project, playing, playheadTicks, schedulePlayback, stopPlaybackAudio, capMetronomeSessionsAt, clearMetronome, commitPendingLoopGraph, discardPendingLoopGraph, invalidatePlaybackOutput, scheduleMetronome, stopActiveSourcesAt])
 
   const stop = useCallback(() => {
     setPlaying(false)

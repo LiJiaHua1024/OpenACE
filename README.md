@@ -59,6 +59,10 @@ openace-tool export <project-id> svp out.svp
 OPENACE_CI_SYNTH_FIXTURE=1 openace-tool render-vocal <project-id> <track-id>
 ```
 
+## Playback engine
+
+Monitoring uses a shared WebAudio clock, decoded-media caching, fractional clip offsets, clip fades/gain, manual crossfades, track volume/pan automation, seamless live-edit reconstruction, loop scheduling, per-track/master meters, and loudness measurement. Startup is failure-aware: OpenACE waits for a running audio output clock, refuses to enter a silent fake-playing state when startup or scheduling fails, detects a frozen audio clock instead of pretending transport time advances, invalidates poisoned output state, and rebuilds playback cleanly on retry.
+
 ## Arrangement editing
 
 Timeline synchronization uses shared musical-tick state between arrangement, piano roll, automation, diagnostics, playback, and export. Transport time signatures are editable (including compound meters such as 6/8 and 12/8); grid and transport math are denominator-aware rather than hard-coded to four quarter notes per bar.
