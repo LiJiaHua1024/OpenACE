@@ -226,6 +226,7 @@ export default function App() {
 
   const setProjectRef = useCallback((value: Project | null) => {
     projectRef.current = value
+    if (value?.id) window.localStorage.setItem('openace_current_project_id', value.id)
     setProject(value)
   }, [])
 
@@ -270,7 +271,9 @@ export default function App() {
       try {
         const list = await api.listProjects()
         let current: Project
-        if (list.length) current = await api.getProject(list[0].id)
+        const rememberedId = window.localStorage.getItem('openace_current_project_id')
+        const remembered = rememberedId && list.some(item => item.id === rememberedId) ? rememberedId : null
+        if (list.length) current = await api.getProject(remembered || list[0].id)
         else current = await api.createProject('Untitled OpenACE Project')
         if (!current.tracks.length) {
           const track = await api.addTrack(current.id, { name: 'Vocal 1', type: 'vocal', language: 'zh', color: '#7c5cff' })
@@ -927,7 +930,7 @@ export default function App() {
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') return
       if (event.code === 'Space') { event.preventDefault(); playToggle() }
       if (!event.ctrlKey && !event.metaKey && !event.altKey && event.key.toLowerCase() === 'l') { event.preventDefault(); toggleLoop() }
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') { event.preventDefault(); undo() }
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') { event.preventDefault(); event.shiftKey ? redo() : undo() }
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'y') { event.preventDefault(); redo() }
     }
     window.addEventListener('keydown', onKey)
@@ -1007,10 +1010,12 @@ export default function App() {
           project={project}
           selectedTrackId={selectedTrack?.id}
           onSelect={setSelectedTrackId}
-          onAddTrack={type => updateProject(next => {
+          onAddTrack={type => {
+            const id = `track_${crypto.randomUUID().slice(0, 12)}`
+            updateProject(next => {
             const index = next.tracks.length + 1
             next.tracks.push({
-              id: `track_${crypto.randomUUID().slice(0, 12)}`,
+              id,
               name: type === 'vocal' ? `Vocal ${index}` : `BGM ${index}`,
               type,
               color: type === 'vocal' ? '#7c5cff' : '#2fb996',
@@ -1028,7 +1033,9 @@ export default function App() {
               render_path: null,
               render_revision: 0,
             })
-          }, false)}
+            }, false)
+            setSelectedTrackId(id)
+          }}
           onPatchTrack={patchTrack}
           updateProject={updateProject}
           getTrackLevel={getTrackLevel}

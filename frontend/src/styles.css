@@ -29,7 +29,7 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 
 .app-shell { height: 100%; display: flex; flex-direction: column; }
 .transport-bar {
-  position: relative; height: 58px; display: flex; align-items: center; gap: 14px; padding: 0 14px;
+  position: relative; height: 58px; display: flex; align-items: center; gap: 10px; padding: 0 12px;
   background: linear-gradient(180deg, #171a26, #11141f); border-bottom: 1px solid #2c3247;
   box-shadow: 0 5px 24px #00000066; z-index: 10;
 }

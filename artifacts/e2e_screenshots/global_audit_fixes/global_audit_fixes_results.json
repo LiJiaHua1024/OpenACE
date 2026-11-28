@@ -1,0 +1,119 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "checks": {
+    "project_restore": {
+      "expected_id": "project_c4bccc903fcc",
+      "actual_id": "project_c4bccc903fcc",
+      "expected_title": "Global Workflow Audit",
+      "actual_title": "Global Workflow Audit",
+      "passed": true,
+      "localStorage": "project_c4bccc903fcc"
+    },
+    "transport_geometry": {
+      "innerWidth": 1600,
+      "bodyScrollWidth": 1600,
+      "maxRight": 1588,
+      "overflowing": [],
+      "last": {
+        "text": "Import audio",
+        "right": 1588,
+        "width": 63.625
+      },
+      "passed": true
+    },
+    "undo_redo_shortcuts": {
+      "after_undo": {
+        "numerator": 4,
+        "denominator": 4
+      },
+      "after_ctrl_shift_z": {
+        "numerator": 3,
+        "denominator": 4
+      },
+      "after_second_undo": {
+        "numerator": 4,
+        "denominator": 4
+      },
+      "after_ctrl_y": {
+        "numerator": 3,
+        "denominator": 4
+      },
+      "final": {
+        "numerator": 4,
+        "denominator": 4
+      },
+      "passed": true
+    },
+    "new_track_selected": {
+      "tracks_before": 4,
+      "tracks_after": 5,
+      "new_track_id": "track_1083c4f5-e6f",
+      "new_track_name": "Vocal 5",
+      "selected_name": "Vocal 5",
+      "passed": true
+    },
+    "new_track_undo": {
+      "track_count": 4,
+      "passed": true
+    },
+    "project_manager_escape": {
+      "open_layer_count": 2,
+      "after_escape_layer_count": 0,
+      "passed": true
+    },
+    "media_drag_snap": {
+      "grid": "1/32",
+      "target_raw_ticks": 330,
+      "expected_ticks": 360,
+      "added": [
+        [
+          "track_audit_audio",
+          "Reference Audio",
+          360,
+          "steady440_20"
+        ]
+      ],
+      "passed": true
+    },
+    "alt_media_drag": {
+      "target_raw_ticks": 330,
+      "expected_ticks": 330,
+      "added": [
+        [
+          "track_audit_audio",
+          "Reference Audio",
+          330,
+          "steady440_20"
+        ]
+      ],
+      "passed": true
+    },
+    "media_add_selected_track": {
+      "tracks_before": 4,
+      "tracks_after": 4,
+      "added": [
+        [
+          "track_audit_audio",
+          "Reference Audio",
+          960,
+          "steady440_20"
+        ]
+      ],
+      "reference_clip_count": 5,
+      "passed": true
+    }
+  },
+  "shots": [
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_fixes/00_reload_restores_current_project.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_fixes/01_transport_geometry.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_fixes/02_ctrl_shift_z_redo.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_fixes/03_new_track_selected.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_fixes/04_project_manager_escape_closed.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_fixes/05_media_drag_snap360.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_fixes/06_alt_media_drag_raw330.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_fixes/07_media_add_selected_track.png",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_fixes/08_final_overview.png"
+  ]
+}

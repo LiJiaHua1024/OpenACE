@@ -956,7 +956,7 @@ export default function ArrangementView(props: Props) {
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
     const rawTicks = tickForX(x)
-    const ticks = event.altKey ? rawTicks : Math.max(0, Math.round(rawTicks / ppq) * ppq)
+    const ticks = event.altKey ? rawTicks : Math.max(0, Math.round(rawTicks / snapGrid) * snapGrid)
     return { x, y, ticks, track: trackAt(y) }
   }
 

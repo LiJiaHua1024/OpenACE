@@ -219,7 +219,7 @@ export default function RenderPanel(props: Props) {
   async function placeMedia(item: MediaFile) {
     setError('')
     try {
-      await api.placeMediaClip(props.project.id, item.file_name, props.playheadTicks)
+      await api.placeMediaClip(props.project.id, item.file_name, props.playheadTicks, props.track?.type !== 'vocal' ? props.track?.id : undefined)
     } catch (e: any) { setError(readableError(e)) }
   }
 

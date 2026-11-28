@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Project } from '../types'
 import { beatUnitTicks, ticksToSeconds } from '../tempo'
 
@@ -48,6 +48,14 @@ export default function TransportBar(props: Props) {
   const [folderEditor, setFolderEditor] = useState<{ projectId: string; value: string } | null>(null)
   const [folderFilter, setFolderFilter] = useState('')
   const allFolders = Array.from(new Set(props.projects.flatMap(item => item.folders || []))).sort((a, b) => a.localeCompare(b))
+  useEffect(() => {
+    if (!managerOpen) return
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setManagerOpen(false)
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [managerOpen])
   const visibleProjects = props.projects.filter(item => {
     const query = search.trim().toLowerCase()
     const matchesFolder = !folderFilter || (item.folders || []).includes(folderFilter)

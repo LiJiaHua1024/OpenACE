@@ -1,0 +1,75 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "checks": {
+    "layout_metrics": {
+      "innerWidth": 1600,
+      "innerHeight": 1035,
+      "bodyScrollWidth": 1600,
+      "transportRight": [
+        {
+          "cls": "import-midi ",
+          "text": "Import audio",
+          "left": 1551.65625,
+          "right": 1610.578125,
+          "width": 58.921875
+        }
+      ],
+      "lastTransport": {
+        "cls": "import-midi ",
+        "text": "Import audio",
+        "left": 1551.65625,
+        "right": 1610.578125,
+        "width": 58.921875
+      },
+      "automationBottom": 1035,
+      "automationHeight": 194,
+      "pianoHeight": 562,
+      "viewportBottom": 1035
+    },
+    "redo_shortcuts": {
+      "after_undo": {
+        "numerator": 4,
+        "denominator": 4
+      },
+      "after_ctrl_shift_z": {
+        "numerator": 4,
+        "denominator": 4
+      },
+      "after_ctrl_y": {
+        "numerator": 3,
+        "denominator": 4
+      },
+      "final": {
+        "numerator": 4,
+        "denominator": 4
+      }
+    },
+    "render_button_disabled_when_vocal_selected": false,
+    "render_job": {
+      "id": "job_96ab302e0712",
+      "status": "completed",
+      "mode": "svs_score",
+      "error": null,
+      "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_c4bccc903fcc/job_96ab302e0712/vocal.wav",
+      "progress": 1.0
+    },
+    "wav_download": {
+      "size": 6021860,
+      "suggested_filename": "Global Workflow Audit.wav"
+    },
+    "transport_loop": {
+      "start_pos": "1.2.1",
+      "start_time": "00:00.50",
+      "after_2p2s_pos": "1.2.2",
+      "after_2p2s_time": "00:00.69",
+      "was_playing": true,
+      "loop_active": true
+    },
+    "project_search": {
+      "rows": 5,
+      "first": "Global Workflow Audit\n11/28/2026 \u00b7 4 tracks \u00b7 120 BPM \u00b7 #audit #demo \u00b7 \u25b8qa\n\u2606\nTags\nFolders\nCopy\nDelete"
+    }
+  }
+}
