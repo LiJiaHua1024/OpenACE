@@ -217,6 +217,25 @@ def _mixed_mandarin_english_tokens(text: str, phoneset: set[str]) -> List[str]:
     return tokens
 
 
+def _mixed_cantonese_english_tokens(text: str, phoneset: set[str]) -> List[str]:
+    """Build explicit mixed yue_/en_ tokens without guessing Cantonese."""
+    import re
+
+    pieces = re.findall(r"[\u3400-\u9fff\uf900-\ufaff]+|[A-Za-z]+(?:'[A-Za-z]+)?", text)
+    if not pieces:
+        raise PhonemeError(f"no Cantonese or English lyric units found in '{text}'")
+    remainder = re.sub(r"[\u3400-\u9fff\uf900-\ufaff]+|[A-Za-z]+(?:'[A-Za-z]+)?|[\s，。！？、,.!?]+", "", text)
+    if remainder:
+        raise PhonemeError(f"mixed Cantonese/English lyrics contain unsupported character '{remainder[0]}'")
+    tokens: List[str] = []
+    for piece in pieces:
+        if "\u3400" <= piece[0] <= "\u9fff" or "\uf900" <= piece[0] <= "\ufaff":
+            tokens.extend(_cantonese_syllables(piece, phoneset))
+        else:
+            tokens.extend(_english_words(piece, phoneset))
+    return tokens
+
+
 def _canonical_language(language: str) -> str:
     lowered = language.lower()
     if lowered.startswith("en"):
@@ -229,12 +248,16 @@ def _canonical_language(language: str) -> str:
 def _metadata_language_for_track(track: Track) -> str:
     """Choose truthful dominant prompt metadata language for mixed zh/en scores."""
     lowered = track.language.lower()
+    import re
+
+    if lowered in {"mixed-yue", "yue-en", "en-yue", "cantonese-english"}:
+        cjk_units = sum(len(re.findall(r"[\u3400-\u9fff\uf900-\ufaff]", note.lyric)) for note in track.notes)
+        english_units = sum(len(re.findall(r"[A-Za-z]+(?:'[A-Za-z]+)?", note.lyric)) for note in track.notes)
+        return "English" if english_units > cjk_units else "Cantonese"
     if lowered not in {"mixed", "multilingual", "zh-en", "en-zh"}:
         return _canonical_language(track.language)
     cjk_units = 0
     english_units = 0
-    import re
-
     for note in track.notes:
         cjk_units += len(re.findall(r"[\u3400-\u9fff\uf900-\ufaff]", note.lyric))
         english_units += len(re.findall(r"[A-Za-z]+(?:'[A-Za-z]+)?", note.lyric))
@@ -255,6 +278,8 @@ def lyric_to_soulx_tokens(text: str, language: str, phoneset: set[str]) -> List[
     language = language.lower()
     if language in {"mixed", "multilingual", "zh-en", "en-zh"}:
         return _mixed_mandarin_english_tokens(text, phoneset)
+    if language in {"mixed-yue", "yue-en", "en-yue", "cantonese-english"}:
+        return _mixed_cantonese_english_tokens(text, phoneset)
     if language in {"zh", "zh-cn", "mandarin", "cmn"}:
         return _mandarin_syllables(text, phoneset)
     if language in {"en", "en-us", "en-gb", "english"}:
@@ -318,6 +343,10 @@ def _soulx_tokens_for_note(note: Note, language: str, phoneset: set[str]) -> Lis
         return _english_override_tokens(current, phoneset)
     if lowered in {"mixed", "multilingual", "zh-en", "en-zh"} and current and all(
         symbol in phoneset and symbol.startswith(("zh_", "en_")) for symbol in current
+    ):
+        return current
+    if lowered in {"mixed-yue", "yue-en", "en-yue", "cantonese-english"} and current and all(
+        symbol in phoneset and symbol.startswith(("yue_", "en_")) for symbol in current
     ):
         return current
     prefix = "yue_" if lowered in {"yue", "cantonese", "zh-hk"} else "zh_"

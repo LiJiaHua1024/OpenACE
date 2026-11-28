@@ -337,12 +337,30 @@ def mixed_mandarin_english_tokens(text: str) -> List[PhonemeToken]:
     return tokens
 
 
+def mixed_cantonese_english_tokens(text: str) -> List[PhonemeToken]:
+    """Tokenize explicit Cantonese Han units mixed with English words."""
+    pieces = re.findall(r"[\u3400-\u9fff\uf900-\ufaff]+|[A-Za-z]+(?:'[A-Za-z]+)?", text)
+    if not pieces:
+        if re.search(r"[\u3040-\u30ff]", text):
+            raise PhonemeError("Japanese script is not supported in mixed Cantonese/English mode")
+        raise PhonemeError(f"no Cantonese or English lyric units found in '{text}'")
+    remainder = re.sub(r"[\u3400-\u9fff\uf900-\ufaff]+|[A-Za-z]+(?:'[A-Za-z]+)?|[\s，。！？、,.!?]+", "", text)
+    if remainder:
+        raise PhonemeError(f"mixed Cantonese/English lyrics contain unsupported character '{remainder[0]}'")
+    tokens: List[PhonemeToken] = []
+    for piece in pieces:
+        tokens.extend(cantonese_tokens(piece) if _is_cjk(piece[0]) else english_tokens(piece))
+    return tokens
+
+
 def phonemes_for_text(text: str, language: str) -> List[PhonemeToken]:
     language = language.lower()
     if not text.strip():
         raise PhonemeError("lyric is empty; OpenACE never silently substitutes 'la'")
     if language in {"mixed", "multilingual", "zh-en", "en-zh"}:
         return mixed_mandarin_english_tokens(text)
+    if language in {"mixed-yue", "yue-en", "en-yue", "cantonese-english"}:
+        return mixed_cantonese_english_tokens(text)
     if language in {"zh", "zh-cn", "mandarin", "cmn"}:
         return mandarin_tokens(text)
     if language in {"en", "en-us", "en-gb", "english"}:

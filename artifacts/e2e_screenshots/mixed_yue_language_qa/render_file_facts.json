@@ -1,0 +1,14 @@
+{
+  "mixed": {
+    "frames": 69000,
+    "rate": 24000,
+    "seconds": 2.875,
+    "bytes": 138044
+  },
+  "yue": {
+    "frames": 69000,
+    "rate": 24000,
+    "seconds": 2.875,
+    "bytes": 138044
+  }
+}

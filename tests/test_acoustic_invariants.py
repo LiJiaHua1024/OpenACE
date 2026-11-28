@@ -450,3 +450,27 @@ def test_mixed_language_rejects_non_mandarin_cjk_or_japanese_scripts_loudly():
 
     with pytest.raises(PhonemeError, match="unsupported character"):
         phonemes_for_text("你 こんにちは", "mixed")
+
+
+def test_explicit_mixed_cantonese_english_tokens_and_metadata():
+    import json
+    from openace.core.phonemes import phonemes_for_text
+    from openace.engines.soulx import build_soulx_target_metadata, lyric_to_soulx_tokens
+
+    tokens = phonemes_for_text("我 hello", "mixed-yue")
+    assert tokens[0].symbol == "ŋ"
+    assert any(token.symbol in {"h", "hh"} for token in tokens)
+    phoneset = set(json.loads(Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json").read_text(encoding="utf-8")))
+    soulx_tokens = lyric_to_soulx_tokens("我 hello", "mixed-yue", phoneset)
+    assert soulx_tokens[0] == "yue_ngo5"
+    assert any(token.startswith("en_") for token in soulx_tokens[1:])
+
+    project = Project(bpm=120)
+    track = Track(name="Mixed Yue", language="mixed-yue")
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="我"))
+    track.add_note(Note(start_ticks=480, duration_ticks=480, pitch=62, lyric="hello"))
+    project.add_track(track)
+    metadata = build_soulx_target_metadata(project, track, Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json"))[0]
+    assert "yue_ngo5" in metadata["phoneme"].split()
+    assert any(token.startswith("en_") for token in metadata["phoneme"].split())
+    assert metadata["language"] == "Cantonese"
