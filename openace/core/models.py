@@ -135,6 +135,7 @@ class AudioClip(BaseModel):
     label: str = ""
     transcribed_lyrics: List[TimedLyric] = Field(default_factory=list)
     created_by_job_id: Optional[str] = None
+    updated_by_job_id: Optional[str] = None
 
 
 class Track(BaseModel):

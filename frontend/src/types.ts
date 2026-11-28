@@ -58,6 +58,7 @@ export interface AudioClip {
   label?: string
   transcribed_lyrics?: TimedLyric[]
   created_by_job_id?: string | null
+  updated_by_job_id?: string | null
 }
 
 export type BreathTimbre = 'soft' | 'natural' | 'strong'

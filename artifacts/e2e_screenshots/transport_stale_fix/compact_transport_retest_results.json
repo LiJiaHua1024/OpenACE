@@ -1,0 +1,256 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "clicks": [
+    {
+      "index": 0,
+      "opened": true,
+      "accept": ".mid,.midi"
+    },
+    {
+      "index": 1,
+      "opened": true,
+      "accept": ".ustx,.zip"
+    },
+    {
+      "index": 2,
+      "opened": true,
+      "accept": "audio/*,.wav,.mp3,.flac"
+    }
+  ],
+  "measurements": {
+    "innerWidth": 1280,
+    "innerHeight": 841,
+    "header": {
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "scrollLeft": 0
+    },
+    "body": {
+      "scrollWidth": 1280,
+      "clientWidth": 1280
+    },
+    "children": [
+      {
+        "i": 0,
+        "tag": "DIV",
+        "cls": "brand",
+        "text": "OAOpenACE StudioLOCAL",
+        "left": 7,
+        "right": 90.828125,
+        "width": 83.828125,
+        "top": 14,
+        "bottom": 43,
+        "display": "flex",
+        "visibility": "visible"
+      },
+      {
+        "i": 1,
+        "tag": "SELECT",
+        "cls": "project-select",
+        "text": "FolderQA BetaFolderQA AlphaPinTag QA AlphaCreative Loop \u9a8c\u6536Project OpsInterop TestInterop TestvocalEnglish Batch Lyrics QA FreshEnglish Batch Lyrics QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalGlobal Workflow AuditProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalUntitled OpenACE ProjectProject OpsInterop TestInterop TestvocalSnap Grid QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalMix Automation QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalExport Panning QAProject OpsInterop TestInterop TestvocalStem Crossfade Envelope QAStem Crossfade Envelope QAStem Tempo QAStem Crossfade QAStem Tempo QAStem Crossfade QAStem Export QAProject OpsInterop TestInterop TestvocalExternal Invalidation QAABCABCProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestProject OpsInterop TestInterop TestProject OpsInterop TestInterop TestProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalUntitled OpenACE Project CopyUntitled OpenACE Project\u4e25\u82db\u9a8c\u6536_UI\u95ed\u73afFinal QA \u9a8c\u6536Final QA \u9a8c\u6536Untitled OpenACE ProjectUntitled OpenACE ProjectFinal QA \u9a8c\u6536 CopyProject OpsInterop TestInterop TestProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalLoudness Retest LongLoudness RetestPlayback Rebuild QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProgress QAProject OpsInterop TestInterop TestvocalDemucs Real CPU QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalCancel QAProject OpsInterop TestInterop TestvocalBlocked LatestProject OpsInterop TestInterop TestvocalMedia Org RetestMedia Org QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalLeft Resize QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalExtended Pitch QAProject OpsInterop TestInterop TestvocalVoice Trim QAProject OpsInterop TestInterop TestvocalNote Overlap SupplementNote Overlap QAProject OpsInterop TestInterop TestvocalAuto Lyric QAProject OpsInterop TestInterop TestvocalVoice Quality UX RecheckVoice Quality QAProject OpsInterop TestInterop TestvocalNote Audition Throttle RecheckNote Audition QA FinalNote Audition QA 2Note Audition QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalTime Range Menu Final RecheckTime Range Ripple Fix RecheckTime Range Ripple QATRR probeProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalVelocity Render QA CopyVelocity Render QAProject OpsInterop TestInterop TestvocalCross Ripple CorrectedCross Ripple QACross Ripple QACross Ripple QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectProject OpsInterop TestInterop TestvocalUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalRipple Delete QARipple Menu Small QAKeyboard Nudge QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalNote Split Fix CleanNote Split Fix RecheckNote Split QA CleanSplit CLI MCP ProbeSplit Direct Complex ProbeSplit Direct ProbeNote Split QAFolderQA NormalizeFolderQA ZetaProject OpsInterop TestInterop TestvocalLive Seek Single Clip QALive Seek Single Clip QALoop Playback QAProject OpsInterop TestInterop TestvocalUntitled OpenACE ProjectProject OpsInterop TestInterop TestvocalUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectProject OpsInterop TestInterop TestvocalAutomation Range Clipboard QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalStale Render QA Legacy Missing FPStale Render QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalRender Queue QAProject OpsInterop TestInterop TestvocalPinTag QA GammaProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalArrange MultiSelect QAProject OpsInterop TestInterop TestvocalPM Beta QAPM Alpha QAProject OpsInterop TestInterop TestvocalTempo Ramp QAProject OpsInterop TestInterop TestvocalAudio Pitch Curve QAvocalSVC Lyrics QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalFinal QA \u9a8c\u6536Project OpsInterop TestInterop TestvocalUntitled OpenACE ProjectProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalAgent Audio Import QADense Lyric Virtualization QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalvocalProject OpsInterop TestInterop TestvocalLyric Correction QALyric Correction QAProject OpsInterop TestInterop TestvocalTime Signature QATime Signature QAProject OpsInterop TestInterop TestvocalStem Separation QAStem Separation QAProject OpsInterop TestInterop TestvocalAgent Editing QAProject OpsInterop TestInterop TestvocalVoice Library QAProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectProject OpsInterop TestInterop TestvocalUntitled OpenACE ProjectProject OpsInterop TestInterop TestvocalUntitled OpenACE ProjectProject OpsInterop TestInterop TestProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop TestProject OpsInterop TestInterop TestProject OpsInterop TestInterop TestvocalProject OpsInterop TestInterop Testvocaltempo_change_fixtureProject OpsInterop TestInterop TestProject OpsInterop TestInterop TestvocalProject OpsProject OpsProject OpsInterop TestInterop TestvocalZip Wave Import QAInterop TestInterop TestvocalUntitled OpenACE ProjectUntitled OpenACE ProjectInterop TestvocalUSTX \u5bfc\u5165\u9a8c\u8bc1Interop Testustx_import_roundtripendpointendpointvocalUSTX Wave QAvocalSVP Contract QAvocalvocalUSTX Contract QAvocalen_prompten_promptvocalvocalTrack Delete Edge QATrack Ops QATrack Ops QATrack Delete Edge QAPerf Dense QAPerf Sparse QAPerf Sparse QAPerf Dense QAPerf Sparse QAMenu Overflow RecheckMenu Overflow RecheckClip Ops QAXF Badge RecheckCrossfade QAUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectPiano Depth QAPiano Depth QAPiano Depth QAUntitled OpenACE ProjectUntitled OpenACE ProjectUntitled OpenACE ProjectFinal QA \u9a8c\u6536vocalE2E SmokexxxxxE2E SmokexE2E SmokeDebugE2E SmokeE2E Smoke",
+        "left": 96.828125,
+        "right": 200.828125,
+        "width": 104,
+        "top": 14.5,
+        "bottom": 42.5,
+        "display": "block",
+        "visibility": "visible"
+      },
+      {
+        "i": 2,
+        "tag": "BUTTON",
+        "cls": "new-project",
+        "text": "\uff0b New",
+        "left": 206.828125,
+        "right": 281.5234375,
+        "width": 74.6953125,
+        "top": 14.5,
+        "bottom": 42.5,
+        "display": "block",
+        "visibility": "visible"
+      },
+      {
+        "i": 3,
+        "tag": "BUTTON",
+        "cls": "icon-button project-action ",
+        "text": "Projects",
+        "left": 287.5234375,
+        "right": 362.9609375,
+        "width": 75.4375,
+        "top": 13.5,
+        "bottom": 43.5,
+        "display": "block",
+        "visibility": "visible"
+      },
+      {
+        "i": 4,
+        "tag": "INPUT",
+        "cls": "title-input",
+        "text": "",
+        "left": 368.9609375,
+        "right": 494.9609375,
+        "width": 126,
+        "top": 10.75,
+        "bottom": 46.25,
+        "display": "block",
+        "visibility": "visible"
+      },
+      {
+        "i": 5,
+        "tag": "DIV",
+        "cls": "transport-controls",
+        "text": "\u21b6\u21b7\u25a0LoopFollowMetro\u25b6",
+        "left": 500.9609375,
+        "right": 794.8203125,
+        "width": 293.859375,
+        "top": 13.5,
+        "bottom": 43.5,
+        "display": "flex",
+        "visibility": "visible"
+      },
+      {
+        "i": 6,
+        "tag": "BUTTON",
+        "cls": "save-state saved",
+        "text": "Saved",
+        "left": 800.8203125,
+        "right": 846.0859375,
+        "width": 45.265625,
+        "top": 16,
+        "bottom": 41,
+        "display": "block",
+        "visibility": "visible"
+      },
+      {
+        "i": 7,
+        "tag": "DIV",
+        "cls": "position-readout",
+        "text": "1.1.100:00.00",
+        "left": 852.0859375,
+        "right": 934.0859375,
+        "width": 82,
+        "top": 9.375,
+        "bottom": 47.625,
+        "display": "flex",
+        "visibility": "visible"
+      },
+      {
+        "i": 8,
+        "tag": "LABEL",
+        "cls": "tempo-box",
+        "text": "BPM",
+        "left": 940.0859375,
+        "right": 1027.7421875,
+        "width": 87.65625,
+        "top": 15,
+        "bottom": 42,
+        "display": "flex",
+        "visibility": "visible"
+      },
+      {
+        "i": 9,
+        "tag": "SELECT",
+        "cls": "time-signature-select",
+        "text": "2/43/44/45/46/87/89/812/8",
+        "left": 1033.7421875,
+        "right": 1087.7421875,
+        "width": 54,
+        "top": 16.75,
+        "bottom": 40.25,
+        "display": "block",
+        "visibility": "visible"
+      },
+      {
+        "i": 10,
+        "tag": "LABEL",
+        "cls": "import-midi",
+        "text": "Import MIDI",
+        "left": 1135,
+        "right": 1177,
+        "width": 42,
+        "top": 15.5,
+        "bottom": 41.5,
+        "display": "block",
+        "visibility": "visible"
+      },
+      {
+        "i": 11,
+        "tag": "LABEL",
+        "cls": "import-midi",
+        "text": "Import USTX",
+        "left": 1183,
+        "right": 1225,
+        "width": 42,
+        "top": 15.5,
+        "bottom": 41.5,
+        "display": "block",
+        "visibility": "visible"
+      },
+      {
+        "i": 12,
+        "tag": "LABEL",
+        "cls": "import-midi ",
+        "text": "Import audio",
+        "left": 1231,
+        "right": 1273,
+        "width": 42,
+        "top": 15.5,
+        "bottom": 41.5,
+        "display": "block",
+        "visibility": "visible"
+      }
+    ],
+    "labels": [
+      {
+        "i": 0,
+        "fullText": "Import MIDI",
+        "visiblePseudo": "MIDI",
+        "left": 1135,
+        "right": 1177,
+        "width": 42,
+        "clientWidth": 40,
+        "scrollWidth": 40,
+        "fontSize": "0px",
+        "padding": "6px 0px",
+        "beforeFontSize": "10px",
+        "overflow": "hidden",
+        "insideViewport": true,
+        "internallyUnclipped": true
+      },
+      {
+        "i": 1,
+        "fullText": "Import USTX",
+        "visiblePseudo": "USTX",
+        "left": 1183,
+        "right": 1225,
+        "width": 42,
+        "clientWidth": 40,
+        "scrollWidth": 40,
+        "fontSize": "0px",
+        "padding": "6px 0px",
+        "beforeFontSize": "10px",
+        "overflow": "hidden",
+        "insideViewport": true,
+        "internallyUnclipped": true
+      },
+      {
+        "i": 2,
+        "fullText": "Import audio",
+        "visiblePseudo": "Audio",
+        "left": 1231,
+        "right": 1273,
+        "width": 42,
+        "clientWidth": 40,
+        "scrollWidth": 40,
+        "fontSize": "0px",
+        "padding": "6px 0px",
+        "beforeFontSize": "10px",
+        "overflow": "hidden",
+        "insideViewport": true,
+        "internallyUnclipped": true
+      }
+    ]
+  }
+}

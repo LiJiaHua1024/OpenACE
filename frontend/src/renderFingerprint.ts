@@ -62,6 +62,7 @@ export function vocalRenderInputHash(project: Project, track: Track): string {
 }
 
 export function vocalRenderIsStale(project: Project, track: Track): boolean {
+  if (track.type !== 'vocal') return false
   if (!track.render_path) return false
   if (!track.render_fingerprint) return true
   return track.render_fingerprint !== vocalRenderInputHash(project, track)

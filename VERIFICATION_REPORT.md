@@ -1408,3 +1408,13 @@ MIDI export now writes RPN pitch-bend sensitivity (±6 semitones, matching OpenA
 ## Iteration 130 — English batch lyrics validation and toolbar layout repair
 
 Independent browser QA validated English whitespace batch lyric distribution end-to-end: exact six-word/six-note assignment, non-prefix selection targeting, mismatch warning/partial assignment, melisma vowel continuation, undo/redo/reload, continuous Tab regression, exact backend English phonemes, and clean console/network. It exposed a narrow-viewport toolbar defect where the Lyrics button was partially obscured. Edit actions now precede secondary zoom/row controls and the toolbar scrolls horizontally without compressing controls, keeping critical editing actions reachable. Evidence: `artifacts/e2e_screenshots/english_batch_lyrics/`. Frontend build passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).
+
+## Iteration 131 — comprehensive creative-loop acceptance repairs
+
+Ran the broad adversarial browser creative loop in fixture mode: project creation, piano-roll drawing/dragging/resizing/zoom/lyrics/phonemes, pitch/air/tension curves, reference-voice upload/analysis, vocal render, Vocal2BGM, FIFO render queueing, Alt-drag repaint, exact transpose/rejection behavior, all exposed export formats, playback instrumentation, and MCP/SSE live editing. The broad pass proved the main workflow end-to-end while exposing three concrete defects:
+
+1. At exactly 1280px the transport's Import USTX/Import audio controls overflowed off-screen.
+2. Generated accompaniment/SVC tracks with `render_path` but no vocal fingerprint were falsely labeled `STALE RENDER`.
+3. Repaint clips retained only original Vocal2BGM `created_by_job_id`, leaving no provenance for the job that produced the current repainted audio.
+
+Fixes now compact transport import controls below 1350px without clipping or overflow (verified exact `scrollWidth=clientWidth=1280` and rightmost edge x=1273), restrict vocal stale detection to vocal tracks while preserving true vocal stale behavior, preserve original clip creation provenance, and record repaint `updated_by_job_id` through render completion and conflict-safe autosave merging. Regression evidence: `artifacts/e2e_screenshots/full_creative_loop/`, `artifacts/e2e_screenshots/transport_stale_fix/`. Focused repaint/conflict tests passed; independent browser retest passed with clean console/network; frontend production build passed; full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0).

@@ -1,0 +1,7 @@
+{
+  "create_error": false,
+  "project_id": "project_e48f6ff055df",
+  "get_error": false,
+  "get_text": "{\n  \"id\": \"project_e48f6ff055df\",\n  \"schema_version\": 1,\n  \"title\": \"MCP scratch acceptance\",\n  \"ppq\": 480,\n  \"bpm\": 120.0,\n  \"tempo_map\": [\n    {\n      \"ticks\": 0,\n      \"bpm\": 120.0,\n      \"curve\": ",
+  "delete_error": false
+}

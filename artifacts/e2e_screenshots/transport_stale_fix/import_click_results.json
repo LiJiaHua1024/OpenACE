@@ -1,0 +1,63 @@
+{
+  "console": [],
+  "pageerrors": [],
+  "network": [],
+  "clicks": [
+    {
+      "index": 0,
+      "opened": true,
+      "accept": ".mid,.midi"
+    },
+    {
+      "index": 1,
+      "opened": true,
+      "accept": ".ustx,.zip"
+    },
+    {
+      "index": 2,
+      "opened": true,
+      "accept": "audio/*,.wav,.mp3,.flac"
+    }
+  ],
+  "computed": [
+    {
+      "i": 10,
+      "text": "Import MIDI",
+      "left": 1145.3046875,
+      "right": 1187.3046875,
+      "width": 42,
+      "fontSize": "11px",
+      "padding": "6px 7px",
+      "beforeContent": "\"MIDI\"",
+      "beforeFontSize": "10px",
+      "clientWidth": 40,
+      "scrollWidth": 96
+    },
+    {
+      "i": 11,
+      "text": "Import USTX",
+      "left": 1195.3046875,
+      "right": 1237.3046875,
+      "width": 42,
+      "fontSize": "11px",
+      "padding": "6px 7px",
+      "beforeContent": "\"USTX\"",
+      "beforeFontSize": "10px",
+      "clientWidth": 40,
+      "scrollWidth": 108
+    },
+    {
+      "i": 12,
+      "text": "Import audio",
+      "left": 1245.3046875,
+      "right": 1287.3046875,
+      "width": 42,
+      "fontSize": "11px",
+      "padding": "6px 7px",
+      "beforeContent": "\"Audio\"",
+      "beforeFontSize": "10px",
+      "clientWidth": 40,
+      "scrollWidth": 107
+    }
+  ]
+}

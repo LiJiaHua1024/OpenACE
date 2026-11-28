@@ -213,6 +213,7 @@ def merge_unacknowledged_render_outputs(current: Project, incoming: Project) -> 
             incoming_clip.duration_ticks = current_clip.duration_ticks
             incoming_clip.label = current_clip.label
             incoming_clip.created_by_job_id = current_clip.created_by_job_id
+            incoming_clip.updated_by_job_id = current_clip.updated_by_job_id
             if current_clip.transcribed_lyrics and not incoming_clip.transcribed_lyrics:
                 incoming_clip.transcribed_lyrics = [item.model_copy(deep=True) for item in current_clip.transcribed_lyrics]
     return incoming

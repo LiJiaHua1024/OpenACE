@@ -178,13 +178,13 @@ export default function TransportBar(props: Props) {
       >
         {['2/4', '3/4', '4/4', '5/4', '6/8', '7/8', '9/8', '12/8'].map(value => <option key={value} value={value}>{value}</option>)}
       </select>
-      <label className="import-midi">Import MIDI
+      <label className="import-midi" data-short="MIDI" title="Import MIDI project">Import MIDI
         <input type="file" accept=".mid,.midi" onChange={e => e.target.files?.[0] && props.onImportMidi(e.target.files[0])} />
       </label>
-      <label className="import-midi">Import USTX
+      <label className="import-midi" data-short="USTX" title="Import OpenUtau project">Import USTX
         <input type="file" accept=".ustx,.zip" onChange={e => e.target.files?.[0] && props.onImportUstx(e.target.files[0])} />
       </label>
-      <label className={`import-midi ${props.importingAudio ? 'importing' : ''}`}>{props.importingAudio ? 'Transcribing audio…' : 'Import audio'}
+      <label className={`import-midi ${props.importingAudio ? 'importing' : ''}`} data-short="Audio" title="Import/transcribe audio">{props.importingAudio ? 'Transcribing audio…' : 'Import audio'}
         <input type="file" accept="audio/*,.wav,.mp3,.flac" disabled={props.importingAudio} onChange={e => e.target.files?.[0] && props.onImportAudio(e.target.files[0])} />
       </label>
     </header>

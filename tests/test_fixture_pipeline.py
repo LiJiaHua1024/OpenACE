@@ -4,9 +4,10 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+import soundfile as sf
 
 from openace.core.audio import read_audio
-from openace.core.models import Breath, EnvelopePoint, Note, RenderJobStatus, RenderMode, Track
+from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, RenderJobStatus, RenderMode, Track, TrackType
 from openace.core.project_store import ProjectStore
 from openace.core.render_fingerprint import vocal_render_input_hash
 from openace.engines.fixture import FixtureVocalEngine
@@ -372,3 +373,24 @@ def test_acestep_bootstrap_syncs_checkpoint_model_code(tmp_path):
     assert sorted(synced) == ["acestep-v15-base/modeling.py", "acestep-v15-turbo/modeling.py"]
     assert (repo / "checkpoints/acestep-v15-base/modeling.py").read_text() == "correct = True\n"
     assert not (repo / "checkpoints/acestep-v15-base/__init__.py").exists()
+
+
+def test_repaint_replacement_preserves_creation_and_records_update_provenance(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENACE_CI_SYNTH_FIXTURE", "1")
+    store = ProjectStore(tmp_path / "projects")
+    project = store.create("repaint-provenance")
+    accompaniment = project.add_track(Track(name="BGM", type=TrackType.ACCOMPANIMENT))
+    accompaniment.clips.append(AudioClip(path=str(tmp_path / "old.wav"), start_ticks=0, duration_ticks=480, created_by_job_id="job_original"))
+    store.save(project)
+    source = tmp_path / "source.wav"
+    sf.write(str(source), np.zeros(24000, dtype=np.float32), 24000)
+
+    service = RenderService(store, tmp_path / "renders")
+    job = service.create_job(project.id, RenderMode.REPAINT, source_audio=str(source), start_s=0.0, end_s=0.5)
+    result = asyncio.run(service.run_music_generation(job.id, str(source), "", 0.0, 0.5))
+
+    assert result.status == "completed"
+    updated = store.get(project.id).tracks[-1].clips[0]
+    assert updated.created_by_job_id == "job_original"
+    assert updated.updated_by_job_id == job.id
+    assert updated.path.endswith(f"{job.id}/accompaniment.wav")

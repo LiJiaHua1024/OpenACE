@@ -428,6 +428,7 @@ class RenderService:
                 repaint_target.path = str(wav)
                 repaint_target.duration_ticks = duration_ticks
                 repaint_target.label = "Repaint"
+                repaint_target.updated_by_job_id = job.id
             else:
                 accompaniment.clips.append(
                     AudioClip(

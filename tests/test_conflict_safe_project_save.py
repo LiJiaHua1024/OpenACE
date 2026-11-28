@@ -86,6 +86,7 @@ def test_stale_autosave_merges_repaint_output_without_losing_user_clip_edits(tmp
     current_clip.path = f"/renders/{project.id}/job_repaint/accompaniment.wav"
     current_clip.duration_ticks = 960
     current_clip.label = "Repaint"
+    current_clip.updated_by_job_id = "job_repaint"
     store.save(current)
     service.jobs["job_repaint"] = RenderJob(
         id="job_repaint", project_id=project.id, mode=RenderMode.REPAINT,
@@ -99,3 +100,4 @@ def test_stale_autosave_merges_repaint_output_without_losing_user_clip_edits(tmp
     assert merged["label"] == "Repaint"
     assert merged["start_ticks"] == 480
     assert merged["gain_db"] == -3.0
+    assert merged["updated_by_job_id"] == "job_repaint"
