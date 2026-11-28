@@ -47,7 +47,7 @@ def _release_file_lock(handle) -> None:
         pass
 
 
-def query_nvidia_gpu(index: int = 0) -> Optional[Dict[str, object]]:
+def query_nvidia_gpu(index: int | str = 0) -> Optional[Dict[str, object]]:
     """Query GPU name/memory without initializing a CUDA context in this process."""
     executable = shutil.which("nvidia-smi")
     if not executable:
@@ -82,6 +82,31 @@ def query_nvidia_gpu(index: int = 0) -> Optional[Dict[str, object]]:
         return None
 
 
+def nvidia_selector_for_cuda_visible(index: int = 0) -> Optional[str]:
+    """Map a CUDA-visible device ordinal to an nvidia-smi selector.
+
+    CUDA_VISIBLE_DEVICES may contain numeric physical indexes or GPU/MIG UUIDs. An
+    empty value means no CUDA device is visible. nvidia-smi accepts both numeric
+    indexes and UUIDs after ``-i``, so the token can be forwarded without initializing
+    CUDA in this orchestrator process.
+    """
+    spec = os.environ.get("CUDA_VISIBLE_DEVICES")
+    if spec is None:
+        return str(index)
+    tokens = [token.strip() for token in spec.split(",") if token.strip()]
+    if not tokens or index < 0 or index >= len(tokens):
+        return None
+    return tokens[index]
+
+
+def query_cuda_visible_nvidia_gpu(index: int = 0) -> Optional[Dict[str, object]]:
+    """Query memory for the physical GPU backing a CUDA-visible device ordinal."""
+    selector = nvidia_selector_for_cuda_visible(index)
+    if selector is None:
+        return None
+    return query_nvidia_gpu(selector)
+
+
 @dataclass
 class VRAMReservation:
     engine: str
@@ -106,7 +131,7 @@ class VRAMManager:
         self._last_engine: Optional[str] = None
 
     def available_gb(self) -> float:
-        gpu = query_nvidia_gpu()
+        gpu = query_cuda_visible_nvidia_gpu()
         if gpu is not None:
             return min(self.budget_gb, float(gpu["free_gb"]))
         try:

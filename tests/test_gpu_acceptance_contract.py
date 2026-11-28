@@ -19,7 +19,7 @@ def test_gpu_acceptance_exercises_openace_soulx_adapter_not_upstream_example_onl
 
 def test_gpu_acceptance_prefers_nvml_before_torch_cuda_fallback():
     source = Path("scripts/verify_local_gpu.py").read_text(encoding="utf-8")
-    nvml = source.index("query_nvidia_gpu(0)")
+    nvml = source.index("query_cuda_visible_nvidia_gpu(0)")
     torch_fallback = source.index("import torch")
     assert nvml < torch_fallback
     assert "may create a CUDA" in source
@@ -28,7 +28,7 @@ def test_gpu_acceptance_prefers_nvml_before_torch_cuda_fallback():
 def test_gpu_acceptance_samples_stage_memory_without_parent_cuda():
     source = Path("scripts/verify_local_gpu.py").read_text()
     assert "class NvidiaMemoryTelemetry" in source
-    assert "query_nvidia_gpu(self.index)" in source
+    assert "query_cuda_visible_nvidia_gpu(self.index)" in source
     assert '"max_used_gb"' in source
     assert '"min_free_gb"' in source
     assert "svs_telemetry.start()" in source
@@ -77,3 +77,36 @@ def test_gpu_acceptance_repaint_range_is_derived_and_outputs_are_nonsilent():
     assert '"peak": round(peak, 6)' in source
     assert "peak < 1e-5" in source
     assert "silent or too short for real GPU acceptance" in source
+
+
+def test_gpu_acceptance_preflight_covers_real_preprocess_and_main_components():
+    source = Path("scripts/verify_local_gpu.py").read_text()
+    for marker in [
+        "soulx_preprocess_rosvot_rmvpe",
+        "soulx_preprocess_rosvot",
+        "soulx_preprocess_rwbd",
+        "soulx_preprocess_zh_asr",
+        "acestep_main_turbo",
+        "acestep_main_vae",
+        "acestep_main_text_encoder",
+        "acestep_main_lm",
+        "required_weight_dirs",
+    ]:
+        assert marker in source
+
+
+def test_gpu_acceptance_uses_cuda_visible_mapping_and_writes_failure_report():
+    source = Path("scripts/verify_local_gpu.py").read_text()
+    assert "query_cuda_visible_nvidia_gpu(0)" in source
+    assert "query_cuda_visible_nvidia_gpu(self.index)" in source
+    assert "sys.excepthook = write_unhandled_failure" in source
+    assert '"failed_at"' in source
+
+
+def test_gpu_acceptance_validates_timing_contracts_and_separation_stems():
+    source = Path("scripts/verify_local_gpu.py").read_text()
+    assert "duration_validation" in source
+    assert "expected_vocal_seconds" in source
+    assert '"acestep_repaint": (audio_report["acestep"]["seconds"], 0.20)' in source
+    assert "stem_report" in source
+    assert "Demucs vocal stem is silent" in source or 'Demucs {stem_name} stem is silent' in source

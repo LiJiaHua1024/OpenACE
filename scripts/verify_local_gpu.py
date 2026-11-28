@@ -49,10 +49,10 @@ class NvidiaMemoryTelemetry:
         self._thread.start()
 
     def _sample_loop(self):
-        from openace.engines.vram import query_nvidia_gpu
+        from openace.engines.vram import query_cuda_visible_nvidia_gpu
 
         while not self._stop.is_set():
-            gpu = query_nvidia_gpu(self.index)
+            gpu = query_cuda_visible_nvidia_gpu(self.index)
             if gpu is not None:
                 free = float(gpu["free_gb"])
                 total = float(gpu["total_gb"])
@@ -96,11 +96,22 @@ def main() -> int:
     artifacts = ROOT / "artifacts" / "local_gpu"
     artifacts.mkdir(parents=True, exist_ok=True)
 
+    def write_unhandled_failure(exc_type, exc, traceback):
+        if exc_type is KeyboardInterrupt or report.get("ok"):
+            return sys.__excepthook__(exc_type, exc, traceback)
+        report["ok"] = False
+        report["error"] = f"{exc_type.__name__}: {exc}"
+        report["failed_at"] = time.time()
+        (artifacts / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+        return sys.__excepthook__(exc_type, exc, traceback)
+
+    sys.excepthook = write_unhandled_failure
+
     gpu_info = None
     try:
-        from openace.engines.vram import query_nvidia_gpu
+        from openace.engines.vram import query_cuda_visible_nvidia_gpu
 
-        gpu_info = query_nvidia_gpu(0)
+        gpu_info = query_cuda_visible_nvidia_gpu(0)
         if gpu_info is None:
             # Fallback for hosts where nvidia-smi is unavailable. This may create a CUDA
             # context in the verifier process, so the NVML path above is preferred.
@@ -137,11 +148,42 @@ def main() -> int:
         "soulx_model": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer/model.pt",
         "soulx_svc_model": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer/model-svc.pt",
         "soulx_preprocess_rmvpe": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rmvpe/rmvpe.pt",
+        "soulx_preprocess_rosvot_rmvpe": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rosvot/rmvpe/model.pt",
+        "soulx_preprocess_rosvot": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rosvot/rosvot/model.pt",
+        "soulx_preprocess_rosvot_config": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rosvot/rosvot/config.yaml",
+        "soulx_preprocess_rwbd": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rosvot/rwbd/model.pt",
+        "soulx_preprocess_rwbd_config": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/rosvot/rwbd/config.yaml",
+        "soulx_preprocess_zh_asr": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch/model.pt",
+        "soulx_preprocess_zh_asr_config": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch/config.yaml",
+        "soulx_preprocess_zh_asr_tokens": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch/tokens.json",
+        "soulx_preprocess_zh_asr_am_mvn": ROOT / "external/SoulX-Singer/pretrained_models/SoulX-Singer-Preprocess/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch/am.mvn",
         "acestep_base_config": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/config.json",
         "acestep_base_weights": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/model.safetensors",
+        "acestep_base_modeling_code": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/modeling_acestep_v15_base.py",
+        "acestep_base_configuration_code": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/configuration_acestep_v15.py",
+        "acestep_base_silence_latent": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-base/silence_latent.pt",
     }
-    missing = {name: str(path) for name, path in required_files.items() if not path.exists()}
-    fresh_gpu_info = query_nvidia_gpu(0)
+    weight_artifact_names = (
+        "model.safetensors",
+        "model.safetensors.index.json",
+        "pytorch_model.bin",
+        "pytorch_model.bin.index.json",
+        "diffusion_pytorch_model.safetensors",
+        "diffusion_pytorch_model.safetensors.index.json",
+        "diffusion_pytorch_model.bin",
+        "diffusion_pytorch_model.bin.index.json",
+    )
+    required_weight_dirs = {
+        "acestep_main_turbo": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-v15-turbo",
+        "acestep_main_vae": ROOT / "external/ACE-Step-1.5/checkpoints/vae",
+        "acestep_main_text_encoder": ROOT / "external/ACE-Step-1.5/checkpoints/Qwen3-Embedding-0.6B",
+        "acestep_main_lm": ROOT / "external/ACE-Step-1.5/checkpoints/acestep-5Hz-lm-1.7B",
+    }
+    missing = {name: str(path) for name, path in required_files.items() if not path.exists() or path.stat().st_size == 0}
+    for name, path in required_weight_dirs.items():
+        if not path.is_dir() or not any((path / filename).exists() for filename in weight_artifact_names):
+            missing[name] = str(path)
+    fresh_gpu_info = query_cuda_visible_nvidia_gpu(0)
     if fresh_gpu_info is not None:
         gpu_info = fresh_gpu_info
         report["gpu"].update({
@@ -150,6 +192,7 @@ def main() -> int:
         })
     report["preflight"] = {
         "required_files": {name: {"path": str(path), "exists": path.exists(), "size_mb": round(path.stat().st_size / 1024**2, 1) if path.exists() else 0} for name, path in required_files.items()},
+        "required_weight_dirs": {name: {"path": str(path), "has_weights": path.is_dir() and any((path / filename).exists() for filename in weight_artifact_names)} for name, path in required_weight_dirs.items()},
         "cuda_free_gb": round(float(gpu_info["free_gb"]), 2),
         "cuda_total_gb": round(float(gpu_info["total_gb"]), 2),
     }
@@ -157,10 +200,12 @@ def main() -> int:
         report["steps"].append({"preflight": "failed", "missing": missing})
         (artifacts / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
         raise RuntimeError("required model files are missing after bootstrap: " + json.dumps(missing, indent=2))
+    preflight_messages = []
     if report["preflight"]["cuda_total_gb"] < 11.5:
-        report["steps"].append({"preflight": "warning", "message": "GPU is below the 12GB acceptance target; continuing but OOM risk is high"})
-    else:
-        report["steps"].append({"preflight": "ok"})
+        preflight_messages.append("GPU is below the 12GB acceptance target; continuing but OOM risk is high")
+    if report["preflight"]["cuda_free_gb"] < 5.5:
+        preflight_messages.append("less than 5.5GB is currently free; close other GPU processes before expecting SoulX acceptance to pass")
+    report["steps"].append({"preflight": "warning" if preflight_messages else "ok", "messages": preflight_messages})
 
     # Real acceptance is implemented as subprocesses so CUDA memory is fully released
     # between the two large model families.
@@ -340,7 +385,22 @@ def main() -> int:
         }
         if len(data) < sr * 0.2 or peak < 1e-5:
             raise RuntimeError(f"{name} output is silent or too short for real GPU acceptance: " + json.dumps(audio_report[name]))
+    expected_vocal_seconds = project.ticks_to_seconds(project.duration_ticks()) + 0.25
+    duration_expectations = {
+        "soulx": (expected_vocal_seconds, 0.35),
+        "soulx_svc": (audio_report["soulx"]["seconds"], 0.35),
+        "acestep": (audio_report["soulx"]["seconds"], 0.75),
+        "acestep_repaint": (audio_report["acestep"]["seconds"], 0.20),
+    }
+    duration_report = {}
+    for name, (expected, tolerance) in duration_expectations.items():
+        actual = float(audio_report[name]["seconds"])
+        error = abs(actual - expected)
+        duration_report[name] = {"expected_s": round(expected, 3), "actual_s": round(actual, 3), "error_s": round(error, 3), "tolerance_s": tolerance}
+        if error > tolerance:
+            raise RuntimeError(f"{name} output duration violates the production timing contract: " + json.dumps(duration_report[name]))
     report["audio"] = audio_report
+    report["duration_validation"] = duration_report
 
     if not args.skip_separation:
         # Validate the production Demucs path on a real mixture made from the two model
@@ -377,10 +437,22 @@ def main() -> int:
             sep_vocal, sep_accompaniment = DemucsStemSeparator().separate(mixture_path, artifacts / "demucs_run")
         finally:
             demucs_memory = demucs_telemetry.stop()
+        stem_report = {}
+        for stem_name, stem_path in {"vocal": sep_vocal, "accompaniment": sep_accompaniment}.items():
+            stem_audio, stem_sr = read_audio(stem_path)
+            stem_peak = float(max(0.0, abs(stem_audio).max())) if len(stem_audio) else 0.0
+            stem_report[stem_name] = {
+                "path": str(stem_path),
+                "seconds": round(len(stem_audio) / stem_sr, 2),
+                "peak": round(stem_peak, 6),
+            }
+            if len(stem_audio) < stem_sr * 0.2 or stem_peak < 1e-5:
+                raise RuntimeError(f"Demucs {stem_name} stem is silent or too short for real GPU acceptance: " + json.dumps(stem_report[stem_name]))
         report["steps"].append({
             "demucs_separation": "ok",
             "vocal": str(sep_vocal),
             "accompaniment": str(sep_accompaniment),
+            "stems": stem_report,
             "memory": demucs_memory,
         })
 

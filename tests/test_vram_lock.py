@@ -84,7 +84,7 @@ def test_nvidia_smi_query_parses_memory_without_cuda_context(monkeypatch):
 def test_available_vram_prefers_nvidia_smi(monkeypatch):
     import openace.engines.vram as vram
 
-    monkeypatch.setattr(vram, "query_nvidia_gpu", lambda: {"name": "GPU", "total_gb": 12.0, "free_gb": 4.5})
+    monkeypatch.setattr(vram, "query_cuda_visible_nvidia_gpu", lambda: {"name": "GPU", "total_gb": 12.0, "free_gb": 4.5})
     assert VRAMManager().available_gb() == 4.5
 
 
@@ -123,3 +123,45 @@ def test_empty_cache_does_not_initialize_parent_cuda_context(monkeypatch):
     monkeypatch.setitem(sys.modules, "torch", SimpleNamespace(cuda=InitializedCuda))
     VRAMManager()._empty_cache()
     assert calls == ["empty", "ipc"]
+
+
+def test_cuda_visible_numeric_mapping_controls_nvidia_smi_selector(monkeypatch):
+    import openace.engines.vram as vram
+    from types import SimpleNamespace
+
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "2,0")
+    monkeypatch.setattr(vram.shutil, "which", lambda name: "/usr/bin/nvidia-smi")
+    calls = []
+
+    def fake_run(cmd, **kwargs):
+        calls.append(cmd)
+        return SimpleNamespace(returncode=0, stdout="GPU, 12288, 10240\n")
+
+    monkeypatch.setattr(vram.subprocess, "run", fake_run)
+    gpu = vram.query_cuda_visible_nvidia_gpu(0)
+    assert gpu["free_gb"] == 10.0
+    assert calls[0][calls[0].index("-i") + 1] == "2"
+    assert vram.nvidia_selector_for_cuda_visible(1) == "0"
+    assert vram.nvidia_selector_for_cuda_visible(2) is None
+
+
+def test_cuda_visible_uuid_and_empty_mapping_are_truthful(monkeypatch):
+    import openace.engines.vram as vram
+    from types import SimpleNamespace
+
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "GPU-test-uuid")
+    monkeypatch.setattr(vram.shutil, "which", lambda name: "/usr/bin/nvidia-smi")
+    calls = []
+
+    def fake_run(cmd, **kwargs):
+        calls.append(cmd)
+        return SimpleNamespace(returncode=0, stdout="GPU, 12288, 10240\n")
+
+    monkeypatch.setattr(vram.subprocess, "run", fake_run)
+    assert vram.query_cuda_visible_nvidia_gpu(0) is not None
+    assert calls[0][calls[0].index("-i") + 1] == "GPU-test-uuid"
+
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "")
+    calls.clear()
+    assert vram.query_cuda_visible_nvidia_gpu(0) is None
+    assert calls == []
