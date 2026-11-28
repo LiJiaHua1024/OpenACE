@@ -153,7 +153,10 @@ function undoSemanticSignature(project: Project): string {
     delete (track as any).render_path
     delete (track as any).render_fingerprint
     ;(track as any).render_revision = 0
-    for (const note of track.notes) (note as any).phonemes = []
+    for (const note of track.notes) {
+      ;(note as any).phonemes = []
+      if ((note as any).pitch_snap_first === undefined) (note as any).pitch_snap_first = true
+    }
   }
   return JSON.stringify(copy)
 }
@@ -163,7 +166,7 @@ export default function App() {
   const [selectedTrackId, setSelectedTrackId] = useState<string>()
   const [playheadTicks, setPlayheadTicks] = useState(0)
   const [playing, setPlaying] = useState(false)
-  const [timeline, setTimeline] = useState<TimelineState>({ scrollTicks: 0, pxPerBeat: 112 })
+  const [timeline, setTimeline] = useState<TimelineState>({ scrollTicks: 0, pxPerBeat: 112, gridDivision: Number(window.localStorage.getItem('openace_grid_division') || 4) })
   const [repaintRange, setRepaintRange] = useState({ start: 0, end: 0 })
   const [loopRange, setLoopRange] = useState<{ start: number; end: number } | null>(null)
   const [loopEnabled, setLoopEnabled] = useState(false)

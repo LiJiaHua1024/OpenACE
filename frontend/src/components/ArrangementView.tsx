@@ -66,6 +66,7 @@ export default function ArrangementView(props: Props) {
   const waveformCache = useRef(new Map<string, Promise<WaveformData>>())
   const audioContextRef = useRef<AudioContext | null>(null)
   const ppq = props.project.ppq
+  const snapGrid = Math.max(1, Math.round(ppq / Math.max(1, props.timeline.gridDivision ?? 4)))
 
   const xForTick = (ticks: number) => LABEL_WIDTH + ((ticks - scrollTicks) / ppq) * pxPerBeat
   const tickForX = (x: number) => Math.max(0, Math.round(scrollTicks + ((x - LABEL_WIDTH) / pxPerBeat) * ppq))
@@ -130,7 +131,7 @@ export default function ArrangementView(props: Props) {
       ctx.fillStyle = '#0f121c'; ctx.fillRect(0, 0, width, height)
       const barTicks = musicalBarTicks(props.project)
       const endTicks = scrollTicks + ((width - LABEL_WIDTH) / pxPerBeat) * ppq + barTicks
-      for (let t = Math.floor(scrollTicks / (ppq / 4)) * (ppq / 4); t < endTicks; t += ppq / 4) {
+      for (let t = Math.floor(scrollTicks / snapGrid) * snapGrid; t < endTicks; t += snapGrid) {
         const x = xForTick(t)
         ctx.strokeStyle = t % barTicks === 0 ? '#48516e' : t % ppq === 0 ? '#2c3349' : '#202638'
         ctx.beginPath(); ctx.moveTo(x, RULER_HEIGHT); ctx.lineTo(x, height); ctx.stroke()
@@ -338,7 +339,7 @@ export default function ArrangementView(props: Props) {
     const observer = new ResizeObserver(draw)
     observer.observe(parent)
     return () => observer.disconnect()
-  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, props.loopRange, props.loopEnabled, waveforms, selectedClips, marquee, arrangementScrollTop, scrollTicks, pxPerBeat, ppq])
+  }, [props.project, props.selectedTrackId, props.playheadTicks, props.repaintRange, props.loopRange, props.loopEnabled, waveforms, selectedClips, marquee, arrangementScrollTop, scrollTicks, pxPerBeat, ppq, snapGrid])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -557,12 +558,12 @@ export default function ArrangementView(props: Props) {
     if (loopDrag) {
       if (Math.abs(pos.x - loopDrag.startX) > 4) {
         loopDrag.moved = true
-        const snap = (ticks: number) => Math.max(0, Math.round(ticks / (ppq / 4)) * (ppq / 4))
+        const snap = (ticks: number) => Math.max(0, Math.round(ticks / snapGrid) * snapGrid)
         const currentTicks = snap(tickForX(pos.x))
         const anchorTicks = snap(loopDrag.anchorTicks)
         const start = Math.min(anchorTicks, currentTicks)
         const end = Math.max(anchorTicks, currentTicks)
-        if (end - start >= ppq / 4) props.onLoopRange({ start, end })
+        if (end - start >= snapGrid) props.onLoopRange({ start, end })
       }
       return
     }
@@ -589,7 +590,7 @@ export default function ArrangementView(props: Props) {
       if (canvasRef.current) canvasRef.current.style.cursor = edge ? 'ew-resize' : hoverClip ? 'grab' : 'default'
       return
     }
-    const deltaTicks = Math.round(((pos.x - drag.startX) / pxPerBeat) * ppq / (ppq / 4)) * (ppq / 4)
+    const deltaTicks = Math.round(((pos.x - drag.startX) / pxPerBeat) * ppq / snapGrid) * snapGrid
     props.updateProject(project => {
       if (drag.kind === 'clip' && drag.clipOriginals?.length) {
         const minStart = Math.min(...drag.clipOriginals.map(item => item.startTicks))
@@ -649,7 +650,7 @@ export default function ArrangementView(props: Props) {
       } else if (drag.kind === 'trim-left' || drag.kind === 'trim-right') {
         const clip = track.clips.find(item => item.id === drag.clipId)
         if (!clip || drag.originalDuration === undefined || drag.originalOffset === undefined) return
-        const minimum = ppq / 4
+        const minimum = snapGrid
         if (drag.kind === 'trim-left') {
           const maxDelta = drag.originalDuration - minimum
           const minDelta = -Math.min(drag.originalStart, drag.originalOffset)
@@ -745,7 +746,7 @@ export default function ArrangementView(props: Props) {
   function pasteClip(menuItem: { trackId: string; ticks: number }) {
     const clipboard = clipClipboardRef.current
     if (!clipboard.length) return
-    const groupStart = Math.max(0, Math.round(menuItem.ticks / (ppq / 4)) * (ppq / 4))
+    const groupStart = Math.max(0, Math.round(menuItem.ticks / snapGrid) * snapGrid)
     const nextSelection: { trackId: string; clipId: string }[] = []
     props.updateProject(project => {
       const fallbackTrack = project.tracks.find(item => item.id === menuItem.trackId)
@@ -771,7 +772,7 @@ export default function ArrangementView(props: Props) {
     if (!items.length) return
     const minStart = Math.min(...items.map(item => item.clip.start_ticks))
     const groupEnd = Math.max(...items.map(item => item.clip.start_ticks + clipDuration(item.clip)))
-    const shift = Math.max(ppq / 4, groupEnd - minStart)
+    const shift = Math.max(snapGrid, groupEnd - minStart)
     const nextSelection: { trackId: string; clipId: string }[] = []
     props.updateProject(project => {
       for (const item of items) {
@@ -848,7 +849,7 @@ export default function ArrangementView(props: Props) {
       const index = track.clips.findIndex(item => item.id === menuItem.clipId)
       if (index < 0) return
       const clip = track.clips[index]
-      const splitTicks = Math.round(menuItem.ticks / (ppq / 4)) * (ppq / 4)
+      const splitTicks = Math.round(menuItem.ticks / snapGrid) * snapGrid
       const duration = clipDuration(clip)
       const end = clip.start_ticks + duration
       if (splitTicks <= clip.start_ticks + ppq / 8 || splitTicks >= end - ppq / 8) return

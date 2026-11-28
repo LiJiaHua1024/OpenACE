@@ -101,7 +101,6 @@ export default function PianoRoll(props: Props) {
   const [auditionEnabled, setAuditionEnabled] = useState(() => window.localStorage.getItem('openace_note_audition') !== 'off')
   const lastAuditionRef = useRef<{ pitch: number; at: number } | null>(null)
   const newlyCreatedNoteIdRef = useRef<string | null>(null)
-  const [gridDivision, setGridDivision] = useState(4)
   const [view, setView] = useState<ViewState>({ rowHeight: 15, topPitch: 79 })
   const [selectedNoteIds, setSelectedNoteIds] = useState<string[]>([])
   const [editing, setEditing] = useState<{ note: Note; x: number; y: number; value: string } | null>(null)
@@ -116,6 +115,7 @@ export default function PianoRoll(props: Props) {
   const [clipboardCount, setClipboardCount] = useState(0)
   const [pitchReadout, setPitchReadout] = useState<string | null>(null)
   const ppq = props.project.ppq
+  const gridDivision = Math.max(1, props.timeline.gridDivision ?? 4)
   const selectedSet = new Set(selectedNoteIds)
 
   const xForTick = useCallback((ticks: number) => KEY_WIDTH + ((ticks - props.timeline.scrollTicks) / ppq) * props.timeline.pxPerBeat, [props.timeline.scrollTicks, props.timeline.pxPerBeat, ppq])
@@ -624,6 +624,7 @@ export default function PianoRoll(props: Props) {
           velocity: 90,
           phonemes: [],
           pitch_curve: [],
+          pitch_snap_first: true,
           vibrato: null,
           techniques: [],
         })
@@ -1128,7 +1129,7 @@ export default function PianoRoll(props: Props) {
           <button className={auditionEnabled ? 'tool active' : 'tool'} onClick={toggleAudition} title="Editor note audition preview; not vocal synthesis">♪ Audition</button>
         </div>
         <label>Grid
-          <select value={gridDivision} onChange={e => setGridDivision(Number(e.target.value))}>
+          <select value={gridDivision} onChange={e => { const value = Number(e.target.value); window.localStorage.setItem('openace_grid_division', String(value)); props.onTimelineChange({ ...props.timeline, gridDivision: value }) }}>
             <option value={1}>1/4</option><option value={2}>1/8</option><option value={4}>1/16</option><option value={8}>1/32</option>
           </select>
         </label>

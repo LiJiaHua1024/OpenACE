@@ -52,6 +52,7 @@ export default function AutomationLane(props: Props) {
   const automationClipboardRef = useRef<{ lane: LaneKey; spanTicks: number; points: { deltaTicks: number; value: number; curve: string }[] } | null>(null)
   const [, setAutomationClipboardVersion] = useState(0)
   const ppq = props.project.ppq
+  const snapGrid = Math.max(1, Math.round(ppq / Math.max(1, props.timeline.gridDivision ?? 4)))
 
   const xForTick = useCallback((ticks: number) => KEY_WIDTH + ((ticks - props.timeline.scrollTicks) / ppq) * props.timeline.pxPerBeat, [props.timeline, ppq])
   const tickForX = useCallback((x: number) => Math.max(0, Math.round(props.timeline.scrollTicks + ((x - KEY_WIDTH) / props.timeline.pxPerBeat) * ppq)), [props.timeline, ppq])
@@ -421,7 +422,7 @@ export default function AutomationLane(props: Props) {
     if (selectionDrag) {
       if (Math.abs(pos.x - selectionDrag.startX) > 3) {
         selectionDrag.moved = true
-        const grid = Math.max(1, ppq / 4)
+        const grid = snapGrid
         const snapSelectionTick = (ticks: number) => Math.max(0, Math.round(ticks / grid) * grid)
         const current = snapSelectionTick(tickForX(pos.x))
         const anchor = snapSelectionTick(selectionDrag.anchorTicks)
@@ -474,7 +475,7 @@ export default function AutomationLane(props: Props) {
       const breathDrag = breathDragRef.current
       if (breathDrag) {
         const deltaTicks = ((pos.x - breathDrag.startX) / props.timeline.pxPerBeat) * ppq
-        const grid = Math.max(1, ppq / 16)
+        const grid = snapGrid
         const snap = (value: number) => Math.max(0, Math.round(value / grid) * grid)
         props.updateProject(project => {
           const track = project.tracks.find(t => t.id === props.track?.id)
@@ -552,7 +553,7 @@ export default function AutomationLane(props: Props) {
   function pasteAutomationClipboard() {
     const clipboard = automationClipboardRef.current
     if (!props.track || !clipboard || clipboard.lane !== lane) return
-    const targetStart = Math.max(0, Math.round(props.playheadTicks / (ppq / 4)) * (ppq / 4))
+    const targetStart = Math.max(0, Math.round(props.playheadTicks / snapGrid) * snapGrid)
     const targetEnd = targetStart + clipboard.spanTicks
     const trackId = props.track.id
     props.updateProject(project => {

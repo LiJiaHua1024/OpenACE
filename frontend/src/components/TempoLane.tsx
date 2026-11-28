@@ -57,7 +57,7 @@ export default function TempoLane(props: Props) {
   const pxPerBeat = props.timeline.pxPerBeat
   const xForTick = (ticks: number) => LABEL_WIDTH + ((ticks - scrollTicks) / ppq) * pxPerBeat
   const tickForX = (x: number) => Math.max(0, scrollTicks + ((x - LABEL_WIDTH) / pxPerBeat) * ppq)
-  const grid = Math.max(1, ppq / 4)
+  const grid = Math.max(1, Math.round(ppq / Math.max(1, props.timeline.gridDivision ?? 4)))
   const snap = (value: number) => Math.max(0, Math.round(value / grid) * grid)
 
   const points = normalizedTempoMap(props.project)

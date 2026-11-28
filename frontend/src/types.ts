@@ -99,6 +99,7 @@ export interface Track {
 export interface TimelineState {
   scrollTicks: number
   pxPerBeat: number
+  gridDivision?: number
 }
 
 export interface Project {
