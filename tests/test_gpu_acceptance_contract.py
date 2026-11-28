@@ -21,3 +21,18 @@ def test_gpu_acceptance_prefers_nvml_before_torch_cuda_fallback():
     torch_fallback = source.index("import torch")
     assert nvml < torch_fallback
     assert "may create a CUDA" in source
+
+
+def test_gpu_acceptance_samples_stage_memory_without_parent_cuda():
+    source = Path("scripts/verify_local_gpu.py").read_text()
+    assert "class NvidiaMemoryTelemetry" in source
+    assert "query_nvidia_gpu(self.index)" in source
+    assert '"max_used_gb"' in source
+    assert '"min_free_gb"' in source
+    assert "svs_telemetry.start()" in source
+    assert "ace_telemetry.start()" in source
+    assert "demucs_telemetry.start()" in source
+    assert '"memory": svs_memory' in source
+    assert '"memory": ace_memory' in source
+    assert '"memory": demucs_memory' in source
+    assert "torch.cuda.empty_cache" not in source

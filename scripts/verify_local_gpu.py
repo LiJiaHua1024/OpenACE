@@ -15,6 +15,7 @@ import os
 import shutil
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -25,6 +26,62 @@ sys.path.insert(0, str(ROOT))
 def run(cmd, cwd=None, env=None):
     print("+", " ".join(map(str, cmd)))
     subprocess.run([str(x) for x in cmd], cwd=cwd, env=env, check=True)
+
+
+
+class NvidiaMemoryTelemetry:
+    """Sample NVML memory during one heavyweight stage without using torch/CUDA."""
+
+    def __init__(self, index: int = 0, interval_s: float = 0.5):
+        self.index = index
+        self.interval_s = interval_s
+        self._stop = threading.Event()
+        self._thread = None
+        self._started = None
+        self.samples = 0
+        self.min_free_gb = None
+        self.max_used_gb = None
+        self.peak_events = []
+
+    def start(self):
+        self._started = time.time()
+        self._thread = threading.Thread(target=self._sample_loop, daemon=True)
+        self._thread.start()
+
+    def _sample_loop(self):
+        from openace.engines.vram import query_nvidia_gpu
+
+        while not self._stop.is_set():
+            gpu = query_nvidia_gpu(self.index)
+            if gpu is not None:
+                free = float(gpu["free_gb"])
+                total = float(gpu["total_gb"])
+                used = total - free
+                self.samples += 1
+                self.min_free_gb = free if self.min_free_gb is None else min(self.min_free_gb, free)
+                if self.max_used_gb is None or used > self.max_used_gb + 0.005:
+                    self.max_used_gb = used if self.max_used_gb is None else max(self.max_used_gb, used)
+                    if len(self.peak_events) < 8:
+                        self.peak_events.append({
+                            "at_s": round(time.time() - self._started, 2),
+                            "used_gb": round(used, 2),
+                            "free_gb": round(free, 2),
+                        })
+            self._stop.wait(self.interval_s)
+
+    def stop(self):
+        self._stop.set()
+        if self._thread is not None:
+            self._thread.join(timeout=2.0)
+        elapsed = time.time() - self._started if self._started is not None else 0.0
+        return {
+            "sampler": "nvidia-smi/NVML; no parent CUDA context",
+            "samples": self.samples,
+            "seconds": round(elapsed, 2),
+            "min_free_gb": None if self.min_free_gb is None else round(self.min_free_gb, 2),
+            "max_used_gb": None if self.max_used_gb is None else round(self.max_used_gb, 2),
+            "peak_events": self.peak_events,
+        }
 
 
 def main() -> int:
@@ -138,19 +195,25 @@ def main() -> int:
         progress_events.append({"fraction": round(float(fraction), 3), "message": message})
         print(f"SoulX adapter {fraction:.0%}: {message}", flush=True)
 
-    SoulXSingerEngine(device="cuda").render_score(
-        project,
-        track,
-        vocal_out,
-        reference_voice=reference_copy,
-        progress=svs_progress,
-    )
+    svs_telemetry = NvidiaMemoryTelemetry()
+    svs_telemetry.start()
+    try:
+        SoulXSingerEngine(device="cuda").render_score(
+            project,
+            track,
+            vocal_out,
+            reference_voice=reference_copy,
+            progress=svs_progress,
+        )
+    finally:
+        svs_memory = svs_telemetry.stop()
     if not vocal_out.exists() or vocal_out.stat().st_size == 0:
         raise RuntimeError("OpenACE SoulX adapter did not produce a nonempty vocal wav")
     report["steps"].append({
         "soulx_real_render": str(vocal_out),
         "adapter": "SoulXSingerEngine.render_score",
         "progress_events": progress_events,
+        "memory": svs_memory,
     })
 
     # Validate the production Vocal2BGM path rather than a separately handcrafted
@@ -164,14 +227,19 @@ def main() -> int:
         ace_progress_events.append({"fraction": round(float(fraction), 3), "message": message})
         print(f"ACE-Step adapter {fraction:.0%}: {message}", flush=True)
 
-    ACEStepEngine(device="auto").vocal_to_bgm(
-        vocal_out,
-        bgm_out,
-        caption="short polished cinematic pop accompaniment verification",
-        duration=10,
-        bpm=120,
-        progress=ace_progress,
-    )
+    ace_telemetry = NvidiaMemoryTelemetry()
+    ace_telemetry.start()
+    try:
+        ACEStepEngine(device="auto").vocal_to_bgm(
+            vocal_out,
+            bgm_out,
+            caption="short polished cinematic pop accompaniment verification",
+            duration=10,
+            bpm=120,
+            progress=ace_progress,
+        )
+    finally:
+        ace_memory = ace_telemetry.stop()
     if not bgm_out.exists() or bgm_out.stat().st_size == 0:
         raise RuntimeError("OpenACE ACE-Step adapter did not produce a nonempty accompaniment wav")
     report["steps"].append({
@@ -179,6 +247,7 @@ def main() -> int:
         "adapter": "ACEStepEngine.vocal_to_bgm",
         "task_type": "complete",
         "progress_events": ace_progress_events,
+        "memory": ace_memory,
     })
 
     from openace.core.audio import integrated_loudness_lufs, read_audio, true_peak_db
@@ -222,11 +291,17 @@ def main() -> int:
         mixture = vocal_mono[:length] * 0.8 + bgm_mono[:length] * 0.35
         mixture_path = artifacts / "separation_input.wav"
         sf.write(mixture_path, mixture, vocal_sr, subtype="PCM_16")
-        sep_vocal, sep_accompaniment = DemucsStemSeparator().separate(mixture_path, artifacts / "demucs_run")
+        demucs_telemetry = NvidiaMemoryTelemetry()
+        demucs_telemetry.start()
+        try:
+            sep_vocal, sep_accompaniment = DemucsStemSeparator().separate(mixture_path, artifacts / "demucs_run")
+        finally:
+            demucs_memory = demucs_telemetry.stop()
         report["steps"].append({
             "demucs_separation": "ok",
             "vocal": str(sep_vocal),
             "accompaniment": str(sep_accompaniment),
+            "memory": demucs_memory,
         })
 
     report["ok"] = True
