@@ -887,7 +887,20 @@ export default function PianoRoll(props: Props) {
   }
 
   function onPointerDown(event: React.PointerEvent) {
-    if (!props.track || event.button === 2) return
+    if (!props.track) return
+    if (event.button === 2) {
+      if (tool === 'pitchBrush') {
+        setMenu(null)
+        const { x, y } = pointerPos(event)
+        if (y >= RULER_HEIGHT && x >= KEY_WIDTH && y < laneTop()) {
+          canvasRef.current?.setPointerCapture(event.pointerId)
+          props.beginTransaction()
+          pitchEraseRef.current = { minTick: Number.POSITIVE_INFINITY, maxTick: Number.NEGATIVE_INFINITY }
+          erasePitchAutomationAt(x)
+        }
+      }
+      return
+    }
     setMenu(null)
     const { x, y } = pointerPos(event)
     canvasRef.current?.setPointerCapture(event.pointerId)
@@ -1633,6 +1646,7 @@ export default function PianoRoll(props: Props) {
 
   function onContextMenu(event: React.MouseEvent) {
     event.preventDefault()
+    if (tool === 'pitchBrush') return
     const { x, y } = pointerPos(event)
     const hit = hitNote(x, y)
     if (hit && !selectedSet.has(hit.id)) selectOnly(hit.id)
@@ -1651,7 +1665,7 @@ export default function PianoRoll(props: Props) {
           <button className={tool === 'select' ? 'tool active' : 'tool'} onClick={() => setTool('select')} title="Select/move (V)">➤</button>
           <button className={tool === 'pencil' ? 'tool active' : 'tool'} onClick={() => setTool('pencil')} title="Note brush (B)">✎</button>
           <button className={tool === 'erase' ? 'tool active' : 'tool'} onClick={() => setTool('erase')} title="Eraser (E)">⌫</button>
-          <button className={tool === 'pitchBrush' ? 'tool active' : 'tool'} onClick={() => setTool('pitchBrush')} title="Freehand user-pitch brush (1); drag across notes to rewrite continuous pitch automation">🖌 Pitch</button>
+          <button className={tool === 'pitchBrush' ? 'tool active' : 'tool'} onClick={() => setTool('pitchBrush')} title="Freehand user-pitch brush (1); left-drag draws continuous pitch automation, right-drag erases it">🖌 Pitch</button>
           <button className={tool === 'fixedBrush' ? 'tool active' : 'tool'} onClick={() => setTool('fixedBrush')} title="Fixed brush (2); lock fresh rendered pitch when available, otherwise the deterministic target pitch, as user pitch">▣ Fixed</button>
           <button className={tool === 'pitchEraser' ? 'tool active' : 'tool'} onClick={() => setTool('pitchEraser')} title="Pitch eraser (3); drag to erase user-pitch automation and per-note anchors while preserving outside automation">⌦ Pitch</button>
           <button className={tool === 'pitch' ? 'tool active' : 'tool'} onClick={() => setTool('pitch')} title="Per-note pitch anchor handles (P); Alt+click deletes a handle">∿ Anchor</button>
