@@ -968,6 +968,32 @@ export default function PianoRoll(props: Props) {
     }
   }
 
+  async function mergeSelectedNotes() {
+    if (!props.track || selectedNoteIds.length < 2) return
+    setSplitError(null)
+    props.beginTransaction()
+    try {
+      await api.saveProject(props.project)
+      const merged = await api.mergeNotes(props.project.id, props.track.id, selectedNoteIds)
+      props.updateProject(project => {
+        const track = project.tracks.find(item => item.id === props.track?.id)
+        if (!track) return
+        const removed = new Set(selectedNoteIds)
+        track.notes = track.notes.filter(item => !removed.has(item.id))
+        track.notes.push(merged)
+        track.notes.sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+      }, true)
+      setSelectedNoteIds([merged.id])
+    } catch (error) {
+      const raw = error instanceof Error ? error.message : String(error)
+      const detail = raw.match(/"detail":"([^"]+)"/)?.[1] || raw.replace(/^\d+: /, '')
+      setSplitError(detail)
+      window.setTimeout(() => setSplitError(null), 3600)
+    } finally {
+      props.endTransaction()
+    }
+  }
+
   function splitSelectedAtPlayhead() {
     if (selectedNoteIds.length !== 1 || !props.track) return
     const note = props.track.notes.find(item => item.id === selectedNoteIds[0])
@@ -1147,6 +1173,9 @@ export default function PianoRoll(props: Props) {
         return
       }
     }
+    if ((event.ctrlKey || event.metaKey) && key === 'j') {
+      event.preventDefault(); void mergeSelectedNotes(); return
+    }
     if ((event.ctrlKey || event.metaKey) && key === 'a') {
       event.preventDefault()
       setSelectedNoteIds(props.track?.notes.map(note => note.id) || [])
@@ -1211,6 +1240,7 @@ export default function PianoRoll(props: Props) {
           <button className="tool" onClick={duplicateSelection} disabled={!selectedNoteIds.length} title="Duplicate (Ctrl+D)">Dup</button>
           <button className="tool" onClick={quantizeSelection} title="Quantize selection/all (Q)">Quant</button>
           <button className="tool" onClick={splitSelectedAtPlayhead} disabled={!selectedNoteContainsPlayhead()} title="Split selected note at playhead (Ctrl+E)">Split</button>
+          <button className="tool" onClick={() => void mergeSelectedNotes()} disabled={selectedNoteIds.length < 2} title="Merge exactly contiguous selected notes (Ctrl+J)">Merge</button>
           <button className="tool" onClick={() => openVibratoEditor()} disabled={selectedNoteIds.length !== 1} title="Edit vibrato for selected note">Vibrato</button>
           <button className="tool" onClick={() => setBatchLyricEditor({ value: '' })} disabled={!props.track?.notes.length} title="Distribute a phrase across selected notes, or all notes when nothing is selected">Lyrics…</button>
         </div>
@@ -1223,7 +1253,7 @@ export default function PianoRoll(props: Props) {
         <label>Row<input type="range" min="8" max="28" value={view.rowHeight} onChange={e => setView(v => ({ ...v, rowHeight: Number(e.target.value) }))} /></label>
         <div className="selection-count">{selectedNoteIds.length ? `${selectedNoteIds.length} selected` : ''}</div>
         <div className="pitch-readout">{pitchReadout || ''}</div>
-        <div className="editor-hint">V/B/E/P · arrows nudge · Ctrl+C/V/D/E · Tab lyric next</div>
+        <div className="editor-hint">V/B/E/P · arrows nudge · Ctrl+C/V/D/E/J · Tab lyric next</div>
       </div>
       <div className="piano-roll-wrap" ref={wrapRef} tabIndex={0}>
         {splitError && <div className="split-error">{splitError}</div>}
@@ -1246,6 +1276,7 @@ export default function PianoRoll(props: Props) {
             <button disabled={!clipboardCount} onClick={() => menuAction(() => pasteClipboard())}>Paste at playhead</button>
             <button disabled={!selectedNoteIds.length} onClick={() => menuAction(duplicateSelection)}>Duplicate</button>
             <button disabled={!selectedNoteIds.length} onClick={() => menuAction(quantizeSelection)}>Quantize</button>
+            <button disabled={selectedNoteIds.length < 2} onClick={() => menuAction(() => void mergeSelectedNotes())}>Merge contiguous</button>
             <button disabled={selectedNoteIds.length !== 1} onClick={() => openVibratoEditor(menu.x + 8, menu.y + 8)}>Vibrato…</button>
             <button disabled={selectedNoteIds.length !== 1} onClick={() => openPhonemeEditor(menu.x + 8, menu.y + 8)}>Phonemes…</button>
             <button disabled={!props.track?.notes.length} onClick={() => menuAction(() => setBatchLyricEditor({ value: '' }))}>Batch lyrics…</button>

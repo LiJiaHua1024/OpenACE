@@ -274,6 +274,19 @@ def split_note(project_id: str, track_id: str, note_id: str, split_ticks: int) -
     return dumps({"first": first.model_dump(mode="json"), "second": second.model_dump(mode="json")})
 
 
+def merge_notes(project_id: str, track_id: str, note_ids_json: str) -> str:
+    """Merge exactly contiguous vocal notes, preserving pitch movement truthfully."""
+    import json
+
+    project = store.get(project_id)
+    note_ids = json.loads(note_ids_json)
+    if not isinstance(note_ids, list) or not all(isinstance(item, str) for item in note_ids):
+        raise ValueError("note_ids_json must be a JSON array of note ids")
+    merged = editing.merge_notes(project, track_id, note_ids)
+    save_and_notify(project)
+    return dumps(merged.model_dump(mode="json"))
+
+
 def ripple_delete_range(project_id: str, start_ticks: int, end_ticks: int) -> str:
     project = store.get(project_id)
     result = editing.ripple_delete_time_range(project, start_ticks, end_ticks)
@@ -390,6 +403,7 @@ def build_mcp_server():
     mcp.tool()(update_note)
     mcp.tool()(delete_note)
     mcp.tool()(split_note)
+    mcp.tool()(merge_notes)
     mcp.tool()(ripple_delete_range)
     mcp.tool()(set_expression_lane)
     mcp.tool()(upsert_breath)

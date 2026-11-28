@@ -1,0 +1,82 @@
+{
+  "project": "project_706a0c233a5d",
+  "loop_meta": {
+    "start": 960,
+    "end": 1920,
+    "enabled": true
+  },
+  "loop_metronome_playback": {
+    "loop_active": 1,
+    "metro_active_count": 1,
+    "pos0": "1.1.1\n00:00.00",
+    "pos1": "1.3.1\n00:01.08"
+  },
+  "range_hrefs": {
+    "WAV": "/api/projects/project_706a0c233a5d/export/wav?start_ticks=960&end_ticks=1920",
+    "MP3": "/api/projects/project_706a0c233a5d/export/mp3?start_ticks=960&end_ticks=1920",
+    "FLAC": "/api/projects/project_706a0c233a5d/export/flac?start_ticks=960&end_ticks=1920",
+    "OGG": "/api/projects/project_706a0c233a5d/export/ogg?start_ticks=960&end_ticks=1920",
+    "STEMS": "/api/projects/project_706a0c233a5d/export/stems?start_ticks=960&end_ticks=1920",
+    "MP4": "/api/projects/project_706a0c233a5d/export/mp4",
+    "MID": "/api/projects/project_706a0c233a5d/export/mid",
+    "LRC": "/api/projects/project_706a0c233a5d/export/lrc",
+    "USTX": "/api/projects/project_706a0c233a5d/export/ustx",
+    "SVP": "/api/projects/project_706a0c233a5d/export/svp",
+    "VPR": "/api/projects/project_706a0c233a5d/export/vpr"
+  },
+  "range_downloads": [
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_postrange/downloads/global_range.wav",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_postrange/downloads/global_range.flac",
+    "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/global_audit_postrange/downloads/global_range.zip"
+  ],
+  "imported_clip_candidates": [
+    {
+      "track": "Audio — vocal",
+      "clip": {
+        "id": "clip_c403e6a82966",
+        "path": "/home/ubuntu/repos/OpenACE/data/uploads/clip_e222df49bf4c_vocal.wav",
+        "start_ticks": 1092,
+        "duration_ticks": 2400,
+        "offset_ticks": 0,
+        "fade_in_ticks": 0,
+        "fade_out_ticks": 0,
+        "gain_db": 0.0,
+        "label": "vocal",
+        "transcribed_lyrics": [],
+        "created_by_job_id": null,
+        "updated_by_job_id": null
+      }
+    }
+  ],
+  "media_bin_visible": {
+    "texts": [
+      "TagsAdd at playheadDelete",
+      "TagsAdd at playheadDelete",
+      "TagsAdd at playheadDelete",
+      "TagsAdd at playheadDelete",
+      "TagsAdd at playheadDelete",
+      "TagsAdd at playheadDelete",
+      "TagsAdd at playheadDelete",
+      "TagsAdd at playheadDelete",
+      "TagsAdd at playheadDelete",
+      "TagsAdd at playheadDelete"
+    ],
+    "buttons": 91
+  },
+  "separation_job": {
+    "id": "job_58b8110d67d7",
+    "status": "completed",
+    "clip_id": "clip_c403e6a82966",
+    "source_start_s": 0.0,
+    "source_end_s": 2.5,
+    "arrangement_start_ticks": 1092,
+    "error": null
+  },
+  "separated_track_count": 2,
+  "project_manager": {
+    "rows": 3,
+    "first": "Creative Loop 验收\n11/28/2026 · 7 tracks · 120 BPM\n☆\nTags\nFolders\nCopy\nDelete"
+  },
+  "console": [],
+  "badnet": []
+}

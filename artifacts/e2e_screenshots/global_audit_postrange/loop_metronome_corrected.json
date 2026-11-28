@@ -1,0 +1,70 @@
+{
+  "loop_class": "icon-button loop-toggle active",
+  "metro_class": "icon-button loop-toggle active",
+  "pos0": "1.3.2\n00:01.14",
+  "samples": [
+    {
+      "pos": "1.3.4\n00:01.50",
+      "metro": 5
+    },
+    {
+      "pos": "1.4.4\n00:01.89",
+      "metro": 10
+    },
+    {
+      "pos": "1.3.3\n00:01.27",
+      "metro": 11
+    },
+    {
+      "pos": "1.4.2\n00:01.68",
+      "metro": 15
+    },
+    {
+      "pos": "1.3.1\n00:01.08",
+      "metro": 16
+    }
+  ],
+  "metro_delta": 16,
+  "metro_events": [
+    {
+      "when": 75.6532029478458,
+      "frequency": 1175,
+      "wall": 75566.30000001192
+    },
+    {
+      "when": 76.1532029478458,
+      "frequency": 1760,
+      "wall": 75566.40000000596
+    },
+    {
+      "when": 76.6532029478458,
+      "frequency": 1175,
+      "wall": 75566.40000000596
+    },
+    {
+      "when": 77.1532029478458,
+      "frequency": 1175,
+      "wall": 75566.40000000596
+    },
+    {
+      "when": 77.6532029478458,
+      "frequency": 1175,
+      "wall": 75765.40000000596
+    },
+    {
+      "when": 76.1532029478458,
+      "frequency": 1175,
+      "wall": 76020
+    },
+    {
+      "when": 76.6532029478458,
+      "frequency": 1175,
+      "wall": 76020
+    },
+    {
+      "when": 77.1532029478458,
+      "frequency": 1760,
+      "wall": 76020
+    }
+  ]
+}

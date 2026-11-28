@@ -330,6 +330,14 @@ def cmd_split_note(args) -> None:
     emit({"first": first.model_dump(mode="json"), "second": second.model_dump(mode="json")})
 
 
+def cmd_merge_notes(args) -> None:
+    store, _ = services()
+    project = store.get(args.project)
+    merged = editing.merge_notes(project, args.track, json_payload(args.note_ids_json))
+    save_and_notify(store, project)
+    emit(merged.model_dump(mode="json"))
+
+
 def cmd_ripple_delete_range(args) -> None:
     store, _ = services()
     project = store.get(args.project)
@@ -549,6 +557,10 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("split-note")
     p.add_argument("project"); p.add_argument("track"); p.add_argument("note"); p.add_argument("split_ticks", type=int)
     p.set_defaults(func=cmd_split_note)
+
+    p = sub.add_parser("merge-notes")
+    p.add_argument("project"); p.add_argument("track"); p.add_argument("note_ids_json")
+    p.set_defaults(func=cmd_merge_notes)
 
     p = sub.add_parser("ripple-delete-range")
     p.add_argument("project")

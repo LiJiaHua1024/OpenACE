@@ -83,6 +83,8 @@ Pitch deviation is written into SoulX target F0 metadata. SoulX-Singer does not 
 
 ## Piano-roll editing
 
+Contiguous notes can be merged through the toolbar, context menu, Ctrl+J, CLI, MCP, or API. OpenACE preserves pitch movement truthfully by converting later-note pitch differences into cents offsets in the merged note's pitch curve, coalesces split vowel continuations back into one sustained vowel, regenerates continuous phoneme timing for distinct lyric syllables, reconstructs continuous vibrato across split continuation chains with correct note-local oscillator phase, and rejects gaps, custom phoneme overrides, velocity/pitch-snap mismatches, or independent vibrato spans instead of silently losing expression data.
+
 Selected notes expose a professional vibrato editor (enable, start ratio, depth cents, rate Hz, phase) through the toolbar or context menu. Vibrato is drawn directly on note bodies as a parameter-driven sine indication and is consumed by the SoulX F0 metadata builder rather than being editor-only data.
 
 The `∿` pitch-handle tool creates draggable per-note pitch points directly on note bodies. Handles are linearly interpolated (not sampled only at exact frames), affect the SoulX target F0 metadata, and appear in diagnostic target curves; Alt+click deletes a handle.

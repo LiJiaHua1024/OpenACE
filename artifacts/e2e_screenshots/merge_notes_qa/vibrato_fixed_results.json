@@ -1,0 +1,38 @@
+{
+  "merged": {
+    "count": 1,
+    "vibrato": {
+      "start_ratio": 0.25,
+      "depth_cents": 42.0,
+      "frequency_hz": 6.1,
+      "phase": 0.35
+    },
+    "lyric": "\u554a",
+    "duration": 960,
+    "err": ""
+  },
+  "undo_count": 2,
+  "redo": {
+    "count": 1,
+    "vibrato": {
+      "start_ratio": 0.25,
+      "depth_cents": 42.0,
+      "frequency_hz": 6.1,
+      "phase": 0.35
+    }
+  },
+  "reload": {
+    "count": 1,
+    "vibrato": {
+      "start_ratio": 0.25,
+      "depth_cents": 42.0,
+      "frequency_hz": 6.1,
+      "phase": 0.35
+    }
+  },
+  "negative": {
+    "err": "vibrato-bearing notes can only be merged when they are split continuations of one vibrato span",
+    "before": 2,
+    "after": 2
+  }
+}

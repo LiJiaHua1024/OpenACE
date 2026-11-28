@@ -20,7 +20,7 @@ from pydantic import BaseModel
 
 from openace.core.models import AudioClip, Note, Project, RenderMode, Track, TrackType, new_id
 from openace.core.phonemes import PhonemeError, ensure_note_phonemes, ensure_ordered_note_phonemes, timed_phonemes, tokens_from_symbols
-from openace.core.editing import ripple_delete_time_range, split_note as split_note_operation
+from openace.core.editing import merge_notes as merge_notes_operation, ripple_delete_time_range, split_note as split_note_operation
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.voice_library import VoiceLibrary
 from openace.core.timing import validate_absolute_beat_anchor
@@ -91,6 +91,10 @@ class CreateTrackRequest(BaseModel):
 
 class SplitNoteRequest(BaseModel):
     split_ticks: int
+
+
+class MergeNotesRequest(BaseModel):
+    note_ids: List[str]
 
 
 class RippleDeleteRangeRequest(BaseModel):
@@ -426,6 +430,20 @@ def split_note(project_id: str, track_id: str, note_id: str, request: SplitNoteR
     store.save(project)
     publish_project(project)
     return {"first": first.model_dump(mode="json"), "second": second.model_dump(mode="json")}
+
+
+@app.post("/api/projects/{project_id}/tracks/{track_id}/notes/merge")
+def merge_notes(project_id: str, track_id: str, request: MergeNotesRequest):
+    project = get_project(project_id)
+    try:
+        merged = merge_notes_operation(project, track_id, request.note_ids)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc)) from exc
+    except (ValueError, PhonemeError) as exc:
+        raise HTTPException(422, str(exc)) from exc
+    store.save(project)
+    publish_project(project)
+    return merged.model_dump(mode="json")
 
 
 @app.delete("/api/projects/{project_id}/tracks/{track_id}/notes/{note_id}")

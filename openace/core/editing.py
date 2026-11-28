@@ -2,10 +2,11 @@
 from __future__ import annotations
 
 from pathlib import Path
+import math
 from typing import Any, Dict, List, Optional
 
 from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, Phoneme, PitchPoint, Project, TempoPoint, Vibrato, new_id
-from openace.core.phonemes import ensure_note_phonemes, ensure_ordered_note_phonemes
+from openace.core.phonemes import ensure_note_phonemes, ensure_ordered_note_phonemes, phonemes_for_text
 from openace.core.timing import validate_absolute_beat_anchor
 
 AUTOMATION_KEYS = {"pitch_cents", "dynamic", "air", "falsetto", "tension", "energy", "volume", "pan"}
@@ -150,9 +151,10 @@ def split_note(project: Project, track_id: str, note_id: str, split_ticks: int) 
         if vibrato_start < split_ratio:
             first.vibrato = note.vibrato.model_copy(deep=True)
             first.vibrato.start_ratio = vibrato_start / split_ratio
-            vibrato_start_ms = note.vibrato.start_ratio * original_duration_ms
-            elapsed_seconds = max(0.0, split_ms - vibrato_start_ms) / 1000.0
-            continuation_phase = note.vibrato.phase + 2.0 * 3.141592653589793 * note.vibrato.frequency_hz * elapsed_seconds
+            # Vibrato phase is expressed in the note-local oscillator coordinate used by
+            # pitch rendering (2πft + phase from note onset), not at the vibrato activation
+            # point. Preserve exact oscillator continuity across the split boundary.
+            continuation_phase = note.vibrato.phase + 2.0 * 3.141592653589793 * note.vibrato.frequency_hz * (split_ms / 1000.0)
             second.vibrato = Vibrato(
                 start_ratio=0.0,
                 depth_cents=note.vibrato.depth_cents,
@@ -171,6 +173,142 @@ def split_note(project: Project, track_id: str, note_id: str, split_ticks: int) 
     track.notes.sort(key=lambda item: (item.start_ticks, item.pitch))
     validate_project(project)
     return first, second
+
+
+def merge_notes(project: Project, track_id: str, note_ids: List[str]) -> Note:
+    """Merge contiguous vocal notes without inventing pitch, phoneme, or expression data.
+
+    Pitch differences are preserved as exact cent offsets relative to the first note's
+    written pitch. Velocity/vibrato configurations that cannot be represented by one
+    note are rejected loudly rather than approximated away.
+    """
+    if len(note_ids) < 2:
+        raise ValueError("select at least two contiguous notes to merge")
+    if len(set(note_ids)) != len(note_ids):
+        raise ValueError("duplicate notes cannot be merged")
+    track = project.track(track_id)
+    by_id = {note.id: note for note in track.notes}
+    missing = [note_id for note_id in note_ids if note_id not in by_id]
+    if missing:
+        raise KeyError(f"note not found: {missing[0]}")
+    notes = sorted((by_id[note_id] for note_id in note_ids), key=lambda note: note.start_ticks)
+    for left, right in zip(notes, notes[1:]):
+        if left.end_ticks != right.start_ticks:
+            raise ValueError("only exactly contiguous selected notes can be merged; include intervening notes or close gaps first")
+    if len({note.velocity for note in notes}) != 1:
+        raise ValueError("notes with different velocities cannot be merged truthfully into one velocity yet")
+    if len({note.pitch_snap_first for note in notes}) != 1:
+        raise ValueError("notes with different pitch-snap behavior cannot be merged truthfully")
+    continuation_chain = all(note.lyric == "-" and "continuation" in note.techniques for note in notes[1:])
+    if any(note.vibrato for note in notes) and not continuation_chain:
+        raise ValueError("vibrato-bearing notes can only be merged when they are split continuations of one vibrato span")
+    if not continuation_chain:
+        for note in notes:
+            if note.phonemes and note.lyric.strip() and note.lyric.strip() != "-":
+                default_symbols = [token.symbol for token in phonemes_for_text(note.lyric, track.language)]
+                if [phoneme.symbol for phoneme in note.phonemes] != default_symbols:
+                    raise ValueError("notes with custom phoneme overrides cannot be merged yet; reset phonemes first rather than losing pronunciation edits")
+
+    first = notes[0]
+    merged_duration = notes[-1].end_ticks - first.start_ticks
+    merged = first.model_copy(deep=True)
+    merged.duration_ticks = merged_duration
+    merged.lyric = "".join(note.lyric for note in notes if note.lyric != "-")
+    merged.techniques = sorted({technique for note in notes for technique in note.techniques if technique != "continuation"})
+
+    merged_phonemes: List[Phoneme] = []
+    merged_pitch: List[PitchPoint] = []
+    base_pitch = first.pitch
+    for index, note in enumerate(notes):
+        note_duration_ms = project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0
+        if note.lyric.strip() or note.phonemes:
+            ensure_note_phonemes(note, track.language, note_duration_ms)
+        note_offset_ms = project.seconds_between_ticks(first.start_ticks, note.start_ticks) * 1000.0
+        if continuation_chain:
+            for phoneme in sorted(note.phonemes, key=lambda item: item.start_ms):
+                shifted = phoneme.model_copy(deep=True)
+                shifted.start_ms += note_offset_ms
+                merged_phonemes.append(shifted)
+
+        ordered_pitch = sorted(note.pitch_curve, key=lambda item: item.offset_ms)
+        pitch_delta = (note.pitch - base_pitch) * 100.0
+        start_cents = pitch_delta + _pitch_cents_at(ordered_pitch, 0.0)
+        end_cents = pitch_delta + _pitch_cents_at(ordered_pitch, note_duration_ms)
+        if index > 0 and merged_pitch:
+            before = _pitch_cents_at(merged_pitch, max(0.0, note_offset_ms - 0.01))
+            merged_pitch.append(PitchPoint(offset_ms=max(0.0, note_offset_ms - 0.01), cents=before))
+        merged_pitch.append(PitchPoint(offset_ms=note_offset_ms, cents=start_cents))
+        for point in ordered_pitch:
+            absolute = note_offset_ms + point.offset_ms
+            if absolute <= note_offset_ms + 0.005 or absolute >= note_offset_ms + note_duration_ms - 0.005:
+                continue
+            merged_pitch.append(PitchPoint(offset_ms=absolute, cents=point.cents + pitch_delta))
+        end_offset = note_offset_ms + note_duration_ms
+        if index == len(notes) - 1:
+            merged_pitch.append(PitchPoint(offset_ms=end_offset, cents=end_cents))
+        else:
+            merged_pitch.append(PitchPoint(offset_ms=max(0.0, end_offset - 0.01), cents=end_cents))
+
+    if continuation_chain and merged_phonemes:
+        coalesced: List[Phoneme] = []
+        for phoneme in sorted(merged_phonemes, key=lambda item: item.start_ms):
+            if coalesced:
+                previous = coalesced[-1]
+                if previous.symbol == phoneme.symbol and previous.is_vowel and phoneme.is_vowel and abs(previous.start_ms + previous.duration_ms - phoneme.start_ms) <= 0.75:
+                    previous.duration_ms += phoneme.duration_ms
+                    continue
+            coalesced.append(phoneme)
+        merged_phonemes = coalesced
+
+    # Deduplicate near-identical anchors while preserving deliberate pitch steps.
+    deduped: List[PitchPoint] = []
+    for point in sorted(merged_pitch, key=lambda item: item.offset_ms):
+        if deduped and abs(point.offset_ms - deduped[-1].offset_ms) < 0.02 and abs(point.cents - deduped[-1].cents) < 0.01:
+            continue
+        deduped.append(point)
+    merged.pitch_curve = deduped
+    merged.phonemes = merged_phonemes if continuation_chain else []
+    merged.vibrato = None
+    if continuation_chain:
+        total_ms = project.tick_duration_seconds(first.start_ticks, merged_duration) * 1000.0
+        vibrato_start_ms = None
+        vibrato_template = None
+        vibrato_phase = None
+        for note in notes:
+            note_offset_ms = project.seconds_between_ticks(first.start_ticks, note.start_ticks) * 1000.0
+            note_duration_ms = project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0
+            if not note.vibrato:
+                if vibrato_template is not None:
+                    raise ValueError("vibrato continuity is broken inside the selected continuation chain")
+                continue
+            candidate_start = note_offset_ms + note.vibrato.start_ratio * note_duration_ms if note.vibrato.start_ratio > 0.000001 else note_offset_ms
+            candidate_phase = (note.vibrato.phase - math.tau * note.vibrato.frequency_hz * note_offset_ms / 1000.0) % math.tau
+            if vibrato_template is None:
+                vibrato_template = note.vibrato
+                vibrato_start_ms = candidate_start
+                vibrato_phase = candidate_phase
+                continue
+            if abs(note.vibrato.depth_cents - vibrato_template.depth_cents) > 0.01 or abs(note.vibrato.frequency_hz - vibrato_template.frequency_hz) > 0.001:
+                raise ValueError("split continuations have inconsistent vibrato depth/frequency and cannot be merged truthfully")
+            if note.vibrato.start_ratio > 0.000001 and vibrato_start_ms is not None and abs(candidate_start - vibrato_start_ms) > 1.0:
+                raise ValueError("split continuations have inconsistent vibrato start times and cannot be merged truthfully")
+            if vibrato_phase is not None:
+                phase_error = abs((candidate_phase - vibrato_phase + math.pi) % math.tau - math.pi)
+                if phase_error > 0.05:
+                    raise ValueError("split continuations have inconsistent vibrato phase and cannot be merged truthfully")
+        if vibrato_template is not None and vibrato_start_ms is not None and vibrato_phase is not None and total_ms > 0:
+            merged.vibrato = Vibrato(
+                start_ratio=max(0.0, min(1.0, vibrato_start_ms / total_ms)),
+                depth_cents=vibrato_template.depth_cents,
+                frequency_hz=vibrato_template.frequency_hz,
+                phase=vibrato_phase,
+            )
+
+    ids = {note.id for note in notes}
+    track.notes = [note for note in track.notes if note.id not in ids] + [merged]
+    track.notes.sort(key=lambda item: (item.start_ticks, item.pitch))
+    validate_project(project)
+    return merged
 
 
 def delete_note(project: Project, track_id: str, note_id: str) -> bool:

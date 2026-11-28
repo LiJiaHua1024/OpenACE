@@ -1,0 +1,158 @@
+{
+  "positive_error": "",
+  "positive": [
+    {
+      "lyric": "你好吗",
+      "start": 0,
+      "duration": 1260,
+      "pitch": 64,
+      "phonemes": [
+        [
+          "n",
+          -45.0,
+          45.0
+        ],
+        [
+          "i",
+          0.0,
+          390.8
+        ],
+        [
+          "x",
+          390.8,
+          70.0
+        ],
+        [
+          "au",
+          460.8,
+          390.8
+        ],
+        [
+          "m",
+          851.7,
+          70.0
+        ],
+        [
+          "a",
+          921.7,
+          390.8
+        ]
+      ],
+      "pitch_curve": [
+        {
+          "offset_ms": 0.0,
+          "cents": 20.0
+        },
+        {
+          "offset_ms": 100.0,
+          "cents": 20.0
+        },
+        {
+          "offset_ms": 499.99,
+          "cents": 20.0
+        },
+        {
+          "offset_ms": 500.0,
+          "cents": 270.0
+        },
+        {
+          "offset_ms": 600.0,
+          "cents": 270.0
+        },
+        {
+          "offset_ms": 999.99,
+          "cents": 270.0
+        },
+        {
+          "offset_ms": 1000.0,
+          "cents": 110.0
+        },
+        {
+          "offset_ms": 1100.0,
+          "cents": 110.0
+        },
+        {
+          "offset_ms": 1312.5,
+          "cents": 110.0
+        }
+      ]
+    }
+  ],
+  "undo_count": 3,
+  "redo_count": 1,
+  "reload_count": 1,
+  "split_error": "",
+  "split_roundtrip": [
+    {
+      "lyric": "啊",
+      "duration": 960,
+      "phonemes": [
+        [
+          "a",
+          0.0,
+          1000.0,
+          true
+        ]
+      ],
+      "techniques": []
+    }
+  ],
+  "negatives": {
+    "gap": {
+      "error": "only exactly contiguous selected notes can be merged; include intervening notes or close gaps first",
+      "before": 2,
+      "after": 2
+    },
+    "velocity": {
+      "error": "notes with different velocities cannot be merged truthfully into one velocity yet",
+      "before": 2,
+      "after": 2
+    },
+    "custom_phoneme": {
+      "error": "",
+      "before": 2,
+      "after": 2
+    },
+    "vibrato": {
+      "error": "",
+      "before": 2,
+      "after": 2
+    }
+  },
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    }
+  ],
+  "badnet": [
+    {
+      "status": 422,
+      "url": "http://127.0.0.1:8787/api/projects/project_4ab2cba2f0f4/tracks/track_0a6d4a49b9ba/notes/merge"
+    },
+    {
+      "status": 422,
+      "url": "http://127.0.0.1:8787/api/projects/project_4ab2cba2f0f4/tracks/track_077340f70792/notes/merge"
+    },
+    {
+      "status": 422,
+      "url": "http://127.0.0.1:8787/api/projects/project_4ab2cba2f0f4/tracks/track_4bc1613cd461/notes/merge"
+    },
+    {
+      "status": 422,
+      "url": "http://127.0.0.1:8787/api/projects/project_4ab2cba2f0f4/tracks/track_e8aa88eab089/notes/merge"
+    }
+  ]
+}
