@@ -1,0 +1,61 @@
+{
+  "project": "project_a67d2d8bc025",
+  "url": "http://127.0.0.1:8787/?range_export_qa=1795850545501#project_a67d2d8bc025",
+  "setup_meta": {
+    "bpm": 90,
+    "loop": {
+      "start": 960,
+      "end": 1920,
+      "enabled": true
+    },
+    "ppq": 480
+  },
+  "hrefs_full_initial": {
+    "WAV": "/api/projects/project_a67d2d8bc025/export/wav",
+    "MP3": "/api/projects/project_a67d2d8bc025/export/mp3",
+    "FLAC": "/api/projects/project_a67d2d8bc025/export/flac",
+    "OGG": "/api/projects/project_a67d2d8bc025/export/ogg",
+    "STEMS": "/api/projects/project_a67d2d8bc025/export/stems",
+    "MP4": "/api/projects/project_a67d2d8bc025/export/mp4",
+    "MID": "/api/projects/project_a67d2d8bc025/export/mid",
+    "LRC": "/api/projects/project_a67d2d8bc025/export/lrc",
+    "USTX": "/api/projects/project_a67d2d8bc025/export/ustx",
+    "SVP": "/api/projects/project_a67d2d8bc025/export/svp",
+    "VPR": "/api/projects/project_a67d2d8bc025/export/vpr"
+  },
+  "loop_option_disabled_initial": null,
+  "hrefs_loop": {
+    "WAV": "/api/projects/project_a67d2d8bc025/export/wav?start_ticks=960&end_ticks=1920",
+    "MP3": "/api/projects/project_a67d2d8bc025/export/mp3?start_ticks=960&end_ticks=1920",
+    "FLAC": "/api/projects/project_a67d2d8bc025/export/flac?start_ticks=960&end_ticks=1920",
+    "OGG": "/api/projects/project_a67d2d8bc025/export/ogg?start_ticks=960&end_ticks=1920",
+    "STEMS": "/api/projects/project_a67d2d8bc025/export/stems?start_ticks=960&end_ticks=1920",
+    "MP4": "/api/projects/project_a67d2d8bc025/export/mp4",
+    "MID": "/api/projects/project_a67d2d8bc025/export/mid",
+    "LRC": "/api/projects/project_a67d2d8bc025/export/lrc",
+    "USTX": "/api/projects/project_a67d2d8bc025/export/ustx",
+    "SVP": "/api/projects/project_a67d2d8bc025/export/svp",
+    "VPR": "/api/projects/project_a67d2d8bc025/export/vpr"
+  },
+  "hrefs_full_after": {
+    "WAV": "/api/projects/project_a67d2d8bc025/export/wav",
+    "MP3": "/api/projects/project_a67d2d8bc025/export/mp3",
+    "FLAC": "/api/projects/project_a67d2d8bc025/export/flac",
+    "OGG": "/api/projects/project_a67d2d8bc025/export/ogg",
+    "STEMS": "/api/projects/project_a67d2d8bc025/export/stems",
+    "MP4": "/api/projects/project_a67d2d8bc025/export/mp4",
+    "MID": "/api/projects/project_a67d2d8bc025/export/mid",
+    "LRC": "/api/projects/project_a67d2d8bc025/export/lrc",
+    "USTX": "/api/projects/project_a67d2d8bc025/export/ustx",
+    "SVP": "/api/projects/project_a67d2d8bc025/export/svp",
+    "VPR": "/api/projects/project_a67d2d8bc025/export/vpr"
+  },
+  "downloads": {
+    "wav": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/range_export_qa/downloads/ui_range.wav",
+    "flac": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/range_export_qa/downloads/ui_range.flac",
+    "stems": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/range_export_qa/downloads/ui_range.zip",
+    "full_wav": "/home/ubuntu/repos/OpenACE/artifacts/e2e_screenshots/range_export_qa/downloads/ui_full.wav"
+  },
+  "console": [],
+  "badnet": []
+}

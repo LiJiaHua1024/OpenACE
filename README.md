@@ -127,6 +127,8 @@ Mixed Mandarin/English mode script-segments Han characters and English words in 
 
 ## Mastering and export
 
+Audio masters and stem ZIPs can be exported either full-length or over a musical tick range. The workstation can reuse the saved playback-loop range; API/CLI/MCP accept explicit start/end ticks, convert them through the piecewise tempo map, slice the post-automation absolute timeline, preserve trailing silence inside the range, and reject invalid ranges or non-audio formats loudly.
+
 Master WAV export is not approximate peak normalization: OpenACE first uses transparent constant-gain loudness normalization when peak headroom permits, falls back to two-pass ffmpeg `loudnorm` for peaky material, then independently measures the resulting file with ffmpeg EBU R128 loudness/true-peak statistics. Compliant masters are approximately `-14.0 LUFS` with true peak below `-1.0 dBTP`; material that cannot be validated fails loudly instead of silently shipping a false master. ffmpeg is therefore a required local runtime dependency for WAV/MP4 export.
 
 ## MCP

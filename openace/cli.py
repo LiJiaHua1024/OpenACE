@@ -278,6 +278,13 @@ def cmd_export(args) -> None:
     store, _ = services()
     project = store.get(args.project)
     output = Path(args.output)
+    if (args.start_ticks is None) != (args.end_ticks is None):
+        raise SystemExit("export range requires both --start-ticks and --end-ticks")
+    if args.start_ticks is not None:
+        if args.start_ticks < 0 or args.end_ticks <= args.start_ticks:
+            raise SystemExit("export range must satisfy 0 <= --start-ticks < --end-ticks")
+        if args.format not in {"wav", "mp3", "flac", "ogg", "stems"}:
+            raise SystemExit(f"range export is currently supported for audio masters/stems, not {args.format}")
     if args.format == "mid":
         export_midi(project, output)
     elif args.format == "lrc":
@@ -289,11 +296,11 @@ def cmd_export(args) -> None:
     elif args.format == "vpr":
         export_vpr(project, output)
     elif args.format == "wav":
-        export_master_wav(project, output)
+        export_master_wav(project, output, start_ticks=args.start_ticks, end_ticks=args.end_ticks)
     elif args.format == "stems":
-        export_stems_zip(project, output)
+        export_stems_zip(project, output, start_ticks=args.start_ticks, end_ticks=args.end_ticks)
     elif args.format in {"mp3", "flac", "ogg"}:
-        export_compressed_master(project, output, args.format)
+        export_compressed_master(project, output, args.format, start_ticks=args.start_ticks, end_ticks=args.end_ticks)
     else:
         raise SystemExit(f"unsupported format {args.format}")
     emit({"output": str(output), "format": args.format, "bytes": output.stat().st_size})
@@ -593,6 +600,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("project")
     p.add_argument("format", choices=["mid", "lrc", "ustx", "svp", "vpr", "wav", "stems", "mp3", "flac", "ogg"])
     p.add_argument("output")
+    p.add_argument("--start-ticks", type=int, default=None, help="optional export range start in project ticks for audio masters/stems")
+    p.add_argument("--end-ticks", type=int, default=None, help="optional export range end in project ticks for audio masters/stems")
     p.set_defaults(func=cmd_export)
     return parser
 

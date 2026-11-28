@@ -1,0 +1,12 @@
+{
+  "loop_visible": {
+    "value": "loop",
+    "hint": "Audio/stem exports use loop ticks 960\u20131920; project interchange/video formats remain full-length.",
+    "loop_disabled": null
+  },
+  "no_loop": {
+    "value": "loop",
+    "loop_disabled": "",
+    "warning_count": 1
+  }
+}

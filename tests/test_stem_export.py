@@ -112,3 +112,51 @@ def test_volume_and_pan_automation_export_uses_timeline_positions(tmp_path):
     assert float(np.mean(data[last, 1])) > float(np.mean(data[last, 0])) * 3
     assert float(np.mean(np.abs(data[first]))) > float(np.mean(np.abs(data[last]))) * 3
     assert float(np.max(np.abs(data))) > 0.15  # automation value 1.0 overrides the quieter static volume 0.1
+
+
+def test_master_and_stem_export_musical_range_slices_absolute_timeline(tmp_path, monkeypatch):
+    sr = 24000
+    source = tmp_path / "ranged.wav"
+    samples = np.zeros((sr, 2), dtype=np.float32)
+    samples[sr // 2:] = 0.2
+    sf.write(source, samples, sr)
+    project = Project(title="Range", bpm=120)
+    track = project.add_track(Track(name="Range", type=TrackType.AUDIO, volume=1.0))
+    track.clips.append(AudioClip(path=str(source), start_ticks=0, duration_ticks=960))
+
+    captured = {}
+    def capture(samples_out, output_path, sample_rate):
+        captured["samples"] = samples_out.copy()
+        return output_path
+    monkeypatch.setattr("openace.exporters.master.write_standards_compliant_master", capture)
+    export_master_wav(project, tmp_path / "range.wav", sample_rate=sr, start_ticks=240, end_ticks=720)
+    ranged = captured["samples"]
+    assert len(ranged) == sr // 2  # 240–720 ticks is 0.25–0.75s at 120 BPM
+    assert np.max(np.abs(ranged[: sr // 4])) == 0
+    assert np.max(np.abs(ranged[sr // 4:])) > 0.1
+
+    output = tmp_path / "range_stems.zip"
+    export_stems_zip(project, output, sample_rate=sr, start_ticks=240, end_ticks=720)
+    with zipfile.ZipFile(output) as archive:
+        manifest = json.loads(archive.read("stems_manifest.json"))
+        assert manifest["range_ticks"] == {"start": 240, "end": 720}
+        archive.extract("01_Range.wav", tmp_path / "range_extract")
+    stem, stem_sr = sf.read(tmp_path / "range_extract" / "01_Range.wav", always_2d=True)
+    assert stem_sr == sr
+    assert len(stem) == sr // 2
+    assert np.max(np.abs(stem[: sr // 4])) == 0
+    assert np.max(np.abs(stem[sr // 4:])) > 0.1
+
+
+def test_export_range_validation_requires_ordered_pair(tmp_path):
+    project = Project(title="Invalid range", bpm=120)
+    try:
+        export_master_wav(project, tmp_path / "bad.wav", start_ticks=480, end_ticks=None)
+        assert False, "missing end should fail"
+    except ValueError as exc:
+        assert "requires both" in str(exc)
+    try:
+        export_master_wav(project, tmp_path / "bad.wav", start_ticks=720, end_ticks=480)
+        assert False, "reversed range should fail"
+    except ValueError as exc:
+        assert "greater than" in str(exc)

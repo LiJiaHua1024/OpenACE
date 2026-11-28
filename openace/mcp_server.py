@@ -220,16 +220,31 @@ def cancel_render_job(job_id: str) -> str:
     return dumps(render_service.cancel_job(job_id).model_dump(mode="json"))
 
 
-def export_project(project_id: str, fmt: str, output_path: str) -> str:
+def export_project(project_id: str, fmt: str, output_path: str, start_ticks: int = -1, end_ticks: int = -1) -> str:
+    """Export a project; optional nonnegative tick range applies to audio masters/stems."""
     project = store.get(project_id)
     output = Path(output_path)
+    start = None if start_ticks < 0 else start_ticks
+    end = None if end_ticks < 0 else end_ticks
+    if (start is None) != (end is None):
+        raise ValueError("export range requires both start_ticks and end_ticks")
+    if start is not None:
+        if end <= start:
+            raise ValueError("export range must satisfy 0 <= start_ticks < end_ticks")
+        if fmt not in {"wav", "mp3", "flac", "ogg", "stems"}:
+            raise ValueError(f"range export is currently supported for audio masters/stems, not {fmt}")
     exporters = {"mid": export_midi, "lrc": export_lrc, "ustx": export_ustx, "svp": export_svp, "vpr": export_vpr, "wav": export_master_wav, "stems": export_stems_zip}
     if fmt in {"mp3", "flac", "ogg"}:
-        export_compressed_master(project, output, fmt)
+        export_compressed_master(project, output, fmt, start_ticks=start, end_ticks=end)
         return dumps({"output": str(output), "bytes": output.stat().st_size})
     if fmt not in exporters:
         raise ValueError(f"unsupported format: {fmt}")
-    exporters[fmt](project, output)
+    if fmt == "wav":
+        export_master_wav(project, output, start_ticks=start, end_ticks=end)
+    elif fmt == "stems":
+        export_stems_zip(project, output, start_ticks=start, end_ticks=end)
+    else:
+        exporters[fmt](project, output)
     return dumps({"output": str(output), "bytes": output.stat().st_size})
 
 

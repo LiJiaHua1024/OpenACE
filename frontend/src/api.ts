@@ -44,7 +44,7 @@ export const api = {
   listMedia: () => request<MediaFile[]>('/api/media'),
   deleteMedia: (mediaName: string) => request<any>(`/api/media/${encodeURIComponent(mediaName)}`, { method: 'DELETE' }),
   placeMediaClip: (projectId: string, mediaName: string, startTicks: number, trackId?: string) => request<{ project: Project; track: Track; clip: AudioClip }>(`/api/projects/${projectId}/media/clip`, json({ method: 'POST', body: JSON.stringify({ media_name: mediaName, start_ticks: Math.max(0, Math.round(startTicks)), track_id: trackId || null }) })),
-  exportUrl: (projectId: string, fmt: string) => `/api/projects/${projectId}/export/${fmt}`,
+  exportUrl: (projectId: string, fmt: string, range?: { start: number; end: number } | null) => `/api/projects/${projectId}/export/${fmt}${range ? `?start_ticks=${Math.round(range.start)}&end_ticks=${Math.round(range.end)}` : ''}`,
 }
 
 export async function uploadFile(file: File): Promise<{ path: string; name: string }> {

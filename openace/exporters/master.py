@@ -7,7 +7,7 @@ import re
 import subprocess
 import tempfile
 import zipfile
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 
@@ -267,16 +267,48 @@ def _track_audio_buffers(project: Project, track, sample_rate: int) -> List[Tupl
         buffers.append((_apply_track_mix(project, track, data, sample_rate) * clip_gain, sr))
     return buffers
 
-def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48000) -> Path:
+def _validated_export_range_seconds(project: Project, start_ticks: Optional[int], end_ticks: Optional[int]) -> Optional[Tuple[float, float, int, int]]:
+    """Validate a musical export range and convert it through the project tempo map."""
+    if start_ticks is None and end_ticks is None:
+        return None
+    if start_ticks is None or end_ticks is None:
+        raise ValueError("export range requires both start_ticks and end_ticks")
+    start = int(start_ticks)
+    end = int(end_ticks)
+    if start < 0:
+        raise ValueError("export range start_ticks must be nonnegative")
+    if end <= start:
+        raise ValueError("export range end_ticks must be greater than start_ticks")
+    return project.ticks_to_seconds(start), project.ticks_to_seconds(end), start, end
+
+
+def _slice_timeline_mix(samples: np.ndarray, sample_rate: int, range_seconds: Optional[Tuple[float, float, int, int]]) -> np.ndarray:
+    """Slice an absolute-timeline mix, preserving trailing silence inside the requested range."""
+    if range_seconds is None:
+        return samples
+    start_seconds, end_seconds, _, _ = range_seconds
+    start = int(round(start_seconds * sample_rate))
+    end = int(round(end_seconds * sample_rate))
+    if end <= start:
+        raise ValueError("export range resolves to an empty audio segment")
+    channels = samples.shape[1] if samples.ndim == 2 else 2
+    if len(samples) < end:
+        padding = np.zeros((end - len(samples), channels), dtype=np.float32)
+        samples = np.concatenate([samples, padding], axis=0) if len(samples) else padding
+    return samples[start:end]
+
+
+def export_master_wav(project: Project, output_path: Path, sample_rate: int = 48000, start_ticks: Optional[int] = None, end_ticks: Optional[int] = None) -> Path:
     buffers: List[Tuple[np.ndarray, int]] = []
     for track in audible_tracks(project):
         buffers.extend(_track_audio_buffers(project, track, sample_rate))
     mixed = mix_tracks(buffers, sample_rate=sample_rate)
+    mixed = _slice_timeline_mix(mixed, sample_rate, _validated_export_range_seconds(project, start_ticks, end_ticks))
     return write_standards_compliant_master(mixed, output_path, sample_rate)
 
 
 
-def export_compressed_master(project: Project, output_path: Path, fmt: str, sample_rate: int = 48000) -> Path:
+def export_compressed_master(project: Project, output_path: Path, fmt: str, sample_rate: int = 48000, start_ticks: Optional[int] = None, end_ticks: Optional[int] = None) -> Path:
     """Encode the same standards-compliant master as a distribution audio file."""
     output_path.parent.mkdir(parents=True, exist_ok=True)
     codec_args = {
@@ -288,7 +320,7 @@ def export_compressed_master(project: Project, output_path: Path, fmt: str, samp
         raise ValueError(f"unsupported compressed master format: {fmt}")
     with tempfile.TemporaryDirectory(prefix="openace-encode-", dir=output_path.parent) as temporary:
         wav = Path(temporary) / "master.wav"
-        export_master_wav(project, wav, sample_rate=sample_rate)
+        export_master_wav(project, wav, sample_rate=sample_rate, start_ticks=start_ticks, end_ticks=end_ticks)
         cmd = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(wav), *codec_args[fmt], str(output_path)]
         result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         if result.returncode != 0:
@@ -297,16 +329,18 @@ def export_compressed_master(project: Project, output_path: Path, fmt: str, samp
         raise RuntimeError(f"ffmpeg produced no valid {fmt.upper()} output at {output_path}")
     return output_path
 
-def export_stems_zip(project: Project, output_path: Path, sample_rate: int = 48000) -> Path:
+def export_stems_zip(project: Project, output_path: Path, sample_rate: int = 48000, start_ticks: Optional[int] = None, end_ticks: Optional[int] = None) -> Path:
     """Export audible tracks as individual post-volume WAV stems plus a truthful manifest."""
     output_path.parent.mkdir(parents=True, exist_ok=True)
     temporary = tempfile.TemporaryDirectory(prefix="openace-stems-", dir=output_path.parent)
     stem_dir = Path(temporary.name)
-    manifest = {"sample_rate": sample_rate, "format": "pcm_s24le wav", "processing": "static/automated track volume/pan, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization", "tracks": [], "skipped": []}
+    range_seconds = _validated_export_range_seconds(project, start_ticks, end_ticks)
+    manifest = {"sample_rate": sample_rate, "format": "pcm_s24le wav", "processing": "static/automated track volume/pan, clip gain, clip fades, automatic same-track crossfades; no per-stem loudness normalization", "range_ticks": {"start": start_ticks, "end": end_ticks} if range_seconds is not None else None, "tracks": [], "skipped": []}
     used_names: set[str] = set()
     for index, track in enumerate(audible_tracks(project), 1):
         buffers = _track_audio_buffers(project, track, sample_rate)
         mixed = mix_tracks(buffers, sample_rate=sample_rate)
+        mixed = _slice_timeline_mix(mixed, sample_rate, range_seconds)
         peak = float(np.max(np.abs(mixed))) if mixed.size else 0.0
         if not len(mixed) or peak < 1e-8:
             manifest["skipped"].append({"track_id": track.id, "track_name": track.name, "reason": "no audible decoded audio"})

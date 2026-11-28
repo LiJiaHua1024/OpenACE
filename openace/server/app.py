@@ -925,7 +925,7 @@ async def import_audio_file(file: UploadFile = File(...)):
 
 
 @app.get("/api/projects/{project_id}/export/{fmt}")
-def export_project(project_id: str, fmt: str):
+def export_project(project_id: str, fmt: str, start_ticks: int | None = None, end_ticks: int | None = None):
     project = get_project(project_id)
     safe_title = "".join(ch if ch.isalnum() or ch in " _-" else "_" for ch in project.title).strip() or "openace"
     mapping = {
@@ -935,15 +935,21 @@ def export_project(project_id: str, fmt: str):
         "svp": (export_svp, EXPORTS / f"{safe_title}.svp"),
         "vpr": (export_vpr, EXPORTS / f"{safe_title}.vpr"),
     }
+    if (start_ticks is None) != (end_ticks is None):
+        raise HTTPException(422, "export range requires both start_ticks and end_ticks")
+    if start_ticks is not None and (start_ticks < 0 or end_ticks <= start_ticks):
+        raise HTTPException(422, "export range must satisfy 0 <= start_ticks < end_ticks")
+    if start_ticks is not None and fmt in {"mp4", "mid", "lrc", "ustx", "svp", "vpr"}:
+        raise HTTPException(422, f"range export is currently supported for audio masters/stems, not {fmt}")
     if fmt == "wav":
         path = EXPORTS / f"{safe_title}.wav"
-        export_master_wav(project, path)
+        export_master_wav(project, path, start_ticks=start_ticks, end_ticks=end_ticks)
     elif fmt == "stems":
         path = EXPORTS / f"{safe_title}_stems.zip"
-        export_stems_zip(project, path)
+        export_stems_zip(project, path, start_ticks=start_ticks, end_ticks=end_ticks)
     elif fmt in {"mp3", "flac", "ogg"}:
         path = EXPORTS / f"{safe_title}.{fmt}"
-        export_compressed_master(project, path, fmt)
+        export_compressed_master(project, path, fmt, start_ticks=start_ticks, end_ticks=end_ticks)
     elif fmt == "mp4":
         wav = EXPORTS / f"{safe_title}.wav"
         if not wav.exists():

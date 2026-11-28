@@ -63,6 +63,7 @@ export default function RenderPanel(props: Props) {
   const [lyricScrollTop, setLyricScrollTop] = useState(0)
   const [clockNow, setClockNow] = useState(() => Date.now())
   const [autoRender, setAutoRender] = useState(() => window.localStorage.getItem('openace.autoRender') === '1')
+  const [exportRangeMode, setExportRangeMode] = useState<'full' | 'loop'>('full')
   const autoRenderAttempts = useRef<Record<string, string>>({})
   const referenceInput = useRef<HTMLInputElement | null>(null)
   const lyricListRef = useRef<HTMLDivElement | null>(null)
@@ -78,7 +79,7 @@ export default function RenderPanel(props: Props) {
     const events = new EventSource('/api/events')
     events.addEventListener('voice_library', refresh)
     events.addEventListener('media_library', refresh)
-    return () => events.close()
+  return () => events.close()
   }, [])
 
   const activeJobs = props.jobs.filter(j => j.project_id === props.project.id).slice(0, 8)
@@ -412,6 +413,18 @@ export default function RenderPanel(props: Props) {
     }, false)
   }
 
+  const playbackLoop = (() => {
+    const raw = props.project.metadata?.playback_loop
+    if (!raw || typeof raw.start !== 'number' || typeof raw.end !== 'number' || raw.end <= raw.start) return null
+    return { start: Math.round(raw.start), end: Math.round(raw.end) }
+  })()
+  const exportRange = exportRangeMode === 'loop' && playbackLoop ? playbackLoop : null
+  const rangeAudioFormats = new Set(['wav', 'mp3', 'flac', 'ogg', 'stems'])
+
+  useEffect(() => {
+    if (exportRangeMode === 'loop' && !playbackLoop) setExportRangeMode('full')
+  }, [exportRangeMode, playbackLoop?.start, playbackLoop?.end])
+
   return (
     <aside className="right-panel">
       <section className="side-section">
@@ -628,9 +641,17 @@ export default function RenderPanel(props: Props) {
         <div className="panel-title">Export</div>
         <div className="export-grid">
           {['wav', 'mp3', 'flac', 'ogg', 'stems', 'mp4', 'mid', 'lrc', 'ustx', 'svp', 'vpr'].map(fmt => (
-            <a key={fmt} className="export-button" href={api.exportUrl(props.project.id, fmt)}>{fmt.toUpperCase()}</a>
+            <a key={fmt} className="export-button" href={api.exportUrl(props.project.id, fmt, rangeAudioFormats.has(fmt) ? exportRange : null)}>{fmt.toUpperCase()}</a>
           ))}
         </div>
+        <label className="export-range-control">Range
+          <select value={exportRangeMode} onChange={event => setExportRangeMode(event.target.value as 'full' | 'loop')}>
+            <option value="full">Full project</option>
+            <option value="loop" disabled={!playbackLoop}>Playback loop range</option>
+          </select>
+        </label>
+        {exportRangeMode === 'loop' && playbackLoop && <div className="export-range-hint">Audio/stem exports use loop ticks {playbackLoop.start}–{playbackLoop.end}; project interchange/video formats remain full-length.</div>}
+        {exportRangeMode === 'loop' && !playbackLoop && <div className="export-range-hint warning">No valid playback loop range is saved in this project.</div>}
         <div className="karaoke-style-editor">
           <div className="panel-subtitle">Karaoke video style</div>
           <label>Font size<input type="number" min="36" max="96" value={karaokeStyle.font_size} onChange={event => updateKaraokeStyle({ font_size: Number(event.target.value) })} /></label>
