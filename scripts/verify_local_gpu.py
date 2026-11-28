@@ -165,6 +165,7 @@ def main() -> int:
     # Real acceptance is implemented as subprocesses so CUDA memory is fully released
     # between the two large model families.
     vocal_out = artifacts / "soulx_real.wav"
+    svc_out = artifacts / "soulx_svc_real.wav"
     bgm_out = artifacts / "acestep_real.wav"
     env = os.environ.copy()
     env["PYTHONPATH"] = str(ROOT) + os.pathsep + env.get("PYTHONPATH", "")
@@ -216,6 +217,34 @@ def main() -> int:
         "memory": svs_memory,
     })
 
+    # Exercise the production SVC adapter too. Preflight already requires model-svc.pt;
+    # without this stage a missing/broken SVC contract could pass acceptance unused.
+    svc_progress_events = []
+
+    def svc_progress(fraction, message):
+        svc_progress_events.append({"fraction": round(float(fraction), 3), "message": message})
+        print(f"SoulX SVC adapter {fraction:.0%}: {message}", flush=True)
+
+    svc_telemetry = NvidiaMemoryTelemetry()
+    svc_telemetry.start()
+    try:
+        SoulXSingerEngine(device="cuda").convert_voice(
+            vocal_out,
+            reference_copy,
+            svc_out,
+            progress=svc_progress,
+        )
+    finally:
+        svc_memory = svc_telemetry.stop()
+    if not svc_out.exists() or svc_out.stat().st_size == 0:
+        raise RuntimeError("OpenACE SoulX SVC adapter did not produce a nonempty converted wav")
+    report["steps"].append({
+        "soulx_svc_real_render": str(svc_out),
+        "adapter": "SoulXSingerEngine.convert_voice",
+        "progress_events": svc_progress_events,
+        "memory": svc_memory,
+    })
+
     # Validate the production Vocal2BGM path rather than a separately handcrafted
     # upstream config. The real SoulX adapter output becomes ACE-Step's `complete`
     # source audio, so this stage covers cross-engine timing/format compatibility too.
@@ -253,7 +282,7 @@ def main() -> int:
     from openace.core.audio import integrated_loudness_lufs, read_audio, true_peak_db
 
     audio_report = {}
-    for name, path in {"soulx": vocal_out, "acestep": bgm_out}.items():
+    for name, path in {"soulx": vocal_out, "soulx_svc": svc_out, "acestep": bgm_out}.items():
         data, sr = read_audio(path)
         audio_report[name] = {
             "seconds": round(len(data) / sr, 2),
@@ -307,7 +336,7 @@ def main() -> int:
     report["ok"] = True
     (artifacts / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    print(f"\nLocal GPU acceptance passed. Listen to:\n  {vocal_out}\n  {bgm_out}")
+    print(f"\nLocal GPU acceptance passed. Listen to:\n  {vocal_out}\n  {svc_out}\n  {bgm_out}")
     return 0
 
 

@@ -1458,3 +1458,10 @@ Regression coverage proves a custom English `s/i/ŋ` override renders as `en_S-I
 The required physical-machine verifier now records evidence for the 12GB memory-isolation claim rather than relying only on preflight/post hoc inference. `scripts/verify_local_gpu.py` wraps production SoulX rendering, ACE-Step Vocal2BGM, and Demucs separation in a lightweight `nvidia-smi`/NVML sampler. Each stage report includes sampler identity, sample count, elapsed seconds, minimum free memory, maximum used memory, and the first peak-growth events. Sampling does not import torch or initialize CUDA in the verifier parent, preserving the subprocess memory-isolation property it is measuring.
 
 Static acceptance contracts prove all three heavyweight stages start telemetry and write memory summaries, that NVML querying is used, and that no parent cache-emptying path exists in the verifier. Focused GPU-acceptance contract tests passed. Validation: full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0); physical peak values still require the user's NVIDIA host.
+
+
+## Iteration 138 — production SoulX-SVC exercised in GPU acceptance
+
+Closed an acceptance-coverage defect: the verifier preflighted `model-svc.pt` but never used it, so a broken SVC CLI/checkpoint contract could still pass. After the production SVS render, the script now converts that real vocal through `SoulXSingerEngine.convert_voice` using the public reference voice, records truthful adapter progress and NVML memory telemetry, validates a nonempty output, includes the converted wav in loudness/true-peak inspection, and prints it as a required listening artifact. This remains stage-wise serialized rather than co-resident with ACE-Step or Demucs.
+
+Focused contract coverage proves the production `convert_voice` call, report step, audio inspection inclusion, telemetry start, and memory summary are present. Validation: full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0); physical SVC quality still requires the NVIDIA host.

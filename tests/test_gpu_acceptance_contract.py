@@ -36,3 +36,12 @@ def test_gpu_acceptance_samples_stage_memory_without_parent_cuda():
     assert '"memory": ace_memory' in source
     assert '"memory": demucs_memory' in source
     assert "torch.cuda.empty_cache" not in source
+
+
+def test_gpu_acceptance_exercises_production_svc_adapter():
+    source = Path("scripts/verify_local_gpu.py").read_text()
+    assert "SoulXSingerEngine(device=\"cuda\").convert_voice" in source
+    assert '"soulx_svc_real_render"' in source
+    assert '"soulx_svc": svc_out' in source
+    assert "svc_telemetry.start()" in source
+    assert '"memory": svc_memory' in source
