@@ -401,6 +401,27 @@ def ensure_note_phonemes(note: Note, language: str, duration_ms: float | None = 
     return note.phonemes
 
 
+def ensure_ordered_note_phonemes(notes: List[Note], language: str, duration_ms_for_note) -> None:
+    """Validate a monophonic note sequence, deriving melisma continuations truthfully.
+
+    A '-' continuation has no new onset or coda. It sustains the final vowel of the
+    nearest preceding sung lyric and is invalid before any sung lyric.
+    """
+    ordered = sorted(notes, key=lambda note: (note.start_ticks, note.pitch, note.id))
+    sustained_vowel: str | None = None
+    for note in ordered:
+        lyric = note.lyric.strip()
+        if lyric == "-" and not note.phonemes:
+            if sustained_vowel is None:
+                raise PhonemeError("melisma continuation '-' cannot appear before a sung lyric note")
+            note.phonemes = timed_phonemes([PhonemeToken(symbol=sustained_vowel, is_vowel=True)], duration_ms_for_note(note))
+        elif lyric:
+            ensure_note_phonemes(note, language, duration_ms_for_note(note))
+        vowels = [phoneme for phoneme in note.phonemes if phoneme.is_vowel]
+        if vowels:
+            sustained_vowel = vowels[-1].symbol
+
+
 def validate_phoneme_timing(phonemes) -> None:
     """Require contiguous, positive, beat-anchored manual timing."""
     if not phonemes:

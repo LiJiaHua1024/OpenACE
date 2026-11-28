@@ -19,7 +19,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from openace.core.models import AudioClip, Note, Project, RenderMode, Track, TrackType, new_id
-from openace.core.phonemes import PhonemeError, ensure_note_phonemes, timed_phonemes, tokens_from_symbols
+from openace.core.phonemes import PhonemeError, ensure_note_phonemes, ensure_ordered_note_phonemes, timed_phonemes, tokens_from_symbols
 from openace.core.editing import ripple_delete_time_range, split_note as split_note_operation
 from openace.core.project_store import ProjectStore, normalize_project_folders, normalize_project_tags
 from openace.core.voice_library import VoiceLibrary
@@ -141,9 +141,11 @@ def validate_project_editing_invariants(project: Project) -> None:
             for previous, following in zip(ordered, ordered[1:]):
                 if following.start_ticks < previous.start_ticks + previous.duration_ticks:
                     raise ValueError("vocal notes may not overlap on a monophonic track; trim or move the conflicting note")
-            for note in track.notes:
-                if note.lyric.strip():
-                    ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
+            ensure_ordered_note_phonemes(
+                track.notes,
+                track.language,
+                lambda note: project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0,
+            )
             validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm, project=project)
     except (PhonemeError, ValueError) as exc:
         raise HTTPException(422, str(exc)) from exc

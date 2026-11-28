@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from openace.core.models import AudioClip, Breath, EnvelopePoint, Note, Phoneme, PitchPoint, Project, TempoPoint, Vibrato, new_id
-from openace.core.phonemes import ensure_note_phonemes
+from openace.core.phonemes import ensure_note_phonemes, ensure_ordered_note_phonemes
 from openace.core.timing import validate_absolute_beat_anchor
 
 AUTOMATION_KEYS = {"pitch_cents", "dynamic", "air", "falsetto", "tension", "energy"}
@@ -17,9 +17,11 @@ def validate_project(project: Project) -> None:
         for previous, following in zip(ordered, ordered[1:]):
             if following.start_ticks < previous.start_ticks + previous.duration_ticks:
                 raise ValueError("vocal notes may not overlap on a monophonic track; trim or move the conflicting note")
-        for note in track.notes:
-            if note.lyric.strip():
-                ensure_note_phonemes(note, track.language, project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0)
+        ensure_ordered_note_phonemes(
+            track.notes,
+            track.language,
+            lambda note: project.tick_duration_seconds(note.start_ticks, note.duration_ticks) * 1000.0,
+        )
         validate_absolute_beat_anchor(track.notes, project.ppq, project.bpm, project=project)
 
 

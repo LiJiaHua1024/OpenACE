@@ -88,6 +88,42 @@ function auditionNotePitch(pitch: number) {
   }
 }
 
+function batchLyricTokens(text: string, language: string): string[] {
+  const source = text.replace(/\r/g, ' ').trim()
+  if (!source) return []
+  if (language.toLowerCase().startsWith('en')) return source.split(/\s+/).filter(Boolean)
+  const tokens: string[] = []
+  let latin = ''
+  const flushLatin = () => {
+    if (latin) tokens.push(latin)
+    latin = ''
+  }
+  for (const char of Array.from(source)) {
+    if (/\s/u.test(char)) {
+      flushLatin()
+      continue
+    }
+    if (char === '-') {
+      flushLatin()
+      tokens.push('-')
+      continue
+    }
+    if (/[\u3400-\u9fff]/u.test(char)) {
+      flushLatin()
+      tokens.push(char)
+      continue
+    }
+    if (/[\p{Script=Latin}\p{Number}'_]/u.test(char)) {
+      latin += char
+      continue
+    }
+    // CJK punctuation is prosody markup, not a sung syllable; the backend phonemizer skips it too.
+    flushLatin()
+  }
+  flushLatin()
+  return tokens
+}
+
 function cloneNote(note: Note): Note {
   return JSON.parse(JSON.stringify(note))
 }
@@ -110,6 +146,7 @@ export default function PianoRoll(props: Props) {
   const [splitError, setSplitError] = useState<string | null>(null)
   const [vibratoEditor, setVibratoEditor] = useState<{ noteId: string; x: number; y: number } | null>(null)
   const [phonemeEditor, setPhonemeEditor] = useState<{ noteId: string; x: number; y: number; value: string; error?: string } | null>(null)
+  const [batchLyricEditor, setBatchLyricEditor] = useState<{ value: string } | null>(null)
   const dragRef = useRef<DragState | null>(null)
   const pitchDragRef = useRef<{ noteId: string; pointIndex: number } | null>(null)
   const clipboardRef = useRef<Note[]>([])
@@ -833,6 +870,30 @@ export default function PianoRoll(props: Props) {
     return props.track.notes.filter(note => selectedSet.has(note.id)).sort((a, b) => a.start_ticks - b.start_ticks)
   }
 
+  function batchTargetNotes(): Note[] {
+    if (!props.track) return []
+    const selected = selectedNotes()
+    return (selected.length ? selected : [...props.track.notes]).sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+  }
+
+  function applyBatchLyrics() {
+    if (!batchLyricEditor || !props.track) return
+    const tokens = batchLyricTokens(batchLyricEditor.value, props.track.language)
+    const targets = batchTargetNotes()
+    if (!tokens.length || !targets.length) return
+    props.beginTransaction()
+    mutateTrack(track => {
+      const ordered = (selectedNoteIds.length ? track.notes.filter(note => selectedSet.has(note.id)) : [...track.notes])
+        .sort((a, b) => a.start_ticks - b.start_ticks || a.pitch - b.pitch)
+      for (let index = 0; index < Math.min(tokens.length, ordered.length); index++) {
+        ordered[index].lyric = tokens[index]
+        ordered[index].phonemes = []
+      }
+    }, true)
+    props.endTransaction()
+    setBatchLyricEditor(null)
+  }
+
   function copySelection() {
     clipboardRef.current = selectedNotes().map(cloneNote)
     setClipboardCount(clipboardRef.current.length)
@@ -1155,6 +1216,7 @@ export default function PianoRoll(props: Props) {
           <button className="tool" onClick={quantizeSelection} title="Quantize selection/all (Q)">Quant</button>
           <button className="tool" onClick={splitSelectedAtPlayhead} disabled={!selectedNoteContainsPlayhead()} title="Split selected note at playhead (Ctrl+E)">Split</button>
           <button className="tool" onClick={() => openVibratoEditor()} disabled={selectedNoteIds.length !== 1} title="Edit vibrato for selected note">Vibrato</button>
+          <button className="tool" onClick={() => setBatchLyricEditor({ value: '' })} disabled={!props.track?.notes.length} title="Distribute a phrase across selected notes, or all notes when nothing is selected">Lyrics…</button>
         </div>
         <div className="selection-count">{selectedNoteIds.length ? `${selectedNoteIds.length} selected` : ''}</div>
         <div className="pitch-readout">{pitchReadout || ''}</div>
@@ -1183,9 +1245,36 @@ export default function PianoRoll(props: Props) {
             <button disabled={!selectedNoteIds.length} onClick={() => menuAction(quantizeSelection)}>Quantize</button>
             <button disabled={selectedNoteIds.length !== 1} onClick={() => openVibratoEditor(menu.x + 8, menu.y + 8)}>Vibrato…</button>
             <button disabled={selectedNoteIds.length !== 1} onClick={() => openPhonemeEditor(menu.x + 8, menu.y + 8)}>Phonemes…</button>
+            <button disabled={!props.track?.notes.length} onClick={() => menuAction(() => setBatchLyricEditor({ value: '' }))}>Batch lyrics…</button>
             <button disabled={!selectedNoteIds.length} className="danger" onClick={() => menuAction(deleteSelection)}>Delete</button>
           </div>
         )}
+        {batchLyricEditor && props.track && (() => {
+          const targets = batchTargetNotes()
+          const tokens = batchLyricTokens(batchLyricEditor.value, props.track.language)
+          const mismatch = tokens.length !== targets.length
+          return (
+            <div className="batch-lyric-editor">
+              <div className="vibrato-header"><strong>Batch lyrics</strong><button onClick={() => setBatchLyricEditor(null)}>×</button></div>
+              <textarea
+                autoFocus
+                value={batchLyricEditor.value}
+                placeholder={props.track.language.toLowerCase().startsWith('en') ? 'Type words separated by spaces; use - for melisma continuations' : '输入整句歌词；每个汉字分配到下一个音符，- 表示延音'}
+                onChange={event => setBatchLyricEditor({ value: event.target.value })}
+                onKeyDown={event => {
+                  if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') applyBatchLyrics()
+                  if (event.key === 'Escape') setBatchLyricEditor(null)
+                }}
+              />
+              <div className="batch-lyric-count">{tokens.length} lyric tokens → {targets.length} {selectedNoteIds.length ? 'selected' : 'track'} notes</div>
+              {tokens.length > 0 && mismatch && <div className="batch-lyric-warning">{tokens.length > targets.length ? 'Extra tokens will not be assigned.' : 'Notes beyond the supplied tokens keep their existing lyrics.'}</div>}
+              <div className="phoneme-actions">
+                <button disabled={!tokens.length || !targets.length} onClick={applyBatchLyrics}>Apply Ctrl+Enter</button>
+                <button onClick={() => setBatchLyricEditor(null)}>Cancel</button>
+              </div>
+            </div>
+          )
+        })()}
         {editing && (
           <input
             className="lyric-editor"

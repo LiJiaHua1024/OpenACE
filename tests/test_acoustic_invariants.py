@@ -235,3 +235,32 @@ def test_soulx_metadata_melisma_continuation_uses_type3_and_source_syllable():
     assert [text[index] for index in sung_indexes] == ["你", "你"]
     assert phonemes[sung_indexes[0]] == phonemes[sung_indexes[1]]
     assert "-" not in text
+
+
+def test_project_validation_derives_melisma_continuation_vowel():
+    from openace.core.editing import validate_project
+
+    project = Project(bpm=120)
+    track = Track(name="Melisma validation", language="zh")
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    track.add_note(Note(start_ticks=480, duration_ticks=480, pitch=62, lyric="-"))
+    project.add_track(track)
+    validate_project(project)
+    first = track.notes[0]
+    second = track.notes[1]
+    first_vowel = [phoneme for phoneme in first.phonemes if phoneme.is_vowel][-1]
+    assert len(second.phonemes) == 1
+    assert second.phonemes[0].symbol == first_vowel.symbol
+    assert second.phonemes[0].is_vowel
+    assert second.phonemes[0].start_ms == pytest.approx(0.0)
+
+
+def test_project_validation_rejects_orphan_melisma_continuation():
+    from openace.core.editing import validate_project
+
+    project = Project(bpm=120)
+    track = Track(name="Orphan melisma", language="zh")
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="-"))
+    project.add_track(track)
+    with pytest.raises(PhonemeError, match="before a sung lyric"):
+        validate_project(project)
