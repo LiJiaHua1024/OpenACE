@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple
 import mido
 from mido.midifiles.meta import meta_charset
 
-from openace.core.models import Note, Project, TempoPoint, Track
+from openace.core.models import EnvelopePoint, Note, Project, TempoPoint, Track
 
 
 def import_midi(path: Path, title: str | None = None) -> Project:
@@ -34,6 +34,8 @@ def import_midi(path: Path, title: str | None = None) -> Project:
         pending_lyric = ""
         abs_ticks = 0
         channel_data: dict[int, dict[str, object]] = {}
+        bend_range: dict[int, float] = {}
+        rpn_selection: dict[int, tuple[int, int]] = {}
         for msg in midi_track:
             abs_ticks += msg.time
             if msg.type == "lyrics":
@@ -43,6 +45,21 @@ def import_midi(path: Path, title: str | None = None) -> Project:
             data = channel_data.setdefault(channel, {"notes": [], "program": None})
             if msg.type == "program_change":
                 data["program"] = msg.program
+            elif msg.type == "control_change":
+                if msg.control in {100, 101}:
+                    msb, lsb = rpn_selection.get(channel, (0, 0))
+                    if msg.control == 101:
+                        msb = msg.value
+                    else:
+                        lsb = msg.value
+                    rpn_selection[channel] = (msb, lsb)
+                elif msg.control == 6 and rpn_selection.get(channel) == (0, 0):
+                    bend_range[channel] = float(msg.value)
+            elif msg.type == "pitchwheel":
+                range_semitones = bend_range.get(channel, 2.0)
+                scale = 8192.0 if msg.pitch < 0 else 8191.0
+                cents = msg.pitch / scale * range_semitones * 100.0
+                data.setdefault("pitch_cents", []).append(EnvelopePoint(ticks=abs_ticks, value=round(cents, 3)))
             elif msg.type == "note_on" and msg.velocity > 0:
                 active[(channel, msg.note)] = (abs_ticks, msg.velocity, pending_lyric)
                 pending_lyric = ""
@@ -58,12 +75,15 @@ def import_midi(path: Path, title: str | None = None) -> Project:
         base_name = next((m.name for m in midi_track if m.type == "track_name"), f"Track {track_index + 1}")
         for channel, data in channels_with_notes:
             name = base_name if len(channels_with_notes) == 1 else f"{base_name} ch{channel + 1}"
-            project.add_track(Track(
+            imported_track = Track(
                 name=name,
                 notes=sorted(data["notes"], key=lambda n: n.start_ticks),
                 midi_channel=channel,
                 midi_program=data["program"],
-            ))
+            )
+            imported_track.automation.pitch_cents.extend(data.get("pitch_cents", []))
+            imported_track.automation.pitch_cents.sort(key=lambda point: point.ticks)
+            project.add_track(imported_track)
     if not project.tracks:
         project.add_track(Track(name="Vocal 1"))
     return project
