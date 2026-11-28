@@ -1,0 +1,427 @@
+{
+  "console": [],
+  "badnet": [],
+  "project_id": "project_8a2b2f4d3cac",
+  "layout_1272": {
+    "w": 1272,
+    "h": 837,
+    "bodyOverflow": false,
+    "transportOverflow": 0,
+    "rightPanelOverflow": 0
+  },
+  "notes": [
+    {
+      "id": "note_c0e2b7be-0e3",
+      "start_ticks": 120,
+      "duration_ticks": 480,
+      "pitch": 65,
+      "lyric": "你"
+    },
+    {
+      "id": "note_3cfe3392-d2f",
+      "start_ticks": 1200,
+      "duration_ticks": 480,
+      "pitch": 68,
+      "lyric": "好"
+    }
+  ],
+  "baseline_render": {
+    "id": "job_332a70915c3e",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_8a2b2f4d3cac/job_332a70915c3e/vocal.wav",
+    "sha256": "1fff16ea9219a85f36682646adffa7985cb4c2237c1fd9fcdd3d9ab38abc667d",
+    "bytes": 108044,
+    "track_fingerprint": "4f2ba87c1a2708f7",
+    "computed_input_fingerprint": "4f2ba87c1a2708f7"
+  },
+  "shortcut_active": true,
+  "stroke1": {
+    "readout": "1650 ticks · -200¢ user pitch",
+    "expected_range": [
+      180,
+      1650
+    ],
+    "points": [
+      {
+        "ticks": 180,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 233,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 285,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 338,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 390,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 443,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 495,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 548,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1230,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1283,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1335,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1388,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1440,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1493,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1545,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1598,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1650,
+        "value": -200.0,
+        "curve": "linear"
+      }
+    ],
+    "target_abs_pitch": 66
+  },
+  "stroke1_undo_redo": {
+    "after_undo": [],
+    "after_redo": [
+      {
+        "ticks": 180,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 233,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 285,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 338,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 390,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 443,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 495,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 548,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1230,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1283,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1335,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1388,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1440,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1493,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1545,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1598,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1650,
+        "value": -200.0,
+        "curve": "linear"
+      }
+    ],
+    "undo_empty": true,
+    "redo_exact": true
+  },
+  "stroke2": {
+    "readout": "1380 ticks · -100¢ user pitch",
+    "path_ticks": [
+      250,
+      1380,
+      580,
+      1380
+    ],
+    "points": [
+      {
+        "ticks": 180,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 233,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 250,
+        "value": 200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 344,
+        "value": 200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 438,
+        "value": 200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 533,
+        "value": 200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 580,
+        "value": 200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1247,
+        "value": -100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1286,
+        "value": -100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1313,
+        "value": -100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1380,
+        "value": -100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1388,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1440,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1493,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1545,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1598,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1650,
+        "value": -200.0,
+        "curve": "linear"
+      }
+    ],
+    "target_abs_pitch": 67
+  },
+  "stroke2_undo_redo": {
+    "undo_equals_stroke1": true,
+    "redo_equals_stroke2": true,
+    "undo_count": 17,
+    "redo_count": 17
+  },
+  "reload": {
+    "points": [
+      {
+        "ticks": 180,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 233,
+        "value": 100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 250,
+        "value": 200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 344,
+        "value": 200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 438,
+        "value": 200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 533,
+        "value": 200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 580,
+        "value": 200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1247,
+        "value": -100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1286,
+        "value": -100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1313,
+        "value": -100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1380,
+        "value": -100.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1388,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1440,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1493,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1545,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1598,
+        "value": -200.0,
+        "curve": "linear"
+      },
+      {
+        "ticks": 1650,
+        "value": -200.0,
+        "curve": "linear"
+      }
+    ],
+    "exact": true
+  },
+  "final_render": {
+    "id": "job_0797293e5b1a",
+    "status": "completed",
+    "output_path": "/home/ubuntu/repos/OpenACE/data/renders/project_8a2b2f4d3cac/job_0797293e5b1a/vocal.wav",
+    "sha256": "1fff16ea9219a85f36682646adffa7985cb4c2237c1fd9fcdd3d9ab38abc667d",
+    "bytes": 108044,
+    "track_fingerprint": "91c0c0f70a648a2f",
+    "computed_input_fingerprint": "91c0c0f70a648a2f"
+  }
+}

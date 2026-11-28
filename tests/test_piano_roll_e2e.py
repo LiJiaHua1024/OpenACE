@@ -201,7 +201,7 @@ def test_piano_roll_marquee_clipboard_and_velocity_lane(tmp_path):
             assert abs(first["phonemes"][2]["start_ms"] - original_boundary) < 0.8
 
             # Per-note pitch handles are created and dragged directly on the note body.
-            page.locator('button[title^="Per-note pitch handles"]').click()
+            page.locator('button[title^="Per-note pitch anchor handles"]').click()
             page.mouse.move(box["x"] + 170, box["y"] + 322)
             page.mouse.down()
             page.mouse.move(box["x"] + 170, box["y"] + 307, steps=3)

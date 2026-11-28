@@ -1,0 +1,54 @@
+{
+  "console": [],
+  "badnet": [],
+  "canvas_box": {
+    "x": 236,
+    "y": 284,
+    "width": 714,
+    "height": 359
+  },
+  "automation_before_regression_count": 17,
+  "pencil": {
+    "before_count": 2,
+    "after_count": 2,
+    "automation_unchanged": true
+  },
+  "select_move": {
+    "original": {
+      "start_ticks": 120,
+      "pitch": 65
+    },
+    "moved": {
+      "start_ticks": 240,
+      "pitch": 64
+    },
+    "changed": true,
+    "automation_unchanged": true,
+    "undo_restored": true
+  },
+  "velocity": {
+    "before": 90,
+    "after": 124,
+    "changed": true,
+    "automation_unchanged": true
+  },
+  "anchor": {
+    "pitch_curve": [
+      {
+        "offset_ms": 324.0,
+        "cents": 150.0
+      }
+    ],
+    "created": true,
+    "nonzero": true,
+    "automation_unchanged": true,
+    "mode_active": true
+  },
+  "layout_1272_final": {
+    "w": 1272,
+    "h": 837,
+    "bodyOverflow": false,
+    "transportOverflow": 0,
+    "rightPanelOverflow": 0
+  }
+}

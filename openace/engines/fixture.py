@@ -57,19 +57,45 @@ class FixtureVocalEngine:
         sr = 24000
         total = max(1, int(project.ticks_to_seconds(project.duration_ticks() + project.ppq) * sr))
         out = np.zeros(total, dtype=np.float32)
+        automation_points = sorted(track.automation.pitch_cents, key=lambda point: point.ticks)
+        automation_x = np.array([point.ticks for point in automation_points], dtype=np.float64)
+        automation_y = np.array([point.value for point in automation_points], dtype=np.float64)
         for note in track.sorted_notes():
             start = int(project.ticks_to_seconds(note.start_ticks) * sr)
             end = min(total, int(project.ticks_to_seconds(note.end_ticks) * sr))
             if end <= start:
                 continue
             t = np.arange(end - start) / sr
-            f0 = midi_to_hz(note.pitch)
+            absolute_seconds = start / sr + t
+            duration_ms = max(1e-9, (end - start) / sr * 1000.0)
+            offset_ms = t * 1000.0
+            handle_points = sorted(note.pitch_curve, key=lambda point: point.offset_ms)
+            if handle_points:
+                cents = np.interp(
+                    offset_ms,
+                    np.array([point.offset_ms for point in handle_points], dtype=np.float64),
+                    np.array([point.cents for point in handle_points], dtype=np.float64),
+                )
+            else:
+                cents = np.zeros(len(t), dtype=np.float64)
+            if note.vibrato:
+                active = offset_ms / duration_ms >= note.vibrato.start_ratio
+                cents = cents + np.where(
+                    active,
+                    note.vibrato.depth_cents * np.sin(2.0 * np.pi * note.vibrato.frequency_hz * offset_ms / 1000.0 + note.vibrato.phase),
+                    0.0,
+                )
+            if len(automation_x):
+                ticks = np.array([project.seconds_to_ticks_float(float(value)) for value in absolute_seconds], dtype=np.float64)
+                cents = cents + np.interp(ticks, automation_x, automation_y)
+            instantaneous_f0 = midi_to_hz(note.pitch) * np.power(2.0, cents / 1200.0)
+            phase = 2.0 * np.pi * np.cumsum(instantaneous_f0) / sr
             # Harmonic fixture intentionally sounds artificial; it validates control flow only.
             env = np.minimum(1.0, np.linspace(0, 8, len(t))) * np.minimum(1.0, np.linspace(8, 0, len(t)))
             signal = (
-                0.30 * np.sin(2 * np.pi * f0 * t)
-                + 0.14 * np.sin(2 * np.pi * f0 * 2.0 * t)
-                + 0.06 * np.sin(2 * np.pi * f0 * 3.0 * t)
+                0.30 * np.sin(phase)
+                + 0.14 * np.sin(2.0 * phase)
+                + 0.06 * np.sin(3.0 * phase)
             ) * env
             out[start:end] += signal.astype(np.float32)
         if progress: progress(0.82, "writing fixture vocal output")
