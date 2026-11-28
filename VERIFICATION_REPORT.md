@@ -1472,3 +1472,10 @@ Focused contract coverage proves the production `convert_voice` call, report ste
 Closed the remaining one-sided ACE-Step acceptance gap: the verifier already exercised production Vocal2BGM/`complete`, but interval regeneration could still be broken while acceptance passed. The script now repaints a real 2–4s interval from the newly generated accompaniment through production `ACEStepEngine.repaint`, records truthful progress and NVML memory telemetry, validates nonempty output, includes it in loudness/true-peak inspection, and prints it as a listening artifact. This keeps synthesis stages sequential for the 12GB budget.
 
 Focused contract coverage proves the production repaint call, `task_type: repaint`, report/audio-inspection inclusion, telemetry start, and memory summary. Validation: full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0); physical repaint quality still requires the NVIDIA host.
+
+
+## Iteration 140 — rendered vocal onset/transition measurement in GPU acceptance
+
+The physical acceptance path now inspects the actual SoulX output instead of treating file existence as acoustic proof. A reusable diagnostic helper extracts F0 with librosa/pyin, rejects isolated noise by requiring sustained voiced frames, reports the first voiced onset against symbolic project time zero, and estimates the C4→D4 transition around the exact 0.5s second-note boundary using the geometric mean pitch threshold. `report.json` includes measured/expected times, millisecond errors, voiced-region count, and an explicit frame-level precision limitation. Acceptance hard-fails only when sustained voicing or the pitch transition is impossible to measure; it does not fabricate sample-accurate onset precision from noisy pyin frames.
+
+Focused tests cover sustained onset detection, exact/noisy pitch-transition crossing, and static verifier integration. Validation: full automated suite passed (`OPENACE_CI_SYNTH_FIXTURE=1 .venv/bin/pytest -q`, exit 0); real numerical accuracy still requires the NVIDIA host.

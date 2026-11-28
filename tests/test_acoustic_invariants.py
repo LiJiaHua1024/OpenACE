@@ -378,3 +378,20 @@ def test_unrepresentable_mandarin_subsyllable_override_fails_loudly():
             track,
             Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json"),
         )
+
+
+def test_vocal_alignment_helpers_measure_sustained_onset_and_transition():
+    from openace.core.diagnostics import measured_pitch_transition, sustained_voiced_onsets
+
+    times = np.arange(100) * 0.01
+    f0 = np.full(100, np.nan)
+    f0[10:50] = 261.0
+    f0[50:90] = 294.0
+    assert sustained_voiced_onsets(times, f0)[0] == pytest.approx(0.1)
+    assert measured_pitch_transition(times, f0, 0.5, 261.0, 294.0) == pytest.approx(0.5)
+
+    noisy = f0.copy()
+    noisy[49] = np.nan
+    noisy[50] = np.nan
+    noisy[51] = np.nan
+    assert measured_pitch_transition(times, noisy, 0.5, 261.0, 294.0) == pytest.approx(0.52)

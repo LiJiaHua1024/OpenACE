@@ -211,8 +211,14 @@ def main() -> int:
         svs_memory = svs_telemetry.stop()
     if not vocal_out.exists() or vocal_out.stat().st_size == 0:
         raise RuntimeError("OpenACE SoulX adapter did not produce a nonempty vocal wav")
+    from openace.core.diagnostics import vocal_alignment_measurements
+
+    alignment = vocal_alignment_measurements(vocal_out, project, track.sorted_notes())
+    if alignment["first_voiced_onset_s"] is None or alignment["pitch_transition_s"] is None:
+        raise RuntimeError("rendered vocal is missing measurable sustained voicing or pitch transition: " + json.dumps(alignment))
     report["steps"].append({
         "soulx_real_render": str(vocal_out),
+        "alignment": alignment,
         "adapter": "SoulXSingerEngine.render_score",
         "progress_events": progress_events,
         "memory": svs_memory,

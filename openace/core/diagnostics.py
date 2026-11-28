@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional, Sequence, Tuple
+from typing import List, Optional, Sequence, Tuple
 
 import numpy as np
 
 from .models import Note, Project
-from .pitch import correct_octave_errors, hz_to_midi, pitch_curve_for_notes
+from .pitch import correct_octave_errors, midi_to_hz, hz_to_midi, pitch_curve_for_notes
 
 
 def extract_f0(path: Path, frame_ms: float = 10.0) -> Tuple[np.ndarray, np.ndarray]:
@@ -144,3 +144,58 @@ def write_diagnostic(
     fig.savefig(output_path, dpi=150)
     plt.close(fig)
     return output_path
+
+
+def sustained_voiced_onsets(times: np.ndarray, f0: np.ndarray, min_frames: int = 3) -> List[float]:
+    """Return start times of contiguous voiced regions without treating isolated noise as onsets."""
+    starts: List[float] = []
+    finite = np.isfinite(f0)
+    index = 0
+    while index < len(f0):
+        if not finite[index]:
+            index += 1
+            continue
+        start = index
+        while index < len(f0) and finite[index]:
+            index += 1
+        if index - start >= min_frames:
+            starts.append(float(times[start]))
+    return starts
+
+
+def measured_pitch_transition(times: np.ndarray, f0: np.ndarray, boundary_s: float, low_hz: float, high_hz: float) -> Optional[float]:
+    """Estimate a low-to-high pitch transition time requiring three sustained frames."""
+    threshold = float(np.sqrt(low_hz * high_hz))
+    finite = np.isfinite(f0)
+    for index in range(len(f0) - 2):
+        if times[index] < boundary_s - 0.12 or times[index] > boundary_s + 0.2:
+            continue
+        window = f0[index:index + 3]
+        if np.all(np.isfinite(window)) and np.all(window >= threshold):
+            return float(times[index])
+    return None
+
+
+def vocal_alignment_measurements(path: Path, project: Project, notes: Sequence[Note]) -> dict:
+    """Measure rendered SVS onset/pitch-transition alignment without fabricating precision."""
+    if len(notes) < 2:
+        raise ValueError("at least two notes are required for transition alignment measurement")
+    times, f0 = extract_f0(path)
+    onsets = sustained_voiced_onsets(times, f0)
+    ordered = sorted(notes, key=lambda note: note.start_ticks)
+    first, second = ordered[0], ordered[1]
+    boundary_s = project.ticks_to_seconds(second.start_ticks)
+    low_hz = midi_to_hz(first.pitch)
+    high_hz = midi_to_hz(second.pitch)
+    transition = measured_pitch_transition(times, f0, boundary_s, low_hz, high_hz) if high_hz > low_hz else None
+    first_onset = onsets[0] if onsets else None
+    return {
+        "method": "librosa/pyin sustained-voiced onset and geometric-mean pitch crossing; frame-level estimate, not sample-exact proof",
+        "first_voiced_onset_s": first_onset,
+        "expected_first_onset_s": project.ticks_to_seconds(first.start_ticks),
+        "first_onset_error_ms": None if first_onset is None else round((first_onset - project.ticks_to_seconds(first.start_ticks)) * 1000.0, 1),
+        "pitch_transition_s": transition,
+        "expected_transition_s": boundary_s,
+        "transition_error_ms": None if transition is None else round((transition - boundary_s) * 1000.0, 1),
+        "voiced_region_count": len(onsets),
+    }

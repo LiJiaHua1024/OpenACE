@@ -55,3 +55,11 @@ def test_gpu_acceptance_exercises_production_repaint_adapter():
     assert '"acestep_repaint": repaint_out' in source
     assert "repaint_telemetry.start()" in source
     assert '"memory": repaint_memory' in source
+
+
+def test_gpu_acceptance_reports_rendered_vocal_alignment_measurement():
+    source = Path("scripts/verify_local_gpu.py").read_text()
+    assert "vocal_alignment_measurements(vocal_out, project, track.sorted_notes())" in source
+    assert '"alignment": alignment' in source
+    assert 'first_voiced_onset_s' in source
+    assert 'pitch_transition_s' in source
