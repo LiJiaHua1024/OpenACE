@@ -109,7 +109,7 @@ The right-hand **Lyric correction** panel exposes a compact per-note correction 
 
 ## Multilingual lyric validation
 
-Mandarin uses strict pinyin decomposition, English uses CMUdict-backed phones, and Cantonese uses `pycantonese` tone-bearing Jyutping. Cantonese editor phonemes decompose onset/nucleus/coda explicitly (including syllabic `m̩`/`ŋ̩`), while SoulX metadata emits validated `yue_<jyutping>` phones with canonical language `Cantonese`. Unsupported characters or missing pronunciations fail loudly; Japanese remains unavailable rather than fake because the current SoulX phone set has no Japanese inventory.
+Mixed Mandarin/English mode script-segments Han characters and English words in one track, validates their timed phonemes independently, and emits structurally mixed SoulX `zh_*`/grouped `en_*` tokens. Mandarin uses strict pinyin decomposition, English uses CMUdict-backed phones, and Cantonese uses `pycantonese` tone-bearing Jyutping. Cantonese editor phonemes decompose onset/nucleus/coda explicitly (including syllabic `m̩`/`ŋ̩`), while SoulX metadata emits validated `yue_<jyutping>` phones with canonical language `Cantonese`. Unsupported characters or missing pronunciations fail loudly; Japanese remains unavailable rather than fake because the current SoulX phone set has no Japanese inventory.
 
 ## OpenUtau USTX interoperability
 

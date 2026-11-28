@@ -881,7 +881,8 @@ export default function PianoRoll(props: Props) {
     if (!batchLyricEditor || !props.track) return
     const tokens = batchLyricTokens(batchLyricEditor.value, props.track.language)
     const targets = batchTargetNotes()
-    if (!tokens.length || !targets.length) return
+    if (!tokens.length || !targets.length || tokens.length !== targets.length) return
+    if (['mixed', 'multilingual', 'zh-en', 'en-zh'].includes(props.track.language.toLowerCase()) && /[\u3040-\u30ff]/u.test(batchLyricEditor.value)) return
     props.beginTransaction()
     mutateTrack(track => {
       const ordered = (selectedNoteIds.length ? track.notes.filter(note => selectedSet.has(note.id)) : [...track.notes])
@@ -1255,6 +1256,7 @@ export default function PianoRoll(props: Props) {
           const targets = batchTargetNotes()
           const tokens = batchLyricTokens(batchLyricEditor.value, props.track.language)
           const mismatch = tokens.length !== targets.length
+          const unsupportedJapanese = ['mixed', 'multilingual', 'zh-en', 'en-zh'].includes(props.track.language.toLowerCase()) && /[\u3040-\u30ff]/u.test(batchLyricEditor.value)
           return (
             <div className="batch-lyric-editor">
               <div className="vibrato-header"><strong>Batch lyrics</strong><button onClick={() => setBatchLyricEditor(null)}>×</button></div>
@@ -1269,9 +1271,10 @@ export default function PianoRoll(props: Props) {
                 }}
               />
               <div className="batch-lyric-count">{tokens.length} lyric tokens → {targets.length} {selectedNoteIds.length ? 'selected' : 'track'} notes</div>
-              {tokens.length > 0 && mismatch && <div className="batch-lyric-warning">{tokens.length > targets.length ? 'Extra tokens will not be assigned.' : 'Notes beyond the supplied tokens keep their existing lyrics.'}</div>}
+              {unsupportedJapanese && <div className="batch-lyric-warning">Japanese script is not supported in Mixed Mandarin/English mode; use Mandarin or English lyric units.</div>}
+              {tokens.length > 0 && mismatch && <div className="batch-lyric-warning">'Lyric token count must exactly match the target notes before anything is applied.'</div>}
               <div className="phoneme-actions">
-                <button disabled={!tokens.length || !targets.length} onClick={applyBatchLyrics}>Apply Ctrl+Enter</button>
+                <button disabled={!tokens.length || !targets.length || mismatch || unsupportedJapanese} title={unsupportedJapanese ? 'Japanese script is not supported in mixed mode' : mismatch ? 'Lyric token count must exactly match target notes' : ''} onClick={applyBatchLyrics}>Apply Ctrl+Enter</button>
                 <button onClick={() => setBatchLyricEditor(null)}>Cancel</button>
               </div>
             </div>

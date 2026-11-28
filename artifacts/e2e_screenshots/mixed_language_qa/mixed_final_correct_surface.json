@@ -1,0 +1,63 @@
+{
+  "valid_disabled": false,
+  "valid": [
+    [
+      "你",
+      [
+        "n",
+        "i"
+      ]
+    ],
+    [
+      "hello",
+      [
+        "h",
+        "ə",
+        "l",
+        "oʊ"
+      ]
+    ],
+    [
+      "世",
+      [
+        "ʂ",
+        "ʂɻ̩"
+      ]
+    ],
+    [
+      "界",
+      [
+        "tɕ",
+        "iɛ"
+      ]
+    ],
+    [
+      "world",
+      [
+        "w",
+        "ɝ",
+        "l",
+        "d"
+      ]
+    ]
+  ],
+  "jp": {
+    "disabled": true,
+    "warning": [
+      "Japanese script is not supported in Mixed Mandarin/English mode; use Mandarin or English lyric units.",
+      "'Lyric token count must exactly match the target notes before anything is applied.'"
+    ],
+    "title": "Japanese script is not supported in mixed mode",
+    "unchanged": true
+  },
+  "mis": {
+    "disabled": true,
+    "warning": [
+      "'Lyric token count must exactly match the target notes before anything is applied.'"
+    ],
+    "title": "Lyric token count must exactly match target notes",
+    "unchanged": true
+  },
+  "console": [],
+  "badnet": []
+}

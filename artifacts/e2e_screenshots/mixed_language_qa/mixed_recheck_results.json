@@ -1,0 +1,89 @@
+{
+  "pid": "project_f990c3acf52d",
+  "mixed": [
+    [
+      "啊",
+      [
+        "a"
+      ]
+    ],
+    [
+      "啊",
+      [
+        "a"
+      ]
+    ],
+    [
+      "啊",
+      [
+        "a"
+      ]
+    ],
+    [
+      "啊",
+      [
+        "a"
+      ]
+    ],
+    [
+      "啊",
+      [
+        "a"
+      ]
+    ]
+  ],
+  "mixed_err": "",
+  "lanes": [
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "jp_err": "",
+  "job": {
+    "id": "job_31f934d43f89",
+    "status": "completed",
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true
+  },
+  "playback": {
+    "pos": "1.2.4\n00:01.00",
+    "cls": "play-button playing"
+  },
+  "regressions": {
+    "zh": {
+      "error": "",
+      "lyrics": [
+        "你",
+        "好",
+        "世",
+        "界",
+        "呢"
+      ]
+    },
+    "en": {
+      "error": "",
+      "lyrics": [
+        "hello",
+        "world",
+        "love",
+        "peace",
+        "again"
+      ]
+    }
+  },
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    }
+  ],
+  "badnet": [
+    {
+      "status": 422,
+      "url": "http://127.0.0.1:8787/api/projects/project_f990c3acf52d"
+    }
+  ]
+}

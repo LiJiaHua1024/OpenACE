@@ -1,0 +1,83 @@
+{
+  "pid": "project_8cec452edb08",
+  "mixed_notes": [
+    {
+      "lyric": "啊",
+      "phonemes": [
+        "a"
+      ]
+    },
+    {
+      "lyric": "啊",
+      "phonemes": [
+        "a"
+      ]
+    },
+    {
+      "lyric": "啊",
+      "phonemes": [
+        "a"
+      ]
+    },
+    {
+      "lyric": "啊",
+      "phonemes": [
+        "a"
+      ]
+    }
+  ],
+  "mixed_ui": {
+    "lang": "mixed",
+    "error": "Lyric token count 5 does not match note count 4; nothing was changed.",
+    "lanes": [
+      "a",
+      "a",
+      "a",
+      "a"
+    ]
+  },
+  "editor_text": 1,
+  "japanese_error": "Lyric token count 5 does not match note count 4; nothing was changed.",
+  "render_job": {
+    "id": "job_027f7ab59a5a",
+    "status": "completed",
+    "error": null,
+    "engine": "explicit CI synthesis fixture",
+    "fixture": true
+  },
+  "playback": {
+    "pos": "1.2.4\n00:00.96",
+    "cls": "play-button playing"
+  },
+  "regressions": {
+    "zh": {
+      "error": "",
+      "lyrics": [
+        "你",
+        "好",
+        "世",
+        "界"
+      ]
+    },
+    "en": {
+      "error": "Lyric token count 2 does not match note count 4; nothing was changed.",
+      "lyrics": [
+        "你",
+        "好",
+        "世",
+        "界"
+      ]
+    },
+    "yue": {
+      "error": "",
+      "lyrics": [
+        "你",
+        "好",
+        "世",
+        "界"
+      ]
+    }
+  },
+  "console": [],
+  "badnet": []
+}

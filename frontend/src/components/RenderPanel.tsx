@@ -452,7 +452,7 @@ export default function RenderPanel(props: Props) {
             </div>
             <label className="field-label">Language
               <select value={props.track.language} onChange={e => props.onPatchTrack(props.track!.id, { language: e.target.value })}>
-                <option value="zh">Mandarin</option><option value="en">English</option><option value="yue">Cantonese</option>
+                <option value="zh">Mandarin</option><option value="en">English</option><option value="mixed">Mixed Mandarin/English</option><option value="yue">Cantonese</option>
               </select>
             </label>
             <div className="transpose-row">

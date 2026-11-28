@@ -1,0 +1,85 @@
+{
+  "valid_disabled": false,
+  "valid": [
+    [
+      "你",
+      [
+        "n",
+        "i"
+      ]
+    ],
+    [
+      "hello",
+      [
+        "h",
+        "ə",
+        "l",
+        "oʊ"
+      ]
+    ],
+    [
+      "世",
+      [
+        "ʂ",
+        "ʂɻ̩"
+      ]
+    ],
+    [
+      "界",
+      [
+        "tɕ",
+        "iɛ"
+      ]
+    ],
+    [
+      "world",
+      [
+        "w",
+        "ɝ",
+        "l",
+        "d"
+      ]
+    ]
+  ],
+  "jp": {
+    "disabled": false,
+    "sectionText": "LYRIC CORRECTION\n5 notes · 0 missing lyrics\nApply batch lyrics\n1\n1 · 60\nn i\n2\n1 · 61\nh ə l oʊ\n3\n1 · 62\nʂ ʂɻ̩\n4\n1 · 63\ntɕ iɛ\n5\n2 · 64\nw ɝ l d",
+    "lyrics_after": [
+      "你",
+      "hello",
+      "世",
+      "界",
+      "world"
+    ],
+    "unchanged": true
+  },
+  "mismatch": {
+    "disabled": false,
+    "sectionText": "LYRIC CORRECTION\n5 notes · 0 missing lyrics\nApply batch lyrics\n1\n1 · 60\n2\n1 · 61\n3\n1 · 62\n4\n1 · 63\n5\n2 · 64",
+    "lyrics_after": [
+      "你",
+      "hello",
+      "世",
+      "界",
+      "world"
+    ],
+    "unchanged": true
+  },
+  "job": {
+    "id": "job_c3f1a843d3c0",
+    "status": "completed",
+    "error": null
+  },
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+    }
+  ],
+  "badnet": [
+    {
+      "status": 422,
+      "url": "http://127.0.0.1:8787/api/projects/project_f990c3acf52d"
+    }
+  ]
+}

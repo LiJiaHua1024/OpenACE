@@ -1,0 +1,13 @@
+{
+  "jp_button_disabled": false,
+  "jp_err": "",
+  "job": {
+    "id": "job_cf02f967ff7e",
+    "status": "completed",
+    "error": null
+  },
+  "playback": {
+    "pos": "1.2.4\n00:00.91",
+    "cls": "play-button playing"
+  }
+}

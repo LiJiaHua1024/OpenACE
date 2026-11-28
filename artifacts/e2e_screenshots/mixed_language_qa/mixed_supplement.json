@@ -1,0 +1,57 @@
+{
+  "mixed": [
+    [
+      "你",
+      [
+        "n",
+        "ɛː",
+        "i"
+      ]
+    ],
+    [
+      "好",
+      [
+        "h",
+        "ɔː",
+        "u"
+      ]
+    ],
+    [
+      "世",
+      [
+        "s",
+        "ɐ",
+        "i"
+      ]
+    ],
+    [
+      "界",
+      [
+        "k",
+        "aː",
+        "i"
+      ]
+    ],
+    [
+      "啊",
+      [
+        "aː"
+      ]
+    ]
+  ],
+  "err": "",
+  "jp_err": "",
+  "job": {
+    "status": "completed",
+    "error": null,
+    "id": "job_a150bfb72b35"
+  },
+  "en": [
+    "你",
+    "hello",
+    "世",
+    "界",
+    "world"
+  ],
+  "enerr": "Lyric token count 4 does not match note count 5; nothing was changed."
+}

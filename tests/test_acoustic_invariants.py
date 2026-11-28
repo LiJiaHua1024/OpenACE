@@ -406,3 +406,47 @@ def test_beat_offsets_are_nan_until_rendered_onsets_are_measured():
     assert np.isnan(offsets[0])
     measured = beat_offsets_ms(project, notes, [0.52])
     assert measured[0] == pytest.approx(20.0)
+
+
+def test_mixed_mandarin_english_tokens_and_soulx_phones_are_script_segmented():
+    import json
+    from openace.core.phonemes import phonemes_for_text
+    from openace.engines.soulx import lyric_to_soulx_tokens
+
+    tokens = phonemes_for_text("你 hello", "mixed")
+    assert tokens[0].symbol == "n"
+    assert any(token.symbol in {"hh", "h"} for token in tokens)
+    assert any(token.is_vowel for token in tokens)
+    phoneset = set(json.loads(Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json").read_text(encoding="utf-8")))
+    soulx_tokens = lyric_to_soulx_tokens("你 hello", "mixed", phoneset)
+    assert soulx_tokens[0] == "zh_ni3"
+    assert any(token.startswith("en_") for token in soulx_tokens[1:])
+    for token in soulx_tokens:
+        if token.startswith("en_"):
+            assert all(("en_" + piece) in phoneset for piece in token[3:].split("-"))
+        else:
+            assert token in phoneset
+
+
+def test_mixed_language_metadata_combines_zh_and_en_tokens_with_dominant_language():
+    from openace.engines.soulx import build_soulx_target_metadata
+
+    project = Project(bpm=120)
+    track = Track(name="Mixed", language="mixed")
+    track.add_note(Note(start_ticks=0, duration_ticks=480, pitch=60, lyric="你"))
+    track.add_note(Note(start_ticks=480, duration_ticks=480, pitch=62, lyric="hello"))
+    track.add_note(Note(start_ticks=960, duration_ticks=480, pitch=64, lyric="world"))
+    project.add_track(track)
+    metadata = build_soulx_target_metadata(project, track, Path("external/SoulX-Singer/soulxsinger/utils/phoneme/phone_set.json"))[0]
+    phonemes = metadata["phoneme"].split()
+    assert "zh_ni3" in phonemes
+    assert any(token.startswith("en_") for token in phonemes)
+    assert metadata["language"] == "English"
+    assert "yue_" not in metadata["phoneme"]
+
+
+def test_mixed_language_rejects_non_mandarin_cjk_or_japanese_scripts_loudly():
+    from openace.core.phonemes import phonemes_for_text
+
+    with pytest.raises(PhonemeError, match="unsupported character"):
+        phonemes_for_text("你 こんにちは", "mixed")

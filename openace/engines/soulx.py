@@ -177,7 +177,7 @@ def _english_words(text: str, phoneset: set[str]) -> List[str]:
             raise PhonemeError(f"English word '{word}' is not in CMUdict; no fallback lyric is allowed")
         phones = []
         for phone in lexicon[word][0]:
-            if not re.search(r"\d$", phone):
+            if not re.search(r"\d$", phone) and phone in {"AA", "AE", "AH", "AO", "AW", "AY", "EH", "ER", "EY", "IH", "IY", "OW", "OY", "UH", "UW"}:
                 phone = phone + "0"
             token = "en_" + phone
             if token not in phoneset:
@@ -189,6 +189,34 @@ def _english_words(text: str, phoneset: set[str]) -> List[str]:
     return words
 
 
+def _mixed_mandarin_english_tokens(text: str, phoneset: set[str]) -> List[str]:
+    """Build mixed zh_/en_ tokens from explicit script segments.
+
+    SoulX's data processor expands each token by prefix independently; it does not
+    require the whole note stream to use one phone family. Cantonese is not guessed
+    from Han text because its orthography is ambiguous with Mandarin.
+    """
+    import re
+
+    pieces = re.findall(r"[\u3400-\u9fff\uf900-\ufaff]+|[A-Za-z]+(?:'[A-Za-z]+)?", text)
+    if not pieces:
+        if re.search(r"[\u3040-\u30ff]", text):
+            raise PhonemeError("Japanese script is not supported in mixed Mandarin/English mode; choose a supported explicit language instead of silent substitution")
+        raise PhonemeError(f"no Mandarin or English lyric units found in '{text}'")
+    remainder = re.sub(r"[\u3400-\u9fff\uf900-\ufaff]+|[A-Za-z]+(?:'[A-Za-z]+)?|[\s，。！？、,.!?]+", "", text)
+    if remainder:
+        raise PhonemeError(f"mixed Mandarin/English lyrics contain unsupported character '{remainder[0]}'")
+    tokens: List[str] = []
+    for piece in pieces:
+        if "\u3400" <= piece[0] <= "\u9fff" or "\uf900" <= piece[0] <= "\ufaff":
+            tokens.extend(_mandarin_syllables(piece, phoneset))
+        else:
+            tokens.extend(_english_words(piece, phoneset))
+    if not tokens:
+        raise PhonemeError(f"no mixed-language SoulX tokens in '{text}'")
+    return tokens
+
+
 def _canonical_language(language: str) -> str:
     lowered = language.lower()
     if lowered.startswith("en"):
@@ -196,6 +224,21 @@ def _canonical_language(language: str) -> str:
     if lowered in {"yue", "cantonese", "zh-hk"}:
         return "Cantonese"
     return "Mandarin"
+
+
+def _metadata_language_for_track(track: Track) -> str:
+    """Choose truthful dominant prompt metadata language for mixed zh/en scores."""
+    lowered = track.language.lower()
+    if lowered not in {"mixed", "multilingual", "zh-en", "en-zh"}:
+        return _canonical_language(track.language)
+    cjk_units = 0
+    english_units = 0
+    import re
+
+    for note in track.notes:
+        cjk_units += len(re.findall(r"[\u3400-\u9fff\uf900-\ufaff]", note.lyric))
+        english_units += len(re.findall(r"[A-Za-z]+(?:'[A-Za-z]+)?", note.lyric))
+    return "English" if english_units > cjk_units else "Mandarin"
 
 
 def _cantonese_syllables(text: str, phoneset: set[str]) -> List[str]:
@@ -210,6 +253,8 @@ def _cantonese_syllables(text: str, phoneset: set[str]) -> List[str]:
 
 def lyric_to_soulx_tokens(text: str, language: str, phoneset: set[str]) -> List[str]:
     language = language.lower()
+    if language in {"mixed", "multilingual", "zh-en", "en-zh"}:
+        return _mixed_mandarin_english_tokens(text, phoneset)
     if language in {"zh", "zh-cn", "mandarin", "cmn"}:
         return _mandarin_syllables(text, phoneset)
     if language in {"en", "en-us", "en-gb", "english"}:
@@ -271,6 +316,10 @@ def _soulx_tokens_for_note(note: Note, language: str, phoneset: set[str]) -> Lis
     lowered = language.lower()
     if lowered in {"en", "en-us", "en-gb", "english"}:
         return _english_override_tokens(current, phoneset)
+    if lowered in {"mixed", "multilingual", "zh-en", "en-zh"} and current and all(
+        symbol in phoneset and symbol.startswith(("zh_", "en_")) for symbol in current
+    ):
+        return current
     prefix = "yue_" if lowered in {"yue", "cantonese", "zh-hk"} else "zh_"
     if current and all(symbol in phoneset and symbol.startswith(prefix) for symbol in current):
         return current
@@ -287,12 +336,12 @@ def _upstream_token_preonset_ms(tokens: List[str], language: str) -> float:
         return 0.0
     lowered = language.lower()
     first = tokens[0]
-    if lowered in {"zh", "zh-cn", "mandarin", "cmn"} and first.startswith("zh_"):
+    if first.startswith("zh_"):
         syllable = first[3:].rstrip("123456789")
         if syllable.startswith(("zh", "ch", "sh")):
             return 45.0
         return 45.0 if syllable[:1] in set("bpmfdtnlgkhjqxrzcs") else 0.0
-    if lowered in {"yue", "cantonese", "zh-hk"} and first.startswith("yue_"):
+    if first.startswith("yue_"):
         syllable = first[4:].rstrip("123456789")
         if syllable in {"m", "ng"}:
             return 0.0
@@ -445,7 +494,7 @@ def build_soulx_target_metadata(project: Project, track: Track, phoneset_path: P
     return [
         {
             "index": f"openace_{track.id}",
-            "language": _canonical_language(track.language),
+            "language": _metadata_language_for_track(track),
             "time": [0, end_ms],
             "duration": " ".join(f"{x:.3f}".rstrip("0").rstrip(".") for x in durations),
             "text": " ".join(text),
@@ -539,7 +588,7 @@ class SoulXSingerEngine:
             target_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
             if progress: progress(0.08, "waiting for SoulX-Singer VRAM slot")
             with self.vram.acquire("soulx-singer", estimated_gb=5.5):
-                prompt_meta = self.preprocess_reference(reference, tmpdir / "prompt", track.language, cancellation, progress)
+                prompt_meta = self.preprocess_reference(reference, tmpdir / "prompt", _metadata_language_for_track(track), cancellation, progress)
                 if progress: progress(0.28, "preparing SoulX-Singer inference")
                 save_dir = tmpdir / "generated"
                 env = os.environ.copy()
